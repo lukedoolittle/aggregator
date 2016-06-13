@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>881dd912-9fba-4446-8d2c-21eff73d233a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Aggregator.Test</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\BootstrapFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\ClientFactoryFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\CouchbaseConfigurationFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\DatabaseCollectionFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\DatabaseFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\OAuthRefreshTokenFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\OAuthRequestFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\SampleJsonFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\TaskSchedulerFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\UserFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Fixtures\WorkflowFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Configuration\ApplicationSettingsDeserializationTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Configuration\BootstraperTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Configuration\CouchbaseConfigurationTaskTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\CouchbaseDatabaseTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Factories\AuthenticationTaskFactoryTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Factories\ClientFactoryTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Factories\SampleRequestFactoryTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\ReflectionWithEventingTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Requests\OAuthRequestTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Requests\OnboardRequestTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Requests\RefreshTokenTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Requests\RequestDuplicatesTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\SchedulerIntegrationTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\HttpTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Tasks\AuthenticationTaskTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integration\Tasks\RefreshTokenTaskTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interaction\FullWorkflowFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\AggregateRootMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\AuthenticatedClientMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\AuthenticationTaskMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ClientFactoryMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ClientMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\CommandSenderMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\CredentialMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\DatabaseMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\EventPublisherMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\EventStoreMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\OAuth2Mock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\RepositoryMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\RequestMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\SampleRequestTaskFactoryMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\ServiceMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\SubscriptionManagerMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\TaskMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\TokenUpdatedEventHandlerMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\UniqueMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\WebAuthorizerMock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestingMessageBusModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Trackers\TrackingDatabaseDecorator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Trackers\TrackingMessageBusDecorator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\ApplicationSettingsFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\ClientCredentialTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\Domain\PersonTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\FilterChangedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\LivePollingIntervalChangedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\PollingIntervalChangedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\SampleAddedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\SensorAddedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\SensorDeactivatedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\SensorReactivatedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\TaskSchedulerSensorAddedEventHandlerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\EventHandlers\TokenUpdatedEventHandlerFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\Extensions\DateTimeExtensionsTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\Extensions\JObjectExtensionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\JsonHandling\JsonSerializationFixture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\SchedulerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\Tasks\PopulateSchedulerTaskTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unit\Tasks\SampleRequestTaskTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)sampleobjects.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)testCredentials.json" />
+  </ItemGroup>
+</Project>

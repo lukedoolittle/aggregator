@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<script>
+			window.onload = function() {
+				if(window.location.hash)
+				{
+					var url = window.location;
+					var newQuerystring = url.hash.substr(1);
+					var newUrl = url.pathname + '?' + newQuerystring;
+					
+					var xmlHttp = new XMLHttpRequest();
+					xmlHttp.open("GET", newUrl, true);
+					xmlHttp.send(null);
+				}
+			}
+		</script>
+	</head>
+	<body>Thanks for sharing!</body>
+</html>

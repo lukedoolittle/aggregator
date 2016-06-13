@@ -1,0 +1,476 @@
+<#@ include file="T4Toolbox.tt" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@  assembly name="$(SolutionDir)packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll" #>
+<#@  assembly name="System.Core" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json.Linq" #>
+<#
+// <copyright file="Script.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+	CodeGenerator generator = 
+		new CodeGenerator(
+			this.Host.ResolvePath("description.json"));
+	generator.Run();
+
+#>
+<#+
+// <copyright file="CodeGenerator.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class CodeGenerator : Generator
+{
+	private readonly JObject _configuration;
+
+	public CodeGenerator(string configFilePath)
+	{
+		string fileContents = System.IO.File.ReadAllText(configFilePath);
+		_configuration = JObject.Parse(fileContents);
+	}
+
+	protected override void RunCore()
+	{
+		var serviceSettings = _configuration["sampleSettings"] as IDictionary<string, JToken>;
+
+		foreach(var service in serviceSettings)
+		{
+			string serviceClassName = service.Key;
+			string serviceNamespace = "Services";
+			string credentialType = null;
+			string baseType = null;
+			var securityDefinition = service.Value["securityDefinition"] as IDictionary<string, JToken>;
+			var authType = securityDefinition["type"].ToString();
+			
+			if (authType == "oauth1")
+			{
+				baseType = "OAuth1Service";
+				credentialType = "OAuth1Credentials";
+			}
+			else if (authType == "oauth2")
+			{
+				baseType = "OAuth2Service";
+				credentialType = "OAuth2Credentials";
+			}
+			else if (authType == "onboard")
+			{
+				baseType = "OnboardService";
+			}
+			else if (authType == "bluetooth")
+			{
+				baseType = "BluetoothService";
+				credentialType = "BluetoothCredentials";
+			}
+			else
+			{
+				throw new Exception();
+			}
+
+			new ServiceTemplate(
+					serviceNamespace, 
+					serviceClassName, 
+					baseType, 
+					credentialType, 
+					securityDefinition)
+				.RenderToFile(string.Format(
+					@"Infrastructure\{0}\{1}.cs", 
+					serviceNamespace, 
+					serviceClassName));
+
+			var requestBaseClass = service.Value["requestType"].ToString();
+			var requestNamespace = "Requests";
+
+			var sampleSettings  = service.Value["requests"] as IDictionary<string, JToken>;
+			
+			foreach(var sample in sampleSettings)
+			{
+				var requestClassName = sample.Key;
+				var clientType = sample.Value["clientType"].ToString();
+				var requestDefinition = sample.Value as IDictionary<string, JToken>;
+
+				new RequestTemplate(
+					requestClassName,
+					requestBaseClass,
+					requestNamespace,
+					serviceClassName,
+					clientType,
+					requestDefinition)
+					.RenderToFile(string.Format(
+						@"Infrastructure\{0}\{1}.cs",
+						requestNamespace,
+						requestClassName));
+			}
+		}
+
+//		var encodingSettings = _configuration["encodingSettings"] as IDictionary<string, Newtonsoft.Json.Linq.JToken>;
+
+//		foreach(var encoding in encodingSettings)
+//		{
+//			CreateFile(encoding.Key, "Encoding", "Encoding", new Dictionary<string, Newtonsoft.Json.Linq.JToken>());
+//		}
+	}
+}
+
+public static class Helpers
+{
+	public static string UppercaseFirst(string s)
+	{
+		// Check for empty string.
+		if (string.IsNullOrEmpty(s))
+		{
+			return string.Empty;
+		}
+		// Return char and concat substring.
+		return char.ToUpper(s[0]) + s.Substring(1);
+	}
+
+	public static string GetGenericName(Type instance)
+    {
+        if (instance == null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        if (!instance.IsGenericType)
+        {
+            return instance.Name;
+        }
+
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.Append(instance.Name.Substring(0, instance.Name.LastIndexOf("`", StringComparison.Ordinal)));
+        stringBuilder.Append(instance.GenericTypeArguments.Aggregate("<",
+            (aggregate, type) => aggregate + (aggregate == "<" ? "" : ",") + GetGenericName(type)));
+        stringBuilder.Append(">");
+
+        return stringBuilder.ToString();
+    }
+}
+
+public abstract class PropertyTemplateBase : Template
+{
+    protected void WriteOutValueTypeProperty<T>(string propertyName, string propertyValue)
+    {
+        var typeName = Helpers.GetGenericName(typeof (T));
+#>
+		public override <#= typeName #> <#= propertyName #> => <#= GetFormattedValue<T>(propertyValue) #>;
+<#+
+    }
+
+    protected void WriteOutReferenceTypeProperty<T>(string propertyName, params object[] arguments)
+    {
+		var typeName = Helpers.GetGenericName(typeof (T));
+#>
+		public override <#= typeName #> <#= propertyName #> => new <#= typeName #><#= GetFormattedConstructor<T>(arguments) #>;
+<#+
+    }
+
+	    protected void WriteOutArrayTypeProperty(string typeName, string propertyName, params object[] arguments)
+    {
+		if (typeName.EndsWith("Enum"))
+		{
+#>
+		public override <#= typeName #>[] <#= propertyName #> => new <#= typeName #>[] {<#= GetCommaSeperatedEnumList(typeName, arguments) #>};
+<#+
+		}
+    }
+
+    private string GetFormattedConstructor<T>(object[] arguments)
+    {
+        if (typeof (T).IsArray)
+        {
+            return "{" + GetCommaSeperatedList(arguments) + "}";
+        }
+		else if (typeof (T) == typeof (Dictionary<string, string>))
+		{
+		    var pairs = arguments[0] as Dictionary<string, string>;
+		    var keyvaluePairs = pairs.Aggregate("", (current, pair) => current + ("{\"" + pair.Key + "\", \"" + pair.Value + "\"},"));
+		    return "{" + keyvaluePairs.TrimEnd(',') + "}";
+		}
+		else
+		{
+		    return "(" + GetCommaSeperatedList(arguments) + ")";
+		}
+    }
+
+	protected string GetCommaSeperatedEnumList(string enumName, object[] items)
+	{
+		var builder = new StringBuilder();
+
+        foreach (var item in items)
+        {
+            builder.Append(enumName + "." + Helpers.UppercaseFirst(item.ToString()));
+            builder.Append(", ");
+        }
+
+        return builder.ToString().Trim().Trim(',');
+	}
+
+    protected string GetCommaSeperatedList(object[] items)
+    {
+		var builder = new StringBuilder();
+
+        foreach (var item in items)
+        {
+            if (item == null)
+            {
+                builder.Append("null, ");
+            }
+            else
+            {
+                if (item is JValue)
+                {
+                    var value = (item as JValue).Value;
+                    builder
+                        .Append(GetFormattedValue(value.GetType(), value));
+                }
+				else if (item is JArray)
+				{
+				    builder.Append(GetFormattedValue(typeof(JArray), item));
+				}
+                else
+                {
+                    builder
+                        .Append(GetFormattedValue(item.GetType(), item.ToString()));
+                }
+                builder.Append(", ");
+            }
+        }
+
+        return builder.ToString().Trim().Trim(',');
+    }
+
+    private string GetFormattedValue(Type type, object value)
+    {
+        if (type == typeof (string))
+        {
+            return "\"" + value + "\"";
+        }
+        if (value.GetType() == typeof (JArray))
+        {
+            return "new object[]{" + GetCommaSeperatedList(((JArray) value).Select(a => a as object).ToArray()) +"}";
+        }
+        else
+        {
+            return value.ToString();
+        }
+    }
+
+    private string GetFormattedValue<T>(string value)
+    {
+        return GetFormattedValue(typeof (T), value);
+    }
+}
+
+public class ServiceTemplate : PropertyTemplateBase
+{
+	private readonly string _type;
+	private readonly string _name;
+	private readonly string _namespace;
+	private readonly IDictionary<string, JToken> _properties;
+	private readonly string _credentialType;
+
+	public ServiceTemplate(
+		string @namespace, 
+		string className, 
+		string baseType, 
+		string credentialType, 
+		IDictionary<string, JToken> properties)
+	{
+		_namespace = @namespace;
+		_name = className;
+		_type = baseType;
+		_credentialType = credentialType;
+		_properties = properties;
+	}
+
+	public override string TransformText()
+	{
+#>
+/*
+ * WARNING: This is generated code. Any changes you make will
+ * be overwritten. If you wish to modify this class create a
+ * partial definition in a seperate file.
+ *
+ */
+using System;
+using System.Collections.Generic;
+using Aggregator.Framework.Enums;
+
+namespace Aggregator.Infrastructure.<#= _namespace #>
+{
+<#+
+		if (_credentialType != null)
+		{
+#>
+	[Aggregator.Framework.Metadata.CredentialType(typeof(Aggregator.Infrastructure.Credentials.<#= _credentialType  #>))]        
+<#+
+		}
+#>
+	public partial class <#= _name #> : <#= _type #>
+	{
+<#+
+		foreach (var property in _properties)
+		{
+		    string propertyName = Helpers.UppercaseFirst(property.Key);
+
+			if (property.Key == "type")
+			{
+				continue;
+			}
+			else if (property.Key.EndsWith("Url"))
+			{
+				WriteOutReferenceTypeProperty<Uri>(propertyName, property.Value.ToString());
+			}
+			else if (property.Key.StartsWith("has"))
+			{
+			    WriteOutValueTypeProperty<bool>(propertyName, property.Value.ToString().ToLower());
+			}
+			else if (property.Value is JObject)
+			{
+			    var subsection = (property.Value as JObject).ToObject<Dictionary<string, string>>();
+				WriteOutReferenceTypeProperty<Dictionary<string, string>>(propertyName, subsection);
+			}
+			else if (property.Value is JValue)
+			{
+				WriteOutValueTypeProperty<string>(propertyName, property.Value.ToString());
+			}
+			else if (property.Value is JArray)
+			{
+				var array = property.Value as JArray;
+				if (property.Key == "authorizationGrants")
+				{
+					object[] items = array.Select(a => a as object).ToArray();
+					WriteOutArrayTypeProperty("ResponseTypeEnum", propertyName, items);
+				}
+				else
+				{
+					object[] items = array.Select(a => a as object).ToArray();
+					WriteOutReferenceTypeProperty<object[]>(propertyName, items);
+				}
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+#>
+	}
+}
+<#+
+		return this.GenerationEnvironment.ToString();
+	}
+}
+
+public class RequestTemplate : PropertyTemplateBase
+{
+	private readonly string _baseType;
+	private readonly string _className;
+	private readonly string _namespace;
+	private readonly IDictionary<string, JToken> _properties;
+	private readonly string _serviceType;
+	private readonly string _clientType;
+	 
+	public RequestTemplate(string className, string baseType, string @namespace, string serviceType, string clientType, IDictionary<string, JToken> properties)
+	{
+		_className = className;
+		_baseType = baseType;
+		_namespace = @namespace;
+		_properties = properties;
+		_serviceType = serviceType;
+		_clientType = clientType;
+	}
+
+	public override string TransformText()
+	{
+#>
+/*
+ * WARNING: This is generated code. Any changes you make will
+ * be overwritten. If you wish to modify this class create a
+ * partial definition in a seperate file.
+ *
+ */
+using System;
+using System.Collections.Generic;
+using Aggregator.Domain.Write;
+using Newtonsoft.Json.Linq;
+
+namespace Aggregator.Infrastructure.<#= _namespace #>
+{
+	[Aggregator.Framework.Metadata.ClientType(typeof(Aggregator.Infrastructure.Clients.<#=_clientType#>))]        
+	[Aggregator.Framework.Metadata.ServiceType(typeof(Aggregator.Infrastructure.Services.<#=_serviceType#>))]        
+	public partial class <#= _className #> : <#= _baseType #>
+	{
+	<#+
+		foreach (var property in _properties)
+		{
+			string propertyName = Helpers.UppercaseFirst(property.Key);
+
+			if (property.Key == "clientType")
+			{
+				continue;
+			}
+			else if (property.Key == "pollingInterval")
+			{
+			    var arguments = GetCommaSeperatedList(new object[]
+			    {
+			        property.Value["fastPolling"], 
+					property.Value["moderatePolling"], 
+					property.Value["slowPolling"]
+			    });
+#>
+		public override PollingInterval PollingInterval => new PollingInterval(<#= arguments #>);
+<#+
+			}
+			else if (property.Key == "responseTimestamp")
+			{
+			    var arguments = GetCommaSeperatedList(new object[]
+			    {
+			        property.Value["responseTimestampProperty"], 
+					property.Value["responseTimestampFormat"], 
+					property.Value["responseTimestampOffsetProperty"], 
+					property.Value["responseTimestampOffset"]
+			    });
+#>
+		public override TimestampOptions ResponseTimestamp => new TimestampOptions(<#= arguments #>);
+<#+
+			}
+			else if (property.Key.EndsWith("Url"))
+			{
+				WriteOutReferenceTypeProperty<Uri>(propertyName, true, property.Value.ToString());
+			}
+			else if (property.Key.StartsWith("has"))
+			{
+			    WriteOutValueTypeProperty<bool>(propertyName, property.Value.ToString().ToLower());
+			}
+			else if (property.Value is JObject)
+			{
+			    var subsection = (property.Value as JObject).ToObject<Dictionary<string, string>>();
+				WriteOutReferenceTypeProperty<Dictionary<string, string>>(propertyName, subsection);
+			}
+			else if (property.Value is JValue)
+			{
+				WriteOutValueTypeProperty<string>(propertyName, property.Value.ToString());
+			}
+			else if (property.Value is JArray)
+			{
+				var array = property.Value as JArray;
+			    object[] items = array.Select(a => a as object).ToArray();
+				WriteOutReferenceTypeProperty<object[]>(propertyName, items);
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+#>
+	}
+}
+<#+
+		return this.GenerationEnvironment.ToString();
+	}
+}
+#>

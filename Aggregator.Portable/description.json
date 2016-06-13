@@ -1,0 +1,756 @@
+﻿{
+    "sampleSettings": {
+        "Facebook": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://www.facebook.com/dialog/oauth",
+                "callbackUrl": "http://localhost:33533/facebook",
+                "accessUrl": "https://graph.facebook.com/oauth/access_token",
+                "scope": "user_activities,user_events,user_likes,user_friends,user_status,read_stream",
+                "tokenName": "access_token",
+                "authorizationGrants": [ "code", "token" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "FacebookPageLike": {
+                    "clientType": "OAuthClient<FacebookPageLike>",
+                    "host": "https://graph.facebook.com",
+                    "singlePath": "/me/likes",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since",
+                    "responseFilterKey": "created_time",
+                    "payloadProperty": "data",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_time",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:sszzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FacebookActivity": {
+                    "clientType": "OAuthClient<FacebookActivity>",
+                    "host": "https://graph.facebook.com",
+                    "singlePath": "/me/activities",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since",
+                    "responseFilterKey": "created_time",
+                    "payloadProperty": "data",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_time",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:sszzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FacebookEvent": {
+                    "clientType": "OAuthClient<FacebookEvent>",
+                    "host": "https://graph.facebook.com",
+                    "singlePath": "/me/events",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since",
+                    "responseFilterKey": "created_time",
+                    "payloadProperty": "data",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "start_time",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:sszzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FacebookFeed": {
+                    "clientType": "OAuthClient<FacebookFeed>",
+                    "host": "https://graph.facebook.com",
+                    "singlePath": "/me/feed",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since",
+                    "responseFilterKey": "created_time",
+                    "payloadProperty": "data",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_time",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:sszzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FacebookFriend": {
+                    "clientType": "OAuthClient<FacebookFriend>",
+                    "host": "https://graph.facebook.com",
+                    "singlePath": "/v2.2/me/friends",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since",
+                    "responseFilterKey": "created_time",
+                    "payloadProperty": "data",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "Twitter": {
+            "securityDefinition": {
+                "type": "oauth1",
+                "requestUrl": "https://api.twitter.com/oauth/request_token",
+                "authorizeUrl": "https://api.twitter.com/oauth/authenticate",
+                "accessUrl": "https://api.twitter.com/oauth/access_token",
+                "callbackUrl": "http://localhost:33633/twitter"
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "TwitterRetweetOfMe": {
+                    "clientType": "OAuthClient<TwitterRetweetOfMe>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/statuses/retweets_of_me.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterSentDirectMessage": {
+                    "clientType": "OAuthClient<TwitterSentDirectMessage>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/direct_messages/sent.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterReceivedDirectMessage": {
+                    "clientType": "OAuthClient<TwitterReceivedDirectMessage>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/direct_messages.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterFollowing": {
+                    "clientType": "OAuthClient<TwitterFollowing>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/friends/list.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "users",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterFollowers": {
+                    "clientType": "OAuthClient<TwitterFollowers>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/followers/list.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "users",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterFavorite": {
+                    "clientType": "OAuthClient<TwitterFavorite>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/favorites/list.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterMention": {
+                    "clientType": "OAuthClient<TwitterMention>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/statuses/mentions_timeline.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterTimeline": {
+                    "clientType": "OAuthClient<TwitterTimeline>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "/1.1/statuses/home_timeline.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterTweet": {
+                    "clientType": "TwitterIdOAuthClient",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "1.1/statuses/user_timeline.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "since_id",
+                    "responseFilterKey": "id",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "created_at",
+                        "responseTimestampFormat": "ddd MMM dd HH:mm:ss zzz yyyy"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "TwitterId": {
+                    "clientType": "OAuthClient<TwitterId>",
+                    "host": "https://api.twitter.com/",
+                    "singlePath": "1.1/account/verify_credentials.json",
+                    "httpMethod": "GET",
+                    "payloadProperty": "id",
+                    "requestFilterKey": "",
+                    "responseFilterKey": ""
+                }
+            }
+        },
+        "Foursquare": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://foursquare.com/oauth2/authorize",
+                "callbackUrl": "http://localhost:33533/foursquare",
+                "accessUrl": "https://foursquare.com/oauth2/access_token",
+                "scope": "",
+                "tokenName": "oauth_token",
+                "authorizationGrants": [ "code", "token" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "FoursquareCheckin": {
+                    "clientType": "OAuthClient<FoursquareCheckin>",
+                    "host": "https://api.foursquare.com",
+                    "singlePath": "/v2/users/self/checkins",
+                    "requestFilterKey": "afterTimestamp",
+                    "responseFilterKey": "createdAt",
+                    "httpMethod": "GET",
+                    "payloadProperty": "response.checkins.items",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "createdAt",
+                        "responseTimestampOffsetProperty": "timeZoneOffset"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "v": "20140806",
+                        "m": "foursquare"
+                    }
+                },
+                "FoursquareFriend": {
+                    "clientType": "OAuthClient<FoursquareFriend>",
+                    "host": "https://api.foursquare.com",
+                    "singlePath": "v2/users/self/friends",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "",
+                    "httpMethod": "GET",
+                    "payloadProperty": "response.friends.items",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "v": "20140806",
+                        "m": "foursquare"
+                    }
+                },
+                "FoursquareTip": {
+                    "clientType": "OAuthClient<FoursquareTip>",
+                    "host": "https://api.foursquare.com",
+                    "singlePath": "v2/users/self/tips",
+                    "requestFilterKey": "afterTimestamp",
+                    "responseFilterKey": "createdAt",
+                    "httpMethod": "GET",
+                    "payloadProperty": "response.tips.items",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "createdAt"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "v": "20140806",
+                        "m": "foursquare"
+                    }
+                }
+            }
+        },
+        "Spotify": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://accounts.spotify.com/authorize",
+                "callbackUrl": "http://localhost:33533/spotify",
+                "accessUrl": "https://accounts.spotify.com/api/token",
+                "scope": "playlist-read-private user-follow-read user-library-read",
+                "tokenName": "Bearer",
+                "authorizationGrants": [ "code", "token" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "SpotifySavedTracks": {
+                    "clientType": "OAuthClient<SpotifySavedTracks>",
+                    "host": "https://api.spotify.com/",
+                    "singlePath": "/v1/me/tracks",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "",
+                    "payloadProperty": "items",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "added_at",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:ssZ"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "limit": "50"
+                    }
+                }
+            }
+        },
+        "Google": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://accounts.google.com/o/oauth2/auth",
+                "callbackUrl": "http://localhost:33533/google",
+                "accessUrl": "https://accounts.google.com/o/oauth2/token",
+                "scope": "https://www.googleapis.com/auth/gmail.readonly",
+                "tokenName": "Bearer",
+                "authorizationGrants": [ "code", "token" ],
+                "parameters": {
+                    "access_type": "offline"
+                }
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "GoogleGmail": {
+                    "clientType": "GoogleGmailRecursiveOAuthClient",
+                    "host": "https://www.googleapis.com",
+                    "singlePath": "/gmail/v1/users/me/messages/{messageId}",
+                    "requestFilterKey": "newer_than",
+                    "responseFilterKey": "internalDate",
+                    "payloadProperty": "messages",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "internalDate",
+                        "responseTimestampOffset": "0000"
+                    },
+                    "httpMethod": "GET",
+                    "pollingInterval": {
+                        "slowPolling": 86400,
+                        "moderatePolling": 86400,
+                        "fastPolling": 86400
+                    }
+                },
+                "GoogleGmailMetadata": {
+                    "clientType": "OAuthClient<GoogleGmailMetadata>",
+                    "host": "https://www.googleapis.com",
+                    "singlePath": "/gmail/v1/users/me/messages",
+                    "requestFilterKey": "newer_than",
+                    "responseFilterKey": "",
+                    "payloadProperty": "messages",
+                    "httpMethod": "GET"
+                }
+            }
+        },
+        "Linkedin": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://www.linkedin.com/uas/oauth2/authorization",
+                "callbackUrl": "http://localhost:33533/linkedin",
+                "accessUrl": "https://www.linkedin.com/uas/oauth2/accessToken",
+                "scope": "r_basicprofile w_share r_emailaddress rw_company_admin",
+                "tokenName": "Bearer",
+                "authorizationGrants": [ "code" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "LinkedinUpdate": {
+                    "clientType": "OAuthClient<LinkedinUpdate>",
+                    "host": "https://api.linkedin.com",
+                    "singlePath": "/v1/people/~/network/updates",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "???",
+                    "httpMethod": "GET",
+                    "payloadProperty": "values",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "format": "json",
+                        "modified": "new"
+                    }
+                }
+            }
+        },
+        "Rescuetime": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://www.rescuetime.com/oauth/authorize",
+                "callbackUrl": "https://localhost:33533/rescuetime",
+                "accessUrl": "https://www.rescuetime.com/oauth/token",
+                "scope": "time_data",
+                "tokenName": "access_token",
+                "authorizationGrants": [ "code" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "RescuetimeAnalyticData": {
+                    "clientType": "RescuetimeOAuthClient",
+                    "host": "https://www.rescuetime.com/",
+                    "singlePath": "/api/oauth/data",
+                    "requestFilterKey": "restrict_begin",
+                    "responseFilterKey": "Date",
+                    "httpMethod": "GET",
+                    "payloadProperty": "",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "Date",
+                        "responseTimestampFormat": "yyyy-MM-ddTHH:mm:ss"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    },
+                    "additionalQuerystringParameters": {
+                        "format": "json",
+                        "interval": "hour",
+                        "perspective": "interval",
+                        "restrict_kind": "efficiency"
+                    }
+                }
+            }
+        },
+        "Runkeeper": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://runkeeper.com/apps/authorize",
+                "callbackUrl": "http://localhost:33533/runkeeper",
+                "accessUrl": "https://runkeeper.com/apps/token",
+                "scope": "",
+                "tokenName": "Bearer",
+                "authorizationGrants": [ "code" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "RunkeeperFitnessActivities": {
+                    "clientType": "OAuthClient<RunkeeperFitnessActivities>",
+                    "host": "https://api.runkeeper.com",
+                    "singlePath": "/fitnessActivities",
+                    "httpMethod": "GET",
+                    "headers": {
+                        "Accept": "application/vnd.com.runkeeper.FitnessActivityFeed+json"
+                    },
+                    "requestFilterKey": "noEarlierThan",
+                    "responseFilterKey": "start_time",
+                    "payloadProperty": "items",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "start_time",
+                        "responseTimestampFormat": "ddd, d MMM yyyy HH:mm:ss",
+                        "responseTimestampOffsetProperty": "utc_offset"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "Fitbit": {
+            "securityDefinition": {
+                "type": "oauth2",
+                "authorizeUrl": "https://www.fitbit.com/oauth2/authorize",
+                "callbackUrl": "http://localhost:33533/fitbit",
+                "accessUrl": "https://api.fitbit.com/oauth2/token",
+                "scope": "sleep activity heartrate",
+                "tokenName": "Bearer",
+                "hasBasicAuthorization": true,
+                "authorizationGrants": [ "code", "token" ]
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "FitbitDailySteps": {
+                    "clientType": "OAuthClient<FitbitDailySteps>",
+                    "host": "https://api.fitbit.com",
+                    "singlePath": "/1/user/-/activities/steps/date/today/1d.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "",
+                    "payloadProperty": "activities-log-steps",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FitbitIntradaySteps": {
+                    "clientType": "FitbitIntradayStepsOAuthClient",
+                    "host": "https://api.fitbit.com",
+                    "singlePath": "1/user/-/activities/steps/date/{startdate}/{enddate}/1min/time/{starttime}/{endtime}.json",
+                    "bulkPath": "1/user/-/activities/steps/date/{date}/1d/1min.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "dateTime",
+                    "payloadProperty": "activities-steps-intraday.dataset",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "dateTime",
+                        "responseTimestampFormat": "yyyy-MM-dd HH:mm:ss zzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FitbitIntradayHeartRate": {
+                    "clientType": "FitbitIntradayHeartRateOAuthClient",
+                    "host": "https://api.fitbit.com",
+                    "singlePath": "1/user/-/activities/heart/date/{startdate}/{enddate}/1min/time/{starttime}/{endtime}.json",
+                    "bulkPath": "1/user/-/activities/heart/date/{date}/1d/1min.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "dateTime",
+                    "payloadProperty": "activities-heart-intraday.dataset",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "dateTime",
+                        "responseTimestampFormat": "yyyy-MM-dd HH:mm:ss zzz"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                },
+                "FitbitSleep": {
+                    "clientType": "FitbitSleepOAuthClient",
+                    "host": "https://api.fitbit.com",
+                    "singlePath": "/1/user/-/sleep/date/{date}.json",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "",
+                    "responseFilterKey": "dateTime",
+                    "payloadProperty": "sleep[0]minuteData",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "dateTime",
+                        "responseTimestampFormat": "yyyy-MM-dd HH:mm:ss"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "Fatsecret": {
+            "securityDefinition": {
+                "type": "oauth1",
+                "requestUrl": "http://www.fatsecret.com/oauth/request_token",
+                "authorizeUrl": "http://www.fatsecret.com/oauth/authorize",
+                "accessUrl": "http://www.fatsecret.com/oauth/access_token",
+                "callbackUrl": "http://localhost:33633/fatsecret"
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "FatsecretMeal": {
+                    "clientType": "OAuthClient<FatsecretMeal>",
+                    "host": "http://platform.fatsecret.com",
+                    "singlePath": "/rest/server.api",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "startdate",
+                    "responseFilterKey": "",
+                    "payloadProperty": "food_entries",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "date_int"
+                    },
+                    "additionalQuerystringParameters": {
+                        "action": "getmeas",
+                        "userid": "NEEDSTOBEFILLEDIN"
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "Withings": {
+            "securityDefinition": {
+                "type": "oauth1",
+                "requestUrl": "https://oauth.withings.com/account/request_token",
+                "authorizeUrl": "https://oauth.withings.com/account/authorize",
+                "accessUrl": "https://oauth.withings.com/account/access_token",
+                "callbackUrl": "http://localhost:33633/withings"
+            },
+            "requestType": "OAuthRequest",
+            "requests": {
+                "WithingsWeighin": {
+                    "clientType": "WithingsWeighinOAuthClient",
+                    "host": "https://wbsapi.withings.net",
+                    "singlePath": "/measure",
+                    "httpMethod": "GET",
+                    "requestFilterKey": "lastupdate",
+                    "responseFilterKey": "date",
+                    "payloadProperty": "body.measuregrps",
+                    "responseTimestamp": {
+                        "responseTimestampProperty": "date",
+                        "responseTimestampOffset": "0000"
+                    },
+                    "additionalQuerystringParameters": {
+                        "action": "getmeas",
+                        "userid": ""
+                    },
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "GPS": {
+            "securityDefinition": {
+                "type": "onboard"
+            },
+            "requestType": "OnboardRequest",
+            "requests": {
+                "GPSPosition": {
+                    "payloadProperty": "",
+                    "clientType": "GPSClient",
+                    "responseFilterKey": "timestamp",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "SMS": {
+            "securityDefinition": {
+                "type": "onboard"
+            },
+            "requestType": "OnboardRequest",
+            "requests": {
+                "SMSTextMessage": {
+                    "payloadProperty": "",
+                    "clientType": "SMSClient",
+                    "responseFilterKey": "date",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        },
+        "Mioalpha": {
+            "securityDefinition": {
+                "type": "bluetooth"
+            },
+            "requestType": "BluetoothRequest",
+            "requests": {
+                "MioHeartRate": {
+                    "payloadProperty": "",
+                    "clientType": "BluetoothClient<MioHeartRate>",
+                    "serviceUuid": "180D",
+                    "characteristicUuid": "2A37",
+                    "responseFilterKey": "timestamp",
+                    "pollingInterval": {
+                        "fastPolling": 1000,
+                        "moderatePolling": 5000,
+                        "slowPolling": 10000
+                    }
+                }
+            }
+        }
+    }
+}
+

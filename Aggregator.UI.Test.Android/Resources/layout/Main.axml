@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultView" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:id="@+id/gridLayout1">
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/facebookAuth"
+            android:text="Facebook" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/twitterAuth"
+            android:text="Twitter" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Foursquare"
+            android:id="@+id/foursquareAuth" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/fitbitAuth"
+            android:text="Fitbit" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Google"
+            android:id="@+id/googleAuth" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/spotifyAuth"
+            android:text="Spotify" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Rescuetime"
+            android:id="@+id/rescuetimeAuth" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/runkeeperAuth"
+            android:text="Runkeeper" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Linkedin"
+            android:id="@+id/linkedinAuth" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fatsecret"
+            android:id="@+id/fatsecretAuth" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/mioalphaAuth"
+            android:text="Mio Alpha" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/gps"
+            android:text="GPS" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="SMS"
+            android:id="@+id/sms" />
+    </GridLayout>
+</LinearLayout>
