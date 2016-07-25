@@ -1,0 +1,90 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Runkeeper",
+        "description": "Health Graph API",
+        "termsOfService": "https://runkeeper.com/developer/healthgraph/api-policies",
+        "version": ""
+    },
+    "host": "api.runkeeper.com",
+    "basePath": "",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/fitnessActivities": {
+            "get": {
+                "summary": "Fitness activities appear in a user’s fitness feed on the Runkeeper website",
+                "description": "https://runkeeper.com/developer/healthgraph/fitness-activities#feed",
+                "operationId": "RunkeeperFitnessActivity",
+                "consumes": [ "application/vnd.com.runkeeper.FitnessActivityFeed+json" ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "noEarlierThan",
+                        "description": "Starting ime scope for the request",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "noLaterThan",
+                        "description": "Ending time scope for the request",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "description": "The pageSize query parameter controls how many entries are returned per page.",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "The page number to request",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "in": "header",
+                        "name": "If-Modified-Since",
+                        "description": "",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:ss",
+                        "required": false
+                    },
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://runkeeper.com/apps/authorize",
+            "tokenUrl": "https://runkeeper.com/apps/token",
+            "x-token-name": "Bearer",
+            "scopes": {}
+        }
+    },
+    "definitions": [ ]
+}

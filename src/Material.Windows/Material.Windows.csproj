@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA0E1D39-B5B2-442C-81C2-E4B691C4163D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Material</RootNamespace>
+    <AssemblyName>Material</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\net45\crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Restsharp.BleedingEdge.105.3.0\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Material\Material.csproj">
+      <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
+      <Name>Material</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
+      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
+      <Name>Foundations.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Http.Windows\Foundations.Http.Windows.csproj">
+      <Project>{a7170015-d79a-40b1-9df4-bfb47fb55938}</Project>
+      <Name>Foundations.Http.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
+      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
+      <Name>Foundations.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations\Foundations.csproj">
+      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
+      <Name>Foundations</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fragment.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)Material.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y
+xcopy "$(TargetDir)Material.Portable.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y
+xcopy "$(TargetDir)Foundations.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y
+xcopy "$(TargetDir)Foundations.Cryptography.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y
+xcopy "$(TargetDir)Foundations.Http.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y
+xcopy "$(TargetDir)Foundations.Serialization.dll" "$(SolutionDir)build\Material.NuGet\lib\net452" /Y</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>rmdir /s /q "$(SolutionDir)build\Material.NuGet\lib\net452"
+mkdir "$(SolutionDir)build\Material.NuGet\lib\net452"</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

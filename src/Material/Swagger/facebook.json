@@ -1,0 +1,245 @@
+﻿
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Facebook",
+        "description": "Facebook Graph API",
+        "termsOfService": "https://www.facebook.com/policies/",
+        "version": "v2.7"
+    },
+    "host": "graph.facebook.com",
+    "basePath": "/v2.7",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/me/likes": {
+            "get": {
+                "summary": "All the Pages this person has liked",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/user/likes/",
+                "operationId": "FacebookPageLike",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since",
+                        "description": " A Unix timestamp or strtotime data value that points to the start of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "until",
+                        "description": " A Unix timestamp or strtotime data value that points to the end of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "This is the number of individual objects that are returned in each page",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request.",
+                        "schema": {
+                            "type": "string",
+                            "x-payload-path": "somepathtopayload",
+                            "x-response-filter-property": "sometimestampproperty",
+                            "x-timeseries-information": {
+                                "timestampProperty": "created_time",
+                                "timestampFormat": "yyyy-MM-ddTHH:mm:sszzz"
+                            }
+                        }
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "user_likes" ]
+                    }
+                ]
+            }
+        },
+        "/me/events": {
+            "get": {
+                "summary": "Events for this person. By default this does not include events the person has declined or not replied to.",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/user/events/",
+                "operationId": "FacebookEvent",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since",
+                        "description": " A Unix timestamp or strtotime data value that points to the start of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "until",
+                        "description": " A Unix timestamp or strtotime data value that points to the end of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "This is the number of individual objects that are returned in each page",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "description": "Query events for which the user has this particular rsvp_status set",
+                        "type": "string",
+                        "enum": [ "attending", "created", "declined", "maybe", "not_replied"],
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [ { "oauth2": [ "user_events" ] } ]
+            }
+        },
+        "/me/feed": {
+            "get": {
+                "summary": "The feed of posts (including status updates) and links published by this person, or by others on this person's profile",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/v2.7/user/feed",
+                "operationId": "FacebookFeed",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since",
+                        "description": " A Unix timestamp or strtotime data value that points to the start of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "until",
+                        "description": " A Unix timestamp or strtotime data value that points to the end of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "This is the number of individual objects that are returned in each page",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [ { "oauth2": [ "user_posts" ] } ]
+            }
+        },
+        "/me/friends": {
+            "get": {
+                "summary": "The person's friends",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/user/friends",
+                "operationId": "FacebookFriend",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since",
+                        "description": " A Unix timestamp or strtotime data value that points to the start of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "until",
+                        "description": " A Unix timestamp or strtotime data value that points to the end of the range of time-based data",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "This is the number of individual objects that are returned in each page",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "summary",
+                        "description": "Aggregated information about the edge, such as counts",
+                        "type": "string",
+                        "default": "total_count", 
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [ { "oauth2": [ "user_friends" ] } ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://www.facebook.com/dialog/oauth",
+            "tokenUrl": "https://graph.facebook.com/oauth/access_token",
+            "x-token-name": "access_token",
+            "x-scope-delimiter": ",",
+            "scopes": {
+                "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
+                "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
+                "user_friends": "Provides access the list of friends that also use your app",
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline." 
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://www.facebook.com/dialog/oauth",
+            "x-token-name": "access_token",
+            "scopes": {
+                "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
+                "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
+                "user_friends": "Provides access the list of friends that also use your app",
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline." 
+            }
+        }
+    },
+    "definitions": [ ]
+}

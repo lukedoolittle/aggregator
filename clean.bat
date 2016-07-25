@@ -1,22 +1,39 @@
-rmdir /s /q Aggregator.Android\bin
-rmdir /s /q Aggregator.Android\obj
-rmdir /s /q Aggregator.iOS\bin
-rmdir /s /q Aggregator.iOS\obj
-rmdir /s /q Aggregator.Windows\bin
-rmdir /s /q Aggregator.Windows\obj
+rmdir /s /q src\Material.Android\bin
+rmdir /s /q src\Material.Android\obj
+rmdir /s /q src\Material.iOS\bin
+rmdir /s /q src\Material.iOS\obj
+rmdir /s /q src\Material.Windows\bin
+rmdir /s /q src\Material.Windows\obj
+rmdir /s /q src\Material\bin
+rmdir /s /q src\Material\obj
 
-rmdir /s /q Aggregator.Test.Android\bin
-rmdir /s /q Aggregator.Test.Android\obj
-rmdir /s /q Aggregator.Test.iOS\bin
-rmdir /s /q Aggregator.Test.iOS\obj
-rmdir /s /q Aggregator.Test.Windows\bin
-rmdir /s /q Aggregator.Test.Windows\obj
+rmdir /s /q src\Application.Android\bin
+rmdir /s /q src\Application.Android\obj
+rmdir /s /q src\Application.iOS\bin
+rmdir /s /q src\Application.iOS\obj
+rmdir /s /q src\Application.Windows\bin
+rmdir /s /q src\Application.Windows\obj
+rmdir /s /q src\Application\bin
+rmdir /s /q src\Application\obj
 
-rmdir /s /q Aggregator.Portable\bin
-rmdir /s /q Aggregator.Portable\obj
+rmdir /s /q test\Quantfabric.Test.Android\bin
+rmdir /s /q test\Quantfabric.Test.Android\obj
+rmdir /s /q test\Quantfabric.Test.iOS\bin
+rmdir /s /q test\Quantfabric.Test.iOS\obj
+rmdir /s /q test\Quantfabric.Test.Windows\bin
+rmdir /s /q test\Quantfabric.Test.Windows\obj
+rmdir /s /q test\Quantfabric.UI.Test.Android\bin
+rmdir /s /q test\Quantfabric.UI.Test.Android\obj
+rmdir /s /q test\Quantfabric.UI.Test.iOS\bin
+rmdir /s /q test\Quantfabric.UI.Test.iOS\obj
 
-rmdir /s /q Aggregator.UI.Test.Android\bin
-rmdir /s /q Aggregator.UI.Test.Android\obj
+rmdir /s /q build\Material.NuGet\lib\net452
+rmdir /s /q build\Material.NuGet\lib\MonoAndroid60
+rmdir /s /q build\Material.NuGet\lib\Xamarin.iOS10
+
+mkdir build\Material.NuGet\lib\net452
+mkdir build\Material.NuGet\lib\MonoAndroid60
+mkdir build\Material.NuGet\lib\Xamarin.iOS10
 
 rmdir /s /q .vs
 

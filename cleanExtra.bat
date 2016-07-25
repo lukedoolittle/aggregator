@@ -1,5 +1,5 @@
 rmdir /s /q packages
-rm Aggregator.sln.DotSettings.user
-rm Aggregator.userprefs
+rm Quantfabric.sln.DotSettings.user
+rm Quantfabric.userprefs
 
 Call clean.bat

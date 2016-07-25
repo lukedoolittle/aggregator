@@ -1,0 +1,78 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Spotify",
+        "description": "Spotify Web API",
+        "termsOfService": "https://developer.spotify.com/developer-terms-of-use/",
+        "version": "1"
+    },
+    "host": "api.spotify.com",
+    "basePath": "/v1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/me/tracks": {
+            "get": {
+                "summary": "Get a list of the songs saved in the current Spotify user’s Your Music library.",
+                "description": "https://developer.spotify.com/web-api/get-users-saved-tracks/",
+                "operationId": "SpotifySavedTrack",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The maximum number of objects to return",
+                        "type": "integer",
+                        "default": 50,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The index of the first object to return",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "user-library-read" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://accounts.spotify.com/authorize",
+            "tokenUrl": "https://accounts.spotify.com/api/token",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "playlist-read-private": "Read access to user's private playlists",
+                "user-follow-read": "Read access to the list of artists and other users that the user follows",
+                "user-library-read" : "Read access to a user's Your Music library" 
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://accounts.spotify.com/authorize",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "playlist-read-private": "Read access to user's private playlists",
+                "user-follow-read": "Read access to the list of artists and other users that the user follows",
+                "user-library-read" : "Read access to a user's Your Music library" 
+            }
+        }
+    },
+    "definitions": [ ]
+}

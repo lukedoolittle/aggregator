@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{35E4822B-853B-4CB2-AAE1-7D40D76C1E84}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Material</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>Material</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\XamarinIos\crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Geolocator, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Geolocator.Abstractions, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Restsharp.BleedingEdge.105.3.0\lib\Xamarin.iOS10\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Robotics.Mobile.Core, Version=1.0.5500.30933, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\Xamarin.iOS10\Robotics.Mobile.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Robotics.Mobile.Core.iOS, Version=1.0.5500.30950, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\Xamarin.iOS10\Robotics.Mobile.Core.iOS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\BluetoothAuthorization\BluetoothAuthorizerUI.cs" />
+    <Compile Include="View\BluetoothAuthorization\DeviceTableViewController.cs" />
+    <Compile Include="View\WebAuthorization\UIWebViewAuthorizerUI.cs" />
+    <Compile Include="View\WebAuthorization\WebViewController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Material\Material.csproj">
+      <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
+      <Name>Material</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
+      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
+      <Name>Foundations.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Http.iOS\Foundations.Http.iOS.csproj">
+      <Project>{5fa32127-5fc0-482a-a36c-a916e686b522}</Project>
+      <Name>Foundations.Http.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
+      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
+      <Name>Foundations.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations\Foundations.csproj">
+      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
+      <Name>Foundations</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
+    <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Material.Windows\fragment.html">
+      <Link>fragment.html</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)Material.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
+xcopy "$(TargetDir)Material.Portable.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>rmdir /s /q "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10"
+mkdir "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

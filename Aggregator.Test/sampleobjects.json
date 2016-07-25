@@ -1,9 +1,0 @@
-﻿{
-    "something": {
-        "property": [ "value", "value2", "value3" ],
-        "timestampWithOffset": "Tue Nov 03 01:58:26 -0000 2015",
-        "timestampNoOffset": "1446515906000",
-         "timestampOffset": "0000"
-    },
-    "property" :  "value"
-}

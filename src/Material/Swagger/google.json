@@ -1,0 +1,123 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Google",
+        "description": "Google API",
+        "termsOfService": "https://developers.google.com/terms/",
+        "version": "1"
+    },
+    "host": "www.googleapis.com",
+    "basePath": "",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/gmail/v1/users/me/messages": {
+            "get": {
+                "summary": "Lists the messages in the user's mailbox",
+                "description": "https://developers.google.com/gmail/api/v1/reference/users/messages/list",
+                "operationId": "GoogleGmailMetadata",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "q",
+                        "description": "Only return messages matching the specified query",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "maxResults",
+                        "description": "Maximum number of messages to return",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageToken",
+                        "description": "Page token to retrieve a specific page of results in the list",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "includeSpamTrash",
+                        "description": "Include messages from SPAM and TRASH in the results",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "labelIds",
+                        "description": "Only return messages with labels that match all of the specified label IDs",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/gmail.readonly" ]
+                    }
+                ]
+            }
+        },
+        "/gmail/v1/users/me/messages/{messageId}": {
+            "get": {
+                "summary": "Gets the specified message",
+                "description": "https://developers.google.com/gmail/api/v1/reference/users/messages/get",
+                "operationId": "GoogleGmail",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "messageId",
+                        "description": "The ID of the message to retrieve",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/gmail.readonly" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "tokenUrl": "https://accounts.google.com/o/oauth2/token",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "https://www.googleapis.com/auth/gmail.readonly" : "readonly access to gmail" 
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "https://www.googleapis.com/auth/gmail.readonly" : "readonly access to gmail" 
+            }
+        }
+    },
+    "definitions": [ ]
+}

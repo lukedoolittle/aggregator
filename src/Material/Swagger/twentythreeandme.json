@@ -1,0 +1,93 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "TwentyThreeAndMe",
+        "description": "23andMe API",
+        "termsOfService": "https://api.23andme.com/tos/",
+        "version": "1"
+    },
+    "host": "api.23andme.com",
+    "basePath": "/1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/user/": {
+            "get": {
+                "summary": "Gets the user id, and a list of profiles (an account can have multiple genotyped people) with ids",
+                "description": "https://api.23andme.com/docs/reference/#user",
+                "operationId": "TwentyThreeAndMeUser",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "services",
+                        "description": "return what services are available to the profiles",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "path",
+                        "name": "email",
+                        "description": "request the email for this account",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "basic" ]
+                    }
+                ]
+            }
+        },
+        "/genomes/{profile_id}/": {
+            "get": {
+                "summary": "Returns the entire profile's genome as a packed string of base pairs",
+                "description": "https://api.23andme.com/docs/reference/#genomes",
+                "operationId": "TwentyThreeAndMeGenome",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "profile_id",
+                        "description": "the profile id of the genome holder",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "genomes" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://api.23andme.com/authorize/",
+            "tokenUrl": "https://api.23andme.com/token/",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "basic": "Read a profile's service type (ancestry or health and ancestry)",
+                "genomes": "Read a profile's entire genome, including all SNP locations except those the profile has not opted into. You should only grant access to services you trust.",
+                "email": "Read your account's email address" 
+            }
+        }
+    },
+    "definitions": [ ]
+}

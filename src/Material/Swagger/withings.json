@@ -1,0 +1,88 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Withings",
+        "description": "Withings API",
+        "termsOfService": "http://www.withings.com/eu/en/legal/withings-services-terms-and-conditions#/eu/en/legal/api-terms-of-use",
+        "version": "1.0.1"
+    },
+    "host": "wbsapi.withings.net",
+    "basePath": "/",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/measure": {
+            "get": {
+                "summary": "Get the body measures for a user",
+                "description": "http://oauth.withings.com/api/doc#api-Measure-get_measure",
+                "operationId": "WithingsWeighin",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "action",
+                        "description": "the action to take (must be getmeas for this query)",
+                        "type": "string",
+                        "default": "getmeas",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "userid",
+                        "description": "the user id of the requester",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "lastupdate",
+                        "description": "Returns measures updated or created after a certain date",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "ddd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "maximum number of measure groups to return",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "skip the offset most recent measure groups",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                        }
+                    },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth1": {
+            "type": "oauth1",
+            "description": "OAuth1a Flow",
+            "requestUrl": "https://oauth.withings.com/account/request_token",
+            "authorizationUrl": "https://oauth.withings.com/account/authorize",
+            "tokenUrl": "https://oauth.withings.com/account/access_token",
+            "x-parameter-type": "querystring"
+        }
+    },
+    "definitions": [ ]
+}
+

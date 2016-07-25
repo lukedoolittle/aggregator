@@ -1,0 +1,209 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Foursquare",
+        "description": "Foursquare and Swarm API",
+        "termsOfService": "https://foursquare.com/legal/api/platformpolicy",
+        "version": "2"
+    },
+    "host": "api.foursquare.com",
+    "basePath": "/v2",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/users/self/checkins": {
+            "get": {
+                "summary": "Returns a history of checkins for the authenticated user",
+                "description": "https://developer.foursquare.com/docs/users/checkins",
+                "operationId": "FoursquareCheckin",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "v",
+                        "description": "timestamp of the revision version of the api",
+                        "type": "string",
+                        "required": true,
+                        "default": "20140806"
+                    },
+                    {
+                        "in": "query",
+                        "name": "m",
+                        "description": "platform context for the request",
+                        "type": "string",
+                        "required": true,
+                        "enum": ["foursquare", "swarm"], 
+                        "default": "foursquare"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Number of results to return, up to 250",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The number of results to skip",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sort",
+                        "description": "How to sort the returned checkins",
+                        "type": "string",
+                        "enum": ["newestfirst", "oldestfirst"], 
+                        "default": "newestfirst"
+                    },
+                    {
+                        "in": "query",
+                        "name": "afterTimestamp",
+                        "description": "Retrieve the first results to follow these seconds since epoch",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "ddd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "beforeTimestamp",
+                        "description": "Retrieve the first results prior to these seconds since epoch",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "ddd",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ ]
+                    }
+                ]
+            }
+        },
+        "/users/self/friends": {
+            "get": {
+                "summary": "Returns an array of a user's friends",
+                "description": "https://developer.foursquare.com/docs/users/friends",
+                "operationId": "FoursquareFriend",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "v",
+                        "description": "timestamp of the revision version of the api",
+                        "type": "string",
+                        "required": true,
+                        "default": "20140806"
+                    },
+                    {
+                        "in": "query",
+                        "name": "m",
+                        "description": "platform context for the request",
+                        "type": "string",
+                        "required": true,
+                        "enum": ["foursquare", "swarm"], 
+                        "default": "foursquare"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Number of results to return, up to 250",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The number of results to skip",
+                        "type": "integer"
+                    },
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ ]
+                    }
+                ]
+            }
+        },
+        "/users/self/tips": {
+            "get": {
+                "summary": "Returns tips from a user",
+                "description": "https://developer.foursquare.com/docs/users/tips",
+                "operationId": "FoursquareTip",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "v",
+                        "description": "timestamp of the revision version of the api",
+                        "type": "string",
+                        "required": true,
+                        "default": "20140806"
+                    },
+                    {
+                        "in": "query",
+                        "name": "m",
+                        "description": "platform context for the request",
+                        "type": "string",
+                        "required": true,
+                        "enum": ["foursquare", "swarm"], 
+                        "default": "foursquare"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Number of results to return, up to 250",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The number of results to skip",
+                        "type": "integer"
+                    },
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://foursquare.com/oauth2/authorize",
+            "tokenUrl": "https://foursquare.com/oauth2/access_token",
+            "x-token-name": "oauth_token",
+            "scopes": {}
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://foursquare.com/oauth2/authorize",
+            "x-token-name": "oauth_token",
+            "scopes": {}
+        }
+    },
+    "definitions": [ ]
+}

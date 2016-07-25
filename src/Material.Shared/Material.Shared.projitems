@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e62cb347-19b0-4220-9c77-a2f47f3fba75</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Material</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\AndroidSMSAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\BluetoothAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Adapters\GPSAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1AppFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1WebFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2AppFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2RefreshFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2WebFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAuthorizerUIFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1Authentication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authentication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthProtectedResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
+  </ItemGroup>
+</Project>

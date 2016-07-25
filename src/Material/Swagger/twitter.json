@@ -1,0 +1,555 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Twitter",
+        "description": "Twitter API",
+        "termsOfService": "https://www.twitter.com/policies/",
+        "version": "1.1"
+    },
+    "host": "api.twitter.com",
+    "basePath": "/1.1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/statuses/retweets_of_me.json": {
+            "get": {
+                "summary": "Returns the most recent tweets authored by the authenticating user that have been retweeted by others",
+                "description": "https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me",
+                "operationId": "TwitterRetweetOfMe",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "trim_user",
+                        "description": "When true, each tweet returned in a timeline will include a user object including only the status authors numerical ID",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_user_entities",
+                        "description": "The user entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/direct_messages/sent.json": {
+            "get": {
+                "summary": "Returns the 20 most recent direct messages sent by the authenticating user",
+                "description": "https://dev.twitter.com/rest/reference/get/direct_messages/sent",
+                "operationId": "TwitterSentDirectMessage",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "Specifies the page of results to retrieve",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/direct_messages.json": {
+            "get": {
+                "summary": "Returns the 20 most recent direct messages sent to the authenticating user",
+                "description": "https://dev.twitter.com/rest/reference/get/direct_messages",
+                "operationId": "TwitterReceivedDirectMessage",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "skip_status",
+                        "description": "When set to either true, t or 1 statuses will not be included in the returned user objects",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/friends/list.json": {
+            "get": {
+                "summary": "Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their “friends”)",
+                "description": "https://dev.twitter.com/rest/reference/get/friends/list",
+                "operationId": "TwitterFollowing",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "description": "Causes the results to be broken into pages",
+                        "type": "integer",
+                        "format": "int64",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_user_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "skip_status",
+                        "description": "When set to either true, t or 1 statuses will not be included in the returned user objects",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/followers/list.json": {
+            "get": {
+                "summary": "Returns a cursored collection of user objects for users following the specified user",
+                "description": "https://dev.twitter.com/rest/reference/get/followers/list",
+                "operationId": "TwitterFollower",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "description": "Causes the results to be broken into pages",
+                        "type": "integer",
+                        "format": "int64",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_user_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "skip_status",
+                        "description": "When set to either true, t or 1 statuses will not be included in the returned user objects",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/favorites/list.json": {
+            "get": {
+                "summary": "Returns the 20 most recent Tweets liked by the authenticating or specified user",
+                "description": "https://dev.twitter.com/rest/reference/get/favorites/list",
+                "operationId": "TwitterFavorite",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/statuses/mentions_timeline.json": {
+            "get": {
+                "summary": "Returns the 20 most recent mentions (tweets containing a users’s @screen_name) for the authenticating user",
+                "description": "https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline",
+                "operationId": "TwitterMention",
+                "parameters": [
+ {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "trim_user",
+                        "description": "When true, each tweet returned in a timeline will include a user object including only the status authors numerical ID",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/statuses/home_timeline.json": {
+            "get": {
+                "summary": "Returns a collection of the most recent Tweets and retweets posted by the authenticating user and the users they follow",
+                "description": "https://dev.twitter.com/rest/reference/get/statuses/home_timeline",
+                "operationId": "TwitterTimeline",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "trim_user",
+                        "description": "When true, each tweet returned in a timeline will include a user object including only the status authors numerical ID",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "exclude_replies",
+                        "description": "This parameter will prevent replies from appearing in the returned timeline",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        },
+        "/statuses/user_timeline.json": {
+            "get": {
+                "summary": "Returns a collection of the most recent Tweets posted by the user",
+                "description": "https://dev.twitter.com/rest/reference/get/statuses/user_timeline",
+                "operationId": "TwitterTweet",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "user_id",
+                        "description": "the user id of the requester",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "since_id",
+                        "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
+                        "type": "string",
+                        "required": false 
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_id",
+                        "description": "Returns results with an ID less than (that is, older than) or equal to the specified ID",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Specifies the number of records to retrieve. Must be less than or equal to 100",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "trim_user",
+                        "description": "When true, each tweet returned in a timeline will include a user object including only the status authors numerical ID",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_user_entities",
+                        "description": "The user entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "exclude_replies",
+                        "description": "This parameter will prevent replies from appearing in the returned timeline",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "contributor_details",
+                        "description": "This parameter enhances the contributors element of the status response to include the screen_name of the contributor",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_rts",
+                        "description": "When set to false, the timeline will strip any native retweets",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth1": [ ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth1": {
+            "type": "oauth1",
+            "description": "OAuth1a Flow",
+            "requestUrl": "https://api.twitter.com/oauth/request_token",
+            "authorizationUrl": "https://api.twitter.com/oauth/authenticate",
+            "tokenUrl": "https://api.twitter.com/oauth/access_token",
+            "x-parameter-type": "header"
+        }
+    },
+    "definitions": [ ]
+}
+

@@ -1,10 +1,10 @@
 # Data Collection Framework for Xamarin
 
-## Usage
+## Usage (see below for setup)
 
 1. Authenticate a service from an Activity (Android), a UIViewController (iOS), or whatever (Windows). Example for iOS from a UIViewController.
 
-        var factory = ServiceLocator.Current.GetInstance<iOSAuthenticationTaskFactory>();
+        var factory = ServiceLocator.Current.GetInstance<AuthenticationTaskFactory>();
         await factory.GenerateTask<Twitter>(aggregateId, version, this).Execute();
 
 2. Create a sensor. Data collection begins automagically.
@@ -19,7 +19,7 @@
 
 1. Get an authentication token. Example for Windows.
 
-        var factory = ServiceLocator.Current.GetInstance<WindowsAuthenticationTaskFactory>();
+        var factory = ServiceLocator.Current.GetInstance<AuthenticationTaskFactory>();
         var token = await factory.GenerateOAuth1Task<Twitter>().GetAccessTokenCredentials();
 
 2. Use token to make a request using a client
@@ -51,6 +51,17 @@ Dependencies (enable autorestore Nuget packages in Visual Studio)
 ## Basic Setup
 
 Before anything can happen you have to change the `CredentialApplicationSettings` class and fill in your clientId/clientSecret or consumerKey/consumerSecret for each service you want to use. See the advanced topics for how these entries affect the workflow.
+
+## Basic Windows Setup
+
+1. In your main Android project add a reference to Aggregator.Windows
+
+2. Bootstrap startup somewhere near the begining of the application
+
+		new Bootstrapper().DefaultConfig().Run().GetInstance<Scheduler>().Start();
+
+3. Basic usage is described at the begining of the readme
+
 
 ## Basic iOS Setup
 
@@ -110,7 +121,11 @@ TODO
 
 ### Customizing the Bootstrapper
 
-TODO
+By default the bootstrapper (the Windows code given above or the code in the AggregatorService or AggregatorAppDelegate) will perform assembly scanning on ALL non .NET, non dependency loaded assemblies for purposes of startup tasks and Autofac registration. In some cases this can be slow depending on how many additional assemblies you have referenced in your project. If this occurs you have the following options:
+
+1. Override the default bootstrapper and add any of the newly added dependendant assemblies to the blacklist
+
+2. Add only the assemblies you want to be a part of the assembly scanning to a call to `AddAssemblies()` (whitelist)
 
 ### Adding or removing Services or Requests
 

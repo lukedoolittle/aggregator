@@ -1,0 +1,158 @@
+﻿<#@ include file="T4Toolbox.tt" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@  assembly name="$(TargetDir)CodeGen.dll" #>
+<#@  assembly name="System.Core" #>
+<#@ import namespace="CodeGen" #>
+<#
+
+    var swaggerFiles = System.IO.Directory.GetFiles(this.Host.ResolvePath("Swagger"));
+    foreach(var file in swaggerFiles)
+    {
+        SwaggerCodeGenerator generator = 
+            new SwaggerCodeGenerator(file);
+        generator.Run();
+    }
+
+#>
+<#+
+public class SwaggerCodeGenerator : Generator
+{
+        private readonly string _pathToFile;
+
+    public SwaggerCodeGenerator(string pathToFile)
+        {
+            _pathToFile = pathToFile;
+        }
+
+	protected override void RunCore()
+        {
+            var swagger = new SwaggerToClass(_pathToFile);
+
+            var serviceName = GenerateServiceFiles(swagger, "Material.Infrastructure.ProtectedResources");
+            GenerateRequestFiles(swagger, "Material.Infrastructure.Requests", serviceName  , "Material.Infrastructure.ProtectedResources");
+        }
+
+    private string GenerateServiceFiles(SwaggerToClass swagger, string serviceNamespace)
+        {
+            var serviceClass = swagger.GenerateServiceClass(serviceNamespace);
+            new MyTemplate(serviceClass).RenderToFile(GetFilenameFromClass(serviceClass));
+            return serviceClass.Name;
+        }
+
+    private void GenerateRequestFiles(SwaggerToClass swagger, string requestNamespace, string serviceName, string serviceNamespace)
+        {
+            var requestClasses = swagger.GenerateRequestClasses(requestNamespace, serviceName, serviceNamespace);
+            foreach(var requestClass in requestClasses)
+            {
+                new MyTemplate(requestClass).RenderToFile(GetFilenameFromClass(requestClass));
+            }
+        }
+
+    private string GetFilenameFromClass(ClassRepresentation classRepresentation)
+        {
+            var directory = classRepresentation
+                .Namespace
+                .Substring(classRepresentation.Namespace.IndexOf('.') + 1)
+                .Replace('.', '\\');
+
+            return string.Format(@"{0}\{1}.cs", directory, classRepresentation.Name);
+        }
+}
+
+public class MyTemplate : Template
+{
+    private readonly ClassRepresentation _classRep;
+	 
+	public MyTemplate(ClassRepresentation classRep)
+        {
+            _classRep = classRep;
+        }
+
+	public override string TransformText()
+	{
+            if (_classRep.GetNamespaces() != null)
+            {
+                foreach (var myNamespace in _classRep.GetNamespaces())
+                {
+#>
+using <#= myNamespace #>;
+<#+
+                }
+            }
+#>
+
+namespace <#= _classRep.Namespace #>
+{     
+<#+
+#>
+    /// <summary>
+    /// <#= _classRep.Comments #>
+    /// </summary>
+<#+
+            if(_classRep.Metadatas.Count > 0)
+            {
+                foreach(var metadata in _classRep.Metadatas)
+                {
+#>
+    [<#= metadata.TypeName #>(<#= metadata.ConstructorArguments #>)]
+<#+
+                }
+            }
+#>
+	<#= _classRep.AccessModifier #> partial class <#= _classRep.Name #><#+
+            if (_classRep.GetBase() != null)
+            {
+#> : <#= _classRep.GetBase() #>              
+<#+
+            }
+#>
+	{
+<#+
+            foreach(var property in _classRep.Properties)
+            {
+                if(property.Comments != null)
+                {
+#>
+        /// <summary>
+        /// <#= property.Comments #>
+        /// </summary>
+<#+
+                }
+                foreach(var metadata in property.Metadatas)
+                {
+#>
+        [<#= metadata.TypeName #>(<#= metadata.ConstructorArguments #>)]
+<#+
+                }
+#>
+        <#= property.AccessModifier #> <#= property.Modifier #> <#= property.TypeName #> <#= property.Name #> <#= property.Value #>
+<#+
+            }
+#>
+	}
+<#+
+            foreach(var myEnum in _classRep.Enums)
+            {
+#>
+    public enum <#= myEnum.Name #>
+    {
+<#+
+                foreach(var enumItem in myEnum.Values)
+                {
+#>
+        [Description("<#= enumItem.Value #>")] <#= enumItem.Key #>,
+<#+
+                }
+#>
+    }
+<#+
+            }
+#>
+}
+<#+
+		return this.GenerationEnvironment.ToString();
+	}
+}
+#>

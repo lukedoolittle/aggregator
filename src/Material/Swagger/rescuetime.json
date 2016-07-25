@@ -1,0 +1,104 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Rescuetime",
+        "description": "Rescuetime API",
+        "termsOfService": "",
+        "version": "0"
+    },
+    "host": "www.rescuetime.com/",
+    "basePath": "/api/oauth",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/data": {
+            "get": {
+                "summary": "Rescuetime analytic data for the user",
+                "description": "https://www.rescuetime.com/apidoc#analytic-api-reference",
+                "operationId": "RescuetimeAnalyticData",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "format",
+                        "description": "the format of the response",
+                        "type": "string",
+                        "enum": ["json", "csv"], 
+                        "default": "json", 
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "resolution_time",
+                        "description": "",
+                        "type": "string",
+                        "default": "hour",
+                        "enum": ["month", "week", "day", "hour", "minute"], 
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "perspective",
+                        "description": "organization of data",
+                        "type": "string",
+                        "default": "interval", 
+                        "enum": ["interval", "rank", "member"], 
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "restrict_kind",
+                        "description": "restrict the kind of information returned",
+                        "type": "string",
+                        "default": "efficiency",
+                        "enum" : ["category", "activity", "productivity", "overview", "efficiency", "document"] ,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "restrict_begin",
+                        "description": "Sets the start day for data batch, inclusive (always at time 00:00, start hour/minute not supported)",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "restrict_end",
+                        "description": "Sets the end day for data batch, inclusive (always at time 00:00, end hour/minute not supported) ",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ "time_data" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://www.rescuetime.com/oauth/authorize",
+            "tokenUrl": "https://www.rescuetime.com/oauth/token",
+            "x-token-name": "access_token",
+            "scopes": {
+                "time_data" : "Access activity history and summary time data for the authorizing user" 
+            }
+        }
+    },
+    "definitions": [ ]
+}
