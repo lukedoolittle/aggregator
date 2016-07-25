@@ -22,7 +22,7 @@
 * `Foursquare`
 * `Google`
 * `LinkedIn`
-* `Rescuetime`
+* [`Rescuetime`](#rescuetime)
 * `Runkeeper`
 * `Spotify`
 * `TwentyThreeAndMe`
@@ -242,7 +242,9 @@ If the request needs to be customized an instance of the request class can be cr
     	.MakeOAuthRequest<TwitterTweet, TwitterTweetResponse>(request)
     	.ConfigureAwait(false);
 
-
+## Provider Specific Notes
+### <a name="rescuetime"></a> Rescuetime
+Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop/mobile workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
 ## Advanced Topics
 ### <a name="advanced_security"></a> Creating your own security parameter repository
 During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:
