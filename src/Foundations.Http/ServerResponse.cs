@@ -72,6 +72,14 @@ namespace Foundations.Http
             _responseBody.Append(data);
         }
 
+        public void WriteHtmlString(string html)
+        {
+            WriteHead(HttpStatusCode.OK);
+            WriteHead(HttpRequestHeader.ContentType, "text/html");
+            Write(html);
+            End();
+        }
+
         public void WriteHtml(string fileName)
         {
             WriteHead(HttpStatusCode.OK);

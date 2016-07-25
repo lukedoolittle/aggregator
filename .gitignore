@@ -257,9 +257,7 @@ paket-files/
 
 # Key files
 NuGet.config
-build/Accumulator.NuGet/lib/MonoAndroid60/
-build/Accumulator.NuGet/lib/net452/
-build/Accumulator.NuGet/lib/Xamarin.iOS10/
+build\Material.NuGet\lib
 CredentialApplicationSettings.cs
 testCredentials.json
 

@@ -126,9 +126,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Material.Windows\fragment.html">
-      <Link>Assets\fragment.html</Link>
-    </Content>
+    <Folder Include="Assets\" />
   </ItemGroup>
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

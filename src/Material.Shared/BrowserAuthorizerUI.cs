@@ -39,8 +39,7 @@ namespace Material.Infrastructure
             _httpServer.CreateServer(
                 (request, response) =>
                 {
-                    //TODO: magic strings
-                    response.WriteHtml("fragment.html");
+                    response.WriteHtmlString(FRAGMENT_HTML);
                     var result = _handler
                         .ParseAndValidateCallback<TToken>(
                             request.Uri);
@@ -65,5 +64,26 @@ namespace Material.Infrastructure
 
             return taskCompletion.Task;
         }
+
+        private const string FRAGMENT_HTML =
+            @"<html>
+                <head>
+                    <script>
+                        window.onload = function() {
+			                if (window.location.hash && !window.location.search.slice(1))
+				            {
+					            var url = window.location;
+                                var newQuerystring = url.hash.substr(1);
+                                var newUrl = url.pathname + '?' + newQuerystring;
+
+                                var xmlHttp = new XMLHttpRequest();
+                                xmlHttp.open('GET', newUrl, true);
+					            xmlHttp.send(null);
+				            }
+                        }
+		            </script>
+	            </head>
+	            <body>Thanks for sharing!</body>
+            </html>";
     }
 }
