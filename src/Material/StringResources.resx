@@ -147,4 +147,10 @@
   <data name="StateParameterInvalidException" xml:space="preserve">
     <value>The state parameter returned by the resource provider was '{0}'</value>
   </data>
+  <data name="BluetoothDialogBody" xml:space="preserve">
+    <value>Connecting to {0}</value>
+  </data>
+  <data name="BluetoothDialogTitle" xml:space="preserve">
+    <value>Please Wait</value>
+  </data>
 </root>

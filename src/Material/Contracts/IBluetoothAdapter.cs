@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace Material.Contracts
 {
@@ -8,14 +7,12 @@ namespace Material.Contracts
     {
         void ListDevices(Action<BluetoothDevice> newDeviceFound);
 
-        Task<bool> ConnectToDevice();
+        Task<bool> ConnectToDevice(Guid address = default(Guid));
 
-        Task<bool> ConnectToDevice(Guid address);
-
-        Task<Tuple<DateTimeOffset, JObject>> GetCharacteristicValue(
+        Task<byte[]> GetCharacteristicValue(
             Guid deviceAddress,
-            Guid serviceUuid,
-            Guid characteristicUuid);
+            int serviceUuid,
+            int characteristicUuid);
     }
 
     public class BluetoothDevice

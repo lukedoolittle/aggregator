@@ -26,16 +26,11 @@ namespace Quantfabric.UI.Test.Android
 		
 		public static void UpdateIdValues()
 		{
+			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
+			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
 			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
-			global::Application.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
-			global::Application.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
-			global::Application.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
-			global::cbforestsharp.Droid.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
-			global::Couchbase.Lite.Android.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
-			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
-			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
 			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
 		}
 		

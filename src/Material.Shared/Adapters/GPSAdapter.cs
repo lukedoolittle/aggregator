@@ -2,14 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Material;
-using Newtonsoft.Json.Linq;
 using Foundations.Serialization;
 using Material.Contracts;
 using Material.Exceptions;
+using Newtonsoft.Json.Linq;
 using Plugin.Geolocator.Abstractions;
 
-namespace Aggregator.Infrastructure.Adapters
+namespace Material.Adapters
 {
     public class GPSAdapter : IGPSAdapter
     {

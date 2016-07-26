@@ -3,6 +3,7 @@ using Material;
 using Material.Exceptions;
 using Aggregator.Configuration;
 using Aggregator.Test;
+using Application.Configuration;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;

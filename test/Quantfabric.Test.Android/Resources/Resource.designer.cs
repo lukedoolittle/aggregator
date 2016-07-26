@@ -26,9 +26,6 @@ namespace Quantfabric.Test
 		
 		public static void UpdateIdValues()
 		{
-			global::Accumulator.Resource.String.ApplicationName = global::Quantfabric.Test.Resource.String.ApplicationName;
-			global::Accumulator.Resource.String.Hello = global::Quantfabric.Test.Resource.String.Hello;
-			global::Accumulator.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
 			global::Application.Resource.String.ApplicationName = global::Quantfabric.Test.Resource.String.ApplicationName;
 			global::Application.Resource.String.Hello = global::Quantfabric.Test.Resource.String.Hello;
 			global::Application.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
@@ -36,6 +33,9 @@ namespace Quantfabric.Test
 			global::Couchbase.Lite.Android.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
 			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.Test.Resource.String.ApplicationName;
 			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.Test.Resource.String.Hello;
+			global::Material.Resource.String.ApplicationName = global::Quantfabric.Test.Resource.String.ApplicationName;
+			global::Material.Resource.String.Hello = global::Quantfabric.Test.Resource.String.Hello;
+			global::Material.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
 			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::Quantfabric.Test.Resource.Id.OptionHostName;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionPort = global::Quantfabric.Test.Resource.Id.OptionPort;

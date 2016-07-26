@@ -9,7 +9,6 @@ using SimpleCQRS.Framework.Contracts;
 using SimpleCQRS.Infrastructure;
 using Module = Autofac.Module;
 #if __MOBILE__
-using Aggregator.Infrastructure.Adapters;
 using Couchbase.Lite;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
@@ -17,6 +16,9 @@ using Robotics.Mobile.Core.Bluetooth.LE;
 #endif
 #if __IOS__
 using CoreLocation;
+#endif
+#if __MOBILE__
+using Material.Adapters;
 #endif
 
 namespace Aggregator.Configuration.Registration

@@ -5,7 +5,6 @@ using System.Linq;
 using Material;
 using Aggregator.Framework;
 using Aggregator.Infrastructure.Clients;
-using Aggregator.Infrastructure.Adapters;
 using Aggregator.Test.Helpers.Fixtures;
 using Foundations.Serialization;
 using Material.Infrastructure.Static;

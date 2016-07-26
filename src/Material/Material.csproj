@@ -76,8 +76,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Generator.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Bluetooth\BluetoothCharacteristics.cs" />
     <Compile Include="Infrastructure\BluetoothRequest.cs" />
     <Compile Include="Infrastructure\BluetoothResourceProvider.cs" />
+    <Compile Include="Infrastructure\Bluetooth\BluetoothConverters.cs" />
+    <Compile Include="Infrastructure\Bluetooth\BluetoothServices.cs" />
+    <Compile Include="Infrastructure\Bluetooth\BluetoothSpecification.cs" />
     <Compile Include="Infrastructure\Credentials\BluetoothCredentials.cs" />
     <Compile Include="Infrastructure\Credentials\OAuth1Credentials.cs" />
     <Compile Include="Infrastructure\Credentials\OAuth2Credentials.cs" />
@@ -155,6 +159,7 @@
     <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
+    <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
     <Compile Include="Metadata\Format.cs" />
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />

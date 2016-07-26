@@ -2,36 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Material;
-using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Exceptions;
-using Robotics.Mobile.Core.Bluetooth.LE;
 using Material.Framework;
+using Robotics.Mobile.Core.Bluetooth.LE;
 
-namespace Aggregator.Infrastructure.Adapters
+namespace Material.Adapters
 {
-    using System.Threading.Tasks;
-
     public class BluetoothAdapter : IBluetoothAdapter
     {
         private readonly IAdapter _adapter;
-        private readonly List<Guid> _connectingAddresses; 
-         
+        private readonly List<Guid> _connectingAddresses = 
+            new List<Guid>();
+
         public BluetoothAdapter(IAdapter adapter)
         {
             _adapter = adapter;
-
-            _connectingAddresses = new List<Guid>();
         }
 
-        public async Task<bool> ConnectToDevice()
-        {
-            return await ConnectToDevice(Guid.Empty)
-                .ConfigureAwait(true);
-        }
-
-        public async Task<bool> ConnectToDevice(Guid deviceAddress)
+        public async Task<bool> ConnectToDevice(Guid deviceAddress = default(Guid))
         {
             var device = await Connect(deviceAddress)
                 .ConfigureAwait(true);
@@ -109,17 +99,28 @@ namespace Aggregator.Infrastructure.Adapters
             return taskCompletionSource.Task;
         }
 
-        public Task<Tuple<DateTimeOffset, JObject>> GetCharacteristicValue(
+        public Task<byte[]> GetCharacteristicValue(
+            Guid deviceAddress,
+            int serviceUuid,
+            int characteristicUuid)
+        {
+            return GetCharacteristicValue(
+                deviceAddress, 
+                UuidFromPartial(serviceUuid), 
+                UuidFromPartial(characteristicUuid));
+        }
+
+        public Task<byte[]> GetCharacteristicValue(
             Guid deviceAddress,
             Guid serviceUuid,
             Guid characteristicUuid)
         {
-            var taskCompletionSource = new TaskCompletionSource<Tuple<DateTimeOffset, JObject>>();
+            var taskCompletionSource = new TaskCompletionSource<byte[]>();
 
             Platform.RunOnMainThread(async () =>
             {
                 var device = await Connect(deviceAddress)
-                .ConfigureAwait(true);
+                    .ConfigureAwait(true);
 
                 if (device == null)
                 {
@@ -138,40 +139,31 @@ namespace Aggregator.Infrastructure.Adapters
 
                 if (desiredCharacteristic != null)
                 {
-                    value = await GetCharacteristicValue(
-                        desiredCharacteristic)
-                        .ConfigureAwait(true);
+                    var result = await GetCharacteristicValue(
+                            desiredCharacteristic)
+                        .ConfigureAwait(false);
+                    taskCompletionSource.SetResult(result);
                 }
                 else
                 {
-                    value = await GetCharacteristicValue(
-                        device,
-                        serviceUuid,
-                        characteristicUuid)
-                        .ConfigureAwait(true);
+                    var result = await GetCharacteristicValue(
+                            device,
+                            serviceUuid,
+                            characteristicUuid)
+                        .ConfigureAwait(false);
+                    taskCompletionSource.SetResult(result);
                 }
-
-                var timestamp = DateTimeOffset.Now;
-
-                taskCompletionSource.SetResult(
-                    new Tuple<DateTimeOffset, JObject>(
-                        timestamp,
-                        new JObject
-                        {
-                            ["heartrate"] = value,
-                            ["timestamp"] = timestamp
-                        }));
             });
 
             return taskCompletionSource.Task;
         }
 
-        private Task<string> GetCharacteristicValue(
+        private Task<byte[]> GetCharacteristicValue(
             IDevice device,
             Guid serviceUuid,
             Guid characteristicUuid)
         {
-            var taskCompletionSource = new TaskCompletionSource<string>();
+            var taskCompletionSource = new TaskCompletionSource<byte[]>();
 
             device.ServicesDiscovered +=
                 (servicesSender, servicesEventArgs) =>
@@ -191,9 +183,10 @@ namespace Aggregator.Infrastructure.Adapters
                                             {
                                                 if (characteristic.ID == characteristicUuid)
                                                 {
-                                                    taskCompletionSource.SetResult(
-                                                        await GetCharacteristicValue(
-                                                            characteristic).ConfigureAwait(true));
+                                                    var result = await GetCharacteristicValue(
+                                                            characteristic)
+                                                        .ConfigureAwait(false);
+                                                    taskCompletionSource.SetResult(result);
                                                 }
                                             }
                                         });
@@ -209,9 +202,10 @@ namespace Aggregator.Infrastructure.Adapters
             return taskCompletionSource.Task;
         }
 
-        private Task<string> GetCharacteristicValue(ICharacteristic characteristic)
+        private Task<byte[]> GetCharacteristicValue(
+            ICharacteristic characteristic)
         {
-            var taskCompletionSource = new TaskCompletionSource<string>();
+            var taskCompletionSource = new TaskCompletionSource<byte[]>();
 
             EventHandler<CharacteristicReadEventArgs> handler = null;
             handler = (sender, args) =>
@@ -223,8 +217,7 @@ namespace Aggregator.Infrastructure.Adapters
                         if (!taskCompletionSource.Task.IsCompleted)
                         {
                             taskCompletionSource.SetResult(
-                                DecodeCharacteristic(
-                                    args.Characteristic.Value));
+                                    args.Characteristic.Value);
                         }
                     });
                 };
@@ -235,21 +228,14 @@ namespace Aggregator.Infrastructure.Adapters
             return taskCompletionSource.Task;
         }
 
-        //TODO: this should be broken out and injected since it only works
-        //for heart rate specific values
-        private static string DecodeCharacteristic(byte[] data)
+        private static Guid UuidFromPartial(int partial)
         {
-            ushort bpm = 0;
-            if ((data[0] & 0x01) == 0)
-            {
-                bpm = data[1];
-            }
-            else
-            {
-                bpm = (ushort)data[1];
-                bpm = (ushort)(((bpm >> 8) & 0xFF) | ((bpm << 8) & 0xFF00));
-            }
-            return bpm.ToString();
+            //var partial = Convert.ToInt32(partialString, 16);
+            string input = partial.ToString("X").PadRight(4, '0');
+            if (input.Length == 4)
+                input = "0000" + input + "-0000-1000-8000-00805f9b34fb";
+            var guid = Guid.ParseExact(input, "d");
+            return guid;
         }
     }
 }

@@ -20,17 +20,12 @@ namespace Quantfabric.Test.Application.Mocks
             throw new NotImplementedException();
         }
 
-        Task<bool> IBluetoothAdapter.ConnectToDevice()
-        {
-            throw new NotImplementedException();
-        }
-
         Task<bool> IBluetoothAdapter.ConnectToDevice(Guid address)
         {
             throw new NotImplementedException();
         }
 
-        Task<Tuple<DateTimeOffset, JObject>> IBluetoothAdapter.GetCharacteristicValue(Guid deviceAddress, Guid serviceUuid, Guid characteristicUuid)
+        public Task<byte[]> GetCharacteristicValue(Guid deviceAddress, int serviceUuid, int characteristicUuid)
         {
             throw new NotImplementedException();
         }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Foundations.Serialization;
 using Newtonsoft.Json.Linq;
-using Aggregator.Framework.Contracts;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -30,11 +30,14 @@ namespace Aggregator.Infrastructure.Clients
 
             var result = await _manager.GetCharacteristicValue(
                 _credentials.DeviceAddress,
-                request.ServiceGuid,
-                request.CharacteristicGuid)
+                request.Service.AssignedNumber,
+                request.Characteristic.AssignedNumber)
                 .ConfigureAwait(false);
 
-            return new List<Tuple<DateTimeOffset, JObject>> { result };
+            var response = new Tuple<DateTimeOffset, JObject>(
+                DateTimeOffset.Now, 
+                request.CharacteristicConverter(result).AsJObject());
+            return new List<Tuple<DateTimeOffset, JObject>> { response };
         }
     }
 }

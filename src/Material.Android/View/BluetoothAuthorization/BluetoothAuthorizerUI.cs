@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using Material;
-using Aggregator.Framework;
+using Android.App;
 using Android.Content;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
+using Material.Framework;
 
-namespace Aggregator.View.BluetoothAuthorization
+namespace Material.View.BluetoothAuthorization
 {
     public class BluetoothAuthorizerUI : IBluetoothAuthorizerUI
     {
@@ -25,9 +25,8 @@ namespace Aggregator.View.BluetoothAuthorization
             var context = Platform.Context;
 
             var intent = new Intent(context, typeof(DeviceListActivity));
-            //TODO: remove magic strings
             intent.PutExtra(
-                "Authorizer",
+                DeviceListActivity.Authorizer,
                 DeviceListActivity.StateRepo.Add(activityCompletionSource));
             context.StartActivity(intent);
 
@@ -37,6 +36,11 @@ namespace Aggregator.View.BluetoothAuthorization
 
             activity.DeviceSelected = async device =>
             {
+                var progressDialog = ProgressDialog.Show(
+                    activity,
+                    StringResources.BluetoothDialogTitle,
+                    string.Format(StringResources.BluetoothDialogBody, device.Name),
+                    true);
                 var result = await _adapter
                     .ConnectToDevice(device.Address)
                     .ConfigureAwait(false);
@@ -45,6 +49,7 @@ namespace Aggregator.View.BluetoothAuthorization
                 {
                     addressCompletionSource.SetResult(device.Address);
                     activity.Finish();
+                    Platform.RunOnMainThread(progressDialog.Hide);
                 }
                 else
                 {

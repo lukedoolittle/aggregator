@@ -1,33 +1,23 @@
+#if __MOBILE__
 using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-#if __MOBILE__
-using Aggregator.Infrastructure.Adapters;
-using Aggregator.View.BluetoothAuthorization;
-using Robotics.Mobile.Core.Bluetooth.LE;
-#endif
+using Material.Adapters;
+using Material.Framework;
+using Material.View.BluetoothAuthorization;
 
 namespace Material
 {
-
-#if __MOBILE__
-    public class Bluetooth<TResourceProvider>
+    public class BluetoothAuthorizationFacade<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()
     {
         public Task<BluetoothCredentials> GetBluetoothCredentials()
         {
-
-#if __ANDROID__
-            var adapter = new Adapter();
-#elif __IOS__
-            var adapter = Adapter.Current;
-#endif
             var authenticationUI = new BluetoothAuthorizerUI(
-                new BluetoothAdapter(adapter));
+                new BluetoothAdapter(Platform.BluetoothAdapter));
 
             return authenticationUI.GetDeviceUuid();
-
         }
     }
-#endif
 }
+#endif

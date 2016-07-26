@@ -80,6 +80,24 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connecting to {0}.
+        /// </summary>
+        public static string BluetoothDialogBody {
+            get {
+                return ResourceManager.GetString("BluetoothDialogBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Wait.
+        /// </summary>
+        public static string BluetoothDialogTitle {
+            get {
+                return ResourceManager.GetString("BluetoothDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given type is not a subclass of Event.
         /// </summary>
         public static string GenericTypeException {

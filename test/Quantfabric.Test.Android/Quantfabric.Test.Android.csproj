@@ -206,8 +206,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />

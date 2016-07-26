@@ -10,9 +10,8 @@ using Aggregator.Task;
 using Autofac.Features.ResolveAnything;
 using Foundations.Bootstrap;
 using SimpleCQRS.Framework.Contracts;
-
 #if __MOBILE__
-using Aggregator.Infrastructure.Adapters;
+using Material.Adapters;
 #endif
 
 namespace Aggregator.Configuration

@@ -1,6 +1,7 @@
 ﻿using Aggregator.Configuration;
 using Aggregator.Domain.Write;
 using Aggregator.Framework.Exceptions;
+using Application.Configuration;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;

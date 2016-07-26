@@ -5,7 +5,9 @@ using Material.Enums;
 using Material.Infrastructure;
 using Material.OAuth;
 #if __MOBILE__
-using Aggregator.View.WebAuthorization;
+#endif
+#if __ANDROID__
+using Material.View.WebAuthorization;
 #endif
 
 namespace Material

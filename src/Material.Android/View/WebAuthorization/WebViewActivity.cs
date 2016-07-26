@@ -4,7 +4,7 @@ using Android.OS;
 using Android.Views;
 using Android.Webkit;
 
-namespace Aggregator.View.WebAuthorization
+namespace Material.View.WebAuthorization
 {
     [Activity(Label = "WebViewActivity")]
     public class WebViewActivity : Activity

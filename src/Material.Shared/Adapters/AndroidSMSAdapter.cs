@@ -2,18 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aggregator.Framework;
 using Android.Content;
 using Android.Provider;
 using Android.Runtime;
 using Android.Telephony;
 using Newtonsoft.Json.Linq;
-using Aggregator.Framework.Extensions;
 using Android.App;
 using Material.Contracts;
 using Object = Java.Lang.Object;
+using Material.Framework;
 
-namespace Aggregator.Infrastructure.Adapters
+namespace Material.Adapters
 {
     using System.Threading.Tasks;
 

@@ -8,11 +8,12 @@ using Android.Views;
 using Android.Widget;
 using Material.Contracts;
 
-namespace Aggregator.View.BluetoothAuthorization
+namespace Material.View.BluetoothAuthorization
 {
     [Activity(Label = "DeviceListActivity")]
     public class DeviceListActivity : ListActivity
     {
+        internal const string Authorizer = "Authorizer";
         internal static readonly ActivityStateRepository<TaskCompletionSource<DeviceListActivity>> StateRepo =
             new ActivityStateRepository<TaskCompletionSource<DeviceListActivity>>();
 
@@ -27,8 +28,7 @@ namespace Aggregator.View.BluetoothAuthorization
             _adapter = new DeviceListAdapter(this);
             ListAdapter = _adapter;
 
-            //TODO: remove magic strings
-            var stateKey = Intent.GetStringExtra("Authorizer");
+            var stateKey = Intent.GetStringExtra(Authorizer);
             var completionSource = StateRepo.Remove(stateKey);
 
             completionSource.SetResult(this);
@@ -44,8 +44,8 @@ namespace Aggregator.View.BluetoothAuthorization
         }
 
         protected override void OnListItemClick(
-            ListView l, 
-            Android.Views.View v, 
+            ListView listView, 
+            Android.Views.View view, 
             int position, 
             long id)
         {
@@ -53,8 +53,6 @@ namespace Aggregator.View.BluetoothAuthorization
         }
     }
 
-    //TODO: use the listview option with the double row to display
-    //https://developer.xamarin.com/guides/android/user_interface/working_with_listviews_and_adapters/part_3_-_customizing_a_listview's_appearance/     
     public class DeviceListAdapter : BaseAdapter<BluetoothDevice>
     {
         private readonly List<BluetoothDevice> _items;
@@ -72,12 +70,20 @@ namespace Aggregator.View.BluetoothAuthorization
         public override BluetoothDevice this[int position] => _items[position];
         public override int Count => _items.Count;
 
-        public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
+        public override Android.Views.View GetView(
+            int position, 
+            Android.Views.View convertView, 
+            ViewGroup parent)
         {
-            Android.Views.View view = convertView; // re-use an existing view, if one is available
-            if (view == null) // otherwise create a new one
-                view = _context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
-            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = _items[position].Name;
+            var view = convertView ?? 
+                _context.LayoutInflater.Inflate(
+                    Android.Resource.Layout.SimpleListItem2, 
+                    null);
+            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = 
+                _items[position].Name;
+            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text =
+                _items[position].Address.ToString();
+
             return view;
         }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Aggregator
+namespace Material.View
 {
     internal class ActivityStateRepository<T>
     {

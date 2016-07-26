@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Aggregator.Configuration;
 using Aggregator.Domain.Write;
 using Aggregator.Infrastructure;
+using Application.Configuration;
 using Foundations.Extensions;
 using Foundations.Serialization;
 using Material.Infrastructure;

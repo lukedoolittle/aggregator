@@ -3,11 +3,13 @@
 using Plugin.CurrentActivity;
 using Android.App;
 using Android.Net;
+using Robotics.Mobile.Core.Bluetooth.LE;
 #elif __IOS__
 using UIKit;
 using System.Net;
 using SystemConfiguration;
 using CoreFoundation;
+using Robotics.Mobile.Core.Bluetooth.LE;
 #endif
 
 namespace Material.Framework
@@ -15,6 +17,8 @@ namespace Material.Framework
     public static class Platform
     {
 #if __ANDROID__
+        public static IAdapter BluetoothAdapter { get; } = new Adapter();
+
         public static Activity Context => CrossCurrentActivity.Current.Activity;
 
         public static Action<Action> RunOnMainThread { get; } =
@@ -40,6 +44,8 @@ namespace Material.Framework
         }
 
 #elif __IOS__
+        public static IAdapter BluetoothAdapter => Adapter.Current;
+
         public static UIViewController Context
         {
             get

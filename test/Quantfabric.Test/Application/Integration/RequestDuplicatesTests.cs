@@ -21,7 +21,7 @@ using Fitbit = Material.Infrastructure.ProtectedResources.Fitbit;
 using Google = Material.Infrastructure.ProtectedResources.Google;
 using TwitterTweet = Material.Infrastructure.Requests.TwitterTweet;
 #if __MOBILE__
-using Aggregator.Infrastructure.Adapters;
+
 #endif
 
 

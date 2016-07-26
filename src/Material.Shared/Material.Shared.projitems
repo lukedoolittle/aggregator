@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\AndroidSMSAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\BluetoothAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\GPSAdapter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Authenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BluetoothAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1AppFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1WebFacade.cs" />
@@ -25,7 +25,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthProtectedResource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Requester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requsters\BluetoothRequester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requsters\GPSRequester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requsters\OAuthRequester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Requsters\SMSRequester.cs" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Material;
 using Android.Content;
 using Android.Graphics;
 using Android.Webkit;
-using Aggregator.Framework;
-using Aggregator.Infrastructure;
 using Foundations.Extensions;
 using Foundations.Http;
 using Material.Contracts;
@@ -13,8 +10,9 @@ using Material.Enums;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using Material.OAuth;
+using Material.Framework;
 
-namespace Aggregator.View.WebAuthorization
+namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI : IOAuthAuthorizerUI
     {
