@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Material.OAuth;
 using Foundations.Http;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Task;
@@ -57,7 +58,7 @@ namespace Material.Infrastructure.OAuth
         {
             var userId = Guid.NewGuid().ToString();
 
-            var securityAlgorithm = new OAuthSecurityStrategy(
+            var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
 
@@ -67,7 +68,7 @@ namespace Material.Infrastructure.OAuth
                         new HttpServer()),
                     null,
                     new OAuthFactory(),
-                    securityAlgorithm);
+                    securityStrategy);
 
             var facade = builder.BuildOAuth2Facade(
                 _provider,
@@ -76,7 +77,7 @@ namespace Material.Infrastructure.OAuth
                 userId,
                 _callbackUrl);
 
-            OAuthAuthenticationTemplate<OAuth2Credentials> template = null;
+            IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;
             switch (_provider.Flow)
             {
                 case ResponseTypeEnum.Token:
@@ -89,7 +90,8 @@ namespace Material.Infrastructure.OAuth
                     template = builder.BuildOAuth2CodeTemplate<TResourceProvider>(
                         facade,
                         _browserType,
-                        userId);
+                        userId,
+                        _clientSecret);
                     break;
                 default:
                     throw new NotSupportedException();

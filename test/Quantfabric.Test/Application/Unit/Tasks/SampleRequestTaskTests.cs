@@ -68,7 +68,7 @@ namespace Aggregator.Test.Unit.Tasks
             var credentialMock = new CredentialMock();
             var requestMock =
                 new AuthenticatedClientMock<CredentialMock>()
-                .SetException<BadHttpRequestException>();
+                .SetException<HttpRequestException>();
             var clientFactoryMock = new ClientFactoryMock().SetReturnClient<RequestMock, CredentialMock>(requestMock, credentialMock);
 
             var aggregateId = Guid.NewGuid();

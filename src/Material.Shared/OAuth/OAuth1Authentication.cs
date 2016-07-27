@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations;
 using Foundations.Extensions;
 using Foundations.Http;
 using Foundations.Serialization;
@@ -14,6 +13,7 @@ using Material.Infrastructure.Credentials;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Authenticators.OAuth;
+using HttpUtility = Foundations.HttpUtility;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -66,7 +66,7 @@ namespace Material.Infrastructure.OAuth
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
 
@@ -75,7 +75,7 @@ namespace Material.Infrastructure.OAuth
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new BadHttpRequestException(string.Format(
+                throw new HttpRequestException(string.Format(
                     StringResources.BadHttpRequestException, 
                     response.StatusCode, 
                     response.Content));
@@ -173,7 +173,7 @@ namespace Material.Infrastructure.OAuth
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
 
@@ -189,7 +189,7 @@ namespace Material.Infrastructure.OAuth
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new BadHttpRequestException(string.Format(
+                throw new HttpRequestException(string.Format(
                     StringResources.BadHttpRequestException,
                     response.StatusCode,
                     response.Content));

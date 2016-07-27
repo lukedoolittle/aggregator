@@ -9,19 +9,18 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
 using Material.Framework;
 
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI : IOAuthAuthorizerUI
     {
-        private readonly OAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
-        public WebViewAuthorizerUI(OAuthCallbackHandler handler)
+        public WebViewAuthorizerUI(IOAuthCallbackHandler handler)
         {
             _handler = handler;
         }
@@ -62,7 +61,7 @@ namespace Material.View.WebAuthorization
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
 

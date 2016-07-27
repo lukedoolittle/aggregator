@@ -1,5 +1,7 @@
 ﻿using System;
+using Foundations.Extensions;
 using Material.Contracts;
+using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
@@ -12,14 +14,12 @@ namespace Material.Facades
     {
         public OAuth2WebFacade(
             string clientId, 
-            string clientSecret, 
             string userId, 
             string callbackUri, 
             IOAuthSecurityStrategy strategy) :
                 base(
                     new TResourceProvider(), 
                     clientId, 
-                    clientSecret, 
                     userId, 
                     callbackUri, 
                     new OAuth2Authentication(), 
@@ -28,13 +28,11 @@ namespace Material.Facades
 
         public OAuth2WebFacade(
             string clientId,
-            string clientSecret,
             string userId,
             string callbackUri) :
                 base(
                     new TResourceProvider(),
                     clientId,
-                    clientSecret,
                     userId,
                     callbackUri,
                     new OAuth2Authentication(),
@@ -43,36 +41,13 @@ namespace Material.Facades
                         TimeSpan.FromMinutes(2)))
         { }
 
-        public OAuth2WebFacade(
-            string clientId,
-            string userId,
-            string callbackUri) :
-                this(
-                    clientId, 
-                    null, 
-                    userId, 
-                    callbackUri)
-        { }
-
-        public OAuth2WebFacade(
-            string clientId,
-            string userId,
-            string callbackUri,
-            IOAuthSecurityStrategy strategy) :
-                this(
-                    clientId,
-                    null, 
-                    userId, 
-                    callbackUri, 
-                    strategy)
-        { }
-
         public OAuth2Credentials ParseAndValidateCallback(
             Uri responseUri)
         {
             var handler = new OAuth2CallbackHandler(
-                _userId, 
-                _strategy);
+                _strategy,
+                OAuth2ParameterEnum.State.EnumToString(),
+                _userId);
 
             return handler.ParseAndValidateCallback<OAuth2Credentials>(
                 responseUri);

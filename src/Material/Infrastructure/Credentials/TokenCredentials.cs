@@ -9,8 +9,8 @@ namespace Material.Infrastructure.Credentials
     public abstract class TokenCredentials
     {
         public abstract bool HasValidPublicKey { get; }
-
         public abstract string ExpiresIn { get; }
+        public abstract bool AreValidIntermediateCredentials { get; }
 
         [JsonProperty("user_id")]
         protected string _userId1;
@@ -26,7 +26,22 @@ namespace Material.Infrastructure.Credentials
         public DateTimeOffset DateCreated { get; protected set; }
 
         [JsonIgnore]
-        public bool IsTokenExpired => !IsTokenValid();
+        public bool IsTokenExpired
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ExpiresIn) || ExpiresIn == "0")
+                {
+                    return false;
+                }
+                else
+                {
+                    var secondsUntilExpiration = Convert.ToInt32(ExpiresIn);
+                    var secondsSinceCreation = (DateTimeOffset.Now - DateCreated).TotalSeconds;
+                    return secondsUntilExpiration > secondsSinceCreation;
+                }
+            }
+        }
 
         [JsonExtensionData]
         public Dictionary<string, object> AdditionalTokenParameters { get; } = 
@@ -38,27 +53,6 @@ namespace Material.Infrastructure.Credentials
                 AdditionalTokenParameters.ToDictionary(
                     k => k.Key, 
                     v => v.Value.ToString()));
-
-        private bool IsTokenValid()
-        {
-            if (string.IsNullOrEmpty(ExpiresIn))
-            {
-                return true;
-            }
-            else
-            {
-                var secondsUntilExpiration = Convert.ToInt32(ExpiresIn);
-                if (secondsUntilExpiration == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    var secondsSinceCreation = (DateTimeOffset.Now - DateCreated).TotalSeconds;
-                    return secondsUntilExpiration > secondsSinceCreation;
-                }
-            }
-        }
 
         public void TimestampToken()
         {

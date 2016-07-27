@@ -135,7 +135,7 @@ namespace Material.Infrastructure.OAuth
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
 
@@ -144,7 +144,7 @@ namespace Material.Infrastructure.OAuth
 
 		    if (response.StatusCode != expectedResponse)
 		    {
-		        throw new BadHttpRequestException(string.Format(
+		        throw new HttpRequestException(string.Format(
                     StringResources.BadHttpRequestException,
                     response.StatusCode,
                     response.Content));

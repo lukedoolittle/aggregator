@@ -1,7 +1,5 @@
 ﻿using System;
-using Material;
 using Material.Exceptions;
-using Aggregator.Configuration;
 using Aggregator.Test;
 using Application.Configuration;
 using Material.Infrastructure.Credentials;
@@ -194,7 +192,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<LinkedIn, OAuth2Credentials>();
-            await Assert.ThrowsAsync<GrantTypeException>(() => new OAuth2AppFacade<LinkedIn>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<LinkedIn>(
                     credentials.ClientId,
                     credentials.CallbackUrl)
                 .GetOAuth2Credentials())
@@ -309,7 +307,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Runkeeper, OAuth2Credentials>();
-            await Assert.ThrowsAsync<GrantTypeException>(() => new OAuth2AppFacade<Runkeeper>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<Runkeeper>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<RunkeeperFitnessActivity>()
@@ -343,7 +341,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Rescuetime, OAuth2Credentials>();
-            await Assert.ThrowsAsync<GrantTypeException>(() => new OAuth2AppFacade<Rescuetime>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<Rescuetime>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<RescuetimeAnalyticData>()

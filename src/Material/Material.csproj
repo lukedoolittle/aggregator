@@ -45,16 +45,18 @@
     <Compile Include="Contracts\IClientFactory.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
+    <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
     <Compile Include="Contracts\IOAuthFactory.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
+    <Compile Include="Enums\OAuth1ParameterEnum.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
-    <Compile Include="Exceptions\GrantTypeException.cs" />
+    <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUI.cs" />
     <Compile Include="Contracts\IOAuthAuthenticationTemplate.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUIFactory.cs" />
-    <Compile Include="Exceptions\BadHttpRequestException.cs" />
-    <Compile Include="Exceptions\ConnectivityException.cs" />
+    <Compile Include="Exceptions\HttpRequestException.cs" />
+    <Compile Include="Exceptions\NoConnectivityException.cs" />
     <Compile Include="Contracts\IBluetoothAdapter.cs" />
     <Compile Include="Contracts\IGPSAdapter.cs" />
     <Compile Include="Contracts\IOAuthProtectedResource.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Enums\OAuthParameterTypeEnum.cs" />
     <Compile Include="Enums\ResponseTypeEnum.cs" />
     <Compile Include="Exceptions\InvalidScopeException.cs" />
-    <Compile Include="Exceptions\JsonResponseFormatException.cs" />
+    <Compile Include="Exceptions\OAuthCallbackErrorException.cs" />
     <Compile Include="Generator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,9 +166,10 @@
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />
     <Compile Include="Metadata\Required.cs" />
-    <Compile Include="OAuth\InMemoryCryptographicParameterRepository.cs" />
+    <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
+    <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
     <Compile Include="OAuth\OAuthBuilder.cs" />
-    <Compile Include="OAuth\OAuthCallbackHandler.cs" />
+    <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\DeviceRequest.cs" />
     <Compile Include="Infrastructure\Device.cs" />
@@ -183,12 +186,16 @@
     <Compile Include="Contracts\IRequestClient.cs" />
     <Compile Include="Metadata\CredentialType.cs" />
     <Compile Include="Metadata\ServiceType.cs" />
-    <Compile Include="OAuth\OAuth1AuthenticationFacade.cs" />
-    <Compile Include="OAuth\OAuth2AuthenticationFacade.cs" />
-    <Compile Include="OAuth\OAuthSecurityStrategy.cs" />
+    <Compile Include="OAuth\Facade\OAuth1AuthenticationFacade.cs" />
+    <Compile Include="OAuth\Facade\OAuth2AuthenticationFacade.cs" />
+    <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
+    <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
+    <Compile Include="OAuth\Template\OAuth1AuthenticationTemplate.cs" />
+    <Compile Include="OAuth\Template\OAuth2CodeAuthenticationTemplate.cs" />
+    <Compile Include="OAuth\Template\OAuth2TokenAuthenticationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OAuth\OAuthAuthenticationTemplate.cs" />
-    <Compile Include="OAuth\RefreshTokenFacade.cs" />
+    <Compile Include="OAuth\Template\OAuthAuthenticationTemplate.cs" />
+    <Compile Include="OAuth\Facade\RefreshTokenFacade.cs" />
     <Compile Include="Infrastructure\Request.cs" />
     <Compile Include="Infrastructure\ResourceProvider.cs" />
     <Compile Include="StringResources.Designer.cs">

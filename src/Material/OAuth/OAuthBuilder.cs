@@ -1,7 +1,9 @@
-﻿using Material.Contracts;
+﻿using Foundations.Extensions;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Template;
 
 namespace Material.OAuth
 {
@@ -16,7 +18,7 @@ namespace Material.OAuth
             IOAuthAuthorizerUIFactory oauthAuthorizerUIFactory, 
             IClientCredentials clientCredentials, 
             IOAuthFactory oauthFactory, 
-            IOAuthSecurityStrategy strategy = null)
+            IOAuthSecurityStrategy strategy)
         {
             _oauthAuthorizerUIFactory = oauthAuthorizerUIFactory;
             _clientCredentials = clientCredentials;
@@ -36,6 +38,7 @@ namespace Material.OAuth
             OAuth1ResourceProvider resourceProvider, 
             string consumerKey, 
             string consumerSecret,
+            string userId,
             string callbackUrl)
         {
             return new OAuth1AuthenticationFacade(
@@ -43,7 +46,9 @@ namespace Material.OAuth
                 consumerKey,
                 consumerSecret,
                 callbackUrl,
-                _oauthFactory.GetOAuth1());
+                userId,
+                _oauthFactory.GetOAuth1(),
+                _strategy);
         }
 
         public IOAuthFacade<OAuth2Credentials> BuildOAuth2Facade(
@@ -56,56 +61,73 @@ namespace Material.OAuth
             return new OAuth2AuthenticationFacade(
                 resourceProvider,
                 clientId,
-                clientSecret,
                 userId,
                 callbackUrl,
                 _oauthFactory.GetOAuth2(),
                 _strategy);
         }
 
-        public OAuthAuthenticationTemplate<OAuth1Credentials> BuildOAuth1Template<TResourceProvider>(
+        public IOAuthAuthenticationTemplate<OAuth1Credentials> BuildOAuth1Template<TResourceProvider>(
             IOAuthFacade<OAuth1Credentials> authentication,
-            AuthenticationInterfaceEnum ui)
+            AuthenticationInterfaceEnum ui,
+            string userId)
             where TResourceProvider : ResourceProvider
         {
-            var handler = new OAuthCallbackHandler();
+            var handler = new OAuth1CallbackHandler(
+                _strategy,
+                OAuth1ParameterEnum.OAuthToken.EnumToString(),
+                userId);
             
             var authenticationUI = _oauthAuthorizerUIFactory
                 .GetAuthorizer<TResourceProvider>(ui, handler);
 
-            return new OAuthAuthenticationTemplate<OAuth1Credentials>(
+            return new OAuth1AuthenticationTemplate(
                 authenticationUI,
-                authentication);
+                authentication, 
+                _strategy, 
+                userId);
         }
 
-        public OAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2CodeTemplate<TResourceProvider>(
+        public IOAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2CodeTemplate<TResourceProvider>(
             IOAuthFacade<OAuth2Credentials> authentication,
             AuthenticationInterfaceEnum ui,
-            string userId)
+            string userId,
+            string clientSecret)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2CallbackHandler(userId, _strategy);
+            var callbackHandler = new OAuth2CallbackHandler(
+                _strategy, 
+                OAuth2ParameterEnum.State.EnumToString(), 
+                userId);
 
             var authenticationUI = _oauthAuthorizerUIFactory
-                .GetAuthorizer<TResourceProvider>(ui, callbackHandler);
+                .GetAuthorizer<TResourceProvider>(
+                    ui, 
+                    callbackHandler);
             
-            return new OAuthAuthenticationTemplate<OAuth2Credentials>(
+            return new OAuth2CodeAuthenticationTemplate(
                 authenticationUI,
-                authentication);
+                authentication,
+                clientSecret);
         }
 
-        public OAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2TokenTemplate<TResourceProvider>(
+        public IOAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2TokenTemplate<TResourceProvider>(
             IOAuthFacade<OAuth2Credentials> authentication,
             AuthenticationInterfaceEnum ui,
             string userId)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2CallbackHandler(userId, _strategy);
+            var callbackHandler = new OAuth2CallbackHandler(
+                _strategy,
+                OAuth2ParameterEnum.State.EnumToString(),
+                userId);
 
             var authenticationUI = _oauthAuthorizerUIFactory
-                .GetAuthorizer<TResourceProvider>(ui, callbackHandler);
+                .GetAuthorizer<TResourceProvider>(
+                    ui, 
+                    callbackHandler);
 
-            return new OAuthTokenAuthenticationTemplate<OAuth2Credentials>(
+            return new OAuth2TokenAuthenticationTemplate(
                 authenticationUI,
                 authentication);
         }

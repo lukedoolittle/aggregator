@@ -3,10 +3,7 @@ using Foundations.Http;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
-using Material.OAuth;
 #if __MOBILE__
-#endif
-#if __ANDROID__
 using Material.View.WebAuthorization;
 #endif
 
@@ -24,7 +21,7 @@ namespace Material
 
         public IOAuthAuthorizerUI GetAuthorizer<TResourceProvider>(
             AuthenticationInterfaceEnum browserType,
-            OAuthCallbackHandler callbackHandler)
+            IOAuthCallbackHandler callbackHandler)
             where TResourceProvider : ResourceProvider
         {
 #if __ANDROID__

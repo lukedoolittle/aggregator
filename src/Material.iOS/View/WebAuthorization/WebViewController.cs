@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using CoreGraphics;
 using UIKit;
 
-namespace Aggregator.View.WebAuthorization
+namespace Material.View.WebAuthorization
 {
     public partial class WebViewController : UIViewController
     {

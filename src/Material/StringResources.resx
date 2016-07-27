@@ -144,13 +144,16 @@
   <data name="ScopeException" xml:space="preserve">
     <value>The requested scope {0} is not valid for the resource provider {1}</value>
   </data>
-  <data name="StateParameterInvalidException" xml:space="preserve">
-    <value>The state parameter returned by the resource provider was '{0}'</value>
+  <data name="CallbackParameterInvalidException" xml:space="preserve">
+    <value>One or more of the parameters in the callback uri was invalid</value>
   </data>
   <data name="BluetoothDialogBody" xml:space="preserve">
     <value>Connecting to {0}</value>
   </data>
   <data name="BluetoothDialogTitle" xml:space="preserve">
     <value>Please Wait</value>
+  </data>
+  <data name="InvalidIntermediateToken" xml:space="preserve">
+    <value>The token is not a valid intermediate OAuth token</value>
   </data>
 </root>

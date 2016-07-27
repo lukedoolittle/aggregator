@@ -5,14 +5,14 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth
 {
-    public class OAuthAuthenticationTemplate<TCredentials> : 
+    public abstract class OAuthAuthenticationTemplateBase<TCredentials> : 
         IOAuthAuthenticationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI _authorizerUI;
-        private readonly IOAuthFacade<TCredentials> _oauthFacade;
+        protected readonly IOAuthFacade<TCredentials> _oauthFacade;
 
-        public OAuthAuthenticationTemplate(
+        protected OAuthAuthenticationTemplateBase(
             IOAuthAuthorizerUI authorizerUI, 
             IOAuthFacade<TCredentials> oauthFacade)
         {
@@ -48,28 +48,7 @@ namespace Material.OAuth
                 authorizationPath);
         }
 
-        protected virtual Task<TCredentials> GetAccessTokenFromIntermediateResult(
-            TCredentials intermediateResult)
-        {
-            return _oauthFacade
-                .GetAccessTokenFromCallbackResult(intermediateResult);
-        }
-    }
-
-    public class OAuthTokenAuthenticationTemplate<TCredentials> :
-        OAuthAuthenticationTemplate<TCredentials>
-        where TCredentials : TokenCredentials
-    {
-        public OAuthTokenAuthenticationTemplate(
-            IOAuthAuthorizerUI authorizerUI,
-            IOAuthFacade<TCredentials> oauthFacade) :
-            base(authorizerUI, oauthFacade)
-        {}
-
-        protected override Task<TCredentials> GetAccessTokenFromIntermediateResult(
-            TCredentials intermediateResult)
-        {
-            return Task.FromResult(intermediateResult);
-        }
+        protected abstract Task<TCredentials> GetAccessTokenFromIntermediateResult(
+            TCredentials intermediateResult);
     }
 }

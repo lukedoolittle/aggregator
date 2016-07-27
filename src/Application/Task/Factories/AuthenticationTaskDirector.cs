@@ -57,6 +57,7 @@ namespace Aggregator.Task.Factories
             }
             if (resourceProvider is OAuth1ResourceProvider)
             {
+                var userId = aggregateId.ToString();
                 var provider = resourceProvider as OAuth1ResourceProvider;
                 var credentials = _builder
                     .BuildCredentials<TResourceProvider, OAuth1Credentials>();
@@ -65,11 +66,13 @@ namespace Aggregator.Task.Factories
                     provider, 
                     credentials.ConsumerKey, 
                     credentials.ConsumerSecret,
+                    userId,
                     credentials.CallbackUrl);
 
                 var template = _builder.BuildOAuth1Template<TResourceProvider>(
                     authentication, 
-                    browserType);
+                    browserType,
+                    userId);
 
                 return new OAuthAuthenticationTask<OAuth1Credentials, TResourceProvider>(
                     aggregateId,
@@ -92,7 +95,7 @@ namespace Aggregator.Task.Factories
                     userId,
                     credentials.CallbackUrl);
 
-                OAuthAuthenticationTemplate<OAuth2Credentials> template = null;
+                IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;
                 switch (provider.Flow)
                 {
                     case ResponseTypeEnum.Token:
@@ -105,7 +108,8 @@ namespace Aggregator.Task.Factories
                         template = _builder.BuildOAuth2CodeTemplate<TResourceProvider>(
                             authentication,
                             browserType,
-                            userId);
+                            userId, 
+                            credentials.ClientSecret);
                         break;
                     default:
                         throw new NotSupportedException();

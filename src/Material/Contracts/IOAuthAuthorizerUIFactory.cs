@@ -1,6 +1,5 @@
 ﻿using Material.Enums;
 using Material.Infrastructure;
-using Material.OAuth;
 
 namespace Material.Contracts
 {
@@ -8,7 +7,7 @@ namespace Material.Contracts
     {
         IOAuthAuthorizerUI GetAuthorizer<TService>(
             AuthenticationInterfaceEnum browserType,
-            OAuthCallbackHandler callbackHandler)
+            IOAuthCallbackHandler callbackHandler)
             where TService : ResourceProvider;
     }
 }

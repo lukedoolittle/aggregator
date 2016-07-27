@@ -98,6 +98,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One or more of the parameters in the callback uri was invalid.
+        /// </summary>
+        public static string CallbackParameterInvalidException {
+            get {
+                return ResourceManager.GetString("CallbackParameterInvalidException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given type is not a subclass of Event.
         /// </summary>
         public static string GenericTypeException {
@@ -134,6 +143,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The token is not a valid intermediate OAuth token.
+        /// </summary>
+        public static string InvalidIntermediateToken {
+            get {
+                return ResourceManager.GetString("InvalidIntermediateToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks for sharing!.
         /// </summary>
         public static string OAuthCallbackResponse {
@@ -157,15 +175,6 @@ namespace Material {
         public static string ScopeException {
             get {
                 return ResourceManager.GetString("ScopeException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The state parameter returned by the resource provider was &apos;{0}&apos;.
-        /// </summary>
-        public static string StateParameterInvalidException {
-            get {
-                return ResourceManager.GetString("StateParameterInvalidException", resourceCulture);
             }
         }
     }

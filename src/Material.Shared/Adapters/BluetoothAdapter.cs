@@ -124,7 +124,7 @@ namespace Material.Adapters
 
                 if (device == null)
                 {
-                    throw new ConnectivityException(string.Format(
+                    throw new NoConnectivityException(string.Format(
                         StringResources.BluetoothConnectivityException,
                         deviceAddress.ToString()));
                 }

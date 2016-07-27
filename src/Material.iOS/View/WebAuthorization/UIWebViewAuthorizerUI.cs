@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Material;
 using Foundation;
-using Aggregator.Framework;
-using Aggregator.Infrastructure;
 using Material.Contracts;
 using Material.Enums;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
 using UIKit;
+using Material.Framework;
 
-namespace Aggregator.View.WebAuthorization
+namespace Material.View.WebAuthorization
 {
     public class UIWebViewAuthorizerUI : IOAuthAuthorizerUI
     {
-        private readonly OAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
-        public UIWebViewAuthorizerUI(OAuthCallbackHandler handler)
+        public UIWebViewAuthorizerUI(IOAuthCallbackHandler handler)
         {
             _handler = handler;
         }
@@ -43,7 +40,7 @@ namespace Aggregator.View.WebAuthorization
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
             webView.LoadRequest(new NSUrlRequest(new NSUrl(authorizationUri.ToString())));
@@ -70,18 +67,18 @@ namespace Aggregator.View.WebAuthorization
             return await taskCompletionSource.Task.ConfigureAwait(false);
         }
 
-        private static UIViewController GetCurrentController()
-        {
-            var viewController = UIApplication
-                .SharedApplication
-                .KeyWindow
-                .RootViewController;
-            while (viewController.PresentedViewController != null)
-            {
-                viewController = viewController.PresentedViewController;
-            }
+        //private static UIViewController GetCurrentController()
+        //{
+        //    var viewController = UIApplication
+        //        .SharedApplication
+        //        .KeyWindow
+        //        .RootViewController;
+        //    while (viewController.PresentedViewController != null)
+        //    {
+        //        viewController = viewController.PresentedViewController;
+        //    }
 
-            return viewController;
-        }
+        //    return viewController;
+        //}
     }
 }

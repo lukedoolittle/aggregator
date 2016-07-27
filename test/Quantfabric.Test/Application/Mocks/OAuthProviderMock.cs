@@ -32,9 +32,9 @@ namespace Aggregator.Test.Mocks
             }
         }
 
-        public Task<TCredentials> GetAccessTokenFromCallbackResult(TCredentials result)
+        public Task<TCredentials> GetAccessTokenFromCallbackResult(TCredentials result, string secret)
         {
-            var thisResult = _invoker.Invoke(a => a.GetAccessTokenFromCallbackResult(result));
+            var thisResult = _invoker.Invoke(a => a.GetAccessTokenFromCallbackResult(result, secret));
             return thisResult;
         }
 
@@ -50,7 +50,8 @@ namespace Aggregator.Test.Mocks
         {
             _context.Arrange(
                 a => a.GetAccessTokenFromCallbackResult(
-                    The<TCredentials>.IsAnyValue))
+                    The<TCredentials>.IsAnyValue, 
+                    The<string>.IsAnyValue))
                     .Returns(Task.FromResult(result));
 
             return this;

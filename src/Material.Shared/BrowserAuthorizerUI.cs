@@ -7,21 +7,20 @@ using Material.Enums;
 using Material.Exceptions;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
 
 namespace Material.Infrastructure
 {
     public class BrowserAuthorizerUI : IOAuthAuthorizerUI
     {
         private readonly HttpServer _httpServer;
-        private readonly OAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler _handler;
 
         public AuthenticationInterfaceEnum BrowserType =>
             AuthenticationInterfaceEnum.Dedicated;
 
         public BrowserAuthorizerUI(
             HttpServer httpServer,
-            OAuthCallbackHandler handler)
+            IOAuthCallbackHandler handler)
         {
             _httpServer = httpServer;
             _handler = handler;
@@ -40,12 +39,16 @@ namespace Material.Infrastructure
                 (request, response) =>
                 {
                     response.WriteHtmlString(FRAGMENT_HTML);
-                    var result = _handler
-                        .ParseAndValidateCallback<TToken>(
-                            request.Uri);
-                    if (result != null)
+                    try
                     {
+                        var result = _handler
+                            .ParseAndValidateCallback<TToken>(
+                                request.Uri);
                         taskCompletion.SetResult(result);
+                    }
+                    catch (Exception e)
+                    {
+                        taskCompletion.SetException(e);
                     }
                 })
                 .Listen(callbackUri);
@@ -54,7 +57,7 @@ namespace Material.Infrastructure
 
             if (!Platform.IsOnline)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);
             }
 
@@ -67,20 +70,33 @@ namespace Material.Infrastructure
 
         private const string FRAGMENT_HTML =
             @"<html>
-                <head>
-                    <script>
-                        window.onload = function() {
-			                if (window.location.hash && !window.location.search.slice(1))
+	            <head>
+		            <script>
+			            window.onload = function() {
+				            if (window.location.hash && !window.location.search.slice(1))
 				            {
 					            var url = window.location;
                                 var newQuerystring = url.hash.substr(1);
                                 var newUrl = url.pathname + '?' + newQuerystring;
-
-                                var xmlHttp = new XMLHttpRequest();
-                                xmlHttp.open('GET', newUrl, true);
-					            xmlHttp.send(null);
-				            }
-                        }
+					
+					            if(!parameterNullOrEmpty(""access_token"", newUrl) || 
+					               !parameterNullOrEmpty(""accessToken"", newUrl)) {
+						            var xmlHttp = new XMLHttpRequest();
+                                    xmlHttp.open('GET', newUrl, true);
+						            xmlHttp.send(null);
+					            }
+                            }
+			            }
+			
+			            function parameterNullOrEmpty(name, url)
+                            {
+                                name = name.replace(/[\[\]]/ g, ""\\$&"");
+                                var regex = new RegExp(""[?&]"" + name + ""(=([^&#]*)|&|#|$)"");
+                                var results = regex.exec(url);
+                                if (!results) return true;
+                                if (!results[2]) return true;
+                                return false;
+                            }
 		            </script>
 	            </head>
 	            <body>Thanks for sharing!</body>

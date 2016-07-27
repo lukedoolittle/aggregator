@@ -12,7 +12,6 @@ namespace Material.OAuth
         IOAuthFacade<OAuth2Credentials>
     {
         private readonly string _clientId;
-        private readonly string _clientSecret;
         protected readonly string _userId;
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuth2Authentication _oauth;
@@ -23,30 +22,17 @@ namespace Material.OAuth
         public OAuth2AuthenticationFacade(
             OAuth2ResourceProvider resourceProvider,
             string clientId,
-            string clientSecret,
             string userId,
             string callbackUri,
             IOAuth2Authentication oauth,
             IOAuthSecurityStrategy strategy)
         {
             _clientId = clientId;
-            _clientSecret = clientSecret;
             _resourceProvider = resourceProvider;
             CallbackUri = new Uri(callbackUri);
             _oauth = oauth;
             _strategy = strategy;
             _userId = userId;
-
-            _resourceProvider.SetClientProperties(
-                clientId, 
-                clientSecret);
-        }
-
-        public OAuth2AuthenticationFacade AddScope<TRequest>()
-            where TRequest : OAuthRequest, new()
-        {
-            _resourceProvider.AddRequestScope<TRequest>();
-            return this;
         }
 
         public Task<Uri> GetAuthorizationUri()
@@ -69,12 +55,17 @@ namespace Material.OAuth
         }
 
         public async Task<OAuth2Credentials> GetAccessTokenFromCallbackResult(
-            OAuth2Credentials result)
+            OAuth2Credentials result,
+            string secret)
         {
+            _resourceProvider.SetClientProperties(
+                _clientId,
+                secret);
+
             var accessToken = await _oauth.GetAccessToken(
                 _resourceProvider.TokenUrl,
                 _clientId,
-                _clientSecret,
+                secret,
                 CallbackUri,
                 result.Code,
                 _resourceProvider.Scope,
@@ -85,7 +76,7 @@ namespace Material.OAuth
                 .SetTokenName(_resourceProvider.TokenName)
                 .SetClientProperties(
                     _clientId, 
-                    _clientSecret);
+                    secret);
         }
     }
 }

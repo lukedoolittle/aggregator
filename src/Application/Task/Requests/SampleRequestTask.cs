@@ -67,7 +67,7 @@ namespace Aggregator.Task.Requests
                     TaskContinuationOptions.OnlyOnRanToCompletion)
                 .ContinueWith(task =>
                  {
-                     if (task.Exception?.Flatten().InnerException is BadHttpRequestException)
+                     if (task.Exception?.Flatten().InnerException is HttpRequestException)
                      {
                          throw new InvalidServiceRequestException<TService>();
                      }

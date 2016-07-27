@@ -27,6 +27,10 @@ namespace Material.Infrastructure.Credentials
         [JsonIgnore]
         public override string ExpiresIn => _expiresIn ?? _expiresInAlternate;
 
+        public override bool AreValidIntermediateCredentials =>
+            !string.IsNullOrEmpty(Code) ||
+            !string.IsNullOrEmpty(AccessToken);
+
         [JsonProperty("refresh_token")]
         public string RefreshToken { get; private set; }
 

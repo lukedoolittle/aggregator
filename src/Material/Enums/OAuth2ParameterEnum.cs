@@ -26,5 +26,7 @@ namespace Material.Enums
         BearerHeader,
         [Description("Basic")]
         BasicHeader,
+        [Description("error")]
+        Error
     }
 }

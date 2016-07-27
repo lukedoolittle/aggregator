@@ -11,6 +11,8 @@ namespace Material.Contracts
 
         Task<Uri> GetAuthorizationUri();
 
-        Task<TCredentials> GetAccessTokenFromCallbackResult(TCredentials result);
+        Task<TCredentials> GetAccessTokenFromCallbackResult(
+            TCredentials result, 
+            string secret);
     }
 }

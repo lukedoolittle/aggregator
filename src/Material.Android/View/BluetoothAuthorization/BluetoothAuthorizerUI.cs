@@ -53,7 +53,7 @@ namespace Material.View.BluetoothAuthorization
                 }
                 else
                 {
-                    throw new ConnectivityException(string.Format(
+                    throw new NoConnectivityException(string.Format(
                         StringResources.BluetoothConnectivityException, 
                         device.Address.ToString()));
                 }

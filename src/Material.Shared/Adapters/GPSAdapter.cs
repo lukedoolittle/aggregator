@@ -23,7 +23,7 @@ namespace Material.Adapters
         {
             if (!_geolocator.IsGeolocationEnabled)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.GPSDisabledConnectivityException);
             }
 
@@ -42,7 +42,7 @@ namespace Material.Adapters
             }
             catch (Exception)
             {
-                throw new ConnectivityException(
+                throw new NoConnectivityException(
                     StringResources.GPSTimeoutConnectivityException);
             }
         }

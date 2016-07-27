@@ -2,7 +2,7 @@
 
 namespace Material.Exceptions
 {
-    public class JsonResponseFormatException : Exception
+    public class OAuthCallbackErrorException : Exception
     {
     }
 }

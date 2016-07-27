@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Material.OAuth;
 using Foundations.Http;
 using Material.Enums;
@@ -34,20 +35,29 @@ namespace Material.Infrastructure.OAuth
 
         public Task<OAuth1Credentials> GetOAuth1Credentials()
         {
+            var userId = Guid.NewGuid().ToString();
+
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+
             var builder =
                 new OAuthBuilder(
                     new OAuthAuthorizerUIFactory(
                         new HttpServer()),
                     null,
-                    new OAuthFactory());
+                    new OAuthFactory(),
+                    securityStrategy);
             var facade = builder.BuildOAuth1Facade(
                 new TResourceProvider(),
                 _consumerKey,
-                _consumerSecret,
+                _consumerSecret, 
+                userId,
                 _callbackUrl);
             var template = builder.BuildOAuth1Template<TResourceProvider>(
                 facade,
-                _browserType);
+                _browserType,
+                userId);
 
             return template.GetAccessTokenCredentials();
         }

@@ -26,14 +26,16 @@ namespace Material.Infrastructure.Credentials
         public OAuthParameterTypeEnum ParameterHandling { get; private set; }
 
         [JsonProperty("x_auth_expires")]
-#pragma warning disable 649
         private string _expires;
-#pragma warning restore 649
+
 
 	    [JsonIgnore]
 	    public override string ExpiresIn => _expires;
 
-        public OAuth1Credentials SetConsumerProperties(
+	    public override bool AreValidIntermediateCredentials =>
+	        !string.IsNullOrEmpty(Verifier);
+
+	    public OAuth1Credentials SetConsumerProperties(
 	        string consumerKey,
 	        string consumerSecret)
 	    {

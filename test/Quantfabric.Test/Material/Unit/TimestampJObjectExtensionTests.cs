@@ -5,6 +5,7 @@ using Aggregator.Framework.Exceptions;
 using Aggregator.Framework.Extensions;
 using Foundations.Serialization;
 using Material.Exceptions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
@@ -58,7 +59,7 @@ namespace Quantfabric.Test.Material.Unit
         {
             var data = (_data["something"] as JObject).First;
 
-            Assert.Throws<JsonResponseFormatException>(() => data.InContainer());
+            Assert.Throws<JsonSerializationException>(() => data.InContainer());
         }
 
         [Fact]

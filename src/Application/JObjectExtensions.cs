@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using Aggregator.Framework.Exceptions;
 using Material.Exceptions;
+using Newtonsoft.Json;
 
 namespace Aggregator.Framework.Extensions
 {
@@ -76,7 +77,7 @@ namespace Aggregator.Framework.Extensions
                 return new List<JObject> { result };
             }
 
-            throw new JsonResponseFormatException();
+            throw new JsonSerializationException();
         }
 	}
 }

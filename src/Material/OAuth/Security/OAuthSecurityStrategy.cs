@@ -30,6 +30,18 @@ namespace Material.OAuth
                 _cryptographicParameterTimeout);
         }
 
+        public void SetSecureParameter(
+            string userId, 
+            string parameterName, 
+            string parameterValue)
+        {
+            _repository.SetCryptographicParameterValue(
+                userId, 
+                parameterName, 
+                parameterValue, 
+                DateTimeOffset.Now);
+        }
+
         public bool IsSecureParameterValid(
             string userId, 
             string parameterName, 

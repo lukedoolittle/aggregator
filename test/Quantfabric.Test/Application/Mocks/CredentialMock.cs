@@ -10,6 +10,7 @@ namespace Aggregator.Test.Mocks
         public Guid Id { get; set; }
         public override bool HasValidPublicKey { get; }
         public override string ExpiresIn => _expiresIn;
+        public override bool AreValidIntermediateCredentials { get; }
 
         public void Expire()
         {

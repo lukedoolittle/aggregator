@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.Extensions;
 using Material.Contracts;
+using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
@@ -12,9 +14,9 @@ namespace Material.OAuth
         private readonly OAuth1ResourceProvider _resourceProvider;
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
-        private string _oauthToken;
-        private string _oauthSecret;
+        protected readonly string _userId;
         private readonly IOAuth1Authentication _oauth;
+        protected readonly IOAuthSecurityStrategy _securityStrategy;
 
         public Uri CallbackUri { get; }
 
@@ -23,12 +25,16 @@ namespace Material.OAuth
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            IOAuth1Authentication oauth)
+            string userId,
+            IOAuth1Authentication oauth, 
+            IOAuthSecurityStrategy securityStrategy)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _resourceProvider = resourceProvider;
             _oauth = oauth;
+            _securityStrategy = securityStrategy;
+            _userId = userId;
             CallbackUri = new Uri(callbackUrl);
         }
 
@@ -36,34 +42,42 @@ namespace Material.OAuth
         {
             var credentials =
                 await _oauth
-                .GetRequestToken(
-                    _resourceProvider.RequestUrl,
-                    _consumerKey,
-                    _consumerSecret,
-                    _resourceProvider.ParameterType,
-                    CallbackUri)
-                .ConfigureAwait(false);
+                    .GetRequestToken(
+                        _resourceProvider.RequestUrl,
+                        _consumerKey,
+                        _consumerSecret,
+                        _resourceProvider.ParameterType,
+                        CallbackUri)
+                    .ConfigureAwait(false);
 
             var authorizationPath =
                 _oauth.GetAuthorizationUri(
                     credentials.OAuthToken,
                     _resourceProvider.AuthorizationUrl);
 
-            _oauthToken = credentials.OAuthToken;
-            _oauthSecret = credentials.OAuthSecret;
+            _securityStrategy.SetSecureParameter(
+                _userId, 
+                OAuth1ParameterEnum.OAuthToken.EnumToString(), 
+                credentials.OAuthToken);
+            _securityStrategy.SetSecureParameter(
+                _userId,
+                OAuth1ParameterEnum.OAuthTokenSecret.EnumToString(),
+                credentials.OAuthSecret);
+
             return authorizationPath;
         }
 
         public async Task<OAuth1Credentials> GetAccessTokenFromCallbackResult(
-            OAuth1Credentials result)
+            OAuth1Credentials result,
+            string secret)
         {
             var token = await _oauth
                 .GetAccessToken(
                     _resourceProvider.TokenUrl,
                     _consumerKey,
                     _consumerSecret,
-                    _oauthToken,
-                    _oauthSecret,
+                    result.OAuthToken,
+                    secret,
                     result.Verifier,
                     _resourceProvider.ParameterType,
                     result.AdditionalParameters)

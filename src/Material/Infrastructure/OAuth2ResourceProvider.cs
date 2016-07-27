@@ -33,7 +33,7 @@ namespace Material.Infrastructure
 
             if (!Flows.Contains(Flow))
             {
-                throw new GrantTypeException(
+                throw new InvalidGrantTypeException(
                     string.Format(
                         StringResources.GrantTypeNotSupportedException,
                         GetType().Name));
