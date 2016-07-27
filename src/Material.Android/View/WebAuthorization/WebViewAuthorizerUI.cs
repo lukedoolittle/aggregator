@@ -31,18 +31,17 @@ namespace Material.View.WebAuthorization
             where TToken : TokenCredentials
         {
             var taskCompletion = new TaskCompletionSource<TToken>();
-            var webViewCompletionSource = new TaskCompletionSource<WebView>();
+            var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
             var context = Platform.Context;
 
             var intent = new Intent(context, typeof(WebViewActivity));
-            //TODO: remove magic strings
             intent.PutExtra(
-                "Authorizer", 
+                WebViewActivity.Authorizer, 
                 WebViewActivity.StateRepo.Add(webViewCompletionSource));
             context.StartActivity(intent);
             
-            var webView = await webViewCompletionSource.Task.ConfigureAwait(false);
-            webView.SetWebViewClient(
+            var activity = await webViewCompletionSource.Task.ConfigureAwait(false);
+            activity.View.SetWebViewClient(
                 new AuthorizingWebViewClient((view, url, favicon) =>
                 {
                     if (url.Contains(callbackUri.AbsoluteUri))
@@ -56,6 +55,7 @@ namespace Material.View.WebAuthorization
                             .ParseAndValidateCallback<TToken>(
                                 new Uri(url));
                         taskCompletion.SetResult(result);
+                        activity.Finish();
                     }
                 }));
 
@@ -65,7 +65,7 @@ namespace Material.View.WebAuthorization
                     StringResources.OfflineConnectivityException);
             }
 
-            webView.LoadUrl(authorizationUri.ToString());
+            activity.View.LoadUrl(authorizationUri.ToString());
 
             return await taskCompletion.Task.ConfigureAwait(false);
         }

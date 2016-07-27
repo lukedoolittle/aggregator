@@ -52,5 +52,17 @@ namespace Material.Facades
             return handler.ParseAndValidateCallback<OAuth2Credentials>(
                 responseUri);
         }
+
+        public OAuth2Credentials ParseAndValidateTokenCallback(
+            Uri responseUri)
+        {
+            var handler = new OAuth2TokenCallbackHandler(
+                _strategy,
+                OAuth2ParameterEnum.State.EnumToString(),
+                _userId);
+
+            return handler.ParseAndValidateCallback<OAuth2Credentials>(
+                responseUri);
+        }
     }
 }

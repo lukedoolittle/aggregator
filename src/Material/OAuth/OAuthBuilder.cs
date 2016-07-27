@@ -117,7 +117,7 @@ namespace Material.OAuth
             string userId)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2CallbackHandler(
+            var callbackHandler = new OAuth2TokenCallbackHandler(
                 _strategy,
                 OAuth2ParameterEnum.State.EnumToString(),
                 userId);

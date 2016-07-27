@@ -257,7 +257,7 @@ paket-files/
 
 # Key files
 NuGet.config
-build\Material.NuGet\lib
+build/Material.NuGet/lib
 CredentialApplicationSettings.cs
 testCredentials.json
 

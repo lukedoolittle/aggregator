@@ -52,22 +52,14 @@ namespace Material.OAuth
             return token;
         }
 
-        protected HttpValueCollection ParseQuerystring(Uri uri)
+        protected virtual HttpValueCollection ParseQuerystring(Uri uri)
         {
-            string uriPart = null;
-
-            if (!string.IsNullOrEmpty(uri.Fragment))
+            if (!string.IsNullOrEmpty(uri.Query) && uri.Query != "?")
             {
-                uriPart = uri.Fragment;
-            }
-            else if (!string.IsNullOrEmpty(uri.Query) && uri.Query != "?")
-            {
-                uriPart = uri.Query;
+                return HttpUtility.ParseQueryString(uri.Query);
             }
 
-            return uriPart != null ?
-                HttpUtility.ParseQueryString(uriPart) :
-                null;
+            return null;
         }
 
         protected virtual bool IsResponseSecure(HttpValueCollection query)

@@ -9,27 +9,30 @@ namespace Material.View.WebAuthorization
     [Activity(Label = "WebViewActivity")]
     public class WebViewActivity : Activity
     {
-        internal static readonly ActivityStateRepository<TaskCompletionSource<WebView>> StateRepo =
-            new ActivityStateRepository<TaskCompletionSource<WebView>>();
+        internal const string Authorizer = "Authorizer";
+
+        internal static readonly ActivityStateRepository<TaskCompletionSource<WebViewActivity>> StateRepo =
+            new ActivityStateRepository<TaskCompletionSource<WebViewActivity>>();
+
+        public WebView View { get; private set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            var webView = new WebView(this);
+            View = new WebView(this);
 
-            webView.Settings.JavaScriptEnabled = true;
-            webView.Settings.BuiltInZoomControls = true;
-            webView.Settings.SetSupportZoom(true);
-            webView.ScrollBarStyle = ScrollbarStyles.OutsideOverlay;        
-            webView.ScrollbarFadingEnabled = false;
+            View.Settings.JavaScriptEnabled = true;
+            View.Settings.BuiltInZoomControls = true;
+            View.Settings.SetSupportZoom(true);
+            View.ScrollBarStyle = ScrollbarStyles.OutsideOverlay;
+            View.ScrollbarFadingEnabled = false;
 
-            SetContentView(webView);
+            SetContentView(View);
 
-            //TODO: remove magic strings
-            var stateKey = Intent.GetStringExtra("Authorizer");
+            var stateKey = Intent.GetStringExtra(Authorizer);
             var authorizer = StateRepo.Remove(stateKey);
-            authorizer.SetResult(webView);
+            authorizer.SetResult(this);
         }
     }
 }

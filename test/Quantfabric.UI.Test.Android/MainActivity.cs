@@ -21,8 +21,20 @@ namespace Quantfabric.UI.Test.Android
 
             SetContentView(Resource.Layout.Main);
 
-            FindViewById<Button>(Resource.Id.facebookAuth).Click += (sender, args) => 
+            FindViewById<Button>(Resource.Id.facebookAuth).Click += async (sender, args) => 
             {
+                var credentials = settings
+                    .GetClientCredentials<Facebook, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Facebook>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<FacebookEvent>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
             FindViewById<Button>(Resource.Id.twitterAuth).Click += async (sender, args) =>
