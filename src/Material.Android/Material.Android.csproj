@@ -132,7 +132,11 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)Material.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y
-xcopy "$(TargetDir)Material.Portable.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y</PostBuildEvent>
+xcopy "$(TargetDir)Material.Portable.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y
+xcopy "$(TargetDir)Foundations.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y
+xcopy "$(TargetDir)Foundations.Cryptography.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y
+xcopy "$(TargetDir)Foundations.Http.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y
+xcopy "$(TargetDir)Foundations.Serialization.dll" "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60" /Y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>rmdir /s /q "$(SolutionDir)build\Material.NuGet\lib\MonoAndroid60"
