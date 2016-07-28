@@ -8,9 +8,10 @@ using Android.Runtime;
 using Android.Telephony;
 using Newtonsoft.Json.Linq;
 using Android.App;
+using Foundations.Extensions;
 using Material.Contracts;
-using Object = Java.Lang.Object;
 using Material.Framework;
+using Material.Infrastructure.Static;
 
 namespace Material.Adapters
 {
@@ -22,18 +23,24 @@ namespace Material.Adapters
     {
         //public Action<IEnumerable<Tuple<DateTimeOffset, JObject>>> Handler { get; set; }
 
-        public async Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> GetAllSMS(string filterDate)
+        public async Task<IEnumerable<SMSMessage>> GetAllSMS(DateTime filterDate)
         {
-            var date = string.IsNullOrEmpty(filterDate) ? 0 : Convert.ToInt64(filterDate);
+            long dateTimeInSeconds = 0;
+            if (filterDate != default(DateTime))
+            {
+                dateTimeInSeconds = Convert.ToInt64(filterDate.ToUnixTimeSeconds());
+            }
+            
+            var inboxMessages = await ContentManager
+                .GetSMSInboxMessages(dateTimeInSeconds)
+                .ConfigureAwait(false);
 
-            var inboxMessages = await ContentManager.GetSMSInboxMessages(date).ConfigureAwait(false);
-            var sentMessages = await ContentManager.GetSMSSentMessages(date).ConfigureAwait(false);
 
-            //TODO: this needs to parse the datetime correctly
-            return inboxMessages.Concat(sentMessages).Select(
-                text => new Tuple<DateTimeOffset, JObject>(
-                    DateTimeOffset.Parse(text[Telephony.Sms.Inbox.InterfaceConsts.Date].ToString()) ,
-                    text));
+            var sentMessages = await ContentManager
+                .GetSMSSentMessages(dateTimeInSeconds)
+                .ConfigureAwait(false);
+
+            return inboxMessages.Concat(sentMessages);
         }
 
         //public override void OnReceive(
@@ -77,7 +84,7 @@ namespace Material.Adapters
         private static Android.Net.Uri SMS_INBOX_URI = Android.Net.Uri.Parse("content://sms/inbox");
         private static Android.Net.Uri SMS_SENT_URI = Android.Net.Uri.Parse("content://sms/sent");
 
-        private static Task<IEnumerable<JObject>> GetMessages(
+        private static Task<IEnumerable<SMSMessage>> GetMessages(
             long filterDate,
             Android.Net.Uri uri,
             string date,
@@ -87,7 +94,7 @@ namespace Material.Adapters
             string dateSent,
             string creator)
         {
-            var taskCompletionSource = new TaskCompletionSource<IEnumerable<JObject>>();
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<SMSMessage>>();
             var addresses = new Dictionary<long, string>();
 
             Platform.RunOnMainThread(() =>
@@ -98,7 +105,7 @@ namespace Material.Adapters
                     .ContentResolver
                     .Query(uri, null, null, null, null);
 
-                var textMessages = new List<JObject>();
+                var textMessages = new List<SMSMessage>();
 
                 if (cursor.MoveToFirst())
                 {
@@ -108,13 +115,13 @@ namespace Material.Adapters
 
                         if (messageDate > filterDate)
                         {
-                            var message = new JObject
+                            var message = new SMSMessage
                             {
-                                [date] = messageDate,
-                                [subject] = cursor.GetString(cursor.GetColumnIndex(subject)),
-                                [body] = cursor.GetString(cursor.GetColumnIndex(body)),
-                                [dateSent] = cursor.GetString(cursor.GetColumnIndex(dateSent)),
-                                [creator] = cursor.GetString(cursor.GetColumnIndex(creator))
+                                Date = messageDate,
+                                Subject = cursor.GetString(cursor.GetColumnIndex(subject)),
+                                Body = cursor.GetString(cursor.GetColumnIndex(body)),
+                                DateSent = cursor.GetLong(cursor.GetColumnIndex(dateSent)),
+                                Creator = cursor.GetString(cursor.GetColumnIndex(creator))
                             };
 
                             var messageAddress = cursor.GetLong(cursor.GetColumnIndex(address));
@@ -124,7 +131,7 @@ namespace Material.Adapters
                                 addresses[messageAddress] = GetContactInfoFromAddress(messageAddress);
                             }
 
-                            message[address] = addresses[messageAddress];
+                            message.Address = addresses[messageAddress];
                             textMessages.Add(message);
                         }
                     } while (cursor.MoveToNext());
@@ -136,7 +143,7 @@ namespace Material.Adapters
             return taskCompletionSource.Task;
         }
 
-        public static Task<IEnumerable<JObject>> GetSMSInboxMessages(long filterDate)
+        public static Task<IEnumerable<SMSMessage>> GetSMSInboxMessages(long filterDate)
         {
             return GetMessages(
                 filterDate,
@@ -149,7 +156,7 @@ namespace Material.Adapters
                 Telephony.Sms.Inbox.InterfaceConsts.Creator);
         }
 
-        public static Task<IEnumerable<JObject>> GetSMSSentMessages(long filterDate)
+        public static Task<IEnumerable<SMSMessage>> GetSMSSentMessages(long filterDate)
         {
             return GetMessages(
                 filterDate,

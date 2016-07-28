@@ -20,7 +20,8 @@ namespace Aggregator.Infrastructure.Clients
         public Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> GetDataPoints(
             string recencyValue)
         {
-            return _manager.GetAllSMS(recencyValue);
+            //return _manager.GetAllSMS(recencyValue);
+            return null;
         }
     }
 }

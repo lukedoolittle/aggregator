@@ -116,6 +116,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access to GPS was not granted.
+        /// </summary>
+        public static string GPSAuthorizationException {
+            get {
+                return ResourceManager.GetString("GPSAuthorizationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GPS device is not enabled.
         /// </summary>
         public static string GPSDisabledConnectivityException {

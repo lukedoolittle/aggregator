@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2AppFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2RefreshFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2WebFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GPSAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1Authentication.cs" />

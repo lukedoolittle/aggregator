@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Material.Infrastructure.Static;
 
 namespace Material.Contracts
 {
@@ -9,6 +9,6 @@ namespace Material.Contracts
     {
         //Action<IEnumerable<Tuple<DateTimeOffset, JObject>>> Handler { get; set; }
 
-        Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> GetAllSMS(string filterDate);
+        Task<IEnumerable<SMSMessage>> GetAllSMS(DateTime filterDate);
     }
 }

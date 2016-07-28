@@ -1,6 +1,7 @@
 ﻿#if __ANDROID__
+using System;
 using Material.Adapters;
-using Foundations.Serialization;
+using Material.Infrastructure.Static;
 
 namespace Material
 {
@@ -8,13 +9,15 @@ namespace Material
 
     public class SMSRequester
     {
-        public static async Task<string> MakeSMSRequest()
+        public async Task<SMSResponse> MakeSMSRequest(DateTime startTimeFilter = default(DateTime))
         {
             var result = await new AndroidSMSAdapter()
-                .GetAllSMS(null)
+                .GetAllSMS(startTimeFilter)
                 .ConfigureAwait(false);
 
-            return result.AsJson(false);
+            var response = new SMSResponse();
+            response.AddRange(result);
+            return response;
         }
     }
 }

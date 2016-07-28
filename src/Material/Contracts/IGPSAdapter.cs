@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+using Material.Infrastructure.Static;
 
 namespace Material.Contracts
 {
     public interface IGPSAdapter
     {
-        Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> GetPosition();
+        Task<GPSResponse> GetPosition();
     }
 }

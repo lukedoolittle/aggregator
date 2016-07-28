@@ -156,4 +156,7 @@
   <data name="InvalidIntermediateToken" xml:space="preserve">
     <value>The token is not a valid intermediate OAuth token</value>
   </data>
+  <data name="GPSAuthorizationException" xml:space="preserve">
+    <value>Access to GPS was not granted</value>
+  </data>
 </root>

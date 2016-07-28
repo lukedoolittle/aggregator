@@ -51,6 +51,7 @@
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\OAuth1ParameterEnum.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
+    <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUI.cs" />
     <Compile Include="Contracts\IOAuthAuthenticationTemplate.cs" />
@@ -162,6 +163,8 @@
     <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
+    <Compile Include="Infrastructure\Static\GPSResponse.cs" />
+    <Compile Include="Infrastructure\Static\SMSResponse.cs" />
     <Compile Include="Metadata\Format.cs" />
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />

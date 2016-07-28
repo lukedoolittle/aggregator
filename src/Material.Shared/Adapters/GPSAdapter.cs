@@ -1,17 +1,16 @@
 #if __MOBILE__
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Foundations.Serialization;
 using Material.Contracts;
 using Material.Exceptions;
-using Newtonsoft.Json.Linq;
+using Material.Infrastructure.Static;
 using Plugin.Geolocator.Abstractions;
 
 namespace Material.Adapters
 {
     public class GPSAdapter : IGPSAdapter
     {
+        private const int GPS_TIMEOUT_IN_MS = 10000;
         private readonly IGeolocator _geolocator;
 
         public GPSAdapter(IGeolocator geolocator)
@@ -19,7 +18,7 @@ namespace Material.Adapters
             _geolocator = geolocator;
         }
 
-        public async Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> GetPosition()
+        public async Task<GPSResponse> GetPosition()
         {
             if (!_geolocator.IsGeolocationEnabled)
             {
@@ -30,14 +29,19 @@ namespace Material.Adapters
             try
             {
                 var position = await _geolocator
-                    .GetPositionAsync(10000)
+                    .GetPositionAsync(GPS_TIMEOUT_IN_MS)
                     .ConfigureAwait(false);
             
-                return new List<Tuple<DateTimeOffset, JObject>>
+                return new GPSResponse
                 {
-                    new Tuple<DateTimeOffset, JObject>(
-                        position.Timestamp, 
-                        position.AsJObject())
+                    Accuracy = position.Accuracy,
+                    AltitudeAccuracy = position.AltitudeAccuracy,
+                    Altitude = position.Altitude,
+                    Heading = position.Heading,
+                    Latitude = position.Latitude,
+                    Longitude = position.Longitude,
+                    Speed = position.Speed,
+                    Timestamp = position.Timestamp
                 };
             }
             catch (Exception)
