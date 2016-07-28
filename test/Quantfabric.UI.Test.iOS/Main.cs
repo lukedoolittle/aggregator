@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Aggregator.UI.Test.iOS
+namespace Quantfabric.UI.Test.iOS
 {
 	public class Application
 	{

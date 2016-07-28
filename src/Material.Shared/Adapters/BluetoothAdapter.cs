@@ -94,7 +94,7 @@ namespace Material.Adapters
                 });
             };
 
-            _adapter.StartScanningForDevices(deviceAddress);
+            _adapter.StartScanningForDevices(Guid.Empty);
 
             return taskCompletionSource.Task;
         }

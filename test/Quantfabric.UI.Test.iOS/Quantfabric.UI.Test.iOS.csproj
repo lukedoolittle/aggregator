@@ -226,6 +226,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\src\Application\Configuration\CredentialApplicationSettings.cs">
+      <Link>CredentialApplicationSettings.cs</Link>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="MainViewController.cs" />
@@ -243,16 +246,6 @@
     <ProjectReference Include="..\..\src\Material\Material.csproj">
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Application.iOS\Application.iOS.csproj">
-      <Project>{0b6cf65b-b062-4b58-a1c9-c09cf9bbc553}</Project>
-      <Name>Application.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Application\Application.csproj">
-      <Project>{9cb9ff5e-39f5-4317-9104-0416115080f6}</Project>
-      <Name>Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Bootstrap\Foundations.Bootstrap.csproj">
       <Project>{0fe0e580-65ef-400b-818c-1ec4a2276cfa}</Project>

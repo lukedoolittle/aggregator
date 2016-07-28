@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace Aggregator.UI.Test.iOS
+namespace Quantfabric.UI.Test.iOS
 {
     [Register ("MainViewController")]
     partial class MainViewController
@@ -20,7 +20,35 @@ namespace Aggregator.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton FatsecretAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton FitbitAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton FoursquareAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton GoogleAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton GPS { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton LinkedinAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton MioAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton RescuetimeAuth { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -28,7 +56,19 @@ namespace Aggregator.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton RunkeeperAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton SpotifyAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton TwitterAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton WithingsAuth { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
@@ -37,9 +77,44 @@ namespace Aggregator.UI.Test.iOS
                 FacebookAuth = null;
             }
 
+            if (FatsecretAuth != null) {
+                FatsecretAuth.Dispose ();
+                FatsecretAuth = null;
+            }
+
+            if (FitbitAuth != null) {
+                FitbitAuth.Dispose ();
+                FitbitAuth = null;
+            }
+
+            if (FoursquareAuth != null) {
+                FoursquareAuth.Dispose ();
+                FoursquareAuth = null;
+            }
+
+            if (GoogleAuth != null) {
+                GoogleAuth.Dispose ();
+                GoogleAuth = null;
+            }
+
+            if (GPS != null) {
+                GPS.Dispose ();
+                GPS = null;
+            }
+
+            if (LinkedinAuth != null) {
+                LinkedinAuth.Dispose ();
+                LinkedinAuth = null;
+            }
+
             if (MioAuth != null) {
                 MioAuth.Dispose ();
                 MioAuth = null;
+            }
+
+            if (RescuetimeAuth != null) {
+                RescuetimeAuth.Dispose ();
+                RescuetimeAuth = null;
             }
 
             if (ResultsTextView != null) {
@@ -47,9 +122,24 @@ namespace Aggregator.UI.Test.iOS
                 ResultsTextView = null;
             }
 
+            if (RunkeeperAuth != null) {
+                RunkeeperAuth.Dispose ();
+                RunkeeperAuth = null;
+            }
+
+            if (SpotifyAuth != null) {
+                SpotifyAuth.Dispose ();
+                SpotifyAuth = null;
+            }
+
             if (TwitterAuth != null) {
                 TwitterAuth.Dispose ();
                 TwitterAuth = null;
+            }
+
+            if (WithingsAuth != null) {
+                WithingsAuth.Dispose ();
+                WithingsAuth = null;
             }
         }
     }

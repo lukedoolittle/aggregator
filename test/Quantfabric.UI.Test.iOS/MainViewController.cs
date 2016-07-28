@@ -1,16 +1,13 @@
-using Foundation;
 using System;
-using Aggregator.Framework.Contracts;
-using Aggregator.Task;
-using Aggregator.Task.Authentication;
-using Material.Infrastructure;
+using Application.Configuration;
+using Material;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Static;
-using Microsoft.Practices.ServiceLocation;
+using Material.Infrastructure.Requests;
 using UIKit;
 
-namespace Aggregator.UI.Test.iOS
+namespace Quantfabric.UI.Test.iOS
 {
     public partial class MainViewController : UIViewController
     {
@@ -22,90 +19,197 @@ namespace Aggregator.UI.Test.iOS
         {
             base.ViewDidLoad();
 
-            var factory = ServiceLocator.Current.GetInstance<AuthenticationTaskFactory>();
-            var manager = ServiceLocator.Current.GetInstance<IBluetoothManager>();
+            var settings = new CredentialApplicationSettings();
 
-            FacebookAuth.TouchUpInside += (sender, e) =>
+            FacebookAuth.TouchUpInside += async (sender, e) =>
             {
-                FetchToken<Facebook, OAuth2Credentials>(factory);
+                var credentials = settings
+                    .GetClientCredentials<Facebook, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Facebook>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<FacebookEvent>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
             };
-            TwitterAuth.TouchUpInside += (sender, e) =>
+            TwitterAuth.TouchUpInside += async (sender, e) =>
             {
-                FetchToken<Material.Infrastructure.ProtectedResources.Twitter, OAuth1Credentials>(factory);
+                var credentials = settings
+                    .GetClientCredentials<Material.Infrastructure.ProtectedResources.Twitter, OAuth1Credentials>();
+
+                var token = await new OAuth1AppFacade<Material.Infrastructure.ProtectedResources.Twitter>(
+                        credentials.ConsumerKey,
+                        credentials.ConsumerSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth1Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView(token.OAuthSecret);
             };
-            //FatsecretAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Fatsecret, OAuth1Credentials>(factory);
-            //};
-            //SpotifyAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Spotify, OAuth2Credentials>(factory);
-            //};
-            //GoogleAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Google, OAuth2Credentials>(factory);
-            //};
-            //FitbitAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Fitbit, OAuth2Credentials>(factory);
-            //};
-            //RunkeeperAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Runkeeper, OAuth2Credentials>(factory);
-            //};
-            //FoursquareAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Foursquare, OAuth2Credentials>(factory);
-            //};
-            //RescuetimeAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Rescuetime, OAuth2Credentials>(factory);
-            //};
-            //LinkedinAuth.TouchUpInside += (sender, e) =>
-            //{
-            //    FetchToken<Linkedin, OAuth2Credentials>(factory);
-            //};
+            FatsecretAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Fatsecret, OAuth1Credentials>();
+
+                var token = await new OAuth1AppFacade<Fatsecret>(
+                        credentials.ConsumerKey,
+                        credentials.ConsumerSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth1Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView(token.OAuthSecret);
+            };
+            WithingsAuth.TouchUpInside += async (sender, args) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Withings, OAuth1Credentials>();
+
+                var token = await new OAuth1AppFacade<Withings>(
+                        credentials.ConsumerKey,
+                        credentials.ConsumerSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth1Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView(token.OAuthSecret);
+            };
+            SpotifyAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Spotify, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Spotify>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<SpotifySavedTrack>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView(token.AccessToken);
+            };
+            GoogleAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Google, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Google>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<GoogleGmailMetadata>()
+                    .AddScope<GoogleGmail>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+            FitbitAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Fitbit, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Fitbit>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<FitbitProfile>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+            RunkeeperAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Runkeeper, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Runkeeper>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                        .AddScope<RunkeeperFitnessActivity>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+            FoursquareAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Foursquare, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Foursquare>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+            RescuetimeAuth.TouchUpInside += async (sender, e) =>
+            {
+
+                var credentials = settings
+                    .GetClientCredentials<Rescuetime, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Rescuetime>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<RescuetimeAnalyticData>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+            LinkedinAuth.TouchUpInside += async (sender, e) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<LinkedIn, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<LinkedIn>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<LinkedinPersonal>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
             MioAuth.TouchUpInside += async (sender, args) =>
             {
-                var aggregateId = Guid.NewGuid();
-                var version = 0;
+                var auth = new BluetoothAuthorizationFacade<Mioalpha>();
+                var credentials = await auth.GetBluetoothCredentials()
+                    .ConfigureAwait(false);
 
-                var task = factory.GenerateTask<Mioalpha>(aggregateId, version, this)
-                       as BluetoothAuthenticationTask<Mioalpha>;
+                WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
 
-                var address = await task.GetCredentials();
+                var requester = new BluetoothRequester();
+                var result = await requester
+                    .MakeBluetoothRequest<MioHeartRate>(credentials)
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Heart rate: " + result.Reading);
             };
-        }
-
-        private void FetchToken<TService, TCredentials>(AuthenticationTaskFactory factory)
-            where TService : ResourceProvider, new()
-            where TCredentials : TokenCredentials
-        {
-            var aggregateId = Guid.NewGuid();
-            var version = 0;
-
-            var task =
-                factory.GenerateTask<TService>(aggregateId, version, this) as
-                    OAuthAuthenticationTask<TCredentials, TService>;
-
-            task.GetAccessTokenCredentials().ContinueWith(t =>
+            GPS.TouchUpInside += async (sender, args) =>
             {
-                var credentials = t.Result;
-                if (credentials is OAuth1Credentials)
-                {
-                    var token = credentials as OAuth1Credentials;
-                    WriteResultToTextView($"OAuthToken: {token.OAuthToken}\nOAuthSecret: {token.OAuthSecret}");
-                }
-                else if (credentials is OAuth2Credentials)
-                {
-                    var token = credentials as OAuth2Credentials;
-                    WriteResultToTextView($"AccessToken: {token.AccessToken}");
-                }
-                else
-                {
-                    WriteResultToTextView("Error in credentials type :" + credentials.GetType().Name);
-                }
-            });
+                await new GPSAuthorizationFacade()
+                    .AuthorizeContinuousGPSUsage()
+                    .ConfigureAwait(false);
+                var result = await new GPSRequester()
+                    .MakeGPSRequest()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView($"Latitude: {result.Latitude}, Longitude: {result.Longitude}, Speed: {result.Speed}");
+            };
         }
 
         private void WriteResultToTextView(string text)

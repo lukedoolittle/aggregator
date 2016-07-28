@@ -111,6 +111,9 @@ namespace Quantfabric.UI.Test.Android
 			// aapt resource value: 0x7f050003
 			public const int twitterAuth = 2131034115;
 			
+			// aapt resource value: 0x7f05000f
+			public const int withings = 2131034127;
+			
 			static Id()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

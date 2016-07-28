@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Aggregator.Framework;
 using Material.Contracts;
+using Material.Exceptions;
 using Material.Infrastructure.Credentials;
+using Material.Framework;
+using UIKit;
 
-namespace Aggregator.View.BluetoothAuthorization
+namespace Material.View.BluetoothAuthorization
 {
     public class BluetoothAuthorizerUI : IBluetoothAuthorizerUI
     {
@@ -20,17 +22,44 @@ namespace Aggregator.View.BluetoothAuthorization
             var taskCompletionSource = new TaskCompletionSource<Guid>();
             var context = Platform.Context;
 
-            var controller = new DeviceTableViewController(context.View.Bounds);
-            context.PresentViewController(controller, false, null);
+            var controller = new DeviceTableViewController(
+                context.View.Bounds);
+            context.PresentViewController(
+                controller, 
+                false, 
+                null);
 
             _adapter.ListDevices(controller.OnDeviceFound);
-            controller.DeviceSelected = device =>
+            controller.DeviceSelected = async device =>
             {
-                taskCompletionSource.SetResult(device.Address);
-                controller.DismissViewController(false, null);
+                controller.DisplayLoading(device.Name);
+
+                var result = await _adapter
+                    .ConnectToDevice(device.Address)
+                    .ConfigureAwait(false);
+
+                if (result)
+                {
+                    taskCompletionSource.SetResult(device.Address);
+                    Platform.RunOnMainThread(() =>
+                    {
+                        controller.HideLoading();
+                        controller.DismissViewController(
+                            false,
+                            null);
+                    });
+                }
+                else
+                {
+                    throw new NoConnectivityException(string.Format(
+                        StringResources.BluetoothConnectivityException,
+                        device.Address.ToString()));
+                }
             };
 
-            var uuid = await taskCompletionSource.Task.ConfigureAwait(false);
+            var uuid = await taskCompletionSource
+                .Task
+                .ConfigureAwait(false);
 
             return new BluetoothCredentials(uuid);
         }

@@ -5,7 +5,7 @@ using Foundation;
 using Material.Contracts;
 using UIKit;
 
-namespace Aggregator.View.BluetoothAuthorization
+namespace Material.View.BluetoothAuthorization
 {
     public partial class DeviceTableViewController : UIViewController
     {
@@ -17,6 +17,7 @@ namespace Aggregator.View.BluetoothAuthorization
         private readonly CGRect _bounds;
         private TableSource _tableSource;
         private UITableView _table;
+        private LoadingOverlay _loadingOverlay;
 
         public DeviceTableViewController(CGRect bounds)
         {
@@ -42,6 +43,21 @@ namespace Aggregator.View.BluetoothAuthorization
                 _table.ReloadData();
             }
         }
+
+        public void DisplayLoading(string deviceName)
+        {
+            _loadingOverlay = new LoadingOverlay(
+                _bounds, 
+                string.Format(
+                    StringResources.BluetoothDialogBody, 
+                    deviceName));
+            View.Add(_loadingOverlay);
+        }
+
+        public void HideLoading()
+        {
+            _loadingOverlay.Hide();
+        }
     }
 
     public class TableSource : UITableViewSource
@@ -56,7 +72,9 @@ namespace Aggregator.View.BluetoothAuthorization
             _items = new List<BluetoothDevice>();
         }
 
-        public override nint RowsInSection(UITableView tableview, nint section)
+        public override nint RowsInSection(
+            UITableView tableview, 
+            nint section)
         {
             return _items.Count;
         }
@@ -68,15 +86,15 @@ namespace Aggregator.View.BluetoothAuthorization
             var cell = tableView.DequeueReusableCell(CellIdentifier);
             var item = _items[indexPath.Row];
 
-            //---- if there are no cells to reuse, create a new one
             if (cell == null)
             {
                 cell = new UITableViewCell(
-                    UITableViewCellStyle.Default, 
+                    UITableViewCellStyle.Subtitle, 
                     CellIdentifier);
             }
 
             cell.TextLabel.Text = item.Name;
+            cell.DetailTextLabel.Text = item.Address.ToString();
 
             return cell;
         }

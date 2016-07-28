@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System.Linq;
+using Android.App;
 using Android.OS;
 using Android.Widget;
 using Application.Configuration;
@@ -52,36 +53,145 @@ namespace Quantfabric.UI.Test.Android
                 WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.fatsecretAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.fatsecretAuth).Click += async (sender, args) =>
             {
+                var credentials = settings
+                    .GetClientCredentials<Fatsecret, OAuth1Credentials>();
+
+                var token = await new OAuth1AppFacade<Fatsecret>(
+                        credentials.ConsumerKey,
+                        credentials.ConsumerSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth1Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+            FindViewById<Button>(Resource.Id.withings).Click += async (sender, args) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Withings, OAuth1Credentials>();
+
+                var token = await new OAuth1AppFacade<Withings>(
+                        credentials.ConsumerKey,
+                        credentials.ConsumerSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth1Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+            FindViewById<Button>(Resource.Id.fitbitAuth).Click += async (sender, args) =>
+            {
+                var credentials = settings
+                    .GetClientCredentials<Fitbit, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Fitbit>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<FitbitProfile>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.fitbitAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.foursquareAuth).Click += async (sender, args) =>
             {
+
+                var credentials = settings
+                    .GetClientCredentials<Foursquare, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Foursquare>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.foursquareAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.googleAuth).Click += async (sender, args) =>
             {
+                var credentials = settings
+                    .GetClientCredentials<Google, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Google>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<GoogleGmailMetadata>()
+                    .AddScope<GoogleGmail>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.googleAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.linkedinAuth).Click += async (sender, args) =>
             {
+                var credentials = settings
+                    .GetClientCredentials<LinkedIn, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<LinkedIn>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<LinkedinPersonal>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.linkedinAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.rescuetimeAuth).Click += async (sender, args) =>
             {
+                var credentials = settings
+                    .GetClientCredentials<Rescuetime, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Rescuetime>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<RescuetimeAnalyticData>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.rescuetimeAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.spotifyAuth).Click += async (sender, args) =>
             {
+                var credentials = settings
+                    .GetClientCredentials<Spotify, OAuth2Credentials>();
+
+                var token = await new OAuth2AppFacade<Spotify>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                    .AddScope<SpotifySavedTrack>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.spotifyAuth).Click += (sender, args) =>
+            FindViewById<Button>(Resource.Id.runkeeperAuth).Click += async (sender, args) =>
             {
-            };
+                var credentials = settings
+                    .GetClientCredentials<Runkeeper, OAuth2Credentials>();
 
-            FindViewById<Button>(Resource.Id.runkeeperAuth).Click += (sender, args) =>
-            {
+                var token = await new OAuth2AppFacade<Runkeeper>(
+                        credentials.ClientId,
+                        credentials.ClientSecret,
+                        credentials.CallbackUrl)
+                        .AddScope<RunkeeperFitnessActivity>()
+                    .GetOAuth2Credentials()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
             };
 
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
@@ -98,6 +208,25 @@ namespace Quantfabric.UI.Test.Android
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Heart rate: " + result.Reading);
+            };
+
+            FindViewById<Button>(Resource.Id.gps).Click += async (sender, args) =>
+            {
+                var result = await new GPSRequester()
+                    .MakeGPSRequest()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView($"Latitude: {result.Latitude}, Longitude: {result.Longitude}, Speed: {result.Speed}");
+            };
+
+            FindViewById<Button>(Resource.Id.sms).Click += async (sender, args) =>
+            {
+                var result = await new SMSRequester()
+                    .MakeSMSRequest()
+                    .ConfigureAwait(false);
+
+                var firstResult = result.First();
+                WriteResultToTextView($"Address: {firstResult.Address}, Creator: {firstResult.Creator} Header: {firstResult.Subject}, Body: {firstResult.Body}");
             };
         }
 
