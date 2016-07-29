@@ -1,14 +1,15 @@
 using System;
+
 using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Material.Framework;
 
-namespace Application
+namespace $rootnamespace$
 {
 	//You can specify additional application information in this attribute
     [Application]
-    public class MainApplication : Android.App.Application, Android.App.Application.IActivityLifecycleCallbacks
+    public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)

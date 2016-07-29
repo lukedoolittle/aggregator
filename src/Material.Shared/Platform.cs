@@ -1,6 +1,5 @@
 ﻿using System;
 #if __ANDROID__
-using Plugin.CurrentActivity;
 using Android.App;
 using Android.Net;
 using Robotics.Mobile.Core.Bluetooth.LE;
@@ -19,7 +18,7 @@ namespace Material.Framework
 #if __ANDROID__
         public static IAdapter BluetoothAdapter { get; } = new Adapter();
 
-        public static Activity Context => CrossCurrentActivity.Current.Activity;
+        public static Activity Context { get; set; }
 
         public static Action<Action> RunOnMainThread { get; } =
             action =>
