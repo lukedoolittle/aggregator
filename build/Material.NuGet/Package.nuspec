@@ -66,6 +66,10 @@
     <file src="lib\MonoAndroid60\Foundations.Http.dll" target="lib\MonoAndroid60" />
     <file src="lib\MonoAndroid60\Foundations.Serialization.dll" target="lib\MonoAndroid60" />
     <file src="lib\MonoAndroid60\Foundations.Cryptography.dll" target="lib\MonoAndroid60" />
+    
+    <file src="readme.txt" target="" />
+
+    <file src="content\" target="content\MonoAndroid60\MainApplication.cs.pp" />
 
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
