@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndroidGPSAdapter.cs" />
+    <Compile Include="AndroidSMSAdapter.cs" />
     <Compile Include="View\ActivityStateRepository.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

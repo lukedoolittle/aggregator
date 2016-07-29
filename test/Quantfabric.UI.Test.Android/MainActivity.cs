@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -221,12 +222,18 @@ namespace Quantfabric.UI.Test.Android
 
             FindViewById<Button>(Resource.Id.sms).Click += async (sender, args) =>
             {
-                var result = await new SMSRequester()
-                    .MakeSMSRequest()
+                var filterDate = new DateTime(2016, 7, 21, 0, 0, 0);
+                var results = await new SMSRequester()
+                    .MakeSMSRequest(filterDate)
                     .ConfigureAwait(false);
 
-                var firstResult = result.First();
-                WriteResultToTextView($"Address: {firstResult.Address}, Creator: {firstResult.Creator} Header: {firstResult.Subject}, Body: {firstResult.Body}");
+                var resultsString = string.Empty;
+                foreach (var result in results)
+                {
+                    resultsString +=
+                        $"Address: {result.Address}, Header: {result.Subject}, Body: {result.Body}\n";
+                }
+                WriteResultToTextView(resultsString);
             };
         }
 

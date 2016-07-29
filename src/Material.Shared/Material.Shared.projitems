@@ -9,7 +9,6 @@
     <Import_RootNamespace>Material</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Adapters\AndroidSMSAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\BluetoothAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BluetoothAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
