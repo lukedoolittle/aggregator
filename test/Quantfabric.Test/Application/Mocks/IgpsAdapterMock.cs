@@ -11,7 +11,7 @@ namespace Quantfabric.Test.Application.Mocks
 {
     public class IGPSAdapterMock : MockBase<IGPSAdapter>, IGPSAdapter
     {
-        Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> IGPSAdapter.GetPosition()
+        Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> IGPSAdapter.GetPositionAsync()
         {
             throw new NotImplementedException();
         }

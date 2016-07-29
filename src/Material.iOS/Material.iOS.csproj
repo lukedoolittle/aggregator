@@ -68,6 +68,7 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GPSAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\BluetoothAuthorization\BluetoothAuthorizerUI.cs" />
     <Compile Include="View\BluetoothAuthorization\DeviceTableViewController.cs" />

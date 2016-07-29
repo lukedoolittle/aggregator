@@ -47,5 +47,11 @@ namespace Foundations.Extensions
             var timespanSinceEpoch = instance - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             return timespanSinceEpoch.Days;
         }
+
+        public static DateTimeOffset FromUnixTimeMilliseconds(this long instance)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return new DateTimeOffset(epoch.AddMilliseconds(instance));
+        }
     }
 }

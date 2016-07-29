@@ -1,9 +1,9 @@
 ﻿#if __MOBILE__
 using System.Threading.Tasks;
 using Material.Exceptions;
-using Plugin.Geolocator;
 #if __IOS__
 using CoreLocation;
+using Plugin.Geolocator;
 #endif
 
 namespace Material

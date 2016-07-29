@@ -258,6 +258,11 @@ paket-files/
 # Key files
 NuGet.config
 build/Material.NuGet/lib
+build/Foundations.Bootstrap.NuGet/lib
+build/Foundations.Cryptography.NuGet/lib
+build/Foundations.Http.NuGet/lib
+build/Foundations.NuGet/lib
+build/Foundations.Serialization.NuGet/lib
 CredentialApplicationSettings.cs
 testCredentials.json
 

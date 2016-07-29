@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\AndroidSMSAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\BluetoothAdapter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Adapters\GPSAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BluetoothAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1AppFacade.cs" />

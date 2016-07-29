@@ -57,6 +57,7 @@
     <Compile Include="Contracts\IOAuthAuthenticationTemplate.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUIFactory.cs" />
     <Compile Include="Exceptions\HttpRequestException.cs" />
+    <Compile Include="Exceptions\LocationException.cs" />
     <Compile Include="Exceptions\NoConnectivityException.cs" />
     <Compile Include="Contracts\IBluetoothAdapter.cs" />
     <Compile Include="Contracts\IGPSAdapter.cs" />

@@ -5,6 +5,6 @@ namespace Material.Contracts
 {
     public interface IGPSAdapter
     {
-        Task<GPSResponse> GetPosition();
+        Task<GPSResponse> GetPositionAsync();
     }
 }
