@@ -38,7 +38,6 @@ namespace Material.OAuth
             OAuth1ResourceProvider resourceProvider, 
             string consumerKey, 
             string consumerSecret,
-            string userId,
             string callbackUrl)
         {
             return new OAuth1AuthenticationFacade(
@@ -46,7 +45,6 @@ namespace Material.OAuth
                 consumerKey,
                 consumerSecret,
                 callbackUrl,
-                userId,
                 _oauthFactory.GetOAuth1(),
                 _strategy);
         }
@@ -55,13 +53,11 @@ namespace Material.OAuth
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             string clientSecret,
-            string userId,
             string callbackUrl)
         {
             return new OAuth2AuthenticationFacade(
                 resourceProvider,
                 clientId,
-                userId,
                 callbackUrl,
                 _oauthFactory.GetOAuth2(),
                 _strategy);

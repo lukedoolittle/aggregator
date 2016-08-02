@@ -1,6 +1,5 @@
 ﻿using System;
 using Material.Contracts;
-using Aggregator.Domain.Write;
 using Aggregator.Framework.Contracts;
 using Aggregator.Task.Commands;
 using Foundations.Serialization;
@@ -38,7 +37,8 @@ namespace Aggregator.Task.Authentication
 
         async Task ITask.Execute(object parameter)
         {
-            var accessToken = await _oauthAuthenticationTemplate.GetAccessTokenCredentials()
+            var accessToken = await _oauthAuthenticationTemplate
+                .GetAccessTokenCredentials(_aggregateId.ToString())
                 .ConfigureAwait(false);
 
             //This may seem odd to change the credentials back to a JObject

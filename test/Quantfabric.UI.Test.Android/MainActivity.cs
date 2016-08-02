@@ -28,12 +28,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Facebook, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Facebook>(
+                var token = await new OAuth2App<Facebook>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<FacebookEvent>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -44,11 +44,11 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Twitter, OAuth1Credentials>();
 
-                var token = await new OAuth1AppFacade<Twitter>(
+                var token = await new OAuth1App<Twitter>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -59,11 +59,11 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Fatsecret, OAuth1Credentials>();
 
-                var token = await new OAuth1AppFacade<Fatsecret>(
+                var token = await new OAuth1App<Fatsecret>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -73,11 +73,11 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Withings, OAuth1Credentials>();
 
-                var token = await new OAuth1AppFacade<Withings>(
+                var token = await new OAuth1App<Withings>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -87,12 +87,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Fitbit, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Fitbit>(
+                var token = await new OAuth2App<Fitbit>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<FitbitProfile>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -104,11 +104,11 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Foursquare, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Foursquare>(
+                var token = await new OAuth2App<Foursquare>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -119,13 +119,13 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Google, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Google>(
+                var token = await new OAuth2App<Google>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleGmail>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -136,12 +136,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<LinkedIn, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<LinkedIn>(
+                var token = await new OAuth2App<LinkedIn>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<LinkedinPersonal>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -152,12 +152,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Rescuetime, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Rescuetime>(
+                var token = await new OAuth2App<Rescuetime>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<RescuetimeAnalyticData>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -168,12 +168,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Spotify, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Spotify>(
+                var token = await new OAuth2App<Spotify>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<SpotifySavedTrack>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -184,12 +184,12 @@ namespace Quantfabric.UI.Test.Android
                 var credentials = settings
                     .GetClientCredentials<Runkeeper, OAuth2Credentials>();
 
-                var token = await new OAuth2AppFacade<Runkeeper>(
+                var token = await new OAuth2App<Runkeeper>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                         .AddScope<RunkeeperFitnessActivity>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -197,15 +197,14 @@ namespace Quantfabric.UI.Test.Android
 
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
             {
-                var auth = new BluetoothAuthorizationFacade<Mioalpha>();
-                var credentials = await auth.GetBluetoothCredentials()
+                var credentials = await new BluetoothApp<Mioalpha>()
+                    .GetBluetoothCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
 
-                var requester = new BluetoothRequester();
-                var result = await requester
-                    .MakeBluetoothRequest<MioHeartRate>(credentials)
+                var result = await new BluetoothRequester()
+                    .MakeBluetoothRequestAsync<MioHeartRate>(credentials)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Heart rate: " + result.Reading);
@@ -214,7 +213,7 @@ namespace Quantfabric.UI.Test.Android
             FindViewById<Button>(Resource.Id.gps).Click += async (sender, args) =>
             {
                 var result = await new GPSRequester()
-                    .MakeGPSRequest()
+                    .MakeGPSRequestAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView($"Latitude: {result.Latitude}, Longitude: {result.Longitude}, Speed: {result.Speed}");
@@ -224,7 +223,7 @@ namespace Quantfabric.UI.Test.Android
             {
                 var filterDate = new DateTime(2016, 7, 21, 0, 0, 0);
                 var results = await new SMSRequester()
-                    .MakeSMSRequest(filterDate)
+                    .MakeSMSRequestAsync(filterDate)
                     .ConfigureAwait(false);
 
                 var resultsString = string.Empty;

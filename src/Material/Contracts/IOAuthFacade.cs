@@ -9,9 +9,9 @@ namespace Material.Contracts
     {
         Uri CallbackUri { get; }
 
-        Task<Uri> GetAuthorizationUri();
+        Task<Uri> GetAuthorizationUriAsync(string userId);
 
-        Task<TCredentials> GetAccessTokenFromCallbackResult(
+        Task<TCredentials> GetAccessTokenAsync(
             TCredentials result, 
             string secret);
     }

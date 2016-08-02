@@ -9,7 +9,8 @@ namespace Material
 
     public class SMSRequester
     {
-        public async Task<SMSResponse> MakeSMSRequest(DateTime startTimeFilter = default(DateTime))
+        public async Task<SMSResponse> MakeSMSRequestAsync(
+            DateTime startTimeFilter = default(DateTime))
         {
             var result = await new AndroidSMSAdapter()
                 .GetAllSMS(startTimeFilter)

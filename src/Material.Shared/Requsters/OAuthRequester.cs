@@ -32,7 +32,7 @@ namespace Material
             _userId = credentials.UserId;
         }
 
-        public async Task<TResponse> MakeOAuthRequest<TRequest, TResponse>(
+        public async Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>(
             TRequest request = null)
             where TRequest : OAuthRequest, new()
         {

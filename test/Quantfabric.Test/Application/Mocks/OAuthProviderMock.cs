@@ -1,5 +1,4 @@
 ﻿using System;
-using Aggregator.Framework.Contracts;
 using Aggregator.Test.Helpers.Mocks;
 using LightMock;
 using Material.Contracts;
@@ -18,9 +17,9 @@ namespace Aggregator.Test.Mocks
         public ResponseTypeEnum ResponseType { get; private set; }
         public Uri CallbackUri => new Uri("http://www.google.com");
 
-        public Task<Uri> GetAuthorizationUri()
+        public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
-            var result = _invoker.Invoke(a => a.GetAuthorizationUri());
+            var result = _invoker.Invoke(a => a.GetAuthorizationUriAsync(userId));
             if (result != null)
             {
                 return result;
@@ -32,9 +31,9 @@ namespace Aggregator.Test.Mocks
             }
         }
 
-        public Task<TCredentials> GetAccessTokenFromCallbackResult(TCredentials result, string secret)
+        public Task<TCredentials> GetAccessTokenAsync(TCredentials result, string secret)
         {
-            var thisResult = _invoker.Invoke(a => a.GetAccessTokenFromCallbackResult(result, secret));
+            var thisResult = _invoker.Invoke(a => a.GetAccessTokenAsync(result, secret));
             return thisResult;
         }
 
@@ -49,7 +48,7 @@ namespace Aggregator.Test.Mocks
         public OAuthProviderMock<TCredentials> SetAccessTokenResult(TCredentials result)
         {
             _context.Arrange(
-                a => a.GetAccessTokenFromCallbackResult(
+                a => a.GetAccessTokenAsync(
                     The<TCredentials>.IsAnyValue, 
                     The<string>.IsAnyValue))
                     .Returns(Task.FromResult(result));

@@ -8,10 +8,10 @@ using Material.View.BluetoothAuthorization;
 
 namespace Material
 {
-    public class BluetoothAuthorizationFacade<TResourceProvider>
+    public class BluetoothApp<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()
     {
-        public Task<BluetoothCredentials> GetBluetoothCredentials()
+        public Task<BluetoothCredentials> GetBluetoothCredentialsAsync()
         {
             var authenticationUI = new BluetoothAuthorizerUI(
                 new BluetoothAdapter(Platform.BluetoothAdapter));

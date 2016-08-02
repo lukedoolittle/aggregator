@@ -25,11 +25,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Twitter, OAuth1Credentials>();
-            var token = await new OAuth1AppFacade<Twitter>(
+            var token = await new OAuth1App<Twitter>(
                         credentials.ConsumerKey, 
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth1Token(token, true));
@@ -47,13 +47,13 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Google, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Google>(
+            var token = await new OAuth2App<Google>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<GoogleGmail>()
                     .AddScope<GoogleGmailMetadata>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -80,12 +80,12 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Google, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Google>(
+            var token = await new OAuth2App<Google>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<GoogleGmail>()
                     .AddScope<GoogleGmailMetadata>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -96,7 +96,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Facebook, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Facebook>(
+            var token = await new OAuth2App<Facebook>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
@@ -104,7 +104,7 @@ namespace Quantfabric.Test.Material.Integration
                     .AddScope<FacebookFeed>()
                     .AddScope<FacebookFriend>()
                     .AddScope<FacebookPageLike>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -120,14 +120,14 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Facebook, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Facebook>(
+            var token = await new OAuth2App<Facebook>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<FacebookEvent>()
                     .AddScope<FacebookFeed>()
                     .AddScope<FacebookFriend>()
                     .AddScope<FacebookPageLike>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -138,11 +138,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Foursquare, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Foursquare>(
+            var token = await new OAuth2App<Foursquare>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -158,10 +158,10 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Foursquare, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Foursquare>(
+            var token = await new OAuth2App<Foursquare>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -172,11 +172,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<LinkedIn, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<LinkedIn>(
+            var token = await new OAuth2App<LinkedIn>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -192,10 +192,10 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<LinkedIn, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<LinkedIn>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<LinkedIn>(
                     credentials.ClientId,
                     credentials.CallbackUrl)
-                .GetOAuth2Credentials())
+                .GetCredentialsAsync())
                 .ConfigureAwait(false);
         }
 
@@ -204,12 +204,12 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Spotify, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Spotify>(
+            var token = await new OAuth2App<Spotify>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<SpotifySavedTrack>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -225,11 +225,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Spotify, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Spotify>(
+            var token = await new OAuth2App<Spotify>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<SpotifySavedTrack>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -240,7 +240,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Fitbit, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Fitbit>(
+            var token = await new OAuth2App<Fitbit>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
@@ -250,7 +250,7 @@ namespace Quantfabric.Test.Material.Integration
                     .AddScope<FitbitIntradayStepsBulk>()
                     .AddScope<FitbitSleep>()
                     .AddScope<FitbitProfile>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -266,7 +266,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Fitbit, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Fitbit>(
+            var token = await new OAuth2App<Fitbit>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<FitbitIntradayHeartRate>()
@@ -275,7 +275,7 @@ namespace Quantfabric.Test.Material.Integration
                     .AddScope<FitbitIntradayStepsBulk>()
                     .AddScope<FitbitSleep>()
                     .AddScope<FitbitProfile>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -286,12 +286,12 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Runkeeper, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Runkeeper>(
+            var token = await new OAuth2App<Runkeeper>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<RunkeeperFitnessActivity>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -307,11 +307,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Runkeeper, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<Runkeeper>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Runkeeper>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<RunkeeperFitnessActivity>()
-                    .GetOAuth2Credentials())
+                    .GetCredentialsAsync())
                     .ConfigureAwait(false);
         }
 
@@ -320,12 +320,12 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Rescuetime, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<Rescuetime>(
+            var token = await new OAuth2App<Rescuetime>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<RescuetimeAnalyticData>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth2Token(token));
             Assert.Equal(0, token.AdditionalParameters.Count);
@@ -341,11 +341,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Rescuetime, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2AppFacade<Rescuetime>(
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Rescuetime>(
                         credentials.ClientId,
                         credentials.CallbackUrl)
                     .AddScope<RescuetimeAnalyticData>()
-                    .GetOAuth2Credentials())
+                    .GetCredentialsAsync())
                 .ConfigureAwait(false);
         }
 
@@ -354,11 +354,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                     .GetClientCredentials<Fatsecret, OAuth1Credentials>();
-            var token = await new OAuth1AppFacade<Fatsecret>(
+            var token = await new OAuth1App<Fatsecret>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
             Assert.True(IsValidOAuth1Token(token));
 
@@ -373,11 +373,11 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<Withings, OAuth1Credentials>();
-            var token = await new OAuth1AppFacade<Withings>(
+            var token = await new OAuth1App<Withings>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl)
-                    .GetOAuth1Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth1Token(token, true));
@@ -395,13 +395,13 @@ namespace Quantfabric.Test.Material.Integration
         {
             var credentials = _settings
                 .GetClientCredentials<TwentyThreeAndMe, OAuth2Credentials>();
-            var token = await new OAuth2AppFacade<TwentyThreeAndMe>(
+            var token = await new OAuth2App<TwentyThreeAndMe>(
                         credentials.ClientId,
                         credentials.ClientSecret,
                         credentials.CallbackUrl)
                     .AddScope<TwentyThreeAndMeUser>()
                     .AddScope<TwentyThreeAndMeGenome>()
-                    .GetOAuth2Credentials()
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth2Token(token));

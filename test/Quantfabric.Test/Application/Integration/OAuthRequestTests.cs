@@ -305,7 +305,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var result = await new OAuthRequester(credentials).MakeOAuthRequest<TwentyThreeAndMeUser, TwentyThreeAndMeUserResponse>().ConfigureAwait(false);
+            var result = await new OAuthRequester(credentials).MakeOAuthRequestAsync<TwentyThreeAndMeUser, TwentyThreeAndMeUserResponse>().ConfigureAwait(false);
         }
 
         [Fact]
@@ -315,7 +315,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var result = await new OAuthRequester(credentials).MakeOAuthRequest<TwentyThreeAndMeGenome, TwentyThreeAndMeGenomeResponse>().ConfigureAwait(false);
+            var result = await new OAuthRequester(credentials).MakeOAuthRequestAsync<TwentyThreeAndMeGenome, TwentyThreeAndMeGenomeResponse>().ConfigureAwait(false);
         }
 
         private async Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> MakeTimeseriesRequest<TRequest>(

@@ -9,31 +9,27 @@ using Material.OAuth;
 
 namespace Material.Facades
 {
-    public class OAuth2WebFacade<TResourceProvider> : OAuth2AuthenticationFacade
+    public class OAuth2Web<TResourceProvider> : OAuth2AuthenticationFacade
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
-        public OAuth2WebFacade(
+        public OAuth2Web(
             string clientId, 
-            string userId, 
             string callbackUri, 
             IOAuthSecurityStrategy strategy) :
                 base(
                     new TResourceProvider(), 
                     clientId, 
-                    userId, 
                     callbackUri, 
                     new OAuth2Authentication(), 
                     strategy)
         { }
 
-        public OAuth2WebFacade(
+        public OAuth2Web(
             string clientId,
-            string userId,
             string callbackUri) :
                 base(
                     new TResourceProvider(),
                     clientId,
-                    userId,
                     callbackUri,
                     new OAuth2Authentication(),
                     new OAuthSecurityStrategy(
@@ -42,24 +38,26 @@ namespace Material.Facades
         { }
 
         public OAuth2Credentials ParseAndValidateCallback(
-            Uri responseUri)
+            Uri responseUri,
+            string userId)
         {
             var handler = new OAuth2CallbackHandler(
                 _strategy,
                 OAuth2ParameterEnum.State.EnumToString(),
-                _userId);
+                userId);
 
             return handler.ParseAndValidateCallback<OAuth2Credentials>(
                 responseUri);
         }
 
         public OAuth2Credentials ParseAndValidateTokenCallback(
-            Uri responseUri)
+            Uri responseUri,
+            string userId)
         {
             var handler = new OAuth2TokenCallbackHandler(
                 _strategy,
                 OAuth2ParameterEnum.State.EnumToString(),
-                _userId);
+                userId);
 
             return handler.ParseAndValidateCallback<OAuth2Credentials>(
                 responseUri);

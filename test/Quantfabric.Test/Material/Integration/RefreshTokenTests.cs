@@ -15,7 +15,8 @@ namespace Quantfabric.Test.Material.Integration
         public async void RefreshTokenTaskForGmailGivesANewToken()
         {
             var expiredToken = TestSettings.GetToken<Google, OAuth2Credentials>();
-            var newToken = await new OAuth2RefreshFacade<Google>().RefreshOAuth2Credentials(
+            var newToken = await new OAuth2Refresh<Google>()
+                .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
             AssertTokenDifferences(newToken, expiredToken);
@@ -30,7 +31,8 @@ namespace Quantfabric.Test.Material.Integration
         public async void RefreshTokenTaskForFitbitGivesANewToken()
         {
             var expiredToken = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
-            var newToken = await new OAuth2RefreshFacade<Fitbit>().RefreshOAuth2Credentials(
+            var newToken = await new OAuth2Refresh<Fitbit>()
+                .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
             AssertTokenDifferences(newToken, expiredToken, true);
@@ -45,7 +47,8 @@ namespace Quantfabric.Test.Material.Integration
         public async void RefreshTokenTaskForSpotifyGivesANewToken()
         {
             var expiredToken = TestSettings.GetToken<Spotify, OAuth2Credentials>();
-            var newToken = await new OAuth2RefreshFacade<Spotify>().RefreshOAuth2Credentials(
+            var newToken = await new OAuth2Refresh<Spotify>()
+                .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
             AssertTokenDifferences(newToken, expiredToken);
@@ -60,7 +63,8 @@ namespace Quantfabric.Test.Material.Integration
         public async void RefreshTokenTaskForTwentyThreeAndMeGivesANewToken()
         {
             var expiredToken = TestSettings.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
-            var newToken = await new OAuth2RefreshFacade<TwentyThreeAndMe>().RefreshOAuth2Credentials(
+            var newToken = await new OAuth2Refresh<TwentyThreeAndMe>()
+                .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
             AssertTokenDifferences(newToken, expiredToken, true);

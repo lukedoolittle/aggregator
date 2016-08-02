@@ -20,9 +20,9 @@ namespace Material.OAuth
             _oauthFacade = oauthFacade;
         }
 
-        public async Task<TCredentials> GetAccessTokenCredentials()  
+        public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
         {
-            var authorizationPath = await GetAuthorizationPath()
+            var authorizationPath = await GetAuthorizationPath(userId)
                 .ConfigureAwait(false);
 
             var intermediateResult = await GetIntermediateResult(
@@ -34,9 +34,9 @@ namespace Material.OAuth
                 .ConfigureAwait(false);
         }
 
-        protected virtual Task<Uri> GetAuthorizationPath()
+        protected virtual Task<Uri> GetAuthorizationPath(string userId)
         {
-            return _oauthFacade.GetAuthorizationUri();
+            return _oauthFacade.GetAuthorizationUriAsync(userId);
         }
 
         protected virtual Task<TCredentials> GetIntermediateResult(

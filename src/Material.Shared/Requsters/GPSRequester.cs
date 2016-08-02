@@ -10,7 +10,7 @@ namespace Material
     using System.Threading.Tasks;
     public class GPSRequester
     { 
-        public Task<GPSResponse> MakeGPSRequest()
+        public Task<GPSResponse> MakeGPSRequestAsync()
         {
 #if __IOS__
             return new GPSAdapter(CrossGeolocator.Current).GetPositionAsync();

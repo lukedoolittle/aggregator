@@ -23,7 +23,7 @@ namespace Material.OAuth.Template
         protected override Task<OAuth2Credentials> GetAccessTokenFromIntermediateResult(
             OAuth2Credentials intermediateResult)
         {
-            return _oauthFacade.GetAccessTokenFromCallbackResult(
+            return _oauthFacade.GetAccessTokenAsync(
                 intermediateResult, 
                 _clientSecret);
         }

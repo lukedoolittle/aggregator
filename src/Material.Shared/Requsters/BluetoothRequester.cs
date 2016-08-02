@@ -11,7 +11,7 @@ namespace Material
 {
     public class BluetoothRequester
     {
-        public async Task<BluetoothResponse> MakeBluetoothRequest<TRequest>(
+        public async Task<BluetoothResponse> MakeBluetoothRequestAsync<TRequest>(
             BluetoothCredentials credentials)
             where TRequest : BluetoothRequest, new()
         {

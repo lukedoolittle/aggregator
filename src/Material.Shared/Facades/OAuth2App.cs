@@ -9,7 +9,7 @@ using Material.Infrastructure.Task;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuth2AppFacade<TResourceProvider>
+    public class OAuth2App<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly string _clientId;
@@ -18,7 +18,7 @@ namespace Material.Infrastructure.OAuth
         private readonly AuthenticationInterfaceEnum _browserType;
         private readonly TResourceProvider _provider;
 
-        public OAuth2AppFacade(
+        public OAuth2App(
             string clientId,
             string callbackUrl,
             TResourceProvider provider = null,
@@ -35,7 +35,7 @@ namespace Material.Infrastructure.OAuth
                 browserType)
         { }
 
-        public OAuth2AppFacade(
+        public OAuth2App(
             string clientId,
             string clientSecret,
             string callbackUrl,
@@ -54,7 +54,7 @@ namespace Material.Infrastructure.OAuth
             _provider = provider ?? new TResourceProvider();
         }
 
-        public Task<OAuth2Credentials> GetOAuth2Credentials()
+        public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();
 
@@ -74,7 +74,6 @@ namespace Material.Infrastructure.OAuth
                 _provider,
                 _clientId,
                 _clientSecret,
-                userId,
                 _callbackUrl);
 
             IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;
@@ -97,10 +96,10 @@ namespace Material.Infrastructure.OAuth
                     throw new NotSupportedException();
             }
 
-            return template.GetAccessTokenCredentials();
+            return template.GetAccessTokenCredentials(userId);
         }
 
-        public OAuth2AppFacade<TResourceProvider> AddScope<TRequest>()
+        public OAuth2App<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
             _provider.AddRequestScope<TRequest>();

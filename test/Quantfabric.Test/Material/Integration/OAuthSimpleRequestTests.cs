@@ -25,7 +25,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new LinkedinPersonal();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<LinkedinPersonal, LinkedInPersonalResponse>(request)
+                .MakeOAuthRequestAsync<LinkedinPersonal, LinkedInPersonalResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -43,7 +43,7 @@ namespace Quantfabric.Test.Material.Integration
                 Date = DateTime.Today
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FatsecretMeal, FatsecretMealResponse>(request)
+                .MakeOAuthRequestAsync<FatsecretMeal, FatsecretMealResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -61,7 +61,7 @@ namespace Quantfabric.Test.Material.Integration
                 Lastupdate = DateTime.Today.Subtract(TimeSpan.FromDays(50))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<WithingsWeighin, WithingsWeighInResponse>(request)
+                .MakeOAuthRequestAsync<WithingsWeighin, WithingsWeighInResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -79,7 +79,7 @@ namespace Quantfabric.Test.Material.Integration
                 After = DateTime.Today.Subtract(TimeSpan.FromDays(2)),
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<GoogleGmailMetadata, GoogleGmailMetadataResponse>(request)
+                .MakeOAuthRequestAsync<GoogleGmailMetadata, GoogleGmailMetadataResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -100,7 +100,7 @@ namespace Quantfabric.Test.Material.Integration
             {
                 var request = new GoogleGmail {MessageId = id};
                 var response = await new OAuthRequester(credentials)
-                    .MakeOAuthRequest<GoogleGmail, GoogleGmailResponse>(request).ConfigureAwait(false);
+                    .MakeOAuthRequestAsync<GoogleGmail, GoogleGmailResponse>(request).ConfigureAwait(false);
 
                 Assert.NotNull(response);
             }
@@ -115,7 +115,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new RescuetimeAnalyticData();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
+                .MakeOAuthRequestAsync<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -133,7 +133,7 @@ namespace Quantfabric.Test.Material.Integration
                 RestrictEnd = DateTime.Now.Subtract(TimeSpan.FromDays(1))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
+                .MakeOAuthRequestAsync<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -150,7 +150,7 @@ namespace Quantfabric.Test.Material.Integration
                 NoEarlierThan = DateTime.Today.Subtract(TimeSpan.FromDays(60))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<RunkeeperFitnessActivity, RunkeeperFitnessActivityResponse>(request)
+                .MakeOAuthRequestAsync<RunkeeperFitnessActivity, RunkeeperFitnessActivityResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -164,7 +164,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwentyThreeAndMeUser();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwentyThreeAndMeUser, TwentyThreeAndMeUserResponse>(request)
+                .MakeOAuthRequestAsync<TwentyThreeAndMeUser, TwentyThreeAndMeUserResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -181,7 +181,7 @@ namespace Quantfabric.Test.Material.Integration
                 ProfileId = "some profile id with a genome"
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwentyThreeAndMeGenome, TwentyThreeAndMeGenomeResponse>(request)
+                .MakeOAuthRequestAsync<TwentyThreeAndMeGenome, TwentyThreeAndMeGenomeResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -195,7 +195,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new SpotifySavedTrack();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<SpotifySavedTrack, SpotifySavedTrackResponse>(request)
+                .MakeOAuthRequestAsync<SpotifySavedTrack, SpotifySavedTrackResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -209,7 +209,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new FoursquareCheckin();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FoursquareCheckin, FoursquareCheckinResponse>(request)
+                .MakeOAuthRequestAsync<FoursquareCheckin, FoursquareCheckinResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -227,7 +227,7 @@ namespace Quantfabric.Test.Material.Integration
                 BeforeTimestamp = DateTime.Today.Subtract(TimeSpan.FromDays(30))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FoursquareCheckin, FoursquareCheckinResponse>(request)
+                .MakeOAuthRequestAsync<FoursquareCheckin, FoursquareCheckinResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -241,7 +241,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new FoursquareFriend();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FoursquareFriend, FoursquareFriendResponse>(request)
+                .MakeOAuthRequestAsync<FoursquareFriend, FoursquareFriendResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -255,7 +255,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new FoursquareTip();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FoursquareTip, FoursquareTipResponse>(request)
+                .MakeOAuthRequestAsync<FoursquareTip, FoursquareTipResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -275,7 +275,7 @@ namespace Quantfabric.Test.Material.Integration
                 Endtime = DateTime.Now
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitIntradaySteps, FitbitIntradayStepsResponse>(request)
+                .MakeOAuthRequestAsync<FitbitIntradaySteps, FitbitIntradayStepsResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -292,7 +292,7 @@ namespace Quantfabric.Test.Material.Integration
                 Date = DateTime.Today.Subtract(TimeSpan.FromDays(2))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitIntradayStepsBulk, FitbitIntradayStepsResponse>(request)
+                .MakeOAuthRequestAsync<FitbitIntradayStepsBulk, FitbitIntradayStepsResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -312,7 +312,7 @@ namespace Quantfabric.Test.Material.Integration
                 Endtime = DateTime.Now
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitIntradayHeartRate, string>(request)
+                .MakeOAuthRequestAsync<FitbitIntradayHeartRate, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -329,7 +329,7 @@ namespace Quantfabric.Test.Material.Integration
                 Date = DateTime.Today.Subtract(TimeSpan.FromDays(2))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitIntradayHeartRateBulk, string>(request)
+                .MakeOAuthRequestAsync<FitbitIntradayHeartRateBulk, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -346,7 +346,7 @@ namespace Quantfabric.Test.Material.Integration
                 Date = DateTime.Today
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitSleep, FitbitSleepResponse>(request)
+                .MakeOAuthRequestAsync<FitbitSleep, FitbitSleepResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -360,7 +360,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new FitbitProfile();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FitbitProfile, FitbitProfileResponse>(request)
+                .MakeOAuthRequestAsync<FitbitProfile, FitbitProfileResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -380,7 +380,7 @@ namespace Quantfabric.Test.Material.Integration
                 Limit = 3
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FacebookPageLike, FacebookPageLikeResponse>(request)
+                .MakeOAuthRequestAsync<FacebookPageLike, FacebookPageLikeResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -399,7 +399,7 @@ namespace Quantfabric.Test.Material.Integration
                 Limit = 3
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FacebookEvent, FacebookEventResponse>(request)
+                .MakeOAuthRequestAsync<FacebookEvent, FacebookEventResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -418,7 +418,7 @@ namespace Quantfabric.Test.Material.Integration
                 Limit = 10
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FacebookFeed, FacebookFeedResponse>(request)
+                .MakeOAuthRequestAsync<FacebookFeed, FacebookFeedResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -437,7 +437,7 @@ namespace Quantfabric.Test.Material.Integration
                 Limit = 10
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<FacebookFriend, string>(request)
+                .MakeOAuthRequestAsync<FacebookFriend, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
@@ -451,7 +451,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterTweet();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterTweet, TwitterTweetResponse>(request)
+                .MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -466,7 +466,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterTimeline();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterTimeline, TwitterTimelineResponse>(request)
+                .MakeOAuthRequestAsync<TwitterTimeline, TwitterTimelineResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -481,7 +481,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterMention();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterMention, TwitterMentionResponse>(request)
+                .MakeOAuthRequestAsync<TwitterMention, TwitterMentionResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -496,7 +496,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterFavorite();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterFavorite, TwitterFavoriteResponse>(request)
+                .MakeOAuthRequestAsync<TwitterFavorite, TwitterFavoriteResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -511,7 +511,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterFollower();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterFollower, TwitterFollowerResponse>(request)
+                .MakeOAuthRequestAsync<TwitterFollower, TwitterFollowerResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -526,7 +526,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterFollowing();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterFollowing, TwitterFollowingResponse>(request)
+                .MakeOAuthRequestAsync<TwitterFollowing, TwitterFollowingResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -541,7 +541,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterReceivedDirectMessage();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterReceivedDirectMessage, string>(request)
+                .MakeOAuthRequestAsync<TwitterReceivedDirectMessage, string>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -556,7 +556,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterSentDirectMessage();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterSentDirectMessage, string>(request)
+                .MakeOAuthRequestAsync<TwitterSentDirectMessage, string>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
@@ -571,7 +571,7 @@ namespace Quantfabric.Test.Material.Integration
 
             var request = new TwitterRetweetOfMe();
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequest<TwitterRetweetOfMe, TwitterRetweetOfMeResponse>(request)
+                .MakeOAuthRequestAsync<TwitterRetweetOfMe, TwitterRetweetOfMeResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);

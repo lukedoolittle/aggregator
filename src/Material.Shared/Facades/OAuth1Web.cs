@@ -9,35 +9,31 @@ using Material.OAuth;
 
 namespace Material.Facades
 {
-    public class OAuth1WebFacade<TResourceProvider> : OAuth1AuthenticationFacade
+    public class OAuth1Web<TResourceProvider> : OAuth1AuthenticationFacade
         where TResourceProvider: OAuth1ResourceProvider, new()
     {
-        public OAuth1WebFacade(
+        public OAuth1Web(
             string consumerKey, 
             string consumerSecret, 
             string callbackUrl,
-            string userId,
             IOAuthSecurityStrategy securityStrategy) : 
                 base(
                     new TResourceProvider(), 
                     consumerKey, 
                     consumerSecret, 
                     callbackUrl, 
-                    userId,
                     new OAuth1Authentication(),
                     securityStrategy)
         { }
 
-        public OAuth1WebFacade(
+        public OAuth1Web(
             string consumerKey,
             string consumerSecret,
-            string userId,
             string callbackUri) :
                 base(
                     new TResourceProvider(),
                     consumerKey,
                     consumerSecret,
-                    userId,
                     callbackUri,
                     new OAuth1Authentication(),
                     new OAuthSecurityStrategy(
@@ -46,12 +42,13 @@ namespace Material.Facades
         { }
 
         public OAuth1Credentials ParseAndValidateCallback(
-            Uri responseUri)
+            Uri responseUri,
+            string userId)
         {
             var handler = new OAuth1CallbackHandler(
                 _securityStrategy,
                 OAuth1ParameterEnum.OAuthToken.EnumToString(),
-                _userId);
+                userId);
 
             return handler.ParseAndValidateCallback<OAuth1Credentials>(
                 responseUri);

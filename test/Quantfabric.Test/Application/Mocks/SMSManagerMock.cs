@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Aggregator.Framework.Contracts;
 using Aggregator.Test.Helpers.Mocks;
 using Material.Contracts;
+using Material.Infrastructure.Static;
 
 namespace Quantfabric.Test.Application.Mocks
 {
@@ -12,7 +11,7 @@ namespace Quantfabric.Test.Application.Mocks
 
     public class SMSManagerMock : MockBase<ISMSAdapter>, ISMSAdapter
     {
-        Task<IEnumerable<Tuple<DateTimeOffset, JObject>>> ISMSAdapter.GetAllSMS(string filterDate)
+        public Task<IEnumerable<SMSMessage>> GetAllSMS(DateTime filterDate)
         {
             throw new NotImplementedException();
         }

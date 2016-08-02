@@ -66,7 +66,6 @@ namespace Aggregator.Task.Factories
                     provider, 
                     credentials.ConsumerKey, 
                     credentials.ConsumerSecret,
-                    userId,
                     credentials.CallbackUrl);
 
                 var template = _builder.BuildOAuth1Template<TResourceProvider>(
@@ -92,7 +91,6 @@ namespace Aggregator.Task.Factories
                     provider,
                     credentials.ClientId,
                     credentials.ClientSecret,
-                    userId,
                     credentials.CallbackUrl);
 
                 IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;

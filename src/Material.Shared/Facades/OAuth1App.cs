@@ -8,7 +8,7 @@ using Material.Infrastructure.Task;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuth1AppFacade<TResourceProvider>
+    public class OAuth1App<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()
     {
         private readonly string _consumerKey;
@@ -16,7 +16,7 @@ namespace Material.Infrastructure.OAuth
         private readonly string _callbackUrl;
         private readonly AuthenticationInterfaceEnum _browserType;
 
-        public OAuth1AppFacade(
+        public OAuth1App(
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
@@ -33,7 +33,7 @@ namespace Material.Infrastructure.OAuth
             _browserType = browserType;
         }
 
-        public Task<OAuth1Credentials> GetOAuth1Credentials()
+        public Task<OAuth1Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();
 
@@ -52,14 +52,13 @@ namespace Material.Infrastructure.OAuth
                 new TResourceProvider(),
                 _consumerKey,
                 _consumerSecret, 
-                userId,
                 _callbackUrl);
             var template = builder.BuildOAuth1Template<TResourceProvider>(
                 facade,
                 _browserType,
                 userId);
 
-            return template.GetAccessTokenCredentials();
+            return template.GetAccessTokenCredentials(userId);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Quantfabric.Test.Application.Mocks
         IOAuthAuthenticationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
-        Task<TCredentials> IOAuthAuthenticationTemplate<TCredentials>.GetAccessTokenCredentials()
+        public Task<TCredentials> GetAccessTokenCredentials(string userId)
         {
             throw new NotImplementedException();
         }

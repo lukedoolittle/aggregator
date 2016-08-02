@@ -10,13 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Adapters\BluetoothAdapter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BluetoothAuthorizationFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1AppFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1WebFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2AppFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2RefreshFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2WebFacade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth1Web.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2Refresh.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Facades\OAuth2Web.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GPSAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthFactory.cs" />

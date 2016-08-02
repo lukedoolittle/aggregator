@@ -14,7 +14,6 @@ namespace Material.OAuth
         private readonly OAuth1ResourceProvider _resourceProvider;
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
-        protected readonly string _userId;
         private readonly IOAuth1Authentication _oauth;
         protected readonly IOAuthSecurityStrategy _securityStrategy;
 
@@ -25,7 +24,6 @@ namespace Material.OAuth
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            string userId,
             IOAuth1Authentication oauth, 
             IOAuthSecurityStrategy securityStrategy)
         {
@@ -34,11 +32,10 @@ namespace Material.OAuth
             _resourceProvider = resourceProvider;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
-            _userId = userId;
             CallbackUri = new Uri(callbackUrl);
         }
 
-        public async Task<Uri> GetAuthorizationUri()
+        public async Task<Uri> GetAuthorizationUriAsync(string userId)
         {
             var credentials =
                 await _oauth
@@ -56,18 +53,18 @@ namespace Material.OAuth
                     _resourceProvider.AuthorizationUrl);
 
             _securityStrategy.SetSecureParameter(
-                _userId, 
+                userId, 
                 OAuth1ParameterEnum.OAuthToken.EnumToString(), 
                 credentials.OAuthToken);
             _securityStrategy.SetSecureParameter(
-                _userId,
+                userId,
                 OAuth1ParameterEnum.OAuthTokenSecret.EnumToString(),
                 credentials.OAuthSecret);
 
             return authorizationPath;
         }
 
-        public async Task<OAuth1Credentials> GetAccessTokenFromCallbackResult(
+        public async Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials result,
             string secret)
         {

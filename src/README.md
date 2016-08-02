@@ -1,31 +1,32 @@
 # Quantfabric Material
 
 ## What is your usage scenario?
-1. [I have a desktop or mobile app* and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#one)
-2. [I have a desktop or mobile app* and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#two)
-3. [I have a web application and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#three)
-4. [I have a web application and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#four)
-5. [I have a desktop, web or mobile app* and I want to access OAuth protected resources (ie access to my users Tweets)](#)
-6. [I want to test OAuth2 authentication workflows for an OAuth2 provider I am creating](#two)
+1. [I have a mobile/desktop app and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_app)
+2. [I have a mobile/desktop app and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#oauth2_app)
+3. [I have a web application and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_web)
+4. [I have a web application and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#oauth2_web)
+5. [I have a mobile, web or desktop app and I want to refresh my OAuth2 credentials](#oauth2_refresh)
+6. [I have a mobile, web or desktop app and I want to access OAuth protected resources (ie access to my users Tweets)](#protected_resources)
+7. [I want to test OAuth2 authentication workflows for an OAuth2 provider I am creating](#oauth2_app)
+8. [I want to connect to a Bluetooth GATT device](#bluetooth) 
+9. [I want to consume a device resource (SMS or GPS)](#device)
 
-\*  in progress
-
-## List of OAuth1 Providers
+## <a name="oauth1_providers"></a> List of OAuth1 Providers
 * `Twitter`
 * `Fatsecret`
 * `Withings`
 * [Create a Provider](#advanced_provider)
 
-## List of OAuth2 Providers
-* `Facebook`
-* `Fitbit`
-* `Foursquare`
-* `Google`
-* `LinkedIn`
-* [`Rescuetime`](#rescuetime)
-* `Runkeeper`
-* `Spotify`
-* `TwentyThreeAndMe`
+## <a name="oauth2_providers"></a> List of OAuth2 Providers
+* `Facebook` (token expires, no refresh token provided)
+* `Fitbit` (token expires, refresh token provided)
+* `Foursquare` (token does not expire)
+* `Google` (token expires, refresh token provided)
+* `LinkedIn` (token does not expire)
+* [`Rescuetime`](#rescuetime) (token does not expire)
+* `Runkeeper` (token does not expire)
+* `Spotify` (token expires, refresh token provided)
+* `TwentyThreeAndMe` (token expires, refresh token provided)
 * [Create a Provider](#advanced_provider)
 
 ## List of Requests
@@ -64,94 +65,105 @@
 * `WithingsWeighin`
 * [Create a Request](#advanced_request)
 
-## <a name="three"></a> Web App Authentication Provider (OAuth1)
+## <a name="oauth1_web"></a> Web App Authentication Provider (OAuth1)
 To obtain the redirect url for authorization on the resource providers server:
 
+	//OPTIONALLY: inject the OAuth1Web instance into your class or method
 	string consumerKey = "YOUR CONSUMER KEY";
+    string consumerSecret = "YOUR CONSUMER SECRET"
 	string callbackUri = "HTTP://YOURCALLBACKURI";
-	
-	OAuth1WebFacade<Twitter> oauth1 = new OAuth1WebFacade<Twitter>(
+    
+	OAuth1Web<Twitter> oauth = new OAuth1Web<Twitter>(
 		consumerKey, 
 		consumerSecret, 
 		callbackUri);
-			
-	Uri twitterLoginEndpoint = await oauth1
-		.GetAuthorizationUri()
+	
+    string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
+    
+	Uri twitterLoginEndpoint = await oauth
+		.GetAuthorizationUriAsync(userId)
 		.ConfigureAwait(false);
 
 To handle the callback to your server (assume this callback is an endpoint `TwitterCallback` within an .NET MVC `Controller`):
 
 	public async Task<ActionResult> TwitterCallback()
 	{
-		Uri callbackUri = ControllerContext.HttpContext.Request.Url;
-		OAuthCallbackHandler handler = new OAuthCallbackHandler();
-
-		OAuth1Credentials intermediateCredentials = handler
-			.ParseAndValidateCallback<OAuth1Credentials>(callbackUri);
-	
-		string consumerKey = "YOUR CONSUMER KEY";
-		string consumerSecret = "YOUR CONSUMER SECRET";
-		
-		OAuth1WebFacade<Twitter> oauth1 = new OAuth1WebFacade<Twitter>(
-			consumerKey, 
-			consumerSecret, 
+    	//SUGGESTED: inject the OAuth1Web instance into your controller
+		string clientId = "YOUR CLIENT ID";
+		string clientSecret = "YOUR CLIENT SECRET";
+		string callbackUri = "HTTP://YOURCALLBACKURI";
+        
+		OAuth1Web<Twitter> oauth = new OAuth1Web<Twitter>(
+			clientId, 
+			clientSecret,
 			callbackUri);
-			
-		OAuth1Credentials credentials = await oauth1
-			.GetAccessTokenFromCallbackResult(intermediateCredentials)
+	
+    	string userId = Request.Cookies["userId"];
+    	string url = ControllerContext.HttpContext.Request.Url;
+        
+    	OAuth1Credentials intermediateCredentials = oauth
+			.ParseAndValidateCallback(url, userId);
+    		
+		OAuth1Credentials credentials = await oauth
+			.GetAccessTokenAsync(intermediateCredentials)
 			.ConfigureAwait(false);
 		
 		//you've got the credentials!
 
 		return RedirectToAction("SOMEREDIRECTPAGE"); 
 	}
+    
+\* If you are working in an environment with multiple servers and you do not use sticky sessions, see the advanced topic [Creating Your Own Security Strategy](#advanced_security)
 
-## <a name="four"></a> Web App Authentication Provider (OAuth2)
+## <a name="oauth2_web"></a> Web App Authentication Provider (OAuth2)
 To obtain the redirect url for authorization on the resource providers server:
 
+	//OPTIONALLY: inject the OAuth2Web instance into your class or method
 	string clientId = "YOUR CLIENT ID";
 	string clientSecret = "YOUR CLIENT SECRET";
 	string callbackUri = "HTTP://YOURCALLBACKURI";
-	string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
 	
-	OAuth2WebFacade<Facebook> oauth2 = new OAuth2WebFacade<Facebook>(
+	OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
 		clientId, 
 		clientSecret, 
-		userId,
 		callbackUri);
-			
-	Uri facebookLoginEndpoint = await oauth2
-		.GetAuthorizationUri()
+        
+	string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
+    
+	Uri facebookLoginEndpoint = await oauth
+		.GetAuthorizationUriAsync(userId)
 		.ConfigureAwait(false);
 
 If you want to make a subsequent request for a protected resource add scopes for each request you intend to make. For example:
 
-	Uri facebookLoginEndpoint = await oauth2
+	Uri facebookLoginEndpoint = await oauth
 		.AddScope<FacebookFeed>()
 		.AddScope<FacebookFriend>()
-		.GetAuthorizationUri()
+		.GetAuthorizationUriAsync(userId)
 		.ConfigureAwait(false);
 
 To handle the callback to your server (assume this callback is an endpoint `FacebookCallback` within an .NET MVC `Controller` and that the userId is stored in a cookie):
 
 	public async Task<ActionResult> FacebookCallback()
 	{
-		Uri callbackUri = ControllerContext.HttpContext.Request.Url;
-		var userId = Request.Cookies["userId"];
+    	//SUGGESTED: inject the OAuth2Web instance into your controller
 		string clientId = "YOUR CLIENT ID";
 		string clientSecret = "YOUR CLIENT SECRET";
+        string callbackUri = "HTTP://YOURCALLBACKURI";
 		
-		OAuth2WebFacade<Facebook> oauth2 = new OAuth2WebFacade<Facebook>(
+		OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
 			clientId, 
 			clientSecret, 
-			userId,
 			callbackUri);
 
-		OAuth2Credentials intermediateCredentials = oauth2
-			.ParseAndValidateCallback(callbackUri);
+		var userId = Request.Cookies["userId"];
+		var url = ControllerContext.HttpContext.Request.Url;
+        
+		OAuth2Credentials intermediateCredentials = oauth
+			.ParseAndValidateCallback(url, userId);
 		
-		OAuth2Credentials credentials = await oauth2
-			.GetAccessTokenFromCallbackResult(intermediateCredentials)
+		OAuth2Credentials credentials = await oauth
+			.GetAccessTokenAsync(intermediateCredentials)
 			.ConfigureAwait(false);
 		
 		//you've got the credentials!
@@ -159,10 +171,10 @@ To handle the callback to your server (assume this callback is an endpoint `Face
 		return RedirectToAction("SOMEREDIRECTPAGE"); 
 	}
 
-\* If you are working in an environment with multiple servers and you do not use sticky sessions, see the advanced topic Creating Your Own Security Strategy
+\* If you are working in an environment with multiple servers and you do not use sticky sessions, see the advanced topic [Creating Your Own Security Strategy](#advanced_security)
 
-## <a name="one"></a> Desktop/Mobile Authentication Provider (OAuth1)
-When creating your app with the resource provider use your localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/twitter`
+## <a name="oauth1_app"></a> Mobile/Desktop Authentication Provider (OAuth1)
+When creating your app with the resource provider use localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/twitter`
 
 	public async Task MyAuthenticationMethod()
 	{
@@ -170,42 +182,42 @@ When creating your app with the resource provider use your localhost as the call
 		string consumerSecret = "YOUR CONSUMER SECRET";
 		string callbackUri = "http://localhost:33533/twitter";
 		
-		OAuth1AppFacade<Twitter> oauth1 = new OAuth1AppFacade<Twitter>(
+		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
 			consumerKey, 
 			consumerSecret, 
 			callbackUri);
 			
 		OAuth1Credentials credentials = await oauth1
-			.GetOAuth1Credentials()
+			.GetCredentialsAsync()
 			.ConfigureAwait(false);
 	}
 
-## <a name="two"></a> Desktop/Mobile Authentication Provider or for Testing (OAuth2)
-When creating your app with the resource provider use your localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/facebook`
+## <a name="oauth2_app"></a> Mobile/Desktop Authentication Provider or for Testing (OAuth2)
+When creating your app with the resource provider use localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/facebook`
 
 	public async Task MyAuthenticationMethod()
 	{
 		string clientId = "YOUR CLIENT ID";
 		string callbackUri = "http://localhost:33533/facebook";
 		
-		OAuth2AppFacade<Facebook> oauth2 = new OAuth2AppFacade<Facebook>(
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
 			clientId, 
 			callbackUri);
 		
 		OAuth2Credentials credentials = await oauth2
-			.GetOAuth2Credentials()
+			.GetCredentialsAsync()
 			.ConfigureAwait(false);
 	}
 
-If you want to make a subsequent request for a protected resource add scopes for each request you intend to make. For example:
+For subsequent requests of protected resource add scopes for each request type. For example:
 
-	OAuth2Credentials credentials = await oauth2
+	OAuth2Credentials credentials = await oauth
 		.AddScope<FacebookFeed>()
 		.AddScope<FacebookFriend>()
-		.GetOAuth2Credentials()
+		.GetCredentialsAsync()
 		.ConfigureAwait(false);
 
-The 'code' workflow can also be used in the event a long lived access token is desired and the client secret can be embedded in the application (testing purposes, etc)
+The 'code' workflow can also be used in the event a long lived access token is desired and the client secret can be embedded in the application (testing purposes, etc):
 
 	public async Task MyAuthenticationMethod()
 	{
@@ -213,23 +225,50 @@ The 'code' workflow can also be used in the event a long lived access token is d
 		string clientSecret = "YOUR CLIENT SECRET";
 		string callbackUri = "HTTP://YOURCALLBACKURI";
 		
-		OAuth2AppFacade<Facebook> oauth2 = new OAuth2AppFacade<Facebook>(
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
 			clientId, 
 			clientSecret, 
 			callbackUri);
 		
 		OAuth2Credentials credentials = await oauth2
-			.GetOAuth2Credentials()
+			.GetCredentialsAsync()
 			.ConfigureAwait(false);
 	}
 
-## Accessing Protected Resources
+By default `OAuth1App` and `OAuth2App` use an embedded browser (`WebView` on Android, `UIWebView` on iOS) for the workflow. In some situations a dedicated browser (Chrome on Android, Safari on iOS) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
+
+		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
+			consumerKey, 
+			consumerSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
+			clientId, 
+			clientSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+
+## <a name="oauth2_refresh"></a> OAuth2 Refresh Token
+If the authentication provider has an access token that expires and provides a refresh token (see [list of OAuth2 providers](#oauth2_providers)), that refresh token can be exchanged for a new, valid access token:
+
+	OAuth2Credentials googleCredentials = CREDENTIALS_I_GOT_EARLIER;
+
+	if (googleCredentials.IsTokenExpired)
+    {
+		googleCredentials = await new OAuth2Refresh<Google>()
+                						.RefreshCredentialsAsync(
+                    						expiredToken)
+                						.ConfigureAwait(false);
+    }
+
+## <a name="protected_resources"></a> Accessing Protected Resources
 After gathering the necessary `OAuth1Credentials` by using either the [OAuth 1 web](#two) or [OAuth 1 desktop](#one) workflows, or `OAuth2Credentials` by using either the [OAuth 2 web](#four) or [OAuth 2 desktop](#three) workflows, a request for a protected resource can be made.
 
 	OAuth1Credentials twitterCredentials = CREDENTIALS_I_GOT_EARLIER;
     
     var response = await new OAuthRequester(twitterCredentials)
-    	.MakeOAuthRequest<TwitterTweet, TwitterTweetResponse>()
+    	.MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>()
     	.ConfigureAwait(false);
 
 If the request needs to be customized an instance of the request class can be created
@@ -239,12 +278,46 @@ If the request needs to be customized an instance of the request class can be cr
     var request = new TwitterTweet();
     request.Count = 100;
     var response = await new OAuthRequester(twitterCredentials)
-    	.MakeOAuthRequest<TwitterTweet, TwitterTweetResponse>(request)
+    	.MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>(request)
     	.ConfigureAwait(false);
+
+## <a name="bluetooth"></a> Bluetooth
+
+	BluetoothCredentials credentials = await new BluetoothApp<Mioalpha>()
+                    						.GetBluetoothCredentialsAsync()
+                    						.ConfigureAwait(false);
+                                            
+    BluetoothResponse result = await new BluetoothRequester()
+                    				.MakeBluetoothRequestAsync<MioHeartRate>(credentials)
+                    				.ConfigureAwait(false);
+
+To connect to a custom Bluetooth GATT device, see [Creating a Bluetooth Provider and Request](#advanced_bluetooth)
+
+## <a name="device"></a> Device (SMS/GPS)
+To request the current GPS position:
+
+	GPSResponse result = await new GPSRequester()
+							.MakeGPSRequestAsync()
+                    		.ConfigureAwait(false);
+                            
+(Android only) To request a list of SMS currently in inbox or sent:
+
+	SMSResponse results = await new SMSRequester()
+                    		.MakeSMSRequestAsync()
+                    		.ConfigureAwait(false);
+                            
+The SMS results can also be filtered by a date:
+
+	DateTime dateFilter = System.DateTime.Today;
+    SMSResponse results = await new SMSRequester()
+                    		.MakeSMSRequestAsync(dateFilter)
+                    		.ConfigureAwait(false);
+
 
 ## Provider Specific Notes
 ### <a name="rescuetime"></a> Rescuetime
 Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop/mobile workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
+
 ## Advanced Topics
 ### <a name="advanced_security"></a> Creating your own security parameter repository
 During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:
@@ -316,8 +389,44 @@ When creating an instance of `OAuth2WebFacade`, pass an instance of the reposito
 		userId,
 		callbackUri,
 		strategy); 
-        
-### <a name="advanced_provider"></a> Creating your own Resource Provider
+
+### <a name="advanced_bluetooth"></a> Creating a Bluetooth Provider and Request
+Create a resource provider class to acquire the device address:
+
+	using Material.Infrastructure.Credentials;
+	using Material.Metadata;
+
+	namespace Material.Infrastructure.ProtectedResources
+	{
+		[CredentialType(typeof(BluetoothCredentials))]        
+		public partial class MyBluetoothDevice : BluetoothResourceProvider
+		{
+		}
+	}
+    
+Create a request to access the GATT characteristic. The static classes `BluetoothServices` and `BluetoothCharacteristics` contain the assigned numbers for all approved bluetooth services and characteristics respectively. A conversion function should be written on a characteristic by characteristic basis to convert the raw `byte[]` reading into a string.
+
+    using System;
+    using Material.Infrastructure.Bluetooth;
+    using Material.Infrastructure.ProtectedResources;
+    using Material.Metadata;
+
+    namespace Material.Infrastructure.Requests
+    {       
+        [ServiceType(typeof(MyBluetoothDevice))]        
+        public partial class MyBluetoothDeviceBloodPressureRate : BluetoothRequest
+        {
+            public override BluetoothSpecification Characteristic => 
+                BluetoothCharacteristics.BloodPressureMeasurement;
+
+            public override Func<byte[], string> CharacteristicConverter =>
+                (data) => data.ToString();
+
+            public override BluetoothSpecification Service => 
+                BluetoothServices.BloodPressure;
+        }
+    }
+### <a name="advanced_provider"></a> Creating an OAuth Resource Provider
 TODO
-### <a name="advanced_request"></a> Creating your own Request
+### <a name="advanced_request"></a> Creating an OAuth Request
 TODO
