@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Quantfabric.Material</id>
-    <version>0.0.2-alpha</version>
+    <version>0.0.3-alpha</version>
     <title>Quantfabric.Material</title>
     <authors>lukedoolittle</authors>
     <owners></owners>
@@ -14,7 +14,7 @@
     <summary>
     </summary>
     <language>en-US</language>
-    <projectUrl>https://github.com/lukedoolittle/quantfabric/blob/master/src/README.md</projectUrl>
+    <projectUrl>https://github.com/lukedoolittle/quantfabric</projectUrl>
     <iconUrl>https://s3.amazonaws.com/lukedoolittle/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -69,8 +69,9 @@
     
     <file src="readme.txt" target="" />
 
-    <file src="content\" target="content\MonoAndroid60\MainApplication.cs.pp" />
-
+    <file src="content\MonoAndroid60\MainApplication.cs.pp" target="content\MonoAndroid60\" />
+    <file src="content\" target="" />
+    
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

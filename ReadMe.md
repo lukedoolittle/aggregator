@@ -1,132 +1,436 @@
-# Data Collection Framework for Xamarin
+# Quantfabric Material
+A cross platform framework for collecting personal data from various sources including web apis (OAuth), bluetooth devices, and smartphone embedded sensors (GPS, SMS, etc)
 
-## Usage (see below for setup)
+# NuGet
+You can get Material by [grabbing the latest NuGet package](#https://www.nuget.org/packages/Quantfabric.Material/) currently available for .NET 4.5, Xamarin.Android, and Xamarin.iOS (Windows UWP and Xamarin.Forms in progress)
 
-1. Authenticate a service from an Activity (Android), a UIViewController (iOS), or whatever (Windows). Example for iOS from a UIViewController.
+## What is your usage scenario?
+1. [I have a mobile/desktop app and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_app)
+2. [I have a mobile/desktop app and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#oauth2_app)
+3. [I have a web application and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_web)
+4. [I have a web application and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#oauth2_web)
+5. [I have a mobile, web or desktop app and I want to refresh my OAuth2 credentials](#oauth2_refresh)
+6. [I have a mobile, web or desktop app and I want to access OAuth protected resources (ie access to my users Tweets)](#protected_resources)
+7. [I want to test OAuth2 authentication workflows for an OAuth2 provider I am creating](#oauth2_app)
+8. [I want to connect to a Bluetooth GATT device](#bluetooth) 
+9. [I want to consume a device resource (SMS or GPS)](#device)
 
-        var factory = ServiceLocator.Current.GetInstance<AuthenticationTaskFactory>();
-        await factory.GenerateTask<Twitter>(aggregateId, version, this).Execute();
+## <a name="oauth1_providers"></a> List of OAuth1 Providers
+* `Twitter`
+* `Fatsecret`
+* `Withings`
+* [Create a Provider](#advanced_provider)
 
-2. Create a sensor. Data collection begins automagically.
+## <a name="oauth2_providers"></a> List of OAuth2 Providers
+* `Facebook` (token expires, no refresh token provided)
+* `Fitbit` (token expires, refresh token provided)
+* `Foursquare` (token does not expire)
+* `Google` (token expires, refresh token provided)
+* `LinkedIn` (token does not expire)
+* [`Rescuetime`](#rescuetime) (token does not expire)
+* `Runkeeper` (token does not expire)
+* `Spotify` (token expires, refresh token provided)
+* `TwentyThreeAndMe` (token expires, refresh token provided)
+* [Create a Provider](#advanced_provider)
 
-        var sender = ServiceLocator.Current.GetInstance<ICommandSender>();
-        var command = new CreateSensorCommand<TwitterTweets>(aggregateId, version);
-        sender.Send(command);
+## List of Requests
+* `FacebookFeed`
+* `FacebookEvent`
+* `FacebookFriend`
+* `FacebookPageLike`
+* `FatsecretMeal`
+* `FitbitIntradayHeartRate`
+* `FitbitIntradayHeartRateBulk`
+* `FitbitIntradaySteps`
+* `FitbitIntradayStepsBulk`
+* `FitbitProfile`
+* `FitbitSleep`
+* `FoursquareCheckin`
+* `FoursquareFriend`
+* `FoursquareTip`
+* `GoogleGmail`
+* `GoogleGmailMetadata`
+* `LinkedinPersonal`
+* `LinkedinUpdate`
+* `RescuetimeAnalyticData`
+* `RunkeeperFitnessActivity`
+* `SpotifySavedTrack`
+* `TwentyThreeAndMeGenome`
+* `TwentyThreeAndMeUser`
+* `TwitterFavorite`
+* `TwitterFollower`
+* `TwitterFollowing`
+* `TwitterMention`
+* `TwitterReceivedDirectMessage`
+* `TwitterSentDirectMessage`
+* `TwitterRetweetOfMe`
+* `TwitterTimeline`
+* `TwitterTweet`
+* `WithingsWeighin`
+* [Create a Request](#advanced_request)
 
-3. Profit???
+## <a name="oauth1_web"></a> Web App Authentication Provider (OAuth1)
+To obtain the redirect url for authorization on the resource providers server:
 
-## Manual Usage (w/o domain model)
+	//OPTIONALLY: inject the OAuth1Web instance into your class or method
+	string consumerKey = "YOUR CONSUMER KEY";
+    string consumerSecret = "YOUR CONSUMER SECRET"
+	string callbackUri = "HTTP://YOURCALLBACKURI";
+    
+	OAuth1Web<Twitter> oauth = new OAuth1Web<Twitter>(
+		consumerKey, 
+		consumerSecret, 
+		callbackUri);
+	
+    string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
+    
+	Uri twitterLoginEndpoint = await oauth
+		.GetAuthorizationUriAsync(userId)
+		.ConfigureAwait(false);
 
-1. Get an authentication token. Example for Windows.
+To handle the callback to your server (assume this callback is an endpoint `TwitterCallback` within an .NET MVC `Controller`):
 
-        var factory = ServiceLocator.Current.GetInstance<AuthenticationTaskFactory>();
-        var token = await factory.GenerateOAuth1Task<Twitter>().GetAccessTokenCredentials();
+	public async Task<ActionResult> TwitterCallback()
+	{
+    	//SUGGESTED: inject the OAuth1Web instance into your controller
+		string clientId = "YOUR CLIENT ID";
+		string clientSecret = "YOUR CLIENT SECRET";
+		string callbackUri = "HTTP://YOURCALLBACKURI";
+        
+		OAuth1Web<Twitter> oauth = new OAuth1Web<Twitter>(
+			clientId, 
+			clientSecret,
+			callbackUri);
+	
+    	string userId = Request.Cookies["userId"];
+    	string url = ControllerContext.HttpContext.Request.Url;
+        
+    	OAuth1Credentials intermediateCredentials = oauth
+			.ParseAndValidateCallback(url, userId);
+    		
+		OAuth1Credentials credentials = await oauth
+			.GetAccessTokenAsync(intermediateCredentials)
+			.ConfigureAwait(false);
+		
+		//you've got the credentials!
 
-2. Use token to make a request using a client
+		return RedirectToAction("SOMEREDIRECTPAGE"); 
+	}
+    
+\* If you are working in an environment with multiple servers and you do not use sticky sessions, see the advanced topic [Creating Your Own Security Strategy](#advanced_security)
 
-        var factory = ServiceLocator.Current.GetInstance<IClientFactory>();
-        var data = await factory.CreateClient<TwitterTweets>(token).GetDataPoints();
+## <a name="oauth2_web"></a> Web App Authentication Provider (OAuth2)
+To obtain the redirect url for authorization on the resource providers server:
 
-## Building
+	//OPTIONALLY: inject the OAuth2Web instance into your class or method
+	string clientId = "YOUR CLIENT ID";
+	string clientSecret = "YOUR CLIENT SECRET";
+	string callbackUri = "HTTP://YOURCALLBACKURI";
+	
+	OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
+		clientId, 
+		clientSecret, 
+		callbackUri);
+        
+	string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
+    
+	Uri facebookLoginEndpoint = await oauth
+		.GetAuthorizationUriAsync(userId)
+		.ConfigureAwait(false);
 
-Prerequisites
+If you want to make a subsequent request for a protected resource add scopes for each request you intend to make. For example:
 
-* Visual Studio 2015 + Xamarin
-* T4 Tools Extension for VS2015
-* [Couchbase for Windows](http://www.couchbase.com/nosql-databases/downloads?gclid=Cj0KEQjwtaexBRCohZOAoOPL88oBEiQAr96eSHjxp20MeldXqDbRkXHD59O9iTwpfBlLfKXk2hA5KxIaAqrh8P8HAQ) if you want to fiddle with the Windows based tests
+	Uri facebookLoginEndpoint = await oauth
+		.AddScope<FacebookFeed>()
+		.AddScope<FacebookFriend>()
+		.GetAuthorizationUriAsync(userId)
+		.ConfigureAwait(false);
 
-Dependencies (enable autorestore Nuget packages in Visual Studio)
+To handle the callback to your server (assume this callback is an endpoint `FacebookCallback` within an .NET MVC `Controller` and that the userId is stored in a cookie):
 
-* Netwonsoft.Json
-* Restsharp
-* Autofac
-* CouchbaseNetClient, Couchbase.Lite
-* CommonServiceLocator
-* Monkey.Robotics
-* Xam.Plugin.Geolocator
-* SimpleCQRS.Portable
-* xUnit (testing)
-* Lightmock (testing)
+	public async Task<ActionResult> FacebookCallback()
+	{
+    	//SUGGESTED: inject the OAuth2Web instance into your controller
+		string clientId = "YOUR CLIENT ID";
+		string clientSecret = "YOUR CLIENT SECRET";
+        string callbackUri = "HTTP://YOURCALLBACKURI";
+		
+		OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
+			clientId, 
+			clientSecret, 
+			callbackUri);
 
-## Basic Setup
+		var userId = Request.Cookies["userId"];
+		var url = ControllerContext.HttpContext.Request.Url;
+        
+		OAuth2Credentials intermediateCredentials = oauth
+			.ParseAndValidateCallback(url, userId);
+		
+		OAuth2Credentials credentials = await oauth
+			.GetAccessTokenAsync(intermediateCredentials)
+			.ConfigureAwait(false);
+		
+		//you've got the credentials!
 
-Before anything can happen you have to change the `CredentialApplicationSettings` class and fill in your clientId/clientSecret or consumerKey/consumerSecret for each service you want to use. See the advanced topics for how these entries affect the workflow.
+		return RedirectToAction("SOMEREDIRECTPAGE"); 
+	}
 
-## Basic Windows Setup
+\* If you are working in an environment with multiple servers and you do not use sticky sessions, see the advanced topic [Creating Your Own Security Strategy](#advanced_security)
 
-1. In your main Android project add a reference to Aggregator.Windows
+## <a name="oauth1_app"></a> Mobile/Desktop Authentication Provider (OAuth1)
+When creating your app with the resource provider use localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/twitter`
 
-2. Bootstrap startup somewhere near the begining of the application
+	public async Task MyAuthenticationMethod()
+	{
+		string consumerKey = "YOUR CONSUMER KEY";
+		string consumerSecret = "YOUR CONSUMER SECRET";
+		string callbackUri = "http://localhost:33533/twitter";
+		
+		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
+			consumerKey, 
+			consumerSecret, 
+			callbackUri);
+			
+		OAuth1Credentials credentials = await oauth1
+			.GetCredentialsAsync()
+			.ConfigureAwait(false);
+	}
 
-		new Bootstrapper().DefaultConfig().Run().GetInstance<Scheduler>().Start();
+## <a name="oauth2_app"></a> Mobile/Desktop Authentication Provider or for Testing (OAuth2)
+When creating your app with the resource provider use localhost as the callback uri with an uncommon port number. For example `http://localhost:33533/facebook`
 
-3. Basic usage is described at the begining of the readme
+	public async Task MyAuthenticationMethod()
+	{
+		string clientId = "YOUR CLIENT ID";
+		string callbackUri = "http://localhost:33533/facebook";
+		
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
+			clientId, 
+			callbackUri);
+		
+		OAuth2Credentials credentials = await oauth2
+			.GetCredentialsAsync()
+			.ConfigureAwait(false);
+	}
+
+For subsequent requests of protected resource add scopes for each request type. For example:
+
+	OAuth2Credentials credentials = await oauth
+		.AddScope<FacebookFeed>()
+		.AddScope<FacebookFriend>()
+		.GetCredentialsAsync()
+		.ConfigureAwait(false);
+
+The 'code' workflow can also be used in the event a long lived access token is desired and the client secret can be embedded in the application (testing purposes, etc):
+
+	public async Task MyAuthenticationMethod()
+	{
+		string clientId = "YOUR CLIENT ID";
+		string clientSecret = "YOUR CLIENT SECRET";
+		string callbackUri = "HTTP://YOURCALLBACKURI";
+		
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
+			clientId, 
+			clientSecret, 
+			callbackUri);
+		
+		OAuth2Credentials credentials = await oauth2
+			.GetCredentialsAsync()
+			.ConfigureAwait(false);
+	}
+
+By default `OAuth1App` and `OAuth2App` use an embedded browser (`WebView` on Android, `UIWebView` on iOS) for the workflow. In some situations a dedicated browser (Chrome on Android, Safari on iOS) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
+
+		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
+			consumerKey, 
+			consumerSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
+			clientId, 
+			clientSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+
+## <a name="oauth2_refresh"></a> OAuth2 Refresh Token
+If the authentication provider has an access token that expires and provides a refresh token (see [list of OAuth2 providers](#oauth2_providers)), that refresh token can be exchanged for a new, valid access token:
+
+	OAuth2Credentials googleCredentials = CREDENTIALS_I_GOT_EARLIER;
+
+	if (googleCredentials.IsTokenExpired)
+    {
+		googleCredentials = await new OAuth2Refresh<Google>()
+                						.RefreshCredentialsAsync(
+                    						expiredToken)
+                						.ConfigureAwait(false);
+    }
+
+## <a name="protected_resources"></a> Accessing Protected Resources
+After gathering the necessary `OAuth1Credentials` by using either the [OAuth 1 web](#two) or [OAuth 1 desktop](#one) workflows, or `OAuth2Credentials` by using either the [OAuth 2 web](#four) or [OAuth 2 desktop](#three) workflows, a request for a protected resource can be made.
+
+	OAuth1Credentials twitterCredentials = CREDENTIALS_I_GOT_EARLIER;
+    
+    var response = await new OAuthRequester(twitterCredentials)
+    	.MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>()
+    	.ConfigureAwait(false);
+
+If the request needs to be customized an instance of the request class can be created
+
+	OAuth1Credentials twitterCredentials = CREDENTIALS_I_GOT_EARLIER;
+    
+    var request = new TwitterTweet();
+    request.Count = 100;
+    var response = await new OAuthRequester(twitterCredentials)
+    	.MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>(request)
+    	.ConfigureAwait(false);
+
+## <a name="bluetooth"></a> Bluetooth
+
+	BluetoothCredentials credentials = await new BluetoothApp<Mioalpha>()
+                    						.GetBluetoothCredentialsAsync()
+                    						.ConfigureAwait(false);
+                                            
+    BluetoothResponse result = await new BluetoothRequester()
+                    				.MakeBluetoothRequestAsync<MioHeartRate>(credentials)
+                    				.ConfigureAwait(false);
+
+To connect to a custom Bluetooth GATT device, see [Creating a Bluetooth Provider and Request](#advanced_bluetooth)
+
+## <a name="device"></a> Device (SMS/GPS)
+To request the current GPS position:
+
+	GPSResponse result = await new GPSRequester()
+							.MakeGPSRequestAsync()
+                    		.ConfigureAwait(false);
+                            
+(Android only) To request a list of SMS currently in inbox or sent:
+
+	SMSResponse results = await new SMSRequester()
+                    		.MakeSMSRequestAsync()
+                    		.ConfigureAwait(false);
+                            
+The SMS results can also be filtered by a date:
+
+	DateTime dateFilter = System.DateTime.Today;
+    SMSResponse results = await new SMSRequester()
+                    		.MakeSMSRequestAsync(dateFilter)
+                    		.ConfigureAwait(false);
 
 
-## Basic iOS Setup
-
-1. In your main iOS project add a reference to Aggregator.iOS
-
-2. In the Entitlements.plist add the following: NSLocationAlwaysUsageDescription
-
-3. Make your `AppDelegate` inherit from `AggregatorAppDelegate`
-
-4. Basic usage is described at the begining of the readme
-
-
-## Basic Android Setup
-
-1. In your main Android project add a reference to Aggregator.Android
-
-2. In your Android Manifest add the following permissions enabled: ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, BLUETOOTH, BLUETOOTH_ADMIN, BLUETOOTH_PRIVILEDGED, READ_SMS, READ_CONTACTS
-
-3. Because the Android service starts asynchronously, in your initial activity (`MainLauncher=true`) the `OnCreate()` method should be marked `async` and wait for the startup to finish
-
-        protected override async void OnCreate(Bundle bundle)
-        {
-            await AggregatorService.Initializing;
-            ...
-        }
-
-4. Basic usage is described at the begining of the readme
-
-
-## Basic Testing Setup
-
-1. Change the testCredentials.txt file into testCredentials.json and fill in data with actual access/oauth tokens
-
-2. Run all tests. (on Windows this will also run all the authentication tests)
-
-3. Use the Android and iOS UI projects to manually test the authentication workflows
-
+## Provider Specific Notes
+### <a name="rescuetime"></a> Rescuetime
+Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop/mobile workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
 
 ## Advanced Topics
+### <a name="advanced_security"></a> Creating your own security parameter repository
+During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:
 
-### Client Credentials and Workflow
+    public class CookieCryptographicParameterRepository : 
+        ICryptographicParameterRepository
+    {
+        private readonly HttpCookieCollection _cookies;
 
-For OAuth2 authentication the workflow ('token' or 'code') is determined by the credentials you put into `CredentialApplicationSettings`. If you do not enter a client secret for a service type the authentication task will attempt to use the 'token' workflow, otherwise it will use the 'code' workflow
+        public CookieCryptographicParameterRepository(
+            HttpCookieCollection cookies)
+        {
+            _cookies = cookies;
+        }
 
-### Authentication Presentation Type
+        public void SetCryptographicParameterValue(
+            string userId, 
+            string parameterName, 
+            string parameterValue, 
+            DateTimeOffset timestamp)
+        {
+            var cookie = new HttpCookie(userId + parameterName);
+            cookie.Values["value"] = parameterValue;
+            cookie.Values["timestamp"] = timestamp.ToString();
 
-By default desktop applications attempt to use the default OS browser and mobile applications use an embedded view. If you want to override this you can provide a parameter when getting the authentication task.
+            _cookies.Add(cookie);
+        }
 
-    var factory = ServiceLocator.Current.GetInstance<AndroidAuthenticationTaskFactory>();
-    var task = factory.GenerateTask<Fitbit>(aggregateId, version, this, AuthenticationInterfaceEnum.Dedicated);
+        public Tuple<string, DateTimeOffset> GetCryptographicParameterValue(
+            string userId,
+            string parameterName)
+        {
+            var cookie = _cookies[userId + parameterName];
 
-This may be useful when a service requires something different than the default. For example Fitbit [forbids you from using a embedded view](https://dev.fitbit.com/docs/oauth2/#obtaining-consent) to authenticate. You could use the above code to force usage of the default Android browser for the authentication.
+            if (cookie == null)
+            {
+                return default(Tuple<string, DateTimeOffset>);
+            }
+            else
+            {
+                return new Tuple<string, DateTimeOffset>(
+                    cookie["value"], 
+                    DateTimeOffset.Parse("timestamp"));
+            }
+        }
 
-### Adding new EventHandlers
+        public void DeleteCryptographicParameterValue(
+            string userId, 
+            string parameterName)
+        {
+            _cookies.Remove(userId + parameterName);
+        }
+    }
 
+When creating an instance of `OAuth2WebFacade`, pass an instance of the repository to `OAuthSecurityStrategy` and then into the facade:
+
+	string clientId = "YOUR CLIENT ID";
+	string clientSecret = "YOUR CLIENT SECRET";
+	string callbackUri = "HTTP://YOURCALLBACKURI";
+	string userId = "SOMEUSERID";
+	OAuthSecurityStrategy strategy = new OAuthSecurityStrategy(
+                        new CookieCryptographicParameterRepository(
+	                        HttpContext.Response.Cookies), 
+                        TimeSpan.FromMinutes(2)))
+	
+	OAuth2WebFacade<Facebook> oauth2 = new OAuth2WebFacade<Facebook>(
+		clientId, 
+		clientSecret, 
+		userId,
+		callbackUri,
+		strategy); 
+
+### <a name="advanced_bluetooth"></a> Creating a Bluetooth Provider and Request
+Create a resource provider class to acquire the device address:
+
+	using Material.Infrastructure.Credentials;
+	using Material.Metadata;
+
+	namespace Material.Infrastructure.ProtectedResources
+	{
+		[CredentialType(typeof(BluetoothCredentials))]        
+		public partial class MyBluetoothDevice : BluetoothResourceProvider
+		{
+		}
+	}
+    
+Create a request to access the GATT characteristic. The static classes `BluetoothServices` and `BluetoothCharacteristics` contain the assigned numbers for all approved bluetooth services and characteristics respectively. A conversion function should be written on a characteristic by characteristic basis to convert the raw `byte[]` reading into a string.
+
+    using System;
+    using Material.Infrastructure.Bluetooth;
+    using Material.Infrastructure.ProtectedResources;
+    using Material.Metadata;
+
+    namespace Material.Infrastructure.Requests
+    {       
+        [ServiceType(typeof(MyBluetoothDevice))]        
+        public partial class MyBluetoothDeviceBloodPressureRate : BluetoothRequest
+        {
+            public override BluetoothSpecification Characteristic => 
+                BluetoothCharacteristics.BloodPressureMeasurement;
+
+            public override Func<byte[], string> CharacteristicConverter =>
+                (data) => data.ToString();
+
+            public override BluetoothSpecification Service => 
+                BluetoothServices.BloodPressure;
+        }
+    }
+### <a name="advanced_provider"></a> Creating an OAuth Resource Provider
 TODO
-
-### Customizing the Bootstrapper
-
-By default the bootstrapper (the Windows code given above or the code in the AggregatorService or AggregatorAppDelegate) will perform assembly scanning on ALL non .NET, non dependency loaded assemblies for purposes of startup tasks and Autofac registration. In some cases this can be slow depending on how many additional assemblies you have referenced in your project. If this occurs you have the following options:
-
-1. Override the default bootstrapper and add any of the newly added dependendant assemblies to the blacklist
-
-2. Add only the assemblies you want to be a part of the assembly scanning to a call to `AddAssemblies()` (whitelist)
-
-### Adding or removing Services or Requests
-
+### <a name="advanced_request"></a> Creating an OAuth Request
 TODO
