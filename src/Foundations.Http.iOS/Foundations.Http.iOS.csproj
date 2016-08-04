@@ -51,6 +51,7 @@
   <Import Project="..\Foundations.Http\Foundations.Http.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)build\Foundations.Http.NuGet\lib\Xamarin.iOS10\" /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

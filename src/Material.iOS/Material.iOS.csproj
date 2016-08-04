@@ -109,15 +109,11 @@
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)Material.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
-xcopy "$(TargetDir)Material.Portable.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
-xcopy "$(TargetDir)Foundations.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
-xcopy "$(TargetDir)Foundations.Cryptography.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
-xcopy "$(TargetDir)Foundations.Http.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y
-xcopy "$(TargetDir)Foundations.Serialization.dll" "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10" /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>rmdir /s /q "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10"
-mkdir "$(SolutionDir)build\Material.NuGet\lib\Xamarin.iOS10"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -7,7 +7,7 @@
     <authors>lukedoolittle</authors>
     <owners></owners>
     <description>
-      A cross-platform framework for OAuth, Bluetooth and device specific data
+      A cross-platform framework for gathering OAuth, Bluetooth and device specific data
     </description>
     <releaseNotes>
     </releaseNotes>
@@ -45,34 +45,9 @@
   </metadata>
   <files>
     <file src="lib\" target="lib" />
-    
-    <file src="lib\net452\Material.dll" target="lib\net452" />
-    <file src="lib\net452\Material.Portable.dll" target="lib\net452" />
-    <file src="lib\net452\Foundations.dll" target="lib\net452" />
-    <file src="lib\net452\Foundations.Http.dll" target="lib\net452" />
-    <file src="lib\net452\Foundations.Serialization.dll" target="lib\net452" />
-    <file src="lib\net452\Foundations.Cryptography.dll" target="lib\net452" />
-
-    <file src="lib\Xamarin.iOS10\Material.dll" target="lib\Xamarin.iOS10" />
-    <file src="lib\Xamarin.iOS10\Material.Portable.dll" target="lib\Xamarin.iOS10" />
-    <file src="lib\Xamarin.iOS10\Foundations.dll" target="lib\Xamarin.iOS10" />
-    <file src="lib\Xamarin.iOS10\Foundations.Http.dll" target="lib\Xamarin.iOS10" />
-    <file src="lib\Xamarin.iOS10\Foundations.Serialization.dll" target="lib\Xamarin.iOS10" />
-    <file src="lib\Xamarin.iOS10\Foundations.Cryptography.dll" target="lib\Xamarin.iOS10" />
-
-    <file src="lib\MonoAndroid60\Material.dll" target="lib\MonoAndroid60" />
-    <file src="lib\MonoAndroid60\Material.Portable.dll" target="lib\MonoAndroid60" />
-    <file src="lib\MonoAndroid60\Foundations.dll" target="lib\MonoAndroid60" />
-    <file src="lib\MonoAndroid60\Foundations.Http.dll" target="lib\MonoAndroid60" />
-    <file src="lib\MonoAndroid60\Foundations.Serialization.dll" target="lib\MonoAndroid60" />
-    <file src="lib\MonoAndroid60\Foundations.Cryptography.dll" target="lib\MonoAndroid60" />
-    
-    <file src="readme.txt" target="" />
-
-    <file src="content\MonoAndroid60\MainApplication.cs.pp" target="content\MonoAndroid60\" />
-    <file src="content\" target="" />
-    
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
+    
+    <file src="readme.txt" target="" />
   </files>
 </package>
