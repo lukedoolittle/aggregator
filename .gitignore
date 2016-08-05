@@ -265,3 +265,6 @@ description.cs
 # Credential Files
 CredentialApplicationSettings.cs
 testCredentials.json
+
+# Build Files
+build/Material/lib

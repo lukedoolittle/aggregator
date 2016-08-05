@@ -99,7 +99,7 @@ Task("Build")
     }
 });
 
-Task("Assembly-Merge")
+Task("Move")
     .IsDependentOn("Build")
     .Does(() =>
 {
@@ -112,17 +112,41 @@ Task("Assembly-Merge")
 			nugetItem.Key + File("Foundations.Http.dll"),
 			nugetItem.Key + File("Foundations.Serialization.dll"),
 			nugetItem.Key + File("Material.Portable.dll"),
+			nugetItem.Key + File("Material.dll"),
 		};
 
-		ILMerge(
-			nugetItem.Value + File(mergedAssembly), 
-			nugetItem.Key + File(primaryAssembly), 
-			assemblyFiles);
+		foreach(var file in assemblyFiles)
+		{
+			CopyFileToDirectory(file, nugetItem.Value);
+		}
 	}
 });
 
+// TODO: get this to work with Xamarin assemblies
+// Task("Assembly-Merge")
+//     .IsDependentOn("Build")
+//     .Does(() =>
+// {
+// 	foreach(var nugetItem in nugetItemDictionary)
+// 	{
+// 		var assemblyFiles = new List<FilePath> 
+// 		{
+// 			nugetItem.Key + File("Foundations.Cryptography.dll"),
+// 			nugetItem.Key + File("Foundations.dll"),
+// 			nugetItem.Key + File("Foundations.Http.dll"),
+// 			nugetItem.Key + File("Foundations.Serialization.dll"),
+// 			nugetItem.Key + File("Material.Portable.dll"),
+// 		};
+
+// 		ILMerge(
+// 			nugetItem.Value + File(mergedAssembly), 
+// 			nugetItem.Key + File(primaryAssembly), 
+// 			assemblyFiles);
+// 	}
+// });
+
 Task("NuGet-Pack")
-    .IsDependentOn("Assembly-Merge")
+    .IsDependentOn("Move")
     .Does(() =>
 {
 	NuGetPack(

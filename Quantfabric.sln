@@ -63,6 +63,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundations.Http.Windows", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundations.Test", "test\Foundations.Test\Foundations.Test.csproj", "{9CCBA100-072A-4F30-B3C6-AA688F01BE07}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C352587C-5AC0-4B06-9486-441A19690E47}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		build.cake = build.cake
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Foundations.Http\Foundations.Http.projitems*{0b1bba44-0118-495e-8e2f-04d10302d81b}*SharedItemsImports = 13
