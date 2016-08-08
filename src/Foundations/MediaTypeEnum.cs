@@ -2,8 +2,7 @@
 
 namespace Foundations.Http
 {
-    //TODO: add all mime types
-    public enum MimeTypeEnum
+    public enum MediaTypeEnum
     {
         [Description("application/json")]
         Json,
@@ -13,5 +12,7 @@ namespace Foundations.Http
         Html,
         [Description("text/xml")]
         Xml,
+        [Description("application/x-www-form-urlencoded")]
+        Form
     }
 }

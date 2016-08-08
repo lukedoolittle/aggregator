@@ -24,11 +24,16 @@ namespace Material.OAuth
             _securityStrategy = securityStrategy;
         }
 
-        public TToken ParseAndValidateCallback<TToken>(
+        public virtual TToken ParseAndValidateCallback<TToken>(
             Uri responseUri)
             where TToken : TokenCredentials
         {
             var query = ParseQuerystring(responseUri);
+
+            if (query == null)
+            {
+                return null;
+            }
 
             if (IsResponseError(query))
             {

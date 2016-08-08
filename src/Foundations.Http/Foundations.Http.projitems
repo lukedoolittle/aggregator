@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)HttpMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IncommingMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MIMETypeEnum.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServerResponse.cs" />
   </ItemGroup>
 </Project>

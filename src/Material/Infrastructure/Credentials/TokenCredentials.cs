@@ -38,7 +38,7 @@ namespace Material.Infrastructure.Credentials
                 {
                     var secondsUntilExpiration = Convert.ToInt32(ExpiresIn);
                     var secondsSinceCreation = (DateTimeOffset.Now - DateCreated).TotalSeconds;
-                    return secondsUntilExpiration > secondsSinceCreation;
+                    return secondsSinceCreation > secondsUntilExpiration;
                 }
             }
         }

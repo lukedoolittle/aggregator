@@ -13,9 +13,19 @@ namespace Material.Infrastructure.ProtectedResources
             base.SetClientProperties(clientId, clientSecret);
 
             var key = $"{clientId}:{clientSecret}".ToBase64String();
-            Headers.Add(
-                HttpRequestHeader.Authorization,
-                $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}");
+            var header = $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}";
+
+            if (!Headers.ContainsKey(HttpRequestHeader.Authorization))
+            {
+                Headers.Add(
+                    HttpRequestHeader.Authorization,
+                    header);
+            }
+            else
+            {
+                Headers[HttpRequestHeader.Authorization] = 
+                    header;
+            }
         }
     }
 }

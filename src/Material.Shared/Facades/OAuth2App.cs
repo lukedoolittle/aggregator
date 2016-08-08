@@ -52,6 +52,8 @@ namespace Material.Infrastructure.OAuth
             _callbackUrl = callbackUrl;
             _browserType = browserType;
             _provider = provider ?? new TResourceProvider();
+
+            _provider.SetClientProperties(clientId, clientSecret);
         }
 
         public Task<OAuth2Credentials> GetCredentialsAsync()
@@ -79,18 +81,18 @@ namespace Material.Infrastructure.OAuth
             IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;
             switch (_provider.Flow)
             {
-                case ResponseTypeEnum.Token:
-                    template = builder.BuildOAuth2TokenTemplate<TResourceProvider>(
-                        facade,
-                        _browserType,
-                        userId);
-                    break;
                 case ResponseTypeEnum.Code:
                     template = builder.BuildOAuth2CodeTemplate<TResourceProvider>(
                         facade,
                         _browserType,
                         userId,
                         _clientSecret);
+                    break;
+                case ResponseTypeEnum.Token:
+                    template = builder.BuildOAuth2TokenTemplate<TResourceProvider>(
+                        facade,
+                        _browserType,
+                        userId);
                     break;
                 default:
                     throw new NotSupportedException();

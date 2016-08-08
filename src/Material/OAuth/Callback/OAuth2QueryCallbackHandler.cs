@@ -6,9 +6,9 @@ using Material.Enums;
 
 namespace Material.OAuth
 {
-    public class OAuth2CallbackHandler : OAuthCallbackHandlerBase
+    public class OAuth2QueryCallbackHandler : OAuthCallbackHandlerBase
     {
-        public OAuth2CallbackHandler(
+        public OAuth2QueryCallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
             string securityParameter, 
             string userId) : 
@@ -23,11 +23,21 @@ namespace Material.OAuth
             return query.ContainsKey(
                 OAuth2ParameterEnum.Error.EnumToString());
         }
+
+        public override TToken ParseAndValidateCallback<TToken>(Uri responseUri)
+        {
+            var result = base.ParseAndValidateCallback<TToken>(responseUri);
+
+            result?.AdditionalTokenParameters.Remove(
+                OAuth2ParameterEnum.State.EnumToString());
+
+            return result;
+        }
     }
 
-    public class OAuth2TokenCallbackHandler : OAuth2CallbackHandler
+    public class OAuth2FragmentCallbackHandler : OAuth2QueryCallbackHandler
     {
-        public OAuth2TokenCallbackHandler(
+        public OAuth2FragmentCallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
             string securityParameter, 
             string userId) : 

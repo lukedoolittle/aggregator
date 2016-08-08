@@ -20,7 +20,7 @@ namespace Material.Facades
                     new TResourceProvider(), 
                     clientId, 
                     callbackUri, 
-                    new OAuth2Authentication(), 
+                    new OAuth2AuthenticationPortable(), 
                     strategy)
         { }
 
@@ -31,7 +31,7 @@ namespace Material.Facades
                     new TResourceProvider(),
                     clientId,
                     callbackUri,
-                    new OAuth2Authentication(),
+                    new OAuth2AuthenticationPortable(),
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(), 
                         TimeSpan.FromMinutes(2)))
@@ -41,7 +41,7 @@ namespace Material.Facades
             Uri responseUri,
             string userId)
         {
-            var handler = new OAuth2CallbackHandler(
+            var handler = new OAuth2QueryCallbackHandler(
                 _strategy,
                 OAuth2ParameterEnum.State.EnumToString(),
                 userId);
@@ -54,7 +54,7 @@ namespace Material.Facades
             Uri responseUri,
             string userId)
         {
-            var handler = new OAuth2TokenCallbackHandler(
+            var handler = new OAuth2FragmentCallbackHandler(
                 _strategy,
                 OAuth2ParameterEnum.State.EnumToString(),
                 userId);

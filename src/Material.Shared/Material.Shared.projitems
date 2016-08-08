@@ -21,7 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1Authentication.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2Authenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthProtectedResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />

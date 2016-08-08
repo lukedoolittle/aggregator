@@ -200,7 +200,7 @@ namespace Material.Infrastructure.OAuth
 
         private static OAuth1Credentials ParseToken(IRestResponse instance)
         {
-            if (instance.ContentType.Contains(MimeTypeEnum.Json.EnumToString()))
+            if (instance.ContentType.Contains(MediaTypeEnum.Json.EnumToString()))
             {
                 return instance.Content.AsEntity<OAuth1Credentials>(false);
             }

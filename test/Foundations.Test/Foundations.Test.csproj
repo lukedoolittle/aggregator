@@ -124,6 +124,10 @@
       <Project>{a7170015-d79a-40b1-9df4-bfb47fb55938}</Project>
       <Name>Foundations.Http.Windows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
+      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
+      <Name>Foundations.HttpClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Serialization\Foundations.Serialization.csproj">
       <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
       <Name>Foundations.Serialization</Name>

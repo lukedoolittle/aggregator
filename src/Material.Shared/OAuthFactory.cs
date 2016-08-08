@@ -1,6 +1,7 @@
 ﻿using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
+using Material.OAuth;
 
 namespace Material.Infrastructure.Task
 {
@@ -30,7 +31,7 @@ namespace Material.Infrastructure.Task
 
         public IOAuth2Authentication GetOAuth2()
         {
-            return new OAuth2Authentication();
+            return new OAuth2AuthenticationPortable();
         }
     }
 }

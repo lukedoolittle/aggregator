@@ -44,7 +44,10 @@ namespace Material.Infrastructure
                         var result = _handler
                             .ParseAndValidateCallback<TToken>(
                                 request.Uri);
-                        taskCompletion.SetResult(result);
+                        if (result != null)
+                        {
+                            taskCompletion.SetResult(result);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -90,7 +93,7 @@ namespace Material.Infrastructure
 			
 			            function parameterNullOrEmpty(name, url)
                             {
-                                name = name.replace(/[\[\]]/ g, ""\\$&"");
+                                name = name.replace(""/[\[\]]/g"", ""\\$&"");
                                 var regex = new RegExp(""[?&]"" + name + ""(=([^&#]*)|&|#|$)"");
                                 var results = regex.exec(url);
                                 if (!results) return true;

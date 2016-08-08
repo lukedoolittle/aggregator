@@ -91,7 +91,7 @@ namespace Material.OAuth
             string clientSecret)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2CallbackHandler(
+            var callbackHandler = new OAuth2QueryCallbackHandler(
                 _strategy, 
                 OAuth2ParameterEnum.State.EnumToString(), 
                 userId);
@@ -113,10 +113,21 @@ namespace Material.OAuth
             string userId)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2TokenCallbackHandler(
-                _strategy,
-                OAuth2ParameterEnum.State.EnumToString(),
-                userId);
+            IOAuthCallbackHandler callbackHandler = null;
+            if (ui == AuthenticationInterfaceEnum.Dedicated)
+            {
+                callbackHandler = new OAuth2QueryCallbackHandler(
+                    _strategy,
+                    OAuth2ParameterEnum.State.EnumToString(),
+                    userId);
+            }
+            else
+            {
+                callbackHandler = new OAuth2FragmentCallbackHandler(
+                    _strategy,
+                    OAuth2ParameterEnum.State.EnumToString(),
+                    userId);
+            }
 
             var authenticationUI = _oauthAuthorizerUIFactory
                 .GetAuthorizer<TResourceProvider>(
