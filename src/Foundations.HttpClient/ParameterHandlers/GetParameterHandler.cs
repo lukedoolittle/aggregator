@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Foundations.Http;
 
 namespace Foundations.HttpClient.ParameterHandlers
@@ -12,7 +13,20 @@ namespace Foundations.HttpClient.ParameterHandlers
             MediaTypeEnum contentType,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            throw new NotImplementedException();
+            var builder = new StringBuilder();
+
+            var separator = "";
+            foreach (var kvp in parameters)
+            {
+                builder.Append($"{separator}{kvp.Key}={kvp.Value}");
+                separator = "&";
+            }
+
+            var uriBuilder = new UriBuilder(message.RequestUri)
+            {
+                Query = builder.ToString()
+            };
+            message.RequestUri = uriBuilder.Uri;
         }
     }
 }

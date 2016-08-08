@@ -1,34 +1,28 @@
 ﻿using System.Threading.Tasks;
 using Foundations.Serialization;
+using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+using Material.Infrastructure.Task;
 
 namespace Material
 {
     public class OAuthRequester
     {
-        private readonly OAuthProtectedResource _requester;
+        private readonly IOAuthProtectedResource _requester;
         private readonly string _userId;
 
         public OAuthRequester(OAuth1Credentials credentials)
         {
-            _requester = new OAuthProtectedResource(
-                credentials.ConsumerKey,
-                credentials.ConsumerSecret,
-                credentials.OAuthToken,
-                credentials.OAuthSecret,
-                credentials.ParameterHandling);
-
+            var factory = new OAuthFactory();
+            _requester = factory.GetOAuth(credentials);
             _userId = credentials.UserId;
         }
 
         public OAuthRequester(OAuth2Credentials credentials)
         {
-            _requester = new OAuthProtectedResource(
-                credentials.AccessToken,
-                credentials.TokenName);
-
+            var factory = new OAuthFactory();
+            _requester = factory.GetOAuth(credentials);
             _userId = credentials.UserId;
         }
 

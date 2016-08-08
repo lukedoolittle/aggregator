@@ -9,7 +9,7 @@ namespace Material.Infrastructure.Task
     {
         public IOAuthProtectedResource GetOAuth(OAuth2Credentials credentials)
         {
-            return new OAuthProtectedResource(
+            return new OAuthProtectedResourcePortable(
                 credentials.AccessToken,
                 credentials.TokenName);
         }

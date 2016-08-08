@@ -15,25 +15,6 @@ namespace Material.Infrastructure.OAuth
     public class OAuthProtectedResource : IOAuthProtectedResource
     {
         private readonly IAuthenticator _authenticator;
-         
-        public OAuthProtectedResource(
-            string accessToken, 
-            string accessTokenName) 
-        {
-            if (string.IsNullOrEmpty(accessTokenName))
-            {
-                throw new ArgumentNullException(nameof(accessTokenName));
-            }
-
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                throw new ArgumentNullException(nameof(accessToken));
-            }
-
-            _authenticator = OAuth2Authenticator.ForProtectedResource(
-                accessToken,
-                accessTokenName);
-        }
 
         public OAuthProtectedResource(
             string consumerKey, 

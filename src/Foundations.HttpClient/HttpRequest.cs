@@ -17,12 +17,30 @@ namespace Foundations.HttpClient
     {
         private readonly HttpRequestMessage _message = 
             new HttpRequestMessage();
-        private readonly List<KeyValuePair<string, string>> _parameters = 
+        private readonly List<KeyValuePair<string, string>> _queryParameters = 
+            new List<KeyValuePair<string, string>>();
+        private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
 
         private string _path;
         private IAuthenticator _authenticator;
         private IParameterHandler _parameterHandler;
+
+        public HttpRequest Request(HttpMethod method, string path)
+        {
+            if (method == HttpMethod.Get)
+            {
+                return GetFrom(path);
+            }
+            else if (method == HttpMethod.Post)
+            {
+                return PostTo(path);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
 
         public HttpRequest PostTo(string path)
         {
@@ -34,7 +52,7 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequest GetTo(string path)
+        public HttpRequest GetFrom(string path)
         {
             _path = path.TrimStart('/');
 
@@ -85,10 +103,32 @@ namespace Foundations.HttpClient
             string key, 
             string value)
         {
-            _parameters.Add(
+            _queryParameters.Add(
                 new KeyValuePair<string, string>(
                     key, 
                     value));
+
+            return this;
+        }
+
+        public HttpRequest Parameters(
+            IEnumerable<KeyValuePair<string, string>> parameters)
+        {
+            foreach (var parameter in parameters)
+            {
+                _queryParameters.Add(parameter);
+            }
+
+            return this;
+        }
+
+        public HttpRequest Segments(
+            IEnumerable<KeyValuePair<string, string>> parameters)
+        {
+            foreach (var parameter in parameters)
+            {
+                _pathParameters.Add(parameter);
+            }
 
             return this;
         }
@@ -128,9 +168,14 @@ namespace Foundations.HttpClient
             using (var client = new System.Net.Http.HttpClient())
             {
                 var uriBuilder = new UriBuilder(baseAddress);
+                foreach (var segment in _pathParameters)
+                {
+                    _path = _path.Replace(
+                        "{" + segment.Key + "}", 
+                        segment.Value);
+                }
                 uriBuilder.Path += _path;
-
-                client.BaseAddress = uriBuilder.Uri;
+                _message.RequestUri = uriBuilder.Uri;
                 
                 _authenticator?.Authenticate(this);
 
@@ -139,10 +184,11 @@ namespace Foundations.HttpClient
                     _parameterHandler.AddParameters(
                         _message,
                         MediaTypeEnum.Form, 
-                        _parameters);
+                        _queryParameters);
                 }
                 else
                 {
+                    //TODO: allow content
                     throw new NotImplementedException();
                 }
 

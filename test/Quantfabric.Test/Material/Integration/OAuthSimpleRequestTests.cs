@@ -1,7 +1,6 @@
 ﻿using System;
 using Material;
 using Material.Infrastructure.Responses;
-using Aggregator.Framework.Extensions;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
