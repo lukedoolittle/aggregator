@@ -2,12 +2,14 @@
 using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Macs;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Security;
 
 namespace Foundations.Cryptography
 {
-    public static class Cryptography
+    public static class Security
     {
         public static Guid CreateGuidFromData(string data)
         {
@@ -41,6 +43,45 @@ namespace Foundations.Cryptography
                 .Substring(
                     0, 
                     stringLength);
+        }
+
+        public static int RandomNumberBetween(
+            int minValue,
+            int maxValue)
+        {
+            return new SecureRandom().Next(minValue, maxValue);
+        }
+
+        public static string Sha1Hash(string key, string value)
+        {
+            var hmac = new HMac(new Sha1Digest());
+            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(key)));
+            byte[] result = new byte[hmac.GetMacSize()];
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+
+            hmac.BlockUpdate(bytes, 0, bytes.Length);
+            hmac.DoFinal(result, 0);
+
+            return Convert.ToBase64String(result);
+        }
+
+        private const string DIGIT = "1234567890";
+        private const string LOWER = "abcdefghijklmnopqrstuvwxyz";
+        private static readonly string _chars = LOWER + DIGIT;
+
+        public static string GetNonce(int nonceSize)
+        {
+            var nonce = new char[nonceSize];
+
+            for (var i = 0; i < nonce.Length; i++)
+            {
+                var randomIndex = Security.RandomNumberBetween(
+                    0,
+                    _chars.Length);
+                nonce[i] = _chars[randomIndex];
+            }
+
+            return new string(nonce);
         }
     }
 }

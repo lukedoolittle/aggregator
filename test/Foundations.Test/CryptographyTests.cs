@@ -8,9 +8,9 @@ namespace Foundations.Test
         [Fact]
         public void CallingCreateCryptoSeveralTimesProducesRandomString()
         {
-            var crypto1 = Cryptography.Cryptography.CreateCryptographicallyStrongString<Sha512Digest>(32);
-            var crypto2 = Cryptography.Cryptography.CreateCryptographicallyStrongString<Sha512Digest>(32);
-            var crypto3 = Cryptography.Cryptography.CreateCryptographicallyStrongString<Sha512Digest>(32);
+            var crypto1 = Cryptography.Security.CreateCryptographicallyStrongString<Sha512Digest>(32);
+            var crypto2 = Cryptography.Security.CreateCryptographicallyStrongString<Sha512Digest>(32);
+            var crypto3 = Cryptography.Security.CreateCryptographicallyStrongString<Sha512Digest>(32);
 
             Assert.Equal(32, crypto1.Length);
             Assert.Equal(32, crypto2.Length);

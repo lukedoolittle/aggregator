@@ -25,5 +25,10 @@ namespace Foundations.Extensions
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
         }
+
+        public static byte[] GetBytes(this string input)
+        {
+            return Encoding.UTF8.GetBytes(input);
+        }
     }
 }

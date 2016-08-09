@@ -103,7 +103,7 @@ namespace Quantfabric.Test.Material.Integration
         {
             foreach (var sample in samples)
             {
-                var hash = Cryptography.CreateGuidFromData(sample.Item2.ToString());
+                var hash = Security.CreateGuidFromData(sample.Item2.ToString());
                 var @event = new SampleAdded<TRequest>(
                     sample.Item2,
                     sample.Item1,

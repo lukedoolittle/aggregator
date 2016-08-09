@@ -92,7 +92,7 @@ namespace Material.OAuth
                 //TODO: remove this forwardslash replacement when fitbit is fixed
                 //OR figure out some way to modify Cryptography to return a string without
                 //+s and /s
-                var cryptoParameter = Cryptography
+                var cryptoParameter = Security
                     .CreateCryptographicallyStrongString<THash>()
                     .Replace('/', 'a')
                     .Replace('+', 'b');

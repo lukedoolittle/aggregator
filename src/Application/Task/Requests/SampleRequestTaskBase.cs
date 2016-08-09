@@ -44,7 +44,7 @@ namespace Aggregator.Task.Requests
 
             foreach (var sample in enumerable)
             {
-                var hash = Cryptography.CreateGuidFromData(sample.Item2.ToString());
+                var hash = Security.CreateGuidFromData(sample.Item2.ToString());
                 var @event = new SampleAdded<TRequest>(
                     sample.Item2,
                     sample.Item1,

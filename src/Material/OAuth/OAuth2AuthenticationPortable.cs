@@ -93,14 +93,14 @@ namespace Material.OAuth
                 throw new ArgumentNullException(nameof(refreshToken));
             }
 
-            var response = await new HttpRequest()
+            var response = await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2RefreshToken(
                     clientId,
                     clientSecret,
                     refreshToken)
                 .Headers(headers)
-                .ExecuteAsync(new Uri(accessUrl.NonPath()))
+                .ExecuteAsync()
                 .ConfigureAwait(false);
 
             if (response.StatusCode != HttpStatusCode.OK)
@@ -139,7 +139,7 @@ namespace Material.OAuth
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            var response = await new HttpRequest()
+            var response = await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2AccessToken(
                     clientId,
@@ -148,7 +148,7 @@ namespace Material.OAuth
                     code,
                     scope)
                 .Headers(headers)
-                .ExecuteAsync(new Uri(accessUrl.NonPath()))
+                .ExecuteAsync()
                 .ConfigureAwait(false);
 
             if (response.StatusCode != HttpStatusCode.OK)

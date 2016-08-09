@@ -54,7 +54,7 @@ namespace Material.OAuth
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            var response = await new HttpRequest()
+            var response = await new HttpRequest(baseUrl)
                 .Request(
                     new HttpMethod(httpMethod),
                     path)
@@ -62,7 +62,7 @@ namespace Material.OAuth
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)
                 .Authenticator(_authenticator)
-                .ExecuteAsync(new Uri(baseUrl))
+                .ExecuteAsync()
                 .ConfigureAwait(false);
 
             if (response.StatusCode != expectedResponse)

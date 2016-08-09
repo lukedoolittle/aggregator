@@ -15,6 +15,7 @@ namespace Foundations.HttpClient
 {
     public class HttpRequest
     {
+        private readonly Uri _baseAddress;
         private readonly HttpRequestMessage _message = 
             new HttpRequestMessage();
         private readonly List<KeyValuePair<string, string>> _queryParameters = 
@@ -25,6 +26,21 @@ namespace Foundations.HttpClient
         private string _path;
         private IAuthenticator _authenticator;
         private IParameterHandler _parameterHandler;
+
+        public HttpMethod Method => _message.Method;
+
+        public Uri Url => new Uri(_baseAddress + _path);
+
+        public IEnumerable<KeyValuePair<string, string>> QueryParameters => _queryParameters;
+
+        public HttpRequest(Uri baseAddress)
+        {
+            _baseAddress = baseAddress;
+        }
+
+        public HttpRequest(string baseAddress) : 
+            this(new Uri(baseAddress))
+        { }
 
         public HttpRequest Request(HttpMethod method, string path)
         {
@@ -62,10 +78,42 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequest WithQueryParameters()
+        {
+            _parameterHandler = new GetParameterHandler();
+
+            return this;
+        }
+
         public HttpRequest Accepts(string contentType)
         {
             _message.Headers.Accept.Add(
                 new MediaTypeWithQualityHeaderValue(contentType));
+
+            return this;
+        }
+
+        public HttpRequest Accepts(MediaTypeEnum contentType)
+        {
+            return Accepts(contentType.EnumToString());
+        }
+
+        public HttpRequest UserAgent(
+            string agent, 
+            string version)
+        {
+            _message.Headers.UserAgent.Add(
+                new ProductInfoHeaderValue(
+                    agent, 
+                    version));
+
+            return this;
+        }
+
+        public HttpRequest AcceptsEncoding(string encoding)
+        {
+            _message.Headers.AcceptEncoding.Add(
+                new StringWithQualityHeaderValue(encoding));
 
             return this;
         }
@@ -163,19 +211,15 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public async Task<HttpResponse> ExecuteAsync(Uri baseAddress)
+        public async Task<HttpResponse> ExecuteAsync()
         {
             using (var client = new System.Net.Http.HttpClient())
             {
-                var uriBuilder = new UriBuilder(baseAddress);
-                foreach (var segment in _pathParameters)
-                {
-                    _path = _path.Replace(
-                        "{" + segment.Key + "}", 
-                        segment.Value);
-                }
-                uriBuilder.Path += _path;
-                _message.RequestUri = uriBuilder.Uri;
+                AddDefaults();
+
+                _message.RequestUri = _baseAddress.AddPathParameters(
+                    _path,
+                    _pathParameters);
                 
                 _authenticator?.Authenticate(this);
 
@@ -201,6 +245,25 @@ namespace Foundations.HttpClient
                     response.Headers,
                     response.StatusCode,
                     response.ReasonPhrase);
+            }
+        }
+
+        private void AddDefaults()
+        {
+            if (_message.Headers.Accept.Count == 0)
+            {
+                Accepts(MediaTypeEnum.Json)
+                    .Accepts(MediaTypeEnum.Xml)
+                    .Accepts(MediaTypeEnum.TextJson)
+                    .Accepts(MediaTypeEnum.TextXJson)
+                    .Accepts(MediaTypeEnum.Javascript)
+                    .Accepts(MediaTypeEnum.TextXml);
+            }
+
+            if (_message.Headers.AcceptEncoding.Count == 0)
+            {
+                AcceptsEncoding("gzip")
+                    .AcceptsEncoding("deflate");
             }
         }
     }

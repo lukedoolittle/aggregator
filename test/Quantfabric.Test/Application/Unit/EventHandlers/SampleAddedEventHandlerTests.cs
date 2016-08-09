@@ -23,7 +23,7 @@ namespace Aggregator.Test.Unit.EventHandlers
             var @event = new SampleAdded<FacebookFriend>(
                 payload, 
                 timestamp, 
-                Cryptography.CreateGuidFromData(payload.ToString()));
+                Security.CreateGuidFromData(payload.ToString()));
             @event.AggregateId = aggregateId;
 
             var handler = new SampleAddedEventHandler<FacebookFriend>(databaseMock);

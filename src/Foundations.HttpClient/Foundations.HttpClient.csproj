@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
+      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
+      <Name>Foundations.Cryptography</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
       <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
       <Name>Foundations.Serialization</Name>
@@ -48,6 +52,7 @@
     <Compile Include="Authenticators\OAuth1AccessToken.cs" />
     <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1RequestToken.cs" />
+    <Compile Include="Authenticators\OAuth1SigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2AccessToken.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
@@ -56,7 +61,9 @@
     <Compile Include="Enums\OAuth2ParameterEnum.cs" />
     <Compile Include="Enums\OAuthParameterTypeEnum.cs" />
     <Compile Include="Enums\ResponseTypeEnum.cs" />
+    <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
+    <Compile Include="Extensions\UrlEncodingExtensions.cs" />
     <Compile Include="ParameterHandlers\GetParameterHandler.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="HttpResponse.cs" />
