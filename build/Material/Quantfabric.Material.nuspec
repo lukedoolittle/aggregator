@@ -25,16 +25,13 @@
         <dependency id="Portable.BouncyCastle" version="1.8.1" />
       </group>
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Monkey.Robotics" version="0.5.2" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
         <dependency id="Xam.Plugin.Geolocator" version="3.0.4" />
       </group>
       <group targetFramework="MonoAndroid60">
-        <dependency id="Monkey.Robotics" version="0.5.2" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
-        <dependency id="Xam.Plugin.Geolocator" version="3.0.4" />
       </group>
     </dependencies>
     <references></references>

@@ -114,6 +114,7 @@ Task("Move")
 			nugetItem.Key + File("Foundations.Serialization.dll"),
 			nugetItem.Key + File("Material.Portable.dll"),
 			nugetItem.Key + File("Material.dll"),
+			nugetItem.Key + File("Monkey.Robotics.dll"),
 		};
 
 		foreach(var file in assemblyFiles)
