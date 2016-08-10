@@ -108,8 +108,6 @@ namespace Foundations.HttpClient.Authenticators
                 key, 
                 signatureBase);
 
-            //signature = signature.UrlEncodeRelaxed();
-
             return signature;
         }
     }

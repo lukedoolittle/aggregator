@@ -26,7 +26,8 @@ namespace Material.Infrastructure.Task
 
         public IOAuth1Authentication GetOAuth1()
         {
-            return new OAuth1Authentication();
+            return new OAuth1AuthenticationPortable();
+            //return new OAuth1Authentication();
         }
 
         public IOAuth2Authentication GetOAuth2()

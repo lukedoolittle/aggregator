@@ -15,6 +15,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override Uri RequestUrl => new Uri("https://api.twitter.com/oauth/request_token");
         public override Uri AuthorizationUrl => new Uri("https://api.twitter.com/oauth/authenticate");
         public override Uri TokenUrl => new Uri("https://api.twitter.com/oauth/access_token");
-        public override OAuthParameterTypeEnum ParameterType => OAuthParameterTypeEnum.Header;
+        public override OAuthParameterTypeEnum ParameterType => OAuthParameterTypeEnum.Querystring;
 	}
 }

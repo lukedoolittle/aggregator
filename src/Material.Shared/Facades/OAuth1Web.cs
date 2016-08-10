@@ -4,7 +4,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+using Material.Infrastructure.Task;
 using Material.OAuth;
 
 namespace Material.Facades
@@ -22,7 +22,7 @@ namespace Material.Facades
                     consumerKey, 
                     consumerSecret, 
                     callbackUrl, 
-                    new OAuth1Authentication(),
+                    new OAuthFactory().GetOAuth1(), 
                     securityStrategy)
         { }
 
@@ -35,7 +35,7 @@ namespace Material.Facades
                     consumerKey,
                     consumerSecret,
                     callbackUri,
-                    new OAuth1Authentication(),
+                    new OAuthFactory().GetOAuth1(),
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(), 
                         TimeSpan.FromMinutes(2)))

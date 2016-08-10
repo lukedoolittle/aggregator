@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,6 +23,7 @@ namespace Foundations.HttpClient
             new List<KeyValuePair<string, string>>();
         private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
+        private readonly HttpClientHandler _messageHandler;
 
         private string _path;
         private IAuthenticator _authenticator;
@@ -33,14 +35,19 @@ namespace Foundations.HttpClient
 
         public IEnumerable<KeyValuePair<string, string>> QueryParameters => _queryParameters;
 
-        public HttpRequest(Uri baseAddress)
+        public HttpRequest(
+            Uri baseAddress,
+            HttpClientHandler messageHandler = null)
         {
             _baseAddress = baseAddress;
+            _messageHandler = messageHandler ?? new HttpClientHandler();
         }
 
         public HttpRequest(string baseAddress) : 
             this(new Uri(baseAddress))
         { }
+
+        #region Method and Path
 
         public HttpRequest Request(HttpMethod method, string path)
         {
@@ -85,39 +92,121 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequest Accepts(string contentType)
+        public HttpRequest Segments(
+            IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            _message.Headers.Accept.Add(
-                new MediaTypeWithQualityHeaderValue(contentType));
+            foreach (var parameter in parameters)
+            {
+                _pathParameters.Add(parameter);
+            }
 
             return this;
         }
+
+        #endregion Method and Path
+
+        #region Accepts
 
         public HttpRequest Accepts(MediaTypeEnum contentType)
         {
-            return Accepts(contentType.EnumToString());
-        }
-
-        public HttpRequest UserAgent(
-            string agent, 
-            string version)
-        {
-            _message.Headers.UserAgent.Add(
-                new ProductInfoHeaderValue(
-                    agent, 
-                    version));
+            _message.Headers.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(
+                    contentType.EnumToString()));
 
             return this;
         }
 
-        public HttpRequest AcceptsEncoding(string encoding)
+        //TODO: add response serializers here
+        public HttpRequest AcceptsJson()
+        {
+            return Accepts(MediaTypeEnum.Json);
+        }
+
+        public HttpRequest AcceptsXml()
+        {
+            return Accepts(MediaTypeEnum.Xml);
+        }
+
+        public HttpRequest AcceptsHtml()
+        {
+            return Accepts(MediaTypeEnum.Html);
+        }
+
+        public HttpRequest AcceptsText()
+        {
+            return Accepts(MediaTypeEnum.Text);
+        }
+
+        public HttpRequest AcceptsForm()
+        {
+            return Accepts(MediaTypeEnum.Form);
+        }
+
+        public HttpRequest AcceptsJavascript()
+        {
+            return Accepts(MediaTypeEnum.Javascript);
+        }
+
+        public HttpRequest AcceptsXJson()
+        {
+            return Accepts(MediaTypeEnum.TextXJson);
+        }
+
+        public HttpRequest AcceptsJsonText()
+        {
+            return Accepts(MediaTypeEnum.TextJson);
+        }
+
+        public HttpRequest AcceptsXmlText()
+        {
+            return Accepts(MediaTypeEnum.TextXml);
+        }
+
+        #endregion Accepts
+
+        #region AcceptsEncoding
+
+        public HttpRequest AcceptsEncodingGzip()
         {
             _message.Headers.AcceptEncoding.Add(
-                new StringWithQualityHeaderValue(encoding));
+                new StringWithQualityHeaderValue(
+                    DecompressionMethods.GZip.ToString().ToLower()));
+
+            _messageHandler.AutomaticDecompression =
+                _messageHandler.AutomaticDecompression |
+                DecompressionMethods.GZip;
 
             return this;
         }
 
+        public HttpRequest AcceptsEncodingDeflate()
+        {
+            _message.Headers.AcceptEncoding.Add(
+                new StringWithQualityHeaderValue(
+                    DecompressionMethods.Deflate.ToString().ToLower()));
+
+            _messageHandler.AutomaticDecompression =
+                _messageHandler.AutomaticDecompression |
+                DecompressionMethods.Deflate;
+
+            return this;
+        }
+
+        public HttpRequest AcceptsEncodingNone()
+        {
+            _message.Headers.AcceptEncoding.Add(
+                new StringWithQualityHeaderValue(
+                    DecompressionMethods.None.ToString().ToLower()));
+
+            _messageHandler.AutomaticDecompression =
+                DecompressionMethods.None;
+
+            return this;
+        }
+
+        #endregion AcceptsEncoding
+
+        #region Headers
         public HttpRequest Bearer(string token)
         {
             _message.Headers.Add(
@@ -146,6 +235,9 @@ namespace Foundations.HttpClient
 
             return this;
         }
+        #endregion Headers
+
+        #region Parameters
 
         public HttpRequest Parameter(
             string key, 
@@ -170,16 +262,9 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequest Segments(
-            IEnumerable<KeyValuePair<string, string>> parameters)
-        {
-            foreach (var parameter in parameters)
-            {
-                _pathParameters.Add(parameter);
-            }
+        #endregion Parameters
 
-            return this;
-        }
+        #region Content
 
         public HttpRequest Content(
             string content, 
@@ -203,6 +288,8 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        #endregion Content
+
         public HttpRequest Authenticator(
             IAuthenticator authenticator)
         {
@@ -211,9 +298,21 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequest UserAgent(
+            string agent,
+            string version)
+        {
+            _message.Headers.UserAgent.Add(
+                new ProductInfoHeaderValue(
+                    agent,
+                    version));
+
+            return this;
+        }
+
         public async Task<HttpResponse> ExecuteAsync()
         {
-            using (var client = new System.Net.Http.HttpClient())
+            using (var client = new System.Net.Http.HttpClient(_messageHandler))
             {
                 AddDefaults();
 
@@ -252,19 +351,31 @@ namespace Foundations.HttpClient
         {
             if (_message.Headers.Accept.Count == 0)
             {
-                Accepts(MediaTypeEnum.Json)
-                    .Accepts(MediaTypeEnum.Xml)
-                    .Accepts(MediaTypeEnum.TextJson)
-                    .Accepts(MediaTypeEnum.TextXJson)
-                    .Accepts(MediaTypeEnum.Javascript)
-                    .Accepts(MediaTypeEnum.TextXml);
+                AcceptsJson()
+                    .AcceptsXml()
+                    .AcceptsJsonText()
+                    .AcceptsXmlText()
+                    .AcceptsXJson()
+                    .AcceptsJavascript();
             }
 
-            if (_message.Headers.AcceptEncoding.Count == 0)
+            if (ContainsNoneEncoding())
             {
-                AcceptsEncoding("gzip")
-                    .AcceptsEncoding("deflate");
+                _message.Headers.AcceptEncoding.Clear();
             }
+            else if (_message.Headers.AcceptEncoding.Count == 0)
+            {
+                AcceptsEncodingGzip()
+                    .AcceptsEncodingDeflate();
+            }
+        }
+
+        private bool ContainsNoneEncoding()
+        {
+            var noneHeaders = _message.Headers.AcceptEncoding.Count(i =>
+                i.Value == DecompressionMethods.None.ToString().ToLower());
+
+            return noneHeaders >= 1;
         }
     }
 }

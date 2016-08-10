@@ -56,6 +56,7 @@
     <Compile Include="Authenticators\OAuth2AccessToken.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
+    <Compile Include="Enums\ContentTypeEncodingEnum.cs" />
     <Compile Include="Enums\GrantTypeEnum.cs" />
     <Compile Include="Enums\OAuth1ParameterEnum.cs" />
     <Compile Include="Enums\OAuth2ParameterEnum.cs" />

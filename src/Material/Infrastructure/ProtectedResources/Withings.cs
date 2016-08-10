@@ -15,6 +15,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override Uri RequestUrl => new Uri("https://oauth.withings.com/account/request_token");
         public override Uri AuthorizationUrl => new Uri("https://oauth.withings.com/account/authorize");
         public override Uri TokenUrl => new Uri("https://oauth.withings.com/account/access_token");
-        public override OAuthParameterTypeEnum ParameterType => OAuthParameterTypeEnum.Querystring;
+        public override OAuthParameterTypeEnum ParameterType => OAuthParameterTypeEnum.Body;
 	}
 }
