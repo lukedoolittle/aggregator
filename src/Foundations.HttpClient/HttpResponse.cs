@@ -17,12 +17,8 @@ namespace Foundations.HttpClient
 
         private readonly HttpContent _content;
         private readonly HttpResponseHeaders _headers;
-        private readonly HttpContentHeaders _contentHeaders;
         private readonly HttpStatusCode _statusCode;
         private readonly string _reason;
-
-        private readonly MediaTypeEnum _mediaType;
-        private readonly Encoding _encoding;
 
         public HttpResponse(
             HttpContent content, 
@@ -32,35 +28,16 @@ namespace Foundations.HttpClient
         {
             _content = content;
             _headers = headers;
-            _contentHeaders = _content.Headers;
             _statusCode = statusCode;
             _reason = reason;
-
-            var charset = _contentHeaders.ContentType.CharSet;
-
-            if (charset == ContentTypeEncodingEnum.UTF16BigEndian.EnumToString())
-            {
-                _encoding = Encoding.BigEndianUnicode;
-            }
-            else if (charset == ContentTypeEncodingEnum.UTF16LittleEndian.EnumToString())
-            {
-                _encoding = Encoding.Unicode;
-            }
-            else
-            {
-                _encoding = Encoding.UTF8;
-            }
-
-            _mediaType = _contentHeaders
-                .ContentType
-                .MediaType
-                .StringToEnum<MediaTypeEnum>();
         }
 
         public async Task<string> ContentAsync()
         {
             var buffer = await _content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            var responseString = _encoding.GetString(buffer, 0, buffer.Length);
+            var responseString = 
+                GetEncoding(_content.Headers.ContentType)
+                .GetString(buffer, 0, buffer.Length);
             return responseString;
         }
 
@@ -71,7 +48,9 @@ namespace Foundations.HttpClient
             var result = await ContentAsync()
                 .ConfigureAwait(false);
 
-            if (_mediaType == MediaTypeEnum.Json)
+            var mediaType = GetMediaType(_content.Headers.ContentType);
+
+            if (mediaType == MediaTypeEnum.Json)
             {
                 return result.AsEntity<T>(false);
             }
@@ -80,6 +59,29 @@ namespace Foundations.HttpClient
                 return HttpUtility.ParseQueryString(result)
                     .AsEntity<T>();
             }
+        }
+
+        private static Encoding GetEncoding(MediaTypeHeaderValue header)
+        {
+            if (header.CharSet == ContentTypeEncodingEnum.UTF16BigEndian.EnumToString())
+            {
+                return Encoding.BigEndianUnicode;
+            }
+            else if (header.CharSet == ContentTypeEncodingEnum.UTF16LittleEndian.EnumToString())
+            {
+                return Encoding.Unicode;
+            }
+            else
+            {
+                return Encoding.UTF8;
+            }
+        }
+
+        private static MediaTypeEnum GetMediaType(MediaTypeHeaderValue header)
+        {
+            return header
+                .MediaType
+                .StringToEnum<MediaTypeEnum>();
         }
     }
 }

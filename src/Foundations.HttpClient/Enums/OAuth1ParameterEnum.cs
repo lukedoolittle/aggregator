@@ -20,6 +20,8 @@ namespace Foundations.HttpClient.Enums
         OAuthToken,
         [Description("oauth_token_secret")]
         OAuthTokenSecret,
+        [Description("oauth_verifier")]
+        Verifier,
         [Description("oauth_nonce")]
         Nonce,
         [Description("oauth_callback")]

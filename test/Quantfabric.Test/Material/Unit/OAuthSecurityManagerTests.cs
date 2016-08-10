@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using Material.OAuth;
-using Aggregator.Framework;
 using Foundations.Extensions;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

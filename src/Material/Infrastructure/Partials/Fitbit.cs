@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Foundations.Extensions;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure.ProtectedResources
 {

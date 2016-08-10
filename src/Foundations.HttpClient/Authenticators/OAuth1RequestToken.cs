@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 
@@ -52,10 +51,10 @@ namespace Foundations.HttpClient.Authenticators
                     _consumerKey)
                 .Parameter(
                     OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    "HMAC-SHA1")
+                    OAuth1SigningTemplate.SIGNATURE_METHOD)
                 .Parameter(
                     OAuth1ParameterEnum.Version.EnumToString(),
-                    "1.0")
+                    OAuth1SigningTemplate.VERSION)
                 .Parameter(
                     OAuth1ParameterEnum.Signature.EnumToString(),
                     signature);

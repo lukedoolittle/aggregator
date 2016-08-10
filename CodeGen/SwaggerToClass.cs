@@ -6,11 +6,13 @@ using System.Net;
 using CodeGen.Class;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
+using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Metadata;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Newtonsoft.Json.Linq;
+using ResponseTypeEnum = Material.Enums.ResponseTypeEnum;
 
 namespace CodeGen
 {

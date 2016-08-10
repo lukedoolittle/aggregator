@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using HttpRequestException = Material.Exceptions.HttpRequestException;
 
@@ -13,23 +14,33 @@ namespace Material.OAuth
     public class OAuthProtectedResourcePortable : IOAuthProtectedResource
     {
         private readonly IAuthenticator _authenticator;
+        private readonly OAuthParameterTypeEnum _parameterHandling;
 
         public OAuthProtectedResourcePortable(
             string accessToken,
             string accessTokenName)
         {
-            if (string.IsNullOrEmpty(accessTokenName))
-            {
-                throw new ArgumentNullException(nameof(accessTokenName));
-            }
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                throw new ArgumentNullException(nameof(accessToken));
-            }
-
             _authenticator = new OAuth2ProtectedResource(
                 accessToken,
                 accessTokenName);
+
+            _parameterHandling = OAuthParameterTypeEnum.Querystring;
+        }
+
+        public OAuthProtectedResourcePortable(
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret,
+            OAuthParameterTypeEnum parameterHandling)
+        {
+            _authenticator = new OAuth1ProtectedResource(
+                consumerKey, 
+                consumerSecret, 
+                oauthToken,
+                oauthSecret);
+
+            _parameterHandling = parameterHandling;
         }
 
         public async Task<string> ForProtectedResource(
@@ -54,14 +65,21 @@ namespace Material.OAuth
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            var response = await new HttpRequest(baseUrl)
+            var request = new HttpRequest(baseUrl)
                 .Request(
                     new HttpMethod(httpMethod),
                     path)
                 .Headers(headers)
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)
-                .Authenticator(_authenticator)
+                .Authenticator(_authenticator);
+
+            if (_parameterHandling == OAuthParameterTypeEnum.Body)
+            {
+                request.WithQueryParameters();
+            }
+
+            var response = await request
                 .ExecuteAsync()
                 .ConfigureAwait(false);
 

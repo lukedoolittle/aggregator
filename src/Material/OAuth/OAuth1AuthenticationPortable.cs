@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Foundations;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
-using Material.Enums;
+using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth
@@ -24,20 +26,9 @@ namespace Material.OAuth
             {
                 throw new ArgumentNullException(nameof(requestUrl));
             }
-
             if (callbackUrl == null)
             {
                 throw new ArgumentNullException(nameof(callbackUrl));
-            }
-
-            if (string.IsNullOrEmpty(consumerKey))
-            {
-                throw new ArgumentNullException(nameof(consumerKey));
-            }
-
-            if (string.IsNullOrEmpty(consumerSecret))
-            {
-                throw new ArgumentNullException(nameof(consumerSecret));
             }
 
             var request = new HttpRequest(requestUrl.NonPath())
@@ -55,6 +46,14 @@ namespace Material.OAuth
             var response = await request
                 .ExecuteAsync()
                 .ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(string.Format(
+                    StringResources.BadHttpRequestException,
+                    response.StatusCode,
+                    response.Reason));
+            }
 
             var credentials = await response
                 .ContentAsync<OAuth1Credentials>()
@@ -92,7 +91,7 @@ namespace Material.OAuth
             return builder.Uri;
         }
 
-        public Task<OAuth1Credentials> GetAccessToken(
+        public async Task<OAuth1Credentials> GetAccessToken(
             Uri accessUri, 
             string consumerKey, 
             string consumerSecret, 
@@ -102,7 +101,51 @@ namespace Material.OAuth
             OAuthParameterTypeEnum parameterHandling, 
             IDictionary<string, string> queryParameters)
         {
-            throw new NotImplementedException();
+            if (accessUri == null)
+            {
+                throw new ArgumentNullException(nameof(accessUri));
+            }
+
+            var request = new HttpRequest(accessUri.NonPath())
+                .PostTo(accessUri.AbsolutePath)
+                .ForOAuth1AccessToken(
+                    consumerKey,
+                    consumerSecret,
+                    oauthToken,
+                    oauthSecret,
+                    verifier);
+
+            foreach (var querystringParameter in queryParameters)
+            {
+                request.Parameter(
+                    querystringParameter.Key,
+                    querystringParameter.Value);
+            }
+
+            if (parameterHandling == OAuthParameterTypeEnum.Body)
+            {
+                request.WithQueryParameters();
+            }
+
+            var response = await request
+                .ExecuteAsync()
+                .ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(string.Format(
+                    StringResources.BadHttpRequestException,
+                    response.StatusCode,
+                    response.Reason));
+            }
+
+            var credentials = await response
+                .ContentAsync<OAuth1Credentials>()
+                .ConfigureAwait(false);
+
+            return credentials.SetConsumerProperties(
+                consumerKey,
+                consumerSecret);
         }
     }
 }

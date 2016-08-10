@@ -1,7 +1,7 @@
 ﻿using Material.Metadata;
 using System;
+using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Enums;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.ProtectedResources

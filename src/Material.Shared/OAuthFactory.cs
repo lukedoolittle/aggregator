@@ -1,6 +1,5 @@
 ﻿using Material.Contracts;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
 using Material.OAuth;
 
 namespace Material.Infrastructure.Task
@@ -16,7 +15,7 @@ namespace Material.Infrastructure.Task
 
         public IOAuthProtectedResource GetOAuth(OAuth1Credentials credentials)
         {
-            return new OAuthProtectedResource(
+            return new OAuthProtectedResourcePortable(
                 credentials.ConsumerKey,
                 credentials.ConsumerSecret,
                 credentials.OAuthToken,
@@ -27,7 +26,6 @@ namespace Material.Infrastructure.Task
         public IOAuth1Authentication GetOAuth1()
         {
             return new OAuth1AuthenticationPortable();
-            //return new OAuth1Authentication();
         }
 
         public IOAuth2Authentication GetOAuth2()

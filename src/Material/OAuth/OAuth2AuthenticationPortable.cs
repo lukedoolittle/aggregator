@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Foundations;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
-using Material.Enums;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
+using ResponseTypeEnum = Material.Enums.ResponseTypeEnum;
 
 namespace Material.OAuth
 {

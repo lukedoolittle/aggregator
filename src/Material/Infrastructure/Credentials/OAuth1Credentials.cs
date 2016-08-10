@@ -1,4 +1,4 @@
-﻿using Material.Enums;
+﻿using Foundations.HttpClient.Enums;
 using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials

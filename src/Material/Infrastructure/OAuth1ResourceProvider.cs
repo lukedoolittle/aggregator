@@ -1,5 +1,5 @@
 ﻿using System;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure
 {

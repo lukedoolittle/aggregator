@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Enums;
 using Material.Exceptions;
 using Material.Framework;
 using RestSharp;

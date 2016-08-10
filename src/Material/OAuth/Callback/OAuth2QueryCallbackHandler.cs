@@ -1,8 +1,8 @@
 ﻿using System;
 using Foundations;
 using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Enums;
 
 namespace Material.OAuth
 {

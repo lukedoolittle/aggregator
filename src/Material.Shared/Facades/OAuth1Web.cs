@@ -1,7 +1,7 @@
 ﻿using System;
 using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Task;

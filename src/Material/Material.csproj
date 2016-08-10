@@ -49,7 +49,6 @@
     <Compile Include="Contracts\IOAuthFactory.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
-    <Compile Include="Enums\OAuth1ParameterEnum.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
@@ -69,9 +68,6 @@
     <Compile Include="Contracts\ISMSAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
     <Compile Include="Enums\AuthenticationInterfaceEnum.cs" />
-    <Compile Include="Enums\GrantTypeEnum.cs" />
-    <Compile Include="Enums\OAuth2ParameterEnum.cs" />
-    <Compile Include="Enums\OAuthParameterTypeEnum.cs" />
     <Compile Include="Enums\ResponseTypeEnum.cs" />
     <Compile Include="Exceptions\InvalidScopeException.cs" />
     <Compile Include="Exceptions\OAuthCallbackErrorException.cs" />

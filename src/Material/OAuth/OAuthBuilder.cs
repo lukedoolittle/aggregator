@@ -1,4 +1,5 @@
 ﻿using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
