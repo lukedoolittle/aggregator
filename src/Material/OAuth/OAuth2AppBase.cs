@@ -50,7 +50,7 @@ namespace Material.Infrastructure.OAuth
             _provider.SetClientProperties(clientId, clientSecret);
         }
 
-        public Task<OAuth2Credentials> GetCredentialsAsync()
+        public virtual Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();
 

@@ -30,7 +30,7 @@ namespace Material.Infrastructure.OAuth
             _browserType = browserType;
         }
 
-        public Task<OAuth1Credentials> GetCredentialsAsync()
+        public virtual Task<OAuth1Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();
 

@@ -1,5 +1,9 @@
-﻿using Foundations.Http;
+﻿using System.Threading.Tasks;
+using Foundations.Http;
 using Material.Enums;
+using Material.Exceptions;
+using Material.Framework;
+using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -19,6 +23,17 @@ namespace Material.Infrastructure.OAuth
                         new HttpServer()), 
                     browserType)
         { }
+
+        public override Task<OAuth1Credentials> GetCredentialsAsync()
+        {
+            if (!Platform.IsOnline)
+            {
+                throw new NoConnectivityException(
+                    StringResources.OfflineConnectivityException);
+            }
+
+            return base.GetCredentialsAsync();
+        }
     }
 
     public class OAuth2App<TResourceProvider> : OAuth2AppBase<TResourceProvider>
@@ -53,5 +68,16 @@ namespace Material.Infrastructure.OAuth
                     provider,
                     browserType)
         { }
+
+        public override Task<OAuth2Credentials> GetCredentialsAsync()
+        {
+            if (!Platform.IsOnline)
+            {
+                throw new NoConnectivityException(
+                    StringResources.OfflineConnectivityException);
+            }
+
+            return base.GetCredentialsAsync();
+        }
     }
 }
