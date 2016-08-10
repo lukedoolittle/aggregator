@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
+      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
+      <Name>Foundations.HttpClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Material\Material.csproj">
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
@@ -60,6 +64,7 @@
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Configuration\CredentialApplicationSettings.cs" />
     <Compile Include="Configuration\UserSettings.cs" />
+    <Compile Include="Contracts\IOAuthFactory.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Exceptions\CouchbaseConcurrencyException.cs" />
     <Compile Include="Exceptions\CouchbaseDuplicateStorageKeyException.cs" />
@@ -106,6 +111,7 @@
     <Compile Include="JObjectExtensions.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LoggingSettings.cs" />
+    <Compile Include="OAuthFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\SensorNotFoundException.cs" />
     <Compile Include="Exceptions\ServiceAuthenticationTokenNotFoundException.cs" />

@@ -4,7 +4,6 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Task;
 using Material.OAuth;
 
 namespace Material.Facades
@@ -21,8 +20,8 @@ namespace Material.Facades
                     new TResourceProvider(), 
                     consumerKey, 
                     consumerSecret, 
-                    callbackUrl, 
-                    new OAuthFactory().GetOAuth1(), 
+                    callbackUrl,
+                    new OAuth1Authentication(), 
                     securityStrategy)
         { }
 
@@ -35,7 +34,7 @@ namespace Material.Facades
                     consumerKey,
                     consumerSecret,
                     callbackUri,
-                    new OAuthFactory().GetOAuth1(),
+                    new OAuth1Authentication(),
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(), 
                         TimeSpan.FromMinutes(2)))

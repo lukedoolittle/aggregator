@@ -12,18 +12,15 @@ namespace Material.OAuth
     {
         private readonly IOAuthAuthorizerUIFactory _oauthAuthorizerUIFactory;
         private readonly IClientCredentials _clientCredentials;
-        private readonly IOAuthFactory _oauthFactory;
         private readonly IOAuthSecurityStrategy _strategy;
 
         public OAuthBuilder(
             IOAuthAuthorizerUIFactory oauthAuthorizerUIFactory, 
             IClientCredentials clientCredentials, 
-            IOAuthFactory oauthFactory, 
             IOAuthSecurityStrategy strategy)
         {
             _oauthAuthorizerUIFactory = oauthAuthorizerUIFactory;
             _clientCredentials = clientCredentials;
-            _oauthFactory = oauthFactory;
             _strategy = strategy;
         }
 
@@ -37,6 +34,7 @@ namespace Material.OAuth
 
         public IOAuthFacade<OAuth1Credentials> BuildOAuth1Facade(
             OAuth1ResourceProvider resourceProvider, 
+            IOAuth1Authentication authentication,
             string consumerKey, 
             string consumerSecret,
             string callbackUrl)
@@ -46,12 +44,13 @@ namespace Material.OAuth
                 consumerKey,
                 consumerSecret,
                 callbackUrl,
-                _oauthFactory.GetOAuth1(),
+                authentication,
                 _strategy);
         }
 
         public IOAuthFacade<OAuth2Credentials> BuildOAuth2Facade(
             OAuth2ResourceProvider resourceProvider,
+            IOAuth2Authentication authentication,
             string clientId,
             string clientSecret,
             string callbackUrl)
@@ -60,7 +59,7 @@ namespace Material.OAuth
                 resourceProvider,
                 clientId,
                 callbackUrl,
-                _oauthFactory.GetOAuth2(),
+                authentication,
                 _strategy);
         }
 

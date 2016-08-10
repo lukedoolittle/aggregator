@@ -46,7 +46,6 @@
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
-    <Compile Include="Contracts\IOAuthFactory.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
@@ -166,9 +165,15 @@
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />
     <Compile Include="Metadata\Required.cs" />
-    <Compile Include="OAuth\OAuth1AuthenticationPortable.cs" />
-    <Compile Include="OAuth\OAuth2AuthenticationPortable.cs" />
-    <Compile Include="OAuth\OAuthProtectedResourcePortable.cs" />
+    <Compile Include="OAuth\Authentication\OAuth1Authentication.cs" />
+    <Compile Include="OAuth\Authentication\OAuth2Authentication.cs" />
+    <Compile Include="OAuth\Authentication\OAuthProtectedResource.cs" />
+    <Compile Include="OAuth\OAuth1AppBase.cs" />
+    <Compile Include="OAuth\OAuth1Web.cs" />
+    <Compile Include="OAuth\OAuth2AppBase.cs" />
+    <Compile Include="OAuth\OAuth2Refresh.cs" />
+    <Compile Include="OAuth\OAuth2Web.cs" />
+    <Compile Include="OAuth\OAuthRequester.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth2QueryCallbackHandler.cs" />
     <Compile Include="OAuth\OAuthBuilder.cs" />

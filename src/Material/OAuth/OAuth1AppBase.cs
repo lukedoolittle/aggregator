@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Material.OAuth;
-using Foundations.Http;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Task;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuth1App<TResourceProvider>
+    public class OAuth1AppBase<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()
     {
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
         private readonly string _callbackUrl;
+        private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthenticationInterfaceEnum _browserType;
 
-        public OAuth1App(
+        public OAuth1AppBase(
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-#if !__MOBILE__
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
-#else
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
-#endif
-            )
+            IOAuthAuthorizerUIFactory uiFactory,
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _callbackUrl = callbackUrl;
+            _uiFactory = uiFactory;
             _browserType = browserType;
         }
 
@@ -43,13 +40,12 @@ namespace Material.Infrastructure.OAuth
 
             var builder =
                 new OAuthBuilder(
-                    new OAuthAuthorizerUIFactory(
-                        new HttpServer()),
+                    _uiFactory,
                     null,
-                    new OAuthFactory(),
                     securityStrategy);
             var facade = builder.BuildOAuth1Facade(
                 new TResourceProvider(),
+                new OAuth1Authentication(), 
                 _consumerKey,
                 _consumerSecret, 
                 _callbackUrl);

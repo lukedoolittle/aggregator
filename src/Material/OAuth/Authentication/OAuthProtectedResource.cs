@@ -11,12 +11,12 @@ using HttpRequestException = Material.Exceptions.HttpRequestException;
 
 namespace Material.OAuth
 {
-    public class OAuthProtectedResourcePortable : IOAuthProtectedResource
+    public class OAuthProtectedResource : IOAuthProtectedResource
     {
         private readonly IAuthenticator _authenticator;
         private readonly OAuthParameterTypeEnum _parameterHandling;
 
-        public OAuthProtectedResourcePortable(
+        public OAuthProtectedResource(
             string accessToken,
             string accessTokenName)
         {
@@ -27,7 +27,7 @@ namespace Material.OAuth
             _parameterHandling = OAuthParameterTypeEnum.Querystring;
         }
 
-        public OAuthProtectedResourcePortable(
+        public OAuthProtectedResource(
             string consumerKey,
             string consumerSecret,
             string oauthToken,

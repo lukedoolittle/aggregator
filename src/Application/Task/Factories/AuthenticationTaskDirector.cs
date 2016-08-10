@@ -1,8 +1,6 @@
 ﻿using System;
 using Material.OAuth;
-using Aggregator.Domain.Write;
 using Aggregator.Framework.Contracts;
-using Aggregator.Infrastructure;
 using Aggregator.Task.Authentication;
 using Material.Contracts;
 using Material.Enums;
@@ -16,24 +14,29 @@ namespace Aggregator.Task.Factories
     {
         private readonly IBluetoothAuthorizerUI _bluetoothAuthorizerUI;
         private readonly ICommandSender _sender;
+        private readonly IOAuthFactory _oauthFactory;
         private readonly OAuthBuilder _builder;
 
         public AuthenticationTaskDirector(
             IBluetoothAuthorizerUI bluetoothAuthorizerUI,
             ICommandSender sender,
+            IOAuthFactory factory,
             OAuthBuilder builder)
         {
             _bluetoothAuthorizerUI = bluetoothAuthorizerUI;
             _sender = sender;
             _builder = builder;
+            _oauthFactory = factory;
         }
 
         public AuthenticationTaskDirector(
-            ICommandSender sender, 
+            ICommandSender sender,
+            IOAuthFactory factory,
             OAuthBuilder builder)
         {
             _sender = sender;
             _builder = builder;
+            _oauthFactory = factory;
         }
 
         public ITask GenerateTask<TResourceProvider>(
@@ -64,6 +67,7 @@ namespace Aggregator.Task.Factories
 
                 var authentication = _builder.BuildOAuth1Facade(
                     provider, 
+                    _oauthFactory.GetOAuth1(), 
                     credentials.ConsumerKey, 
                     credentials.ConsumerSecret,
                     credentials.CallbackUrl);
@@ -89,6 +93,7 @@ namespace Aggregator.Task.Factories
 
                 var authentication = _builder.BuildOAuth2Facade(
                     provider,
+                    _oauthFactory.GetOAuth2(), 
                     credentials.ClientId,
                     credentials.ClientSecret,
                     credentials.CallbackUrl);

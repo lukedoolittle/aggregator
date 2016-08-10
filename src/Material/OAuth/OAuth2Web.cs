@@ -19,7 +19,7 @@ namespace Material.Facades
                     new TResourceProvider(), 
                     clientId, 
                     callbackUri, 
-                    new OAuth2AuthenticationPortable(), 
+                    new OAuth2Authentication(), 
                     strategy)
         { }
 
@@ -30,7 +30,7 @@ namespace Material.Facades
                     new TResourceProvider(),
                     clientId,
                     callbackUri,
-                    new OAuth2AuthenticationPortable(),
+                    new OAuth2Authentication(),
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(), 
                         TimeSpan.FromMinutes(2)))

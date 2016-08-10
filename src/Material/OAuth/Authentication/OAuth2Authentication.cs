@@ -14,7 +14,7 @@ using ResponseTypeEnum = Material.Enums.ResponseTypeEnum;
 
 namespace Material.OAuth
 {
-    public class OAuth2AuthenticationPortable : IOAuth2Authentication
+    public class OAuth2Authentication : IOAuth2Authentication
     {
         public Uri GetAuthorizationUri(
             Uri authorizeUrl, 

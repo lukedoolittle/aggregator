@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Task;
 using Material.OAuth;
 
 namespace Material.Infrastructure.OAuth
@@ -18,9 +17,8 @@ namespace Material.Infrastructure.OAuth
         public Task<OAuth2Credentials> RefreshCredentialsAsync(
             OAuth2Credentials expiredToken)
         {
-            var factory = new OAuthFactory();
-
-            return new RefreshTokenFacade(factory.GetOAuth2())
+            return new RefreshTokenFacade(
+                    new OAuth2Authentication())
                 .GetRefreshedAccessTokenCredentials(
                     expiredToken,
                     _provider);

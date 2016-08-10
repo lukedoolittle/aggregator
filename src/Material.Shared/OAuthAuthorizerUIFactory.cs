@@ -1,5 +1,4 @@
-﻿using System;
-using Foundations.Http;
+﻿using Foundations.Http;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
@@ -51,11 +50,6 @@ namespace Material
                     throw new NotSupportedException();
             }
 #else
-            if (browserType == AuthenticationInterfaceEnum.Embedded)
-            {
-                throw new NotSupportedException();
-            }
-
             return new BrowserAuthorizerUI(
                 _server,
                 callbackHandler);

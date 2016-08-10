@@ -14,7 +14,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.Infrastructure.Task;
+using Material.OAuth;
 using SimpleCQRS.Framework.Contracts;
 using Xunit;
 using Fitbit = Material.Infrastructure.ProtectedResources.Fitbit;

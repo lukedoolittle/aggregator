@@ -13,7 +13,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth
 {
-    public class OAuth1AuthenticationPortable : IOAuth1Authentication
+    public class OAuth1Authentication : IOAuth1Authentication
     {
         public async Task<OAuth1Credentials> GetRequestToken(
             Uri requestUrl, 

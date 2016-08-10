@@ -3,7 +3,7 @@ using Foundations.Serialization;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Task;
+using Material.OAuth;
 
 namespace Material
 {
@@ -14,15 +14,20 @@ namespace Material
 
         public OAuthRequester(OAuth1Credentials credentials)
         {
-            var factory = new OAuthFactory();
-            _requester = factory.GetOAuth(credentials);
+            _requester = new OAuthProtectedResource(
+                credentials.ConsumerKey,
+                credentials.ConsumerSecret,
+                credentials.OAuthToken,
+                credentials.OAuthSecret,
+                credentials.ParameterHandling);
             _userId = credentials.UserId;
         }
 
         public OAuthRequester(OAuth2Credentials credentials)
         {
-            var factory = new OAuthFactory();
-            _requester = factory.GetOAuth(credentials);
+            _requester = new OAuthProtectedResource(
+                credentials.AccessToken,
+                credentials.TokenName);
             _userId = credentials.UserId;
         }
 

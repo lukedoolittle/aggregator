@@ -10,7 +10,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.Infrastructure.Task;
+using Material.OAuth;
 using Xunit;
 using TwitterTweet = Material.Infrastructure.Requests.TwitterTweet;
 using WithingsWeighin = Material.Infrastructure.Requests.WithingsWeighin;
