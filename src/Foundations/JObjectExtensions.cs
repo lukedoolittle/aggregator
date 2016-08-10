@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Aggregator.Framework.Exceptions;
-using Material.Exceptions;
 using Newtonsoft.Json;
 
 namespace Aggregator.Framework.Extensions

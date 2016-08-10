@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
 
 namespace Aggregator.Framework.Extensions
 {

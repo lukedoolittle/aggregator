@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Aggregator.Framework.Exceptions;
 using Aggregator.Framework.Extensions;
 using Foundations.Serialization;
-using Material.Exceptions;
 using Newtonsoft.Json;
 using Xunit;
 

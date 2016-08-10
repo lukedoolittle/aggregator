@@ -194,14 +194,6 @@
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Application.Windows\Application.Windows.csproj">
-      <Project>{fc9c0bd7-686e-4d4e-905c-81c2ab36e45a}</Project>
-      <Name>Application.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Application\Application.csproj">
-      <Project>{9cb9ff5e-39f5-4317-9104-0416115080f6}</Project>
-      <Name>Application</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Bootstrap\Foundations.Bootstrap.csproj">
       <Project>{0fe0e580-65ef-400b-818c-1ec4a2276cfa}</Project>
       <Name>Foundations.Bootstrap</Name>

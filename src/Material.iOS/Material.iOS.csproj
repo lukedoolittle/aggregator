@@ -47,10 +47,6 @@
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Restsharp.BleedingEdge.105.3.0\lib\Xamarin.iOS10\RestSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Robotics.Mobile.Core, Version=1.0.5500.30933, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\Xamarin.iOS10\Robotics.Mobile.Core.dll</HintPath>
       <Private>True</Private>

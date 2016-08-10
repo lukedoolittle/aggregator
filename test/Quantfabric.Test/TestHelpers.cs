@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Aggregator.Domain.Write;
 using Foundations.Serialization;
 using Material.Infrastructure;
 using Newtonsoft.Json;
