@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CryptoStringTypeEnum.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

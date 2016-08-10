@@ -1,8 +1,6 @@
 ﻿using System;
 using Foundations.Cryptography;
 using Material.Contracts;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Digests;
 
 namespace Material.OAuth
 {
@@ -23,7 +21,7 @@ namespace Material.OAuth
             string userId, 
             string parameterName)
         {
-            return GetOrSetCrypto<Sha512Digest>(
+            return GetOrSetCrypto(
                 _repository, 
                 userId, 
                 parameterName, 
@@ -64,12 +62,11 @@ namespace Material.OAuth
         /// <param name="userId">The identifier of the user submitting the request</param>
         /// <param name="timeout">Expiration time for the parameter</param>
         /// <returns></returns>
-        private static string GetOrSetCrypto<THash>(
+        private static string GetOrSetCrypto(
             ICryptographicParameterRepository currentCryptos,
             string userId,
             string parameterName,
             TimeSpan timeout)
-            where THash : IDigest, new()
         {
             var parameterValue = currentCryptos.GetCryptographicParameterValue(
                 userId, 
@@ -86,16 +83,8 @@ namespace Material.OAuth
 
             if (parameterValue == null)
             {
-                //There is a bug in the fitbit api during a token flow where a
-                //state parameter with a / or a + is somehow not url encoded 
-                //correctly and thus the round-tripped state does not match the given state
-                //TODO: remove this forwardslash replacement when fitbit is fixed
-                //OR figure out some way to modify Cryptography to return a string without
-                //+s and /s
                 var cryptoParameter = Security
-                    .CreateCryptographicallyStrongString<THash>()
-                    .Replace('/', 'a')
-                    .Replace('+', 'b');
+                    .Create32CharacterCryptographicallyStrongString();
 
                 currentCryptos.SetCryptographicParameterValue(
                     userId,

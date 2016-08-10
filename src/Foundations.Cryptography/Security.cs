@@ -13,17 +13,44 @@ namespace Foundations.Cryptography
     {
         public static Guid CreateGuidFromData(string data)
         {
-            MD5Digest digest = new MD5Digest();
+            var digest = new MD5Digest();
 
-            byte[] msgBytes = Encoding.UTF8.GetBytes(data);
-            digest.BlockUpdate(msgBytes, 0, msgBytes.Length);
-            byte[] result = new byte[digest.GetDigestSize()];
+            var bytes = Encoding.UTF8.GetBytes(data);
+            digest.BlockUpdate(bytes, 0, bytes.Length);
+
+            var result = new byte[digest.GetDigestSize()];
             digest.DoFinal(result, 0);
+
             return new Guid(result);
         }
 
-        public static string CreateCryptographicallyStrongString<TDigest>(
-            int stringLength = 32)
+        /// <summary>
+        /// Creates a cryptographically strong string
+        /// </summary>
+        /// <returns></returns>
+        public static string Create16CharacterCryptographicallyStrongString(
+            CryptoStringTypeEnum stringType = CryptoStringTypeEnum.LowercaseAlphaNumeric)
+        {
+            return CreateCryptographicallyStrongString<Sha256Digest>(
+                stringType)
+                .Substring(0, 16);
+        }
+
+        public static string Create32CharacterCryptographicallyStrongString(
+            CryptoStringTypeEnum stringType = CryptoStringTypeEnum.Base64AlphaNumeric)
+        {
+            return CreateCryptographicallyStrongString<Sha256Digest>(
+                stringType);
+        }
+
+        /// <summary>
+        /// Creates a cryptographically strong string with the given digest
+        /// </summary>
+        /// <typeparam name="TDigest">Hash type</typeparam>
+        /// <param name="stringType">Filter to apply to string</param>
+        /// <returns>A string with only the characters defined by stringType</returns>
+        private static string CreateCryptographicallyStrongString<TDigest>(
+            CryptoStringTypeEnum stringType)
             where TDigest : IDigest, new()
         {
             var randomBytes = BitConverter.GetBytes(
@@ -39,49 +66,45 @@ namespace Foundations.Cryptography
             var cryptoData = new byte[digest.GetDigestSize()];
             randomDigest.NextBytes(cryptoData);
 
-            return Convert.ToBase64String(cryptoData)
-                .Substring(
-                    0, 
-                    stringLength);
+            var result = Convert.ToBase64String(cryptoData);
+
+
+            switch (stringType)
+            {
+                case CryptoStringTypeEnum.Base64AlphaNumeric:
+                    return result
+                        .Replace('/', '_')
+                        .Replace('+', '-');
+                case CryptoStringTypeEnum.LowercaseAlphaNumeric:
+                    return result
+                        .Replace('/', 'a')
+                        .Replace('+', 'b')
+                        .ToLower();
+                case CryptoStringTypeEnum.Base64:
+                default:
+                    return result;
+            }
         }
 
-        public static int RandomNumberBetween(
-            int minValue,
-            int maxValue)
-        {
-            return new SecureRandom().Next(minValue, maxValue);
-        }
-
-        public static string Sha1Hash(string key, string value)
+        /// <summary>
+        /// Performs a SHA1 Hash
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="value">SHA value</param>
+        /// <returns>Base 64 encoded string representing the hash</returns>
+        public static string Sha1Hash(
+            string key, 
+            string value)
         {
             var hmac = new HMac(new Sha1Digest());
             hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(key)));
-            byte[] result = new byte[hmac.GetMacSize()];
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            var result = new byte[hmac.GetMacSize()];
+            var bytes = Encoding.UTF8.GetBytes(value);
 
             hmac.BlockUpdate(bytes, 0, bytes.Length);
             hmac.DoFinal(result, 0);
 
             return Convert.ToBase64String(result);
-        }
-
-        private const string DIGIT = "1234567890";
-        private const string LOWER = "abcdefghijklmnopqrstuvwxyz";
-        private static readonly string _chars = LOWER + DIGIT;
-
-        public static string GetNonce(int nonceSize)
-        {
-            var nonce = new char[nonceSize];
-
-            for (var i = 0; i < nonce.Length; i++)
-            {
-                var randomIndex = Security.RandomNumberBetween(
-                    0,
-                    _chars.Length);
-                nonce[i] = _chars[randomIndex];
-            }
-
-            return new string(nonce);
         }
     }
 }

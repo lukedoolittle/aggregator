@@ -99,7 +99,7 @@ namespace Foundations.HttpClient.Authenticators
                     GetTimestamp()),
                 new KeyValuePair<string, string>(
                     OAuth1ParameterEnum.Nonce.EnumToString(),
-                    Security.GetNonce(NONCE_LENGTH))
+                    Security.Create16CharacterCryptographicallyStrongString())
             };
 
             return parameters;

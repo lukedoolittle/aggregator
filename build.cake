@@ -110,6 +110,7 @@ Task("Move")
 			nugetItem.Key + File("Foundations.Cryptography.dll"),
 			nugetItem.Key + File("Foundations.dll"),
 			nugetItem.Key + File("Foundations.Http.dll"),
+			nugetItem.Key + File("Foundations.HttpClient.dll")
 			nugetItem.Key + File("Foundations.Serialization.dll"),
 			nugetItem.Key + File("Material.Portable.dll"),
 			nugetItem.Key + File("Material.dll"),
