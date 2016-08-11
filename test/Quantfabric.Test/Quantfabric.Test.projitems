@@ -9,21 +9,20 @@
     <Import_RootNamespace>Quantfabric.Test</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CredentialApplicationSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuthSimpleRequestTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuthTokenTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OnboardRequestTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\RefreshTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\TestSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\CodegenTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\DateTimeExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSigningTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\TimestampJObjectExtensionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\TokenDeserializationTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MockBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers\CredentialApplicationSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers\MockBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers\ReflectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestHelpers\TestSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)testCredentials.json">

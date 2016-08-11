@@ -6,7 +6,7 @@ namespace Material.Contracts
 {
     public interface IOAuthProtectedResource
     {
-        Task<string> ForProtectedResource(
+        Task<TEntity> ForProtectedResource<TEntity>(
             string baseUrl,
             string path,
             string httpMethod,

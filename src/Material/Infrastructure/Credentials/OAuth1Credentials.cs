@@ -1,30 +1,39 @@
-﻿using Foundations.HttpClient.Enums;
+﻿using System.Runtime.Serialization;
+using Foundations.HttpClient.Enums;
 using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials
 {
-	public class OAuth1Credentials : TokenCredentials
+    [DataContract]
+    public class OAuth1Credentials : TokenCredentials
     {
+        [DataMember(Name = "consumerKey")]
         [JsonProperty("consumerKey")]
         public string ConsumerKey { get; private set; }
 
+        [DataMember(Name = "consumerSecret")]
         [JsonProperty("consumerSecret")]
         public string ConsumerSecret { get; private set; }
 
+        [DataMember(Name = "oauth_token")]
         [JsonProperty("oauth_token")]
         public string OAuthToken { get; private set; }
 
+        [DataMember(Name = "oauth_token_secret")]
         [JsonProperty("oauth_token_secret")]
         public string OAuthSecret { get; private set; }
 
         public string CallbackUrl { get; private set; }
 
+        [DataMember(Name = "oauth_verifier")]
         [JsonProperty("oauth_verifier")]
         public string Verifier { get; private set; }
 
+        [DataMember(Name = "parameterHandling")]
         [JsonProperty("parameterHandling")]
         public OAuthParameterTypeEnum ParameterHandling { get; private set; }
 
+        [DataMember(Name = "x_auth_expired")]
         [JsonProperty("x_auth_expires")]
         private string _expires;
 

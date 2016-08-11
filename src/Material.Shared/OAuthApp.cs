@@ -44,7 +44,12 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string callbackUrl,
             TResourceProvider provider = null,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded) :
+#if !__MOBILE__
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
+#else
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
+#endif
+            ) :
             this(
                 clientId,
                 null,
@@ -58,7 +63,12 @@ namespace Material.Infrastructure.OAuth
             string clientSecret,
             string callbackUrl,
             TResourceProvider provider = null,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded) : 
+#if !__MOBILE__
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
+#else
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
+#endif
+            ) : 
                 base(
                     clientId, 
                     clientSecret, 

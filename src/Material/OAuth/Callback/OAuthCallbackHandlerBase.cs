@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security;
 using Foundations;
-using Foundations.Serialization;
+using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
@@ -13,14 +13,17 @@ namespace Material.OAuth
         private readonly string _securityParameter;
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly string _userId;
+        private readonly ISerializer _serializer;
 
         protected OAuthCallbackHandlerBase(
             IOAuthSecurityStrategy securityStrategy,
             string securityParameter, 
-            string userId)
+            string userId, 
+            ISerializer serializer)
         {
             _securityParameter = securityParameter;
             _userId = userId;
+            _serializer = serializer;
             _securityStrategy = securityStrategy;
         }
 
@@ -28,12 +31,13 @@ namespace Material.OAuth
             Uri responseUri)
             where TToken : TokenCredentials
         {
-            var query = ParseQuerystring(responseUri);
-
-            if (query == null)
+            var querystring = GetQuerystring(responseUri);
+            if (querystring == null)
             {
                 return null;
             }
+
+            var query = HttpUtility.ParseQueryString(querystring);
 
             if (IsResponseError(query))
             {
@@ -46,7 +50,8 @@ namespace Material.OAuth
                     StringResources.CallbackParameterInvalidException);
             }
 
-            var token = query?.AsEntity<TToken>();
+            var token = _serializer.Deserialize<TToken>(
+                query.ToString(false));
 
             if (token == null || !token.AreValidIntermediateCredentials)
             {
@@ -57,11 +62,11 @@ namespace Material.OAuth
             return token;
         }
 
-        protected virtual HttpValueCollection ParseQuerystring(Uri uri)
+        protected virtual string GetQuerystring(Uri uri)
         {
             if (!string.IsNullOrEmpty(uri.Query) && uri.Query != "?")
             {
-                return HttpUtility.ParseQueryString(uri.Query);
+                return uri.Query;
             }
 
             return null;

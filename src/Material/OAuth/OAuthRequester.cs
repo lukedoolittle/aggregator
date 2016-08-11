@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Foundations.Serialization;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -31,7 +30,7 @@ namespace Material
             _userId = credentials.UserId;
         }
 
-        public async Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>(
+        public Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>(
             TRequest request = null)
             where TRequest : OAuthRequest, new()
         {
@@ -42,17 +41,14 @@ namespace Material
 
             request.AddUserIdParameter(_userId);
 
-            var result = await _requester
-                .ForProtectedResource(
-                    request.Host,
-                    request.Path,
-                    request.HttpMethod,
-                    request.Headers,
-                    request.QuerystringParameters,
-                    request.PathParameters)
-                .ConfigureAwait(false);
-
-            return result.AsEntity<TResponse>(false);
+            return _requester
+                    .ForProtectedResource<TResponse>(
+                        request.Host,
+                        request.Path,
+                        request.HttpMethod,
+                        request.Headers,
+                        request.QuerystringParameters,
+                        request.PathParameters);
         }
     }
 }

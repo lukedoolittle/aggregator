@@ -75,7 +75,7 @@ namespace Material.OAuth
 
             if (string.IsNullOrEmpty(oauthToken))
             {
-                throw new ArgumentNullException(nameof(authorizeUri));
+                throw new ArgumentNullException(nameof(oauthToken));
             }
 
             var builder = new UriBuilder(authorizeUri.NonPath());

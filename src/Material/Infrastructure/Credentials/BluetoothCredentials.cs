@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials
 {
+    [DataContract]
     public class BluetoothCredentials : TokenCredentials
     {
         public BluetoothCredentials() {}
@@ -12,6 +14,7 @@ namespace Material.Infrastructure.Credentials
             DeviceAddress = deviceAddress;
         }
 
+        [DataMember(Name = "deviceAddress")]
         [JsonProperty("deviceAddress")]
         public Guid DeviceAddress { get; }
 

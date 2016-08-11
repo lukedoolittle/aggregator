@@ -2,6 +2,7 @@
 using Foundations;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 
 namespace Material.OAuth
@@ -15,7 +16,8 @@ namespace Material.OAuth
                 base(
                     securityStrategy, 
                     securityParameter, 
-                    userId)
+                    userId,
+                    new HtmlSerializer())
         { }
 
         protected override bool IsResponseError(HttpValueCollection query)
@@ -27,9 +29,6 @@ namespace Material.OAuth
         public override TToken ParseAndValidateCallback<TToken>(Uri responseUri)
         {
             var result = base.ParseAndValidateCallback<TToken>(responseUri);
-
-            result?.AdditionalTokenParameters.Remove(
-                OAuth2ParameterEnum.State.EnumToString());
 
             return result;
         }
@@ -47,11 +46,11 @@ namespace Material.OAuth
                     userId)
         { }
 
-        protected override HttpValueCollection ParseQuerystring(Uri uri)
+        protected override string GetQuerystring(Uri uri)
         {
             if (!string.IsNullOrEmpty(uri.Fragment) && uri.Fragment != "#_=_")
             {
-                return HttpUtility.ParseQueryString(uri.Fragment);
+                return uri.Fragment;
             }
 
             return null;

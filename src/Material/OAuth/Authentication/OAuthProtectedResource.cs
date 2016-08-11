@@ -43,7 +43,7 @@ namespace Material.OAuth
             _parameterHandling = parameterHandling;
         }
 
-        public async Task<string> ForProtectedResource(
+        public async Task<TResponse> ForProtectedResource<TResponse>(
             string baseUrl,
             string path,
             string httpMethod,
@@ -92,7 +92,7 @@ namespace Material.OAuth
             }
 
             return await response
-                .ContentAsync()
+                .ContentAsync<TResponse>()
                 .ConfigureAwait(false);
         }
     }

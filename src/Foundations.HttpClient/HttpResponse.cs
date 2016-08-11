@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Foundations.Extensions;
-using Foundations.Http;
 using Foundations.HttpClient.Enums;
-using Foundations.Serialization;
+using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient
 {
@@ -19,46 +19,52 @@ namespace Foundations.HttpClient
         private readonly HttpResponseHeaders _headers;
         private readonly HttpStatusCode _statusCode;
         private readonly string _reason;
+        private readonly ISerializer _serializer;
 
         public HttpResponse(
             HttpContent content, 
             HttpResponseHeaders headers,
             HttpStatusCode statusCode,
-            string reason)
+            string reason,
+            ISerializer serializer)
         {
             _content = content;
             _headers = headers;
             _statusCode = statusCode;
             _reason = reason;
+            _serializer = serializer;
         }
 
         public async Task<string> ContentAsync()
         {
-            var buffer = await _content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var buffer = await _content
+                .ReadAsByteArrayAsync()
+                .ConfigureAwait(false);
+
             var responseString = 
                 GetEncoding(_content.Headers.ContentType)
                 .GetString(buffer, 0, buffer.Length);
+
             return responseString;
         }
 
         public async Task<T> ContentAsync<T>()
         {
-            //TODO: possibly this should be done polymorphically
-            //and should handle more scenarios
             var result = await ContentAsync()
                 .ConfigureAwait(false);
 
-            var mediaType = GetMediaType(_content.Headers.ContentType);
+            if (_serializer == null)
+            {
+                var mediaType = _content
+                    .Headers
+                    .ContentType
+                    .MediaType;
 
-            if (mediaType == MediaTypeEnum.Json)
-            {
-                return result.AsEntity<T>(false);
+                throw new SerializationException(
+                    $"Cannot deserialize content with media type {mediaType}");
             }
-            else
-            {
-                return HttpUtility.ParseQueryString(result)
-                    .AsEntity<T>();
-            }
+
+            return _serializer.Deserialize<T>(result);
         }
 
         private static Encoding GetEncoding(MediaTypeHeaderValue header)
@@ -75,13 +81,6 @@ namespace Foundations.HttpClient
             {
                 return Encoding.UTF8;
             }
-        }
-
-        private static MediaTypeEnum GetMediaType(MediaTypeHeaderValue header)
-        {
-            return header
-                .MediaType
-                .StringToEnum<MediaTypeEnum>();
         }
     }
 }

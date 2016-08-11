@@ -1,6 +1,7 @@
 ﻿using Foundations;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Enums;
 
@@ -15,7 +16,8 @@ namespace Material.OAuth
                 base(
                     securityStrategy,
                     securityParameter, 
-                    userId)
+                    userId,
+                    new HtmlSerializer())
         { }
 
         protected override bool IsResponseError(HttpValueCollection query)

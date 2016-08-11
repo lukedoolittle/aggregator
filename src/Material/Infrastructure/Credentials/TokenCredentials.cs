@@ -2,26 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials
 {
+    [DataContract]
     public abstract class TokenCredentials
     {
         public abstract bool HasValidPublicKey { get; }
         public abstract string ExpiresIn { get; }
         public abstract bool AreValidIntermediateCredentials { get; }
 
+        [DataMember(Name = "user_id")]
         [JsonProperty("user_id")]
         protected string _userId1;
+        [DataMember(Name = "userid")]
         [JsonProperty("userid")]
         protected string _userId2;
         [JsonIgnore]
         public string UserId => _userId1 ?? _userId2;
 
+        [DataMember(Name = "created_at")]
         [JsonProperty("created_at")]
         protected string _dateCreated;
 
+        [DataMember(Name = "dateCreated")]
         [JsonProperty("dateCreated")]
         public DateTimeOffset DateCreated { get; protected set; }
 
@@ -48,11 +54,25 @@ namespace Material.Infrastructure.Credentials
             new Dictionary<string, object>();
 
         [JsonIgnore]
-        public IDictionary<string, string> AdditionalParameters =>
-            new ReadOnlyDictionary<string, string>(
-                AdditionalTokenParameters.ToDictionary(
-                    k => k.Key, 
-                    v => v.Value.ToString()));
+        public IDictionary<string, string> AdditionalParameters
+        {
+            get
+            {
+                if (AdditionalTokenParameters != null)
+                {
+                    return new ReadOnlyDictionary<string, string>(
+                        AdditionalTokenParameters.ToDictionary(
+                            k => k.Key,
+                            v => v.Value.ToString()));
+                }
+                else
+                {
+                    return new ReadOnlyDictionary<string, string>(
+                        new Dictionary<string, string>());
+                }
+            }
+        }
+
 
         public void TimestampToken()
         {

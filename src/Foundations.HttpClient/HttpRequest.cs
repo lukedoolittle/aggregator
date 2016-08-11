@@ -11,6 +11,7 @@ using Foundations.Http;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.ParameterHandlers;
+using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient
 {
@@ -24,6 +25,19 @@ namespace Foundations.HttpClient
         private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
         private readonly HttpClientHandler _messageHandler;
+
+        private readonly Dictionary<MediaTypeEnum, ISerializer> _serializers =
+            new Dictionary<MediaTypeEnum, ISerializer>
+            {
+                { MediaTypeEnum.Json, new JsonSerializer() },
+                { MediaTypeEnum.TextJson, new JsonSerializer() },
+                { MediaTypeEnum.TextXJson, new JsonSerializer() },
+                { MediaTypeEnum.Xml, new XmlSerializer() },
+                { MediaTypeEnum.TextXml, new XmlSerializer() },
+                { MediaTypeEnum.Html, new HtmlSerializer() },
+                { MediaTypeEnum.Text, new HtmlSerializer() }
+            };
+
 
         private string _path;
         private IAuthenticator _authenticator;
@@ -343,7 +357,27 @@ namespace Foundations.HttpClient
                     response.Content,
                     response.Headers,
                     response.StatusCode,
-                    response.ReasonPhrase);
+                    response.ReasonPhrase,
+                    GetSerializer(response));
+            }
+        }
+
+        private ISerializer GetSerializer(HttpResponseMessage response)
+        {
+            var resultContentType = response
+                .Content
+                .Headers
+                .ContentType
+                .MediaType
+                .StringToEnum<MediaTypeEnum>();
+
+            if (_serializers.ContainsKey(resultContentType))
+            {
+                return _serializers[resultContentType];
+            }
+            else
+            {
+                return null;
             }
         }
 

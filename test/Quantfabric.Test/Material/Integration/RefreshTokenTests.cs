@@ -23,7 +23,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (TestSettings.ShouldPersistCredentials)
             {
-                TestHelpers.WriteCredentials<Google>(newToken);
+                TestSettings.WriteCredentials<Google>(newToken);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (TestSettings.ShouldPersistCredentials)
             {
-                TestHelpers.WriteCredentials<Fitbit>(newToken);
+                TestSettings.WriteCredentials<Fitbit>(newToken);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (TestSettings.ShouldPersistCredentials)
             {
-                TestHelpers.WriteCredentials<Spotify>(newToken);
+                TestSettings.WriteCredentials<Spotify>(newToken);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Quantfabric.Test.Material.Integration
 
             if (TestSettings.ShouldPersistCredentials)
             {
-                TestHelpers.WriteCredentials<TwentyThreeAndMe>(newToken);
+                TestSettings.WriteCredentials<TwentyThreeAndMe>(newToken);
             }
         }
 
