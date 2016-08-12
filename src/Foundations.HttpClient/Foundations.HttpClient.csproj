@@ -65,6 +65,7 @@
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
     <Compile Include="Extensions\UrlEncodingExtensions.cs" />
+    <Compile Include="Metadata\DateTimeFormatter.cs" />
     <Compile Include="ParameterHandlers\GetParameterHandler.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="HttpResponse.cs" />

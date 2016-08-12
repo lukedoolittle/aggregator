@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;
+using Foundations.HttpClient.Metadata;
 
 namespace Foundations.HttpClient
 {
@@ -64,7 +66,14 @@ namespace Foundations.HttpClient
                     $"Cannot deserialize content with media type {mediaType}");
             }
 
-            return _serializer.Deserialize<T>(result);
+            var datetimeFormatter = typeof(T)
+                .GetCustomAttributes<DatetimeFormatter>()
+                .FirstOrDefault()
+                ?.Formatter;
+
+            return _serializer.Deserialize<T>(
+                result, 
+                datetimeFormatter);
         }
 
         private static Encoding GetEncoding(MediaTypeHeaderValue header)

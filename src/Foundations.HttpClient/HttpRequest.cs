@@ -35,13 +35,15 @@ namespace Foundations.HttpClient
                 { MediaTypeEnum.Xml, new XmlSerializer() },
                 { MediaTypeEnum.TextXml, new XmlSerializer() },
                 { MediaTypeEnum.Html, new HtmlSerializer() },
-                { MediaTypeEnum.Text, new HtmlSerializer() }
+                { MediaTypeEnum.Text, new HtmlSerializer() },
+                { MediaTypeEnum.Javascript, new JsonSerializer() }
             };
 
 
         private string _path;
         private IAuthenticator _authenticator;
         private IParameterHandler _parameterHandler;
+        private MediaTypeEnum _responseType = MediaTypeEnum.Undefined;
 
         public HttpMethod Method => _message.Method;
 
@@ -304,6 +306,13 @@ namespace Foundations.HttpClient
 
         #endregion Content
 
+        public HttpRequest ResponseMediaType(MediaTypeEnum mediaType)
+        {
+            _responseType = mediaType;
+
+            return this;
+        }
+
         public HttpRequest Authenticator(
             IAuthenticator authenticator)
         {
@@ -364,21 +373,18 @@ namespace Foundations.HttpClient
 
         private ISerializer GetSerializer(HttpResponseMessage response)
         {
-            var resultContentType = response
-                .Content
-                .Headers
-                .ContentType
-                .MediaType
-                .StringToEnum<MediaTypeEnum>();
+            var resultContentType = _responseType != MediaTypeEnum.Undefined ?
+                                        _responseType :
+                                        response
+                                            .Content
+                                            .Headers
+                                            .ContentType
+                                            .MediaType
+                                            .StringToEnum<MediaTypeEnum>();
 
-            if (_serializers.ContainsKey(resultContentType))
-            {
-                return _serializers[resultContentType];
-            }
-            else
-            {
-                return null;
-            }
+            return _serializers.ContainsKey(resultContentType) ? 
+                        _serializers[resultContentType] : 
+                        null;
         }
 
         private void AddDefaults()

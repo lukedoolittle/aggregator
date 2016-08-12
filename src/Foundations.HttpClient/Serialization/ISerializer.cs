@@ -3,6 +3,6 @@
     public interface ISerializer
     {
         string Serialize<TEntity>(TEntity entity);
-        TEntity Deserialize<TEntity>(string entity);
+        TEntity Deserialize<TEntity>(string entity, string datetimeFormat = null);
     }
 }

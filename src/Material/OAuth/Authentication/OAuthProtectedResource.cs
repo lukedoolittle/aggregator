@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Foundations.Http;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
@@ -50,7 +51,8 @@ namespace Material.OAuth
             Dictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> querystringParameters,
             IDictionary<string, string> pathParameters,
-            HttpStatusCode expectedResponse = HttpStatusCode.OK)
+            HttpStatusCode expectedResponse = HttpStatusCode.OK,
+            MediaTypeEnum expectedResponseType = MediaTypeEnum.Json)
         {
             if (string.IsNullOrEmpty(baseUrl))
             {
@@ -69,6 +71,7 @@ namespace Material.OAuth
                 .Request(
                     new HttpMethod(httpMethod),
                     path)
+                .ResponseMediaType(expectedResponseType)
                 .Headers(headers)
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)

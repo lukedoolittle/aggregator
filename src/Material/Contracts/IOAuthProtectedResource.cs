@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Foundations.Http;
 
 namespace Material.Contracts
 {
@@ -13,6 +14,7 @@ namespace Material.Contracts
             Dictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> additionalQuerystringParameters,
             IDictionary<string, string> additionalUrlSegmentParameters,
-            HttpStatusCode expectedResponse = HttpStatusCode.OK);
+            HttpStatusCode expectedResponse = HttpStatusCode.OK,
+            MediaTypeEnum expectedResponseType = MediaTypeEnum.Json);
     }
 }

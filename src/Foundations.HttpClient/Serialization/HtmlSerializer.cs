@@ -11,7 +11,9 @@ namespace Foundations.HttpClient.Serialization
             throw new NotImplementedException();
         }
 
-        public T Deserialize<T>(string item)
+        public T Deserialize<T>(
+            string item, 
+            string datetimeFormat = null)
         {
             var jsonArray = HttpUtility
                 .ParseQueryString(item)
@@ -19,9 +21,9 @@ namespace Foundations.HttpClient.Serialization
 
             var json = "{ " + string.Join(",", jsonArray) + " }";
 
-            var newtonsoft = json.AsEntity<T>();
-
-            var dotnet = new JsonSerializer().Deserialize<T>(json);
+            var dotnet = new JsonSerializer().Deserialize<T>(
+                json, 
+                datetimeFormat);
 
             return dotnet;
         }

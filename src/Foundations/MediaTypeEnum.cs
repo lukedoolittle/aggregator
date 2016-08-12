@@ -4,6 +4,8 @@ namespace Foundations.Http
 {
     public enum MediaTypeEnum
     {
+        [Description("")]
+        Undefined,
         [Description("application/json")]
         Json,
         [Description("application/xml")]

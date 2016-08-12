@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Foundations.Extensions;
 
 namespace Foundations.HttpClient.Serialization
 {
@@ -24,9 +26,19 @@ namespace Foundations.HttpClient.Serialization
             }
         }
 
-        public TEntity Deserialize<TEntity>(string entity)
+        public TEntity Deserialize<TEntity>(
+            string entity, 
+            string datetimeFormat = null)
         {
-            var serializer = new DataContractJsonSerializer(typeof(TEntity));
+            var settings = new DataContractJsonSerializerSettings();
+            if (datetimeFormat != null)
+            {
+                settings.DateTimeFormat = new DateTimeFormat(datetimeFormat);
+            }
+            var serializer = new DataContractJsonSerializer(
+                typeof(TEntity),
+                settings);
+
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(entity)))
             {
                 return (TEntity)serializer.ReadObject(stream);

@@ -9,7 +9,9 @@ namespace Foundations.HttpClient.Serialization
             throw new NotImplementedException();
         }
 
-        public T Deserialize<T>(string item)
+        public T Deserialize<T>(
+            string item, 
+            string datetimeFormat = null)
         {
             throw new NotImplementedException();
         }
