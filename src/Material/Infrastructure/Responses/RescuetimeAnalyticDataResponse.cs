@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +11,10 @@ namespace Material.Infrastructure.Responses
     public class RescuetimeAnalyticDataResponse
     {
         [DataMember(Name = "notes")]
-        [JsonProperty(PropertyName = "notes")]
         public string Notes { get; set; }
         [DataMember(Name = "row_headers")]
-        [JsonProperty(PropertyName = "row_headers")]
         public IList<string> RowHeaders { get; set; }
         [DataMember(Name = "rows")]
-        [JsonProperty(PropertyName = "rows")]
         public IList<HourBlock> Rows { get; set; }
     }
 

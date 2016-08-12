@@ -5,7 +5,6 @@ using Android.Content;
 using Android.Provider;
 using Android.Runtime;
 using Android.Telephony;
-using Newtonsoft.Json.Linq;
 using Android.App;
 using Android.Database;
 using Foundations.Extensions;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -15,23 +14,18 @@ namespace Material.Infrastructure.Credentials
         public abstract bool AreValidIntermediateCredentials { get; }
 
         [DataMember(Name = "user_id")]
-        [JsonProperty("user_id")]
         protected string _userId1;
         [DataMember(Name = "userid")]
-        [JsonProperty("userid")]
         protected string _userId2;
-        [JsonIgnore]
+
         public string UserId => _userId1 ?? _userId2;
 
         [DataMember(Name = "created_at")]
-        [JsonProperty("created_at")]
         protected string _dateCreated;
 
         [DataMember(Name = "dateCreated")]
-        [JsonProperty("dateCreated")]
         public DateTimeOffset DateCreated { get; protected set; }
 
-        [JsonIgnore]
         public bool IsTokenExpired
         {
             get
@@ -49,11 +43,9 @@ namespace Material.Infrastructure.Credentials
             }
         }
 
-        [JsonExtensionData]
         public Dictionary<string, object> AdditionalTokenParameters { get; } = 
             new Dictionary<string, object>();
 
-        [JsonIgnore]
         public IDictionary<string, string> AdditionalParameters
         {
             get

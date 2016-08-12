@@ -41,10 +41,6 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Robotics.Mobile.Core, Version=1.0.5500.30933, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\MonoAndroid10\Robotics.Mobile.Core.dll</HintPath>
       <Private>True</Private>
@@ -93,10 +89,6 @@
     <ProjectReference Include="..\Foundations.Http.Android\Foundations.Http.Android.csproj">
       <Project>{58cc5d91-7700-4cc6-903d-92c38ffa08c9}</Project>
       <Name>Foundations.Http.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

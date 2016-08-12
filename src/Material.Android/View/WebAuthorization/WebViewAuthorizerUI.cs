@@ -48,7 +48,7 @@ namespace Material.View.WebAuthorization
                     {
                         view.LoadData(
                             StringResources.OAuthCallbackResponse,
-                            MimeTypeEnum.Text.EnumToString(),
+                            MediaTypeEnum.Text.EnumToString(),
                             string.Empty);
                         
                         var result = _handler

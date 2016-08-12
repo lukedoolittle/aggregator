@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -15,10 +14,8 @@ namespace Material.Infrastructure.Credentials
         }
 
         [DataMember(Name = "deviceAddress")]
-        [JsonProperty("deviceAddress")]
         public Guid DeviceAddress { get; }
 
-        [JsonIgnore]
         public override bool HasValidPublicKey => true;
 
         public override string ExpiresIn => "0";

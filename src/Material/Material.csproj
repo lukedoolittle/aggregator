@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IClientCredentials.cs" />
-    <Compile Include="Contracts\IClientFactory.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="Infrastructure\Static\MioHeartRate.cs" />
     <Compile Include="Infrastructure\Static\SMSRequest.cs" />
     <Compile Include="Infrastructure\Static\Mioalpha.cs" />
-    <Compile Include="Contracts\IRequestClient.cs" />
     <Compile Include="Metadata\CredentialType.cs" />
     <Compile Include="Metadata\ServiceType.cs" />
     <Compile Include="OAuth\Facade\OAuth1AuthenticationFacade.cs" />
@@ -287,10 +285,6 @@
       <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
@@ -300,10 +294,6 @@
     <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

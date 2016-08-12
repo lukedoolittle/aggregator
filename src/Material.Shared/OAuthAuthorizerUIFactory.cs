@@ -1,4 +1,5 @@
-﻿using Foundations.Http;
+﻿using System;
+using Foundations.Http;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
