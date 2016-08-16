@@ -1,21 +1,24 @@
 ﻿#if __MOBILE__
-using Material.Adapters;
 using Material.Infrastructure.Static;
-#if __IOS__
-using Plugin.Geolocator;
-#endif
 
 namespace Material
 {
     using System.Threading.Tasks;
     public class GPSRequester
     { 
-        public Task<GPSResponse> MakeGPSRequestAsync()
+        public async Task<GPSResponse> MakeGPSRequestAsync()
         {
 #if __IOS__
-            return new GPSAdapter(CrossGeolocator.Current).GetPositionAsync();
+            var locationManager = await new GPSAuthorizationFacade()
+                .AuthorizeContinuousGPSUsage()
+                .ConfigureAwait(false);
+            return await new iOSGPSAdapter(locationManager)
+                .GetPositionAsync()
+                .ConfigureAwait(false);
 #elif __ANDROID__
-            return new AndroidGPSAdapter().GetPositionAsync();
+            return await new AndroidGPSAdapter()
+                .GetPositionAsync()
+                .ConfigureAwait(false);
 #else
             throw new NotSupportedException();
 #endif

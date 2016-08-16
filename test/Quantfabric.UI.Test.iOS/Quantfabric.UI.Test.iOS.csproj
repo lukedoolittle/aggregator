@@ -198,7 +198,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\Application\Configuration\CredentialApplicationSettings.cs">
+    <Compile Include="..\Quantfabric.Test\TestHelpers\CredentialApplicationSettings.cs">
       <Link>CredentialApplicationSettings.cs</Link>
     </Compile>
     <Compile Include="Main.cs" />

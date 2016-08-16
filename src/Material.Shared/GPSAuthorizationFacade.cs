@@ -3,19 +3,24 @@ using System.Threading.Tasks;
 using Material.Exceptions;
 #if __IOS__
 using CoreLocation;
-using Plugin.Geolocator;
+using UIKit;
 #endif
 
 namespace Material
 {
     public class GPSAuthorizationFacade
     {
+#if __IOS__
+        public Task<CLLocationManager> AuthorizeContinuousGPSUsage()
+#else
         public Task AuthorizeContinuousGPSUsage()
+#endif
+
         {
 #if __ANDROID__
             return Task.FromResult(new object());
 #elif __IOS__
-            var taskCompletionSource = new TaskCompletionSource<object>();
+            var taskCompletionSource = new TaskCompletionSource<CLLocationManager>();
             var locationManager = new CLLocationManager();
             locationManager.AuthorizationChanged += (sender, args) =>
             {
@@ -24,15 +29,22 @@ namespace Material
                     case CLAuthorizationStatus.NotDetermined:
                         break;
                     case CLAuthorizationStatus.AuthorizedAlways:
-                        taskCompletionSource.SetResult(new object());
+                        taskCompletionSource.SetResult(locationManager);
                         break;
                     default:
                         throw new AuthorizationException(
                             StringResources.GPSAuthorizationException);
                 }
             };
-            locationManager.RequestAlwaysAuthorization(); 
-            CrossGeolocator.Current.AllowsBackgroundUpdates = true;
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                locationManager.RequestAlwaysAuthorization(); 
+            }
+            if (UIDevice.CurrentDevice.CheckSystemVersion(9, 0))
+            {
+                locationManager.AllowsBackgroundLocationUpdates = true;
+            }
             return taskCompletionSource.Task;
 #else
             throw new Exception();

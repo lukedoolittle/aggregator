@@ -201,9 +201,6 @@ namespace Quantfabric.UI.Test.iOS
             };
             GPS.TouchUpInside += async (sender, args) =>
             {
-                await new GPSAuthorizationFacade()
-                    .AuthorizeContinuousGPSUsage()
-                    .ConfigureAwait(false);
                 var result = await new GPSRequester()
                     .MakeGPSRequestAsync()
                     .ConfigureAwait(false);
