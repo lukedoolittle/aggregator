@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Quantfabric.Material</id>
-    <version>0.0.3-alpha</version>
+    <version>0.2.0-beta</version>
     <title>Quantfabric.Material</title>
     <authors>lukedoolittle</authors>
     <owners></owners>
@@ -18,19 +18,15 @@
     <iconUrl>https://s3.amazonaws.com/lukedoolittle/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
-    <copyright>Copyright  2016</copyright>
+    <copyright>Copyright 2016</copyright>
     <dependencies>
       <group targetFramework="net452">
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Portable.BouncyCastle" version="1.8.1" />
       </group>
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
-        <dependency id="Xam.Plugin.Geolocator" version="3.0.4" />
       </group>
       <group targetFramework="MonoAndroid60">
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
       </group>
     </dependencies>

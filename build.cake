@@ -24,16 +24,63 @@ var windowsBuildDirectory = Directory("./src/Material.Windows/bin") + Directory(
 var iOSBuildDirectory = Directory("./src/Material.iOS/bin") + Directory(configuration);
 var androidBuildDirectory = Directory("./src/Material.Android/bin") + Directory(configuration);
 
+var windowsLibList = new List<FilePath> 
+{
+	windowsBuildDirectory + File("Foundations.Cryptography.dll"),
+	windowsBuildDirectory + File("Foundations.dll"),
+	windowsBuildDirectory + File("Foundations.Http.dll"),
+	windowsBuildDirectory + File("Foundations.HttpClient.dll"),
+	windowsBuildDirectory + File("Material.Portable.dll"),
+	windowsBuildDirectory + File("Material.dll")
+};
+var iOSLibList = new List<FilePath> 
+{
+	iOSBuildDirectory + File("Foundations.Cryptography.dll"),
+	iOSBuildDirectory + File("Foundations.dll"),
+	iOSBuildDirectory + File("Foundations.Http.dll"),
+	iOSBuildDirectory + File("Foundations.HttpClient.dll"),
+	iOSBuildDirectory + File("Material.Portable.dll"),
+	iOSBuildDirectory + File("Robotics.Mobile.Core.dll"),
+	iOSBuildDirectory + File("Robotics.Mobile.Core.iOS.dll"),
+	iOSBuildDirectory + File("Material.dll"),
+};
+var androidLibList = new List<FilePath> 
+{
+	androidBuildDirectory + File("Foundations.Cryptography.dll"),
+	androidBuildDirectory + File("Foundations.dll"),
+	androidBuildDirectory + File("Foundations.Http.dll"),
+	androidBuildDirectory + File("Foundations.HttpClient.dll"),
+	androidBuildDirectory + File("Material.Portable.dll"),
+	androidBuildDirectory + File("Robotics.Mobile.Core.dll"),
+	androidBuildDirectory + File("Robotics.Mobile.Core.Droid.dll"),
+	androidBuildDirectory + File("Material.dll")
+};
+
 var nugetLibDirectory = Directory(nugetLocation) + Directory("lib");
 var windowsLibDirectory = nugetLibDirectory + Directory("net452");
 var iOSLibDirectory = nugetLibDirectory + Directory("Xamarin.iOS10");
 var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 
-var nugetItemDictionary = new Dictionary<ConvertableDirectoryPath, ConvertableDirectoryPath>
+var ilMergeItems = new List<Tuple<ConvertableDirectoryPath, ConvertableDirectoryPath, string, ConvertableDirectoryPath, List<FilePath>>>
 {
-	{windowsBuildDirectory, windowsLibDirectory},
-	{iOSBuildDirectory, iOSLibDirectory},
-	{androidBuildDirectory, androidLibDirectory}
+	new Tuple<ConvertableDirectoryPath, ConvertableDirectoryPath, string, ConvertableDirectoryPath, List<FilePath>>(
+		windowsBuildDirectory,
+		windowsLibDirectory,
+		null,
+		null,
+		windowsLibList),
+	new Tuple<ConvertableDirectoryPath, ConvertableDirectoryPath, string, ConvertableDirectoryPath, List<FilePath>>(
+		iOSBuildDirectory,
+		iOSLibDirectory,
+		"v1",
+		Directory("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/Xamarin.iOS/v1.0"),
+		iOSLibList),
+	new Tuple<ConvertableDirectoryPath, ConvertableDirectoryPath, string, ConvertableDirectoryPath, List<FilePath>>(
+		androidBuildDirectory,
+		androidLibDirectory,
+		"v6",
+		Directory("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/MonoAndroid/v6.0"),
+		androidLibList)
 };
 
 var nugetDirectories = new List<DirectoryPath>
@@ -103,49 +150,42 @@ Task("Move")
     .IsDependentOn("Build")
     .Does(() =>
 {
-	foreach(var nugetItem in nugetItemDictionary)
+	foreach(var item in ilMergeItems)
 	{
-		var assemblyFiles = new List<FilePath> 
+		foreach(var file in item.Item5)
 		{
-			nugetItem.Key + File("Foundations.Cryptography.dll"),
-			nugetItem.Key + File("Foundations.dll"),
-			nugetItem.Key + File("Foundations.Http.dll"),
-			nugetItem.Key + File("Foundations.HttpClient.dll")
-			nugetItem.Key + File("Foundations.Serialization.dll"),
-			nugetItem.Key + File("Material.Portable.dll"),
-			nugetItem.Key + File("Material.dll"),
-			nugetItem.Key + File("Monkey.Robotics.dll"),
-		};
-
-		foreach(var file in assemblyFiles)
-		{
-			CopyFileToDirectory(file, nugetItem.Value);
+			CopyFileToDirectory(file, item.Item2);
 		}
 	}
 });
 
 // TODO: get this to work with Xamarin assemblies
-// Task("Assembly-Merge")
-//     .IsDependentOn("Build")
-//     .Does(() =>
-// {
-// 	foreach(var nugetItem in nugetItemDictionary)
-// 	{
-// 		var assemblyFiles = new List<FilePath> 
-// 		{
-// 			nugetItem.Key + File("Foundations.Cryptography.dll"),
-// 			nugetItem.Key + File("Foundations.dll"),
-// 			nugetItem.Key + File("Foundations.Http.dll"),
-// 			nugetItem.Key + File("Foundations.Serialization.dll"),
-// 			nugetItem.Key + File("Material.Portable.dll"),
-// 		};
+/*Task("Assembly-Merge")
+     .IsDependentOn("Build")
+     .Does(() =>
+{
+ 	foreach(var ilMergeItem in ilMergeItems)
+	{
+		var settings = new ILMergeSettings
+		{
+			TargetKind = TargetKind.Dll
+		};
 
-// 		ILMerge(
-// 			nugetItem.Value + File(mergedAssembly), 
-// 			nugetItem.Key + File(primaryAssembly), 
-// 			assemblyFiles);
-// 	}
-// });
+		if (ilMergeItem.Item4 != null)
+		{
+			var targetPlatform = new TargetPlatform(
+				TargetPlatformVersion.v1, 
+				ilMergeItem.Item4);
+			settings.TargetPlatform = targetPlatform;
+		}
+
+		ILMerge(
+			ilMergeItem.Item2 + File(mergedAssembly), 
+			ilMergeItem.Item1 + File(primaryAssembly), 
+			ilMergeItem.Item5,
+			settings);
+	}
+});*/
 
 Task("NuGet-Pack")
     .IsDependentOn("Move")
