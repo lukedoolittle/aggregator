@@ -165,18 +165,6 @@
       <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\XamarinIos\crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Geolocator, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Geolocator.Abstractions, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -219,10 +207,6 @@
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Bootstrap\Foundations.Bootstrap.csproj">
-      <Project>{0fe0e580-65ef-400b-818c-1ec4a2276cfa}</Project>
-      <Name>Foundations.Bootstrap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
@@ -232,10 +216,6 @@
       <Name>Foundations.Http.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
