@@ -10,6 +10,13 @@ using SystemConfiguration;
 using CoreFoundation;
 using Robotics.Mobile.Core.Bluetooth.LE;
 #endif
+#if WINDOWS_UWP
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.Networking.Connectivity;
+#endif
 
 namespace Material.Framework
 {
@@ -67,7 +74,23 @@ namespace Material.Framework
 
         public static bool IsOnline => Reachability.IsReachable();
 
+#elif WINDOWS_UWP
+        public static Frame Context => Window.Current.Content as Frame;
 
+        public static Action<Action> RunOnMainThread { get; } = new Action<Action>(action => 
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal, 
+                () => { action(); }));
+
+        public static bool IsOnline
+        {
+            get
+            {
+                var connection = NetworkInformation.GetInternetConnectionProfile();
+                return connection != null &&
+                       connection.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+            }
+        }
 #else
         public static Action<Action> RunOnMainThread { get; } = action => { };
 

@@ -64,7 +64,11 @@ namespace Material.Infrastructure
                     StringResources.OfflineConnectivityException);
             }
 
+#if WINDOWS_UWP
+            Windows.System.Launcher.LaunchUriAsync(authorizationUri);
+#else
             Process.Start(authorizationUri.ToString());
+#endif
 
             taskCompletion.Task.ContinueWith(t => _httpServer.Close());
 

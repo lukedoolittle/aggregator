@@ -6,6 +6,9 @@ using Material.Infrastructure;
 #if __MOBILE__
 using Material.View.WebAuthorization;
 #endif
+#if WINDOWS_UWP
+using Material.View.WebAuthorization;
+#endif
 
 namespace Material
 {
@@ -50,6 +53,15 @@ namespace Material
                 default:
                     throw new NotSupportedException();
             }
+#elif WINDOWS_UWP
+            //TODO: reenable this when we have implemented the HTTP server
+            //in Foundations.Http.UWP
+            if (browserType == AuthenticationInterfaceEnum.Dedicated)
+            {
+                throw new NotSupportedException();
+            }
+
+            return new WebViewAuthorizerUI(callbackHandler);
 #else
             return new BrowserAuthorizerUI(
                 _server,
