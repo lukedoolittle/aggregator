@@ -18,6 +18,8 @@ namespace Material.View.WebAuthorization
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
+
             base.OnCreate(savedInstanceState);
 
             View = new WebView(this);

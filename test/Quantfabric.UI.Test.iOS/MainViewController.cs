@@ -48,7 +48,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView(token.OAuthSecret);
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
             };
             FatsecretAuth.TouchUpInside += async (sender, e) =>
             {
@@ -62,7 +62,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView(token.OAuthSecret);
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
             };
             WithingsAuth.TouchUpInside += async (sender, args) =>
             {
@@ -76,7 +76,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView(token.OAuthSecret);
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
             };
             SpotifyAuth.TouchUpInside += async (sender, e) =>
             {
@@ -91,7 +91,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView(token.AccessToken);
+                WriteResultToTextView("Access Token:" + token.AccessToken);
             };
             GoogleAuth.TouchUpInside += async (sender, e) =>
             {

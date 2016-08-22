@@ -46,6 +46,7 @@ namespace Material.View.WebAuthorization
                 {
                     if (url.Contains(callbackUri.AbsoluteUri))
                     {
+                        view.StopLoading();
                         view.LoadData(
                             StringResources.OAuthCallbackResponse,
                             MediaTypeEnum.Text.EnumToString(),
@@ -74,17 +75,23 @@ namespace Material.View.WebAuthorization
         {
             private readonly Action<WebView, string, Bitmap> _pageLoadAction;
 
-            public AuthorizingWebViewClient(Action<WebView, string, Bitmap> pageLoadAction)
+            public AuthorizingWebViewClient(
+                Action<WebView, string, Bitmap> pageLoadAction)
             {
                 _pageLoadAction = pageLoadAction;
             }
 
-            public override bool ShouldOverrideUrlLoading(WebView view, string url)
+            public override bool ShouldOverrideUrlLoading(
+                WebView view,
+                string url)
             {
                 return false;
             }
 
-            public override void OnPageStarted(WebView view, string url, Bitmap favicon)
+            public override void OnPageStarted(
+                WebView view, 
+                string url, 
+                Bitmap favicon)
             {
                 _pageLoadAction(view, url, favicon);
             }

@@ -23,6 +23,8 @@ namespace Material.View.BluetoothAuthorization
 
         protected override void OnCreate(Bundle bundle)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
+
             base.OnCreate(bundle);
 
             _adapter = new DeviceListAdapter(this);
