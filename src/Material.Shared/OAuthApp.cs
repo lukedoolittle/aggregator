@@ -14,7 +14,12 @@ namespace Material.Infrastructure.OAuth
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded) : 
+#if !__WINDOWS__
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
+#else
+            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
+#endif
+            ) : 
                 base(
                     consumerKey, 
                     consumerSecret, 

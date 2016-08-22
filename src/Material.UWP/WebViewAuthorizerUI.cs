@@ -29,40 +29,43 @@ namespace Material.View.WebAuthorization
             var viewCompletionSource = new TaskCompletionSource<WebView>();
             var tokenCompletionSource = new TaskCompletionSource<TToken>();
 
-            Platform.Context.Navigate(
-                typeof(WebViewPage),
-                viewCompletionSource);
-
-            var webView = await viewCompletionSource
-                .Task
-                .ConfigureAwait(false);
-
-            webView.NavigationStarting += (sender, args) =>
+            Platform.RunOnMainThread(async () =>
             {
-                if (args.Uri != null &&
-                    args.Uri.ToString().Contains(
-                        callbackUri.ToString()))
+                Platform.Context.Navigate(
+                    typeof(WebViewPage),
+                    viewCompletionSource);
+
+                var webView = await viewCompletionSource
+                    .Task
+                    .ConfigureAwait(false);
+
+                webView.NavigationStarting += (sender, args) =>
                 {
-                    var cancel = args.Cancel;
+                    if (args.Uri != null &&
+                        args.Uri.ToString().Contains(
+                            callbackUri.ToString()))
+                    {
+                        var cancel = args.Cancel;
 
-                    webView.NavigateToString(StringResources.OAuthCallbackResponse);
+                        webView.NavigateToString(StringResources.OAuthCallbackResponse);
 
-                    var result = _handler
-                        .ParseAndValidateCallback<TToken>(
-                            args.Uri);
-                    tokenCompletionSource.SetResult(result);
+                        var result = _handler
+                            .ParseAndValidateCallback<TToken>(
+                                args.Uri);
+                        tokenCompletionSource.SetResult(result);
 
-                    Platform.Context.GoBack();
+                        Platform.Context.GoBack();
+                    }
+                };
+
+                if (!Platform.IsOnline)
+                {
+                    throw new NoConnectivityException(
+                        StringResources.OfflineConnectivityException);
                 }
-            };
 
-            if (!Platform.IsOnline)
-            {
-                throw new NoConnectivityException(
-                    StringResources.OfflineConnectivityException);
-            }
-
-            webView.Navigate(authorizationUri);
+                webView.Navigate(authorizationUri);
+            });
 
             return await tokenCompletionSource.Task.ConfigureAwait(false);
         }
