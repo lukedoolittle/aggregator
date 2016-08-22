@@ -525,6 +525,10 @@ namespace CodeGen
             {
                 return OAuthParameterTypeEnum.Header;
             }
+            else if (parameterType == "body")
+            {
+                return OAuthParameterTypeEnum.Body;
+            }
             else
             {
                 throw new Exception();
