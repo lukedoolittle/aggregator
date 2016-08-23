@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Foundations.Http;
 using Material.Contracts;
@@ -14,16 +13,19 @@ namespace Material.Infrastructure
     {
         private readonly HttpServer _httpServer;
         private readonly IOAuthCallbackHandler _handler;
+        private readonly IBrowser _browser;
 
         public AuthenticationInterfaceEnum BrowserType =>
             AuthenticationInterfaceEnum.Dedicated;
 
         public BrowserAuthorizerUI(
             HttpServer httpServer,
-            IOAuthCallbackHandler handler)
+            IOAuthCallbackHandler handler,
+            IBrowser browser)
         {
             _httpServer = httpServer;
             _handler = handler;
+            _browser = browser;
         }
 
         public Task<TToken> Authorize<TToken>(
@@ -32,7 +34,6 @@ namespace Material.Infrastructure
             where TToken : TokenCredentials
         {
             var taskCompletion = new TaskCompletionSource<TToken>();
-            //TODO: fix magic strings
 
 #pragma warning disable 4014
             _httpServer.CreateServer(
@@ -64,11 +65,7 @@ namespace Material.Infrastructure
                     StringResources.OfflineConnectivityException);
             }
 
-#if WINDOWS_UWP
-            Windows.System.Launcher.LaunchUriAsync(authorizationUri);
-#else
-            Process.Start(authorizationUri.ToString());
-#endif
+            _browser.Launch(authorizationUri);
 
             taskCompletion.Task.ContinueWith(t => _httpServer.Close());
 
@@ -93,6 +90,7 @@ namespace Material.Infrastructure
 						            xmlHttp.send(null);
 					            }
                             }
+                            window.close();
 			            }
 			
 			            function parameterNullOrEmpty(name, url)

@@ -1,10 +1,13 @@
 ﻿using System;
+using Material.Contracts;
 #if __ANDROID__
 using Android.App;
 using Android.Net;
 using Robotics.Mobile.Core.Bluetooth.LE;
+using Android.Content;
 #elif __IOS__
 using UIKit;
+using Foundation;
 using System.Net;
 using SystemConfiguration;
 using CoreFoundation;
@@ -17,10 +20,13 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.Networking.Connectivity;
 #endif
+#if __WINDOWS__
+using System.Diagnostics;
+#endif
 
 namespace Material.Framework
 {
-    public static class Platform
+    public class Platform : IBrowser
     {
 #if __ANDROID__
         public static IAdapter BluetoothAdapter { get; } = new Adapter();
@@ -49,6 +55,19 @@ namespace Material.Framework
             }
         }
 
+        public static Action<System.Uri> LaunchBrowser
+        {
+            get
+            {
+                return uri =>
+                {
+                    var neturi = Android.Net.Uri.Parse(uri.ToString());
+                    var intent = new Intent(Intent.ActionView, neturi);
+                    Context.StartActivity(intent);
+                };
+            }
+        }
+
 #elif __IOS__
         public static IAdapter BluetoothAdapter => Adapter.Current;
 
@@ -72,6 +91,11 @@ namespace Material.Framework
         public static Action<Action> RunOnMainThread { get; } = 
             UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
 
+        public static Action<Uri> LaunchBrowser => 
+            uri => UIApplication.SharedApplication.OpenUrl(
+                new NSUrl(
+                    uri.ToString()));
+
         public static bool IsOnline => Reachability.IsReachable();
 
 #elif WINDOWS_UWP
@@ -91,11 +115,21 @@ namespace Material.Framework
                        connection.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
             }
         }
+
+        public static Action<Uri> LaunchBrowser => 
+            uri => Windows.System.Launcher.LaunchUriAsync(uri);
 #else
         public static Action<Action> RunOnMainThread { get; } = action => { };
 
+        public static Action<Uri> LaunchBrowser => 
+            uri => Process.Start(uri.ToString());
+
         public static bool IsOnline => true;
 #endif
+        public void Launch(System.Uri uri)
+        {
+            LaunchBrowser(uri);
+        }
     }
 
 #if __IOS__

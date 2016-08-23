@@ -46,6 +46,7 @@
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
+    <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />

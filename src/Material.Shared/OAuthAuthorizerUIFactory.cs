@@ -3,10 +3,8 @@ using Foundations.Http;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
-#if __MOBILE__
-using Material.View.WebAuthorization;
-#endif
-#if WINDOWS_UWP
+#if !__WINDOWS__
+using Material.View;
 using Material.View.WebAuthorization;
 #endif
 
@@ -15,11 +13,14 @@ namespace Material
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {
         private readonly HttpServer _server;
+        private readonly IBrowser _browser;
 
         public OAuthAuthorizerUIFactory(
-            HttpServer server)
+            HttpServer server,
+            IBrowser browser)
         {
             _server = server;
+            _browser = browser;
         }
 
         public IOAuthAuthorizerUI GetAuthorizer<TResourceProvider>(
@@ -33,7 +34,8 @@ namespace Material
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI(
                         _server,
-                        callbackHandler);
+                        callbackHandler,
+                        _browser);
                 case AuthenticationInterfaceEnum.Embedded:
                     return new WebViewAuthorizerUI(callbackHandler);
                 default:
@@ -45,7 +47,8 @@ namespace Material
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI(
                         _server, 
-                        callbackHandler);
+                        callbackHandler,
+                        _browser);
                     break;
                 case AuthenticationInterfaceEnum.Embedded:
                     return new UIWebViewAuthorizerUI(callbackHandler);
@@ -62,10 +65,13 @@ namespace Material
             }
 
             return new WebViewAuthorizerUI(callbackHandler);
-#else
+#elif __WINDOWS__
             return new BrowserAuthorizerUI(
                 _server,
-                callbackHandler);
+                callbackHandler,
+                _browser);
+#else
+            throw new NotSupportedException();
 #endif
         }
     }

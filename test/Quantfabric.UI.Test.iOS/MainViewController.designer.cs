@@ -16,6 +16,10 @@ namespace Quantfabric.UI.Test.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISwitch BrowserToggle { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton FacebookAuth { get; set; }
 
         [Outlet]
@@ -72,6 +76,11 @@ namespace Quantfabric.UI.Test.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (BrowserToggle != null) {
+                BrowserToggle.Dispose ();
+                BrowserToggle = null;
+            }
+
             if (FacebookAuth != null) {
                 FacebookAuth.Dispose ();
                 FacebookAuth = null;

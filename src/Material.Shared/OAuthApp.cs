@@ -25,7 +25,8 @@ namespace Material.Infrastructure.OAuth
                     consumerSecret, 
                     callbackUrl, 
                     new OAuthAuthorizerUIFactory(
-                        new HttpServer()), 
+                        new HttpServer(),
+                        new Platform()), 
                     browserType)
         { }
 
@@ -79,7 +80,8 @@ namespace Material.Infrastructure.OAuth
                     clientSecret, 
                     callbackUrl,
                     new OAuthAuthorizerUIFactory(
-                        new HttpServer()), 
+                        new HttpServer(),
+                        new Platform()), 
                     provider,
                     browserType)
         { }

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Quantfabric.UI.Test.Android.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Quantfabric.UI.Test.Resource", IsApplication=true)]
 
-namespace Quantfabric.UI.Test.Android
+namespace Quantfabric.UI.Test
 {
 	
 	
@@ -26,12 +26,12 @@ namespace Quantfabric.UI.Test.Android
 		
 		public static void UpdateIdValues()
 		{
-			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
-			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
-			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Android.Resource.String.ApplicationName;
-			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Android.Resource.String.Hello;
-			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
-			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.UI.Test.Android.Resource.String.library_name;
+			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
+			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
+			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
+			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
+			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
+			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -66,53 +66,56 @@ namespace Quantfabric.UI.Test.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050002
-			public const int facebookAuth = 2131034114;
-			
-			// aapt resource value: 0x7f05000b
-			public const int fatsecretAuth = 2131034123;
-			
-			// aapt resource value: 0x7f050005
-			public const int fitbitAuth = 2131034117;
-			
-			// aapt resource value: 0x7f050004
-			public const int foursquareAuth = 2131034116;
-			
-			// aapt resource value: 0x7f050006
-			public const int googleAuth = 2131034118;
-			
-			// aapt resource value: 0x7f05000d
-			public const int gps = 2131034125;
-			
 			// aapt resource value: 0x7f050001
-			public const int gridLayout1 = 2131034113;
+			public const int browserToggleButton = 2131034113;
 			
-			// aapt resource value: 0x7f05000a
-			public const int linkedinAuth = 2131034122;
+			// aapt resource value: 0x7f050003
+			public const int facebookAuth = 2131034115;
 			
 			// aapt resource value: 0x7f05000c
-			public const int mioalphaAuth = 2131034124;
+			public const int fatsecretAuth = 2131034124;
 			
-			// aapt resource value: 0x7f050008
-			public const int rescuetimeAuth = 2131034120;
+			// aapt resource value: 0x7f050006
+			public const int fitbitAuth = 2131034118;
+			
+			// aapt resource value: 0x7f050005
+			public const int foursquareAuth = 2131034117;
+			
+			// aapt resource value: 0x7f050007
+			public const int googleAuth = 2131034119;
+			
+			// aapt resource value: 0x7f05000e
+			public const int gps = 2131034126;
+			
+			// aapt resource value: 0x7f050002
+			public const int gridLayout1 = 2131034114;
+			
+			// aapt resource value: 0x7f05000b
+			public const int linkedinAuth = 2131034123;
+			
+			// aapt resource value: 0x7f05000d
+			public const int mioalphaAuth = 2131034125;
+			
+			// aapt resource value: 0x7f050009
+			public const int rescuetimeAuth = 2131034121;
 			
 			// aapt resource value: 0x7f050000
 			public const int resultView = 2131034112;
 			
-			// aapt resource value: 0x7f050009
-			public const int runkeeperAuth = 2131034121;
-			
-			// aapt resource value: 0x7f05000e
-			public const int sms = 2131034126;
-			
-			// aapt resource value: 0x7f050007
-			public const int spotifyAuth = 2131034119;
-			
-			// aapt resource value: 0x7f050003
-			public const int twitterAuth = 2131034115;
+			// aapt resource value: 0x7f05000a
+			public const int runkeeperAuth = 2131034122;
 			
 			// aapt resource value: 0x7f05000f
-			public const int withings = 2131034127;
+			public const int sms = 2131034127;
+			
+			// aapt resource value: 0x7f050008
+			public const int spotifyAuth = 2131034120;
+			
+			// aapt resource value: 0x7f050004
+			public const int twitterAuth = 2131034116;
+			
+			// aapt resource value: 0x7f050010
+			public const int withings = 2131034128;
 			
 			static Id()
 			{

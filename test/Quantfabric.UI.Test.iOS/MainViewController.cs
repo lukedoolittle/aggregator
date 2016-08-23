@@ -1,6 +1,7 @@
 using System;
 using Application.Configuration;
 using Material;
+using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
@@ -11,6 +12,9 @@ namespace Quantfabric.UI.Test.iOS
 {
     public partial class MainViewController : UIViewController
     {
+        private AuthenticationInterfaceEnum _browserType = 
+            AuthenticationInterfaceEnum.Embedded;
+
         public MainViewController (IntPtr handle) : base (handle)
         {
         }
@@ -21,6 +25,13 @@ namespace Quantfabric.UI.Test.iOS
 
             var settings = new CredentialApplicationSettings();
 
+            BrowserToggle.TouchUpInside += (sender, args) =>
+            {
+                _browserType = BrowserToggle.On ?
+                    AuthenticationInterfaceEnum.Dedicated :
+                    AuthenticationInterfaceEnum.Embedded;
+            };
+
             FacebookAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
@@ -29,7 +40,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Facebook>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<FacebookEvent>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -44,7 +56,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth1App<Material.Infrastructure.ProtectedResources.Twitter>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -58,7 +71,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth1App<Fatsecret>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -72,7 +86,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth1App<Withings>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -86,7 +101,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Spotify>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<SpotifySavedTrack>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -101,7 +117,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Google>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleGmail>()
                     .GetCredentialsAsync()
@@ -117,7 +134,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Fitbit>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<FitbitProfile>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -132,7 +150,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Runkeeper>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                         .AddScope<RunkeeperFitnessActivity>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -147,7 +166,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Foursquare>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -162,7 +182,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<Rescuetime>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<RescuetimeAnalyticData>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -177,7 +198,8 @@ namespace Quantfabric.UI.Test.iOS
                 var token = await new OAuth2App<LinkedIn>(
                         credentials.ClientId,
                         credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        credentials.CallbackUrl,
+                        browserType: _browserType)
                     .AddScope<LinkedinPersonal>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);

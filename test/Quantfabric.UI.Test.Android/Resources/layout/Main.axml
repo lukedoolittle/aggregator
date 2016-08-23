@@ -8,6 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resultView" />
+    <ToggleButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOn="Dedicated"
+        android:textOff="Embedded"
+        android:id="@+id/browserToggleButton" />
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
