@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Quantfabric.Material</id>
-    <version>0.2.0-beta</version>
+    <version>0.3.1-beta</version>
     <title>Quantfabric.Material</title>
     <authors>lukedoolittle</authors>
     <owners></owners>
@@ -27,6 +27,9 @@
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
       </group>
       <group targetFramework="MonoAndroid60">
+        <dependency id="Portable.BouncyCastle" version="1.8.1"/>
+      </group>
+	  <group targetFramework="uap10.0">
         <dependency id="Portable.BouncyCastle" version="1.8.1"/>
       </group>
     </dependencies>

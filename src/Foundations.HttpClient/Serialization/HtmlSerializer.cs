@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Foundations.Serialization;
 
 namespace Foundations.HttpClient.Serialization
 {

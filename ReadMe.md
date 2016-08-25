@@ -2,7 +2,7 @@
 A cross platform framework for collecting personal data from various sources including web apis (OAuth), bluetooth devices, and smartphone embedded sensors (GPS, SMS, etc)
 
 # NuGet
-You can get Material by [grabbing the latest NuGet package](#https://www.nuget.org/packages/Quantfabric.Material/) currently available for .NET 4.5, Xamarin.Android, and Xamarin.iOS (Windows UWP and Xamarin.Forms in progress)
+You can get Material by [grabbing the latest NuGet package](#https://www.nuget.org/packages/Quantfabric.Material/) currently available for .NET 4.5, Xamarin.Android, Xamarin.iOS, and Windows UWP (Xamarin.Forms in progress)
 
 ## What is your usage scenario?
 1. [I have a mobile/desktop app and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_app)
@@ -239,19 +239,7 @@ The 'code' workflow can also be used in the event a long lived access token is d
 			.ConfigureAwait(false);
 	}
 
-By default `OAuth1App` and `OAuth2App` use an embedded browser (`WebView` on Android, `UIWebView` on iOS) for the workflow. In some situations a dedicated browser (Chrome on Android, Safari on iOS) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
-
-		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
-			consumerKey, 
-			consumerSecret, 
-			callbackUri,
-            AuthenticationInterfaceEnum.Dedicated);
-
-		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
-			clientId, 
-			clientSecret, 
-			callbackUri,
-            AuthenticationInterfaceEnum.Dedicated);
+By default `OAuth1App` and `OAuth2App` use an embedded browser (`WebView` on Android, `UIWebView` on iOS, `WebView` on UWP) to complete the oauth workflow. To use a dedicated (system) browser see the section on [Dedicated Mobile Browsers](#advanced_dedicated_browser).
 
 ## <a name="oauth2_refresh"></a> OAuth2 Refresh Token
 If the authentication provider has an access token that expires and provides a refresh token (see [list of OAuth2 providers](#oauth2_providers)), that refresh token can be exchanged for a new, valid access token:
@@ -320,9 +308,27 @@ The SMS results can also be filtered by a date:
 
 ## Provider Specific Notes
 ### <a name="rescuetime"></a> Rescuetime
-Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop/mobile workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
+Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
 
 ## Advanced Topics
+### <a name="advanced_dedicated_browser"></a> Using a dedicated (system) browser on a mobile device (Android, iOS, UWP)
+<b>WORK IN PROGRESS: Currently performing this configuration only works with Google and requires particular setup steps in the configurations of the iOS, Android, or UWP project to properly receive the protocol based callback</b>
+
+In some mobile device situations a dedicated browser (Chrome on Android, Safari on iOS, IE on Windows) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
+
+		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
+			consumerKey, 
+			consumerSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+
+		OAuth2App<Facebook> oauth2 = new OAuth2App<Facebook>(
+			clientId, 
+			clientSecret, 
+			callbackUri,
+            AuthenticationInterfaceEnum.Dedicated);
+            
+
 ### <a name="advanced_security"></a> Creating your own security parameter repository
 During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:
 

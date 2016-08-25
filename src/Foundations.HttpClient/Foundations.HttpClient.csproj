@@ -32,16 +32,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Foundations.HttpClient.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if __WINDOWS__
+using System;
 using System.Threading.Tasks;
 using Foundations.Http;
 using Material.Contracts;
@@ -86,3 +87,4 @@ namespace Material.Infrastructure.OAuth
                 </html>";
     }
 }
+#endif
