@@ -14,7 +14,7 @@ namespace Material
         public Task<BluetoothCredentials> GetBluetoothCredentialsAsync()
         {
             var authenticationUI = new BluetoothAuthorizerUI(
-                new BluetoothAdapter(Platform.BluetoothAdapter));
+                new BluetoothAdapter(Platform.Current.BluetoothAdapter));
 
             return authenticationUI.GetDeviceUuid();
         }

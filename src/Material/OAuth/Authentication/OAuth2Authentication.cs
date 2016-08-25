@@ -10,7 +10,6 @@ using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
-using ResponseTypeEnum = Material.Enums.ResponseTypeEnum;
 
 namespace Material.OAuth
 {

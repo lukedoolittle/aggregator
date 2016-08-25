@@ -18,11 +18,12 @@ namespace Material.View.BluetoothAuthorization
             _adapter = adapter;
         }
 
+        //TODO: inject these static Platform references
         public async Task<BluetoothCredentials> GetDeviceUuid()
         {
             var activityCompletionSource = new TaskCompletionSource<DeviceListActivity>();
             var addressCompletionSource = new TaskCompletionSource<Guid>();
-            var context = Platform.Context;
+            var context = Platform.Current.Context;
 
             var intent = new Intent(context, typeof(DeviceListActivity));
             intent.PutExtra(
@@ -49,7 +50,7 @@ namespace Material.View.BluetoothAuthorization
                 {
                     addressCompletionSource.SetResult(device.Address);
                     activity.Finish();
-                    Platform.RunOnMainThread(progressDialog.Hide);
+                    Platform.Current.RunOnMainThread(progressDialog.Hide);
                 }
                 else
                 {

@@ -45,9 +45,11 @@
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
+    <Compile Include="Contracts\IOAuthCallbackListener.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
+    <Compile Include="Enums\OAuthAppTypeEnum.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Contracts\ISMSAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
     <Compile Include="Enums\AuthenticationInterfaceEnum.cs" />
-    <Compile Include="Enums\ResponseTypeEnum.cs" />
     <Compile Include="Exceptions\InvalidScopeException.cs" />
     <Compile Include="Exceptions\OAuthCallbackErrorException.cs" />
     <Compile Include="Generator.cs">
@@ -168,6 +169,7 @@
     <Compile Include="OAuth\Authentication\OAuth1Authentication.cs" />
     <Compile Include="OAuth\Authentication\OAuth2Authentication.cs" />
     <Compile Include="OAuth\Authentication\OAuthProtectedResource.cs" />
+    <Compile Include="OAuth\BrowserAuthorizerUI.cs" />
     <Compile Include="OAuth\OAuth1AppBase.cs" />
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />

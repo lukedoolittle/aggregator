@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts

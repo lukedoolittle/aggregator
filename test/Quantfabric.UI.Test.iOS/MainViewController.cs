@@ -1,6 +1,7 @@
 using System;
 using Application.Configuration;
 using Material;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
@@ -10,10 +11,14 @@ using UIKit;
 
 namespace Quantfabric.UI.Test.iOS
 {
+    using Twitter = Material.Infrastructure.ProtectedResources.Twitter;
+
     public partial class MainViewController : UIViewController
     {
         private AuthenticationInterfaceEnum _browserType = 
             AuthenticationInterfaceEnum.Embedded;
+        private CallbackTypeEnum _callbackType = 
+            CallbackTypeEnum.Localhost;
 
         public MainViewController (IntPtr handle) : base (handle)
         {
@@ -27,15 +32,18 @@ namespace Quantfabric.UI.Test.iOS
 
             BrowserToggle.TouchUpInside += (sender, args) =>
             {
-                _browserType = BrowserToggle.On ?
-                    AuthenticationInterfaceEnum.Dedicated :
-                    AuthenticationInterfaceEnum.Embedded;
+                _browserType = BrowserToggle.On
+                    ? AuthenticationInterfaceEnum.Embedded
+                    : AuthenticationInterfaceEnum.Dedicated;
+                _callbackType = BrowserToggle.On
+                    ? CallbackTypeEnum.Localhost
+                    : CallbackTypeEnum.Protocol;
             };
 
             FacebookAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Facebook, OAuth2Credentials>();
+                    .GetClientCredentials<Facebook, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Facebook>(
                         credentials.ClientId,
@@ -51,9 +59,9 @@ namespace Quantfabric.UI.Test.iOS
             TwitterAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Material.Infrastructure.ProtectedResources.Twitter, OAuth1Credentials>();
+                    .GetClientCredentials<Twitter, OAuth1Credentials>(_callbackType);
 
-                var token = await new OAuth1App<Material.Infrastructure.ProtectedResources.Twitter>(
+                var token = await new OAuth1App<Twitter>(
                         credentials.ConsumerKey,
                         credentials.ConsumerSecret,
                         credentials.CallbackUrl,
@@ -66,7 +74,7 @@ namespace Quantfabric.UI.Test.iOS
             FatsecretAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Fatsecret, OAuth1Credentials>();
+                    .GetClientCredentials<Fatsecret, OAuth1Credentials>(_callbackType);
 
                 var token = await new OAuth1App<Fatsecret>(
                         credentials.ConsumerKey,
@@ -81,7 +89,7 @@ namespace Quantfabric.UI.Test.iOS
             WithingsAuth.TouchUpInside += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Withings, OAuth1Credentials>();
+                    .GetClientCredentials<Withings, OAuth1Credentials>(_callbackType);
 
                 var token = await new OAuth1App<Withings>(
                         credentials.ConsumerKey,
@@ -96,7 +104,7 @@ namespace Quantfabric.UI.Test.iOS
             SpotifyAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Spotify, OAuth2Credentials>();
+                    .GetClientCredentials<Spotify, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Spotify>(
                         credentials.ClientId,
@@ -112,24 +120,23 @@ namespace Quantfabric.UI.Test.iOS
             GoogleAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Google, OAuth2Credentials>();
+                    .GetClientCredentials<Google, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Google>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
-                        browserType: _browserType)
-                    .AddScope<GoogleGmailMetadata>()
-                    .AddScope<GoogleGmail>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
+                            credentials.ClientId,
+                            credentials.ClientSecret,
+                            credentials.CallbackUrl,
+                            browserType: _browserType)
+                        .AddScope<GoogleGmailMetadata>()
+                        .GetCredentialsAsync()
+                        .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
             FitbitAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Fitbit, OAuth2Credentials>();
+                    .GetClientCredentials<Fitbit, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Fitbit>(
                         credentials.ClientId,
@@ -145,7 +152,7 @@ namespace Quantfabric.UI.Test.iOS
             RunkeeperAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Runkeeper, OAuth2Credentials>();
+                    .GetClientCredentials<Runkeeper, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Runkeeper>(
                         credentials.ClientId,
@@ -161,7 +168,7 @@ namespace Quantfabric.UI.Test.iOS
             FoursquareAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Foursquare, OAuth2Credentials>();
+                    .GetClientCredentials<Foursquare, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Foursquare>(
                         credentials.ClientId,
@@ -177,7 +184,7 @@ namespace Quantfabric.UI.Test.iOS
             {
 
                 var credentials = settings
-                    .GetClientCredentials<Rescuetime, OAuth2Credentials>();
+                    .GetClientCredentials<Rescuetime, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Rescuetime>(
                         credentials.ClientId,
@@ -193,7 +200,7 @@ namespace Quantfabric.UI.Test.iOS
             LinkedinAuth.TouchUpInside += async (sender, e) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<LinkedIn, OAuth2Credentials>();
+                    .GetClientCredentials<LinkedIn, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<LinkedIn>(
                         credentials.ClientId,

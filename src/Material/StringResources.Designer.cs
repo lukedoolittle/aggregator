@@ -107,6 +107,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Embedded browser type is not supported in a Windows Desktop application.
+        /// </summary>
+        public static string EmbeddedDesktopUINotSupportedException {
+            get {
+                return ResourceManager.GetString("EmbeddedDesktopUINotSupportedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given type is not a subclass of Event.
         /// </summary>
         public static string GenericTypeException {

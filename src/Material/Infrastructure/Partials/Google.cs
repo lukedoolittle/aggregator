@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure.ProtectedResources
 {

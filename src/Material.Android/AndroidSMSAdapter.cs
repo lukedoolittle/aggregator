@@ -110,7 +110,7 @@ namespace Material.Adapters
 
             var filter = "date>=" + filterDate;
 
-            Platform.RunOnMainThread(() =>
+            Platform.Current.RunOnMainThread(() =>
             {
                 var cursor = FetchCursor(uri, null, filter);
 

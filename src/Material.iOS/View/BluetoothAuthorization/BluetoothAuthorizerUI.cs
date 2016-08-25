@@ -8,6 +8,7 @@ using UIKit;
 
 namespace Material.View.BluetoothAuthorization
 {
+    //TODO: inject these static Platform references
     public class BluetoothAuthorizerUI : IBluetoothAuthorizerUI
     {
         private readonly IBluetoothAdapter _adapter;
@@ -20,7 +21,7 @@ namespace Material.View.BluetoothAuthorization
         public async Task<BluetoothCredentials> GetDeviceUuid()
         {
             var taskCompletionSource = new TaskCompletionSource<Guid>();
-            var context = Platform.Context;
+            var context = Platform.Current.Context;
 
             var controller = new DeviceTableViewController(
                 context.View.Bounds);
@@ -41,7 +42,7 @@ namespace Material.View.BluetoothAuthorization
                 if (result)
                 {
                     taskCompletionSource.SetResult(device.Address);
-                    Platform.RunOnMainThread(() =>
+                    Platform.Current.RunOnMainThread(() =>
                     {
                         controller.HideLoading();
                         controller.DismissViewController(

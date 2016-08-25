@@ -21,15 +21,17 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
-            TResourceProvider provider = null,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded) :
+            TResourceProvider provider,
+            AuthenticationInterfaceEnum browserType,
+            OAuthAppTypeEnum appType) :
             this(
                 clientId, 
                 null, 
                 callbackUrl,
                 uiFactory,
                 provider, 
-                browserType)
+                browserType,
+                appType)
         { }
 
         public OAuth2AppBase(
@@ -37,17 +39,22 @@ namespace Material.Infrastructure.OAuth
             string clientSecret,
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
-            TResourceProvider provider = null,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded)
+            TResourceProvider provider,
+            AuthenticationInterfaceEnum browserType,
+            OAuthAppTypeEnum appType)
         {
             _clientId = clientId;
             _clientSecret = clientSecret;
             _callbackUrl = callbackUrl;
             _browserType = browserType;
             _uiFactory = uiFactory;
-            _provider = provider ?? new TResourceProvider();
+            _provider = provider;
 
-            _provider.SetClientProperties(clientId, clientSecret);
+            provider.SetFlow(
+                clientId, 
+                clientSecret, 
+                browserType, 
+                appType);
         }
 
         public virtual Task<OAuth2Credentials> GetCredentialsAsync()
@@ -71,25 +78,12 @@ namespace Material.Infrastructure.OAuth
                 _clientSecret,
                 _callbackUrl);
 
-            IOAuthAuthenticationTemplate<OAuth2Credentials> template = null;
-            switch (_provider.Flow)
-            {
-                case ResponseTypeEnum.Code:
-                    template = builder.BuildOAuth2CodeTemplate<TResourceProvider>(
-                        facade,
-                        _browserType,
-                        userId,
-                        _clientSecret);
-                    break;
-                case ResponseTypeEnum.Token:
-                    template = builder.BuildOAuth2TokenTemplate<TResourceProvider>(
-                        facade,
-                        _browserType,
-                        userId);
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
+            var template = builder.BuildOAuth2Template<TResourceProvider>(
+                    facade,
+                    _browserType,
+                    userId,
+                    _clientSecret,
+                    _provider.Flow);
 
             return template.GetAccessTokenCredentials(userId);
         }
@@ -98,6 +92,7 @@ namespace Material.Infrastructure.OAuth
             where TRequest : OAuthRequest, new()
         {
             _provider.AddRequestScope<TRequest>();
+
             return this;
         }
     }

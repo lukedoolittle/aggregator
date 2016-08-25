@@ -159,4 +159,7 @@
   <data name="GPSAuthorizationException" xml:space="preserve">
     <value>Access to GPS was not granted</value>
   </data>
+  <data name="EmbeddedDesktopUINotSupportedException" xml:space="preserve">
+    <value>Embedded browser type is not supported in a Windows Desktop application</value>
+  </data>
 </root>

@@ -8,9 +8,11 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="facebookAuth" Content="Facebook" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" Click="OnFacebookClick"/>
-        <Button x:Name="twitterAuth" Content="Twitter" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top" Click="OnTwitterClick"/>
+        <Button x:Name="facebookAuth" Content="Facebook" HorizontalAlignment="Left" Margin="26,166,0,0" VerticalAlignment="Top" Click="OnFacebookClick"/>
+        <Button x:Name="twitterAuth" Content="Twitter" HorizontalAlignment="Left" Margin="114,166,0,0" VerticalAlignment="Top" Click="OnTwitterClick"/>
         <TextBlock x:Name="ResultTextBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Placeholder" VerticalAlignment="Top" Width="340" Height="87"/>
+        <Button x:Name="googleAuth" Content="Google" HorizontalAlignment="Left" Margin="184,166,0,0" VerticalAlignment="Top" Click="OnGoogleClick"/>
+        <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="98,97,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
 
     </Grid>
 </Page>

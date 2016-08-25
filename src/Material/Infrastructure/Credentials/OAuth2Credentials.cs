@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -42,10 +42,6 @@ namespace Material.Infrastructure.Credentials
         public string Scope { get; private set; }
 
         public override bool HasValidPublicKey => !string.IsNullOrEmpty(ClientId);
-
-        public ResponseTypeEnum ResponseType => string.IsNullOrEmpty(ClientSecret) ? 
-                ResponseTypeEnum.Token : 
-                ResponseTypeEnum.Code;
 
         public OAuth2Credentials SetTokenName(string tokenName)
 	    {

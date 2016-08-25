@@ -10,6 +10,7 @@ using Material.Framework;
 
 namespace Material.View.WebAuthorization
 {
+    //TODO: inject these static Platform references
     public class UIWebViewAuthorizerUI : IOAuthAuthorizerUI
     {
         private readonly IOAuthCallbackHandler _handler;
@@ -30,9 +31,9 @@ namespace Material.View.WebAuthorization
             var taskCompletionSource = new TaskCompletionSource<TToken>();
             var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
 
-            Platform.RunOnMainThread(async () =>
+            Platform.Current.RunOnMainThread(async () =>
             {
-                var context = Platform.Context;
+                var context = Platform.Current.Context;
 
                 var controller = new WebViewController(
                     context.View.Bounds,
@@ -41,7 +42,7 @@ namespace Material.View.WebAuthorization
 
                 var webView = await webViewCompletionSource.Task.ConfigureAwait(false);
 
-                if (!Platform.IsOnline)
+                if (!Platform.Current.IsOnline)
                 {
                     throw new NoConnectivityException(
                         StringResources.OfflineConnectivityException);

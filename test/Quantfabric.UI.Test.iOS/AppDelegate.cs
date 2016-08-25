@@ -28,7 +28,18 @@ namespace Quantfabric.UI.Test.iOS
         {
 
         }
-		public override UIWindow Window
+
+	    public override bool OpenUrl(
+            UIApplication app,
+            NSUrl url, 
+            NSDictionary options)
+	    {
+            Material.Framework.Platform.Current.Protocol(url);
+
+	        return true;
+	    }
+
+	    public override UIWindow Window
 		{
 			get;
 			set;

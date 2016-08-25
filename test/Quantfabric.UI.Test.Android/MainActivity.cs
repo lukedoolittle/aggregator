@@ -9,6 +9,7 @@ using Android.Widget;
 using Application.Configuration;
 using Foundations.Http;
 using Material;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
@@ -22,6 +23,8 @@ namespace Quantfabric.UI.Test
     {
         private AuthenticationInterfaceEnum _browserType = 
             AuthenticationInterfaceEnum.Embedded;
+        private CallbackTypeEnum _callbackType =
+            CallbackTypeEnum.Localhost;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -37,12 +40,15 @@ namespace Quantfabric.UI.Test
                 _browserType = toggleButton.Checked
                     ? AuthenticationInterfaceEnum.Dedicated
                     : AuthenticationInterfaceEnum.Embedded;
+                _callbackType = toggleButton.Checked
+                    ? CallbackTypeEnum.Protocol
+                    : CallbackTypeEnum.Localhost;
             };
 
             FindViewById<Button>(Resource.Id.facebookAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Facebook, OAuth2Credentials>();
+                    .GetClientCredentials<Facebook, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Facebook>(
                     credentials.ClientId,
@@ -59,7 +65,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.twitterAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Twitter, OAuth1Credentials>();
+                    .GetClientCredentials<Twitter, OAuth1Credentials>(_callbackType);
 
                 var token = await new OAuth1App<Twitter>(
                     credentials.ConsumerKey,
@@ -75,7 +81,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.fatsecretAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Fatsecret, OAuth1Credentials>();
+                    .GetClientCredentials<Fatsecret, OAuth1Credentials>(_callbackType);
 
                 var token = await new OAuth1App<Fatsecret>(
                     credentials.ConsumerKey,
@@ -90,7 +96,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.withings).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Withings, OAuth1Credentials>();
+                    .GetClientCredentials<Withings, OAuth1Credentials>(_callbackType);
 
                 var token = await new OAuth1App<Withings>(
                     credentials.ConsumerKey,
@@ -105,7 +111,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.fitbitAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Fitbit, OAuth2Credentials>();
+                    .GetClientCredentials<Fitbit, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Fitbit>(
                     credentials.ClientId,
@@ -123,7 +129,7 @@ namespace Quantfabric.UI.Test
             {
 
                 var credentials = settings
-                    .GetClientCredentials<Foursquare, OAuth2Credentials>();
+                    .GetClientCredentials<Foursquare, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Foursquare>(
                     credentials.ClientId,
@@ -139,7 +145,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.googleAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Google, OAuth2Credentials>();
+                    .GetClientCredentials<Google, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Google>(
                     credentials.ClientId,
@@ -157,7 +163,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.linkedinAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<LinkedIn, OAuth2Credentials>();
+                    .GetClientCredentials<LinkedIn, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<LinkedIn>(
                     credentials.ClientId,
@@ -174,7 +180,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.rescuetimeAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Rescuetime, OAuth2Credentials>();
+                    .GetClientCredentials<Rescuetime, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Rescuetime>(
                     credentials.ClientId,
@@ -191,7 +197,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.spotifyAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Spotify, OAuth2Credentials>();
+                    .GetClientCredentials<Spotify, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Spotify>(
                     credentials.ClientId,
@@ -208,7 +214,7 @@ namespace Quantfabric.UI.Test
             FindViewById<Button>(Resource.Id.runkeeperAuth).Click += async (sender, args) =>
             {
                 var credentials = settings
-                    .GetClientCredentials<Runkeeper, OAuth2Credentials>();
+                    .GetClientCredentials<Runkeeper, OAuth2Credentials>(_callbackType);
 
                 var token = await new OAuth2App<Runkeeper>(
                     credentials.ClientId,

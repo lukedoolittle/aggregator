@@ -2,7 +2,6 @@
 using Material.Contracts;
 #if __ANDROID__
 using Android.App;
-using Android.Net;
 using Robotics.Mobile.Core.Bluetooth.LE;
 using Android.Content;
 #elif __IOS__
@@ -26,14 +25,71 @@ using System.Diagnostics;
 
 namespace Material.Framework
 {
+    public class ProtocolLaunchEventArgs : EventArgs
+    {
+        public Uri Uri { get; set; }
+
+        public ProtocolLaunchEventArgs(Uri uri)
+        {
+            Uri = uri;
+        }
+    }
+
+    public delegate void ProtocolLaunchEventHandler(
+        object sender,
+        ProtocolLaunchEventArgs e);
+
     public class Platform : IBrowser
     {
+        private static Platform _instance;
+        private static readonly object _syncLock = new object();
+
+        protected Platform() {}
+
+        public static Platform Current
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_syncLock)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new Platform();
+                        }
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        public void Launch(Uri uri)
+        {
+            LaunchBrowser(uri);
+        }
+
+        public event ProtocolLaunchEventHandler ProtocolLaunch;
+
+        protected virtual void OnProtocolLaunched(Uri uri)
+        {
+            ProtocolLaunch?.Invoke(
+                this,
+                new ProtocolLaunchEventArgs(uri));
+        }
+
+        public void Protocol(Uri uri)
+        {
+            OnProtocolLaunched(uri);
+        }
+
 #if __ANDROID__
-        public static IAdapter BluetoothAdapter { get; } = new Adapter();
+        public IAdapter BluetoothAdapter { get; } = new Adapter();
 
-        public static Activity Context { get; set; }
+        public Activity Context { get; set; }
 
-        public static Action<Action> RunOnMainThread { get; } =
+        public Action<Action> RunOnMainThread { get; } =
             action =>
             {
                 Application.SynchronizationContext.Post(
@@ -41,11 +97,11 @@ namespace Material.Framework
                     null);
             };
 
-        public static bool IsOnline
+        public bool IsOnline
         {
             get
             {
-                var connectivityManager = (ConnectivityManager)
+                var connectivityManager = (Android.Net.ConnectivityManager)
                     (Application.Context.GetSystemService(
                         Android.Content.Context.ConnectivityService));
 
@@ -55,7 +111,7 @@ namespace Material.Framework
             }
         }
 
-        public static Action<System.Uri> LaunchBrowser
+        public Action<System.Uri> LaunchBrowser
         {
             get
             {
@@ -69,9 +125,9 @@ namespace Material.Framework
         }
 
 #elif __IOS__
-        public static IAdapter BluetoothAdapter => Adapter.Current;
+        public IAdapter BluetoothAdapter => Adapter.Current;
 
-        public static UIViewController Context
+        public UIViewController Context
         {
             get
             {
@@ -88,25 +144,25 @@ namespace Material.Framework
             }
         }
 
-        public static Action<Action> RunOnMainThread { get; } = 
+        public Action<Action> RunOnMainThread { get; } = 
             UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
 
-        public static Action<Uri> LaunchBrowser => 
+        public Action<Uri> LaunchBrowser => 
             uri => UIApplication.SharedApplication.OpenUrl(
                 new NSUrl(
                     uri.ToString()));
 
-        public static bool IsOnline => Reachability.IsReachable();
+        public bool IsOnline => Reachability.IsReachable();
 
 #elif WINDOWS_UWP
-        public static Frame Context => Window.Current.Content as Frame;
+        public Frame Context => Window.Current.Content as Frame;
 
-        public static Action<Action> RunOnMainThread { get; } = new Action<Action>(action => 
+        public Action<Action> RunOnMainThread { get; } = new Action<Action>(action => 
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal, 
                 () => { action(); }));
 
-        public static bool IsOnline
+        public bool IsOnline
         {
             get
             {
@@ -116,20 +172,16 @@ namespace Material.Framework
             }
         }
 
-        public static Action<Uri> LaunchBrowser => 
+        public Action<Uri> LaunchBrowser => 
             uri => Windows.System.Launcher.LaunchUriAsync(uri);
 #else
-        public static Action<Action> RunOnMainThread { get; } = action => { };
+        public Action<Action> RunOnMainThread { get; } = action => { };
 
-        public static Action<Uri> LaunchBrowser => 
+        public Action<Uri> LaunchBrowser => 
             uri => Process.Start(uri.ToString());
 
-        public static bool IsOnline => true;
+        public bool IsOnline => true;
 #endif
-        public void Launch(System.Uri uri)
-        {
-            LaunchBrowser(uri);
-        }
     }
 
 #if __IOS__

@@ -2,7 +2,7 @@
 using System;
 using Material.Infrastructure.Credentials;
 using System.Collections.Generic;
-using Material.Enums;
+using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.ProtectedResources

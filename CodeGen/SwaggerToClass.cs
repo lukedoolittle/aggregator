@@ -12,7 +12,6 @@ using Material.Metadata;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Newtonsoft.Json.Linq;
-using ResponseTypeEnum = Material.Enums.ResponseTypeEnum;
 
 namespace CodeGen
 {

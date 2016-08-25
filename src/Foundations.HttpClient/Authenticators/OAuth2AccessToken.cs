@@ -25,10 +25,10 @@ namespace Foundations.HttpClient.Authenticators
                 throw new ArgumentNullException(nameof(clientId));
             }
 
-            if (string.IsNullOrEmpty(clientSecret))
-            {
-                throw new ArgumentNullException(nameof(clientSecret));
-            }
+            //if (string.IsNullOrEmpty(clientSecret))
+            //{
+            //    throw new ArgumentNullException(nameof(clientSecret));
+            //}
 
             if (scope == null)
             {
@@ -66,14 +66,19 @@ namespace Foundations.HttpClient.Authenticators
                     OAuth2ParameterEnum.ClientId.EnumToString(),
                     _clientId)
                 .Parameter(
-                    OAuth2ParameterEnum.ClientSecret.EnumToString(),
-                    _clientSecret)
-                .Parameter(
                     OAuth2ParameterEnum.Scope.EnumToString(),
                     _scope)
                 .Parameter(
                     OAuth2ParameterEnum.GrantType.EnumToString(),
                     _grantType.EnumToString());
+
+            if (_clientSecret != null)
+            {
+                request
+                    .Parameter(
+                        OAuth2ParameterEnum.ClientSecret.EnumToString(),
+                        _clientSecret);
+            }
         }
     }
 }

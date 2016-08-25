@@ -15,19 +15,25 @@ namespace Material.Infrastructure.OAuth
         private readonly string _callbackUrl;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthenticationInterfaceEnum _browserType;
+        private readonly TResourceProvider _provider;
+        private readonly OAuthAppTypeEnum _appType;
 
         public OAuth1AppBase(
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded)
+            TResourceProvider provider,
+            AuthenticationInterfaceEnum browserType,
+            OAuthAppTypeEnum appType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _callbackUrl = callbackUrl;
             _uiFactory = uiFactory;
+            _provider = provider;
             _browserType = browserType;
+            _appType = appType;
         }
 
         public virtual Task<OAuth1Credentials> GetCredentialsAsync()
@@ -44,7 +50,7 @@ namespace Material.Infrastructure.OAuth
                     null,
                     securityStrategy);
             var facade = builder.BuildOAuth1Facade(
-                new TResourceProvider(),
+                _provider,
                 new OAuth1Authentication(), 
                 _consumerKey,
                 _consumerSecret, 

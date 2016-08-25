@@ -25,6 +25,7 @@ namespace Material.View.WebAuthorization
             _handler = handler;
         }
 
+        //TODO: inject these static Platform references
         public async Task<TToken> Authorize<TToken>(
             Uri callbackUri,
             Uri authorizationUri)
@@ -32,7 +33,7 @@ namespace Material.View.WebAuthorization
         {
             var taskCompletion = new TaskCompletionSource<TToken>();
             var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
-            var context = Platform.Context;
+            var context = Platform.Current.Context;
 
             var intent = new Intent(context, typeof(WebViewActivity));
             intent.PutExtra(
@@ -60,7 +61,7 @@ namespace Material.View.WebAuthorization
                     }
                 }));
 
-            if (!Platform.IsOnline)
+            if (!Platform.Current.IsOnline)
             {
                 throw new NoConnectivityException(
                     StringResources.OfflineConnectivityException);

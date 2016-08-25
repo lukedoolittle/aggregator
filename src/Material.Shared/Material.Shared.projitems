@@ -9,12 +9,13 @@
     <Import_RootNamespace>Material</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)BluetoothAdapter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BluetoothApp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BrowserAuthorizerUI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GPSAuthorizationFacade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuthApp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuthAuthorizerUIFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\HttpOAuthCallbackListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthorizerUIFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\ProtocolOAuthCallbackListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\BluetoothRequester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\GPSRequester.cs" />

@@ -1,4 +1,5 @@
-﻿using Foundations.Extensions;
+﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
@@ -8,6 +9,7 @@ using Material.OAuth.Template;
 
 namespace Material.OAuth
 {
+    //TODO: break this into atleast OAuth1 and OAuth2 builders
     public class OAuthBuilder
     {
         private readonly IOAuthAuthorizerUIFactory _oauthAuthorizerUIFactory;
@@ -84,59 +86,58 @@ namespace Material.OAuth
                 userId);
         }
 
-        public IOAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2CodeTemplate<TResourceProvider>(
+        public IOAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2Template<TResourceProvider>(
             IOAuthFacade<OAuth2Credentials> authentication,
             AuthenticationInterfaceEnum ui,
             string userId,
-            string clientSecret)
+            string clientSecret,
+            ResponseTypeEnum flow)
             where TResourceProvider : ResourceProvider
         {
-            var callbackHandler = new OAuth2QueryCallbackHandler(
-                _strategy, 
-                OAuth2ParameterEnum.State.EnumToString(), 
-                userId);
-
-            var authenticationUI = _oauthAuthorizerUIFactory
-                .GetAuthorizer<TResourceProvider>(
-                    ui, 
-                    callbackHandler);
-            
-            return new OAuth2CodeAuthenticationTemplate(
-                authenticationUI,
-                authentication,
-                clientSecret);
-        }
-
-        public IOAuthAuthenticationTemplate<OAuth2Credentials> BuildOAuth2TokenTemplate<TResourceProvider>(
-            IOAuthFacade<OAuth2Credentials> authentication,
-            AuthenticationInterfaceEnum ui,
-            string userId)
-            where TResourceProvider : ResourceProvider
-        {
-            IOAuthCallbackHandler callbackHandler = null;
-            if (ui == AuthenticationInterfaceEnum.Dedicated)
+            if (flow == ResponseTypeEnum.Code)
             {
-                callbackHandler = new OAuth2QueryCallbackHandler(
+                var callbackHandler = new OAuth2QueryCallbackHandler(
                     _strategy,
                     OAuth2ParameterEnum.State.EnumToString(),
                     userId);
+
+                var authenticationUI = _oauthAuthorizerUIFactory
+                    .GetAuthorizer<TResourceProvider>(
+                        ui,
+                        callbackHandler);
+
+                return new OAuth2CodeAuthenticationTemplate(
+                    authenticationUI,
+                    authentication,
+                    clientSecret);
             }
             else
             {
-                callbackHandler = new OAuth2FragmentCallbackHandler(
-                    _strategy,
-                    OAuth2ParameterEnum.State.EnumToString(),
-                    userId);
+                IOAuthCallbackHandler callbackHandler = null;
+                if (ui == AuthenticationInterfaceEnum.Dedicated)
+                {
+                    callbackHandler = new OAuth2QueryCallbackHandler(
+                        _strategy,
+                        OAuth2ParameterEnum.State.EnumToString(),
+                        userId);
+                }
+                else
+                {
+                    callbackHandler = new OAuth2FragmentCallbackHandler(
+                        _strategy,
+                        OAuth2ParameterEnum.State.EnumToString(),
+                        userId);
+                }
+
+                var authenticationUI = _oauthAuthorizerUIFactory
+                    .GetAuthorizer<TResourceProvider>(
+                        ui,
+                        callbackHandler);
+
+                return new OAuth2TokenAuthenticationTemplate(
+                    authenticationUI,
+                    authentication);
             }
-
-            var authenticationUI = _oauthAuthorizerUIFactory
-                .GetAuthorizer<TResourceProvider>(
-                    ui, 
-                    callbackHandler);
-
-            return new OAuth2TokenAuthenticationTemplate(
-                authenticationUI,
-                authentication);
         }
     }
 }

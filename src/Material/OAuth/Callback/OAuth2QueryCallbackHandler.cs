@@ -50,7 +50,7 @@ namespace Material.OAuth
         {
             if (!string.IsNullOrEmpty(uri.Fragment) && uri.Fragment != "#_=_")
             {
-                return uri.Fragment;
+                return uri.Fragment.TrimStart('#');
             }
 
             return null;

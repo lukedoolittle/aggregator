@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Exceptions;
 
@@ -22,23 +23,62 @@ namespace Material.Infrastructure
         public abstract List<ResponseTypeEnum> Flows { get; }
         public virtual ResponseTypeEnum Flow { get; private set; }
 
-
-        public virtual void SetClientProperties(
+        
+        public virtual OAuth2ResourceProvider SetFlow(
             string clientId,
-            string clientSecret)
+            string clientSecret,
+            AuthenticationInterfaceEnum @interface,
+            OAuthAppTypeEnum appType)
         {
-            Flow = string.IsNullOrEmpty(clientSecret) ? 
-                ResponseTypeEnum.Token : 
-                ResponseTypeEnum.Code;
+            ResponseTypeEnum flow;
 
-            if (!Flows.Contains(Flow))
+            if (@interface == AuthenticationInterfaceEnum.Dedicated
+                && appType == OAuthAppTypeEnum.Desktop)
+            {
+                flow = clientSecret != null ?
+                    ResponseTypeEnum.Code :
+                    ResponseTypeEnum.Token;
+            }
+            else if (@interface == AuthenticationInterfaceEnum.Embedded
+                     && appType == OAuthAppTypeEnum.Desktop)
+            {
+                throw new NotSupportedException(
+                    StringResources.EmbeddedDesktopUINotSupportedException);
+            }
+            else if (@interface == AuthenticationInterfaceEnum.Dedicated
+                     && appType == OAuthAppTypeEnum.Mobile)
+            {
+                flow = ResponseTypeEnum.Code;
+            }
+            else if (@interface == AuthenticationInterfaceEnum.Embedded
+                     && appType == OAuthAppTypeEnum.Mobile)
+            {
+                flow = clientSecret != null ?
+                    ResponseTypeEnum.Code :
+                    ResponseTypeEnum.Token;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            if (!Flows.Contains(flow))
             {
                 throw new InvalidGrantTypeException(
                     string.Format(
                         StringResources.GrantTypeNotSupportedException,
                         GetType().Name));
             }
+
+            Flow = flow;
+
+            return this;
         }
+
+        public virtual void SetClientProperties(
+            string clientId,
+            string clientSecret)
+        { }
 
         public OAuth2ResourceProvider AddRequestScope<TRequest>()
             where TRequest : OAuthRequest, new()

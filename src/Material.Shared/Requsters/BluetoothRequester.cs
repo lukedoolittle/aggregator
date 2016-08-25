@@ -17,7 +17,7 @@ namespace Material
         {
             var request = new TRequest();
 
-            var result = await new BluetoothAdapter(Platform.BluetoothAdapter)
+            var result = await new BluetoothAdapter(Platform.Current.BluetoothAdapter)
                 .GetCharacteristicValue(
                     credentials.DeviceAddress,
                     request.Service.AssignedNumber,

@@ -10,6 +10,7 @@ using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Adapters
 {
+    //TODO: inject these static Platform references
     public class BluetoothAdapter : IBluetoothAdapter
     {
         private readonly IAdapter _adapter;
@@ -31,7 +32,7 @@ namespace Material.Adapters
         public void ListDevices(Action<BluetoothDevice> newDeviceFound)
         {
             _adapter.DeviceDiscovered += (sender, args) => {
-                Platform.RunOnMainThread(() => {
+                Platform.Current.RunOnMainThread(() => {
                     newDeviceFound(
                         new BluetoothDevice(
                             args.Device.
@@ -41,7 +42,7 @@ namespace Material.Adapters
 
             _adapter.ScanTimeoutElapsed += (sender, args) =>
             {
-                Platform.RunOnMainThread(() => {
+                Platform.Current.RunOnMainThread(() => {
                     _adapter.StopScanningForDevices();
                 });
             };
@@ -68,7 +69,7 @@ namespace Material.Adapters
                 {
                     _adapter.StopScanningForDevices();
                     _connectingAddresses.Add(deviceAddress);
-                    Platform.RunOnMainThread(() => {
+                    Platform.Current.RunOnMainThread(() => {
                         _adapter.ConnectToDevice(args.Device);
                     });
                 }
@@ -76,7 +77,7 @@ namespace Material.Adapters
 
             _adapter.ScanTimeoutElapsed += (sender, args) =>
             {
-                Platform.RunOnMainThread(() => {
+                Platform.Current.RunOnMainThread(() => {
                     _adapter.StopScanningForDevices();
                     if (_connectingAddresses.Count == 0)
                     {
@@ -87,7 +88,7 @@ namespace Material.Adapters
 
             _adapter.DeviceConnected += (sender, args) =>
             {
-                Platform.RunOnMainThread(() =>
+                Platform.Current.RunOnMainThread(() =>
                 {
                     _connectingAddresses.Remove(deviceAddress);
                     taskCompletionSource.SetResult(args.Device);
@@ -117,7 +118,7 @@ namespace Material.Adapters
         {
             var taskCompletionSource = new TaskCompletionSource<byte[]>();
 
-            Platform.RunOnMainThread(async () =>
+            Platform.Current.RunOnMainThread(async () =>
             {
                 var device = await Connect(deviceAddress)
                     .ConfigureAwait(true);
@@ -168,7 +169,7 @@ namespace Material.Adapters
             device.ServicesDiscovered +=
                 (servicesSender, servicesEventArgs) =>
                 {
-                    Platform.RunOnMainThread(() =>
+                    Platform.Current.RunOnMainThread(() =>
                     {
                         foreach (var service in device.Services)
                         {
@@ -177,7 +178,7 @@ namespace Material.Adapters
                                 service.CharacteristicsDiscovered +=
                                     (characteristicsSender, characteristicsEventArgs) =>
                                     {
-                                        Platform.RunOnMainThread(async () =>
+                                        Platform.Current.RunOnMainThread(async () =>
                                         {
                                             foreach (var characteristic in service.Characteristics)
                                             {
@@ -210,7 +211,7 @@ namespace Material.Adapters
             EventHandler<CharacteristicReadEventArgs> handler = null;
             handler = (sender, args) =>
                 {
-                    Platform.RunOnMainThread(() =>
+                    Platform.Current.RunOnMainThread(() =>
                     {
                         characteristic.ValueUpdated -= handler;
                         characteristic.StopUpdates();
