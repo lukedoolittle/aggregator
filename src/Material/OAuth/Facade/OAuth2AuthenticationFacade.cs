@@ -33,6 +33,11 @@ namespace Material.OAuth
             _strategy = strategy;
         }
 
+        /// <summary>
+        /// Gets the authorization uri for the Resource Owner to enter his/her credentials
+        /// </summary>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
             var state = _strategy.CreateOrGetSecureParameter(
@@ -52,6 +57,12 @@ namespace Material.OAuth
             return Task.FromResult(authorizationPath);
         }
 
+        /// <summary>
+        /// Exchanges intermediate credentials for access token credentials
+        /// </summary>
+        /// <param name="result">Intermediate credentials received from OAuth2 callback</param>
+        /// <param name="secret">The application's client secret</param>
+        /// <returns>Access token credentials</returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
             OAuth2Credentials result,
             string secret)

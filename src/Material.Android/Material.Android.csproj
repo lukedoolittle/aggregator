@@ -67,7 +67,6 @@
     <Compile Include="View\WebAuthorization\WebViewAuthorizerUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
@@ -86,10 +85,6 @@
     <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations.Http.Android\Foundations.Http.Android.csproj">
-      <Project>{58cc5d91-7700-4cc6-903d-92c38ffa08c9}</Project>
-      <Name>Foundations.Http.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

@@ -6,6 +6,10 @@ namespace Material
     using System.Threading.Tasks;
     public class GPSRequester
     { 
+        /// <summary>
+        /// Get a single GPS data point from the current platform
+        /// </summary>
+        /// <returns>GPS information</returns>
         public async Task<GPSResponse> MakeGPSRequestAsync()
         {
 #if __IOS__

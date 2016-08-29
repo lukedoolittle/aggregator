@@ -57,6 +57,10 @@ namespace Material.Infrastructure.OAuth
                 appType);
         }
 
+        /// <summary>
+        /// Authenticates a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();
@@ -88,6 +92,11 @@ namespace Material.Infrastructure.OAuth
             return template.GetAccessTokenCredentials(userId);
         }
 
+        /// <summary>
+        /// Adds scope to be requested with OAuth2 authentication
+        /// </summary>
+        /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
+        /// <returns>The current instance</returns>
         public OAuth2AppBase<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {

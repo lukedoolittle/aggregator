@@ -11,6 +11,10 @@ namespace Material
         private readonly IOAuthProtectedResource _requester;
         private readonly string _userId;
 
+        /// <summary>
+        /// OAuth requests for an OAuth1 endpoint
+        /// </summary>
+        /// <param name="credentials">OAuth1 credentials used for authentication</param>
         public OAuthRequester(OAuth1Credentials credentials)
         {
             _requester = new OAuthProtectedResource(
@@ -22,6 +26,10 @@ namespace Material
             _userId = credentials.UserId;
         }
 
+        /// <summary>
+        /// OAuth requests for an OAuth2 endpoint
+        /// </summary>
+        /// <param name="credentials">OAuth2 credentials used for authentication</param>
         public OAuthRequester(OAuth2Credentials credentials)
         {
             _requester = new OAuthProtectedResource(
@@ -30,6 +38,13 @@ namespace Material
             _userId = credentials.UserId;
         }
 
+        /// <summary>
+        /// Get a protected resource from the authenticated provider
+        /// </summary>
+        /// <typeparam name="TRequest">Request to make to provider</typeparam>
+        /// <typeparam name="TResponse">Protected resource</typeparam>
+        /// <param name="request"></param>
+        /// <returns>Protected resource from provider</returns>
         public Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>(
             TRequest request = null)
             where TRequest : OAuthRequest, new()

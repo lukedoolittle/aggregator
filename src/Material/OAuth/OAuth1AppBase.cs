@@ -36,6 +36,10 @@ namespace Material.Infrastructure.OAuth
             _appType = appType;
         }
 
+        /// <summary>
+        /// Authenticates a resource owner using the OAuth1a workflow
+        /// </summary>
+        /// <returns></returns>
         public virtual Task<OAuth1Credentials> GetCredentialsAsync()
         {
             var userId = Guid.NewGuid().ToString();

@@ -38,6 +38,17 @@
   </metadata>
   <files>
     <file src="lib\" target="lib" />
+
+    <file src="..\..\src\Material.Windows\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\net452" />
+
+    <file src="..\..\src\Material.Android\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\MonoAndroid60" />
+
+    <file src="..\..\src\Material.iOS\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\Xamarin.iOS10" />
+
+    <file src="..\..\src\Material.UWP\bin\Release\Material.*" exclude="**\*.mdb" target="lib\uap10.0" />
+    <file src="..\..\src\Material.UWP\bin\Release\Foundations.*" exclude="**\*.mdb" target="lib\uap10.0" />
+    <file src="..\..\src\Material.UWP\bin\Release\Material\**" target="lib\uap10.0\Material" />
+
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
     

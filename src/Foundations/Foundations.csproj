@@ -43,7 +43,6 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="HttpUtility.cs" />
-    <Compile Include="JObjectExtensions.cs" />
     <Compile Include="MediaTypeEnum.cs" />
     <Compile Include="Reflection\InstanceCreator.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -54,15 +53,6 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\TypeMapper.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

@@ -35,6 +35,11 @@ namespace Material.OAuth
             CallbackUri = new Uri(callbackUrl);
         }
 
+        /// <summary>
+        /// Gets the authorization uri for the Resource Owner to enter his/her credentials
+        /// </summary>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <returns>Authorization uri</returns>
         public async Task<Uri> GetAuthorizationUriAsync(string userId)
         {
             var credentials =
@@ -64,6 +69,12 @@ namespace Material.OAuth
             return authorizationPath;
         }
 
+        /// <summary>
+        /// Exchanges intermediate credentials for access token credentials
+        /// </summary>
+        /// <param name="result">Intermediate credentials received from OAuth1 callback</param>
+        /// <param name="secret">The application's OAuth secret</param>
+        /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials result,
             string secret)

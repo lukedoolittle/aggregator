@@ -11,6 +11,10 @@ namespace Material
     public class BluetoothApp<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()
     {
+        /// <summary>
+        /// Allows user to select bluetooth device
+        /// </summary>
+        /// <returns>Bluetooth credentials</returns>
         public Task<BluetoothCredentials> GetBluetoothCredentialsAsync()
         {
             var authenticationUI = new BluetoothAuthorizerUI(

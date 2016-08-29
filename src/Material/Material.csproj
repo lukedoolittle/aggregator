@@ -230,7 +230,7 @@
     <None Include="Swagger\twitter.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Generator.tt">
+    <AdditionalFiles Include="Generator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Generator.cs</LastGenOutput>
       <LastOutputs>
@@ -279,7 +279,7 @@
 .\Infrastructure\Requests\TwitterTweet.cs
 .\Infrastructure\Requests\WithingsWeighin.cs
 </LastOutputs>
-    </Content>
+    </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

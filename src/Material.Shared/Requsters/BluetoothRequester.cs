@@ -11,6 +11,12 @@ namespace Material
 {
     public class BluetoothRequester
     {
+        /// <summary>
+        /// Make a request for a single piece of data from a Bluetooth provider
+        /// </summary>
+        /// <typeparam name="TRequest">Request type for provider</typeparam>
+        /// <param name="credentials">Credentials for provider</param>
+        /// <returns>Resource from provider</returns>
         public async Task<BluetoothResponse> MakeBluetoothRequestAsync<TRequest>(
             BluetoothCredentials credentials)
             where TRequest : BluetoothRequest, new()

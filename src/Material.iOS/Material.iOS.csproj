@@ -74,19 +74,12 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Foundations.Http.iOS\Foundations.Http.iOS.csproj">
-      <Project>{5fa32127-5fc0-482a-a36c-a916e686b522}</Project>
-      <Name>Foundations.Http.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
     <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />
