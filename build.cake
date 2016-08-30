@@ -53,8 +53,6 @@ var androidMergeList = new List<FilePath>(baseMergeList);
 androidMergeList.Add(File("Robotics.Mobile.Core.dll"));
 androidMergeList.Add(File("Robotics.Mobile.Core.Droid.dll"));
 
-//var uwpMergeList = new List<FilePath>(baseMergeList);
-
 var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 {
 	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
@@ -66,11 +64,6 @@ var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
 		androidBuildDirectory,
 		androidMergeList),
-		/*
-	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
-		uwpBuildDirectory,
-		uwpMergeList)
-		*/
 };
 
 var ilRepackFrameworkLocations = new List<FilePath> 
