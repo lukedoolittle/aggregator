@@ -2,7 +2,6 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Material.Framework;
 
 namespace Application
 {
@@ -30,7 +29,7 @@ namespace Application
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
-            Platform.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivityDestroyed(Activity activity)
@@ -43,7 +42,7 @@ namespace Application
 
         public void OnActivityResumed(Activity activity)
         {
-            Platform.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
@@ -52,7 +51,7 @@ namespace Application
 
         public void OnActivityStarted(Activity activity)
         {
-            Platform.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivityStopped(Activity activity)

@@ -92,15 +92,13 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Quantfabric.Test\TestHelpers\CredentialApplicationSettings.cs">
-      <Link>CredentialApplicationSettings.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +132,6 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Http.UWP\Foundations.Http.UWP.csproj">
-      <Project>{dbe6bd97-c987-4f0b-ad06-080f5bbf9a1a}</Project>
-      <Name>Foundations.Http.UWP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>
@@ -155,6 +149,7 @@
       <Name>Material</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

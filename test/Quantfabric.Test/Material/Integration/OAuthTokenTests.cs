@@ -1,417 +1,423 @@
 ﻿using System;
 using Material.Exceptions;
-using Aggregator.Test;
-using Application.Configuration;
+using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Quantfabric.Test.Helpers;
+using Quantfabric.Test.TestHelpers;
 using Xunit;
-using GoogleGmailMetadata = Material.Infrastructure.Requests.GoogleGmailMetadata;
 
 namespace Quantfabric.Test.Material.Integration
 {
     public class OAuthTokenTests
     {
-        private readonly CredentialApplicationSettings _settings;
-        
+        private readonly AppCredentialRepository _appRepository;
+        private readonly TokenCredentialRepository _tokenRepository;
+
         public OAuthTokenTests()
         {
-            _settings = new CredentialApplicationSettings();
+            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
+            _tokenRepository = new TokenCredentialRepository(true);
         }
+
+        #region OAuth1
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwitter()
         {
-            var credentials = _settings
-                .GetClientCredentials<Twitter, OAuth1Credentials>();
+            var consumerKey = _appRepository.GetConsumerKey<Twitter>();
+            var consumerSecret = _appRepository.GetConsumerSecret<Twitter>();
+            var redirectUri = _appRepository.GetRedirectUri<Twitter>();
+
             var token = await new OAuth1App<Twitter>(
-                        credentials.ConsumerKey, 
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        consumerKey, 
+                        consumerSecret,
+                        redirectUri)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth1Token(token, true));
-            //Assert.Equal(1, token.AdditionalParameters.Count);
-            //screen_name
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Twitter>(token);
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromGoogle()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Google, OAuth2Credentials>();
-            var token = await new OAuth2App<Google>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<GoogleGmail>()
-                    .AddScope<GoogleGmailMetadata>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                //here we need to get any existing refresh token because Google only
-                //passes that refresh token back with the first authentication
-                try
-                {
-                    var currentToken = TestSettings.GetToken<Google, OAuth2Credentials>();
-                    token.TransferRefreshToken(currentToken.RefreshToken);
-                    TestSettings.WriteCredentials<Google>(token);
-                }
-                catch (Exception)
-                {
-                    TestSettings.WriteCredentials<Google>(token);
-                }
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromGoogleImplicitFlow()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Google, OAuth2Credentials>();
-            var token = await new OAuth2App<Google>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<GoogleGmail>()
-                    .AddScope<GoogleGmailMetadata>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFacebook()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Facebook, OAuth2Credentials>();
-            var token = await new OAuth2App<Facebook>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<FacebookEvent>()
-                    .AddScope<FacebookFeed>()
-                    .AddScope<FacebookFriend>()
-                    .AddScope<FacebookPageLike>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Facebook>(token);
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFacebookImplicitFlow()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Facebook, OAuth2Credentials>();
-            var token = await new OAuth2App<Facebook>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<FacebookEvent>()
-                    .AddScope<FacebookFeed>()
-                    .AddScope<FacebookFriend>()
-                    .AddScope<FacebookPageLike>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFoursquare()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Foursquare, OAuth2Credentials>();
-            var token = await new OAuth2App<Foursquare>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Foursquare>(token);
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFoursquareImplicitFlow()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Foursquare, OAuth2Credentials>();
-            var token = await new OAuth2App<Foursquare>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromLinkedIn()
-        {
-            var credentials = _settings
-                .GetClientCredentials<LinkedIn, OAuth2Credentials>();
-            var token = await new OAuth2App<LinkedIn>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<LinkedIn>(token);
-            }
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromLinkedInImplicitFlowThrowsException()
-        {
-            var credentials = _settings
-                .GetClientCredentials<LinkedIn, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<LinkedIn>(
-                    credentials.ClientId,
-                    credentials.CallbackUrl)
-                .GetCredentialsAsync())
-                .ConfigureAwait(false);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromSpotify()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Spotify, OAuth2Credentials>();
-            var token = await new OAuth2App<Spotify>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<SpotifySavedTrack>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Spotify>(token);
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromSpotifyImplicitFlow()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Spotify, OAuth2Credentials>();
-            var token = await new OAuth2App<Spotify>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<SpotifySavedTrack>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFitbit()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Fitbit, OAuth2Credentials>();
-            var token = await new OAuth2App<Fitbit>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<FitbitIntradayHeartRate>()
-                    .AddScope<FitbitIntradayHeartRateBulk>()
-                    .AddScope<FitbitIntradaySteps>()
-                    .AddScope<FitbitIntradayStepsBulk>()
-                    .AddScope<FitbitSleep>()
-                    .AddScope<FitbitProfile>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Fitbit>(token);
-            }
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromFitbitImplicitFlow()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Fitbit, OAuth2Credentials>();
-            var token = await new OAuth2App<Fitbit>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<FitbitIntradayHeartRate>()
-                    .AddScope<FitbitIntradayHeartRateBulk>()
-                    .AddScope<FitbitIntradaySteps>()
-                    .AddScope<FitbitIntradayStepsBulk>()
-                    .AddScope<FitbitSleep>()
-                    .AddScope<FitbitProfile>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromRunkeeper()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Runkeeper, OAuth2Credentials>();
-            var token = await new OAuth2App<Runkeeper>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<RunkeeperFitnessActivity>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Runkeeper>(token);
-            }
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromRunkeeperImplicitFlowThrowsException()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Runkeeper, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Runkeeper>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<RunkeeperFitnessActivity>()
-                    .GetCredentialsAsync())
-                    .ConfigureAwait(false);
-        }
-
-        [Fact]
-        public async void CanGetValidAccessTokenFromRescuetime()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Rescuetime, OAuth2Credentials>();
-            var token = await new OAuth2App<Rescuetime>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
-                    .AddScope<RescuetimeAnalyticData>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-            Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
-
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Rescuetime>(token);
-            }
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromRescuetimeImplicitFlowThrowsException()
-        {
-            var credentials = _settings
-                .GetClientCredentials<Rescuetime, OAuth2Credentials>();
-            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Rescuetime>(
-                        credentials.ClientId,
-                        credentials.CallbackUrl)
-                    .AddScope<RescuetimeAnalyticData>()
-                    .GetCredentialsAsync())
-                .ConfigureAwait(false);
+            _tokenRepository.PutToken<Twitter, OAuth1Credentials>(token);
         }
 
         [Fact]
         public async void CanGetValidAccessTokenFromFatsecret()
         {
-            var credentials = _settings
-                    .GetClientCredentials<Fatsecret, OAuth1Credentials>();
+            var consumerKey = _appRepository.GetConsumerKey<Fatsecret>();
+            var consumerSecret = _appRepository.GetConsumerSecret<Fatsecret>();
+            var redirectUri = _appRepository.GetRedirectUri<Fatsecret>();
+
             var token = await new OAuth1App<Fatsecret>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
+
             Assert.True(IsValidOAuth1Token(token));
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Fatsecret>(token);
-            }
+            _tokenRepository.PutToken<Fatsecret, OAuth1Credentials>(token);
         }
 
         [Fact]
         public async void CanGetValidAccessTokenFromWithings()
         {
-            var credentials = _settings
-                .GetClientCredentials<Withings, OAuth1Credentials>();
+            var consumerKey = _appRepository.GetConsumerKey<Withings>();
+            var consumerSecret = _appRepository.GetConsumerSecret<Withings>();
+            var redirectUri = _appRepository.GetRedirectUri<Withings>();
+
             var token = await new OAuth1App<Withings>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl)
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth1Token(token, true));
-            //Assert.Equal(1, token.AdditionalParameters.Count);
-            //deviceid
 
-            if (TestSettings.ShouldPersistCredentials)
+            _tokenRepository.PutToken<Withings, OAuth1Credentials>(token);
+        }
+
+        #endregion OAuth1
+
+        #region OAuth2 Code
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromGoogle()
+        {
+            var clientId = _appRepository.GetClientId<Google>();
+            var clientSecret = _appRepository.GetClientSecret<Google>();
+            var redirectUri = _appRepository.GetRedirectUri<Google>();
+
+            var token = await new OAuth2App<Google>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<GoogleGmail>()
+                    .AddScope<GoogleGmailMetadata>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            //here we need to get any existing refresh token because Google only
+            //passes that refresh token back with the first authentication
+            try
             {
-                TestSettings.WriteCredentials<Withings>(token);
+                var currentToken = _tokenRepository.GetToken<Google, OAuth2Credentials>();
+                token.TransferRefreshToken(currentToken.RefreshToken);
+                _tokenRepository.PutToken<Google, OAuth2Credentials>(token);
             }
+            catch (Exception)
+            {
+                _tokenRepository.PutToken<Google, OAuth2Credentials>(token);
+            }
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFacebook()
+        {
+            var clientId = _appRepository.GetClientId<Facebook>();
+            var clientSecret = _appRepository.GetClientSecret<Facebook>();
+            var redirectUri = _appRepository.GetRedirectUri<Facebook>();
+
+            var token = await new OAuth2App<Facebook>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<FacebookEvent>()
+                    .AddScope<FacebookFeed>()
+                    .AddScope<FacebookFriend>()
+                    .AddScope<FacebookPageLike>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Facebook, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFoursquare()
+        {
+            var clientId = _appRepository.GetClientId<Foursquare>();
+            var clientSecret = _appRepository.GetClientSecret<Foursquare>();
+            var redirectUri = _appRepository.GetRedirectUri<Foursquare>();
+
+            var token = await new OAuth2App<Foursquare>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Foursquare, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromLinkedIn()
+        {
+            var clientId = _appRepository.GetClientId<LinkedIn>();
+            var clientSecret = _appRepository.GetClientSecret<LinkedIn>();
+            var redirectUri = _appRepository.GetRedirectUri<LinkedIn>();
+
+            var token = await new OAuth2App<LinkedIn>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<LinkedIn, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromSpotify()
+        {
+            var clientId = _appRepository.GetClientId<Spotify>();
+            var clientSecret = _appRepository.GetClientSecret<Spotify>();
+            var redirectUri = _appRepository.GetRedirectUri<Spotify>();
+
+            var token = await new OAuth2App<Spotify>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<SpotifySavedTrack>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Spotify, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFitbit()
+        {
+            var clientId = _appRepository.GetClientId<Fitbit>();
+            var clientSecret = _appRepository.GetClientSecret<Fitbit>();
+            var redirectUri = _appRepository.GetRedirectUri<Fitbit>();
+
+            var token = await new OAuth2App<Fitbit>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<FitbitIntradayHeartRate>()
+                    .AddScope<FitbitIntradayHeartRateBulk>()
+                    .AddScope<FitbitIntradaySteps>()
+                    .AddScope<FitbitIntradayStepsBulk>()
+                    .AddScope<FitbitSleep>()
+                    .AddScope<FitbitProfile>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Fitbit, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromRunkeeper()
+        {
+            var clientId = _appRepository.GetClientId<Runkeeper>();
+            var clientSecret = _appRepository.GetClientSecret<Runkeeper>();
+            var redirectUri = _appRepository.GetRedirectUri<Runkeeper>();
+
+            var token = await new OAuth2App<Runkeeper>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<RunkeeperFitnessActivity>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Runkeeper, OAuth2Credentials>(token);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromRescuetime()
+        {
+            var clientId = _appRepository.GetClientId<Rescuetime>();
+            var clientSecret = _appRepository.GetClientSecret<Rescuetime>();
+            var redirectUri = _appRepository.GetRedirectUri<Rescuetime>();
+
+            var token = await new OAuth2App<Rescuetime>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<RescuetimeAnalyticData>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Rescuetime, OAuth2Credentials>(token);
         }
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwentyThreeAndMe()
         {
-            var credentials = _settings
-                .GetClientCredentials<TwentyThreeAndMe, OAuth2Credentials>();
+            var clientId = _appRepository.GetClientId<TwentyThreeAndMe>();
+            var clientSecret = _appRepository.GetClientSecret<TwentyThreeAndMe>();
+            var redirectUri = _appRepository.GetRedirectUri<TwentyThreeAndMe>();
+
             var token = await new OAuth2App<TwentyThreeAndMe>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl)
+                        clientId,
+                        clientSecret,
+                        redirectUri)
                     .AddScope<TwentyThreeAndMeUser>()
                     .AddScope<TwentyThreeAndMeGenome>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             Assert.True(IsValidOAuth2Token(token));
-            Assert.Equal(0, token.AdditionalParameters.Count);
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<TwentyThreeAndMe>(token);
-            }
+            _tokenRepository.PutToken<TwentyThreeAndMe, OAuth2Credentials>(token);
         }
+
+        #endregion OAuth2 Code
+
+        #region OAuth2 Token
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromGoogleImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Google>();
+            var redirectUri = _appRepository.GetRedirectUri<Google>();
+
+            var token = await new OAuth2App<Google>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<GoogleGmail>()
+                    .AddScope<GoogleGmailMetadata>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFacebookImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Facebook>();
+            var redirectUri = _appRepository.GetRedirectUri<Facebook>();
+
+            var token = await new OAuth2App<Facebook>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<FacebookEvent>()
+                    .AddScope<FacebookFeed>()
+                    .AddScope<FacebookFriend>()
+                    .AddScope<FacebookPageLike>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFoursquareImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Foursquare>();
+            var redirectUri = _appRepository.GetRedirectUri<Foursquare>();
+
+            var token = await new OAuth2App<Foursquare>(
+                        clientId,
+                        redirectUri)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+        }
+
+        [Fact]
+        public async void GetAccessTokenFromLinkedInImplicitFlowThrowsException()
+        {
+            var clientId = _appRepository.GetClientId<LinkedIn>();
+            var redirectUri = _appRepository.GetRedirectUri<LinkedIn>();
+
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<LinkedIn>(
+                        clientId,
+                        redirectUri)
+                .GetCredentialsAsync())
+                .ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromSpotifyImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Spotify>();
+            var redirectUri = _appRepository.GetRedirectUri<Spotify>();
+
+            var token = await new OAuth2App<Spotify>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<SpotifySavedTrack>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+        }
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromFitbitImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Fitbit>();
+            var redirectUri = _appRepository.GetRedirectUri<Fitbit>();
+
+            var token = await new OAuth2App<Fitbit>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<FitbitIntradayHeartRate>()
+                    .AddScope<FitbitIntradayHeartRateBulk>()
+                    .AddScope<FitbitIntradaySteps>()
+                    .AddScope<FitbitIntradayStepsBulk>()
+                    .AddScope<FitbitSleep>()
+                    .AddScope<FitbitProfile>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidOAuth2Token(token));
+        }
+
+        [Fact]
+        public async void GetAccessTokenFromRunkeeperImplicitFlowThrowsException()
+        {
+            var clientId = _appRepository.GetClientId<Runkeeper>();
+            var redirectUri = _appRepository.GetRedirectUri<Runkeeper>();
+
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Runkeeper>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<RunkeeperFitnessActivity>()
+                    .GetCredentialsAsync())
+                    .ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async void GetAccessTokenFromRescuetimeImplicitFlowThrowsException()
+        {
+            var clientId = _appRepository.GetClientId<Rescuetime>();
+            var redirectUri = _appRepository.GetRedirectUri<Rescuetime>();
+
+            await Assert.ThrowsAsync<InvalidGrantTypeException>(() => new OAuth2App<Rescuetime>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<RescuetimeAnalyticData>()
+                    .GetCredentialsAsync())
+                .ConfigureAwait(false);
+        }
+
+        #endregion OAuth2 Token
 
         private bool IsValidOAuth1Token(
             OAuth1Credentials token,

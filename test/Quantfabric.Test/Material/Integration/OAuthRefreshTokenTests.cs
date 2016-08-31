@@ -1,78 +1,78 @@
-﻿using Material;
-using Aggregator.Test;
-using Material.Infrastructure.Credentials;
+﻿using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
+using Quantfabric.Test.TestHelpers;
 using Xunit;
-using Fitbit = Material.Infrastructure.ProtectedResources.Fitbit;
-using Google = Material.Infrastructure.ProtectedResources.Google;
 
 namespace Quantfabric.Test.Material.Integration
 {
-    public class RefreshTokenTests
+    public class OAuthRefreshTokenTests
     {
+        private readonly TokenCredentialRepository _tokenRepository;
+
+        public OAuthRefreshTokenTests()
+        {
+            _tokenRepository = new TokenCredentialRepository(true);
+        }
+
         [Fact]
         public async void RefreshTokenTaskForGmailGivesANewToken()
         {
-            var expiredToken = TestSettings.GetToken<Google, OAuth2Credentials>();
+            var expiredToken = _tokenRepository.GetToken<Google, OAuth2Credentials>();
+
             var newToken = await new OAuth2Refresh<Google>()
                 .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
+
             AssertTokenDifferences(newToken, expiredToken);
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Google>(newToken);
-            }
+            _tokenRepository.PutToken<Google, OAuth2Credentials>(newToken);
         }
 
         [Fact]
         public async void RefreshTokenTaskForFitbitGivesANewToken()
         {
-            var expiredToken = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var expiredToken = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
+
             var newToken = await new OAuth2Refresh<Fitbit>()
                 .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
+
             AssertTokenDifferences(newToken, expiredToken, true);
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Fitbit>(newToken);
-            }
+            _tokenRepository.PutToken<Fitbit, OAuth2Credentials>(newToken);
         }
 
         [Fact]
         public async void RefreshTokenTaskForSpotifyGivesANewToken()
         {
-            var expiredToken = TestSettings.GetToken<Spotify, OAuth2Credentials>();
+            var expiredToken = _tokenRepository.GetToken<Spotify, OAuth2Credentials>();
+
             var newToken = await new OAuth2Refresh<Spotify>()
                 .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
+
             AssertTokenDifferences(newToken, expiredToken);
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<Spotify>(newToken);
-            }
+            _tokenRepository.PutToken<Spotify, OAuth2Credentials>(newToken);
         }
 
         [Fact]
         public async void RefreshTokenTaskForTwentyThreeAndMeGivesANewToken()
         {
-            var expiredToken = TestSettings.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
+            var expiredToken = _tokenRepository.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
+
             var newToken = await new OAuth2Refresh<TwentyThreeAndMe>()
                 .RefreshCredentialsAsync(
                     expiredToken)
                 .ConfigureAwait(false);
+
             AssertTokenDifferences(newToken, expiredToken, true);
 
-            if (TestSettings.ShouldPersistCredentials)
-            {
-                TestSettings.WriteCredentials<TwentyThreeAndMe>(newToken);
-            }
+            _tokenRepository.PutToken<TwentyThreeAndMe, OAuth2Credentials>(newToken);
         }
 
         private void AssertTokenDifferences(

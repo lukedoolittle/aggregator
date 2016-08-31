@@ -165,6 +165,10 @@
       <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\XamarinIos\crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -186,9 +190,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Quantfabric.Test\TestHelpers\CredentialApplicationSettings.cs">
-      <Link>CredentialApplicationSettings.cs</Link>
-    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="MainViewController.cs" />
@@ -211,16 +212,11 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Http.iOS\Foundations.Http.iOS.csproj">
-      <Project>{5fa32127-5fc0-482a-a36c-a916e686b522}</Project>
-      <Name>Foundations.Http.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

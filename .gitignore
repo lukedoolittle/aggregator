@@ -259,12 +259,6 @@ paket-files/
 build.ps1
 tools/
 
-# T4 Toolbox
-description.cs
-
 # Credential Files
 CredentialApplicationSettings.cs
 testCredentials.json
-
-# Build Files
-build/Material/lib

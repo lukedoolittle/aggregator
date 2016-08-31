@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Widget;
-using Application.Configuration;
-using Foundations.Http;
 using Material;
 using Material.Contracts;
 using Material.Enums;
@@ -15,6 +9,7 @@ using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.UI.Test
 {
@@ -30,8 +25,6 @@ namespace Quantfabric.UI.Test
         {
             base.OnCreate(bundle);
 
-            var settings = new CredentialApplicationSettings();
-
             SetContentView(Resource.Layout.Main);
 
             var toggleButton = FindViewById<ToggleButton>(Resource.Id.browserToggleButton);
@@ -45,33 +38,18 @@ namespace Quantfabric.UI.Test
                     : CallbackTypeEnum.Localhost;
             };
 
-            FindViewById<Button>(Resource.Id.facebookAuth).Click += async (sender, args) =>
-            {
-                var credentials = settings
-                    .GetClientCredentials<Facebook, OAuth2Credentials>(_callbackType);
-
-                var token = await new OAuth2App<Facebook>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
-                    .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-
-                WriteCredentials(token);
-            };
-
             FindViewById<Button>(Resource.Id.twitterAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Twitter, OAuth1Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Twitter>();
+                var consumerSecret = settings.GetConsumerSecret<Twitter>();
+                var redirectUri = settings.GetRedirectUri<Twitter>();
 
                 var token = await new OAuth1App<Twitter>(
-                    credentials.ConsumerKey,
-                    credentials.ConsumerSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -80,44 +58,71 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.fatsecretAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Fatsecret, OAuth1Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Fatsecret>();
+                var consumerSecret = settings.GetConsumerSecret<Fatsecret>();
+                var redirectUri = settings.GetRedirectUri<Fatsecret>();
 
                 var token = await new OAuth1App<Fatsecret>(
-                    credentials.ConsumerKey,
-                    credentials.ConsumerSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
             };
+
             FindViewById<Button>(Resource.Id.withings).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Withings, OAuth1Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Withings>();
+                var consumerSecret = settings.GetConsumerSecret<Withings>();
+                var redirectUri = settings.GetRedirectUri<Withings>();
 
                 var token = await new OAuth1App<Withings>(
-                    credentials.ConsumerKey,
-                    credentials.ConsumerSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
             };
+
+            FindViewById<Button>(Resource.Id.facebookAuth).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Facebook>();
+                var clientSecret = settings.GetClientSecret<Facebook>();
+                var redirectUri = settings.GetRedirectUri<Facebook>();
+
+                var token = await new OAuth2App<Facebook>(
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<FacebookEvent>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
             FindViewById<Button>(Resource.Id.fitbitAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Fitbit, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Fitbit>();
+                var clientSecret = settings.GetClientSecret<Fitbit>();
+                var redirectUri = settings.GetRedirectUri<Fitbit>();
 
                 var token = await new OAuth2App<Fitbit>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .AddScope<FitbitProfile>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -127,15 +132,16 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.foursquareAuth).Click += async (sender, args) =>
             {
-
-                var credentials = settings
-                    .GetClientCredentials<Foursquare, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Foursquare>();
+                var clientSecret = settings.GetClientSecret<Foursquare>();
+                var redirectUri = settings.GetRedirectUri<Foursquare>();
 
                 var token = await new OAuth2App<Foursquare>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
@@ -144,32 +150,35 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.googleAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Google, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Google>();
+                var clientSecret = settings.GetClientSecret<Google>();
+                var redirectUri = settings.GetRedirectUri<Google>();
 
                 var token = await new OAuth2App<Google>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
-                    .AddScope<GoogleGmailMetadata>()
-                    .AddScope<GoogleGmail>()
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                            browserType: _browserType)
+                        .AddScope<GoogleGmailMetadata>()
+                        .GetCredentialsAsync()
+                        .ConfigureAwait(false);
 
                 WriteCredentials(token);
             };
 
             FindViewById<Button>(Resource.Id.linkedinAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<LinkedIn, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<LinkedIn>();
+                var clientSecret = settings.GetClientSecret<LinkedIn>();
+                var redirectUri = settings.GetRedirectUri<LinkedIn>();
 
                 var token = await new OAuth2App<LinkedIn>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .AddScope<LinkedinPersonal>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -179,14 +188,16 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.rescuetimeAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Rescuetime, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Rescuetime>();
+                var clientSecret = settings.GetClientSecret<Rescuetime>();
+                var redirectUri = settings.GetRedirectUri<Rescuetime>();
 
                 var token = await new OAuth2App<Rescuetime>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .AddScope<RescuetimeAnalyticData>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -196,14 +207,16 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.spotifyAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Spotify, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Spotify>();
+                var clientSecret = settings.GetClientSecret<Spotify>();
+                var redirectUri = settings.GetRedirectUri<Spotify>();
 
                 var token = await new OAuth2App<Spotify>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
                     .AddScope<SpotifySavedTrack>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -213,20 +226,24 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.runkeeperAuth).Click += async (sender, args) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Runkeeper, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Runkeeper>();
+                var clientSecret = settings.GetClientSecret<Runkeeper>();
+                var redirectUri = settings.GetRedirectUri<Runkeeper>();
 
                 var token = await new OAuth2App<Runkeeper>(
-                    credentials.ClientId,
-                    credentials.ClientSecret,
-                    credentials.CallbackUrl,
-                    browserType: _browserType)
-                    .AddScope<RunkeeperFitnessActivity>()
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                        .AddScope<RunkeeperFitnessActivity>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
             };
+
+
 
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
             {

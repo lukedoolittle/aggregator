@@ -31,7 +31,7 @@ namespace $rootnamespace$
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
-            Platform.Current.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivityDestroyed(Activity activity)
@@ -44,7 +44,7 @@ namespace $rootnamespace$
 
         public void OnActivityResumed(Activity activity)
         {
-            Platform.Current.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
@@ -53,7 +53,7 @@ namespace $rootnamespace$
 
         public void OnActivityStarted(Activity activity)
         {
-            Platform.Current.Context = activity;
+            Material.Framework.Platform.Current.Context = activity;
         }
 
         public void OnActivityStopped(Activity activity)

@@ -310,17 +310,9 @@
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Bootstrap\Foundations.Bootstrap.csproj">
-      <Project>{0fe0e580-65ef-400b-818c-1ec4a2276cfa}</Project>
-      <Name>Foundations.Bootstrap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Http.Android\Foundations.Http.Android.csproj">
-      <Project>{58cc5d91-7700-4cc6-903d-92c38ffa08c9}</Project>
-      <Name>Foundations.Http.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Serialization\Foundations.Serialization.csproj">
       <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
@@ -332,6 +324,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Quantfabric.Test\Quantfabric.Test.projitems" Label="Shared" />
+  <Import Project="..\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

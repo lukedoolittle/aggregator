@@ -4,21 +4,26 @@ using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Quantfabric.Test.TestHelpers;
 using Xunit;
-using Fitbit = Material.Infrastructure.ProtectedResources.Fitbit;
-using Google = Material.Infrastructure.ProtectedResources.Google;
-using GoogleGmailMetadata = Material.Infrastructure.Requests.GoogleGmailMetadata;
-using TwitterTweet = Material.Infrastructure.Requests.TwitterTweet;
-using WithingsWeighin = Material.Infrastructure.Requests.WithingsWeighin;
 
 namespace Quantfabric.Test.Material.Integration
 {
     public class OAuthSimpleRequestTests
     {
+        private readonly TokenCredentialRepository _tokenRepository;
+
+        public OAuthSimpleRequestTests()
+        {
+            _tokenRepository = new TokenCredentialRepository(true);
+        }
+
+        #region Linkedin Requests
+
         [Fact]
         public async void MakeRequestForLinkedInPersonal()
         {
-            var credentials = TestSettings.GetToken<LinkedIn, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<LinkedIn, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -30,10 +35,14 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #endregion LinkedinRequests
+
+        #region Fatsecret Requests
+
         [Fact]
         public async void MakeRequestForFatsecretMeals()
         {
-            var credentials = TestSettings.GetToken<Fatsecret, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Fatsecret, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -48,10 +57,12 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #endregion Fatsecret Requests
+
         [Fact]
         public async void MakeRequestForWithingsWeighins()
         {
-            var credentials = TestSettings.GetToken<Withings, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Withings, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -69,7 +80,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForGmailMetadata()
         {
-            var credentials = TestSettings.GetToken<Google, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Google, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -87,7 +98,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForGmails()
         {
-            var credentials = TestSettings.GetToken<Google, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Google, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -108,7 +119,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForRescuetimeAnalyticData()
         {
-            var credentials = TestSettings.GetToken<Rescuetime, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Rescuetime, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -122,7 +133,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForRescuetimeAnalyticDataWithStartAndEndTimes()
         {
-            var credentials = TestSettings.GetToken<Rescuetime, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Rescuetime, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -140,7 +151,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForRunkeeperFitnessActivities()
         {
-            var credentials = TestSettings.GetToken<Runkeeper, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Runkeeper, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -157,7 +168,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwentyThreeAndMeUser()
         {
-            var credentials = TestSettings.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -171,7 +182,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Don't have a genome sequenced")]
         public async void MakeRequestForTwentyThreeAndMeGenome()
         {
-            var credentials = TestSettings.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<TwentyThreeAndMe, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -188,7 +199,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForSpotifyPlayList()
         {
-            var credentials = TestSettings.GetToken<Spotify, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Spotify, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -202,7 +213,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFoursquareCheckins()
         {
-            var credentials = TestSettings.GetToken<Foursquare, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Foursquare, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -216,7 +227,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFoursquareCheckinsWithTimeRange()
         {
-            var credentials = TestSettings.GetToken<Foursquare, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Foursquare, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -234,7 +245,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFoursquareFriends()
         {
-            var credentials = TestSettings.GetToken<Foursquare, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Foursquare, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -248,7 +259,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFoursquareTip()
         {
-            var credentials = TestSettings.GetToken<Foursquare, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Foursquare, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -262,7 +273,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFitbitIntradaySteps()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -282,7 +293,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFitbitIntradayStepsBulk()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -299,7 +310,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Don't have heart rate data for myself")]
         public async void MakeRequestForFitbitIntradayHeartRate()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -319,7 +330,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Don't have heart rate data for myself")]
         public async void MakeRequestForFitbitIntradayHeartRateBulk()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -336,7 +347,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFitbitSleep()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -353,7 +364,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFitbitProfile()
         {
-            var credentials = TestSettings.GetToken<Fitbit, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -368,7 +379,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFacebookLike()
         {
-            var credentials = TestSettings.GetToken<Facebook, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -387,7 +398,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFacebookEvent()
         {
-            var credentials = TestSettings.GetToken<Facebook, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -406,7 +417,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForFacebookFeed()
         {
-            var credentials = TestSettings.GetToken<Facebook, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -425,7 +436,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Don't have any facebook friends with access to app")]
         public async void MakeRequestForFacebookFriend()
         {
-            var credentials = TestSettings.GetToken<Facebook, OAuth2Credentials>();
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -441,10 +452,12 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #region Twitter Requests
+
         [Fact]
         public async void MakeRequestForTwitterTweets()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -459,7 +472,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterTimeline()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -474,7 +487,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterMentions()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -489,7 +502,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterFavorites()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -504,7 +517,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterFollowers()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -519,7 +532,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterFollowing()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -534,7 +547,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Dont have any twitter direct messages")]
         public async void MakeRequestForTwitterReceivedDirectMessage()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -549,7 +562,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact(Skip = "Dont have any twitter direct messages")]
         public async void MakeRequestForTwitterSentDirectMessage()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -564,7 +577,7 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void MakeRequestForTwitterRetweet()
         {
-            var credentials = TestSettings.GetToken<Twitter, OAuth1Credentials>();
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
@@ -575,5 +588,7 @@ namespace Quantfabric.Test.Material.Integration
 
             Assert.NotNull(response);
         }
+
+        #endregion Twitter Requests
     }
 }

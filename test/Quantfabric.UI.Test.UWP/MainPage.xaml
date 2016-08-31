@@ -7,12 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.DataContext>
+        <local:TestViewModel />
+    </Page.DataContext>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="facebookAuth" Content="Facebook" HorizontalAlignment="Left" Margin="26,166,0,0" VerticalAlignment="Top" Click="OnFacebookClick"/>
-        <Button x:Name="twitterAuth" Content="Twitter" HorizontalAlignment="Left" Margin="114,166,0,0" VerticalAlignment="Top" Click="OnTwitterClick"/>
-        <TextBlock x:Name="ResultTextBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Placeholder" VerticalAlignment="Top" Width="340" Height="87"/>
-        <Button x:Name="googleAuth" Content="Google" HorizontalAlignment="Left" Margin="184,166,0,0" VerticalAlignment="Top" Click="OnGoogleClick"/>
-        <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="98,97,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
+        <Button x:Name="facebookAuth" Content="Facebook" HorizontalAlignment="Left" Margin="66,291,0,0" VerticalAlignment="Top" Click="OnFacebookClick"/>
+        <Button x:Name="twitterAuth" Content="Twitter" HorizontalAlignment="Left" Margin="154,291,0,0" VerticalAlignment="Top" Click="OnTwitterClick"/>
+        <TextBlock x:Name="ResultTextBlock" HorizontalAlignment="Left" Margin="10,52,0,0" TextWrapping="Wrap" Text="{Binding Path=Result}" VerticalAlignment="Top" Width="340" Height="165"/>
+        <Button x:Name="googleAuth" Content="Google" HorizontalAlignment="Left" Margin="224,291,0,0" VerticalAlignment="Top" Click="OnGoogleClick"/>
+        <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="138,222,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
 
     </Grid>
 </Page>

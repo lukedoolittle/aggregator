@@ -1,12 +1,11 @@
 using System;
-using Application.Configuration;
 using Material;
 using Material.Contracts;
 using Material.Enums;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Quantfabric.Test.Helpers;
 using UIKit;
 
 namespace Quantfabric.UI.Test.iOS
@@ -28,8 +27,6 @@ namespace Quantfabric.UI.Test.iOS
         {
             base.ViewDidLoad();
 
-            var settings = new CredentialApplicationSettings();
-
             BrowserToggle.TouchUpInside += (sender, args) =>
             {
                 _browserType = BrowserToggle.On
@@ -40,15 +37,71 @@ namespace Quantfabric.UI.Test.iOS
                     : CallbackTypeEnum.Protocol;
             };
 
+            TwitterAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Twitter>();
+                var consumerSecret = settings.GetConsumerSecret<Twitter>();
+                var redirectUri = settings.GetRedirectUri<Twitter>();
+
+                var token = await new OAuth1App<Twitter>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+            };
+
+            FatsecretAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Fatsecret>();
+                var consumerSecret = settings.GetConsumerSecret<Fatsecret>();
+                var redirectUri = settings.GetRedirectUri<Fatsecret>();
+
+                var token = await new OAuth1App<Fatsecret>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+            };
+
+            WithingsAuth.TouchUpInside += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Withings>();
+                var consumerSecret = settings.GetConsumerSecret<Withings>();
+                var redirectUri = settings.GetRedirectUri<Withings>();
+
+                var token = await new OAuth1App<Withings>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+            };
+
             FacebookAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Facebook, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Facebook>();
+                var clientSecret = settings.GetClientSecret<Facebook>();
+                var redirectUri = settings.GetRedirectUri<Facebook>();
 
                 var token = await new OAuth2App<Facebook>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
                     .GetCredentialsAsync()
@@ -56,60 +109,18 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
-            TwitterAuth.TouchUpInside += async (sender, e) =>
-            {
-                var credentials = settings
-                    .GetClientCredentials<Twitter, OAuth1Credentials>(_callbackType);
 
-                var token = await new OAuth1App<Twitter>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl,
-                        browserType: _browserType)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
-            };
-            FatsecretAuth.TouchUpInside += async (sender, e) =>
-            {
-                var credentials = settings
-                    .GetClientCredentials<Fatsecret, OAuth1Credentials>(_callbackType);
-
-                var token = await new OAuth1App<Fatsecret>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl,
-                        browserType: _browserType)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
-            };
-            WithingsAuth.TouchUpInside += async (sender, args) =>
-            {
-                var credentials = settings
-                    .GetClientCredentials<Withings, OAuth1Credentials>(_callbackType);
-
-                var token = await new OAuth1App<Withings>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl,
-                        browserType: _browserType)
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
-            };
             SpotifyAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Spotify, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Spotify>();
+                var clientSecret = settings.GetClientSecret<Spotify>();
+                var redirectUri = settings.GetRedirectUri<Spotify>();
 
                 var token = await new OAuth2App<Spotify>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<SpotifySavedTrack>()
                     .GetCredentialsAsync()
@@ -117,15 +128,18 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             GoogleAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Google, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Google>();
+                var clientSecret = settings.GetClientSecret<Google>();
+                var redirectUri = settings.GetRedirectUri<Google>();
 
                 var token = await new OAuth2App<Google>(
-                            credentials.ClientId,
-                            credentials.ClientSecret,
-                            credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
                         .GetCredentialsAsync()
@@ -133,15 +147,18 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             FitbitAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Fitbit, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Fitbit>();
+                var clientSecret = settings.GetClientSecret<Fitbit>();
+                var redirectUri = settings.GetRedirectUri<Fitbit>();
 
                 var token = await new OAuth2App<Fitbit>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<FitbitProfile>()
                     .GetCredentialsAsync()
@@ -149,15 +166,18 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             RunkeeperAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Runkeeper, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Runkeeper>();
+                var clientSecret = settings.GetClientSecret<Runkeeper>();
+                var redirectUri = settings.GetRedirectUri<Runkeeper>();
 
                 var token = await new OAuth2App<Runkeeper>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                         .AddScope<RunkeeperFitnessActivity>()
                     .GetCredentialsAsync()
@@ -165,31 +185,36 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             FoursquareAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<Foursquare, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Foursquare>();
+                var clientSecret = settings.GetClientSecret<Foursquare>();
+                var redirectUri = settings.GetRedirectUri<Foursquare>();
 
                 var token = await new OAuth2App<Foursquare>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             RescuetimeAuth.TouchUpInside += async (sender, e) =>
             {
-
-                var credentials = settings
-                    .GetClientCredentials<Rescuetime, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Rescuetime>();
+                var clientSecret = settings.GetClientSecret<Rescuetime>();
+                var redirectUri = settings.GetRedirectUri<Rescuetime>();
 
                 var token = await new OAuth2App<Rescuetime>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<RescuetimeAnalyticData>()
                     .GetCredentialsAsync()
@@ -197,15 +222,18 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
             LinkedinAuth.TouchUpInside += async (sender, e) =>
             {
-                var credentials = settings
-                    .GetClientCredentials<LinkedIn, OAuth2Credentials>(_callbackType);
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<LinkedIn>();
+                var clientSecret = settings.GetClientSecret<LinkedIn>();
+                var redirectUri = settings.GetRedirectUri<LinkedIn>();
 
                 var token = await new OAuth2App<LinkedIn>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<LinkedinPersonal>()
                     .GetCredentialsAsync()
@@ -213,6 +241,9 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
+
+
+
             MioAuth.TouchUpInside += async (sender, args) =>
             {
                 var auth = new BluetoothApp<Mioalpha>();

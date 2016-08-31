@@ -89,6 +89,10 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Robotics.Mobile.Core, Version=1.0.5500.30933, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\MonoAndroid10\Robotics.Mobile.Core.dll</HintPath>
       <Private>True</Private>
@@ -108,9 +112,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Quantfabric.Test\TestHelpers\CredentialApplicationSettings.cs">
-      <Link>CredentialApplicationSettings.cs</Link>
-    </Compile>
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -139,10 +140,6 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Http.Android\Foundations.Http.Android.csproj">
-      <Project>{58cc5d91-7700-4cc6-903d-92c38ffa08c9}</Project>
-      <Name>Foundations.Http.Android</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>
@@ -160,6 +157,7 @@
       <Name>Material</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.

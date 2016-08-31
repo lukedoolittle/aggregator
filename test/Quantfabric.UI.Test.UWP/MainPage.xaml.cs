@@ -1,21 +1,47 @@
-﻿using Windows.UI.Xaml;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Application.Configuration;
 using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Quantfabric.Test.Helpers;
+using Quantfabric.UI.Test.UWP.Annotations;
 
 namespace Quantfabric.UI.Test.UWP
 {
+    public class TestViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _result;
+
+        public string Result
+        {
+            get { return _result; }
+            set
+            {
+                _result = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TestViewModel()
+        {
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public sealed partial class MainPage : Page
     {
-        private readonly CredentialApplicationSettings _settings =
-            new CredentialApplicationSettings();
-
         private AuthenticationInterfaceEnum _browserType =
             AuthenticationInterfaceEnum.Embedded;
         private CallbackTypeEnum _callbackType =
@@ -28,13 +54,15 @@ namespace Quantfabric.UI.Test.UWP
 
         private async void OnFacebookClick(object sender, RoutedEventArgs e)
         {
-            var credentials = _settings
-                .GetClientCredentials<Facebook, OAuth2Credentials>(_callbackType);
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Facebook>();
+            var clientSecret = settings.GetClientSecret<Facebook>();
+            var redirectUri = settings.GetRedirectUri<Facebook>();
 
             var token = await new OAuth2App<Facebook>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
                     .GetCredentialsAsync()
@@ -45,13 +73,15 @@ namespace Quantfabric.UI.Test.UWP
 
         private async void OnTwitterClick(object sender, RoutedEventArgs e)
         {
-            var credentials = _settings
-                .GetClientCredentials<Twitter, OAuth1Credentials>(_callbackType);
+            var settings = new AppCredentialRepository(_callbackType);
+            var consumerKey = settings.GetConsumerKey<Twitter>();
+            var consumerSecret = settings.GetConsumerSecret<Twitter>();
+            var redirectUri = settings.GetRedirectUri<Twitter>();
 
             var token = await new OAuth1App<Twitter>(
-                        credentials.ConsumerKey,
-                        credentials.ConsumerSecret,
-                        credentials.CallbackUrl,
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
@@ -61,13 +91,15 @@ namespace Quantfabric.UI.Test.UWP
 
         private async void OnGoogleClick(object sender, RoutedEventArgs e)
         {
-            var credentials = _settings
-                .GetClientCredentials<Google, OAuth2Credentials>(_callbackType);
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Google>();
+            var clientSecret = settings.GetClientSecret<Google>();
+            var redirectUri = settings.GetRedirectUri<Google>();
 
             var token = await new OAuth2App<Google>(
-                        credentials.ClientId,
-                        credentials.ClientSecret,
-                        credentials.CallbackUrl,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
                         browserType: _browserType)
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleGmail>()
@@ -81,7 +113,7 @@ namespace Quantfabric.UI.Test.UWP
         {
             Platform.Current.RunOnMainThread(() =>
             {
-                ResultTextBlock.Text = text;
+                ((TestViewModel) ((MainPage) Platform.Current.Context.Content).DataContext).Result = text;
             });
         }
 

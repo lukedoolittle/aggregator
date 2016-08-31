@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using Aggregator.Test.Helpers;
 using Foundations.Serialization;
 using Material.Infrastructure.Credentials;
 using Xunit;

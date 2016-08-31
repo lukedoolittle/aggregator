@@ -26,8 +26,6 @@ namespace Quantfabric.UI.Test
 		
 		public static void UpdateIdValues()
 		{
-			global::Foundations.Http.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
-			global::Foundations.Http.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
 			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;

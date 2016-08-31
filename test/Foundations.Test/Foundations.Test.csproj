@@ -112,10 +112,6 @@
     <Compile Include="TypeExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Foundations.Bootstrap\Foundations.Bootstrap.csproj">
-      <Project>{0fe0e580-65ef-400b-818c-1ec4a2276cfa}</Project>
-      <Name>Foundations.Bootstrap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
