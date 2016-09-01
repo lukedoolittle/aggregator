@@ -6,30 +6,29 @@ using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
-    public abstract class OAuthCallbackHandlerBase : IOAuthCallbackHandler
+    public abstract class OAuthCallbackHandlerBase<TCredentials> : 
+        IOAuthCallbackHandler<TCredentials>
+        where TCredentials : TokenCredentials
     {
         private readonly string _securityParameter;
         private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly string _userId;
         private readonly ISerializer _serializer;
 
         protected OAuthCallbackHandlerBase(
             IOAuthSecurityStrategy securityStrategy,
             string securityParameter, 
-            string userId, 
             ISerializer serializer)
         {
             _securityParameter = securityParameter;
-            _userId = userId;
             _serializer = serializer;
             _securityStrategy = securityStrategy;
         }
 
-        public virtual TToken ParseAndValidateCallback<TToken>(
-            Uri responseUri)
-            where TToken : TokenCredentials
+        public virtual TCredentials ParseAndValidateCallback(
+            Uri responseUri,
+            string userId)
         {
             var querystring = GetQuerystring(responseUri);
             if (querystring == null)
@@ -44,13 +43,13 @@ namespace Material.OAuth
                 throw new OAuthCallbackErrorException();
             }
 
-            if (!IsResponseSecure(query))
+            if (!IsResponseSecure(query, userId))
             {
                 throw new SecurityException(
                     StringResources.CallbackParameterInvalidException);
             }
 
-            var token = _serializer.Deserialize<TToken>(
+            var token = _serializer.Deserialize<TCredentials>(
                 query.ToString(false));
 
             if (token == null || !token.AreValidIntermediateCredentials)
@@ -72,7 +71,9 @@ namespace Material.OAuth
             return null;
         }
 
-        protected virtual bool IsResponseSecure(HttpValueCollection query)
+        protected virtual bool IsResponseSecure(
+            HttpValueCollection query,
+            string userId)
         {
             string securityValue = null;
             if (query.ContainsKey(_securityParameter))
@@ -81,7 +82,7 @@ namespace Material.OAuth
             }
 
             return _securityStrategy.IsSecureParameterValid(
-                _userId,
+                userId,
                 _securityParameter,
                 securityValue);
         }

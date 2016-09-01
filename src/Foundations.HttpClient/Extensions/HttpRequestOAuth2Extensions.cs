@@ -28,6 +28,23 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
+        public static HttpRequest ForOAuth2ClientAccessToken(
+            this HttpRequest instance,
+            string clientId,
+            string clientSecret)
+        {
+            if (instance == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            var authenticator = new OAuth2ClientAccessToken(
+                clientId,
+                clientSecret);
+
+            return instance.Authenticator(authenticator);
+        }
+
         public static HttpRequest ForOAuth2RefreshToken(
             this HttpRequest instance,
             string clientId,

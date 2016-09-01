@@ -13,7 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GPSAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\HttpOAuthCallbackListener.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\ProtocolOAuthCallbackListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />

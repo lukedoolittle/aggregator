@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth.Builder;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -16,7 +17,6 @@ namespace Material.Infrastructure.OAuth
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthenticationInterfaceEnum _browserType;
         private readonly TResourceProvider _provider;
-        private readonly OAuthAppTypeEnum _appType;
 
         public OAuth1AppBase(
             string consumerKey,
@@ -24,8 +24,7 @@ namespace Material.Infrastructure.OAuth
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType,
-            OAuthAppTypeEnum appType)
+            AuthenticationInterfaceEnum browserType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -33,7 +32,6 @@ namespace Material.Infrastructure.OAuth
             _uiFactory = uiFactory;
             _provider = provider;
             _browserType = browserType;
-            _appType = appType;
         }
 
         /// <summary>
@@ -49,17 +47,17 @@ namespace Material.Infrastructure.OAuth
                 TimeSpan.FromMinutes(2));
 
             var builder =
-                new OAuthBuilder(
+                new OAuth1TemplateBuilder(
                     _uiFactory,
                     null,
                     securityStrategy);
-            var facade = builder.BuildOAuth1Facade(
+            var facade = builder.BuildFacade(
                 _provider,
                 new OAuth1Authentication(), 
                 _consumerKey,
                 _consumerSecret, 
                 _callbackUrl);
-            var template = builder.BuildOAuth1Template<TResourceProvider>(
+            var template = builder.BuildTemplate<TResourceProvider>(
                 facade,
                 _browserType,
                 userId);

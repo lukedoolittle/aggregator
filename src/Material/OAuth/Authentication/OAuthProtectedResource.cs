@@ -10,7 +10,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using HttpRequestException = Material.Exceptions.HttpRequestException;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuthProtectedResource : IOAuthProtectedResource
     {

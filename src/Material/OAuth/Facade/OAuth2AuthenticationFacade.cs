@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuth2AuthenticationFacade : 
         IOAuthFacade<OAuth2Credentials>
@@ -15,6 +14,7 @@ namespace Material.OAuth
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuth2Authentication _oauth;
+        private readonly IOAuthCallbackHandler<OAuth2Credentials> _handler;
         protected readonly IOAuthSecurityStrategy _strategy;
 
         public Uri CallbackUri { get; }
@@ -24,13 +24,15 @@ namespace Material.OAuth
             string clientId,
             string callbackUri,
             IOAuth2Authentication oauth,
-            IOAuthSecurityStrategy strategy)
+            IOAuthSecurityStrategy strategy,
+            IOAuthCallbackHandler<OAuth2Credentials> handler)
         {
             _clientId = clientId;
             _resourceProvider = resourceProvider;
             CallbackUri = new Uri(callbackUri);
             _oauth = oauth;
             _strategy = strategy;
+            _handler = handler;
         }
 
         /// <summary>
@@ -55,6 +57,21 @@ namespace Material.OAuth
                     _resourceProvider.Parameters);
 
             return Task.FromResult(authorizationPath);
+        }
+
+        /// <summary>
+        /// Convert a callback uri into intermediate OAuth2Credentials
+        /// </summary>
+        /// <param name="responseUri">The received callback uri</param>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <returns>Intermediate OAuth1 credentials</returns>
+        public OAuth2Credentials ParseAndValidateCallback(
+            Uri responseUri, 
+            string userId)
+        {
+            return _handler.ParseAndValidateCallback(
+                responseUri,
+                userId);
         }
 
         /// <summary>

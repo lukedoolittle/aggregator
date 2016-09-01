@@ -3,10 +3,11 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuthCallbackHandler
+    public interface IOAuthCallbackHandler<TCredentials>
+        where TCredentials : TokenCredentials
     {
-        TToken ParseAndValidateCallback<TToken>(
-            Uri responseUri)
-            where TToken : TokenCredentials;
+        TCredentials ParseAndValidateCallback(
+            Uri responseUri,
+            string userId);
     }
 }

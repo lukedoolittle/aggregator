@@ -18,6 +18,8 @@ namespace Foundations.HttpClient.Enums
         GrantType,
         [Description("response_type")]
         ResponseType,
+        [Description("refresh_token")]
+        RefreshToken,
         [Description("state")]
         State,
         [Description("nonce")]

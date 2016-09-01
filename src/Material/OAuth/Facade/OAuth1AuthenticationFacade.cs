@@ -6,7 +6,7 @@ using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuth1AuthenticationFacade : 
         IOAuthFacade<OAuth1Credentials>
@@ -15,6 +15,7 @@ namespace Material.OAuth
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
         private readonly IOAuth1Authentication _oauth;
+        private readonly IOAuthCallbackHandler<OAuth1Credentials> _handler;
         protected readonly IOAuthSecurityStrategy _securityStrategy;
 
         public Uri CallbackUri { get; }
@@ -25,13 +26,15 @@ namespace Material.OAuth
             string consumerSecret,
             string callbackUrl,
             IOAuth1Authentication oauth, 
-            IOAuthSecurityStrategy securityStrategy)
+            IOAuthSecurityStrategy securityStrategy,
+            IOAuthCallbackHandler<OAuth1Credentials> handler)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _resourceProvider = resourceProvider;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
+            _handler = handler;
             CallbackUri = new Uri(callbackUrl);
         }
 
@@ -67,6 +70,21 @@ namespace Material.OAuth
                 credentials.OAuthSecret);
 
             return authorizationPath;
+        }
+
+        /// <summary>
+        /// Convert a callback uri into intermediate OAuth1Credentials
+        /// </summary>
+        /// <param name="responseUri">The received callback uri</param>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <returns>Intermediate OAuth1 credentials</returns>
+        public OAuth1Credentials ParseAndValidateCallback(
+            Uri responseUri,
+            string userId)
+        {
+            return _handler.ParseAndValidateCallback(
+                responseUri,
+                userId);
         }
 
         /// <summary>

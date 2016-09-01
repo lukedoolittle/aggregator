@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth.Builder;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -13,26 +14,32 @@ namespace Material.Infrastructure.OAuth
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly string _callbackUrl;
-        private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthenticationInterfaceEnum _browserType;
-        private readonly TResourceProvider _provider;
+        private readonly IOAuth2TemplateBuilder _builder;
+        protected readonly TResourceProvider _provider;
 
         public OAuth2AppBase(
             string clientId,
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType,
-            OAuthAppTypeEnum appType) :
-            this(
-                clientId, 
-                null, 
-                callbackUrl,
-                uiFactory,
-                provider, 
-                browserType,
-                appType)
-        { }
+            AuthenticationInterfaceEnum browserType)
+        {
+            _clientId = clientId;
+            _callbackUrl = callbackUrl;
+            _browserType = browserType;
+            _provider = provider;
+
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+
+            _builder =
+                new OAuth2TokenTemplateBuilder(
+                    uiFactory,
+                    null,
+                    securityStrategy);
+        }
 
         public OAuth2AppBase(
             string clientId,
@@ -40,21 +47,23 @@ namespace Material.Infrastructure.OAuth
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType,
-            OAuthAppTypeEnum appType)
+            AuthenticationInterfaceEnum browserType)
         {
             _clientId = clientId;
             _clientSecret = clientSecret;
             _callbackUrl = callbackUrl;
             _browserType = browserType;
-            _uiFactory = uiFactory;
             _provider = provider;
 
-            provider.SetFlow(
-                clientId, 
-                clientSecret, 
-                browserType, 
-                appType);
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+
+            _builder =
+                new OAuth2CodeTemplateBuilder(
+                    uiFactory,
+                    null,
+                    securityStrategy);
         }
 
         /// <summary>
@@ -65,29 +74,18 @@ namespace Material.Infrastructure.OAuth
         {
             var userId = Guid.NewGuid().ToString();
 
-            var securityStrategy = new OAuthSecurityStrategy(
-                new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
-
-            var builder =
-                new OAuthBuilder(
-                    _uiFactory,
-                    null,
-                    securityStrategy);
-
-            var facade = builder.BuildOAuth2Facade(
+            var facade = _builder.BuildFacade(
                 _provider,
                 new OAuth2Authentication(), 
                 _clientId,
-                _clientSecret,
-                _callbackUrl);
+                _callbackUrl,
+                _browserType);
 
-            var template = builder.BuildOAuth2Template<TResourceProvider>(
+            var template = _builder.BuildTemplate<TResourceProvider>(
                     facade,
                     _browserType,
                     userId,
-                    _clientSecret,
-                    _provider.Flow);
+                    _clientSecret);
 
             return template.GetAccessTokenCredentials(userId);
         }

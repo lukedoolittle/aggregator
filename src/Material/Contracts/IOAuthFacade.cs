@@ -4,7 +4,8 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuthFacade<TCredentials>
+    public interface IOAuthFacade<TCredentials> : 
+        IOAuthCallbackHandler<TCredentials>
         where TCredentials : TokenCredentials
     {
         Uri CallbackUri { get; }

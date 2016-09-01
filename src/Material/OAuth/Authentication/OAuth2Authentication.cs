@@ -11,7 +11,7 @@ using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuth2Authentication : IOAuth2Authentication
     {
@@ -100,6 +100,36 @@ namespace Material.OAuth
                     clientSecret,
                     refreshToken)
                 .Headers(headers)
+                .ExecuteAsync()
+                .ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(string.Format(
+                    StringResources.BadHttpRequestException,
+                    response.StatusCode,
+                    response.Reason));
+            }
+
+            var token = await response
+                .ContentAsync<OAuth2Credentials>()
+                .ConfigureAwait(false);
+
+            token.TimestampToken();
+
+            return token;
+        }
+
+        public async Task<OAuth2Credentials> GetClientAccessToken(
+            Uri accessUrl,
+            string clientId,
+            string clientSecret)
+        {
+            var response = await new HttpRequest(accessUrl.NonPath())
+                .PostTo(accessUrl.AbsolutePath)
+                .ForOAuth2ClientAccessToken(
+                    clientId,
+                    clientSecret)
                 .ExecuteAsync()
                 .ConfigureAwait(false);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Exceptions;
 using Material.Framework;
@@ -7,63 +8,6 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
 {
-    /// <summary>
-    /// Authenticates a resource owner with the given resource provider using OAuth1a
-    /// </summary>
-    /// <typeparam name="TResourceProvider">Resource provider to authenticate with</typeparam>
-    public class OAuth1App<TResourceProvider> : OAuth1AppBase<TResourceProvider>
-        where TResourceProvider : OAuth1ResourceProvider, new()
-    {
-        /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow
-        /// </summary>
-        /// <param name="consumerKey">The application's consumer key</param>
-        /// <param name="consumerSecret">The application's consumer secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
-        /// <param name="browserType">The type of browser interface used for the workflow</param>
-        public OAuth1App(
-            string consumerKey,
-            string consumerSecret,
-            string callbackUrl,
-#if __WINDOWS__
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
-#else
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
-#endif
-            ) : 
-                base(
-                    consumerKey, 
-                    consumerSecret, 
-                    callbackUrl, 
-                    new OAuthAuthorizerUIFactory(), 
-                    new TResourceProvider(), 
-                    browserType,
-#if __WINDOWS__
-                    OAuthAppTypeEnum.Desktop
-#else
-                    OAuthAppTypeEnum.Mobile
-#endif
-            )
-        { }
-
-        /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow. 
-        /// Throws a NoConnectivityException if the platform does not have
-        /// internet access.
-        /// </summary>
-        /// <returns></returns>
-        public override Task<OAuth1Credentials> GetCredentialsAsync()
-        {
-            if (!Platform.Current.IsOnline)
-            {
-                throw new NoConnectivityException(
-                    StringResources.OfflineConnectivityException);
-            }
-
-            return base.GetCredentialsAsync();
-        }
-    }
-
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2
     /// </summary>
@@ -88,13 +32,30 @@ namespace Material.Infrastructure.OAuth
             AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
 #endif
             ) :
-            this(
-                clientId,
-                null,
-                callbackUrl,
-                provider,
-                browserType)
-        { }
+                base(
+                    clientId,
+                    callbackUrl,
+                    new OAuthAuthorizerUIFactory(),
+                    provider, 
+                    browserType)
+        {
+#if __WINDOWS__
+            _provider.SetFlow(ResponseTypeEnum.Token);
+#else
+            if (browserType == AuthenticationInterfaceEnum.Dedicated)
+            {
+                _provider.SetFlow(ResponseTypeEnum.Code);
+            }
+            else if (browserType == AuthenticationInterfaceEnum.Embedded)
+            {
+                _provider.SetFlow(ResponseTypeEnum.Token);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+#endif
+        }
 
         /// <summary>
         /// Authenticate a resource owner using the OAuth2 workflow
@@ -113,7 +74,6 @@ namespace Material.Infrastructure.OAuth
             ) :
             this(
                 clientId,
-                null,
                 callbackUrl,
                 new TResourceProvider(),
                 browserType)
@@ -144,14 +104,10 @@ namespace Material.Infrastructure.OAuth
                     callbackUrl,
                     new OAuthAuthorizerUIFactory(), 
                     provider,
-                    browserType,
-#if __WINDOWS__
-                    OAuthAppTypeEnum.Desktop
-#else
-                    OAuthAppTypeEnum.Mobile
-#endif
-            )
-        { }
+                    browserType)
+        {
+            _provider.SetFlow(ResponseTypeEnum.Code);
+        }
 
         /// <summary>
         /// Authenticate a resource owner using the OAuth2 workflow
@@ -170,36 +126,12 @@ namespace Material.Infrastructure.OAuth
             AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
 #endif
             ) :
-                base(
+                this(
                     clientId,
                     clientSecret,
                     callbackUrl,
-                    new OAuthAuthorizerUIFactory(),
                     new TResourceProvider(), 
-                    browserType,
-#if __WINDOWS__
-                    OAuthAppTypeEnum.Desktop
-#else
-                    OAuthAppTypeEnum.Mobile
-#endif
-            )
+                    browserType)
         { }
-
-        /// <summary>
-        /// Authenticates a resource owner using the OAuth2 workflow
-        /// Throws a NoConnectivityException if the platform does not have
-        /// internet access.
-        /// </summary>
-        /// <returns></returns>
-        public override Task<OAuth2Credentials> GetCredentialsAsync()
-        {
-            if (!Platform.Current.IsOnline)
-            {
-                throw new NoConnectivityException(
-                    StringResources.OfflineConnectivityException);
-            }
-
-            return base.GetCredentialsAsync();
-        }
     }
 }

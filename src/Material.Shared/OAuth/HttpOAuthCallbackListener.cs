@@ -7,23 +7,25 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class HttpOAuthCallbackListener : IOAuthCallbackListener
+    public class HttpOAuthCallbackListener<TCredentials> : 
+        IOAuthCallbackListener<TCredentials>
+        where TCredentials : TokenCredentials
     {
         private readonly HttpServer _httpServer;
-        private readonly IOAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public HttpOAuthCallbackListener(
             HttpServer httpServer, 
-            IOAuthCallbackHandler handler)
+            IOAuthCallbackHandler<TCredentials> handler)
         {
             _httpServer = httpServer;
             _handler = handler;
         }
 
-        public void Listen<TToken>(
+        public void Listen(
             Uri callbackUri,
-            TaskCompletionSource<TToken> completionSource) 
-            where TToken : TokenCredentials
+            string userId,
+            TaskCompletionSource<TCredentials> completionSource) 
         {
 #pragma warning disable 4014
             _httpServer.CreateServer(
@@ -33,8 +35,9 @@ namespace Material.Infrastructure.OAuth
                     try
                     {
                         var result = _handler
-                            .ParseAndValidateCallback<TToken>(
-                                request.Uri);
+                            .ParseAndValidateCallback(
+                                request.Uri,
+                                userId);
                         if (result != null)
                         {
                             completionSource.SetResult(result);
@@ -69,7 +72,6 @@ namespace Material.Infrastructure.OAuth
 						                xmlHttp.send(null);
 					                }
                                 }
-                                window.close();
 			                }
 			
 			                function parameterNullOrEmpty(name, url)

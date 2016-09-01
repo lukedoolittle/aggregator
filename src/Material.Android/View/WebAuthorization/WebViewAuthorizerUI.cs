@@ -13,25 +13,27 @@ using Material.Framework;
 
 namespace Material.View.WebAuthorization
 {
-    public class WebViewAuthorizerUI : IOAuthAuthorizerUI
+    public class WebViewAuthorizerUI<TCredentials> : IOAuthAuthorizerUI<TCredentials>
+        where TCredentials : TokenCredentials
     {
-        private readonly IOAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
-        public WebViewAuthorizerUI(IOAuthCallbackHandler handler)
+        public WebViewAuthorizerUI(
+            IOAuthCallbackHandler<TCredentials> handler)
         {
             _handler = handler;
         }
 
         //TODO: inject these static Platform references
-        public async Task<TToken> Authorize<TToken>(
+        public async Task<TCredentials> Authorize(
             Uri callbackUri,
-            Uri authorizationUri)
-            where TToken : TokenCredentials
+            Uri authorizationUri,
+            string userId)
         {
-            var taskCompletion = new TaskCompletionSource<TToken>();
+            var taskCompletion = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
             var context = Platform.Current.Context;
 
@@ -54,8 +56,9 @@ namespace Material.View.WebAuthorization
                             string.Empty);
                         
                         var result = _handler
-                            .ParseAndValidateCallback<TToken>(
-                                new Uri(url));
+                            .ParseAndValidateCallback(
+                                new Uri(url),
+                                userId);
                         taskCompletion.SetResult(result);
                         activity.Finish();
                     }

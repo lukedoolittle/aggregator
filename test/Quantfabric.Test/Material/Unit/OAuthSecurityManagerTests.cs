@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Xunit;

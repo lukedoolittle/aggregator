@@ -11,7 +11,6 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _redirectUrl;
         private readonly string _code;
         private readonly string _scope;
-        private readonly GrantTypeEnum _grantType;
 
         public OAuth2AccessToken(
             string clientId,
@@ -24,11 +23,6 @@ namespace Foundations.HttpClient.Authenticators
             {
                 throw new ArgumentNullException(nameof(clientId));
             }
-
-            //if (string.IsNullOrEmpty(clientSecret))
-            //{
-            //    throw new ArgumentNullException(nameof(clientSecret));
-            //}
 
             if (scope == null)
             {
@@ -50,7 +44,6 @@ namespace Foundations.HttpClient.Authenticators
             _redirectUrl = redirectUrl;
             _code = code;
             _scope = scope;
-            _grantType = GrantTypeEnum.AuthCode;
         }
 
         public void Authenticate(HttpRequest request)
@@ -70,7 +63,7 @@ namespace Foundations.HttpClient.Authenticators
                     _scope)
                 .Parameter(
                     OAuth2ParameterEnum.GrantType.EnumToString(),
-                    _grantType.EnumToString());
+                    GrantTypeEnum.AuthCode.EnumToString());
 
             if (_clientSecret != null)
             {

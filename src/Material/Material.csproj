@@ -50,7 +50,6 @@
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
-    <Compile Include="Enums\OAuthAppTypeEnum.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
@@ -171,6 +170,11 @@
     <Compile Include="OAuth\Authentication\OAuth2Authentication.cs" />
     <Compile Include="OAuth\Authentication\OAuthProtectedResource.cs" />
     <Compile Include="OAuth\BrowserAuthorizerUI.cs" />
+    <Compile Include="OAuth\Builder\IOAuth2TemplateBuilder.cs" />
+    <Compile Include="OAuth\Builder\OAuth1TemplateBuilder.cs" />
+    <Compile Include="OAuth\Builder\OAuth2CodeTemplateBuilder.cs" />
+    <Compile Include="OAuth\Builder\OAuth2TokenTemplateBuilder.cs" />
+    <Compile Include="OAuth\Callback\OAuth2FragmentCallbackHandler.cs" />
     <Compile Include="OAuth\OAuth1AppBase.cs" />
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />
@@ -179,7 +183,6 @@
     <Compile Include="OAuth\OAuthRequester.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth2QueryCallbackHandler.cs" />
-    <Compile Include="OAuth\OAuthBuilder.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\DeviceRequest.cs" />

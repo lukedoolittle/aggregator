@@ -25,6 +25,11 @@ namespace Material.Contracts
             string refreshToken,
             Dictionary<HttpRequestHeader, string> headers);
 
+        Task<OAuth2Credentials> GetClientAccessToken(
+            Uri accessUri,
+            string clientId,
+            string clientSecret);
+
         Task<OAuth2Credentials> GetAccessToken(
             Uri accessUrl,
             string clientId,

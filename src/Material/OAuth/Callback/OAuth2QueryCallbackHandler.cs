@@ -4,19 +4,19 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
+using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
-    public class OAuth2QueryCallbackHandler : OAuthCallbackHandlerBase
+    public class OAuth2QueryCallbackHandler : 
+        OAuthCallbackHandlerBase<OAuth2Credentials>
     {
         public OAuth2QueryCallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
-            string securityParameter, 
-            string userId) : 
+            string securityParameter) : 
                 base(
                     securityStrategy, 
                     securityParameter, 
-                    userId,
                     new HtmlSerializer())
         { }
 
@@ -26,34 +26,15 @@ namespace Material.OAuth
                 OAuth2ParameterEnum.Error.EnumToString());
         }
 
-        public override TToken ParseAndValidateCallback<TToken>(Uri responseUri)
+        public override OAuth2Credentials ParseAndValidateCallback(
+            Uri responseUri, 
+            string userId)
         {
-            var result = base.ParseAndValidateCallback<TToken>(responseUri);
+            var result = base.ParseAndValidateCallback(
+                responseUri,
+                userId);
 
             return result;
-        }
-    }
-
-    public class OAuth2FragmentCallbackHandler : OAuth2QueryCallbackHandler
-    {
-        public OAuth2FragmentCallbackHandler(
-            IOAuthSecurityStrategy securityStrategy, 
-            string securityParameter, 
-            string userId) : 
-                base(
-                    securityStrategy, 
-                    securityParameter, 
-                    userId)
-        { }
-
-        protected override string GetQuerystring(Uri uri)
-        {
-            if (!string.IsNullOrEmpty(uri.Fragment) && uri.Fragment != "#_=_")
-            {
-                return uri.Fragment.TrimStart('#');
-            }
-
-            return null;
         }
     }
 }

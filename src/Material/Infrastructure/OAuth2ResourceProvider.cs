@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using Foundations.HttpClient.Enums;
-using Material.Enums;
 using Material.Exceptions;
 
 namespace Material.Infrastructure
@@ -24,44 +23,8 @@ namespace Material.Infrastructure
         public virtual ResponseTypeEnum Flow { get; private set; }
 
         
-        public virtual OAuth2ResourceProvider SetFlow(
-            string clientId,
-            string clientSecret,
-            AuthenticationInterfaceEnum @interface,
-            OAuthAppTypeEnum appType)
+        public virtual OAuth2ResourceProvider SetFlow(ResponseTypeEnum flow)
         {
-            ResponseTypeEnum flow;
-
-            if (@interface == AuthenticationInterfaceEnum.Dedicated
-                && appType == OAuthAppTypeEnum.Desktop)
-            {
-                flow = clientSecret != null ?
-                    ResponseTypeEnum.Code :
-                    ResponseTypeEnum.Token;
-            }
-            else if (@interface == AuthenticationInterfaceEnum.Embedded
-                     && appType == OAuthAppTypeEnum.Desktop)
-            {
-                throw new NotSupportedException(
-                    StringResources.EmbeddedDesktopUINotSupportedException);
-            }
-            else if (@interface == AuthenticationInterfaceEnum.Dedicated
-                     && appType == OAuthAppTypeEnum.Mobile)
-            {
-                flow = ResponseTypeEnum.Code;
-            }
-            else if (@interface == AuthenticationInterfaceEnum.Embedded
-                     && appType == OAuthAppTypeEnum.Mobile)
-            {
-                flow = clientSecret != null ?
-                    ResponseTypeEnum.Code :
-                    ResponseTypeEnum.Token;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
             if (!Flows.Contains(flow))
             {
                 throw new InvalidGrantTypeException(

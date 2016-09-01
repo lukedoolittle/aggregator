@@ -2,13 +2,13 @@
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Template
+namespace Material.Infrastructure.OAuth.Template
 {
     public class OAuth2TokenAuthenticationTemplate :
         OAuthAuthenticationTemplateBase<OAuth2Credentials>
     {
         public OAuth2TokenAuthenticationTemplate(
-            IOAuthAuthorizerUI authorizerUI,
+            IOAuthAuthorizerUI<OAuth2Credentials> authorizerUI,
             IOAuthFacade<OAuth2Credentials> oauthFacade) :
                 base(
                     authorizerUI,

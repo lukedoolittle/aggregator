@@ -5,13 +5,14 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuthAuthorizerUI
+    public interface IOAuthAuthorizerUI<TCredentials>
+        where TCredentials : TokenCredentials
     {
         AuthenticationInterfaceEnum BrowserType { get; }
 
-        Task<TToken> Authorize<TToken>(
+        Task<TCredentials> Authorize(
             Uri callbackUri,
-            Uri authorizationUri)
-            where TToken : TokenCredentials;
+            Uri authorizationUri,
+            string userId);
     }
 }

@@ -2,7 +2,7 @@
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Template
+namespace Material.Infrastructure.OAuth.Template
 {
     public class OAuth2CodeAuthenticationTemplate : 
         OAuthAuthenticationTemplateBase<OAuth2Credentials>
@@ -10,7 +10,7 @@ namespace Material.OAuth.Template
         private readonly string _clientSecret;
 
         public OAuth2CodeAuthenticationTemplate(
-            IOAuthAuthorizerUI authorizerUI, 
+            IOAuthAuthorizerUI<OAuth2Credentials> authorizerUI, 
             IOAuthFacade<OAuth2Credentials> oauthFacade, 
             string clientSecret) : 
                 base(

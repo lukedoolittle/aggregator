@@ -4,7 +4,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Template
+namespace Material.Infrastructure.OAuth.Template
 {
     public class OAuth1AuthenticationTemplate :
         OAuthAuthenticationTemplateBase<OAuth1Credentials>
@@ -13,7 +13,7 @@ namespace Material.OAuth.Template
         private readonly string _userId;
 
         public OAuth1AuthenticationTemplate(
-            IOAuthAuthorizerUI authorizerUI, 
+            IOAuthAuthorizerUI<OAuth1Credentials> authorizerUI, 
             IOAuthFacade<OAuth1Credentials> oauthFacade, 
             IOAuthSecurityStrategy securityStrategy, 
             string userId) : 

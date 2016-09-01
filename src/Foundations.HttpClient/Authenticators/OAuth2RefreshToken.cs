@@ -9,7 +9,6 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly string _refreshToken;
-        private readonly GrantTypeEnum _grantType;
 
         public OAuth2RefreshToken(
             string clientId, 
@@ -34,7 +33,6 @@ namespace Foundations.HttpClient.Authenticators
             _clientId = clientId;
             _clientSecret = clientSecret;
             _refreshToken = refreshToken;
-            _grantType = GrantTypeEnum.RefreshToken;
         }
 
         public void Authenticate(HttpRequest request)
@@ -48,9 +46,9 @@ namespace Foundations.HttpClient.Authenticators
                     _clientSecret)
                 .Parameter(
                     OAuth2ParameterEnum.GrantType.EnumToString(),
-                    _grantType.EnumToString())
+                    GrantTypeEnum.RefreshToken.EnumToString())
                 .Parameter(
-                    GrantTypeEnum.RefreshToken.EnumToString(),
+                    OAuth2ParameterEnum.RefreshToken.EnumToString(),
                     _refreshToken);
         }
     }

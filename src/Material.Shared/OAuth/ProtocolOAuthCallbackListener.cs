@@ -6,19 +6,22 @@ using Material.Framework;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class ProtocolOAuthCallbackListener : IOAuthCallbackListener
+    public class ProtocolOAuthCallbackListener<TCredentials> : 
+        IOAuthCallbackListener<TCredentials>
+        where TCredentials : TokenCredentials
     {
-        private readonly IOAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
-        public ProtocolOAuthCallbackListener(IOAuthCallbackHandler handler)
+        public ProtocolOAuthCallbackListener(
+            IOAuthCallbackHandler<TCredentials> handler)
         {
             _handler = handler;
         }
 
-        public void Listen<TToken>(
+        public void Listen(
             Uri callbackUri, 
-            TaskCompletionSource<TToken> completionSource) 
-            where TToken : TokenCredentials
+            string userId,
+            TaskCompletionSource<TCredentials> completionSource) 
         {
             Platform.Current.ProtocolLaunch += (s, e) =>
             {
@@ -27,8 +30,9 @@ namespace Material.Infrastructure.OAuth
                     try
                     {
                         var result = _handler
-                            .ParseAndValidateCallback<TToken>(
-                                e.Uri);
+                            .ParseAndValidateCallback(
+                                e.Uri,
+                                userId);
                         if (result != null)
                         {
                             completionSource.SetResult(result);

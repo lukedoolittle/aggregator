@@ -7,6 +7,8 @@ namespace Foundations.HttpClient.Enums
         [Description("authorization_code")]
         AuthCode,
         [Description("refresh_token")]
-        RefreshToken
+        RefreshToken,
+        [Description("client_credentials")]
+        ClientCredentials
     }
 }

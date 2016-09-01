@@ -4,11 +4,12 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuthCallbackListener
+    public interface IOAuthCallbackListener<TCredentials>
+        where TCredentials : TokenCredentials
     {
-        void Listen<TToken>(
+        void Listen(
             Uri callbackUri,
-            TaskCompletionSource<TToken> completionSource)
-            where TToken : TokenCredentials;
+            string userId,
+            TaskCompletionSource<TCredentials> completionSource);
     }
 }

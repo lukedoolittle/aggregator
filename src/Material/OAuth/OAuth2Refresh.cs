@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 
 namespace Material.Infrastructure.OAuth
 {

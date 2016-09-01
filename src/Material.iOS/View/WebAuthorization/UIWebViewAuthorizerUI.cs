@@ -11,24 +11,27 @@ using Material.Framework;
 namespace Material.View.WebAuthorization
 {
     //TODO: inject these static Platform references
-    public class UIWebViewAuthorizerUI : IOAuthAuthorizerUI
+    public class UIWebViewAuthorizerUI<TCredentials> : 
+        IOAuthAuthorizerUI<TCredentials>
+        where TCredentials : TokenCredentials
     {
-        private readonly IOAuthCallbackHandler _handler;
+        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
-        public UIWebViewAuthorizerUI(IOAuthCallbackHandler handler)
+        public UIWebViewAuthorizerUI(
+            IOAuthCallbackHandler<TCredentials> handler)
         {
             _handler = handler;
         }
 
-        public async Task<TToken> Authorize<TToken>(
+        public async Task<TCredentials> Authorize(
             Uri callbackUri, 
-            Uri authorizationUri)
-            where TToken : TokenCredentials
+            Uri authorizationUri,
+            string userId)
         {
-            var taskCompletionSource = new TaskCompletionSource<TToken>();
+            var taskCompletionSource = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
 
             Platform.Current.RunOnMainThread(async () =>
@@ -57,8 +60,9 @@ namespace Material.View.WebAuthorization
                             new NSUrl("/"));
 
                         var result = _handler
-                            .ParseAndValidateCallback<TToken>(
-                                new Uri(request.Url.ToString()));
+                            .ParseAndValidateCallback(
+                                new Uri(request.Url.ToString()),
+                                userId);
                         taskCompletionSource.SetResult(result);
 
                         controller.DismissViewController(false, null);

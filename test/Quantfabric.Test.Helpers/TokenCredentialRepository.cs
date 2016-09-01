@@ -11,7 +11,7 @@ namespace Quantfabric.Test.TestHelpers
     public class TokenCredentialRepository
     {
         private const string SETTINGS_FILE_NAME = "Quantfabric.Test.testCredentials.json";
-        private const string _pathToTestCredentials = "../../../Quantfabric.Test/testCredentials.json";
+        private const string _pathToTestCredentials = "../../../Quantfabric.Test.Helpers/testCredentials.json";
 
         private JObject CredentialSettings
         {

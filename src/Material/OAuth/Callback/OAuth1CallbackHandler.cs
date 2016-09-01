@@ -3,20 +3,18 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
-using Material.Enums;
+using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
-    public class OAuth1CallbackHandler : OAuthCallbackHandlerBase
+    public class OAuth1CallbackHandler : OAuthCallbackHandlerBase<OAuth1Credentials>
     {
         public OAuth1CallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
-            string securityParameter, 
-            string userId) :
+            string securityParameter) :
                 base(
                     securityStrategy,
                     securityParameter, 
-                    userId,
                     new HtmlSerializer())
         { }
 

@@ -3,7 +3,7 @@ using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class RefreshTokenFacade : IRefreshTokenFacade
     {

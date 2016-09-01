@@ -3,17 +3,17 @@ using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public abstract class OAuthAuthenticationTemplateBase<TCredentials> : 
         IOAuthAuthenticationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly IOAuthAuthorizerUI _authorizerUI;
+        private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
         protected readonly IOAuthFacade<TCredentials> _oauthFacade;
 
         protected OAuthAuthenticationTemplateBase(
-            IOAuthAuthorizerUI authorizerUI, 
+            IOAuthAuthorizerUI<TCredentials> authorizerUI, 
             IOAuthFacade<TCredentials> oauthFacade)
         {
             _authorizerUI = authorizerUI;
@@ -26,7 +26,8 @@ namespace Material.OAuth
                 .ConfigureAwait(false);
 
             var intermediateResult = await GetIntermediateResult(
-                    authorizationPath)
+                    authorizationPath,
+                    userId)
                 .ConfigureAwait(false);
 
             return await GetAccessTokenFromIntermediateResult(
@@ -40,12 +41,14 @@ namespace Material.OAuth
         }
 
         protected virtual Task<TCredentials> GetIntermediateResult(
-            Uri authorizationPath)
+            Uri authorizationPath,
+            string userId)
         {
             //TODO: move the CallbackUri property out of IOAuthFacade and into IOAuthAuthorizerUI: makes more sense there
-            return _authorizerUI.Authorize<TCredentials>(
+            return _authorizerUI.Authorize(
                 _oauthFacade.CallbackUri,
-                authorizationPath);
+                authorizationPath,
+                userId);
         }
 
         protected abstract Task<TCredentials> GetAccessTokenFromIntermediateResult(

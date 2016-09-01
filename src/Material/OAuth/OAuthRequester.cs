@@ -2,7 +2,7 @@
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 
 namespace Material
 {

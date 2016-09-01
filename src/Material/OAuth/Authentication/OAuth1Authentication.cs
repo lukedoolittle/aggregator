@@ -11,7 +11,7 @@ using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuth1Authentication : IOAuth1Authentication
     {
