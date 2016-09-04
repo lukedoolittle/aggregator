@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IClientCredentials.cs" />
+    <Compile Include="Contracts\IClientTokenFacade.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="OAuth\OAuth1AppBase.cs" />
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />
+    <Compile Include="OAuth\OAuth2Client.cs" />
     <Compile Include="OAuth\OAuth2Refresh.cs" />
     <Compile Include="OAuth\OAuth2Web.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />
@@ -208,7 +210,7 @@
     <Compile Include="OAuth\Template\OAuth2TokenAuthenticationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OAuth\Template\OAuthAuthenticationTemplate.cs" />
-    <Compile Include="OAuth\Facade\RefreshTokenFacade.cs" />
+    <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />
     <Compile Include="Infrastructure\Request.cs" />
     <Compile Include="Infrastructure\ResourceProvider.cs" />
     <Compile Include="StringResources.Designer.cs">
@@ -219,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Swagger\omniture.json" />
     <None Include="Swagger\twentythreeandme.json" />
     <None Include="Swagger\fitbit.json" />
     <None Include="Swagger\spotify.json" />
