@@ -1,0 +1,52 @@
+﻿<div class="jumbotron">
+    <h1>Quantfabric Material OAuth Tests</h1>
+    <p class="lead">Click to authenticate with one of the given providers.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Facebook", "Facebook", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Twitter", "Twitter", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Withings", "Withings", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Google", "Google", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Spotify", "Spotify", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Linkedin", "Linkedin", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Rescuetime", "Rescuetime", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Runkeeper", "Runkeeper", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Fitbit", "Fitbit", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("23AndMe", "TwentyThreeAndMe", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Foursquare", "Foursquare", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Fatsecret", "Fatsecret", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p>AccessToken: @(Request.QueryString["accesstoken"])</p>
+        <p>OAuthToken: @(Request.QueryString["oauthtoken"])</p>
+        <p>OAuthSecret: @(Request.QueryString["oauthsecret"])</p>
+    </div>
+</div>

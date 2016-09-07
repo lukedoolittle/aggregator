@@ -13,7 +13,8 @@ namespace Material.Facades
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
-
+        private readonly TResourceProvider _resourceProvider = 
+            new TResourceProvider();
         /// <summary>
         /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
@@ -38,7 +39,7 @@ namespace Material.Facades
             //userId);
 
             _authFacade = new OAuth2AuthenticationFacade(
-                new TResourceProvider(),
+                _resourceProvider,
                 clientId,
                 callbackUri,
                 new OAuth2Authentication(),
@@ -64,7 +65,7 @@ namespace Material.Facades
                 OAuth2ParameterEnum.State.EnumToString());
 
             _authFacade = new OAuth2AuthenticationFacade(
-                    new TResourceProvider(),
+                    _resourceProvider,
                     clientId,
                     callbackUri,
                     new OAuth2Authentication(),
@@ -106,6 +107,19 @@ namespace Material.Facades
             string secret)
         {
             return _authFacade.GetAccessTokenAsync(result, secret);
+        }
+
+        /// <summary>
+        /// Adds scope to be requested with OAuth2 authentication
+        /// </summary>
+        /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
+        /// <returns>The current instance</returns>
+        public OAuth2Web<TResourceProvider> AddScope<TRequest>()
+            where TRequest : OAuthRequest, new()
+        {
+            _resourceProvider.AddRequestScope<TRequest>();
+
+            return this;
         }
     }
 }

@@ -124,12 +124,10 @@ To obtain the redirect url for authorization on the resource providers server:
 
 	//OPTIONALLY: inject the OAuth2Web instance into your class or method
 	string clientId = "YOUR CLIENT ID";
-	string clientSecret = "YOUR CLIENT SECRET";
 	string callbackUri = "HTTP://YOURCALLBACKURI";
 	
 	OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
-		clientId, 
-		clientSecret, 
+		clientId,  
 		callbackUri);
         
 	string userId = "SOMEUSERID";  //some unique identifier stored in a cookie or session state
@@ -160,7 +158,7 @@ To handle the callback to your server (assume this callback is an endpoint `Face
 			clientSecret, 
 			callbackUri);
 
-		var userId = Request.Cookies["userId"];
+		var userId = Request.Cookies["userId"]?.Value;
 		var url = ControllerContext.HttpContext.Request.Url;
         
 		OAuth2Credentials intermediateCredentials = oauth
