@@ -10,7 +10,6 @@ using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Adapters
 {
-    //TODO: inject these static Platform references
     public class BluetoothAdapter : IBluetoothAdapter
     {
         private readonly IAdapter _adapter;

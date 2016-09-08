@@ -27,7 +27,6 @@ namespace Material.View.WebAuthorization
             _callbackUri = callbackUri;
         }
 
-        //TODO: inject these static platform references
         public async Task<TCredentials> Authorize(
             Uri authorizationUri,
             string userId)

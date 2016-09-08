@@ -10,6 +10,7 @@ using Foundations.Extensions;
 using Foundations.Http;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Exceptions;
 using Foundations.HttpClient.ParameterHandlers;
 using Foundations.HttpClient.Serialization;
 
@@ -300,6 +301,7 @@ namespace Foundations.HttpClient
                 content, 
                 encoding, 
                 mediaType);
+
             return this;
         }
 
@@ -353,8 +355,10 @@ namespace Foundations.HttpClient
                 }
                 else
                 {
-                    //TODO: allow content
-                    throw new NotImplementedException();
+                    if (_queryParameters.Count > 0)
+                    {
+                        throw new HttpRequestContentException();
+                    }
                 }
 
                 var response = await client

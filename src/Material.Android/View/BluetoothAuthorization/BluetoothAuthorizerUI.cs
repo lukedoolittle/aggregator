@@ -18,7 +18,6 @@ namespace Material.View.BluetoothAuthorization
             _adapter = adapter;
         }
 
-        //TODO: inject these static Platform references
         public async Task<BluetoothCredentials> GetDeviceUuid()
         {
             var activityCompletionSource = new TaskCompletionSource<DeviceListActivity>();

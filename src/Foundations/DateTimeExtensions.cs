@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Aggregator.Framework.Extensions
+namespace Foundations
 {
-    //TODO: remove this after we do the FilterableRequest and TimeseriesRequest
     public static class DateTimeExtensions
     {
         /// <summary>

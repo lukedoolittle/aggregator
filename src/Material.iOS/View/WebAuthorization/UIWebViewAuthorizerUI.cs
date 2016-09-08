@@ -10,7 +10,6 @@ using Material.Framework;
 
 namespace Material.View.WebAuthorization
 {
-    //TODO: inject these static Platform references
     public class UIWebViewAuthorizerUI<TCredentials> : 
         IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Aggregator.Framework.Extensions;
+using Foundations;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

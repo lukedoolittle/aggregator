@@ -60,6 +60,7 @@
     <Compile Include="Enums\OAuth2ParameterEnum.cs" />
     <Compile Include="Enums\OAuthParameterTypeEnum.cs" />
     <Compile Include="Enums\ResponseTypeEnum.cs" />
+    <Compile Include="Exceptions\HttpRequestContentException.cs" />
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
     <Compile Include="Extensions\UrlEncodingExtensions.cs" />

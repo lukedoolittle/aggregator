@@ -8,7 +8,6 @@ using UIKit;
 
 namespace Material.View.BluetoothAuthorization
 {
-    //TODO: inject these static Platform references
     public class BluetoothAuthorizerUI : IBluetoothAuthorizerUI
     {
         private readonly IBluetoothAdapter _adapter;
