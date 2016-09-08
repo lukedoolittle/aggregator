@@ -257,8 +257,6 @@ namespace CodeGen
                             }
 
                             var name = CreateCSharpPropertyName(parameter["name"].ToString());
-                            //TODO: here we have to determine if this will constitute a new enum
-                            //and then figure out how to represent that new enum as part of this property
 
                             PropertyRepresentation property = null;
 

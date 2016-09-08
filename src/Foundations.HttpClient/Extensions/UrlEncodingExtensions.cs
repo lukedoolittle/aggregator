@@ -17,19 +17,14 @@ namespace Foundations.HttpClient.Extensions
                 throw new NullReferenceException();
             }
 
-            //TODO: this logic exists twice
-            var builder = new StringBuilder();
-
-            var separator = "";
-            foreach (var kvp in queryParameters)
-            {
-                builder.Append($"{separator}{kvp.Key.UrlEncodeStrict()}={kvp.Value.UrlEncodeStrict()}");
-                separator = "&";
-            }
+            var querstring = queryParameters.ToDictionary(
+                    d => d.Key.UrlEncodeStrict(), 
+                    d => d.Value.UrlEncodeStrict())
+                .Concatenate("=", "&");
 
             var uriBuilder = new UriBuilder(instance)
             {
-                Query = builder.ToString()
+                Query = querstring
             };
             return uriBuilder.Uri;
         }

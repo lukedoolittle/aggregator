@@ -85,7 +85,8 @@ namespace Material.Infrastructure.OAuth
                     facade,
                     _browserType,
                     userId,
-                    _clientSecret);
+                    _clientSecret,
+                    new Uri(_callbackUrl));
 
             return template.GetAccessTokenCredentials(userId);
         }

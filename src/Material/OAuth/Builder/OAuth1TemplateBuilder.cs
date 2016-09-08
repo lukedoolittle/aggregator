@@ -1,8 +1,8 @@
-﻿using Foundations.Extensions;
+﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
-using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth.Template;
 
@@ -56,13 +56,15 @@ namespace Material.Infrastructure.OAuth.Builder
         public IOAuthAuthenticationTemplate<OAuth1Credentials> BuildTemplate<TResourceProvider>(
             IOAuthFacade<OAuth1Credentials> authentication,
             AuthenticationInterfaceEnum ui,
-            string userId)
+            string userId,
+            Uri callbackUri)
             where TResourceProvider : ResourceProvider
         {
             var authenticationUI = _oauthAuthorizerUIFactory
                 .GetAuthorizer<TResourceProvider, OAuth1Credentials>(
                     ui,
-                    authentication);
+                    authentication,
+                    callbackUri);
 
             return new OAuth1AuthenticationTemplate(
                 authenticationUI,

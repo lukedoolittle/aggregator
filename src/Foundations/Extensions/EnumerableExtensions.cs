@@ -34,55 +34,66 @@ namespace Foundations.Extensions
             return instance.All(set.Contains);
         }
 
-        //TODO: clean this up and comment
+        /// <summary>
+        /// Converts a dictionary into a string with given seperator and spacer
+        /// </summary>
+        /// <param name="collection">Collection to contatenate</param>
+        /// <param name="separator">String to seperate each key and value</param>
+        /// <param name="spacer">String to seperate each key-value pair</param>
+        /// <returns></returns>
         public static string Concatenate(
             this IEnumerable<KeyValuePair<string, string>> collection, 
             string separator, 
             string spacer)
         {
-            StringBuilder sb = new StringBuilder();
-            int total = collection.Count();
-            int count = 0;
+            var stringBuilder = new StringBuilder();
+            var total = collection.Count();
+            var count = 0;
 
             foreach (var item in collection)
             {
-                sb.Append(item.Key);
-                sb.Append(separator);
-                sb.Append(item.Value);
+                stringBuilder.Append(item.Key);
+                stringBuilder.Append(separator);
+                stringBuilder.Append(item.Value);
 
                 count++;
 
                 if (count < total)
                 {
-                    sb.Append(spacer);
+                    stringBuilder.Append(spacer);
                 }
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
 
-        //TODO: clean this up and comment
+        /// <summary>
+        /// Concatenate a list of strings together, joining with a seperator
+        /// </summary>
+        /// <param name="strings">List of string to concatenate</param>
+        /// <param name="separator">Seperator to put between each string</param>
+        /// <returns></returns>
         public static string Concatenate(
             this IEnumerable<string> strings,
             string separator)
         {
-            StringBuilder sb = new StringBuilder();
-            int total = strings.Count();
-            int count = 0;
+            var stringBuilder = new StringBuilder();
+            var total = strings.Count();
+            var count = 0;
 
             foreach (var item in strings)
             {
-                sb.Append(item);
+                stringBuilder.Append(item);
 
                 count++;
 
                 if (count < total)
                 {
-                    sb.Append(separator);
+                    stringBuilder.Append(separator);
                 }
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
     }
 }

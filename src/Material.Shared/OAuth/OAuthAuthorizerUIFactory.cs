@@ -17,7 +17,8 @@ namespace Material.Infrastructure.OAuth
     {
         public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TResourceProvider, TCredentials>(
             AuthenticationInterfaceEnum browserType,
-            IOAuthCallbackHandler<TCredentials> callbackHandler)
+            IOAuthCallbackHandler<TCredentials> callbackHandler,
+            Uri callbackUri)
             where TResourceProvider : ResourceProvider
             where TCredentials : TokenCredentials
         {
@@ -28,9 +29,12 @@ namespace Material.Infrastructure.OAuth
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             callbackHandler),
-                        Platform.Current);
+                        Platform.Current,
+                        callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
-                    return new WebViewAuthorizerUI<TCredentials>(callbackHandler);
+                    return new WebViewAuthorizerUI<TCredentials>(
+                        callbackHandler,
+                        callbackUri);
                 default:
                     throw new NotSupportedException();
             }
@@ -41,9 +45,12 @@ namespace Material.Infrastructure.OAuth
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             callbackHandler),
-                        Platform.Current);
+                        Platform.Current,
+                        callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
-                    return new UIWebViewAuthorizerUI<TCredentials>(callbackHandler);
+                    return new UIWebViewAuthorizerUI<TCredentials>(
+                        callbackHandler,
+                        callbackUri);
                 default:
                     throw new NotSupportedException();
             }
@@ -65,7 +72,8 @@ namespace Material.Infrastructure.OAuth
                 new HttpOAuthCallbackListener<TCredentials>(
                     new HttpServer(), 
                     callbackHandler), 
-                Platform.Current);
+                Platform.Current,
+                callbackUri);
 #else
             throw new NotSupportedException();
 #endif

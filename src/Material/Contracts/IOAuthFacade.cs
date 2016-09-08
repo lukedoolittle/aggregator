@@ -8,8 +8,6 @@ namespace Material.Contracts
         IOAuthCallbackHandler<TCredentials>
         where TCredentials : TokenCredentials
     {
-        Uri CallbackUri { get; }
-
         Task<Uri> GetAuthorizationUriAsync(string userId);
 
         Task<TCredentials> GetAccessTokenAsync(

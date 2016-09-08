@@ -80,15 +80,6 @@ namespace Foundations.Http
             End();
         }
 
-        public void WriteHtml(string fileName)
-        {
-            WriteHead(HttpStatusCode.OK);
-            WriteHead(HttpRequestHeader.ContentType, "text/html");
-            //TODO: what if file.readalltext doesnt work???
-            Write(File.ReadAllText(fileName));
-            End();
-        }
-
         public void End(bool failSilently = true)
         {
             try

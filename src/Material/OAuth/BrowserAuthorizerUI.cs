@@ -10,6 +10,7 @@ namespace Material.Infrastructure
         IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
+        private readonly Uri _callbackUri;
         private readonly IBrowser _browser;
         private readonly IOAuthCallbackListener<TCredentials> _listener;
 
@@ -18,21 +19,21 @@ namespace Material.Infrastructure
 
         public BrowserAuthorizerUI(
             IOAuthCallbackListener<TCredentials> listener,
-            IBrowser browser)
+            IBrowser browser, Uri callbackUri)
         {
             _listener = listener;
             _browser = browser;
+            _callbackUri = callbackUri;
         }
 
         public Task<TCredentials> Authorize(
-            Uri callbackUri, 
             Uri authorizationUri,
             string userId)
         {
             var taskCompletion = new TaskCompletionSource<TCredentials>();
 
             _listener.Listen(
-                callbackUri, 
+                _callbackUri, 
                 userId,
                 taskCompletion);
 

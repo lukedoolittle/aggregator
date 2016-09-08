@@ -15,9 +15,8 @@ namespace Material.Infrastructure.OAuth
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuth2Authentication _oauth;
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _handler;
+        private readonly string _callbackUri;
         protected readonly IOAuthSecurityStrategy _strategy;
-
-        public Uri CallbackUri { get; }
 
         public OAuth2AuthenticationFacade(
             OAuth2ResourceProvider resourceProvider,
@@ -29,7 +28,7 @@ namespace Material.Infrastructure.OAuth
         {
             _clientId = clientId;
             _resourceProvider = resourceProvider;
-            CallbackUri = new Uri(callbackUri);
+            _callbackUri = callbackUri;
             _oauth = oauth;
             _strategy = strategy;
             _handler = handler;
@@ -51,7 +50,7 @@ namespace Material.Infrastructure.OAuth
                     _resourceProvider.AuthorizationUrl,
                     _clientId,
                     _resourceProvider.Scope,
-                    CallbackUri,
+                    new Uri(_callbackUri), 
                     state,
                     _resourceProvider.Flow,
                     _resourceProvider.Parameters);
@@ -92,7 +91,7 @@ namespace Material.Infrastructure.OAuth
                 _resourceProvider.TokenUrl,
                 _clientId,
                 secret,
-                CallbackUri,
+                new Uri(_callbackUri),
                 result.Code,
                 _resourceProvider.Scope,
                 _resourceProvider.Headers)

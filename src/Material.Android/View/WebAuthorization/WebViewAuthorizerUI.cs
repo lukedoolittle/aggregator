@@ -16,20 +16,22 @@ namespace Material.View.WebAuthorization
     public class WebViewAuthorizerUI<TCredentials> : IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
+        private readonly Uri _callbackUri;
         private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
         public WebViewAuthorizerUI(
-            IOAuthCallbackHandler<TCredentials> handler)
+            IOAuthCallbackHandler<TCredentials> handler,
+            Uri callbackUri)
         {
             _handler = handler;
+            _callbackUri = callbackUri;
         }
 
         //TODO: inject these static Platform references
         public async Task<TCredentials> Authorize(
-            Uri callbackUri,
             Uri authorizationUri,
             string userId)
         {
@@ -47,7 +49,7 @@ namespace Material.View.WebAuthorization
             activity.View.SetWebViewClient(
                 new AuthorizingWebViewClient((view, url, favicon) =>
                 {
-                    if (url.Contains(callbackUri.AbsoluteUri))
+                    if (url.Contains(_callbackUri.AbsoluteUri))
                     {
                         view.StopLoading();
                         view.LoadData(

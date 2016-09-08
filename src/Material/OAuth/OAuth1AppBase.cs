@@ -60,7 +60,8 @@ namespace Material.Infrastructure.OAuth
             var template = builder.BuildTemplate<TResourceProvider>(
                 facade,
                 _browserType,
-                userId);
+                userId,
+                new Uri(_callbackUrl));
 
             return template.GetAccessTokenCredentials(userId);
         }

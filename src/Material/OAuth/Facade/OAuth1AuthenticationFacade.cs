@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
@@ -16,9 +15,8 @@ namespace Material.Infrastructure.OAuth
         private readonly string _consumerSecret;
         private readonly IOAuth1Authentication _oauth;
         private readonly IOAuthCallbackHandler<OAuth1Credentials> _handler;
+        private readonly string _callbackUri;
         protected readonly IOAuthSecurityStrategy _securityStrategy;
-
-        public Uri CallbackUri { get; }
 
         public OAuth1AuthenticationFacade(
             OAuth1ResourceProvider resourceProvider,
@@ -35,7 +33,7 @@ namespace Material.Infrastructure.OAuth
             _oauth = oauth;
             _securityStrategy = securityStrategy;
             _handler = handler;
-            CallbackUri = new Uri(callbackUrl);
+            _callbackUri = callbackUrl;
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace Material.Infrastructure.OAuth
                         _consumerKey,
                         _consumerSecret,
                         _resourceProvider.ParameterType,
-                        CallbackUri)
+                        new Uri(_callbackUri))
                     .ConfigureAwait(false);
 
             var authorizationPath =

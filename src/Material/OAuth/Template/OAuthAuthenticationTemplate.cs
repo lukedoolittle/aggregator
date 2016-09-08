@@ -4,7 +4,7 @@ using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
-{
+{ 
     public abstract class OAuthAuthenticationTemplateBase<TCredentials> : 
         IOAuthAuthenticationTemplate<TCredentials>
         where TCredentials : TokenCredentials
@@ -44,9 +44,7 @@ namespace Material.Infrastructure.OAuth
             Uri authorizationPath,
             string userId)
         {
-            //TODO: move the CallbackUri property out of IOAuthFacade and into IOAuthAuthorizerUI: makes more sense there
             return _authorizerUI.Authorize(
-                _oauthFacade.CallbackUri,
                 authorizationPath,
                 userId);
         }

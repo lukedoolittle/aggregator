@@ -132,7 +132,6 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        //TODO: add response serializers here
         public HttpRequest AcceptsJson()
         {
             return Accepts(MediaTypeEnum.Json);

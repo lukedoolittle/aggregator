@@ -1,7 +1,8 @@
-﻿using Material.Contracts;
+﻿using System;
+using Material.Contracts;
 using Material.Enums;
-using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+
 namespace Material.Infrastructure.OAuth.Builder
 {
     public interface IOAuth2TemplateBuilder
@@ -21,7 +22,8 @@ namespace Material.Infrastructure.OAuth.Builder
             IOAuthFacade<OAuth2Credentials> authentication,
             AuthenticationInterfaceEnum ui,
             string userId,
-            string clientSecret)
+            string clientSecret,
+            Uri callbackUri)
             where TResourceProvider : ResourceProvider;
     }
 }

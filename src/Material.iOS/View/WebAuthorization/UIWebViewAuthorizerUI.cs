@@ -15,19 +15,21 @@ namespace Material.View.WebAuthorization
         IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
+        private readonly Uri _callbackUri;
         private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthenticationInterfaceEnum BrowserType => 
             AuthenticationInterfaceEnum.Embedded;
 
         public UIWebViewAuthorizerUI(
-            IOAuthCallbackHandler<TCredentials> handler)
+            IOAuthCallbackHandler<TCredentials> handler, 
+            Uri callbackUri)
         {
             _handler = handler;
+            _callbackUri = callbackUri;
         }
 
         public async Task<TCredentials> Authorize(
-            Uri callbackUri, 
             Uri authorizationUri,
             string userId)
         {
@@ -53,7 +55,7 @@ namespace Material.View.WebAuthorization
                 webView.LoadRequest(new NSUrlRequest(new NSUrl(authorizationUri.ToString())));
                 webView.ShouldStartLoad = (view, request, type) =>
                 {
-                    if (request.Url.ToString().Contains(callbackUri.ToString()))
+                    if (request.Url.ToString().Contains(_callbackUri.ToString()))
                     {
                         webView.LoadHtmlString(
                             StringResources.OAuthCallbackResponse,

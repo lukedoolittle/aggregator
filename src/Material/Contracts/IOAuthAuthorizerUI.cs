@@ -11,7 +11,6 @@ namespace Material.Contracts
         AuthenticationInterfaceEnum BrowserType { get; }
 
         Task<TCredentials> Authorize(
-            Uri callbackUri,
             Uri authorizationUri,
             string userId);
     }

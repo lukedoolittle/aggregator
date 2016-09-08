@@ -1,4 +1,5 @@
-﻿using Material.Enums;
+﻿using System;
+using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
@@ -8,7 +9,8 @@ namespace Material.Contracts
     {
         IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TService, TCredentials>(
             AuthenticationInterfaceEnum browserType,
-            IOAuthCallbackHandler<TCredentials> handler)
+            IOAuthCallbackHandler<TCredentials> handler,
+            Uri callbackUri)
             where TService : ResourceProvider
             where TCredentials : TokenCredentials;
     }
