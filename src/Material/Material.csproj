@@ -53,6 +53,7 @@
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
+    <Compile Include="Exceptions\InvalidFlowTypeException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUI.cs" />
     <Compile Include="Contracts\IOAuthAuthenticationTemplate.cs" />

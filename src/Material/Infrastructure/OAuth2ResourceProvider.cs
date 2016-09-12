@@ -27,9 +27,9 @@ namespace Material.Infrastructure
         {
             if (!Flows.Contains(flow))
             {
-                throw new InvalidGrantTypeException(
+                throw new InvalidFlowTypeException(
                     string.Format(
-                        StringResources.GrantTypeNotSupportedException,
+                        StringResources.FlowTypeNotSupportedException,
                         GetType().Name));
             }
 

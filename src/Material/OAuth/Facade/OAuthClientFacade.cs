@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
+using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
@@ -21,6 +23,15 @@ namespace Material.Infrastructure.OAuth
             where TResourceProvider : OAuth2ResourceProvider, new()
         {
             var provider = new TResourceProvider();
+
+            if (!provider.GrantTypes.Contains(GrantTypeEnum.ClientCredentials))
+            {
+                throw new InvalidGrantTypeException(
+                    string.Format(
+                        StringResources.GrantTypeNotSupportedException,
+                        GrantTypeEnum.ClientCredentials,
+                        provider.GetType().Name));
+            }
 
             var token = await _oauth.GetClientAccessToken(
                     provider.TokenUrl, 
@@ -44,6 +55,15 @@ namespace Material.Infrastructure.OAuth
             if (provider == null)
             {
                 provider = new TResourceProvider();
+            }
+
+            if (!provider.GrantTypes.Contains(GrantTypeEnum.RefreshToken))
+            {
+                throw new InvalidGrantTypeException(
+                    string.Format(
+                        StringResources.GrantTypeNotSupportedException, 
+                        GrantTypeEnum.RefreshToken, 
+                        provider.GetType().Name));
             }
 
             provider.SetClientProperties(

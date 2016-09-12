@@ -6,14 +6,16 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Integration
 {
-    public class OAuthRefreshTokenTests
+    public class OAuth2RefreshTokenTests
     {
         private readonly TokenCredentialRepository _tokenRepository;
 
-        public OAuthRefreshTokenTests()
+        public OAuth2RefreshTokenTests()
         {
             _tokenRepository = new TokenCredentialRepository(true);
         }
+
+        //TODO: put in other (exception) tests for refresh tokens
 
         [Fact]
         public async void RefreshTokenTaskForGmailGivesANewToken()

@@ -116,6 +116,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must provide a Client Secret; token flow is not supported with the service {0}.
+        /// </summary>
+        public static string FlowTypeNotSupportedException {
+            get {
+                return ResourceManager.GetString("FlowTypeNotSupportedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given type is not a subclass of Event.
         /// </summary>
         public static string GenericTypeException {
@@ -152,7 +161,7 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Must provide a Client Secret; token flow is not supported with the service {0}.
+        ///   Looks up a localized string similar to Cannot use Grant Type {0} with resource provider {1}.
         /// </summary>
         public static string GrantTypeNotSupportedException {
             get {

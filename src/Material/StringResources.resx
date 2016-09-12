@@ -133,7 +133,7 @@
     <value>Could not get a GPS lock in the given timeout period</value>
   </data>
   <data name="GrantTypeNotSupportedException" xml:space="preserve">
-    <value>Must provide a Client Secret; token flow is not supported with the service {0}</value>
+    <value>Cannot use Grant Type {0} with resource provider {1}</value>
   </data>
   <data name="OAuthCallbackResponse" xml:space="preserve">
     <value>Thanks for sharing!</value>
@@ -161,5 +161,8 @@
   </data>
   <data name="EmbeddedDesktopUINotSupportedException" xml:space="preserve">
     <value>Embedded browser type is not supported in a Windows Desktop application</value>
+  </data>
+  <data name="FlowTypeNotSupportedException" xml:space="preserve">
+    <value>Must provide a Client Secret; token flow is not supported with the service {0}</value>
   </data>
 </root>
