@@ -63,6 +63,10 @@
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\src\Foundations\Foundations.csproj">
+      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
+      <Name>Foundations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\Material\Material.csproj">
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Material</Name>
@@ -74,7 +78,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)CodeGen.dll" "$(SolutionDir)src\Material\bin\Debug" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)CodeGen.dll" "$(SolutionDir)src\Material\bin\Debug" /Y
+xcopy "$(TargetDir)Newtonsoft.Json.dll" "$(SolutionDir)src\Material\bin\Debug" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

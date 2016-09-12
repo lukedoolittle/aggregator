@@ -104,6 +104,7 @@
             "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
             "tokenUrl": "https://accounts.google.com/o/oauth2/token",
             "x-token-name": "Bearer",
+            "x-grant-types":  ["authorization_code", "refresh_token"],
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly" : "readonly access to gmail" 
             }

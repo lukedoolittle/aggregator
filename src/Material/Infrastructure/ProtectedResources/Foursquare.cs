@@ -14,9 +14,10 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Foursquare : OAuth2ResourceProvider              
 	{
         public override Uri AuthorizationUrl => new Uri("https://foursquare.com/oauth2/authorize");
-        public override Uri TokenUrl => new Uri("https://foursquare.com/oauth2/access_token");
         public override List<String> AvailableScopes => new List<String>();
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code, ResponseTypeEnum.Token };
+        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode };
         public override String TokenName => "oauth_token";
+        public override Uri TokenUrl => new Uri("https://foursquare.com/oauth2/access_token");
 	}
 }

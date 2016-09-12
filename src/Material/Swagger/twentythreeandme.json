@@ -82,6 +82,7 @@
             "authorizationUrl": "https://api.23andme.com/authorize/",
             "tokenUrl": "https://api.23andme.com/token/",
             "x-token-name": "Bearer",
+            "x-grant-types":  ["authorization_code", "refresh_token"],
             "scopes": {
                 "basic": "Read a profile's service type (ancestry or health and ancestry)",
                 "genomes": "Read a profile's entire genome, including all SNP locations except those the profile has not opted into. You should only grant access to services you trust.",

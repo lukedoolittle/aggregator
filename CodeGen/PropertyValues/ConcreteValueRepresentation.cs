@@ -110,6 +110,10 @@ namespace CodeGen
             {
                 return PrettyPrintList((List<ResponseTypeEnum>)value);
             }
+            if (value is List<GrantTypeEnum>)
+            {
+                return PrettyPrintList((List<GrantTypeEnum>)value);
+            }
             if (value is Dictionary<HttpRequestHeader, string>)
             {
                 return PrettyPrintDictionary((Dictionary<HttpRequestHeader, string>)value);

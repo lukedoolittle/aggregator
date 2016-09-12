@@ -1,0 +1,102 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Omniture",
+        "description": "Omniture / Adobe Web API",
+        "termsOfService": "https://marketing.adobe.com/developer/get-started/best-practices",
+        "version": "1.4"
+    },
+    "host": "api2.omniture.com",
+    "basePath": "/admin/1.4/",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/rest": {
+            "post": {
+                "summary": "https://marketing.adobe.com/developer/documentation/analytics-reporting-1-4/get-started",
+                "description": "Analytics reporting",
+                "operationId": "OmnitureReporting",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "method",
+                        "description": "The name of the method to call",
+                        "type": "string",
+                        "enum": ["Cancel", "Get", "GetElements", "GetMetrics", "GetQueue", "Run", "Queue", "Validate"], 
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [ ],
+                "security": [
+                    {
+                        "oauth2": [ ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://marketing.adobe.com/authorize",
+            "tokenUrl": "https://api.omniture.com/token",
+            "x-token-name": "Bearer",
+            "x-grant-types":  ["authorization_code"],  
+            "scopes": {
+                "Bookmark" : "",
+                "Company" : "",
+                "DataFeed" : "",
+                "DataWarehouse" : "",
+                "Permissions" : "",
+                "ReportSuite" : "",
+                "Saint" : "",
+                "Survey" : "",
+                "Dashboards" : "",
+                "DataSource" : "",
+                "Social" : "",
+                "Report" : "",
+                "Livestream" : ""
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://marketing.adobe.com/authorize",
+            "x-token-name": "Bearer",
+            "scopes": {
+                "Bookmark" : "",
+                "Company" : "",
+                "DataFeed" : "",
+                "DataWarehouse" : "",
+                "Permissions" : "",
+                "ReportSuite" : "",
+                "Saint" : "",
+                "Survey" : "",
+                "Dashboards" : "",
+                "DataSource" : "",
+                "Social" : "",
+                "Report" : "",
+                "Livestream" : ""
+            }
+        },
+         "oauth2Client": {
+            "type": "oauth2",
+            "description": "OAuth2 Client Credentials Grant",
+            "authorizationUrl": "https://marketing.adobe.com/authorize",
+            "x-token-name": "Bearer",
+            "x-grant-types":  ["client_credentials"],
+            "scopes": {
+            }
+        }
+    },
+    "definitions": [ ]
+}

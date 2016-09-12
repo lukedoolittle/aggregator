@@ -52,6 +52,7 @@
             "tokenUrl": "https://www.linkedin.com/uas/oauth2/accessToken",
             "x-token-name": "Bearer",
             "x-scope-delimiter": " ",
+            "x-grant-types":  ["authorization_code"],
             "scopes": {
                 "r_basicprofile": "",
                 "w_share": "",

@@ -14,9 +14,10 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Fitbit : OAuth2ResourceProvider              
 	{
         public override Uri AuthorizationUrl => new Uri("https://www.fitbit.com/oauth2/authorize");
-        public override Uri TokenUrl => new Uri("https://api.fitbit.com/oauth2/token");
         public override List<String> AvailableScopes => new List<String> { "sleep", "activity", "heartrate", "profile" };
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code, ResponseTypeEnum.Token };
+        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode, GrantTypeEnum.RefreshToken };
         public override String TokenName => "Bearer";
+        public override Uri TokenUrl => new Uri("https://api.fitbit.com/oauth2/token");
 	}
 }

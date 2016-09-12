@@ -55,6 +55,7 @@
             "authorizationUrl": "https://accounts.spotify.com/authorize",
             "tokenUrl": "https://accounts.spotify.com/api/token",
             "x-token-name": "Bearer",
+            "x-grant-types":  ["authorization_code", "refresh_token"],
             "scopes": {
                 "playlist-read-private": "Read access to user's private playlists",
                 "user-follow-read": "Read access to the list of artists and other users that the user follows",

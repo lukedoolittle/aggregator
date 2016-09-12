@@ -6,6 +6,7 @@ using System.Net;
 using CodeGen.Class;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
+using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Metadata;
@@ -39,37 +40,13 @@ namespace CodeGen
                 {
                     @class.BaseType = new BaseTypeRepresentation(typeof(OAuth2ResourceProvider));
 
-                    if (@class.Properties.Count > 0)
-                    {
-                        //Here we are merging the implicit and code workflows
-                        //TODO: should probably check the other parameters here and verify they match
-                        var flows = @class.Properties.Single(p => p.Name == "Flows");
-                        ((List<ResponseTypeEnum>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue).Add(StringToEnum(securityDefinition["flow"].ToString()));
-
-                        if (securityDefinition["tokenUrl"] != null)
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
-                            });
-                        }
-                    }
-                    else
+                    if (@class.Properties.Count == 0)
                     {
                         @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "AuthorizationUrl")
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["authorizationUrl"].ToString()))
                         });
-                        if (securityDefinition["tokenUrl"] != null)
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
-                            });
-                        }
                         @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), "AvailableScopes")
                         {
                             IsOverride = true,
@@ -82,7 +59,12 @@ namespace CodeGen
                         @class.Properties.Add(new PropertyRepresentation(typeof(List<ResponseTypeEnum>), "Flows")
                         {
                             IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<ResponseTypeEnum> { StringToEnum(securityDefinition["flow"].ToString())})
+                            PropertyValue = new ConcreteValueRepresentation(new List<ResponseTypeEnum>())
+                        });
+                        @class.Properties.Add(new PropertyRepresentation(typeof(List<GrantTypeEnum>), "GrantTypes")
+                        {
+                            IsOverride = true,
+                            PropertyValue = new ConcreteValueRepresentation(new List<GrantTypeEnum>())
                         });
                         if (securityDefinition["x-token-name"] != null)
                         {
@@ -107,6 +89,36 @@ namespace CodeGen
                         });
 
                     }
+
+                    var flow = securityDefinition["flow"]?.ToString();
+                    if (flow != null)
+                    {
+                        var flows = @class.Properties.Single(p => p.Name == "Flows");
+                        ((List<ResponseTypeEnum>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
+                            .Add(ResponseTypeStringToEnum(flow));
+                    }
+
+                    var grants = securityDefinition["x-grant-types"]?.ToObject<List<string>>();
+                    if (grants != null)
+                    {
+                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == "GrantTypes");
+                        foreach (var grantType in grants)
+                        {
+                            ((List<GrantTypeEnum>)
+                                ((ConcreteValueRepresentation)grantTypes.PropertyValue).PropertyValue).Add(
+                                    grantType.StringToEnum<GrantTypeEnum>());
+                        }
+                    }
+
+                    var tokenUrl = securityDefinition["tokenUrl"]?.ToString();
+                    if (tokenUrl != null)
+                    {
+                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                        {
+                            IsOverride = true,
+                            PropertyValue = new ConcreteValueRepresentation(new Uri(tokenUrl))
+                        });
+                    }
                 }
                 else if (securityDefinition["type"]?.ToString() == "oauth1")
                 {
@@ -130,7 +142,7 @@ namespace CodeGen
                     @class.Properties.Add(new PropertyRepresentation(typeof(OAuthParameterTypeEnum), "ParameterType")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(StringToParameterTypeEnum(securityDefinition["x-parameter-type"].ToString()))
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<OAuthParameterTypeEnum>())
                     });
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialType))
                     {
@@ -496,7 +508,7 @@ namespace CodeGen
             throw new Exception();
         }
 
-        private ResponseTypeEnum StringToEnum(string responseType)
+        private ResponseTypeEnum ResponseTypeStringToEnum(string responseType)
         {
             if (responseType == "implicit")
             {
@@ -511,27 +523,6 @@ namespace CodeGen
                 throw new Exception($"ResponseType was {responseType}");
             }
         }
-
-        private OAuthParameterTypeEnum StringToParameterTypeEnum(string parameterType)
-        {
-            if (parameterType == "querystring")
-            {
-                return OAuthParameterTypeEnum.Querystring;
-            }
-            else if (parameterType == "header")
-            {
-                return OAuthParameterTypeEnum.Header;
-            }
-            else if (parameterType == "body")
-            {
-                return OAuthParameterTypeEnum.Body;
-            }
-            else
-            {
-                throw new Exception();
-            }
-        }
-
 
         private string CreateCSharpPropertyName(string jsonName)
         {

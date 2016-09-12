@@ -21,7 +21,7 @@ namespace Material.Infrastructure
             new Dictionary<HttpRequestHeader, string>();
         public abstract List<ResponseTypeEnum> Flows { get; }
         public virtual ResponseTypeEnum Flow { get; private set; }
-
+        public abstract List<GrantTypeEnum> GrantTypes { get; }
         
         public virtual OAuth2ResourceProvider SetFlow(ResponseTypeEnum flow)
         {

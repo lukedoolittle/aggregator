@@ -95,6 +95,7 @@
             "authorizationUrl": "https://www.rescuetime.com/oauth/authorize",
             "tokenUrl": "https://www.rescuetime.com/oauth/token",
             "x-token-name": "access_token",
+            "x-grant-types":  ["authorization_code"],
             "scopes": {
                 "time_data" : "Access activity history and summary time data for the authorizing user" 
             }

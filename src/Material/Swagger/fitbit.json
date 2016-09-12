@@ -239,6 +239,7 @@
             "authorizationUrl": "https://www.fitbit.com/oauth2/authorize",
             "tokenUrl": "https://api.fitbit.com/oauth2/token",
             "x-token-name": "Bearer",
+            "x-grant-types":  ["authorization_code", "refresh_token"],
             "scopes": {
                 "sleep": "The sleep scope includes sleep logs and related sleep analysis",
                 "activity": "The activity scope includes activity data and exercise log related features, such as steps, distance, calories burned, and active minutes",

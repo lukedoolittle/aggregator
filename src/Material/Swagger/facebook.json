@@ -220,6 +220,7 @@
             "tokenUrl": "https://graph.facebook.com/oauth/access_token",
             "x-token-name": "access_token",
             "x-scope-delimiter": ",",
+            "x-grant-types":  ["authorization_code"],
             "scopes": {
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
                 "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",

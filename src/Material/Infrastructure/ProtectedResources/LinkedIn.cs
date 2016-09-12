@@ -14,10 +14,11 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class LinkedIn : OAuth2ResourceProvider              
 	{
         public override Uri AuthorizationUrl => new Uri("https://www.linkedin.com/uas/oauth2/authorization");
-        public override Uri TokenUrl => new Uri("https://www.linkedin.com/uas/oauth2/accessToken");
         public override List<String> AvailableScopes => new List<String> { "r_basicprofile", "w_share", "r_emailaddress", "rw_company_admin" };
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code };
+        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode };
         public override String TokenName => "Bearer";
         public override Char ScopeDelimiter => ' ';
+        public override Uri TokenUrl => new Uri("https://www.linkedin.com/uas/oauth2/accessToken");
 	}
 }

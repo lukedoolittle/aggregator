@@ -94,6 +94,7 @@
     <Compile Include="Infrastructure\Partials\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
+    <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
     <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
     <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
     <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
@@ -246,6 +248,7 @@
 .\Infrastructure\ProtectedResources\Foursquare.cs
 .\Infrastructure\ProtectedResources\Google.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
+.\Infrastructure\ProtectedResources\Omniture.cs
 .\Infrastructure\ProtectedResources\Rescuetime.cs
 .\Infrastructure\ProtectedResources\Runkeeper.cs
 .\Infrastructure\ProtectedResources\Spotify.cs
@@ -269,6 +272,7 @@
 .\Infrastructure\Requests\GoogleGmail.cs
 .\Infrastructure\Requests\GoogleGmailMetadata.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
+.\Infrastructure\Requests\OmnitureReporting.cs
 .\Infrastructure\Requests\RescuetimeAnalyticData.cs
 .\Infrastructure\Requests\RunkeeperFitnessActivity.cs
 .\Infrastructure\Requests\SpotifySavedTrack.cs
