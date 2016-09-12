@@ -20,13 +20,13 @@ namespace Material.Infrastructure.Credentials
 
         public string CallbackUrl { get; private set; }
 
-        [DataMember(Name = "oauth_verifier")]
+        [DataMember(Name = "oauth_verifier", EmitDefaultValue = false)]
         public string Verifier { get; private set; }
 
         [DataMember(Name = "parameterHandling")]
         public OAuthParameterTypeEnum ParameterHandling { get; private set; }
 
-        [DataMember(Name = "x_auth_expired")]
+        [DataMember(Name = "x_auth_expired", EmitDefaultValue = false)]
         private string _expires;
 
 

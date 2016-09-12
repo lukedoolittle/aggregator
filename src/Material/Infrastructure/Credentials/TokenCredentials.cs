@@ -13,14 +13,14 @@ namespace Material.Infrastructure.Credentials
         public abstract string ExpiresIn { get; }
         public abstract bool AreValidIntermediateCredentials { get; }
 
-        [DataMember(Name = "user_id")]
+        [DataMember(Name = "user_id", EmitDefaultValue = false)]
         protected string _userId1;
-        [DataMember(Name = "userid")]
+        [DataMember(Name = "userid", EmitDefaultValue = false)]
         protected string _userId2;
 
         public string UserId => _userId1 ?? _userId2;
 
-        [DataMember(Name = "created_at")]
+        [DataMember(Name = "created_at", EmitDefaultValue = false)]
         protected string _dateCreated;
 
         [DataMember(Name = "dateCreated")]

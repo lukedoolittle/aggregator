@@ -14,15 +14,15 @@ namespace Material.Infrastructure.Credentials
 
         public string CallbackUrl { get; private set; }
 
-        [DataMember(Name = "access_token")]
+        [DataMember(Name = "access_token", EmitDefaultValue = false)]
         protected string _accessToken;
-        [DataMember(Name = "accessToken")]
+        [DataMember(Name = "accessToken", EmitDefaultValue = false)]
         protected string _accessTokenAlternate;
         public string AccessToken => _accessToken ?? _accessTokenAlternate;
 
-        [DataMember(Name = "expires_in")]
+        [DataMember(Name = "expires_in", EmitDefaultValue = false)]
         protected string _expiresIn;
-        [DataMember(Name = "expires")]
+        [DataMember(Name = "expires", EmitDefaultValue = false)]
         protected string _expiresInAlternate;
         public override string ExpiresIn => _expiresIn ?? _expiresInAlternate;
 
@@ -30,13 +30,13 @@ namespace Material.Infrastructure.Credentials
             !string.IsNullOrEmpty(Code) ||
             !string.IsNullOrEmpty(AccessToken);
 
-        [DataMember(Name = "refresh_token")]
+        [DataMember(Name = "refresh_token", EmitDefaultValue = false)]
         public string RefreshToken { get; private set; }
 
         [DataMember(Name = "token_type")]
         public string TokenName { get; private set; }
 
-        [DataMember(Name = "code")]
+        [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; private set; }
 
         public string Scope { get; private set; }
