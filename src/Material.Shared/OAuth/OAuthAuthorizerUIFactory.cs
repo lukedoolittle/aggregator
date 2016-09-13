@@ -61,9 +61,12 @@ namespace Material.Infrastructure.OAuth
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             callbackHandler),
-                        Platform.Current);
+                        Platform.Current,
+                        callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
-                    return new WebViewAuthorizerUI<TCredentials>(callbackHandler);
+                    return new WebViewAuthorizerUI<TCredentials>(
+                        callbackHandler,
+                        callbackUri);
                 default:
                     throw new NotSupportedException();
             }
