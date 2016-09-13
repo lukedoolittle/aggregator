@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Reflection;
 using Foundations.Extensions;
+using Foundations.Http;
 using Material.Enums;
 using Material.Metadata;
 
@@ -23,6 +24,9 @@ namespace Material.Infrastructure
             GetParameters(RequestParameterTypeEnum.Query);
         public virtual IDictionary<string, string> PathParameters => 
             GetParameters(RequestParameterTypeEnum.Path);
+
+        public object Body { get; set; }
+        public MediaTypeEnum BodyType { get; set; } = MediaTypeEnum.Json;
 
         public virtual void AddUserIdParameter(string userId) {}
 

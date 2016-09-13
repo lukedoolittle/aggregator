@@ -16,7 +16,7 @@ namespace Material.Infrastructure.Requests
 	public partial class OmnitureReporting : OAuthRequest              
 	{
         public override String Host => "https://api2.omniture.com";
-        public override String Path => "/admin/1.4/rest";
+        public override String Path => "/admin/1.4/rest/";
         public override String HttpMethod => "POST";
         public override List<String> RequiredScopes => new List<String>();
         /// <summary>
@@ -28,13 +28,13 @@ namespace Material.Infrastructure.Requests
 	}
     public enum OmnitureReportingMethodEnum
     {
-        [Description("Cancel")] Cancel,
-        [Description("Get")] Get,
-        [Description("GetElements")] GetElements,
-        [Description("GetMetrics")] GetMetrics,
-        [Description("GetQueue")] GetQueue,
-        [Description("Run")] Run,
-        [Description("Queue")] Queue,
-        [Description("Validate")] Validate,
+        [Description("Report.Cancel")] ReportCancel,
+        [Description("Report.Get")] ReportGet,
+        [Description("Report.GetElements")] ReportGetElements,
+        [Description("Report.GetMetrics")] ReportGetMetrics,
+        [Description("Report.GetQueue")] ReportGetQueue,
+        [Description("Report.Run")] ReportRun,
+        [Description("Report.Queue")] ReportQueue,
+        [Description("Report.Validate")] ReportValidate,
     }
 }

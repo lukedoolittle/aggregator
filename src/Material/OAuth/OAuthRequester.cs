@@ -63,7 +63,9 @@ namespace Material
                         request.HttpMethod,
                         request.Headers,
                         request.QuerystringParameters,
-                        request.PathParameters);
+                        request.PathParameters,
+                        request.Body,
+                        request.BodyType);
         }
     }
 }

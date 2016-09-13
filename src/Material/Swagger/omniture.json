@@ -12,7 +12,7 @@
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
     "paths": {
-        "/rest": {
+        "/rest/": {
             "post": {
                 "summary": "https://marketing.adobe.com/developer/documentation/analytics-reporting-1-4/get-started",
                 "description": "Analytics reporting",
@@ -23,7 +23,7 @@
                         "name": "method",
                         "description": "The name of the method to call",
                         "type": "string",
-                        "enum": ["Cancel", "Get", "GetElements", "GetMetrics", "GetQueue", "Run", "Queue", "Validate"], 
+                        "enum": ["Report.Cancel", "Report.Get", "Report.GetElements", "Report.GetMetrics", "Report.GetQueue", "Report.Run", "Report.Queue", "Report.Validate"], 
                         "required": true
                     }
                 ],

@@ -51,6 +51,8 @@ namespace Material.Infrastructure.OAuth
             Dictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> querystringParameters,
             IDictionary<string, string> pathParameters,
+            object body,
+            MediaTypeEnum bodyType,
             HttpStatusCode expectedResponse = HttpStatusCode.OK,
             MediaTypeEnum expectedResponseType = MediaTypeEnum.Json)
         {
@@ -72,6 +74,7 @@ namespace Material.Infrastructure.OAuth
                     new HttpMethod(httpMethod),
                     path)
                 .ResponseMediaType(expectedResponseType)
+                .Content(body, bodyType)
                 .Headers(headers)
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)

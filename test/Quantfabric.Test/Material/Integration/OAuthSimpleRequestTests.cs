@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Material;
 using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
+using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
+using Element = Material.Infrastructure.RequestBodies.Element;
+using Metric = Material.Infrastructure.RequestBodies.Metric;
 
 namespace Quantfabric.Test.Material.Integration
 {
@@ -58,6 +62,91 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         #endregion Fatsecret Requests
+
+
+        //(0:30) Create response for Omniture "Get Report" for individuals
+        //(0:30) Create response for Omniture "Get Report" for aggregate
+        //(1:00) Create test for responses from Omniture
+
+        public async void MakeRequestForOmnitureUserLevelReports()
+        {
+            var body = new OmnitureQueueBody
+            {
+                ReportDescription = new ReportDescription
+                {
+                    DateGranularity = OmnitureReportingDateGranularityEnum.Hour,
+                    ReportSuiteId = "musicnotes",
+                    Date = new DateTime(2016, 6, 1),
+                    Metrics = new List<Metric> {new Metric {Id = "pageviews"}},
+                    Elements = new List<Element>
+                    {
+                        new Element
+                        {
+                            Id = "eVar39",
+                            Selected = new List<string>
+                            {
+                                ""
+                            }
+                        },
+                        new Element
+                        {
+                            Id = "page"
+                        }
+                    }
+                }
+            };
+
+            throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async void MakeRequestForOmnitureAggregateReports()
+        {
+            var credentials = _tokenRepository.GetToken<Omniture, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var body = new OmnitureQueueBody
+            {
+                ReportDescription = new ReportDescription
+                {
+                    DateGranularity = OmnitureReportingDateGranularityEnum.Month,
+                    ReportSuiteId = "musicnotes",
+                    StartDate = new DateTime(2016, 9, 12),
+                    EndDate = new DateTime(2016, 9, 12),
+                    Metrics = new List<Metric> { new Metric { Id = "visits" } }
+                }
+            };
+
+            var request = new OmnitureReporting
+            {
+                Method = OmnitureReportingMethodEnum.ReportQueue,
+                Body = body
+            };
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<OmnitureReporting, OmnitureQueueResponse>(request)
+                .ConfigureAwait(false);
+
+            System.Threading.Thread.Sleep(10000);
+
+            var getBody = new OmnitureGetBody
+            {
+                ReportId = response.ReportId
+            };
+
+            request = new OmnitureReporting
+            {
+                Method = OmnitureReportingMethodEnum.ReportGet,
+                Body = getBody
+            };
+
+            var getResponse = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<OmnitureReporting, OmnitureGetResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(getResponse.Report.Totals[0]);
+        }
 
         [Fact]
         public async void MakeRequestForWithingsWeighins()

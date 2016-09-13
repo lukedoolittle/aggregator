@@ -96,6 +96,8 @@
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
+    <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
+    <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
@@ -137,6 +139,8 @@
     <Compile Include="Infrastructure\Responses\GoogleGmailMetadataResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleGmailResponse.cs" />
     <Compile Include="Infrastructure\Responses\LinkedInPersonalResponse.cs" />
+    <Compile Include="Infrastructure\Responses\OmnitureGetResponse.cs" />
+    <Compile Include="Infrastructure\Responses\OmnitureQueueResponse.cs" />
     <Compile Include="Infrastructure\Responses\RescuetimeAnalyticDataResponse.cs" />
     <Compile Include="Infrastructure\Responses\RunkeeperFitnessActivityResponse.cs" />
     <Compile Include="Infrastructure\Responses\SpotifySavedTrackResponse.cs" />
@@ -315,6 +319,7 @@
       <Name>Foundations</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

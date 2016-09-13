@@ -29,7 +29,10 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequest request)
         {
-            if (_accessTokenName == OAuth2ParameterEnum.BearerHeader.EnumToString())
+            if (String.Equals(
+                    _accessTokenName, 
+                    OAuth2ParameterEnum.BearerHeader.EnumToString(), 
+                    StringComparison.CurrentCultureIgnoreCase))
             {
                 request.Bearer(_accessToken);
             }

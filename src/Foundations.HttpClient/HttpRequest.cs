@@ -11,6 +11,7 @@ using Foundations.Http;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Exceptions;
+using Foundations.HttpClient.Extensions;
 using Foundations.HttpClient.ParameterHandlers;
 using Foundations.HttpClient.Serialization;
 
@@ -283,24 +284,27 @@ namespace Foundations.HttpClient
         #region Content
 
         public HttpRequest Content(
-            string content, 
+            object content, 
             MediaTypeEnum mediaType)
         {
             return Content(
                 content, 
-                mediaType.EnumToString(), 
+                mediaType, 
                 Encoding.UTF8);
         }
 
         public HttpRequest Content(
-            string content,
-            string mediaType,
+            object content,
+            MediaTypeEnum mediaType,
             Encoding encoding)
         {
+            var serializedContent = _serializers[mediaType]
+                .Serialize(content);
+
             _message.Content = new StringContent(
-                content, 
+                serializedContent, 
                 encoding, 
-                mediaType);
+                mediaType.EnumToString());
 
             return this;
         }
@@ -355,9 +359,16 @@ namespace Foundations.HttpClient
                 }
                 else
                 {
-                    if (_queryParameters.Count > 0)
+                    if (_message.Method != HttpMethod.Post)
                     {
                         throw new HttpRequestContentException();
+                    }
+                    else
+                    {
+                        _message.RequestUri = _message
+                            .RequestUri
+                            .AddEncodedQuerystring(
+                                _queryParameters);
                     }
                 }
 
