@@ -29,7 +29,7 @@ namespace Material.Infrastructure.RequestBodies
         public string ReportSuiteId { get; set; }
 
         public DateTime? Date { get; set; }
-        [DataMember(Name = "date")]
+        [DataMember(Name = "date", EmitDefaultValue = false)]
         private string _date
         {
             get { return Date?.ToString("yyyy-MM-dd"); }
@@ -37,7 +37,7 @@ namespace Material.Infrastructure.RequestBodies
         }
 
         public DateTime? StartDate { get; set; }
-        [DataMember(Name = "startDate")]
+        [DataMember(Name = "dateFrom", EmitDefaultValue = false)]
         private string _startDate
         {
             get { return StartDate?.ToString("yyyy-MM-dd"); }
@@ -45,7 +45,7 @@ namespace Material.Infrastructure.RequestBodies
         }
 
         public DateTime? EndDate { get; set; }
-        [DataMember(Name = "endDate")]
+        [DataMember(Name = "dateTo", EmitDefaultValue = false)]
         private string _endDate
         {
             get { return EndDate?.ToString("yyyy-MM-dd"); }
