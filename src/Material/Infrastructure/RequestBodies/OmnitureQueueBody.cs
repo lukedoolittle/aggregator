@@ -79,7 +79,15 @@ namespace Material.Infrastructure.RequestBodies
     {
         [Description("hour")]
         Hour,
+        [Description("day")]
+        Day,
+        [Description("week")]
+        Week,
         [Description("month")]
-        Month
+        Month,
+        [Description("quarter")]
+        Quarter,
+        [Description("year")]
+        Year
     }
 }
