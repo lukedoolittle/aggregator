@@ -17,6 +17,7 @@
         <TextBlock x:Name="ResultTextBlock" HorizontalAlignment="Left" Margin="10,52,0,0" TextWrapping="Wrap" Text="{Binding Path=Result}" VerticalAlignment="Top" Width="340" Height="165"/>
         <Button x:Name="googleAuth" Content="Google" HorizontalAlignment="Left" Margin="224,291,0,0" VerticalAlignment="Top" Click="OnGoogleClick"/>
         <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="138,222,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
+        <Button x:Name="fitbitAuth" Content="Fitbit" HorizontalAlignment="Left" Margin="66,348,0,0" VerticalAlignment="Top" Click="OnFitbitClick"/>
 
     </Grid>
 </Page>

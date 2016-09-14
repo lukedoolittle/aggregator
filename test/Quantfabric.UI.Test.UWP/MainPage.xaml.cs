@@ -109,6 +109,26 @@ namespace Quantfabric.UI.Test.UWP
             WriteToTextbox($"AccessToken:{token.AccessToken}");
         }
 
+        private async void OnFitbitClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Fitbit>();
+            var clientSecret = settings.GetClientSecret<Fitbit>();
+            var redirectUri = settings.GetRedirectUri<Fitbit>();
+
+            var token = await new OAuth2App<Fitbit>(
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<FitbitIntradaySteps>()
+                    .AddScope<FitbitIntradayStepsBulk>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
         private void WriteToTextbox(string text)
         {
             Platform.Current.RunOnMainThread(() =>

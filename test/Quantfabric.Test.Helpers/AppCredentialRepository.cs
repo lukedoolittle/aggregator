@@ -23,7 +23,8 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth1ResourceProvider
         {
             var credentials = _clientCredentials
-                .GetClientCredentials<TService, OAuth1Credentials>();
+                .GetClientCredentials<TService, OAuth1Credentials>(
+                _callbackType);
 
             return credentials.ConsumerKey;
         }
@@ -32,7 +33,8 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth1ResourceProvider
         {
             var credentials = _clientCredentials
-                .GetClientCredentials<TService, OAuth1Credentials>();
+                .GetClientCredentials<TService, OAuth1Credentials>(
+                _callbackType);
 
             return credentials.ConsumerSecret;
         }
@@ -45,14 +47,16 @@ namespace Quantfabric.Test.Helpers
             if (resourceProviderType.HasBase(typeof(OAuth1ResourceProvider)))
             {
                 var credentials = _clientCredentials
-                    .GetClientCredentials<TService, OAuth1Credentials>();
+                    .GetClientCredentials<TService, OAuth1Credentials>(
+                    _callbackType);
 
                 return credentials.CallbackUrl;
             }
             else if (resourceProviderType.HasBase(typeof(OAuth2ResourceProvider)))
             {
                 var credentials = _clientCredentials
-                    .GetClientCredentials<TService, OAuth2Credentials>();
+                    .GetClientCredentials<TService, OAuth2Credentials>(
+                    _callbackType);
 
                 return credentials.CallbackUrl;
             }
@@ -66,7 +70,8 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth2ResourceProvider
         {
             var credentials = _clientCredentials
-                .GetClientCredentials<TService, OAuth2Credentials>();
+                .GetClientCredentials<TService, OAuth2Credentials>(
+                _callbackType);
 
             return credentials.ClientId;
         }
@@ -75,7 +80,8 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth2ResourceProvider
         {
             var credentials = _clientCredentials
-                .GetClientCredentials<TService, OAuth2Credentials>();
+                .GetClientCredentials<TService, OAuth2Credentials>(
+                _callbackType);
 
             return credentials.ClientSecret;
         }

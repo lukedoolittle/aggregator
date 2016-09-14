@@ -54,7 +54,8 @@ namespace Material.View.WebAuthorization
                 webView.LoadRequest(new NSUrlRequest(new NSUrl(authorizationUri.ToString())));
                 webView.ShouldStartLoad = (view, request, type) =>
                 {
-                    if (request.Url.ToString().Contains(_callbackUri.ToString()))
+                    if (request.Url.ToString().StartsWith(
+                        _callbackUri.ToString()))
                     {
                         webView.LoadHtmlString(
                             StringResources.OAuthCallbackResponse,

@@ -48,7 +48,7 @@ namespace Material.View.WebAuthorization
             activity.View.SetWebViewClient(
                 new AuthorizingWebViewClient((view, url, favicon) =>
                 {
-                    if (url.Contains(_callbackUri.AbsoluteUri))
+                    if (url.StartsWith(_callbackUri.AbsoluteUri))
                     {
                         view.StopLoading();
                         view.LoadData(

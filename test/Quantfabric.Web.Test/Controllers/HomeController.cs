@@ -6,6 +6,7 @@ using Material.Contracts;
 using Material.Facades;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
+using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers
@@ -73,7 +74,12 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Google()
         {
-            var uri = await GetOAuth2AuthorizationUri<Google>()
+            var oauth = new OAuth2Web<Google>(
+                _appRepository.GetClientId<Google>(),
+                _appRepository.GetRedirectUri<Google>())
+                .AddScope<GoogleGmailMetadata>();
+
+            var uri = await GetOAuth2AuthorizationUri(oauth)
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -157,6 +163,13 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientId<TProtectedResource>(),
                 _appRepository.GetRedirectUri<TProtectedResource>());
 
+            return GetOAuth2AuthorizationUri(oauth);
+        }
+
+        private Task<Uri> GetOAuth2AuthorizationUri<TProtectedResource>(
+            OAuth2Web<TProtectedResource> oauth)
+            where TProtectedResource : OAuth2ResourceProvider, new()
+        {
             var userId = Guid.NewGuid().ToString();
             var cookie = new HttpCookie("userId");
             cookie.Values["userId"] = userId;

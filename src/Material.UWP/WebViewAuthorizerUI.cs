@@ -47,7 +47,7 @@ namespace Material.View.WebAuthorization
                 webView.NavigationStarting += (sender, args) =>
                 {
                     if (args.Uri != null &&
-                        args.Uri.ToString().Contains(
+                        args.Uri.ToString().StartsWith(
                             _callbackUri.ToString()))
                     {
                         var cancel = args.Cancel;
