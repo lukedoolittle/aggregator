@@ -1,9 +1,7 @@
 using System;
-
 using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Material.Framework;
 
 namespace $rootnamespace$
 {
@@ -32,6 +30,15 @@ namespace $rootnamespace$
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
             Material.Framework.Platform.Current.Context = activity;
+            
+            var callbackUri = "";  //TODO: add OAuth callback uri
+
+            var data = activity.Intent?.Data?.ToString();
+            if (data != null && data.StartsWith(callbackUri))
+            {
+                //necessary for custom uri scheme OAuth callbacks to function
+                Material.Framework.Platform.Current.Protocol(new Uri(data));
+            }
         }
 
         public void OnActivityDestroyed(Activity activity)

@@ -309,13 +309,12 @@ The SMS results can also be filtered by a date:
 Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
 
 ### <a name="google"></a> Google
-When creating credentials for a dedicated browser on UWP or iOS create a OAuth client Id for the iOS app type. In the "bundle name" field enter the scheme you have set for your callback. When instantiating the `OAuth2App` class your callback uri should only contain one / after the scheme, not two. For example if you put `myapp` as your bundle name in the credential configuration, then your callback uri should look like `myapp:/something/`.
+When creating credentials for a dedicated browser create a "OAuth client Id" for the "iOS" app type. In the "bundle name" field enter the scheme you have set for your callback. When instantiating the `OAuth2App` class your callback uri should only contain one / after the scheme, not two. For example if you put `myapp` as your bundle name in the credential configuration, then your callback uri should look like `myapp:/something/`.
 
 ## Advanced Topics
 ### <a name="advanced_dedicated_browser"></a> Using a dedicated (system) browser on a mobile device (Android, iOS, UWP)
-<b>Currently performing this configuration only works with Google, and Fitbit and requires particular setup steps in the configurations of the iOS, Android, or UWP project to properly receive the protocol based callback. Please read both the below section for your platform and read the Provider Specific Notes (above, if any) for your service</b>
 
-In some mobile device situations a dedicated browser (Chrome on Android, Safari on iOS, IE on Windows) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
+In some mobile device situations a dedicated browser (Chrome on Android, Safari on iOS, Edge on Windows) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type. <b>At current this method is only known to work with Google and Fitbit. It requires particular setup steps in the configurations of the iOS, Android, or UWP project to properly receive the protocol based callback. Please read both the below section for your platform and read the above Provider Specific Notes for your service</b>:
 
 		OAuth1App<Twitter> oauth1 = new OAuth1App<Twitter>(
 			consumerKey, 
@@ -329,44 +328,88 @@ In some mobile device situations a dedicated browser (Chrome on Android, Safari 
 			callbackUri,
             AuthenticationInterfaceEnum.Dedicated);
 
-<i>For UWP you must also do the following:</i>
-* Add a Protocol (Custom Scheme) to your Package.appxmanifest through the GUI in Visual Studio or by editing the Package.appxmanifest file directly.
+<b><i>UWP</i></b>
+* Add a Protocol (Custom Scheme) to your Package.appxmanifest through the GUI in Visual Studio or by editing the Package.appxmanifest file directly
 
-      <uap:Extension Category="windows.protocol">
-        <uap:Protocol Name="CALLBACK_SCHEME_HERE">
-        </uap:Protocol>
-      </uap:Extension>
+		<uap:Extension Category="windows.protocol">
+			<uap:Protocol Name="CALLBACK_SCHEME_HERE">
+			</uap:Protocol>
+		</uap:Extension>
     
-* Add a call to `Material.Framework.Platform.Current.Protocol(uri)` in the `OnActivated()` method of your `Application` class when the application is activated by a protocol launch.
+* Add a call to `Material.Framework.Platform.Current.Protocol(uri)` in the `OnActivated()` method of your `Application` class
 
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            if (args.Kind == ActivationKind.Protocol)
-            {
+		protected override void OnActivated(IActivatedEventArgs args)
+		{
+			if (args.Kind == ActivationKind.Protocol)
+			{
                 ProtocolActivatedEventArgs protocolArgs = (ProtocolActivatedEventArgs)args;
                 Uri uri = protocolArgs.Uri;
 
-                //this needs to be present within OnActivated() in order for custom uri scheme
-                //callbacks to function
                 Material.Framework.Platform.Current.Protocol(uri);
 
                 var frame = Window.Current.Content as Frame;
                 if (frame == null)
-                    frame = new Frame();
+                frame = new Frame();
 
                 frame.Navigate(typeof(MainPage), uri);
                 Window.Current.Content = frame;
                 Window.Current.Activate();
-            }
-        }
+			}
+		}
         
-<i>For Android you must also do the following:</i>
+<b><i>Android</i></b>
+* Specify an intent filter by either adding to the AndroidManifest.xml OR adding metadata to your callback activity
 
-<b>In Progress</b>
+		<activity android:label="MAIN_ACTIVITY_LABEL_HERE">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="CALLBACK_SCHEME_HERE"/>
+			</intent-filter>
+		</activity>
 
-<i>For iOS you must also do the following:</i>
+      [IntentFilter(new[] { Android.Content.Intent.ActionView },
+      Categories = new[] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable },
+      DataScheme = "CALLBACK_SCHEME_HERE")]
+      
+* Add a call to `Material.Framework.Platform.Current.Protocol(uri)` in the `OnActivityCreated()` method of your `MainApplication` class
 
-<b>In Progress</b>
+      public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
+      {
+          Material.Framework.Platform.Current.Context = activity;
+
+          var data = activity.Intent?.Data;
+          if (data != null)
+          {
+              Material.Framework.Platform.Current.Protocol(
+              new Uri(data.ToString()));
+          }
+      }
+
+<b><i>iOS</i></b>
+
+* Specify a URL scheme in the Info.plist
+
+      <key>CFBundleURLTypes</key>
+      <array>
+          <dict>
+              <key>CFBundleURLName</key>
+              <string>SOME_NAME</string>
+              <key>CFBundleURLSchemes</key>
+              <array>
+                  <string>CALLBACK_SCHEME_HERE</string>
+              </array>
+          </dict>
+      </array>
+
+* Add a call to `Material.Framework.Platform.Current.Protocol(uri)` in the `OpenUrl()` method of your `AppDelegate` class 
+
+      public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+      {
+          Material.Framework.Platform.Current.Protocol(url);
+          return true;
+      }
         
 ### <a name="advanced_security"></a> Creating your own security parameter repository
 During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:

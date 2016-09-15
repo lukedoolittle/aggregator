@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using Foundation;
 using UIKit;
 
-namespace Quantfabric.UI.Test.iOS
+namespace $rootnamespace$
 {
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate
@@ -20,7 +20,6 @@ namespace Quantfabric.UI.Test.iOS
             UIApplication application,
             Action<UIBackgroundFetchResult> completionHandler)
         {
-
             completionHandler(UIBackgroundFetchResult.NewData);
         }
 
@@ -42,7 +41,7 @@ namespace Quantfabric.UI.Test.iOS
                 Material.Framework.Platform.Current.Protocol(url);
             }
 
-            return true;
+	        return true;
 	    }
 
 	    public override UIWindow Window

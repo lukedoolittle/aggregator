@@ -14,9 +14,13 @@ namespace $rootnamespace$
                 ProtocolActivatedEventArgs protocolArgs = (ProtocolActivatedEventArgs)args;
                 Uri uri = protocolArgs.Uri;
 
-                //this needs to be present within OnActivated() in order for custom uri scheme
-                //callbacks to function
-                Material.Framework.Platform.Current.Protocol(uri);
+                var callbackUri = "";  //TODO: add OAuth callback uri
+				
+                if (uri.ToString().StartsWith(callbackUri))
+                {
+					//necessary for custom uri scheme OAuth callbacks to function
+                    Material.Framework.Platform.Current.Protocol(uri);
+                }
 
                 var frame = Window.Current.Content as Frame;
                 if (frame == null)

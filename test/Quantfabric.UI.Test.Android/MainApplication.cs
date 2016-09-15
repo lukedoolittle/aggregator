@@ -3,7 +3,7 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 
-namespace Application
+namespace Quantfabric.UI.Test
 {
 	//You can specify additional application information in this attribute
     [Application]
@@ -30,6 +30,15 @@ namespace Application
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
             Material.Framework.Platform.Current.Context = activity;
+
+            var callbackUri = "";  //TODO: add OAuth callback uri
+
+            var data = activity.Intent?.Data?.ToString();
+            if (data != null && data.StartsWith(callbackUri))
+            {
+                //necessary for custom uri scheme OAuth callbacks to function
+                Material.Framework.Platform.Current.Protocol(new Uri(data));
+            }
         }
 
         public void OnActivityDestroyed(Activity activity)

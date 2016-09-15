@@ -10,10 +10,11 @@ using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
+using Material.Framework;
 
 namespace Quantfabric.UI.Test
 {
-    [Activity(Label = "Quantfabric.UI.Test.Android", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Quantfabric.UI.Test.MainActivity", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
         private AuthenticationInterfaceEnum _browserType = 
@@ -307,9 +308,15 @@ namespace Quantfabric.UI.Test
 
         private void WriteResultToTextView(string result)
         {
-            var resultView = FindViewById<TextView>(Resource.Id.resultView);
+            RunOnUiThread(() =>
+            {
+                var resultView = Platform
+                    .Current
+                    .Context
+                    .FindViewById<TextView>(Resource.Id.resultView);
 
-            RunOnUiThread(() => resultView.Text = result);
+                resultView.Text = result;
+            });
         }
     }
 }
