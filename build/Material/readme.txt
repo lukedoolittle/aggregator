@@ -23,3 +23,19 @@ If you intend to use the Bluetooth the UIBackgroundModes key has to be added to 
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
 	</array>
+	
+UWP:
+If you intend to use an OAuth workflow with a dedicated browser insert the following into your Package.appxmanifest (or simply add a protocol with the proper scheme through the GUI)
+
+<Package>
+	<Applications>
+		<Application>
+			<Extensions>
+				<uap:Extension Category="windows.protocol">
+					<uap:Protocol Name="CALLBACK_SCHEME_HERE">
+					</uap:Protocol>
+				</uap:Extension>
+			</Extensions>
+		</Application>
+	</Applications>
+</Package>

@@ -308,9 +308,12 @@ The SMS results can also be filtered by a date:
 ### <a name="rescuetime"></a> Rescuetime
 Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
 
+### <a name="google"></a> Google
+When creating credentials for a dedicated browser on UWP or iOS create a OAuth client Id for the iOS app type. In the "bundle name" field enter the scheme you have set for your callback. When instantiating the `OAuth2App` class your callback uri should only contain one / after the scheme, not two. For example if you put `myapp` as your bundle name in the credential configuration, then your callback uri should look like `myapp:/something/`.
+
 ## Advanced Topics
 ### <a name="advanced_dedicated_browser"></a> Using a dedicated (system) browser on a mobile device (Android, iOS, UWP)
-<b>WORK IN PROGRESS: Currently performing this configuration only works with Google and requires particular setup steps in the configurations of the iOS, Android, or UWP project to properly receive the protocol based callback</b>
+<b>Currently performing this configuration only works with Google, and Fitbit and requires particular setup steps in the configurations of the iOS, Android, or UWP project to properly receive the protocol based callback. Please read both the below section for your platform and read the Provider Specific Notes (above, if any) for your service</b>
 
 In some mobile device situations a dedicated browser (Chrome on Android, Safari on iOS, IE on Windows) may be desired for the workflow. If that is the case an optional parameter can be passed to indicate the browser type:
 
@@ -325,8 +328,46 @@ In some mobile device situations a dedicated browser (Chrome on Android, Safari 
 			clientSecret, 
 			callbackUri,
             AuthenticationInterfaceEnum.Dedicated);
-            
 
+<i>For UWP you must also do the following:</i>
+* Add a Protocol (Custom Scheme) to your Package.appxmanifest through the GUI in Visual Studio or by editing the Package.appxmanifest file directly.
+
+      <uap:Extension Category="windows.protocol">
+        <uap:Protocol Name="CALLBACK_SCHEME_HERE">
+        </uap:Protocol>
+      </uap:Extension>
+    
+* Add a call to `Material.Framework.Platform.Current.Protocol(uri)` in the `OnActivated()` method of your `Application` class when the application is activated by a protocol launch.
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs protocolArgs = (ProtocolActivatedEventArgs)args;
+                Uri uri = protocolArgs.Uri;
+
+                //this needs to be present within OnActivated() in order for custom uri scheme
+                //callbacks to function
+                Material.Framework.Platform.Current.Protocol(uri);
+
+                var frame = Window.Current.Content as Frame;
+                if (frame == null)
+                    frame = new Frame();
+
+                frame.Navigate(typeof(MainPage), uri);
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+            }
+        }
+        
+<i>For Android you must also do the following:</i>
+
+<b>In Progress</b>
+
+<i>For iOS you must also do the following:</i>
+
+<b>In Progress</b>
+        
 ### <a name="advanced_security"></a> Creating your own security parameter repository
 During the OAuth2 workflow a `InMemoryCryptographicParameterRepository` object is used to store the "state" parameter that is round-tripped to the resource provider. This implementation stores the generated parameters in a static variable in the current app domain. This is problematic in a multi-server scenario without sticky sessions. To remedy this create an implementation of `ICryptographicParameterRepository` that utilizes some other mechanism of storing the parameters (database session cache, cookies, etc). For example:
 
