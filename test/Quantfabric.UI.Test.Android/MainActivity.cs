@@ -244,7 +244,24 @@ namespace Quantfabric.UI.Test
                 WriteCredentials(token);
             };
 
+            FindViewById<Button>(Resource.Id.pinterest).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Pinterest>();
+                var clientSecret = settings.GetClientSecret<Pinterest>();
+                var redirectUri = settings.GetRedirectUri<Pinterest>();
 
+                var token = await new OAuth2App<Pinterest>(
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                        .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
 
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
             {

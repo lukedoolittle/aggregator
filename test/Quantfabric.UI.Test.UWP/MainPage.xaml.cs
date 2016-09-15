@@ -129,6 +129,25 @@ namespace Quantfabric.UI.Test.UWP
             WriteToTextbox($"AccessToken:{token.AccessToken}");
         }
 
+        private async void OnPinterestClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Pinterest>();
+            var clientSecret = settings.GetClientSecret<Pinterest>();
+            var redirectUri = settings.GetRedirectUri<Pinterest>();
+
+            var token = await new OAuth2App<Pinterest>(
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
         private void WriteToTextbox(string text)
         {
             Platform.Current.RunOnMainThread(() =>

@@ -96,6 +96,7 @@
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
     <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
+    <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
     <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
     <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
     <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
@@ -229,6 +231,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Swagger\omniture.json" />
+    <None Include="Swagger\pinterest.json" />
     <None Include="Swagger\twentythreeandme.json" />
     <None Include="Swagger\fitbit.json" />
     <None Include="Swagger\spotify.json" />
@@ -254,6 +257,7 @@
 .\Infrastructure\ProtectedResources\Google.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
 .\Infrastructure\ProtectedResources\Omniture.cs
+.\Infrastructure\ProtectedResources\Pinterest.cs
 .\Infrastructure\ProtectedResources\Rescuetime.cs
 .\Infrastructure\ProtectedResources\Runkeeper.cs
 .\Infrastructure\ProtectedResources\Spotify.cs
@@ -278,6 +282,7 @@
 .\Infrastructure\Requests\GoogleGmailMetadata.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
 .\Infrastructure\Requests\OmnitureReporting.cs
+.\Infrastructure\Requests\PinterestLikes.cs
 .\Infrastructure\Requests\RescuetimeAnalyticData.cs
 .\Infrastructure\Requests\RunkeeperFitnessActivity.cs
 .\Infrastructure\Requests\SpotifySavedTrack.cs

@@ -86,6 +86,20 @@ namespace Quantfabric.Web.Test.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Pinterest()
+        {
+            var oauth = new OAuth2Web<Pinterest>(
+                _appRepository.GetClientId<Pinterest>(),
+                _appRepository.GetRedirectUri<Pinterest>())
+                .AddScope<PinterestLikes>();
+
+            var uri = await GetOAuth2AuthorizationUri(oauth)
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
+        [HttpGet]
         public async Task<ActionResult> Spotify()
         {
             var uri = await GetOAuth2AuthorizationUri<Spotify>()

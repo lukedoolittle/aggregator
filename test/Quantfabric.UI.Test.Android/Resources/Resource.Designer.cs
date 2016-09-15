@@ -94,6 +94,9 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f05000d
 			public const int mioalphaAuth = 2131034125;
 			
+			// aapt resource value: 0x7f050011
+			public const int pinterest = 2131034129;
+			
 			// aapt resource value: 0x7f050009
 			public const int rescuetimeAuth = 2131034121;
 			

@@ -1,0 +1,69 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Pinterest",
+        "description": "Pinterest API",
+        "termsOfService": "https://developers.pinterest.com/terms/",
+        "version": "1"
+    },
+    "host": "api.pinterest.com,",
+    "basePath": "/v1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/me/likes": {
+            "get": {
+                "summary": "The default response returns the ID, link, URL and description of the Pins the authenticated user has liked.",
+                "description": "https://developers.pinterest.com/docs/api/users/",
+                "operationId": "PinterestLikes",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The maximum number of objects to return",
+                        "type": "integer",
+                        "default": 25,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "description": "The starting page of the object to return",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "read_public" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://api.pinterest.com/oauth/",
+            "tokenUrl": "https://api.pinterest.com/v1/oauth/token",
+            "x-token-name": "access_token",
+            "x-grant-types": [ "authorization_code" ],
+            "x-scope-delimiter": ",",
+            "scopes": {
+                "read_public": "Use GET method on a user’s Pins, boards and likes",
+                "write_public": "Use PATCH, POST and DELETE methods on a user’s Pins and boards",
+                "read_relationships": "Use GET method on a user’s follows and followers (on boards, users and interests)",
+                "write_relationships": "Use PATCH, POST and DELETE methods on a user’s follows and followers (on boards, users and interests)"
+            }
+        }
+    },
+    "definitions": []
+}

@@ -150,6 +150,20 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
         }
 
+        [Fact]
+        public async void GetAccessTokenFromPinterestImplicitFlowThrowsException()
+        {
+            var clientId = _appRepository.GetClientId<Pinterest>();
+            var redirectUri = _appRepository.GetRedirectUri<Pinterest>();
+
+            await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<Pinterest>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync())
+                .ConfigureAwait(false);
+        }
+
         private bool IsValidToken(OAuth2Credentials token)
         {
             return token != null &&

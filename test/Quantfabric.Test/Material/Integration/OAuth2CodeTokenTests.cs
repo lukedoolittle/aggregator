@@ -220,6 +220,26 @@ namespace Quantfabric.Test.Material.Integration
             _tokenRepository.PutToken<TwentyThreeAndMe, OAuth2Credentials>(token);
         }
 
+        [Fact]
+        public async void CanGetValidAccessTokenFromPinterest()
+        {
+            var clientId = _appRepository.GetClientId<Pinterest>();
+            var clientSecret = _appRepository.GetClientSecret<Pinterest>();
+            var redirectUri = _appRepository.GetRedirectUri<Pinterest>();
+
+            var token = await new OAuth2App<Pinterest>(
+                        clientId,
+                        clientSecret,
+                        redirectUri)
+                    .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidToken(token));
+
+            _tokenRepository.PutToken<Pinterest, OAuth2Credentials>(token);
+        }
+
         private bool IsValidToken(OAuth2Credentials token)
         {
             return token != null &&
