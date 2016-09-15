@@ -10,7 +10,7 @@ var solution = Argument("solution", "Quantfabric.sln");
 var primaryAssembly = Argument("primaryAssembly", "Material.dll");
 var mergedAssembly = Argument("mergedAssembly", "Material.Core.dll");
 
-var nugetLocation = Argument("nugetLocation", "./build/Material");
+var nugetLocation = Argument("nugetLocation", "./nuget/Material");
 
 var nuspec = Argument("nuspec", "Quantfabric.Material.nuspec");
 var nupkg = Argument("nupkg", nugetLocation);
