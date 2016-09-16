@@ -164,6 +164,22 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
         }
 
+        [Fact]
+        public async void CanGetValidAccessTokenFromInstagramImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Instagram>();
+            var redirectUri = _appRepository.GetRedirectUri<Instagram>();
+
+            var token = await new OAuth2App<Instagram>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<InstagramLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidToken(token));
+        }
+
         private bool IsValidToken(OAuth2Credentials token)
         {
             return token != null &&

@@ -1,0 +1,84 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Instagram",
+        "description": "Instagram Platform API",
+        "termsOfService": "https://www.instagram.com/about/legal/terms/api/",
+        "version": "1"
+    },
+    "host": "api.instagram.com",
+    "basePath": "/v1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/users/self/media/liked": {
+            "get": {
+                "summary": "Get the list of recent media liked by the owner of the access_token",
+                "description": "https://www.instagram.com/developer/endpoints/users/#get_users_feed_liked",
+                "operationId": "InstagramLikes",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "count",
+                        "description": "Count of media to return",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "max_like_id",
+                        "description": "Return media liked before this id",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "public_content" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
+            "tokenUrl": "https://api.instagram.com/oauth/access_token",
+            "x-token-name": "access_token",
+            "x-grant-types": [ "authorization_code" ],
+            "scopes": {
+                "basic": "to read a user’s profile info and media",
+                "public_content": "to read any public profile info and media on a user’s behalf",
+                "follower_list": "to read the list of followers and followed-by users",
+                "comments": "to post and delete comments on a user’s behalf",
+                "relationships": "to follow and unfollow accounts on a user’s behalf",
+                "likes": "to like and unlike media on a user’s behalf"
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
+            "x-token-name": "access_token",
+            "scopes": {
+                "basic": "to read a user’s profile info and media",
+                "public_content": "to read any public profile info and media on a user’s behalf",
+                "follower_list": "to read the list of followers and followed-by users",
+                "comments": "to post and delete comments on a user’s behalf",
+                "relationships": "to follow and unfollow accounts on a user’s behalf",
+                "likes": "to like and unlike media on a user’s behalf"
+            }
+        }
+    },
+    "definitions": []
+}

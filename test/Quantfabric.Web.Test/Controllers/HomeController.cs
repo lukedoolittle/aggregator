@@ -153,6 +153,20 @@ namespace Quantfabric.Web.Test.Controllers
             return Redirect(uri.ToString());
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Instagram()
+        {
+            var oauth = new OAuth2Web<Instagram>(
+                _appRepository.GetClientId<Instagram>(),
+                _appRepository.GetRedirectUri<Instagram>())
+                .AddScope<InstagramLikes>();
+
+            var uri = await GetOAuth2AuthorizationUri(oauth)
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
         private Task<Uri> GetOAuth1AuthorizationUri<TProtectedResource>()
             where TProtectedResource : OAuth1ResourceProvider, new()
         {

@@ -162,6 +162,17 @@ namespace Quantfabric.Web.Test.Controllers
                 new { accessToken = credentials.AccessToken });
         }
 
+        // GET: oauth/pinterest
+        [HttpGet]
+        public async Task<ActionResult> Instagram()
+        {
+            var credentials = await GetOAuth2Credentials<Instagram>()
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { accessToken = credentials.AccessToken });
+        }
+
         public Task<OAuth1Credentials> GetOAuth1Credentials<TResourceProvider>()
             where TResourceProvider : OAuth1ResourceProvider, new()
         {

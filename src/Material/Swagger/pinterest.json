@@ -6,7 +6,7 @@
         "termsOfService": "https://developers.pinterest.com/terms/",
         "version": "1"
     },
-    "host": "api.pinterest.com,",
+    "host": "api.pinterest.com",
     "basePath": "/v1",
     "schemes": [ "https" ],
     "produces": [ "application/json" ],

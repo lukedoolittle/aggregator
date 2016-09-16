@@ -13,7 +13,7 @@ namespace Material.Infrastructure.Requests
     [ServiceType(typeof(Pinterest))]
 	public partial class PinterestLikes : OAuthRequest              
 	{
-        public override String Host => "https://api.pinterest.com,";
+        public override String Host => "https://api.pinterest.com";
         public override String Path => "/v1/me/likes";
         public override String HttpMethod => "GET";
         public override List<String> RequiredScopes => new List<String> { "read_public" };

@@ -95,6 +95,7 @@
     <Compile Include="Infrastructure\Partials\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
+    <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
     <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
     <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
     <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
@@ -231,6 +233,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Swagger\omniture.json" />
+    <None Include="Swagger\instagram.json" />
     <None Include="Swagger\pinterest.json" />
     <None Include="Swagger\twentythreeandme.json" />
     <None Include="Swagger\fitbit.json" />
@@ -255,6 +258,7 @@
 .\Infrastructure\ProtectedResources\Fitbit.cs
 .\Infrastructure\ProtectedResources\Foursquare.cs
 .\Infrastructure\ProtectedResources\Google.cs
+.\Infrastructure\ProtectedResources\Instagram.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
 .\Infrastructure\ProtectedResources\Omniture.cs
 .\Infrastructure\ProtectedResources\Pinterest.cs
@@ -280,6 +284,7 @@
 .\Infrastructure\Requests\FoursquareTip.cs
 .\Infrastructure\Requests\GoogleGmail.cs
 .\Infrastructure\Requests\GoogleGmailMetadata.cs
+.\Infrastructure\Requests\InstagramLikes.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
 .\Infrastructure\Requests\OmnitureReporting.cs
 .\Infrastructure\Requests\PinterestLikes.cs
