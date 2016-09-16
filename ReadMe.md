@@ -25,12 +25,14 @@ You can get Material by [grabbing the latest NuGet package](#https://www.nuget.o
 * `Facebook` (token expires, no refresh token provided)
 * `Fitbit` (token expires, refresh token provided)
 * `Foursquare` (token does not expire)
-* `Google` (token expires, refresh token provided)
+* [`Google`](#google) (token expires, refresh token provided)
 * `LinkedIn` (token does not expire)
 * [`Rescuetime`](#rescuetime) (token does not expire)
 * `Runkeeper` (token does not expire)
 * `Spotify` (token expires, refresh token provided)
 * `TwentyThreeAndMe` (token expires, refresh token provided)
+* [`Pinterest`](#pinterest) (token does not expire)
+* `Instagram` (token does not expire)
 * [Create a Provider](#advanced_provider)
 
 ## List of Requests
@@ -67,6 +69,8 @@ You can get Material by [grabbing the latest NuGet package](#https://www.nuget.o
 * `TwitterTimeline`
 * `TwitterTweet`
 * `WithingsWeighin`
+* `InstagramLikes`
+* `PinterestLikes`
 * [Create a Request](#advanced_request)
 
 ## <a name="oauth1_web"></a> Web App Authentication Provider (OAuth1)
@@ -307,6 +311,9 @@ The SMS results can also be filtered by a date:
 ## Provider Specific Notes
 ### <a name="rescuetime"></a> Rescuetime
 Since rescuetime requires an HTTPS endpoint and the current HttpServer implementation does not handle HTTPS you will see an error when your Rescuetime callback request comes back, when using a desktop workflow. The current workaround is for the user to manually update the url in the browser window, changing HTTPS into HTTP and then hitting 'return'.
+
+### <a name="pinterest"></a> Pinterest
+Similar to Rescuetime above Pinterest requires an HTTPS endpoint and thus you have to manually edit the url that appears in your desktops browser, changing the HTTPS to HTTP.
 
 ### <a name="google"></a> Google
 When creating credentials for a dedicated browser create a "OAuth client Id" for the "iOS" app type. In the "bundle name" field enter the scheme you have set for your callback. When instantiating the `OAuth2App` class your callback uri should only contain one / after the scheme, not two. For example if you put `myapp` as your bundle name in the credential configuration, then your callback uri should look like `myapp:/something/`.

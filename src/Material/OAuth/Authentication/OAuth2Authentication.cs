@@ -28,22 +28,14 @@ namespace Material.Infrastructure.OAuth
             {
                 throw new ArgumentNullException(nameof(authorizeUrl));
             }
-
             if (string.IsNullOrEmpty(clientId))
             {
                 throw new ArgumentNullException(nameof(clientId));
             }
-
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
-
             if (redirectUri == null)
             {
                 throw new ArgumentNullException(nameof(redirectUri));
             }
-
             if (string.IsNullOrEmpty(state))
             {
                 throw new ArgumentNullException(nameof(state));
@@ -56,10 +48,14 @@ namespace Material.Infrastructure.OAuth
             {
                 {OAuth2ParameterEnum.RedirectUri.EnumToString(), redirectUri.ToString()},
                 {OAuth2ParameterEnum.ClientId.EnumToString(), clientId},
-                {OAuth2ParameterEnum.Scope.EnumToString(), scope},
                 {OAuth2ParameterEnum.State.EnumToString(), state},
                 {OAuth2ParameterEnum.ResponseType.EnumToString(), responseType.EnumToString()}
             };
+
+            if (!string.IsNullOrEmpty(scope))
+            {
+                query.Add(OAuth2ParameterEnum.Scope.EnumToString(), scope);
+            }
 
             foreach (var parameter in queryParameters)
             {
