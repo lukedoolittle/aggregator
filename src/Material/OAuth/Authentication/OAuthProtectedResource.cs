@@ -74,11 +74,15 @@ namespace Material.Infrastructure.OAuth
                     new HttpMethod(httpMethod),
                     path)
                 .ResponseMediaType(expectedResponseType)
-                .Content(body, bodyType)
                 .Headers(headers)
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)
                 .Authenticator(_authenticator);
+
+            if (body != null)
+            {
+                request.Content(body, bodyType);
+            }
 
             if (_parameterHandling == OAuthParameterTypeEnum.Body)
             {
