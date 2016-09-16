@@ -64,6 +64,7 @@ namespace Quantfabric.Test.Material.Integration
                         clientId,
                         clientSecret,
                         redirectUri)
+                    .AddScope<FacebookUser>()
                     .AddScope<FacebookEvent>()
                     .AddScope<FacebookFeed>()
                     .AddScope<FacebookFriend>()

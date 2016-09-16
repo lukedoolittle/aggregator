@@ -100,6 +100,7 @@
     <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
     <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Infrastructure\Responses\FacebookEventResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookFeedResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookPageLikeResponse.cs" />
+    <Compile Include="Infrastructure\Responses\FacebookUserResponse.cs" />
     <Compile Include="Infrastructure\Responses\FatsecretMealResponse.cs" />
     <Compile Include="Infrastructure\Responses\FitbitIntradayStepsResponse.cs" />
     <Compile Include="Infrastructure\Responses\FitbitProfileResponse.cs" />
@@ -272,6 +274,7 @@
 .\Infrastructure\Requests\FacebookFeed.cs
 .\Infrastructure\Requests\FacebookFriend.cs
 .\Infrastructure\Requests\FacebookPageLike.cs
+.\Infrastructure\Requests\FacebookUser.cs
 .\Infrastructure\Requests\FatsecretMeal.cs
 .\Infrastructure\Requests\FitbitIntradayHeartRate.cs
 .\Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs

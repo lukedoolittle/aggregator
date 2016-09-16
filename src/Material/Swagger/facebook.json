@@ -13,6 +13,35 @@
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
     "paths": {
+        "/me": {
+            "get": {
+                "summary": "A user represents a person on Facebook",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/user/",
+                "operationId": "FacebookUser",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Optional fields to request",
+                        "type": "string",
+                        "default": "email",
+                        "enum": [ "email" ],
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "email" ]
+                    }
+                ]
+            }
+        },
         "/me/likes": {
             "get": {
                 "summary": "All the Pages this person has liked",
@@ -60,7 +89,7 @@
                         }
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
                         "oauth2": [ "user_likes" ]
@@ -105,7 +134,7 @@
                         "name": "type",
                         "description": "Query events for which the user has this particular rsvp_status set",
                         "type": "string",
-                        "enum": [ "attending", "created", "declined", "maybe", "not_replied"],
+                        "enum": [ "attending", "created", "declined", "maybe", "not_replied" ],
                         "required": false
                     }
                 ],
@@ -114,7 +143,7 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [ { "oauth2": [ "user_events" ] } ]
             }
         },
@@ -156,7 +185,7 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [ { "oauth2": [ "user_posts" ] } ]
             }
         },
@@ -197,7 +226,7 @@
                         "name": "summary",
                         "description": "Aggregated information about the edge, such as counts",
                         "type": "string",
-                        "default": "total_count", 
+                        "default": "total_count",
                         "required": false
                     }
                 ],
@@ -206,7 +235,7 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [ { "oauth2": [ "user_friends" ] } ]
             }
         }
@@ -222,10 +251,11 @@
             "x-scope-delimiter": ",",
             "x-grant-types":  ["authorization_code"],
             "scopes": {
+                "email": "Provides access to the person's primary email address via the email property on the user object",
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
                 "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
                 "user_friends": "Provides access the list of friends that also use your app",
-                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline." 
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline."
             }
         },
         "oauth2Token": {
@@ -235,10 +265,11 @@
             "authorizationUrl": "https://www.facebook.com/dialog/oauth",
             "x-token-name": "access_token",
             "scopes": {
+                "email": "Provides access to the person's primary email address via the email property on the user object",
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
                 "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
                 "user_friends": "Provides access the list of friends that also use your app",
-                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline." 
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline."
             }
         }
     },

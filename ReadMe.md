@@ -4,6 +4,87 @@ A cross platform framework for collecting personal data from various sources inc
 # NuGet
 You can get Material by [grabbing the latest NuGet package](#https://www.nuget.org/packages/Quantfabric.Material/) currently available for .NET 4.5, Xamarin.Android, Xamarin.iOS, and Windows UWP (Xamarin.Forms in progress)
 
+# Basic Examples
+## Authenticate With Facebook
+On a Mobile/Desktop app:
+
+    string clientId = "YOUR CLIENT ID";
+    string callbackUri = "HTTP://YOURCALLBACKURI";
+
+    OAuth2Credentials credentials = await new OAuth2App<Facebook>(
+            clientId, 
+            callbackUri)
+        .GetCredentialsAsync()
+        .ConfigureAwait(false);
+
+    FacebookUserResponse user = await new OAuthRequester(credentials)
+        .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
+        .ConfigureAwait(false);
+
+    //Got an email!!!
+    string email = user.Email;
+
+In a web app (using .NET MVC), to authorize:
+
+    [HttpGet]
+    public async Task<ActionResult> Facebook()
+    {
+        string clientId = "YOUR CLIENT ID";
+        string callbackUri = "HTTP://YOURCALLBACKURI";
+
+        string userId = Guid.NewGuid().ToString();
+        this.AddUserIdCookie(userId);
+
+        Uri authorizationUri = await new OAuth2Web<Facebook>(
+                clientId,
+                callbackUri)
+            .AddScope<FacebookUser>()
+            .GetAuthorizationUriAsync(userId)
+            .ConfigureAwait(false);
+
+        return Redirect(authorizationUri.ToString());
+    }
+
+In a web app (using .NET MVC), to handle the callback:
+
+    public class OAuthController : Controller
+    {
+        // GET: oauth/facebook
+        [HttpGet]
+        public async Task<ActionResult> Facebook()
+        {
+            string clientId = "YOUR CLIENT ID";
+            string clientSecret = "YOUR CLIENT SECRET";
+            string callbackUri = "HTTP://YOURCALLBACKURI";
+
+            OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
+                clientId,
+                callbackUri);
+
+            OAuth2Credentials intermediateCredentials = oauth
+                .ParseAndValidateCallback(
+                    ControllerContext.HttpContext.Request.Url,
+                    this.GetUserIdFromCookie());
+
+            OAuth2Credentials fullCredentials = await oauth
+                .GetAccessTokenAsync(
+                    intermediateCredentials, 
+                    clientSecret)
+                .ConfigureAwait(false);
+
+            FacebookUserResponse user = await new OAuthRequester(fullCredentials)
+                .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
+                .ConfigureAwait(false);
+
+            //Got an email!!!
+            string email = user.Email;
+            
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+
+# In Depth
 ## What is your usage scenario?
 1. [I have a mobile/desktop app and I want to use an OAuth1 authentication provider (ie Login with Twitter)](#oauth1_app)
 2. [I have a mobile/desktop app and I want to use an OAuth2 authentication provider (ie Login with Facebook)](#oauth2_app)
@@ -40,6 +121,7 @@ You can get Material by [grabbing the latest NuGet package](#https://www.nuget.o
 * `FacebookEvent`
 * `FacebookFriend`
 * `FacebookPageLike`
+* `FacebookUser`
 * `FatsecretMeal`
 * `FitbitIntradayHeartRate`
 * `FitbitIntradayHeartRateBulk`

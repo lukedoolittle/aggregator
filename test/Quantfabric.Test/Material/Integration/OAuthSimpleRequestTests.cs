@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Material;
 using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
@@ -465,6 +466,23 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #region Facebook
+
+        [Fact]
+        public async void MakeRequestForFacebookUser()
+        {
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+            Assert.NotEmpty(response.Email);
+        }
+
         [Fact]
         public async void MakeRequestForFacebookLike()
         {
@@ -540,6 +558,8 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #endregion Facebook
 
         #region Twitter Requests
 
