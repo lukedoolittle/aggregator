@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.iOS", "src\Materia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Android", "src\Material.Android\Material.Android.csproj", "{6084CED8-DBFA-4043-9DAC-3DD880D0E533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGen", "codegen\CodeGen.csproj", "{C193F9C3-AB71-4EBA-8850-8FFAA7D2FD2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGen", "src\codegen\CodeGen.csproj", "{C193F9C3-AB71-4EBA-8850-8FFAA7D2FD2B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundations", "Foundations", "{DAE58CB7-00EC-48C8-ADD2-AF50384603D5}"
 EndProject
