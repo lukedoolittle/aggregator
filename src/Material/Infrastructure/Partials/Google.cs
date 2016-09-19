@@ -8,17 +8,14 @@ namespace Material.Infrastructure.ProtectedResources
         private readonly KeyValuePair<string, string> _accessType =
             new KeyValuePair<string, string>("access_type", "offline");
 
-        public override void SetClientProperties(
-            string clientId,
-            string clientSecret)
-        {
-            base.SetClientProperties(clientId, clientSecret);
 
+        public override OAuth2ResourceProvider SetFlow(ResponseTypeEnum flow)
+        {
             //When using the 'code' flow adding access_type=offline to the authentication 
             //uri results in a refresh token being returned. This is the behavior of every
             //other OAuth2 access code workflow by default so add this for consistency.
             //You cannot request an offline token using the 'token' flow
-            switch (Flow)
+            switch (flow)
             {
                 case ResponseTypeEnum.Token:
                     Parameters.Remove(_accessType.Key);
@@ -32,6 +29,8 @@ namespace Material.Infrastructure.ProtectedResources
                     }
                     break;
             }
+
+            return base.SetFlow(flow);
         }
     }
 }

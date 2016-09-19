@@ -115,6 +115,7 @@
     <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
     <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
     <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
     <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Infrastructure\Responses\FoursquareTipResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleGmailMetadataResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleGmailResponse.cs" />
+    <Compile Include="Infrastructure\Responses\GoogleProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\LinkedInPersonalResponse.cs" />
     <Compile Include="Infrastructure\Responses\OmnitureGetResponse.cs" />
     <Compile Include="Infrastructure\Responses\OmnitureQueueResponse.cs" />
@@ -292,6 +294,7 @@
 .\Infrastructure\Requests\FoursquareTip.cs
 .\Infrastructure\Requests\GoogleGmail.cs
 .\Infrastructure\Requests\GoogleGmailMetadata.cs
+.\Infrastructure\Requests\GoogleProfile.cs
 .\Infrastructure\Requests\InstagramLikes.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
 .\Infrastructure\Requests\OmnitureReporting.cs

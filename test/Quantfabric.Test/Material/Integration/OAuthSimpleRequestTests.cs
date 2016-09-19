@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Material;
 using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
@@ -167,6 +168,8 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #region Google Requests
+
         [Fact]
         public async void MakeRequestForGmailMetadata()
         {
@@ -183,6 +186,21 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
+        }
+
+        [Fact]
+        public async void MakeRequestForGoogleProfile()
+        {
+            var credentials = _tokenRepository.GetToken<Google, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+            Assert.NotEmpty(response.Emails.First().Value);
         }
 
         [Fact]
@@ -205,6 +223,8 @@ namespace Quantfabric.Test.Material.Integration
                 Assert.NotNull(response);
             }
         }
+
+        #endregion Google Requests
 
         [Fact]
         public async void MakeRequestForRescuetimeAnalyticData()

@@ -34,6 +34,7 @@ namespace Quantfabric.Test.Material.Integration
                         redirectUri)
                     .AddScope<GoogleGmail>()
                     .AddScope<GoogleGmailMetadata>()
+                    .AddScope<GoogleProfile>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 

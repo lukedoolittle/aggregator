@@ -10,6 +10,7 @@ Authenticate with Facebook on a Mobile/Desktop app:
     OAuth2Credentials credentials = await new OAuth2App<Facebook>(
             "YOUR CLIENT ID", 
             "HTTP://YOURCALLBACKURI")
+        .AddScope<FacebookUser>()
         .GetCredentialsAsync()
         .ConfigureAwait(false);
 
@@ -18,7 +19,6 @@ Authenticate with Facebook on a Mobile/Desktop app:
         .ConfigureAwait(false);
 
     string email = user.Email;
-    
     //Do something with users email address
 
 Authorize with Facebook in a web app (.NET MVC):
@@ -68,12 +68,28 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
                 .ConfigureAwait(false);
 
             string email = user.Email;
-            
             //Do something with users email address
             
             return RedirectToAction("Index", "Home");
         }
     }
+    
+    
+Authenticate with Google on a Mobile/Desktop app:
+
+    OAuth2Credentials credentials = await new OAuth2App<Google>(
+            "YOUR CLIENT ID", 
+            "HTTP://YOURCALLBACKURI")
+        .AddScope<GoogleProfile>()
+        .GetCredentialsAsync()
+        .ConfigureAwait(false);
+
+    GoogleProfileResponse profile = await new OAuthRequester(credentials)
+        .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
+        .ConfigureAwait(false);
+
+    string email = profile.Emails.First().Value;
+    //Do something with users email address
     
 ## Documentation
 Documentation is available in the [gihub wiki](https://github.com/lukedoolittle/quantfabric/wiki). The documentation covers all scenarios for OAuth1/OAuth2 on Mobile/Desktop/Web, Bluetooth GATT, mobile device sensors, as well as some advanced topics.
