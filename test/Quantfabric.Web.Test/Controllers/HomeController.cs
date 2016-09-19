@@ -27,6 +27,15 @@ namespace Quantfabric.Web.Test.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Tumblr()
+        {
+            var uri = await GetOAuth1AuthorizationUri<Tumblr>()
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
+        [HttpGet]
         public async Task<ActionResult> Twitter()
         {
             var uri = await GetOAuth1AuthorizationUri<Twitter>()

@@ -38,6 +38,7 @@ namespace Foundations.HttpClient
                 { MediaTypeEnum.TextXml, new XmlSerializer() },
                 { MediaTypeEnum.Html, new HtmlSerializer() },
                 { MediaTypeEnum.Text, new HtmlSerializer() },
+                { MediaTypeEnum.Form, new HtmlSerializer() },
                 { MediaTypeEnum.Javascript, new JsonSerializer() }
             };
 

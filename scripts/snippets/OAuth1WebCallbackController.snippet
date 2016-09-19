@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>OAuth1WebCallbackController</Title>
+      <Author>Valued Customer</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>oauth1webcallback</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>Resource</ID>
+          <ToolTip>Resource Name</ToolTip>
+          <Default>RESOURCE</Default>
+          <Function>
+          </Function>
+          <Type>object</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[        // GET: oauth/$Resource$
+        [HttpGet]
+        public async Task<ActionResult> $Resource$()
+        {
+            var credentials = await GetOAuth1Credentials<$Resource$>()
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { oauthToken = credentials.OAuthToken, oauthSecret = credentials.OAuthSecret });
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -76,6 +76,25 @@ namespace Quantfabric.Test.Material.Integration
             _tokenRepository.PutToken<Withings, OAuth1Credentials>(token);
         }
 
+        [Fact]
+        public async void CanGetValidAccessTokenFromTumblr()
+        {
+            var consumerKey = _appRepository.GetConsumerKey<Tumblr>();
+            var consumerSecret = _appRepository.GetConsumerSecret<Tumblr>();
+            var redirectUri = _appRepository.GetRedirectUri<Tumblr>();
+
+            var token = await new OAuth1App<Tumblr>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidToken(token, false));
+
+            _tokenRepository.PutToken<Tumblr, OAuth1Credentials>(token);
+        }
+
         private bool IsValidToken(
             OAuth1Credentials token,
             bool shouldContainUserId = false)

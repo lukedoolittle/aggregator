@@ -98,6 +98,10 @@
     <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Tumblr.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
     <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
@@ -118,6 +122,7 @@
     <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
     <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
     <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
+    <Compile Include="Infrastructure\Requests\TumblrLikes.cs" />
     <Compile Include="Infrastructure\Requests\TwentyThreeAndMeGenome.cs" />
     <Compile Include="Infrastructure\Requests\TwentyThreeAndMeUser.cs" />
     <Compile Include="Infrastructure\Requests\TwitterFavorite.cs" />
@@ -150,6 +155,7 @@
     <Compile Include="Infrastructure\Responses\RescuetimeAnalyticDataResponse.cs" />
     <Compile Include="Infrastructure\Responses\RunkeeperFitnessActivityResponse.cs" />
     <Compile Include="Infrastructure\Responses\SpotifySavedTrackResponse.cs" />
+    <Compile Include="Infrastructure\Responses\TumblrLikesResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwentyThreeAndMeGenomeResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwentyThreeAndMeUserResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwitterCommon.cs" />
@@ -170,9 +176,6 @@
     <Compile Include="Infrastructure\ProtectedResources\Rescuetime.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Runkeeper.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Spotify.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
     <Compile Include="Infrastructure\Static\GPSResponse.cs" />
     <Compile Include="Infrastructure\Static\SMSResponse.cs" />
@@ -234,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Swagger\tumblr.json" />
     <None Include="Swagger\omniture.json" />
     <None Include="Swagger\instagram.json" />
     <None Include="Swagger\pinterest.json" />
@@ -267,6 +271,7 @@
 .\Infrastructure\ProtectedResources\Rescuetime.cs
 .\Infrastructure\ProtectedResources\Runkeeper.cs
 .\Infrastructure\ProtectedResources\Spotify.cs
+.\Infrastructure\ProtectedResources\Tumblr.cs
 .\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
 .\Infrastructure\ProtectedResources\Twitter.cs
 .\Infrastructure\ProtectedResources\Withings.cs
@@ -294,6 +299,7 @@
 .\Infrastructure\Requests\RescuetimeAnalyticData.cs
 .\Infrastructure\Requests\RunkeeperFitnessActivity.cs
 .\Infrastructure\Requests\SpotifySavedTrack.cs
+.\Infrastructure\Requests\TumblrLikes.cs
 .\Infrastructure\Requests\TwentyThreeAndMeGenome.cs
 .\Infrastructure\Requests\TwentyThreeAndMeUser.cs
 .\Infrastructure\Requests\TwitterFavorite.cs

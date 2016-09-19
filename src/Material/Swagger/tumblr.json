@@ -1,0 +1,82 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Tumblr",
+        "description": "Tumblr API",
+        "termsOfService": "https://www.tumblr.com/docs/en/api_agreement",
+        "version": "2"
+    },
+    "host": "api.tumblr.com",
+    "basePath": "/v2",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/user/likes": {
+            "get": {
+                "summary": "Use this method to retrieve the liked posts that match the OAuth credentials submitted with the request.",
+                "description": "https://www.tumblr.com/docs/en/api/v2#user-methods",
+                "operationId": "TumblrLikes",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The number of results to return: 1–20, inclusive",
+                        "type": "integer",
+                        "format": "int32", 
+                        "default": "20",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Liked post number to start at",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "before",
+                        "description": "Retrieve posts liked before the specified timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "ddd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "after",
+                        "description": "Retrieve posts liked after the specified timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "ddd",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth1": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth1": {
+            "type": "oauth1",
+            "description": "OAuth1a Flow",
+            "requestUrl": "https://www.tumblr.com/oauth/request_token",
+            "authorizationUrl": "https://www.tumblr.com/oauth/authorize",
+            "tokenUrl": "https://www.tumblr.com/oauth/access_token",
+            "x-parameter-type": "querystring"
+        }
+    },
+    "definitions": []
+}
+

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>OAuth1TokenTest</Title>
+      <Author>Valued Customer</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>oauth1</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>Resource</ID>
+          <ToolTip>Resource Name</ToolTip>
+          <Default>RESOURCE</Default>
+          <Function>
+          </Function>
+          <Type>object</Type>
+        </Object>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[
+			var settings = new AppCredentialRepository(_callbackType);
+            var consumerKey = _appRepository.GetConsumerKey<$Resource$>();
+            var consumerSecret = _appRepository.GetConsumerSecret<$Resource$>();
+            var redirectUri = _appRepository.GetRedirectUri<$Resource$>();
+
+            var token = await new OAuth1App<$Resource$>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+        ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

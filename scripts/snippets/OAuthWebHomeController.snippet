@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>OAuthWebHomeController</Title>
+      <Author>Valued Customer</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>oauthhome</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Object Editable="true">
+          <ID>Resource</ID>
+          <ToolTip>Resource Name</ToolTip>
+          <Default>RESOURCE</Default>
+          <Function>
+          </Function>
+          <Type>object</Type>
+        </Object>
+        <Literal Editable="true">
+          <ID>OAuthType</ID>
+          <ToolTip>OAuth Type 1 or 2</ToolTip>
+          <Default>1</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[        [HttpGet]
+        public async Task<ActionResult> $Resource$()
+        {
+            var uri = await GetOAuth$OAuthType$AuthorizationUri<$Resource$>()
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

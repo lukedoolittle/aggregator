@@ -30,6 +30,17 @@ namespace Quantfabric.Web.Test.Controllers
                 new { oauthToken = credentials.OAuthToken, oauthSecret = credentials.OAuthSecret });
         }
 
+        // GET: oauth/Tumblr
+        [HttpGet]
+        public async Task<ActionResult> Tumblr()
+        {
+            var credentials = await GetOAuth1Credentials<Tumblr>()
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { oauthToken = credentials.OAuthToken, oauthSecret = credentials.OAuthSecret });
+        }
+
         // GET: oauth/withings
         [HttpGet]
         public async Task<ActionResult> Withings()
