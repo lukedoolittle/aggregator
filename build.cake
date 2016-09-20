@@ -28,11 +28,13 @@ var windowsBuildDirectory = Directory("./src/Material.Windows/bin") + Directory(
 var iOSBuildDirectory = Directory("./src/Material.iOS/bin") + Directory(configuration);
 var androidBuildDirectory = Directory("./src/Material.Android/bin") + Directory(configuration);
 var uwpBuildDirectory = Directory("./src/Material.UWP/bin") + Directory(configuration);
+var formsBuildDirectory = Directory("./src/Material.Forms/bin") + Directory(configuration);
 
 var windowsLibDirectory = nugetLibDirectory + Directory("net452");
 var iOSLibDirectory = nugetLibDirectory + Directory("Xamarin.iOS10");
 var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
+var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa81");
 
 var baseMergeList = new List<FilePath>
 {
@@ -53,6 +55,8 @@ var androidMergeList = new List<FilePath>(baseMergeList);
 androidMergeList.Add(File("Robotics.Mobile.Core.dll"));
 androidMergeList.Add(File("Robotics.Mobile.Core.Droid.dll"));
 
+var formsMergeList = new List<FilePath>(baseMergeList);
+
 var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 {
 	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
@@ -64,6 +68,9 @@ var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
 		androidBuildDirectory,
 		androidMergeList),
+	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
+		formsBuildDirectory,
+		formsMergeList),
 };
 
 var ilRepackFrameworkLocations = new List<FilePath> 
@@ -85,6 +92,7 @@ Task("Clean")
 	CleanDirectory(iOSBuildDirectory);
 	CleanDirectory(androidBuildDirectory);
 	CleanDirectory(uwpBuildDirectory);
+	CleanDirectory(formsBuildDirectory);
 	CleanDirectory(nugetLibDirectory);
 	
 	DeleteFiles(nupkgFilePattern);
@@ -101,6 +109,7 @@ Task("Create-Directories")
 	EnsureDirectoryExists(androidLibDirectory);
 	EnsureDirectoryExists(iOSLibDirectory);
 	EnsureDirectoryExists(uwpLibDirectory);
+	EnsureDirectoryExists(formsLibDirectory);
 });
 
 Task("Restore-NuGet-Packages")

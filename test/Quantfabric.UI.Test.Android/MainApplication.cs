@@ -18,7 +18,8 @@ namespace Quantfabric.UI.Test
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
-            //A great place to initialize Xamarin.Insights and Dependency Services!
+            //Uncomment this line if using Xamarin.Forms
+            //Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
         }
 
         public override void OnTerminate()

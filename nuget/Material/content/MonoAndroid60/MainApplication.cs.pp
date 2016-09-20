@@ -18,7 +18,9 @@ namespace $rootnamespace$
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
-            //A great place to initialize Xamarin.Insights and Dependency Services!
+            //Uncomment lines if using Xamarin.Forms
+            //Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+            //Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
         }
 
         public override void OnTerminate()

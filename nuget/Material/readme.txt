@@ -84,3 +84,44 @@ If you intend to use an OAuth workflow with a dedicated browser insert the follo
 			</Application>
 		</Applications>
 	</Package>
+
+-------------------------------
+     Xamarin.Forms (PCL)
+-------------------------------
+Add a dependency registration for the OAuthAuthorizerUIFactory to each platform project on launch
+
+For Android (in MainApplication.OnCreate())
+
+	public override void OnCreate()
+	{
+		base.OnCreate(bundle);
+
+		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
+
+		global::Xamarin.Forms.Forms.Init(this, bundle);
+		LoadApplication(new App());
+	}
+
+For iOS (in AppDelegate.FinishLaunching())
+
+	public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+	{
+		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
+
+		global::Xamarin.Forms.Forms.Init();
+		LoadApplication(new App());
+
+		return base.FinishedLaunching(app, options);
+	}
+
+For UWP (in the constructor of MainPage)
+
+	public MainPage()
+	{
+		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
+
+		LoadApplication(new App2.App());
+	}

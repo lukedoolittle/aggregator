@@ -1,14 +1,14 @@
-#if __MOBILE__
-using Material.Bluetooth;
+﻿using Material.Contracts;
 using Material.Infrastructure;
+using Xamarin.Forms;
 
 namespace Material
 {
     public class BluetoothApp<TResourceProvider> : BluetoothAppBase<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()
     {
-        public BluetoothApp() : base(new BluetoothAuthorizerUIFactory())
+        public BluetoothApp() : 
+            base(DependencyService.Get<IBluetoothAuthorizerUIFactory>())
         { }
     }
 }
-#endif

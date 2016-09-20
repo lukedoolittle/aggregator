@@ -20,6 +20,10 @@
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
     <copyright>Copyright 2016</copyright>
     <dependencies>
+      <group targetFramework="portable45-net45+win8+wpa81">
+        <dependency id="Portable.BouncyCastle" version="1.8.1" />
+        <dependency id="Xamarin.Forms" version="2.3.2.127" />
+      </group>
       <group targetFramework="net452">
         <dependency id="Portable.BouncyCastle" version="1.8.1" />
       </group>
@@ -60,6 +64,7 @@
   <files>
     <file src="readme.txt" target="" />
     <file src="lib\" target="lib" />
+    <file src="..\..\src\Material.Forms\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\portable45-net45+win8+wpa81" />
     <file src="..\..\src\Material.Windows\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\net452" />
     <file src="..\..\src\Material.Android\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\MonoAndroid60" />
     <file src="..\..\src\Material.iOS\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\Xamarin.iOS10" />

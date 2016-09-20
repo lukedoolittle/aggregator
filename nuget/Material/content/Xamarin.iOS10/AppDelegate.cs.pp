@@ -9,6 +9,10 @@ namespace $rootnamespace$
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            //Uncomment lines if using Xamarin.Forms
+            //Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+            //Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
+            
             return true;
         }
 
