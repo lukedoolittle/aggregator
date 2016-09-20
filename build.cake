@@ -30,7 +30,7 @@ var androidBuildDirectory = Directory("./src/Material.Android/bin") + Directory(
 var uwpBuildDirectory = Directory("./src/Material.UWP/bin") + Directory(configuration);
 var formsBuildDirectory = Directory("./src/Material.Forms/bin") + Directory(configuration);
 
-var windowsLibDirectory = nugetLibDirectory + Directory("net452");
+var windowsLibDirectory = nugetLibDirectory + Directory("net45");
 var iOSLibDirectory = nugetLibDirectory + Directory("Xamarin.iOS10");
 var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
