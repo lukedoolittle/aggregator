@@ -25,22 +25,31 @@ namespace Foundations.Cryptography
         }
 
         /// <summary>
-        /// Creates a cryptographically strong string
+        /// Creates a 16 character a cryptographically strong string
         /// </summary>
         /// <returns></returns>
         public static string Create16CharacterCryptographicallyStrongString(
             CryptoStringTypeEnum stringType = CryptoStringTypeEnum.LowercaseAlphaNumeric)
         {
+            //Per NIST truncating a SHA256 hash by taking the left most n bits is acceptable
+            //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-107r1.pdf
             return CreateCryptographicallyStrongString<Sha256Digest>(
                 stringType)
                 .Substring(0, 16);
         }
 
+        /// <summary>
+        /// Creates a 32 character  cryptographically strong string
+        /// </summary>
+        /// <returns></returns>
         public static string Create32CharacterCryptographicallyStrongString(
             CryptoStringTypeEnum stringType = CryptoStringTypeEnum.Base64AlphaNumeric)
         {
+            //Per NIST truncating a SHA256 hash by taking the left most n bits is acceptable
+            //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-107r1.pdf
             return CreateCryptographicallyStrongString<Sha256Digest>(
-                stringType);
+                stringType)
+                .Substring(0, 32);
         }
 
         /// <summary>
@@ -75,6 +84,8 @@ namespace Foundations.Cryptography
                     return result
                         .Replace('/', '_')
                         .Replace('+', '-');
+                //Note that this substitution reduces the integrity of the strong string
+                //but is necessary in certain URL scenarios
                 case CryptoStringTypeEnum.LowercaseAlphaNumeric:
                     return result
                         .Replace('/', 'a')
