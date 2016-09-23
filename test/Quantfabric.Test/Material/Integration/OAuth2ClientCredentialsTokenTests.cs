@@ -29,10 +29,10 @@ namespace Quantfabric.Test.Material.Integration
             var clientId = _appRepository.GetClientId<Omniture>();
             var clientSecret = _appRepository.GetClientSecret<Omniture>();
 
-            var token = await new OAuth2Client<Omniture>()
-                .GetCredentialsAsync(
-                    clientId,
+            var token = await new OAuth2Client<Omniture>(
+                    clientId, 
                     clientSecret)
+                .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));

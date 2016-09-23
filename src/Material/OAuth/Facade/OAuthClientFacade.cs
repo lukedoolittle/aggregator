@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Exceptions;
@@ -42,6 +43,42 @@ namespace Material.Infrastructure.OAuth
             token.SetClientProperties(
                     clientId, 
                     clientSecret)
+                .TimestampToken();
+
+            return token;
+        }
+
+        public async Task<OAuth2Credentials> GetJsonWebTokenTokenCredentials<TResourceProvider>(
+            JsonWebToken jwt,
+            string privateKey,
+            string clientId,
+            TResourceProvider provider = null)
+            where TResourceProvider : OAuth2ResourceProvider, new()
+        {
+            if (provider == null)
+            {
+                provider = new TResourceProvider();
+            }
+
+            if (!provider.GrantTypes.Contains(GrantTypeEnum.JsonWebToken))
+            {
+                throw new InvalidGrantTypeException(
+                    string.Format(
+                        StringResources.GrantTypeNotSupportedException,
+                        GrantTypeEnum.JsonWebToken,
+                        provider.GetType().Name));
+            }
+
+            var token = await _oauth.GetJsonWebToken(
+                provider.TokenUrl,
+                jwt,
+                privateKey,
+                clientId)
+                .ConfigureAwait(false);
+
+            token.SetClientProperties(
+                    clientId,
+                    null)
                 .TimestampToken();
 
             return token;

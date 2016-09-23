@@ -15,5 +15,8 @@ namespace Material.Contracts
             CallbackTypeEnum callbackType = CallbackTypeEnum.Localhost)
             where TService : ResourceProvider
             where TCredentials : TokenCredentials;
+
+        OAuth2Credentials GetJWTCredentials<TService>()
+            where TService : ResourceProvider;
     }
 }

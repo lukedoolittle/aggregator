@@ -9,7 +9,6 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
-using Material.Enums;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests

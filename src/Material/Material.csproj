@@ -200,6 +200,7 @@
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />
     <Compile Include="OAuth\OAuth2Client.cs" />
+    <Compile Include="OAuth\OAuth2JsonWebToken.cs" />
     <Compile Include="OAuth\OAuth2Refresh.cs" />
     <Compile Include="OAuth\OAuth2Web.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />

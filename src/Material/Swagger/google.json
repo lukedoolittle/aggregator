@@ -123,7 +123,7 @@
             "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
             "tokenUrl": "https://accounts.google.com/o/oauth2/token",
             "x-token-name": "Bearer",
-            "x-grant-types":  ["authorization_code", "refresh_token"],
+            "x-grant-types": [ "authorization_code", "refresh_token" ],
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address"
@@ -138,6 +138,14 @@
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address"
+            }
+        },
+        "oauth2JWT": {
+            "type": "oauth2",
+            "description": "OAuth2 Json Web Token Grant",
+            "x-token-name": "Bearer",
+            "x-grant-types": [ "urn:ietf:params:oauth:grant-type:jwt-bearer" ],
+            "scopes": {
             }
         }
     },

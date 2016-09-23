@@ -30,16 +30,19 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequest request)
         {
-            var key = $"{_clientId}:{_clientSecret}".ToBase64String();
-            var basicHeader = $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}";
-
             request
                 .Header(
                     HttpRequestHeader.Authorization, 
-                    basicHeader)
+                    CreateHeader())
                 .Parameter(
                     OAuth2ParameterEnum.GrantType.EnumToString(),
                     GrantTypeEnum.ClientCredentials.EnumToString());
+        }
+
+        public string CreateHeader()
+        {
+            var key = $"{_clientId}:{_clientSecret}".ToBase64String();
+            return $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}";
         }
     }
 }

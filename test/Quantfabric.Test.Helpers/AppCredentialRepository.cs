@@ -85,5 +85,29 @@ namespace Quantfabric.Test.Helpers
 
             return credentials.ClientSecret;
         }
+
+        public string GetJWTClientId<TService>()
+            where TService : OAuth2ResourceProvider
+        {
+            return _clientCredentials
+                .GetJWTCredentials<TService>()
+                .ClientId;
+        }
+
+        public string GetPrivateKey<TService>()
+            where TService : OAuth2ResourceProvider
+        {
+            return _clientCredentials
+                .GetJWTCredentials<TService>()
+                .PrivateKey;
+        }
+
+        public string GetClientEmail<TService>()
+            where TService : OAuth2ResourceProvider
+        {
+            return _clientCredentials
+                .GetJWTCredentials<TService>()
+                .ClientEmail;
+        }
     }
 }

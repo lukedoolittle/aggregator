@@ -24,6 +24,8 @@ namespace Foundations.HttpClient.Enums
         State,
         [Description("nonce")]
         Nonce,
+        [Description("assertion")]
+        Assertion,
         [Description("Bearer")]
         BearerHeader,
         [Description("Basic")]

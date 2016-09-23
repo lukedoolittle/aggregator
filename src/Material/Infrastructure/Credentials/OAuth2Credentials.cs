@@ -9,8 +9,14 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "clientId")]
         public string ClientId { get; private set; }
 
-        [DataMember(Name = "clientSecret")]
+        [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
         public string ClientSecret { get; private set; }
+
+        [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
+        public string PrivateKey { get; private set; }
+
+        [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
+        public string ClientEmail { get; private set; }
 
         public string CallbackUrl { get; private set; }
 
@@ -55,6 +61,18 @@ namespace Material.Infrastructure.Credentials
         {
             ClientId = clientId;
             ClientSecret = clientSecret;
+            return this;
+        }
+
+        public OAuth2Credentials SetClientProperties(
+            string clientId, 
+            string privateKey, 
+            string email)
+        {
+            ClientId = clientId;
+            PrivateKey = privateKey;
+            ClientEmail = email;
+
             return this;
         }
 

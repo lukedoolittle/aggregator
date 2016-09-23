@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Encodings;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
+using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
 namespace Foundations.Cryptography
@@ -116,6 +120,68 @@ namespace Foundations.Cryptography
             hmac.DoFinal(result, 0);
 
             return Convert.ToBase64String(result);
+        }
+
+        /// <summary>
+        /// Performs a SHA256 Hash followed by RSA PKCS1
+        /// </summary>
+        /// <param name="plaintext">Text to be hashed and encrypted</param>
+        /// <param name="privateKey">Private key used to encrypt data</param>
+        /// <returns>Ciphertext</returns>
+        public static byte[] RS256(
+            byte[] plaintext, 
+            string privateKey)
+        {
+            var hash = Sha256Hash(plaintext);
+
+            var rsa = RSAEncrypt(hash, privateKey);
+
+            return rsa;
+        }
+
+        public static byte[] Sha256Hash(byte[] bytes)
+        {
+            var hash = new Sha256Digest();
+
+            var result = new byte[hash.GetDigestSize()];
+
+            hash.BlockUpdate(
+                bytes, 
+                0, 
+                bytes.Length);
+            hash.DoFinal(result, 0);
+
+            return result;
+        }
+
+        public static byte[] RSAEncrypt(byte[] plaintext, string privateKey)
+        {
+            var bytesToEncrypt = plaintext;
+
+            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
+
+            using (var txtreader = new StringReader(privateKey))
+            {
+                var item = new PemReader(txtreader).ReadObject();
+
+                if (item is AsymmetricCipherKeyPair)
+                {
+                    encryptEngine.Init(true, ((AsymmetricCipherKeyPair)item).Private);
+                }
+                else if (item is RsaPrivateCrtKeyParameters)
+                {
+                    encryptEngine.Init(true, (RsaPrivateCrtKeyParameters)item);
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+
+            return encryptEngine.ProcessBlock(
+                bytesToEncrypt, 
+                0,
+                bytesToEncrypt.Length);
         }
     }
 }

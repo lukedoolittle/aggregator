@@ -20,6 +20,28 @@ namespace Foundations.Extensions
             return decodedText;
         }
 
+        public static string ToUrlEncodedBase64String(this byte[] bytes)
+        {
+            var base64String = Convert.ToBase64String(bytes);
+
+            return base64String
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+        }
+
+        public static string ToUrlEncodedBase64String(this string text)
+        {
+            var bytes = Encoding.UTF8.GetBytes(text);
+
+            var base64String = Convert.ToBase64String(bytes);
+
+            return base64String
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+        }
+
         public static string ToBase64String(this string plainText)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -32,3 +54,6 @@ namespace Foundations.Extensions
         }
     }
 }
+
+
+

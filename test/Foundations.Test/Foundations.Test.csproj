@@ -77,10 +77,11 @@
   <ItemGroup>
     <Compile Include="CryptographyTests.cs" />
     <Compile Include="EnumExtensionTests.cs" />
-    <Compile Include="JObjectExtensionTests.cs" />
+    <Compile Include="JsonWebTokenTests.cs" />
     <Compile Include="ManifestResourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuerystringParsingTests.cs" />
+    <Compile Include="RSATestData.cs" />
     <Compile Include="SerializationTests.cs" />
     <Compile Include="ServerTests.cs" />
     <Compile Include="TypeExtensionTests.cs" />

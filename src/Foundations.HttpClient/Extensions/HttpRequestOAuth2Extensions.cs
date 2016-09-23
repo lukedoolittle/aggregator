@@ -64,6 +64,25 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
+        public static HttpRequest ForOAuth2JsonWebToken(
+            this HttpRequest instance, 
+            JsonWebToken token, 
+            string privateKey,
+            string clientId)
+        {
+            if (instance == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            var authenticator = new OAuth2JsonWebToken(
+                token,
+                privateKey,
+                clientId);
+
+            return instance.Authenticator(authenticator);
+        }
+
         public static HttpRequest ForOAuth2ProtectedResource(
             this HttpRequest instance,
             string accessToken,

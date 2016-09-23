@@ -52,6 +52,8 @@
     <Compile Include="Authenticators\OAuth1SigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2AccessToken.cs" />
     <Compile Include="Authenticators\OAuth2ClientAccessToken.cs" />
+    <Compile Include="Authenticators\OAuth2JsonWebToken.cs" />
+    <Compile Include="Authenticators\OAuth2JWTSigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
     <Compile Include="Enums\ContentTypeEncodingEnum.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
     <Compile Include="Extensions\UrlEncodingExtensions.cs" />
+    <Compile Include="JsonWebToken.cs" />
     <Compile Include="Metadata\DateTimeFormatter.cs" />
     <Compile Include="ParameterHandlers\GetParameterHandler.cs" />
     <Compile Include="HttpRequest.cs" />

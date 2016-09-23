@@ -1,6 +1,5 @@
 ﻿using System.Net;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Authenticators;
 using Material.Infrastructure.Requests;
 
 namespace Material.Infrastructure.ProtectedResources
@@ -15,8 +14,10 @@ namespace Material.Infrastructure.ProtectedResources
             //header even during an auth code workflow
             base.SetClientProperties(clientId, clientSecret);
 
-            var key = $"{clientId}:{clientSecret}".ToBase64String();
-            var header = $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}";
+            var header = new OAuth2ClientAccessToken(
+                    clientId,
+                    clientSecret)
+                .CreateHeader();
 
             if (!Headers.ContainsKey(HttpRequestHeader.Authorization))
             {

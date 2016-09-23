@@ -146,6 +146,38 @@ namespace Material.Infrastructure.OAuth
             return token;
         }
 
+        public async Task<OAuth2Credentials> GetJsonWebToken(
+            Uri accessUrl,
+            JsonWebToken jwt,
+            string privateKey,
+            string clientId)
+        {
+            var response = await new HttpRequest(accessUrl.NonPath())
+                .PostTo(accessUrl.AbsolutePath)
+                .ForOAuth2JsonWebToken(
+                    jwt,
+                    privateKey,
+                    clientId)
+                .ExecuteAsync()
+                .ConfigureAwait(false);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(string.Format(
+                    StringResources.BadHttpRequestException,
+                    response.StatusCode,
+                    response.Reason));
+            }
+
+            var token = await response
+                .ContentAsync<OAuth2Credentials>()
+                .ConfigureAwait(false);
+
+            token.TimestampToken();
+
+            return token;
+        }
+
         public async Task<OAuth2Credentials> GetAccessToken(
             Uri accessUrl, 
             string clientId, 

@@ -9,6 +9,8 @@ namespace Foundations.HttpClient.Enums
         [Description("refresh_token")]
         RefreshToken,
         [Description("client_credentials")]
-        ClientCredentials
+        ClientCredentials,
+        [Description("urn:ietf:params:oauth:grant-type:jwt-bearer")]
+        JsonWebToken
     }
 }
