@@ -9,7 +9,6 @@
     <Import_RootNamespace>Quantfabric.Test</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\JWTTestHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth1TokenTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2ClientCredentialsTokenTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2ImplicitTokenTests.cs" />

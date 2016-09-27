@@ -34,7 +34,6 @@ namespace Material.Contracts
         Task<OAuth2Credentials> GetJsonWebToken(
             Uri accessUrl,
             JsonWebToken token,
-            IJWTSigningFactory signingFactory,
             string privateKey,
             string clientId);
 

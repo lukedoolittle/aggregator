@@ -12,14 +12,14 @@ namespace Foundations.HttpClient.Authenticators
 
         public OAuth2JsonWebToken(
             JsonWebToken token,
-            IJWTSigningFactory signingFactory,
             string privateKey,
-            string clientId)
+            string clientId,
+            IJWTSigningFactory signingFactory = null)
         {
             _clientId = clientId;
             _privateKey = privateKey;
             _template = new OAuth2JWTSigningTemplate(token);
-            _signingFactory = signingFactory;
+            _signingFactory = signingFactory ?? new DefaultJWTSigningFactory();
         }
 
         public void Authenticate(HttpRequest request)

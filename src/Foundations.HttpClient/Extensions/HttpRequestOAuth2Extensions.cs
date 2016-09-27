@@ -67,7 +67,6 @@ namespace Foundations.HttpClient.Extensions
         public static HttpRequest ForOAuth2JsonWebToken(
             this HttpRequest instance, 
             JsonWebToken token, 
-            IJWTSigningFactory signingFactory,
             string privateKey,
             string clientId)
         {
@@ -78,7 +77,6 @@ namespace Foundations.HttpClient.Extensions
 
             var authenticator = new OAuth2JsonWebToken(
                 token,
-                signingFactory,
                 privateKey,
                 clientId);
 

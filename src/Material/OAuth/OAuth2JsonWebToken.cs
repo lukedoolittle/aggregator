@@ -19,7 +19,6 @@ namespace Material.OAuth
         private readonly string _privateKey;
         private readonly string _issuer;
         private readonly string _clientId;
-        private readonly IJWTSigningFactory _signingFactory;
 
         public OAuth2JsonWebToken(
             string privateKey, 
@@ -32,7 +31,6 @@ namespace Material.OAuth
             _issuer = issuer;
             _clientId = clientId;
             _resourceProvider = resourceProvider ?? new TResourceProvider();
-            _signingFactory = signingFactory ?? new DefaultJWTSigningFactory();
         }
 
         /// <summary>
@@ -59,7 +57,6 @@ namespace Material.OAuth
                         new OAuth2Authentication())
                     .GetJsonWebTokenTokenCredentials(
                         token, 
-                        _signingFactory,
                         _privateKey,
                         _clientId,
                         _resourceProvider);

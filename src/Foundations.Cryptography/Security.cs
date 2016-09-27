@@ -122,74 +122,27 @@ namespace Foundations.Cryptography
             return Convert.ToBase64String(result);
         }
 
-        /// <summary>
-        /// Performs a SHA256 Hash followed by RSA PKCS1
-        /// </summary>
-        /// <param name="plaintext">Text to be hashed and encrypted</param>
-        /// <param name="privateKey">Private key used to encrypt data</param>
-        /// <returns>Ciphertext</returns>
-        public static byte[] RS256(
-            byte[] plaintext, 
-            string privateKey)
+
+        public static byte[] RS256(byte[] plaintext, string privateKey)
         {
-            var hash = Sha256Hash(plaintext);
+            var signer = SignerUtilities.GetSigner("SHA-256withRSA");
 
-            var rsa = RSAEncrypt(hash, privateKey);
+            signer.Init(true, GetParametersFromKey(privateKey));
 
-            return rsa;
-        }
+            signer.BlockUpdate(plaintext, 0, plaintext.Length);
+            var signature = signer.GenerateSignature();
 
-        public static byte[] Sha256Hash(byte[] bytes)
-        {
-            var hash = new Sha256Digest();
-
-            var result = new byte[hash.GetDigestSize()];
-
-            hash.BlockUpdate(
-                bytes, 
-                0, 
-                bytes.Length);
-            hash.DoFinal(result, 0);
-
-            return result;
+            return signature;
         }
 
         private const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
         private const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
 
-        public static byte[] RSAEncrypt(byte[] plaintext, string privateKey)
+        private static ICipherParameters GetParametersFromKey(string privateKey)
         {
-            var bytesToEncrypt = plaintext;
-
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
-
             var base64PrivateKey = privateKey.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
             var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
-            var key = (RsaPrivateCrtKeyParameters)PrivateKeyFactory.CreateKey(privateKeyBytes);
-            encryptEngine.Init(true, key);
-
-            //using (var txtreader = new StringReader(privateKey))
-            //{
-            //    var item = new PemReader(txtreader).ReadObject();
-
-            //    if (item is AsymmetricCipherKeyPair)
-            //    {
-            //        encryptEngine.Init(true, ((AsymmetricCipherKeyPair)item).Private);
-            //    }
-            //    else if (item is RsaPrivateCrtKeyParameters)
-            //    {
-            //        encryptEngine.Init(true, (RsaPrivateCrtKeyParameters)item);
-            //    }
-            //    else
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-            //}
-
-            return encryptEngine.ProcessBlock(
-                bytesToEncrypt, 
-                0,
-                bytesToEncrypt.Length);
+            return PrivateKeyFactory.CreateKey(privateKeyBytes);
         }
     }
 }

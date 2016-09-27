@@ -22,7 +22,7 @@ namespace Quantfabric.Test.Material.Integration
             var privateKey = _appRepository.GetPrivateKey<Google>();
             var clientEmail = _appRepository.GetClientEmail<Google>();
 
-            var token = await new OAuth2JsonWebToken<Google>(privateKey, clientEmail, signingFactory: new TestJWTSigningFactory())
+            var token = await new OAuth2JsonWebToken<Google>(privateKey, clientEmail)
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
