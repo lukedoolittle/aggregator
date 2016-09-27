@@ -50,6 +50,7 @@ namespace Material.Infrastructure.OAuth
 
         public async Task<OAuth2Credentials> GetJsonWebTokenTokenCredentials<TResourceProvider>(
             JsonWebToken jwt,
+            IJWTSigningFactory signingFactory,
             string privateKey,
             string clientId,
             TResourceProvider provider = null)
@@ -72,6 +73,7 @@ namespace Material.Infrastructure.OAuth
             var token = await _oauth.GetJsonWebToken(
                 provider.TokenUrl,
                 jwt,
+                signingFactory,
                 privateKey,
                 clientId)
                 .ConfigureAwait(false);

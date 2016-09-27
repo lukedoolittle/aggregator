@@ -19,17 +19,20 @@ namespace Material.OAuth
         private readonly string _privateKey;
         private readonly string _issuer;
         private readonly string _clientId;
+        private readonly IJWTSigningFactory _signingFactory;
 
         public OAuth2JsonWebToken(
             string privateKey, 
             string issuer, 
             string clientId = null,
-            TResourceProvider resourceProvider = null)
+            TResourceProvider resourceProvider = null,
+            IJWTSigningFactory signingFactory = null)
         {
             _privateKey = privateKey;
             _issuer = issuer;
             _clientId = clientId;
             _resourceProvider = resourceProvider ?? new TResourceProvider();
+            _signingFactory = signingFactory ?? new DefaultJWTSigningFactory();
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace Material.OAuth
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var time = DateTime.Now.ToUniversalTime();
-
+            
             var token = new JsonWebToken
             {
                 Claims =
@@ -47,8 +50,8 @@ namespace Material.OAuth
                     Issuer = _issuer,
                     Scope = _resourceProvider.Scope,
                     Audience = _resourceProvider.TokenUrl.ToString(),
-                    ExpirationTime = time.Add(TimeSpan.FromMinutes(30)).ToUnixTimeSeconds(),
-                    IssuedAt = time.ToUnixTimeSeconds()
+                    ExpirationTime = Math.Floor(time.Add(TimeSpan.FromMinutes(59)).ToUnixTimeSeconds()),
+                    IssuedAt = Math.Floor(time.ToUnixTimeSeconds())
                 }
             };
 
@@ -56,6 +59,7 @@ namespace Material.OAuth
                         new OAuth2Authentication())
                     .GetJsonWebTokenTokenCredentials(
                         token, 
+                        _signingFactory,
                         _privateKey,
                         _clientId,
                         _resourceProvider);

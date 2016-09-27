@@ -15,11 +15,11 @@ namespace Foundations.HttpClient
     [DataContract]
     public class JsonWebTokenHeader
     {
-        [DataMember(Name = "alg")]
-        public string Algorithm { get; set; } = "RS256";
-
-        [DataMember(Name = "typ")]
+        [DataMember(Name = "typ", Order = 0)]
         public string Type { get; set; } = "JWT";
+
+        [DataMember(Name = "alg", Order = 1)]
+        public string Algorithm { get; set; } = "RS256";
     }
 
     [DataContract]
@@ -34,10 +34,10 @@ namespace Foundations.HttpClient
         [DataMember(Name = "aud", Order = 2, EmitDefaultValue = false)]
         public string Audience { get; set; }
 
-        [DataMember(Name = "exp", Order = 3, EmitDefaultValue = false)]
+        [DataMember(Name = "exp", Order = 4, EmitDefaultValue = false)]
         public double ExpirationTime { get; set; }
 
-        [DataMember(Name = "iat", Order = 4, EmitDefaultValue = false)]
+        [DataMember(Name = "iat", Order = 3, EmitDefaultValue = false)]
         public double IssuedAt { get; set; }
 
         [DataMember(Name = "sub", Order = 5, EmitDefaultValue = false)]

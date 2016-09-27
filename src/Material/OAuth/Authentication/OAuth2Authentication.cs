@@ -149,6 +149,7 @@ namespace Material.Infrastructure.OAuth
         public async Task<OAuth2Credentials> GetJsonWebToken(
             Uri accessUrl,
             JsonWebToken jwt,
+            IJWTSigningFactory signingFactory,
             string privateKey,
             string clientId)
         {
@@ -156,6 +157,7 @@ namespace Material.Infrastructure.OAuth
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
                     jwt,
+                    signingFactory,
                     privateKey,
                     clientId)
                 .ExecuteAsync()

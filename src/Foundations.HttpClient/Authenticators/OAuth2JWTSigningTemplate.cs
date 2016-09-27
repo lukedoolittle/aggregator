@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Foundations.Extensions;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient.Authenticators
@@ -12,32 +11,35 @@ namespace Foundations.HttpClient.Authenticators
         public OAuth2JWTSigningTemplate(JsonWebToken token)
         {
             _token = token;
-
-            if (token.Header.Algorithm != "RS256")
-            {
-                throw new NotSupportedException();
-            }
         }
 
         public string CreateSignatureBase()
         {
             var header = SerializedHeader();
-            var claims = SerializedClaims();
+            var headerBytes = Encoding.UTF8.GetBytes(header);
+            var headerEncoded = Convert.ToBase64String(headerBytes);
 
-            return $"{header.ToUrlEncodedBase64String()}.{claims.ToUrlEncodedBase64String()}";
+            var claims = SerializedClaims();
+            var claimsBytes = Encoding.UTF8.GetBytes(claims);
+            var claimsEncoded = Convert.ToBase64String(claimsBytes);
+
+            return $"{headerEncoded}.{claimsEncoded}";
         }
 
         public string CreateSignature(
             string signatureBase, 
-            string privateKey)
+            string privateKey,
+            IJWTSigningFactory factory)
         {
+            var signingAlgorithm = factory.GetAlgorithm(_token.Header.Algorithm);
+
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
-            var rs256 = Cryptography.Security.RS256(
+            var signatureBytes = signingAlgorithm.SignText(
                 signatureBaseBytes, 
                 privateKey);
 
-            return rs256.ToUrlEncodedBase64String();
+            return Convert.ToBase64String(signatureBytes);
         }
 
         public string CreateJsonWebToken(string signature)

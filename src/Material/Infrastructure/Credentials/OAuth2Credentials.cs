@@ -12,10 +12,10 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
         public string ClientSecret { get; private set; }
 
-        [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
+        [DataMember(Name = "privateKey", EmitDefaultValue = false)]
         public string PrivateKey { get; private set; }
 
-        [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
+        [DataMember(Name = "clientEmail", EmitDefaultValue = false)]
         public string ClientEmail { get; private set; }
 
         public string CallbackUrl { get; private set; }

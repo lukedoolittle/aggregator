@@ -154,29 +154,37 @@ namespace Foundations.Cryptography
             return result;
         }
 
+        private const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
+        private const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
+
         public static byte[] RSAEncrypt(byte[] plaintext, string privateKey)
         {
             var bytesToEncrypt = plaintext;
 
             var encryptEngine = new Pkcs1Encoding(new RsaEngine());
 
-            using (var txtreader = new StringReader(privateKey))
-            {
-                var item = new PemReader(txtreader).ReadObject();
+            var base64PrivateKey = privateKey.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
+            var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
+            var key = (RsaPrivateCrtKeyParameters)PrivateKeyFactory.CreateKey(privateKeyBytes);
+            encryptEngine.Init(true, key);
 
-                if (item is AsymmetricCipherKeyPair)
-                {
-                    encryptEngine.Init(true, ((AsymmetricCipherKeyPair)item).Private);
-                }
-                else if (item is RsaPrivateCrtKeyParameters)
-                {
-                    encryptEngine.Init(true, (RsaPrivateCrtKeyParameters)item);
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
-            }
+            //using (var txtreader = new StringReader(privateKey))
+            //{
+            //    var item = new PemReader(txtreader).ReadObject();
+
+            //    if (item is AsymmetricCipherKeyPair)
+            //    {
+            //        encryptEngine.Init(true, ((AsymmetricCipherKeyPair)item).Private);
+            //    }
+            //    else if (item is RsaPrivateCrtKeyParameters)
+            //    {
+            //        encryptEngine.Init(true, (RsaPrivateCrtKeyParameters)item);
+            //    }
+            //    else
+            //    {
+            //        throw new NotSupportedException();
+            //    }
+            //}
 
             return encryptEngine.ProcessBlock(
                 bytesToEncrypt, 
