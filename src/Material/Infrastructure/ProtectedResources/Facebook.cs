@@ -20,12 +20,12 @@ namespace Material.Infrastructure.ProtectedResources
     [CredentialType(typeof(OAuth2Credentials))]
 	public partial class Facebook : OAuth2ResourceProvider              
 	{
-        public override Uri AuthorizationUrl => new Uri("https://www.facebook.com/dialog/oauth");
         public override List<String> AvailableScopes => new List<String> { "email", "user_events", "user_likes", "user_friends", "user_posts" };
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code, ResponseTypeEnum.Token };
         public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode };
         public override String TokenName => "access_token";
         public override Char ScopeDelimiter => ',';
+        public override Uri AuthorizationUrl => new Uri("https://www.facebook.com/dialog/oauth");
         public override Uri TokenUrl => new Uri("https://graph.facebook.com/oauth/access_token");
 	}
 }

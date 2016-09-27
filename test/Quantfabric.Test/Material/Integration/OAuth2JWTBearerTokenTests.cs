@@ -1,6 +1,7 @@
 ﻿using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
+using Material.Infrastructure.Requests;
 using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Xunit;
@@ -19,10 +20,11 @@ namespace Quantfabric.Test.Material.Integration
         [Fact]
         public async void CanGetValidAccessTokenFromGoogleJWTBearerGrant()
         {
-            var privateKey = _appRepository.GetPrivateKey<Google>();
-            var clientEmail = _appRepository.GetClientEmail<Google>();
+            var privateKey = _appRepository.GetPrivateKey<GoogleAnalytics>();
+            var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
 
-            var token = await new OAuth2JsonWebToken<Google>(privateKey, clientEmail)
+            var token = await new OAuth2JsonWebToken<GoogleAnalytics>(privateKey, clientEmail)
+                .AddScope<GoogleAnalyticsReports>()
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 

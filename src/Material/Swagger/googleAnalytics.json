@@ -1,0 +1,48 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "GoogleAnalytics",
+        "description": "Google Analytics Reporting API",
+        "termsOfService": "https://developers.google.com/terms/",
+        "version": "4"
+    },
+    "host": "analyticsreporting.googleapis.com",
+    "basePath": "",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/v4/reports:batchGet": {
+            "post": {
+                "summary": "Returns the Analytics data",
+                "description": "https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet",
+                "operationId": "GoogleAnalyticsReports",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/analytics.readonly" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2JWT": {
+            "type": "oauth2",
+            "description": "OAuth2 Json Web Token Grant",
+            "tokenUrl": "https://accounts.google.com/o/oauth2/token",
+            "x-token-name": "Bearer",
+            "x-grant-types": [ "urn:ietf:params:oauth:grant-type:jwt-bearer" ],
+            "scopes": {
+                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics"
+            }
+        }
+    },
+    "definitions": []
+}

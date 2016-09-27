@@ -20,11 +20,11 @@ namespace Material.Infrastructure.ProtectedResources
     [CredentialType(typeof(OAuth2Credentials))]
 	public partial class Google : OAuth2ResourceProvider              
 	{
-        public override Uri AuthorizationUrl => new Uri("https://accounts.google.com/o/oauth2/auth");
-        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/userinfo.email" };
+        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/analytics.readonly" };
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code, ResponseTypeEnum.Token };
-        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode, GrantTypeEnum.RefreshToken, GrantTypeEnum.JsonWebToken };
+        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode, GrantTypeEnum.RefreshToken };
         public override String TokenName => "Bearer";
+        public override Uri AuthorizationUrl => new Uri("https://accounts.google.com/o/oauth2/auth");
         public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");
 	}
 }

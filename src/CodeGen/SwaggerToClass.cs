@@ -42,11 +42,7 @@ namespace CodeGen
 
                     if (@class.Properties.Count == 0)
                     {
-                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "AuthorizationUrl")
-                        {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["authorizationUrl"].ToString()))
-                        });
+
                         @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), "AvailableScopes")
                         {
                             IsOverride = true,
@@ -110,14 +106,30 @@ namespace CodeGen
                         }
                     }
 
+                    var authorizationUrl = securityDefinition["authorizationUrl"]?.ToString();
+                    if (authorizationUrl != null)
+                    {
+                        if (@class.Properties.All(p => p.Name != "AuthorizationUrl"))
+                        {
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "AuthorizationUrl")
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(new Uri(authorizationUrl))
+                            });
+                        }
+                    }
+
                     var tokenUrl = securityDefinition["tokenUrl"]?.ToString();
                     if (tokenUrl != null)
                     {
-                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                        if (@class.Properties.All(p => p.Name != "TokenUrl"))
                         {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new Uri(tokenUrl))
-                        });
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(new Uri(tokenUrl))
+                            });
+                        }
                     }
                 }
                 else if (securityDefinition["type"]?.ToString() == "oauth1")

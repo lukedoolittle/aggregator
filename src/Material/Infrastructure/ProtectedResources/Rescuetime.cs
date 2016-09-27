@@ -20,11 +20,11 @@ namespace Material.Infrastructure.ProtectedResources
     [CredentialType(typeof(OAuth2Credentials))]
 	public partial class Rescuetime : OAuth2ResourceProvider              
 	{
-        public override Uri AuthorizationUrl => new Uri("https://www.rescuetime.com/oauth/authorize");
         public override List<String> AvailableScopes => new List<String> { "time_data" };
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code };
         public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode };
         public override String TokenName => "access_token";
+        public override Uri AuthorizationUrl => new Uri("https://www.rescuetime.com/oauth/authorize");
         public override Uri TokenUrl => new Uri("https://www.rescuetime.com/oauth/token");
 	}
 }

@@ -113,6 +113,33 @@
                     }
                 ]
             }
+        },
+        "/gmail/v1/users/me/messages/{messageId}": {
+            "get": {
+                "summary": "Gets the specified message",
+                "description": "https://developers.google.com/gmail/api/v1/reference/users/messages/get",
+                "operationId": "GoogleGmail",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "messageId",
+                        "description": "The ID of the message to retrieve",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/gmail.readonly" ]
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {
@@ -126,7 +153,8 @@
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
-                "https://www.googleapis.com/auth/userinfo.email": "users google account email address"
+                "https://www.googleapis.com/auth/userinfo.email": "users google account email address",
+                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics"
             }
         },
         "oauth2Token": {
@@ -137,15 +165,8 @@
             "x-token-name": "Bearer",
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
-                "https://www.googleapis.com/auth/userinfo.email": "users google account email address"
-            }
-        },
-        "oauth2JWT": {
-            "type": "oauth2",
-            "description": "OAuth2 Json Web Token Grant",
-            "x-token-name": "Bearer",
-            "x-grant-types": [ "urn:ietf:params:oauth:grant-type:jwt-bearer" ],
-            "scopes": {
+                "https://www.googleapis.com/auth/userinfo.email": "users google account email address",
+                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics" 
             }
         }
     },

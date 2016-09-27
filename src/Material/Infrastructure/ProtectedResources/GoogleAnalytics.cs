@@ -15,16 +15,15 @@ using Material.Infrastructure;
 namespace Material.Infrastructure.ProtectedResources
 {     
     /// <summary>
-    /// Fitbit API 1
+    /// Google Analytics Reporting API 4
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
-	public partial class Fitbit : OAuth2ResourceProvider              
+	public partial class GoogleAnalytics : OAuth2ResourceProvider              
 	{
-        public override List<String> AvailableScopes => new List<String> { "sleep", "activity", "heartrate", "profile" };
-        public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code, ResponseTypeEnum.Token };
-        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode, GrantTypeEnum.RefreshToken };
+        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/analytics.readonly" };
+        public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum>();
+        public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.JsonWebToken };
         public override String TokenName => "Bearer";
-        public override Uri AuthorizationUrl => new Uri("https://www.fitbit.com/oauth2/authorize");
-        public override Uri TokenUrl => new Uri("https://api.fitbit.com/oauth2/token");
+        public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");
 	}
 }

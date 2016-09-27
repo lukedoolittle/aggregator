@@ -20,11 +20,11 @@ namespace Material.Infrastructure.ProtectedResources
     [CredentialType(typeof(OAuth2Credentials))]
 	public partial class Runkeeper : OAuth2ResourceProvider              
 	{
-        public override Uri AuthorizationUrl => new Uri("https://runkeeper.com/apps/authorize");
         public override List<String> AvailableScopes => new List<String>();
         public override List<ResponseTypeEnum> Flows => new List<ResponseTypeEnum> { ResponseTypeEnum.Code };
         public override List<GrantTypeEnum> GrantTypes => new List<GrantTypeEnum> { GrantTypeEnum.AuthCode };
         public override String TokenName => "Bearer";
+        public override Uri AuthorizationUrl => new Uri("https://runkeeper.com/apps/authorize");
         public override Uri TokenUrl => new Uri("https://runkeeper.com/apps/token");
 	}
 }

@@ -97,6 +97,7 @@
     <Compile Include="Infrastructure\Partials\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\GoogleAnalytics.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Infrastructure\Requests\FoursquareCheckin.cs" />
     <Compile Include="Infrastructure\Requests\FoursquareFriend.cs" />
     <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleAnalyticsReports.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
     <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
@@ -242,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Swagger\googleAnalytics.json" />
     <None Include="Swagger\tumblr.json" />
     <None Include="Swagger\omniture.json" />
     <None Include="Swagger\instagram.json" />
@@ -269,6 +272,7 @@
 .\Infrastructure\ProtectedResources\Fitbit.cs
 .\Infrastructure\ProtectedResources\Foursquare.cs
 .\Infrastructure\ProtectedResources\Google.cs
+.\Infrastructure\ProtectedResources\GoogleAnalytics.cs
 .\Infrastructure\ProtectedResources\Instagram.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
 .\Infrastructure\ProtectedResources\Omniture.cs
@@ -295,6 +299,7 @@
 .\Infrastructure\Requests\FoursquareCheckin.cs
 .\Infrastructure\Requests\FoursquareFriend.cs
 .\Infrastructure\Requests\FoursquareTip.cs
+.\Infrastructure\Requests\GoogleAnalyticsReports.cs
 .\Infrastructure\Requests\GoogleGmail.cs
 .\Infrastructure\Requests\GoogleGmailMetadata.cs
 .\Infrastructure\Requests\GoogleProfile.cs
