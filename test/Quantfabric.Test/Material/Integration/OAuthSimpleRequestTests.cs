@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Material;
+using Material.Contracts;
 using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
+using Material.OAuth;
+using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 using Element = Material.Infrastructure.RequestBodies.Element;
@@ -17,12 +19,10 @@ namespace Quantfabric.Test.Material.Integration
 {
     public class OAuthSimpleRequestTests
     {
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuthSimpleRequestTests()
-        {
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
+        private readonly TokenCredentialRepository _tokenRepository
+            = new TokenCredentialRepository(true);
+        private readonly AppCredentialRepository _appRepository
+            = new AppCredentialRepository(CallbackTypeEnum.Localhost);
 
         #region Linkedin Requests
 
@@ -64,11 +64,6 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         #endregion Fatsecret Requests
-
-
-        //(0:30) Create response for Omniture "Get Report" for individuals
-        //(0:30) Create response for Omniture "Get Report" for aggregate
-        //(1:00) Create test for responses from Omniture
 
         public async void MakeRequestForOmnitureUserLevelReports()
         {
@@ -171,6 +166,59 @@ namespace Quantfabric.Test.Material.Integration
         #region Google Requests
 
         [Fact]
+        public async void MakeRequestForGoogleAnalyticsReports()
+        {
+            var privateKey = _appRepository.GetPrivateKey<GoogleAnalytics>();
+            var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
+
+            var credentials = await new OAuth2JsonWebToken<GoogleAnalytics>(privateKey, clientEmail)
+                .AddScope<GoogleAnalyticsReports>()
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+
+            var body = new GoogleAnalyticsReportBody
+            {
+                ReportRequests = new List<GoogleAnalyticsReportRequest>
+                {
+                    new GoogleAnalyticsReportRequest
+                    {
+                        DateRanges = new List<GoogleAnalyticsDateRange>
+                        {
+                            new GoogleAnalyticsDateRange
+                            {
+                                StartDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)),
+                                EndDate = DateTime.Now
+                            }
+                        },
+                        ViewId = "ga:118180292",
+                        Metrics = new List<GoogleAnalyticsMetric>
+                        {
+                            new GoogleAnalyticsMetric
+                            {
+                                Expression = "ga:sessions"
+                            },
+                            new GoogleAnalyticsMetric
+                            {
+                                Expression = "ga:pageviews"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var request = new GoogleAnalyticsReports
+            {
+                Body = body
+            };
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<GoogleAnalyticsReports, GoogleAnalyticsReportsResponse>(request)
+                .ConfigureAwait(false);
+            
+            Assert.NotNull(response);
+        }
+
+        [Fact]
         public async void MakeRequestForGmailMetadata()
         {
             var credentials = _tokenRepository.GetToken<Google, OAuth2Credentials>();
@@ -226,6 +274,8 @@ namespace Quantfabric.Test.Material.Integration
 
         #endregion Google Requests
 
+        #region Rescuetime Requests
+
         [Fact]
         public async void MakeRequestForRescuetimeAnalyticData()
         {
@@ -258,6 +308,8 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #endregion Rescuetime Requests
+
         [Fact]
         public async void MakeRequestForRunkeeperFitnessActivities()
         {
@@ -274,6 +326,8 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #region 23AndMe Requests
 
         [Fact]
         public async void MakeRequestForTwentyThreeAndMeUser()
@@ -306,6 +360,8 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        #endregion 23AndMe Requests
+
         [Fact]
         public async void MakeRequestForSpotifyPlayList()
         {
@@ -319,6 +375,8 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #region Foursquare Requests
 
         [Fact]
         public async void MakeRequestForFoursquareCheckins()
@@ -379,6 +437,10 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #endregion Foursquare Requests
+
+        #region Fitbit Requests
 
         [Fact]
         public async void MakeRequestForFitbitIntradaySteps()
@@ -485,6 +547,8 @@ namespace Quantfabric.Test.Material.Integration
 
             Assert.NotNull(response);
         }
+
+        #endregion Fitbit Requests
 
         #region Facebook
 

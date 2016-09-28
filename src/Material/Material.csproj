@@ -105,6 +105,7 @@
     <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
+    <Compile Include="Infrastructure\RequestBodies\GoogleAnalyticsReportBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
     <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Infrastructure\Responses\FoursquareCommon.cs" />
     <Compile Include="Infrastructure\Responses\FoursquareFriendResponse.cs" />
     <Compile Include="Infrastructure\Responses\FoursquareTipResponse.cs" />
+    <Compile Include="Infrastructure\Responses\GoogleAnalyticsReportsResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleGmailMetadataResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleGmailResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleProfileResponse.cs" />
