@@ -1,8 +1,8 @@
 # Quantfabric Material
-A cross platform framework for collecting personal data from various sources including web apis (OAuth), bluetooth devices, and smartphone embedded sensors (GPS, SMS, etc)
+A cross platform framework for collecting personal data from various sources including web apis (OAuth), bluetooth devices, and smartphone embedded sensors (GPS, SMS, etc).
 
-## Packages
-You can get Quantfabric.Material by grabbing the latest [NuGet package](#https://www.nuget.org/packages/Quantfabric.Material/). Currently supported on .NET 4.5, Xamarin.Android, Xamarin.iOS, Windows UWP, and Xamarin.Forms
+[![NuGet](https://img.shields.io/nuget/v/Nuget.Core.svg?maxAge=2592000)](https://www.nuget.org/packages/Quantfabric.Material/)
+
 
 ## Examples
 Authenticate with Facebook on a Mobile/Desktop app:
