@@ -1,7 +1,7 @@
 # Quantfabric Material
 A cross platform framework for collecting personal data from various sources including web apis (OAuth), bluetooth devices, and smartphone embedded sensors (GPS, SMS, etc).
 
-[![NuGet](https://img.shields.io/nuget/v/Nuget.Core.svg?maxAge=2592000)](https://www.nuget.org/packages/Quantfabric.Material/)
+[![NuGet](https://img.shields.io/nuget/v/Quantfabric.Material.svg?maxAge=2592000)](https://www.nuget.org/packages/Quantfabric.Material/)
 
 
 ## Examples
