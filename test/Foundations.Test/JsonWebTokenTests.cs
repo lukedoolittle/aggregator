@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Foundations.Cryptography.JsonWebToken;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
@@ -36,7 +37,7 @@ namespace Foundations.Test
                 }
             };
 
-            var template = new OAuth2JWTSigningTemplate(token);
+            var template = new OAuth2JwtSigningTemplate(token, new JwtSignerFactory());
 
             var actual = template.CreateSignatureBase();
 

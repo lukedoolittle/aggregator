@@ -36,6 +36,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CryptoStringTypeEnum.cs" />
+    <Compile Include="JsonWebToken\JwtSignerFactory.cs" />
+    <Compile Include="JsonWebToken\DigestSigningAlgorithm.cs" />
+    <Compile Include="JsonWebToken\ISigningAlgorithm.cs" />
+    <Compile Include="JsonWebToken\IJwtSigningFactory.cs" />
+    <Compile Include="JsonWebToken\JwtAlgorithmEnum.cs" />
+    <Compile Include="JsonWebToken\SigningAlgorithm.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

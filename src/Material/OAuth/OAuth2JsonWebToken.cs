@@ -24,8 +24,7 @@ namespace Material.OAuth
             string privateKey, 
             string issuer, 
             string clientId = null,
-            TResourceProvider resourceProvider = null,
-            IJWTSigningFactory signingFactory = null)
+            TResourceProvider resourceProvider = null)
         {
             _privateKey = privateKey;
             _issuer = issuer;

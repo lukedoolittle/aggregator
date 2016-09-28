@@ -1,25 +1,41 @@
 ﻿using System;
 using System.Text;
+using Foundations.Cryptography.JsonWebToken;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2JWTSigningTemplate
+    public class OAuth2JwtSigningTemplate
     {
         private readonly JsonWebToken _token;
+        private readonly IJwtSigningFactory _factory;
 
-        public OAuth2JWTSigningTemplate(JsonWebToken token)
+        public OAuth2JwtSigningTemplate(
+            JsonWebToken token, 
+            IJwtSigningFactory factory)
         {
+            if (token == null)
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
+            if (factory == null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
             _token = token;
+            _factory = factory;
         }
 
         public string CreateSignatureBase()
         {
-            var header = SerializedHeader();
+            var serializer = new JsonSerializer();
+
+            var header = serializer.Serialize(_token.Header);
             var headerBytes = Encoding.UTF8.GetBytes(header);
             var headerEncoded = Convert.ToBase64String(headerBytes);
 
-            var claims = SerializedClaims();
+            //TODO: is there a more elegant way to remove escapes??
+            var claims = serializer.Serialize(_token.Claims).Replace("\\", ""); ;
             var claimsBytes = Encoding.UTF8.GetBytes(claims);
             var claimsEncoded = Convert.ToBase64String(claimsBytes);
 
@@ -28,10 +44,9 @@ namespace Foundations.HttpClient.Authenticators
 
         public string CreateSignature(
             string signatureBase, 
-            string privateKey,
-            IJWTSigningFactory factory)
+            string privateKey)
         {
-            var signingAlgorithm = factory.GetAlgorithm(_token.Header.Algorithm);
+            var signingAlgorithm = _factory.GetAlgorithm(_token.Header.Algorithm);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
@@ -40,30 +55,6 @@ namespace Foundations.HttpClient.Authenticators
                 privateKey);
 
             return Convert.ToBase64String(signatureBytes);
-        }
-
-        public string CreateJsonWebToken(string signature)
-        {
-            return $"{CreateSignatureBase()}.{signature}";
-        }
-
-        private string SerializedHeader()
-        {
-            var serializer = new JsonSerializer();
-
-            var header = serializer.Serialize(_token.Header);
-
-            return header;
-        }
-
-        private string SerializedClaims()
-        {
-            var serializer = new JsonSerializer();
-
-            var claims = serializer.Serialize(_token.Claims);
-
-            //TODO: is there a more elegant way to remove escapes??
-            return claims.Replace("\\", "");
         }
     }
 }

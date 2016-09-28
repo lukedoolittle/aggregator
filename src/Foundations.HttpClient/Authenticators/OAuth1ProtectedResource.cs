@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Foundations.Cryptography.JsonWebToken;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 
@@ -15,16 +16,19 @@ namespace Foundations.HttpClient.Authenticators
             string consumerKey, 
             string consumerSecret, 
             string oauthToken,
-            string oauthSecret)
+            string oauthSecret,
+            ISigningAlgorithm signingAlgorithm = null)
         {
             _consumerKey = consumerKey;
             _oauthToken = oauthToken;
 
+            var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
             _template = new OAuth1SigningTemplate(
                 consumerKey, 
                 consumerSecret, 
                 oauthToken, 
-                oauthSecret);
+                oauthSecret,
+                signer);
         }
 
         public void Authenticate(HttpRequest request)

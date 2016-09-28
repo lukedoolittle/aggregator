@@ -1,25 +1,26 @@
-﻿using Foundations.Extensions;
+﻿using Foundations.Cryptography.JsonWebToken;
+using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth2JsonWebToken : IAuthenticator
     {
-        private readonly OAuth2JWTSigningTemplate _template;
+        private readonly OAuth2JwtSigningTemplate _template;
         private readonly string _privateKey;
         private readonly string _clientId;
-        private readonly IJWTSigningFactory _signingFactory;
 
         public OAuth2JsonWebToken(
             JsonWebToken token,
             string privateKey,
             string clientId,
-            IJWTSigningFactory signingFactory = null)
+            IJwtSigningFactory signingFactory = null)
         {
             _clientId = clientId;
             _privateKey = privateKey;
-            _template = new OAuth2JWTSigningTemplate(token);
-            _signingFactory = signingFactory ?? new DefaultJWTSigningFactory();
+
+            var factory = signingFactory ?? new JwtSignerFactory();
+            _template = new OAuth2JwtSigningTemplate(token, factory);
         }
 
         public void Authenticate(HttpRequest request)
@@ -27,9 +28,8 @@ namespace Foundations.HttpClient.Authenticators
             var signatureBase = _template.CreateSignatureBase();
             var signature = _template.CreateSignature(
                 signatureBase,
-                _privateKey, 
-                _signingFactory);
-            var assertion = _template.CreateJsonWebToken(signature);
+                _privateKey);
+            var assertion = $"{signatureBase}.{signature}";
 
             request
                 .Parameter(

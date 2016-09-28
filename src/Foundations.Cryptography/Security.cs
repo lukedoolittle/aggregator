@@ -1,33 +1,13 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Encodings;
-using Org.BouncyCastle.Crypto.Engines;
-using Org.BouncyCastle.Crypto.Macs;
-using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
-using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
 namespace Foundations.Cryptography
 {
     public static class Security
     {
-        public static Guid CreateGuidFromData(string data)
-        {
-            var digest = new MD5Digest();
-
-            var bytes = Encoding.UTF8.GetBytes(data);
-            digest.BlockUpdate(bytes, 0, bytes.Length);
-
-            var result = new byte[digest.GetDigestSize()];
-            digest.DoFinal(result, 0);
-
-            return new Guid(result);
-        }
-
         /// <summary>
         /// Creates a 16 character a cryptographically strong string
         /// </summary>
@@ -99,50 +79,6 @@ namespace Foundations.Cryptography
                 default:
                     return result;
             }
-        }
-
-        /// <summary>
-        /// Performs a SHA1 Hash
-        /// </summary>
-        /// <param name="key">Key</param>
-        /// <param name="value">SHA value</param>
-        /// <returns>Base 64 encoded string representing the hash</returns>
-        public static string Sha1Hash(
-            string key, 
-            string value)
-        {
-            var hmac = new HMac(new Sha1Digest());
-            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(key)));
-            var result = new byte[hmac.GetMacSize()];
-            var bytes = Encoding.UTF8.GetBytes(value);
-
-            hmac.BlockUpdate(bytes, 0, bytes.Length);
-            hmac.DoFinal(result, 0);
-
-            return Convert.ToBase64String(result);
-        }
-
-
-        public static byte[] RS256(byte[] plaintext, string privateKey)
-        {
-            var signer = SignerUtilities.GetSigner("SHA-256withRSA");
-
-            signer.Init(true, GetParametersFromKey(privateKey));
-
-            signer.BlockUpdate(plaintext, 0, plaintext.Length);
-            var signature = signer.GenerateSignature();
-
-            return signature;
-        }
-
-        private const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
-        private const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
-
-        private static ICipherParameters GetParametersFromKey(string privateKey)
-        {
-            var base64PrivateKey = privateKey.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
-            var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
-            return PrivateKeyFactory.CreateKey(privateKeyBytes);
         }
     }
 }

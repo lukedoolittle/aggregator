@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Foundations.Extensions;
 using Foundations.Cryptography;
+using Foundations.Cryptography.JsonWebToken;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 
@@ -10,7 +12,6 @@ namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth1SigningTemplate
     {
-        private const int NONCE_LENGTH = 16;
         public const string SIGNATURE_METHOD = "HMAC-SHA1";
         public const string VERSION = "1.0";
 
@@ -19,10 +20,12 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _oauthToken;
         private readonly string _oauthSecret;
         private readonly string _verifier;
+        private readonly ISigningAlgorithm _signingAlgorithm;
 
         public OAuth1SigningTemplate(
             string consumerKey, 
-            string consumerSecret)
+            string consumerSecret, 
+            ISigningAlgorithm signingAlgorithm)
         {
             if (string.IsNullOrEmpty(consumerKey))
             {
@@ -32,8 +35,13 @@ namespace Foundations.HttpClient.Authenticators
             {
                 throw new ArgumentNullException(nameof(consumerSecret));
             }
+            if (signingAlgorithm == null)
+            {
+                throw new ArgumentNullException(nameof(signingAlgorithm));
+            }
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
+            _signingAlgorithm = signingAlgorithm;
         }
 
         public OAuth1SigningTemplate(
@@ -41,12 +49,14 @@ namespace Foundations.HttpClient.Authenticators
             string consumerSecret, 
             string oauthToken, 
             string oauthSecret,
-            string verifier) :
+            string verifier, 
+            ISigningAlgorithm signingAlgorithm) :
             this(
                 consumerKey, 
                 consumerSecret, 
                 oauthToken, 
-                oauthSecret)
+                oauthSecret, 
+                signingAlgorithm)
         {
             if (string.IsNullOrEmpty(verifier))
             {
@@ -60,16 +70,13 @@ namespace Foundations.HttpClient.Authenticators
             string consumerKey,
             string consumerSecret,
             string oauthToken,
-            string oauthSecret)
+            string oauthSecret,
+            ISigningAlgorithm signingAlgorithm) :
+                this(
+                    consumerKey,
+                    consumerSecret, 
+                    signingAlgorithm)
         {
-            if (string.IsNullOrEmpty(consumerKey))
-            {
-                throw new ArgumentNullException(nameof(consumerKey));
-            }
-            if (string.IsNullOrEmpty(consumerSecret))
-            {
-                throw new ArgumentNullException(nameof(consumerSecret));
-            }
             if (string.IsNullOrEmpty(oauthToken))
             {
                 throw new ArgumentNullException(nameof(oauthToken));
@@ -79,8 +86,6 @@ namespace Foundations.HttpClient.Authenticators
                 throw new ArgumentNullException(nameof(oauthSecret));
             }
 
-            _consumerKey = consumerKey;
-            _consumerSecret = consumerSecret;
             _oauthToken = oauthToken;
             _oauthSecret = oauthSecret;
         }
@@ -157,11 +162,12 @@ namespace Foundations.HttpClient.Authenticators
         public string GenerateSignature(string signatureBase)
         {
             var key = $"{_consumerSecret.UrlEncodeRelaxed()}&{_oauthSecret.UrlEncodeRelaxed()}";
-            var signature = Security.Sha1Hash(
-                key, 
-                signatureBase);
+            var signature = _signingAlgorithm.SignText(
+                Encoding.UTF8.GetBytes(signatureBase), 
+                key);
 
-            return signature;
+            return Convert.ToBase64String(signature);
         }
     }
 }
+

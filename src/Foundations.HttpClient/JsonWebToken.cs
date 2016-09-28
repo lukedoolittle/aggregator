@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using Foundations.Cryptography.JsonWebToken;
 
 namespace Foundations.HttpClient
 {
@@ -18,8 +20,14 @@ namespace Foundations.HttpClient
         [DataMember(Name = "typ", Order = 0)]
         public string Type { get; set; } = "JWT";
 
+        public JwtAlgorithmEnum Algorithm { get; set; } = JwtAlgorithmEnum.RS256;
+
         [DataMember(Name = "alg", Order = 1)]
-        public string Algorithm { get; set; } = "RS256";
+        private string _algorithm
+        {
+            get { return Algorithm.ToString(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 
     [DataContract]

@@ -121,6 +121,19 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string clientSecret)
         {
+            if (accessUrl == null)
+            {
+                throw new ArgumentNullException(nameof(accessUrl));
+            }
+            if (string.IsNullOrEmpty(clientId))
+            {
+                throw new ArgumentNullException(nameof(clientId));
+            }
+            if (string.IsNullOrEmpty(clientSecret))
+            {
+                throw new ArgumentNullException(nameof(clientSecret));
+            }
+
             var response = await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2ClientAccessToken(
@@ -152,6 +165,19 @@ namespace Material.Infrastructure.OAuth
             string privateKey,
             string clientId)
         {
+            if (accessUrl == null)
+            {
+                throw new ArgumentNullException(nameof(accessUrl));
+            }
+            if (jwt == null)
+            {
+                throw new ArgumentNullException(nameof(jwt));
+            }
+            if (string.IsNullOrEmpty(privateKey))
+            {
+                throw new ArgumentNullException(nameof(privateKey));
+            }
+
             var response = await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
