@@ -139,6 +139,15 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CodegenTests.cs" />
+    <Compile Include="Interaction\OAuth1TokenTests.cs" />
+    <Compile Include="Interaction\OAuth2ClientCredentialsTokenTests.cs" />
+    <Compile Include="Interaction\OAuth2CodeTokenTests.cs" />
+    <Compile Include="Interaction\OAuth2ImplicitTokenTests.cs" />
+    <Compile Include="Interaction\OAuth2JWTBearerTokenTests.cs" />
+    <Compile Include="Interaction\OAuth2RefreshTokenTests.cs" />
+    <Compile Include="Interaction\OAuthSimpleRequestTests.cs" />
+    <Compile Include="Interaction\OnboardRequestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,14 +170,6 @@
     <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Http.Windows\Foundations.Http.Windows.csproj">
-      <Project>{a7170015-d79a-40b1-9df4-bfb47fb55938}</Project>
-      <Name>Foundations.Http.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

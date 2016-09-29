@@ -26,8 +26,6 @@ namespace Quantfabric.Test
 		
 		public static void UpdateIdValues()
 		{
-			global::cbforestsharp.Droid.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
-			global::Couchbase.Lite.Android.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.Test.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.Test.Resource.String.Hello;
 			global::Material.Resource.String.library_name = global::Quantfabric.Test.Resource.String.library_name;

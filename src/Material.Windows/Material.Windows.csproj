@@ -65,10 +65,6 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Foundations.Http.Windows\Foundations.Http.Windows.csproj">
-      <Project>{a7170015-d79a-40b1-9df4-bfb47fb55938}</Project>
-      <Name>Foundations.Http.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
@@ -78,6 +74,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
+  <Import Project="..\Foundations.Http\Foundations.Http.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

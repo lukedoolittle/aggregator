@@ -9,16 +9,6 @@
     <Import_RootNamespace>Quantfabric.Test</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth1TokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2ClientCredentialsTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2ImplicitTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2JWTBearerTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuthSimpleRequestTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2CodeTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OnboardRequestTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Integration\OAuth2RefreshTokenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\CodegenTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\DateTimeExtensionsTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSigningTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\TokenDeserializationTests.cs" />

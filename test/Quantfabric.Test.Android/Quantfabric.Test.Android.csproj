@@ -116,22 +116,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Extras.CommonServiceLocator">
-      <HintPath>..\..\packages\Autofac.Extras.CommonServiceLocator.4.0.0\lib\portable40-net40+sl5+win8+wp8+wpa81\Autofac.Extras.CommonServiceLocator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="cbforest-sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Couchbase.Lite.1.2.0.3\lib\MonoAndroid\cbforest-sharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Couchbase.Lite, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Couchbase.Lite.1.2.0.3\lib\MonoAndroid\Couchbase.Lite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\MonoAndroid\crypto.dll</HintPath>
       <Private>True</Private>
@@ -140,52 +124,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.0.49\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib.Portable, Version=0.86.0.51803, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpZipLib.Portable.0.86.0.0003\lib\portable-net45+netcore45+wp8+win8+wpa81+MonoTouch+MonoAndroid+Xamarin.iOS10\ICSharpCode.SharpZipLib.Portable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="LightMock, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LightMock.1.0.0.6\lib\portable-net40+sl50+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\LightMock.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.CurrentActivity, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.CurrentActivity.1.0.1\lib\MonoAndroid10\Plugin.CurrentActivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Geolocator, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\MonoAndroid10\Plugin.Geolocator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Geolocator.Abstractions, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\MonoAndroid10\Plugin.Geolocator.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Permissions, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Permissions.Abstractions, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Settings, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugins.Settings.2.1.0\lib\MonoAndroid10\Plugin.Settings.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Settings.Abstractions, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xam.Plugins.Settings.2.1.0\lib\MonoAndroid10\Plugin.Settings.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Restsharp.BleedingEdge.105.3.0\lib\MonoAndroid10\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Robotics.Mobile.Core, Version=1.0.5500.30933, Culture=neutral, processorArchitecture=MSIL">
@@ -194,14 +138,6 @@
     </Reference>
     <Reference Include="Robotics.Mobile.Core.Droid, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Monkey.Robotics.0.5.2\lib\MonoAndroid10\Robotics.Mobile.Core.Droid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SimpleCQRS">
-      <HintPath>..\..\packages\SimpleCQRS.Portable.0.2.0\lib\SimpleCQRS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Stateless, Version=2.5.21.0, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Stateless.2.5.21.0\lib\portable-net40+sl50+win+wp80\Stateless.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -286,6 +222,7 @@
   <ItemGroup>
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MainApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +239,10 @@
     <Content Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
+      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
+      <Name>Foundations.HttpClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Material.Android\Material.Android.csproj">
       <Project>{6084ced8-dbfa-4043-9dac-3dd880d0e533}</Project>
       <Name>Accumulator.Android</Name>
@@ -314,10 +255,6 @@
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Serialization\Foundations.Serialization.csproj">
-      <Project>{d9fe34ce-0064-4cbe-81be-6df87ed05030}</Project>
-      <Name>Foundations.Serialization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
@@ -325,16 +262,10 @@
   </ItemGroup>
   <Import Project="..\Quantfabric.Test\Quantfabric.Test.projitems" Label="Shared" />
   <Import Project="..\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems" Label="Shared" />
+  <Import Project="..\..\src\Foundations.Http\Foundations.Http.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Couchbase.Lite.Storage.SystemSQLite.1.2\build\MonoAndroid\Couchbase.Lite.Storage.SystemSQLite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Couchbase.Lite.Storage.SystemSQLite.1.2\build\MonoAndroid\Couchbase.Lite.Storage.SystemSQLite.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\Couchbase.Lite.Storage.SystemSQLite.1.2\build\MonoAndroid\Couchbase.Lite.Storage.SystemSQLite.targets" Condition="Exists('..\..\packages\Couchbase.Lite.Storage.SystemSQLite.1.2\build\MonoAndroid\Couchbase.Lite.Storage.SystemSQLite.targets')" />
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using Foundations.Serialization;
 using Material.Infrastructure.Credentials;
 using Xunit;
 
@@ -27,7 +26,8 @@ namespace Quantfabric.Test.Material.Unit
                 ["oauth_verifier"] = verifier
             };
 
-            var actual = token.ToString().AsEntity<OAuth1Credentials>();
+            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var actual = serializer.Deserialize<OAuth1Credentials>(token.ToString());
 
             Assert.Equal(oauthToken, actual.OAuthToken);
             Assert.Equal(oauthSecret, actual.OAuthSecret);
@@ -55,7 +55,8 @@ namespace Quantfabric.Test.Material.Unit
                 ["code"] = code
             };
 
-            var actual = token.ToString().AsEntity<OAuth2Credentials>();
+            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var actual = serializer.Deserialize<OAuth2Credentials>(token.ToString());
 
             Assert.Equal(accessToken, actual.AccessToken);
             Assert.Equal(expiresIn, actual.ExpiresIn);
@@ -80,7 +81,8 @@ namespace Quantfabric.Test.Material.Unit
                 ["code"] = code
             };
 
-            var actual = token.ToString().AsEntity<OAuth2Credentials>();
+            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var actual = serializer.Deserialize<OAuth2Credentials>(token.ToString());
 
             Assert.Equal(accessToken, actual.AccessToken);
             Assert.Equal(expiresIn, actual.ExpiresIn);
