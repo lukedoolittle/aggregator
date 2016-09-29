@@ -27,6 +27,7 @@ namespace Foundations.HttpClient
         private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
         private readonly HttpClientHandler _messageHandler;
+        private readonly CookieContainer _cookies;
 
         private readonly Dictionary<MediaTypeEnum, ISerializer> _serializers =
             new Dictionary<MediaTypeEnum, ISerializer>
@@ -60,6 +61,9 @@ namespace Foundations.HttpClient
         {
             _baseAddress = baseAddress;
             _messageHandler = messageHandler ?? new HttpClientHandler();
+
+            _cookies = new CookieContainer();
+            _messageHandler.CookieContainer = _cookies;
         }
 
         public HttpRequest(string baseAddress) : 
@@ -118,6 +122,13 @@ namespace Foundations.HttpClient
             {
                 _pathParameters.Add(parameter);
             }
+
+            return this;
+        }
+
+        public HttpRequest DisallowAutoRedirects()
+        {
+            _messageHandler.AllowAutoRedirect = false;
 
             return this;
         }
@@ -377,11 +388,14 @@ namespace Foundations.HttpClient
                     .SendAsync(_message)
                     .ConfigureAwait(false);
 
+                var cookies = _cookies.GetCookies(_baseAddress).Cast<Cookie>();
+
                 return new HttpResponse(
                     response.Content,
                     response.Headers,
                     response.StatusCode,
                     response.ReasonPhrase,
+                    cookies,
                     GetSerializer(response));
             }
         }

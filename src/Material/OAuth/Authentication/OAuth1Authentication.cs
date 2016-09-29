@@ -38,7 +38,7 @@ namespace Material.Infrastructure.OAuth
                     consumerSecret,
                     callbackUrl.ToString());
 
-            if (parameterHandling == OAuthParameterTypeEnum.Body)
+            if (parameterHandling == OAuthParameterTypeEnum.Querystring)
             {
                 request.WithQueryParameters();
             }

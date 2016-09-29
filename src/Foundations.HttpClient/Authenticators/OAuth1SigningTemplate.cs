@@ -12,8 +12,8 @@ namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth1SigningTemplate
     {
-        public const string SIGNATURE_METHOD = "HMAC-SHA1";
-        public const string VERSION = "1.0";
+        public string SignatureMethod { get; } = "HMAC-SHA1";
+        public string Version { get; } = "1.0";
 
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
@@ -143,11 +143,11 @@ namespace Foundations.HttpClient.Authenticators
             allParameters.Add(
                 new KeyValuePair<string, string>(
                     OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    SIGNATURE_METHOD));
+                    SignatureMethod));
             allParameters.Add(
                 new KeyValuePair<string, string>(
                     OAuth1ParameterEnum.Version.EnumToString(),
-                    VERSION));
+                    Version));
 
             var elements = new List<string>
             {

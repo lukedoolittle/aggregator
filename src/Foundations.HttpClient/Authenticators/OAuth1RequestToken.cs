@@ -56,10 +56,10 @@ namespace Foundations.HttpClient.Authenticators
                     _consumerKey)
                 .Parameter(
                     OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    OAuth1SigningTemplate.SIGNATURE_METHOD)
+                    _template.SignatureMethod)
                 .Parameter(
                     OAuth1ParameterEnum.Version.EnumToString(),
-                    OAuth1SigningTemplate.VERSION)
+                    _template.Version)
                 .Parameter(
                     OAuth1ParameterEnum.Signature.EnumToString(),
                     signature);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,13 +15,12 @@ namespace Foundations.HttpClient
 {
     public class HttpResponse
     {
-        public HttpStatusCode StatusCode => _statusCode;
-        public string Reason => _reason;
+        public HttpStatusCode StatusCode { get; }
+        public string Reason { get; }
+        public IEnumerable<Cookie> Cookies { get; }
+        public HttpResponseHeaders Headers { get; }
 
         private readonly HttpContent _content;
-        private readonly HttpResponseHeaders _headers;
-        private readonly HttpStatusCode _statusCode;
-        private readonly string _reason;
         private readonly ISerializer _serializer;
 
         public HttpResponse(
@@ -28,12 +28,14 @@ namespace Foundations.HttpClient
             HttpResponseHeaders headers,
             HttpStatusCode statusCode,
             string reason,
+            IEnumerable<Cookie> cookies,
             ISerializer serializer)
         {
             _content = content;
-            _headers = headers;
-            _statusCode = statusCode;
-            _reason = reason;
+            Headers = headers;
+            StatusCode = statusCode;
+            Reason = reason;
+            Cookies = cookies;
             _serializer = serializer;
         }
 
