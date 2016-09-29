@@ -20,11 +20,19 @@ namespace Foundations.Cryptography.JsonWebToken
             var hmac = new HMac(_digest);
             hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey)));
             var result = new byte[hmac.GetMacSize()];
-
+            
             hmac.BlockUpdate(text, 0, text.Length);
             hmac.DoFinal(result, 0);
 
             return result;
+        }
+
+        public bool VerifyText(
+            string publicKey, 
+            byte[] signature, 
+            byte[] text)
+        {
+            throw new System.NotImplementedException("Cannot verify Hash");
         }
 
         public static ISigningAlgorithm Sha1Algorithm()
