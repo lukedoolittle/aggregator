@@ -2,7 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.Cryptography.JsonWebToken
+namespace Foundations.Cryptography.DigitalSignature
 {
     public class SigningAlgorithm : ISigningAlgorithm
     {
@@ -10,8 +10,14 @@ namespace Foundations.Cryptography.JsonWebToken
 
         public SigningAlgorithm(ISigner signer)
         {
+            if (_signer == null)
+            {
+                throw new ArgumentNullException(nameof(signer));
+            }
             _signer = signer;
         }
+
+        public string SignatureMethod => _signer.AlgorithmName.ToUpper();
 
         public byte[] SignText(byte[] text, string privateKey)
         {

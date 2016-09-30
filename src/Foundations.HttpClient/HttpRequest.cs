@@ -280,6 +280,15 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequest Parameter(
+            Enum key,
+            string value)
+        {
+            return Parameter(
+                key.EnumToString(), 
+                value);
+        }
+
         public HttpRequest Parameters(
             IEnumerable<KeyValuePair<string, string>> parameters)
         {

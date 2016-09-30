@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using Foundations.Extensions;
 using Foundations.Cryptography;
-using Foundations.Cryptography.JsonWebToken;
+using Foundations.Cryptography.DigitalSignature;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 
@@ -12,20 +12,26 @@ namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth1SigningTemplate
     {
-        public string SignatureMethod { get; } = "HMAC-SHA1";
-        public string Version { get; } = "1.0";
+        public string Version { get; }
+        public string Nonce { get; }
+        public string Timestamp { get; }
+
+        private const string DEFAULT_VERSION = "1.0";
 
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
         private readonly string _oauthToken;
         private readonly string _oauthSecret;
+        private readonly string _callbackUrl;
         private readonly string _verifier;
         private readonly ISigningAlgorithm _signingAlgorithm;
 
         public OAuth1SigningTemplate(
             string consumerKey, 
             string consumerSecret, 
-            ISigningAlgorithm signingAlgorithm)
+            string callbackUrl = null,
+            ISigningAlgorithm signingAlgorithm = null,
+            string version = DEFAULT_VERSION)
         {
             if (string.IsNullOrEmpty(consumerKey))
             {
@@ -35,13 +41,15 @@ namespace Foundations.HttpClient.Authenticators
             {
                 throw new ArgumentNullException(nameof(consumerSecret));
             }
-            if (signingAlgorithm == null)
-            {
-                throw new ArgumentNullException(nameof(signingAlgorithm));
-            }
+
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
-            _signingAlgorithm = signingAlgorithm;
+            _callbackUrl = callbackUrl;
+            Version = version;
+            _signingAlgorithm = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
+
+            Timestamp = ((int)DateTime.UtcNow.ToUnixTimeSeconds()).ToString();
+            Nonce = Security.Create16CharacterCryptographicallyStrongString();
         }
 
         public OAuth1SigningTemplate(
@@ -50,13 +58,15 @@ namespace Foundations.HttpClient.Authenticators
             string oauthToken, 
             string oauthSecret,
             string verifier, 
-            ISigningAlgorithm signingAlgorithm) :
+            ISigningAlgorithm signingAlgorithm = null,
+            string version = DEFAULT_VERSION) :
             this(
                 consumerKey, 
                 consumerSecret, 
                 oauthToken, 
                 oauthSecret, 
-                signingAlgorithm)
+                signingAlgorithm,
+                version)
         {
             if (string.IsNullOrEmpty(verifier))
             {
@@ -71,11 +81,14 @@ namespace Foundations.HttpClient.Authenticators
             string consumerSecret,
             string oauthToken,
             string oauthSecret,
-            ISigningAlgorithm signingAlgorithm) :
+            ISigningAlgorithm signingAlgorithm = null,
+            string version = DEFAULT_VERSION) :
                 this(
                     consumerKey,
-                    consumerSecret, 
-                    signingAlgorithm)
+                    consumerSecret,
+                    null,
+                    signingAlgorithm,
+                    version)
         {
             if (string.IsNullOrEmpty(oauthToken))
             {
@@ -90,26 +103,6 @@ namespace Foundations.HttpClient.Authenticators
             _oauthSecret = oauthSecret;
         }
 
-        private string GetTimestamp()
-        {
-            return ((int)DateTime.UtcNow.ToUnixTimeSeconds()).ToString();
-        }
-
-        public IEnumerable<KeyValuePair<string, string>> CreateNonceAndTimestamp()
-        {
-            var parameters = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.Timestamp.EnumToString(),
-                    GetTimestamp()),
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.Nonce.EnumToString(),
-                    Security.Create16CharacterCryptographicallyStrongString())
-            };
-
-            return parameters;
-        }
-
         public string ConcatenateElements(
             HttpMethod method,
             Uri url,
@@ -117,6 +110,8 @@ namespace Foundations.HttpClient.Authenticators
         {
             var allParameters = new List<KeyValuePair<string, string>>();
             allParameters.AddRange(parameters);
+
+            //Request specific parameters
 
             if (_consumerKey != null)
             {
@@ -139,11 +134,31 @@ namespace Foundations.HttpClient.Authenticators
                         OAuth1ParameterEnum.Verifier.EnumToString(),
                         _verifier));
             }
+            if (_callbackUrl != null)
+            {
+                allParameters.Add(
+                    new KeyValuePair<string, string>(
+                        OAuth1ParameterEnum.Callback.EnumToString(),
+                        _callbackUrl));
+            }
+
+            //Required parameters for any request
+
+            allParameters.Add(
+                new KeyValuePair<string, string>(
+                    OAuth1ParameterEnum.Timestamp.EnumToString(),
+                    Timestamp));
+
+            allParameters.Add(
+                new KeyValuePair<string, string>(
+                    OAuth1ParameterEnum.Nonce.EnumToString(),
+                    Nonce));
 
             allParameters.Add(
                 new KeyValuePair<string, string>(
                     OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    SignatureMethod));
+                    _signingAlgorithm.SignatureMethod));
+
             allParameters.Add(
                 new KeyValuePair<string, string>(
                     OAuth1ParameterEnum.Version.EnumToString(),

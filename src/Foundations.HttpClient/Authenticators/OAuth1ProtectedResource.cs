@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Foundations.Cryptography.JsonWebToken;
-using Foundations.Extensions;
+﻿using Foundations.Cryptography.DigitalSignature;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
@@ -10,6 +8,7 @@ namespace Foundations.HttpClient.Authenticators
         private readonly OAuth1SigningTemplate _template;
         private readonly string _consumerKey;
         private readonly string _oauthToken;
+        private readonly string _signatureMethod;
         private readonly OAuthParameterTypeEnum _parameterHandling;
 
         public OAuth1ProtectedResource(
@@ -23,6 +22,8 @@ namespace Foundations.HttpClient.Authenticators
             _oauthToken = oauthToken;
 
             var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
+
+            _signatureMethod = signer.SignatureMethod;
             _template = new OAuth1SigningTemplate(
                 consumerKey, 
                 consumerSecret, 
@@ -33,35 +34,34 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequest request)
         {
-            var nonceAndTimestampParameters = _template.CreateNonceAndTimestamp();
-
-            var parameters = new List<KeyValuePair<string, string>>();
-            parameters.AddRange(nonceAndTimestampParameters);
-            parameters.AddRange(request.QueryParameters);
-
             var signatureBase = _template.ConcatenateElements(
                 request.Method,
                 request.Url,
-                parameters);
+                request.QueryParameters);
 
             var signature = _template.GenerateSignature(signatureBase);
 
             request
-                .Parameters(nonceAndTimestampParameters)
                 .Parameter(
-                    OAuth1ParameterEnum.ConsumerKey.EnumToString(),
+                    OAuth1ParameterEnum.Nonce,
+                    _template.Nonce)
+                .Parameter(
+                    OAuth1ParameterEnum.Timestamp,
+                    _template.Timestamp)
+                .Parameter(
+                    OAuth1ParameterEnum.ConsumerKey,
                     _consumerKey)
                 .Parameter(
-                    OAuth1ParameterEnum.OAuthToken.EnumToString(),
+                    OAuth1ParameterEnum.OAuthToken,
                     _oauthToken)
                 .Parameter(
-                    OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    _template.SignatureMethod)
+                    OAuth1ParameterEnum.SignatureMethod,
+                    _signatureMethod)
                 .Parameter(
-                    OAuth1ParameterEnum.Version.EnumToString(),
+                    OAuth1ParameterEnum.Version,
                     _template.Version)
                 .Parameter(
-                    OAuth1ParameterEnum.Signature.EnumToString(),
+                    OAuth1ParameterEnum.Signature,
                     signature);
         }
     }

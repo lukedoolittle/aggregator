@@ -1,18 +1,28 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace Foundations.Cryptography.JsonWebToken
+namespace Foundations.Cryptography.DigitalSignature
 {
     public class DigestSigningAlgorithm : ISigningAlgorithm
     {
         private readonly IDigest _digest;
 
-        public DigestSigningAlgorithm(IDigest digest)
+        public string SignatureMethod { get; }
+
+        public DigestSigningAlgorithm(
+            IDigest digest,
+            string signatureMethod = null)
         {
+            if (digest == null)
+            {
+                throw new ArgumentNullException(nameof(digest));
+            }
             _digest = digest;
+            SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
         }
 
         public byte[] SignText(byte[] text, string privateKey)
@@ -32,12 +42,12 @@ namespace Foundations.Cryptography.JsonWebToken
             byte[] signature, 
             byte[] text)
         {
-            throw new System.NotImplementedException("Cannot verify Hash");
+            throw new NotImplementedException("Cannot verify Hash");
         }
 
         public static ISigningAlgorithm Sha1Algorithm()
         {
-            return new DigestSigningAlgorithm(new Sha1Digest());
+            return new DigestSigningAlgorithm(new Sha1Digest(), "HMAC-SHA1");
         }
     }
 }

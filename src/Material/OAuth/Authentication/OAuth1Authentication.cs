@@ -122,7 +122,7 @@ namespace Material.Infrastructure.OAuth
                     querystringParameter.Value);
             }
 
-            if (parameterHandling == OAuthParameterTypeEnum.Body)
+            if (parameterHandling == OAuthParameterTypeEnum.Querystring)
             {
                 request.WithQueryParameters();
             }
