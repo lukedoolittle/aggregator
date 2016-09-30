@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
@@ -76,23 +75,23 @@ namespace Material.Infrastructure.OAuth
         /// <summary>
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
-        /// <param name="result">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="secret">The application's client secret</param>
+        /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
+        /// <param name="clientSecret">The application's client secret</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
-            OAuth2Credentials result,
-            string secret)
+            OAuth2Credentials intermediateResult,
+            string clientSecret)
         {
             _resourceProvider.SetClientProperties(
                 _clientId,
-                secret);
+                clientSecret);
 
             var accessToken = await _oauth.GetAccessToken(
                 _resourceProvider.TokenUrl,
                 _clientId,
-                secret,
+                clientSecret,
                 new Uri(_callbackUri),
-                result.Code,
+                intermediateResult.Code,
                 _resourceProvider.Scope,
                 _resourceProvider.Headers)
                 .ConfigureAwait(false);
@@ -100,8 +99,8 @@ namespace Material.Infrastructure.OAuth
             return accessToken
                 .SetTokenName(_resourceProvider.TokenName)
                 .SetClientProperties(
-                    _clientId, 
-                    secret);
+                    _clientId,
+                    clientSecret);
         }
     }
 }

@@ -88,23 +88,23 @@ namespace Material.Infrastructure.OAuth
         /// <summary>
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
-        /// <param name="result">Intermediate credentials received from OAuth1 callback</param>
-        /// <param name="secret">The application's OAuth secret</param>
+        /// <param name="intermediateResult">Intermediate credentials received from OAuth1 callback</param>
+        /// <param name="oauthSecret">The oauth secret provided during the token request</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
-            OAuth1Credentials result,
-            string secret)
+            OAuth1Credentials intermediateResult,
+            string oauthSecret)
         {
             var token = await _oauth
                 .GetAccessToken(
                     _resourceProvider.TokenUrl,
                     _consumerKey,
                     _consumerSecret,
-                    result.OAuthToken,
-                    secret,
-                    result.Verifier,
+                    intermediateResult.OAuthToken,
+                    oauthSecret,
+                    intermediateResult.Verifier,
                     _resourceProvider.ParameterType,
-                    result.AdditionalParameters)
+                    intermediateResult.AdditionalParameters)
                 .ConfigureAwait(false);
 
             return token

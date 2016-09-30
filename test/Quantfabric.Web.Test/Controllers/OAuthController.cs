@@ -201,7 +201,7 @@ namespace Quantfabric.Web.Test.Controllers
             return oauth
                 .GetAccessTokenAsync(
                     intermediateCredentials,
-                    _appRepository.GetConsumerSecret<TResourceProvider>());
+                    userId);
         }
 
         public Task<OAuth2Credentials> GetOAuth2Credentials<TResourceProvider>()

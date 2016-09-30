@@ -17,6 +17,7 @@ namespace Material.Facades
         where TResourceProvider: OAuth1ResourceProvider, new()
     {
         private readonly IOAuthFacade<OAuth1Credentials> _authFacade;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         /// <summary>
         /// Authenticates a resource owner using the OAuth1a workflow
@@ -31,6 +32,8 @@ namespace Material.Facades
             string callbackUrl,
             IOAuthSecurityStrategy securityStrategy)
         {
+            _securityStrategy = securityStrategy;
+
             var handler = new OAuth1CallbackHandler(
                 securityStrategy,
                 OAuth1ParameterEnum.OAuthToken.EnumToString());
@@ -54,30 +57,20 @@ namespace Material.Facades
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,
-            string callbackUrl)
-        {
-            var securityStrategy = new OAuthSecurityStrategy(
-                new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
-
-            var handler = new OAuth1CallbackHandler(
-                securityStrategy,
-                OAuth1ParameterEnum.OAuthToken.EnumToString());
-
-            _authFacade = new OAuth1AuthenticationFacade(
-                new TResourceProvider(),
-                consumerKey,
-                consumerSecret,
-                callbackUrl,
-                new OAuth1Authentication(),
-                securityStrategy,
-                handler);
-        }
+            string callbackUrl) : 
+                this (
+                    consumerKey, 
+                    consumerSecret,
+                    callbackUrl, 
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        TimeSpan.FromMinutes(2)))
+        { }
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="userId">The users Id within the application</param>
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
@@ -88,7 +81,7 @@ namespace Material.Facades
         /// Convert a callback uri into intermediate OAuth2Credentials
         /// </summary>
         /// <param name="responseUri">The received callback uri</param>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="userId">The users Id within the application</param>
         /// <returns>Intermediate OAuth1 credentials</returns>
         public OAuth1Credentials ParseAndValidateCallback(
             Uri responseUri,
@@ -101,13 +94,17 @@ namespace Material.Facades
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="result">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="secret">The application's client secret</param>
+        /// <param name="userId">The users Id within the application</param>
         /// <returns>Access token credentials</returns>
         public Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials result,
-            string secret)
+            string userId)
         {
-            return _authFacade.GetAccessTokenAsync(result, secret);
+            var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
+                userId,
+                OAuth1ParameterEnum.OAuthTokenSecret.EnumToString());
+
+            return _authFacade.GetAccessTokenAsync(result, oauthSecret);
         }
     }
 }
