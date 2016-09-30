@@ -45,7 +45,6 @@ var baseMergeList = new List<FilePath>
 };
 
 var windowsMergeList = new List<FilePath>(baseMergeList);
-windowsMergeList.Add(File("Foundations.Http.dll"));
 
 var iOSMergeList = new List<FilePath>(baseMergeList);
 iOSMergeList.Add(File("Robotics.Mobile.Core.dll"));
