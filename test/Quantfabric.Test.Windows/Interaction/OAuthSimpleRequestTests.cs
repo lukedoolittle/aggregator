@@ -648,6 +648,22 @@ namespace Quantfabric.Test.Material.Integration
         #region Twitter Requests
 
         [Fact]
+        public async void MakeRequestForTwitterVerifyCredentials()
+        {
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new TwitterVerifyCredentials();
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<TwitterVerifyCredentials, TwitterVerifyCredentialsResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.Email);
+        }
+
+        [Fact]
         public async void MakeRequestForTwitterTweets()
         {
             var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();

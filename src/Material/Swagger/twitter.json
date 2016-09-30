@@ -12,6 +12,48 @@
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
     "paths": {
+        "/account/verify_credentials.json": {
+            "get": {
+                "summary": "Use this method to test if supplied user credentials are valid or to get users email address",
+                "description": "https://dev.twitter.com/rest/reference/get/account/verify_credentials",
+                "operationId": "TwitterVerifyCredentials",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "skip_status",
+                        "description": "When set to true statuses will not be included in the returned user object",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_email",
+                        "description": "When set to true email will be returned in the user objects as a string",
+                        "type": "boolean",
+                        "required": false,
+                        "default": true 
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth1": []
+                    }
+                ]
+            }
+        },
         "/statuses/retweets_of_me.json": {
             "get": {
                 "summary": "Returns the most recent tweets authored by the authenticating user that have been retweeted by others",
@@ -23,7 +65,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -67,10 +109,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -86,7 +128,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -124,10 +166,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -143,7 +185,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -180,10 +222,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -230,10 +272,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -280,10 +322,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -299,7 +341,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -329,10 +371,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -343,12 +385,12 @@
                 "description": "https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline",
                 "operationId": "TwitterMention",
                 "parameters": [
- {
+                    {
                         "in": "query",
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -377,10 +419,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -396,7 +438,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -440,10 +482,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }
@@ -466,7 +508,7 @@
                         "name": "since_id",
                         "description": "Returns results with an ID greater than (that is, more recent than) the specified ID",
                         "type": "string",
-                        "required": false 
+                        "required": false
                     },
                     {
                         "in": "query",
@@ -531,10 +573,10 @@
                         "description": "Successful request."
                     }
                 },
-                "tags": [ ],
+                "tags": [],
                 "security": [
                     {
-                        "oauth1": [ ]
+                        "oauth1": []
                     }
                 ]
             }

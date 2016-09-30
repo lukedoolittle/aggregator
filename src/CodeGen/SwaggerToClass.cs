@@ -446,9 +446,20 @@ namespace CodeGen
                     throw new Exception("Couldn't parse datetime string");
                 }
             }
+            else if (type == typeof(bool?) || type == typeof(bool))
+            {
+                if (item.ToLower() == "true")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
             else
             {
-                throw new Exception("Unknown object type");
+                throw new Exception("Unhandled object type: " + type.Name);
             }
         }
 

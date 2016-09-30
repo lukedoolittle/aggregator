@@ -59,6 +59,8 @@ namespace Material.Infrastructure.Responses
         public IList<TwitterUserMention> UserMentions { get; set; }
         [DataMember(Name = "urls")]
         public IList<TwitterUrl> Urls { get; set; }
+        [DataMember(Name = "url")]
+        public TwitterUrl url { get; set; }
         [DataMember(Name = "media")]
         public IList<TwitterMedium> Media { get; set; }
         [DataMember(Name = "description")]

@@ -91,6 +91,10 @@ namespace Material.Infrastructure
             {
                 return (instance as Enum).EnumToString();
             }
+            else if (instance is bool)
+            {
+                return instance.ToString().ToLower();
+            }
             else
             {
                 return instance.ToString();

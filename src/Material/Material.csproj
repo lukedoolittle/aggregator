@@ -140,6 +140,7 @@
     <Compile Include="Infrastructure\Requests\TwitterSentDirectMessage.cs" />
     <Compile Include="Infrastructure\Requests\TwitterTimeline.cs" />
     <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
     <Compile Include="Infrastructure\Requests\WithingsWeighin.cs" />
     <Compile Include="Infrastructure\Responses\FacebookEventResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookFeedResponse.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Infrastructure\Responses\TwitterRetweetOfMeResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwitterTimelineResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwitterTweetResponse.cs" />
+    <Compile Include="Infrastructure\Responses\TwitterVerifyCredentialsResponse.cs" />
     <Compile Include="Infrastructure\Responses\WithingsWeighInResponse.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
@@ -324,6 +326,7 @@
 .\Infrastructure\Requests\TwitterSentDirectMessage.cs
 .\Infrastructure\Requests\TwitterTimeline.cs
 .\Infrastructure\Requests\TwitterTweet.cs
+.\Infrastructure\Requests\TwitterVerifyCredentials.cs
 .\Infrastructure\Requests\WithingsWeighin.cs
 </LastOutputs>
     </AdditionalFiles>

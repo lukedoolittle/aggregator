@@ -118,9 +118,13 @@ namespace CodeGen
             {
                 return PrettyPrintDictionary((Dictionary<HttpRequestHeader, string>)value);
             }
+            if (value is bool)
+            {
+                return value.ToString().ToLower();
+            }
             else
             {
-                throw new Exception("Type was " + value.GetType().Name);
+                throw new Exception("Unhandled type was " + value.GetType().Name);
             }
         }
 
