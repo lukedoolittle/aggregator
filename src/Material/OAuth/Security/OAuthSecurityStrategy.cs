@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundations.Cryptography;
+using Foundations.Cryptography.StringCreation;
 using Material.Contracts;
 
 namespace Material.Infrastructure.OAuth
@@ -8,13 +9,16 @@ namespace Material.Infrastructure.OAuth
     {
         private readonly ICryptographicParameterRepository _repository;
         private readonly TimeSpan _cryptographicParameterTimeout;
+        private readonly ICryptoStringGenerator _stringGenerator;
 
         public OAuthSecurityStrategy(
             ICryptographicParameterRepository repository, 
-            TimeSpan cryptographicParameterTimeout)
+            TimeSpan cryptographicParameterTimeout,
+            ICryptoStringGenerator stringGenerator = null)
         {
             _cryptographicParameterTimeout = cryptographicParameterTimeout;
             _repository = repository;
+            _stringGenerator = stringGenerator ?? new CryptoStringGenerator();
         }
 
         public string CreateOrGetSecureParameter(
@@ -62,7 +66,7 @@ namespace Material.Infrastructure.OAuth
         /// <param name="userId">The identifier of the user submitting the request</param>
         /// <param name="timeout">Expiration time for the parameter</param>
         /// <returns></returns>
-        private static string GetOrSetCrypto(
+        private string GetOrSetCrypto(
             ICryptographicParameterRepository currentCryptos,
             string userId,
             string parameterName,
@@ -83,8 +87,9 @@ namespace Material.Infrastructure.OAuth
 
             if (parameterValue == null)
             {
-                var cryptoParameter = Security
-                    .Create32CharacterCryptographicallyStrongString();
+                var cryptoParameter = _stringGenerator.CreateRandomString(
+                    32, 
+                    CryptoStringTypeEnum.Base64AlphaNumeric);
 
                 currentCryptos.SetCryptographicParameterValue(
                     userId,

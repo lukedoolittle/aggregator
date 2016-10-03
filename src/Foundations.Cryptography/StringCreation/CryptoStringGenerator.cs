@@ -4,36 +4,19 @@ using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.Cryptography
+namespace Foundations.Cryptography.StringCreation
 {
-    public static class Security
+    public class CryptoStringGenerator : ICryptoStringGenerator
     {
-        /// <summary>
-        /// Creates a 16 character a cryptographically strong string
-        /// </summary>
-        /// <returns></returns>
-        public static string Create16CharacterCryptographicallyStrongString(
-            CryptoStringTypeEnum stringType = CryptoStringTypeEnum.LowercaseAlphaNumeric)
+        public string CreateRandomString(
+            int stringLength, 
+            CryptoStringTypeEnum stringType)
         {
             //Per NIST truncating a SHA256 hash by taking the left most n bits is acceptable
             //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-107r1.pdf
             return CreateCryptographicallyStrongString<Sha256Digest>(
                 stringType)
-                .Substring(0, 16);
-        }
-
-        /// <summary>
-        /// Creates a 32 character  cryptographically strong string
-        /// </summary>
-        /// <returns></returns>
-        public static string Create32CharacterCryptographicallyStrongString(
-            CryptoStringTypeEnum stringType = CryptoStringTypeEnum.Base64AlphaNumeric)
-        {
-            //Per NIST truncating a SHA256 hash by taking the left most n bits is acceptable
-            //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-107r1.pdf
-            return CreateCryptographicallyStrongString<Sha256Digest>(
-                stringType)
-                .Substring(0, 32);
+                .Substring(0, stringLength);
         }
 
         /// <summary>

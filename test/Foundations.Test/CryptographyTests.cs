@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
+﻿using System.IO;
 using System.Text;
+using Foundations.Cryptography;
 using Foundations.Cryptography.JsonWebToken;
+using Foundations.Cryptography.StringCreation;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
@@ -18,13 +17,16 @@ namespace Foundations.Test
         [Fact]
         public void CallingCreateCrypto16SeveralTimesProducesRandomString()
         {
-            var crypto1 = Cryptography.Security.Create16CharacterCryptographicallyStrongString();
-            var crypto2 = Cryptography.Security.Create16CharacterCryptographicallyStrongString();
-            var crypto3 = Cryptography.Security.Create16CharacterCryptographicallyStrongString();
+            var crypto = new CryptoStringGenerator();
+            var stringLength = 16;
 
-            Assert.Equal(16, crypto1.Length);
-            Assert.Equal(16, crypto2.Length);
-            Assert.Equal(16, crypto3.Length);
+            var crypto1 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.LowercaseAlphaNumeric);
+            var crypto2 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.LowercaseAlphaNumeric);
+            var crypto3 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.LowercaseAlphaNumeric);
+
+            Assert.Equal(stringLength, crypto1.Length);
+            Assert.Equal(stringLength, crypto2.Length);
+            Assert.Equal(stringLength, crypto3.Length);
 
             Assert.NotEqual(crypto1, crypto2);
             Assert.NotEqual(crypto2, crypto3);
@@ -33,13 +35,16 @@ namespace Foundations.Test
         [Fact]
         public void CallingCreateCrypto32SeveralTimesProducesRandomString()
         {
-            var crypto1 = Cryptography.Security.Create32CharacterCryptographicallyStrongString();
-            var crypto2 = Cryptography.Security.Create32CharacterCryptographicallyStrongString();
-            var crypto3 = Cryptography.Security.Create32CharacterCryptographicallyStrongString();
+            var crypto = new CryptoStringGenerator();
+            var stringLength = 32;
 
-            Assert.Equal(32, crypto1.Length);
-            Assert.Equal(32, crypto2.Length);
-            Assert.Equal(32, crypto3.Length);
+            var crypto1 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.Base64AlphaNumeric);
+            var crypto2 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.Base64AlphaNumeric);
+            var crypto3 = crypto.CreateRandomString(stringLength, CryptoStringTypeEnum.Base64AlphaNumeric);
+
+            Assert.Equal(stringLength, crypto1.Length);
+            Assert.Equal(stringLength, crypto2.Length);
+            Assert.Equal(stringLength, crypto3.Length);
 
             Assert.NotEqual(crypto1, crypto2);
             Assert.NotEqual(crypto2, crypto3);

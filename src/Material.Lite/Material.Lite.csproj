@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA0E1D39-B5B2-442C-81C2-E4B691C4163D}</ProjectGuid>
+    <ProjectGuid>{7AEAF3C9-4C7C-4146-BFA8-F0B74905D4DE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Material</RootNamespace>
@@ -29,14 +29,10 @@
     <DefineConstants>TRACE;__WINDOWS__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Material.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,38 +41,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerExtensions.cs" />
+    <Compile Include="DotNetHmacSha1SigningAlgorithm.cs" />
+    <Compile Include="DotNetStringGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Material\Material.csproj">
-      <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
-      <Name>Material</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
       <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
       <Name>Foundations.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
+      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
+      <Name>Foundations.HttpClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Material\Material.csproj">
+      <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
+      <Name>Material</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="..\Foundations.Http\Foundations.Http.projitems" Label="Shared" />
+  <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

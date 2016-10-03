@@ -5,6 +5,7 @@ using System.Text;
 using Foundations.Extensions;
 using Foundations.Cryptography;
 using Foundations.Cryptography.DigitalSignature;
+using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 
@@ -29,8 +30,9 @@ namespace Foundations.HttpClient.Authenticators
         public OAuth1SigningTemplate(
             string consumerKey, 
             string consumerSecret, 
-            string callbackUrl = null,
-            ISigningAlgorithm signingAlgorithm = null,
+            string callbackUrl,
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator,
             string version = DEFAULT_VERSION)
         {
             if (string.IsNullOrEmpty(consumerKey))
@@ -41,15 +43,25 @@ namespace Foundations.HttpClient.Authenticators
             {
                 throw new ArgumentNullException(nameof(consumerSecret));
             }
+            if (signingAlgorithm == null)
+            {
+                throw new ArgumentNullException(nameof(signingAlgorithm));
+            }
+            if (stringGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(stringGenerator));
+            }
 
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _callbackUrl = callbackUrl;
             Version = version;
-            _signingAlgorithm = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
+            _signingAlgorithm = signingAlgorithm;
 
             Timestamp = ((int)DateTime.UtcNow.ToUnixTimeSeconds()).ToString();
-            Nonce = Security.Create16CharacterCryptographicallyStrongString();
+            Nonce = stringGenerator.CreateRandomString(
+                16, 
+                CryptoStringTypeEnum.LowercaseAlphaNumeric);
         }
 
         public OAuth1SigningTemplate(
@@ -58,7 +70,8 @@ namespace Foundations.HttpClient.Authenticators
             string oauthToken, 
             string oauthSecret,
             string verifier, 
-            ISigningAlgorithm signingAlgorithm = null,
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator,
             string version = DEFAULT_VERSION) :
             this(
                 consumerKey, 
@@ -66,6 +79,7 @@ namespace Foundations.HttpClient.Authenticators
                 oauthToken, 
                 oauthSecret, 
                 signingAlgorithm,
+                stringGenerator,
                 version)
         {
             if (string.IsNullOrEmpty(verifier))
@@ -81,13 +95,15 @@ namespace Foundations.HttpClient.Authenticators
             string consumerSecret,
             string oauthToken,
             string oauthSecret,
-            ISigningAlgorithm signingAlgorithm = null,
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator,
             string version = DEFAULT_VERSION) :
                 this(
                     consumerKey,
                     consumerSecret,
                     null,
                     signingAlgorithm,
+                    stringGenerator,
                     version)
         {
             if (string.IsNullOrEmpty(oauthToken))

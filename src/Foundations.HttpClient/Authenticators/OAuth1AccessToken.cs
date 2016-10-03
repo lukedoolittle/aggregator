@@ -1,4 +1,5 @@
 ﻿using Foundations.Cryptography.DigitalSignature;
+using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
@@ -17,13 +18,15 @@ namespace Foundations.HttpClient.Authenticators
             string oauthToken,
             string oauthSecret,
             string verifier,
-            ISigningAlgorithm signingAlgorithm = null)
+            ISigningAlgorithm signingAlgorithm = null,
+            ICryptoStringGenerator stringGenerator = null)
         {
             _consumerKey = consumerKey;
             _oauthToken = oauthToken;
             _verifier = verifier;
 
             var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
+            var generator = stringGenerator ?? new CryptoStringGenerator();
 
             _signatureMethod = signer.SignatureMethod;
             _template = new OAuth1SigningTemplate(
@@ -32,7 +35,8 @@ namespace Foundations.HttpClient.Authenticators
                 oauthToken,
                 oauthSecret,
                 verifier,
-                signer);
+                signer,
+                generator);
         }
 
         public void Authenticate(HttpRequest request)

@@ -1,4 +1,8 @@
-﻿using Material.Contracts;
+﻿using System.Net;
+using Foundations.Extensions;
+using Foundations.HttpClient;
+using Foundations.HttpClient.Authenticators;
+using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
@@ -18,6 +22,8 @@ namespace Quantfabric.Test.Material.Integration
             _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
             _tokenRepository = new TokenCredentialRepository(true);
         }
+
+
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwitter()

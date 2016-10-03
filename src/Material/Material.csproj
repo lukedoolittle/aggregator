@@ -247,7 +247,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Swagger\googleAnalytics.json" />
     <None Include="Swagger\tumblr.json" />
     <None Include="Swagger\omniture.json" />
@@ -333,12 +332,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">

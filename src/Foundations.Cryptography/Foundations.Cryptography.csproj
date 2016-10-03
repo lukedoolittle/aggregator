@@ -42,8 +42,9 @@
     <Compile Include="JsonWebToken\IJwtSigningFactory.cs" />
     <Compile Include="JsonWebToken\JwtAlgorithmEnum.cs" />
     <Compile Include="DigitalSignature\SigningAlgorithm.cs" />
-    <Compile Include="Security.cs" />
+    <Compile Include="StringCreation\ICryptoStringGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringCreation\CryptoStringGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">

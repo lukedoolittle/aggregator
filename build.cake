@@ -11,9 +11,12 @@ var primaryAssembly = Argument("primaryAssembly", "Material.dll");
 var mergedAssembly = Argument("mergedAssembly", "Material.Core.dll");
 
 var nugetLocation = Argument("nugetLocation", "./nuget/Material");
-
 var nuspec = Argument("nuspec", "Quantfabric.Material.nuspec");
 var nupkg = Argument("nupkg", nugetLocation);
+
+var nugetLiteLocation = Argument("nugetLiteLocation", "./nuget/Material.Lite");
+var nuspecLite = Argument("nuspecLite", "Quantfabric.Material.Lite.nuspec");
+var nupkgLite = Argument("nupkgLite", nugetLiteLocation);
 
 var key = Argument("key", "");
 
@@ -24,17 +27,25 @@ var nugetLibDirectory = Directory(nugetLocation) + Directory("lib");
 var nugetToolsDirectory = Directory(nugetLocation) + Directory("tools");
 var nugetContentDirectory = Directory(nugetLocation) + Directory("content");
 
+var nugetLiteLibDirectory = Directory(nugetLiteLocation) + Directory("lib");
+
+
 var windowsBuildDirectory = Directory("./src/Material.Windows/bin") + Directory(configuration);
 var iOSBuildDirectory = Directory("./src/Material.iOS/bin") + Directory(configuration);
 var androidBuildDirectory = Directory("./src/Material.Android/bin") + Directory(configuration);
 var uwpBuildDirectory = Directory("./src/Material.UWP/bin") + Directory(configuration);
 var formsBuildDirectory = Directory("./src/Material.Forms/bin") + Directory(configuration);
 
+var liteBuildDirectory = Directory("./src/Material.Lite/bin") + Directory(configuration);
+
 var windowsLibDirectory = nugetLibDirectory + Directory("net45");
 var iOSLibDirectory = nugetLibDirectory + Directory("Xamarin.iOS10");
 var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
 var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa81");
+
+var liteLibDirectory = nugetLiteLibDirectory + Directory("net45");
+
 
 var baseMergeList = new List<FilePath>
 {
@@ -56,6 +67,9 @@ androidMergeList.Add(File("Robotics.Mobile.Core.Droid.dll"));
 
 var formsMergeList = new List<FilePath>(baseMergeList);
 
+var liteMergeList = new List<FilePath>(baseMergeList);
+liteMergeList.Add(File("crypto.dll"));
+
 var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 {
 	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
@@ -72,6 +86,13 @@ var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 		formsMergeList),
 };
 
+var ilRepackItemsLite = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
+{
+	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
+		liteBuildDirectory,
+		liteMergeList)
+};
+
 var ilRepackFrameworkLocations = new List<FilePath> 
 {
 	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/MonoAndroid/v6.0")
@@ -79,6 +100,9 @@ var ilRepackFrameworkLocations = new List<FilePath>
 
 var nuspecFile = Directory(nugetLocation) + File(nuspec);
 var nupkgFilePattern = nugetLocation + "/*.nupkg";
+
+var nuspecLiteFile = Directory(nugetLiteLocation) + File(nuspecLite);
+var nupkgLiteFilePattern = nugetLiteLocation + "/*.nupkg";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -92,9 +116,13 @@ Task("Clean")
 	CleanDirectory(androidBuildDirectory);
 	CleanDirectory(uwpBuildDirectory);
 	CleanDirectory(formsBuildDirectory);
+	CleanDirectory(liteBuildDirectory);
+
 	CleanDirectory(nugetLibDirectory);
+	CleanDirectory(nugetLiteLibDirectory);
 	
 	DeleteFiles(nupkgFilePattern);
+	DeleteFiles(nupkgLiteFilePattern);
 });
 
 Task("Create-Directories")
@@ -109,6 +137,9 @@ Task("Create-Directories")
 	EnsureDirectoryExists(iOSLibDirectory);
 	EnsureDirectoryExists(uwpLibDirectory);
 	EnsureDirectoryExists(formsLibDirectory);
+
+	EnsureDirectoryExists(nugetLiteLibDirectory);
+	EnsureDirectoryExists(liteLibDirectory);
 });
 
 Task("Restore-NuGet-Packages")
@@ -139,6 +170,30 @@ Task("Build")
 			.WithTarget("Any CPU"));
     }
 });
+
+Task("ILRepackLite")
+     .IsDependentOn("Build")
+     .Does(() =>
+{
+	foreach(var ilRepackItem in ilRepackItemsLite)
+	{
+		var settings = new ILRepackSettings
+		{
+			TargetKind = TargetKind.Dll,
+			XmlDocs = true,
+			NDebug = false
+		};
+
+		var assemblyPaths = ilRepackItem.Item2.Select(i => (FilePath)(ilRepackItem.Item1 + i));
+
+		ILRepack(
+			ilRepackItem.Item1 + File(mergedAssembly), 
+			ilRepackItem.Item1 + File(primaryAssembly), 
+			assemblyPaths,
+			settings);
+	}
+});
+
 
 Task("ILRepack")
      .IsDependentOn("Build")
@@ -176,6 +231,18 @@ Task("NuGet-Pack")
 		});
 });
 
+Task("NuGet-PackLite")
+    .IsDependentOn("ILRepackLite")
+    .Does(() =>
+{
+	NuGetPack(
+		nuspecLiteFile, 
+		new NuGetPackSettings
+		{
+			OutputDirectory = nupkgLite
+		});
+});
+
 Task("NuGet-Publish")
 	.IsDependentOn("NuGet-Pack")
 	.WithCriteria(() => HasArgument("key"))
@@ -195,12 +262,34 @@ Task("NuGet-Publish")
 	}
 });
 
+Task("NuGet-PublishLite")
+	.IsDependentOn("NuGet-PackLite")
+	.WithCriteria(() => HasArgument("key"))
+    .Does(() =>
+{
+	var nupkgLiteFiles = GetFiles(nupkgLiteFilePattern);
+	
+	foreach(var nupkgFile in nupkgLiteFiles)
+	{
+		NuGetPush(
+			nupkgFile, 
+			new NuGetPushSettings 
+			{
+				Source = "https://www.nuget.org",
+				ApiKey = key
+			});
+	}
+});
+
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
     .IsDependentOn("NuGet-Publish");
+
+Task("Lite")
+    .IsDependentOn("NuGet-PublishLite");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

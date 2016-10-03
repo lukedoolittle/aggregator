@@ -26,8 +26,11 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "parameterHandling")]
         public OAuthParameterTypeEnum ParameterHandling { get; private set; }
 
+        //This will get assigned via deserialization
         [DataMember(Name = "x_auth_expired", EmitDefaultValue = false)]
+#pragma warning disable 649
         private string _expires;
+#pragma warning restore 649
 
 
 	    public override string ExpiresIn => _expires;
