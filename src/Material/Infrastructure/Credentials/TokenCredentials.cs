@@ -23,7 +23,7 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "created_at", EmitDefaultValue = false)]
         protected string _dateCreated;
 
-        [DataMember(Name = "dateCreated")]
+        [DataMember(Name = "dateCreated", EmitDefaultValue = false)]
         public DateTimeOffset DateCreated { get; protected set; }
 
         public bool IsTokenExpired

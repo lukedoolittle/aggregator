@@ -8,18 +8,14 @@ using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth2CodeTokenTests
     {
-        private readonly AppCredentialRepository _appRepository;
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuth2CodeTokenTests()
-        {
-            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
+        private readonly AppCredentialRepository _appRepository = 
+            new AppCredentialRepository(CallbackTypeEnum.Localhost);
+        private readonly TokenCredentialRepository _tokenRepository = 
+            new TokenCredentialRepository(true);
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogle()

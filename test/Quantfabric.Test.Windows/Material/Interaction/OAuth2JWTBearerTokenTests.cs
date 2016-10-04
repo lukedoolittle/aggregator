@@ -6,16 +6,12 @@ using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth2JWTBearerTokenTests
     {
-        private readonly AppCredentialRepository _appRepository;
-
-        public OAuth2JWTBearerTokenTests()
-        {
-            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
-        }
+        private readonly AppCredentialRepository _appRepository = 
+            new AppCredentialRepository(CallbackTypeEnum.Localhost);
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogleJWTBearerGrant()

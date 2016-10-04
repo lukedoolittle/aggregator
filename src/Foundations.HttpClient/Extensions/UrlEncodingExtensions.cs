@@ -34,6 +34,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.ToString().UrlEncodeRelaxed();
         }
 
+        //Adapted from https://github.com/restsharp/RestSharp/blob/master/RestSharp/Authenticators/OAuth/OAuthTools.cs
+
         /// <summary>
         /// The set of characters that are unreserved in RFC 2396 but are NOT unreserved in RFC 3986.
         /// </summary>

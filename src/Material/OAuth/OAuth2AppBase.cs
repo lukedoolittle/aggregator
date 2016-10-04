@@ -9,7 +9,7 @@ using Material.Infrastructure.OAuth.Builder;
 namespace Material.Infrastructure.OAuth
 {
     public class OAuth2AppBase<TResourceProvider>
-        where TResourceProvider : OAuth2ResourceProvider, new()
+        where TResourceProvider : OAuth2ResourceProvider
     {
         private readonly string _clientId;
         private readonly string _clientSecret;

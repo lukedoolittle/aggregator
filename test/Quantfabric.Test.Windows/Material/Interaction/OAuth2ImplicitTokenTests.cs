@@ -1,25 +1,17 @@
 ﻿using Material.Contracts;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
-using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth2ImplicitTokenTests
     {
-        private readonly AppCredentialRepository _appRepository;
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuth2ImplicitTokenTests()
-        {
-            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
+        private readonly AppCredentialRepository _appRepository = 
+            new AppCredentialRepository(CallbackTypeEnum.Localhost);
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogleImplicitFlow()
@@ -73,19 +65,6 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         [Fact]
-        public async void GetAccessTokenFromLinkedInImplicitFlowThrowsException()
-        {
-            var clientId = _appRepository.GetClientId<LinkedIn>();
-            var redirectUri = _appRepository.GetRedirectUri<LinkedIn>();
-
-            await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<LinkedIn>(
-                        clientId,
-                        redirectUri)
-                .GetCredentialsAsync())
-                .ConfigureAwait(false);
-        }
-
-        [Fact]
         public async void CanGetValidAccessTokenFromSpotifyImplicitFlow()
         {
             var clientId = _appRepository.GetClientId<Spotify>();
@@ -120,48 +99,6 @@ namespace Quantfabric.Test.Material.Integration
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromRunkeeperImplicitFlowThrowsException()
-        {
-            var clientId = _appRepository.GetClientId<Runkeeper>();
-            var redirectUri = _appRepository.GetRedirectUri<Runkeeper>();
-
-            await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<Runkeeper>(
-                        clientId,
-                        redirectUri)
-                    .AddScope<RunkeeperFitnessActivity>()
-                    .GetCredentialsAsync())
-                    .ConfigureAwait(false);
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromRescuetimeImplicitFlowThrowsException()
-        {
-            var clientId = _appRepository.GetClientId<Rescuetime>();
-            var redirectUri = _appRepository.GetRedirectUri<Rescuetime>();
-
-            await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<Rescuetime>(
-                        clientId,
-                        redirectUri)
-                    .AddScope<RescuetimeAnalyticData>()
-                    .GetCredentialsAsync())
-                .ConfigureAwait(false);
-        }
-
-        [Fact]
-        public async void GetAccessTokenFromPinterestImplicitFlowThrowsException()
-        {
-            var clientId = _appRepository.GetClientId<Pinterest>();
-            var redirectUri = _appRepository.GetRedirectUri<Pinterest>();
-
-            await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<Pinterest>(
-                        clientId,
-                        redirectUri)
-                    .AddScope<PinterestLikes>()
-                    .GetCredentialsAsync())
-                .ConfigureAwait(false);
         }
 
         [Fact]

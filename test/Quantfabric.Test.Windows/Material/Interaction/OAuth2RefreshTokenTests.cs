@@ -4,18 +4,12 @@ using Material.Infrastructure.ProtectedResources;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth2RefreshTokenTests
     {
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuth2RefreshTokenTests()
-        {
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
-
-        //TODO: put in other (exception) tests for refresh tokens
+        private readonly TokenCredentialRepository _tokenRepository = 
+            new TokenCredentialRepository(true);
 
         [Fact]
         public async void RefreshTokenTaskForGmailGivesANewToken()

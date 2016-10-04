@@ -6,22 +6,15 @@ using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth2ClientCredentialsTokenTests
     {
 
-        private readonly AppCredentialRepository _appRepository;
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuth2ClientCredentialsTokenTests()
-        {
-            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
-
-
-        //TODO: put in (exception) tests for other OAuth2 providers
+        private readonly AppCredentialRepository _appRepository = 
+            new AppCredentialRepository(CallbackTypeEnum.Localhost);
+        private readonly TokenCredentialRepository _tokenRepository = 
+            new TokenCredentialRepository(true);
 
         [Fact]
         public async void CanGetValidAccessTokenFromOmnitureClientCredentialsGrant()

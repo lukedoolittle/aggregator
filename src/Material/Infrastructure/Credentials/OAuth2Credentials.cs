@@ -6,7 +6,7 @@ namespace Material.Infrastructure.Credentials
     [DataContract]
     public class OAuth2Credentials : TokenCredentials
     {
-        [DataMember(Name = "clientId")]
+        [DataMember(Name = "clientId", EmitDefaultValue = false)]
         public string ClientId { get; private set; }
 
         [DataMember(Name = "clientSecret", EmitDefaultValue = false)]
@@ -39,7 +39,7 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "refresh_token", EmitDefaultValue = false)]
         public string RefreshToken { get; private set; }
 
-        [DataMember(Name = "token_type")]
+        [DataMember(Name = "token_type", EmitDefaultValue = false)]
         public string TokenName { get; private set; }
 
         [DataMember(Name = "code", EmitDefaultValue = false)]

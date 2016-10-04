@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Material;
 using Material.Contracts;
-using Material.Infrastructure.Responses;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
@@ -15,7 +15,7 @@ using Xunit;
 using Element = Material.Infrastructure.RequestBodies.Element;
 using Metric = Material.Infrastructure.RequestBodies.Metric;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuthSimpleRequestTests
     {

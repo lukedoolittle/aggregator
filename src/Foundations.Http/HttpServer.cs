@@ -4,12 +4,23 @@ using System.Threading.Tasks;
 
 namespace Foundations.Http
 {
+    public class ServerExceptionEventArgs : EventArgs
+    {
+        public Exception Exception { get; set; }
+    }
+
+    public delegate void ServerExceptionEventHandler(
+        object sender, ServerExceptionEventArgs 
+        eventArgs);
+
     public class HttpServer : IDisposable
     {
         private readonly HttpListener _listener;
 
         private bool _isRunning;
         private Action<IncommingMessage, ServerResponse> _requestListener;
+
+        public event ServerExceptionEventHandler ServerException;
 
         public HttpServer()
         {
@@ -61,19 +72,31 @@ namespace Foundations.Http
 
         private void ProcessRequest(HttpListenerContext context)
         {
-            var request = new IncommingMessage(context.Request);
-            var response = new ServerResponse(context.Response);
+            try
+            {
+                var request = new IncommingMessage(context.Request);
+                var response = new ServerResponse(context.Response);
 
-            if (request.Url == @"/favicon.ico")
-            {
-                response.WriteHead((int) HttpStatusCode.OK);
-                response.WriteHead(new HeaderPair("Content-Type", "image/x-icon"));
-                response.End();
+                if (request.Url == @"/favicon.ico")
+                {
+                    response.WriteHead((int)HttpStatusCode.OK);
+                    response.WriteHead(new HeaderPair("Content-Type", "image/x-icon"));
+                    response.End();
+                }
+                else
+                {
+                    _requestListener(request, response);
+                }
             }
-            else
+            catch (Exception e)
             {
-                _requestListener(request, response);
+                OnServerException(new ServerExceptionEventArgs {Exception = e});
             }
+        }
+
+        protected virtual void OnServerException(ServerExceptionEventArgs e)
+        {
+            ServerException?.Invoke(this, e);
         }
 
         void IDisposable.Dispose()

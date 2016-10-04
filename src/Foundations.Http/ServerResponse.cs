@@ -80,6 +80,13 @@ namespace Foundations.Http
             End();
         }
 
+        public void Redirect(Uri newUrl)
+        {
+            WriteHead(HttpStatusCode.Redirect);
+            WriteHead("Location", newUrl.ToString());
+            End();
+        }
+
         public void End(bool failSilently = true)
         {
             try

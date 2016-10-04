@@ -1,8 +1,4 @@
-﻿using System.Net;
-using Foundations.Extensions;
-using Foundations.HttpClient;
-using Foundations.HttpClient.Authenticators;
-using Material.Contracts;
+﻿using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
@@ -10,20 +6,14 @@ using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Integration
+namespace Quantfabric.Test.Material.Interaction
 {
     public class OAuth1TokenTests
     {
-        private readonly AppCredentialRepository _appRepository;
-        private readonly TokenCredentialRepository _tokenRepository;
-
-        public OAuth1TokenTests()
-        {
-            _appRepository = new AppCredentialRepository(CallbackTypeEnum.Localhost);
-            _tokenRepository = new TokenCredentialRepository(true);
-        }
-
-
+        private readonly AppCredentialRepository _appRepository = 
+            new AppCredentialRepository(CallbackTypeEnum.Localhost);
+        private readonly TokenCredentialRepository _tokenRepository = 
+            new TokenCredentialRepository(true);
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwitter()
