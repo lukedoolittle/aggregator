@@ -25,21 +25,8 @@ using System.Diagnostics;
 
 namespace Material.Framework
 {
-    public class ProtocolLaunchEventArgs : EventArgs
-    {
-        public Uri Uri { get; set; }
 
-        public ProtocolLaunchEventArgs(Uri uri)
-        {
-            Uri = uri;
-        }
-    }
-
-    public delegate void ProtocolLaunchEventHandler(
-        object sender,
-        ProtocolLaunchEventArgs e);
-
-    public class Platform : IBrowser
+    public class Platform : IBrowser, IProtocolLauncher
     {
         private static Platform _instance;
         private static readonly object _syncLock = new object();

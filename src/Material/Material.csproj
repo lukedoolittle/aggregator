@@ -51,6 +51,7 @@
     <Compile Include="Contracts\IOAuthCallbackListener.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
+    <Compile Include="Contracts\IProtocolLauncher.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterTypeEnum.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="OAuth\OAuth2Refresh.cs" />
     <Compile Include="OAuth\OAuth2Web.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />
+    <Compile Include="OAuth\ProtocolOAuthCallbackListener.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth2QueryCallbackHandler.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />

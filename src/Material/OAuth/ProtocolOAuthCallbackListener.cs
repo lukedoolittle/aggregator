@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
-using Material.Framework;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -11,11 +10,14 @@ namespace Material.Infrastructure.OAuth
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthCallbackHandler<TCredentials> _handler;
+        private readonly IProtocolLauncher _launcher;
 
         public ProtocolOAuthCallbackListener(
-            IOAuthCallbackHandler<TCredentials> handler)
+            IOAuthCallbackHandler<TCredentials> handler, 
+            IProtocolLauncher launcher)
         {
             _handler = handler;
+            _launcher = launcher;
         }
 
         public void Listen(
@@ -23,7 +25,7 @@ namespace Material.Infrastructure.OAuth
             string userId,
             TaskCompletionSource<TCredentials> completionSource) 
         {
-            Platform.Current.ProtocolLaunch += (s, e) =>
+            _launcher.ProtocolLaunch += (s, e) =>
             {
                 if (e.Uri.ToString().Contains(callbackUri.ToString()))
                 {

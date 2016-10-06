@@ -14,16 +14,35 @@ namespace Application.Configuration
         private const string REDIRECT_URI_FORMAT = 
             "http://localhost:33533/oauth/{0}";
 
+        private readonly Dictionary<Type, OAuth2Credentials> _jwtCredentials =
+            new Dictionary<Type, OAuth2Credentials>
+        {
+                { typeof(Google), new OAuth2Credentials()
+                                    .SetClientProperties(
+                                        null,
+                    @"-----BEGIN PRIVATE KEY-----
+
+                    -----END PRIVATE KEY-----"
+                    , "")
+                }
+        };
+
         private readonly Dictionary<Type, TokenCredentials> _protocolCredentials = 
             new Dictionary<Type, TokenCredentials>
         {
-            { typeof(Google), new OAuth2Credentials()
+#if __ANDROID__
+                { typeof(Google), new OAuth2Credentials()
                 .SetClientProperties("", null)
                 .SetCallbackUrl("quantfabric.material:/google")},
+#else
+                { typeof(Google), new OAuth2Credentials()
+                .SetClientProperties("", null)
+                .SetCallbackUrl("quantfabric.material:/google")},
+#endif
 
-            { typeof(Fitbit), new OAuth2Credentials()
+                { typeof(Fitbit), new OAuth2Credentials()
                 .SetClientProperties("", "")
-                .SetCallbackUrl("quantfabric://fitbit")}
+                .SetCallbackUrl("quantfabric.material://fitbit")}
         };
 
         private readonly Dictionary<Type, TokenCredentials> _localhostCredentials = 
@@ -51,7 +70,7 @@ namespace Application.Configuration
 
             { typeof(Rescuetime), new OAuth2Credentials()
                 .SetClientProperties("", "")
-                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Rescuetime).Name.ToLower()))},
+                .SetCallbackUrl("https://localhost:33533/oauth/rescuetime")},
 
             { typeof(Runkeeper), new OAuth2Credentials()
                 .SetClientProperties("", "")
@@ -75,7 +94,23 @@ namespace Application.Configuration
 
             { typeof(TwentyThreeAndMe), new OAuth2Credentials()
                 .SetClientProperties("", "")
-                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(TwentyThreeAndMe).Name.ToLower()))}
+                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(TwentyThreeAndMe).Name.ToLower()))},
+
+            { typeof(Omniture), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Omniture).Name.ToLower()))},
+
+            { typeof(Pinterest), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl("https://localhost:33533/oauth/pinterest")},
+
+            { typeof(Instagram), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Instagram).Name.ToLower()))},
+
+             { typeof(Tumblr), new OAuth1Credentials()
+                .SetConsumerProperties("", "")
+                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Tumblr).Name.ToLower()))},
         };
 
         public TCredentials GetClientCredentials<TService, TCredentials>(
@@ -96,6 +131,20 @@ namespace Application.Configuration
                 }
 
                 return (credentials as TCredentials);
+            }
+            else
+            {
+                throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+            }
+        }
+
+        public OAuth2Credentials GetJWTCredentials<TService>()
+            where TService : ResourceProvider
+        {
+            OAuth2Credentials credentials = null;
+            if (_jwtCredentials.TryGetValue(typeof(TService), out credentials))
+            {
+                return credentials;
             }
             else
             {

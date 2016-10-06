@@ -17,7 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthorizerUIFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\ProtocolOAuthCallbackListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\BluetoothRequester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\GPSRequester.cs" />

@@ -28,7 +28,8 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler),
+                            callbackHandler,
+                            Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
@@ -44,7 +45,8 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler),
+                            callbackHandler,
+                            Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
@@ -60,7 +62,8 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler),
+                            callbackHandler,
+                            Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
