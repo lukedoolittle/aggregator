@@ -135,8 +135,6 @@ namespace Material.Adapters
                     ?.Characteristics
                     ?.FirstOrDefault(c => c.ID == characteristicUuid);
 
-                string value = null;
-
                 if (desiredCharacteristic != null)
                 {
                     var result = await GetCharacteristicValue(

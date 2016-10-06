@@ -11,6 +11,8 @@ namespace Foundations
         /// Get all of the loaded assemblies in the current app domain
         /// </summary>
         /// <returns>List of loaded assemblies OR null if System.AppDomain.CurrentDomain.GetAssemblies is not available</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static List<Assembly> GetAssemblies()
         {
             try

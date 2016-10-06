@@ -65,7 +65,7 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion Fatsecret Requests
 
-        public async void MakeRequestForOmnitureUserLevelReports()
+        public void MakeRequestForOmnitureUserLevelReports()
         {
             var body = new OmnitureQueueBody
             {

@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Foundations.Extensions;
-using Foundations.Http;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Exceptions;

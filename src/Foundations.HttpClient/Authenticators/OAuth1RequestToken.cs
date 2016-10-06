@@ -1,4 +1,5 @@
-﻿using Foundations.Cryptography.DigitalSignature;
+﻿using System;
+using Foundations.Cryptography.DigitalSignature;
 using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
 
@@ -11,28 +12,49 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _callbackUrl;
         private readonly string _signatureMethod;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1RequestToken(
             string consumerKey, 
             string consumerSecret, 
             string callbackUrl,
-            ISigningAlgorithm signingAlgorithm = null,
-            ICryptoStringGenerator stringGenerator = null)
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator)
         {
+            if (signingAlgorithm == null)
+            {
+                throw new ArgumentNullException(nameof(signingAlgorithm));
+            }
+            if (stringGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(stringGenerator));
+            }
+
             _consumerKey = consumerKey;
             _callbackUrl = callbackUrl;
 
-            var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
-            var generator = stringGenerator ?? new CryptoStringGenerator();
-
-            _signatureMethod = signer.SignatureMethod;
+            _signatureMethod = signingAlgorithm.SignatureMethod;
             _template = new OAuth1SigningTemplate(
                 consumerKey,
                 consumerSecret,
                 callbackUrl,
-                signer,
-                generator);
+                signingAlgorithm,
+                stringGenerator);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OAuth1RequestToken(
+            string consumerKey,
+            string consumerSecret,
+            string callbackUrl) : 
+                this(
+                    consumerKey, 
+                    consumerSecret,
+                    callbackUrl, 
+                    DigestSigningAlgorithm.Sha1Algorithm(), 
+                    new CryptoStringGenerator())
+        { }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth1RequestToken(
             string consumerKey,
             string callbackUrl,
@@ -47,6 +69,11 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequest request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var signatureBase = _template.ConcatenateElements(
                 request.Method, 
                 request.Url,

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations.Http;
+using Foundations;
 
 namespace Material.Contracts
 {

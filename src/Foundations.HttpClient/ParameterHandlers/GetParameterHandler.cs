@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using Foundations.Http;
-using Foundations.HttpClient.Extensions;
+using Foundations.Extensions;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {

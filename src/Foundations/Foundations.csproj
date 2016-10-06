@@ -24,6 +24,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,8 +44,10 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpUtility.cs" />
     <Compile Include="MediaTypeEnum.cs" />
+    <Compile Include="MethodReflectionException.cs" />
     <Compile Include="Reflection\InstanceCreator.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Reflection\MethodInvoker.cs" />

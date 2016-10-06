@@ -43,7 +43,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             return instance.GetCustomAttributes(attributeType).Any();
@@ -58,7 +58,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             var loadedAssemblies = CurrentAppDomain.GetAssemblies();

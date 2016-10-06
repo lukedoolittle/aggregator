@@ -78,7 +78,9 @@ namespace Foundations
                 return new TimeSpan(0, 0, 0);
             }
 
-            var count = Convert.ToInt32(instance);
+            var count = Convert.ToInt32(
+                instance, 
+                CultureInfo.InvariantCulture);
 
             if ((count >= 0 && count <= 12) ||
                 (count <= 0 && count >= -12))

@@ -1,4 +1,5 @@
-﻿using Foundations.Cryptography.DigitalSignature;
+﻿using System;
+using Foundations.Cryptography.DigitalSignature;
 using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
 
@@ -18,29 +19,56 @@ namespace Foundations.HttpClient.Authenticators
             string oauthToken,
             string oauthSecret,
             string verifier,
-            ISigningAlgorithm signingAlgorithm = null,
-            ICryptoStringGenerator stringGenerator = null)
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator)
         {
+            if (signingAlgorithm == null)
+            {
+                throw new ArgumentNullException(nameof(signingAlgorithm));
+            }
+            if (stringGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(stringGenerator));
+            }
+
             _consumerKey = consumerKey;
             _oauthToken = oauthToken;
             _verifier = verifier;
 
-            var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
-            var generator = stringGenerator ?? new CryptoStringGenerator();
-
-            _signatureMethod = signer.SignatureMethod;
+            _signatureMethod = signingAlgorithm.SignatureMethod;
             _template = new OAuth1SigningTemplate(
                 consumerKey,
                 consumerSecret,
                 oauthToken,
                 oauthSecret,
                 verifier,
-                signer,
-                generator);
+                signingAlgorithm,
+                stringGenerator);
         }
+
+        public OAuth1AccessToken(
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret,
+            string verifier) :
+            this(
+                consumerKey, 
+                consumerSecret, 
+                oauthToken, 
+                oauthSecret, 
+                verifier, 
+                DigestSigningAlgorithm.Sha1Algorithm(), 
+                new CryptoStringGenerator())
+        { }
 
         public void Authenticate(HttpRequest request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var signatureBase = _template.ConcatenateElements(
                 request.Method,
                 request.Url,

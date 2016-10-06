@@ -18,7 +18,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             var uniqueItems = itemsToAdd
@@ -29,10 +29,20 @@ namespace Foundations.Extensions
         }
 
         public static void ForEach<T>(
-            this IEnumerable<T> items, 
+            this IEnumerable<T> instance, 
             Action<T> action)
         {
-            foreach (T item in items)
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (action== null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (var item in instance)
             {
                 action(item);
             }

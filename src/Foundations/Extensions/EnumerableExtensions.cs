@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -17,6 +18,11 @@ namespace Foundations.Extensions
             this IEnumerable<T> instance, 
             IEnumerable<T> set)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             return !instance.All(set.Contains);
         }
 
@@ -31,26 +37,37 @@ namespace Foundations.Extensions
             this IEnumerable<T> instance,
             IEnumerable<T> set)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             return instance.All(set.Contains);
         }
 
         /// <summary>
         /// Converts a dictionary into a string with given seperator and spacer
         /// </summary>
-        /// <param name="collection">Collection to contatenate</param>
+        /// <param name="instance">Collection to contatenate</param>
         /// <param name="separator">String to seperate each key and value</param>
         /// <param name="spacer">String to seperate each key-value pair</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static string Concatenate(
-            this IEnumerable<KeyValuePair<string, string>> collection, 
+            this IEnumerable<KeyValuePair<string, string>> instance, 
             string separator, 
             string spacer)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var stringBuilder = new StringBuilder();
-            var total = collection.Count();
+            var total = instance.Count();
             var count = 0;
 
-            foreach (var item in collection)
+            foreach (var item in instance)
             {
                 stringBuilder.Append(item.Key);
                 stringBuilder.Append(separator);
@@ -70,18 +87,23 @@ namespace Foundations.Extensions
         /// <summary>
         /// Concatenate a list of strings together, joining with a seperator
         /// </summary>
-        /// <param name="strings">List of string to concatenate</param>
+        /// <param name="instance">List of string to concatenate</param>
         /// <param name="separator">Seperator to put between each string</param>
         /// <returns></returns>
         public static string Concatenate(
-            this IEnumerable<string> strings,
+            this IEnumerable<string> instance,
             string separator)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var stringBuilder = new StringBuilder();
-            var total = strings.Count();
+            var total = instance.Count();
             var count = 0;
 
-            foreach (var item in strings)
+            foreach (var item in instance)
             {
                 stringBuilder.Append(item);
 

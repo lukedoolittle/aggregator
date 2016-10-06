@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using Foundations.Extensions;
@@ -7,7 +8,6 @@ using Foundations.Cryptography;
 using Foundations.Cryptography.DigitalSignature;
 using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Extensions;
 
 namespace Foundations.HttpClient.Authenticators
 {
@@ -27,13 +27,13 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _verifier;
         private readonly ISigningAlgorithm _signingAlgorithm;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1SigningTemplate(
             string consumerKey, 
             string consumerSecret, 
             string callbackUrl,
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator,
-            string version = DEFAULT_VERSION)
+            ICryptoStringGenerator stringGenerator)
         {
             if (string.IsNullOrEmpty(consumerKey))
             {
@@ -55,10 +55,11 @@ namespace Foundations.HttpClient.Authenticators
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _callbackUrl = callbackUrl;
-            Version = version;
+            Version = DEFAULT_VERSION;
             _signingAlgorithm = signingAlgorithm;
 
-            Timestamp = ((int)DateTime.UtcNow.ToUnixTimeSeconds()).ToString();
+            Timestamp = ((int)DateTime.UtcNow.ToUnixTimeSeconds())
+                .ToString(CultureInfo.InvariantCulture);
             Nonce = stringGenerator.CreateRandomString(
                 16, 
                 CryptoStringTypeEnum.LowercaseAlphaNumeric);
@@ -71,16 +72,14 @@ namespace Foundations.HttpClient.Authenticators
             string oauthSecret,
             string verifier, 
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator,
-            string version = DEFAULT_VERSION) :
+            ICryptoStringGenerator stringGenerator) :
             this(
                 consumerKey, 
                 consumerSecret, 
                 oauthToken, 
                 oauthSecret, 
                 signingAlgorithm,
-                stringGenerator,
-                version)
+                stringGenerator)
         {
             if (string.IsNullOrEmpty(verifier))
             {
@@ -96,15 +95,13 @@ namespace Foundations.HttpClient.Authenticators
             string oauthToken,
             string oauthSecret,
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator,
-            string version = DEFAULT_VERSION) :
+            ICryptoStringGenerator stringGenerator) :
                 this(
                     consumerKey,
                     consumerSecret,
                     null,
                     signingAlgorithm,
-                    stringGenerator,
-                    version)
+                    stringGenerator)
         {
             if (string.IsNullOrEmpty(oauthToken))
             {
@@ -183,7 +180,7 @@ namespace Foundations.HttpClient.Authenticators
             var elements = new List<string>
             {
                 method.ToString(),
-                url.UrlEncodeRelaxed(),
+                url.ToString().UrlEncodeRelaxed(),
                 allParameters.Normalize().Concatenate("=", "&").UrlEncodeRelaxed()
             };
 

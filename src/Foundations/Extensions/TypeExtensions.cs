@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Foundations.Extensions.SimpleCQRS.Framework;
 
 namespace Foundations.Extensions
 {
@@ -15,7 +15,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             return instance
@@ -35,7 +35,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             //If we cannot assign the type to the given type, it is not an implementation at all
@@ -65,7 +65,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             return instance.GetTypeInfo().IsGenericType ? 
@@ -85,7 +85,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             var type = instance.MakeGenericType(genericParameters);
@@ -102,7 +102,7 @@ namespace Foundations.Extensions
         {
             if (baseType == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(baseType));
             }
 
             if (instance == null)
@@ -123,7 +123,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             if (!instance.GetTypeInfo().IsGenericType)
@@ -150,7 +150,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             if (!instance.GetTypeInfo().IsGenericType)
@@ -175,6 +175,11 @@ namespace Foundations.Extensions
         /// <returns></returns>
         public static string GetNonGenericName(this Type instance)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             if (!instance.GetTypeInfo().IsGenericType)
             {
                 return instance.Name;
@@ -202,7 +207,7 @@ namespace Foundations.Extensions
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             var info = instance.GetTypeInfo();
@@ -220,8 +225,13 @@ namespace Foundations.Extensions
             this object instance,
             params object[] parameters)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var methodInfos = instance
-                .GetMethodInfosMatchingParameterSignature(
+                .GetMethodInfoMatchingParameterSignature(
                     parameters);
 
             foreach (var methodInfo in methodInfos)
@@ -237,6 +247,11 @@ namespace Foundations.Extensions
             this MethodInfo methodInfo,
             params object[] arguments)
         {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException(nameof(methodInfo));
+            }
+
             if (!methodInfo.IsGenericMethodDefinition)
                 return methodInfo;
 
@@ -265,10 +280,15 @@ namespace Foundations.Extensions
                         .ToArray());
         }
 
-        public static IEnumerable<MethodInfo> GetMethodInfosMatchingParameterSignature(
+        public static IEnumerable<MethodInfo> GetMethodInfoMatchingParameterSignature(
             this object instance,
             params object[] arguments)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             var potentialMethods = instance
                 .GetType()
                 .GetTypeInfo()
@@ -309,6 +329,11 @@ namespace Foundations.Extensions
             Type parameterType,
             Type argumentType)
         {
+            if (parameterType == null)
+            {
+                throw new ArgumentNullException(nameof(parameterType));
+            }
+
             if (argumentType == null)
             {
                 return false;

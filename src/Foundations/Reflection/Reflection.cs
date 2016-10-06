@@ -6,22 +6,33 @@ using Foundations.Extensions;
 
 namespace Foundations.Reflection
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     public static class Reflection
     {
         public static Type CreateGenericType(
             Type genericType,
             params Type[] genericParameterTypes)
         {
+            if (genericType == null)
+            {
+                throw new ArgumentNullException(nameof(genericType));
+            }
+
             var type = genericType.MakeGenericType(genericParameterTypes);
             return type;
         }
 
         #region Types
 
-        public static IEnumerable<Type> GetAllConcreteImplementors(
+        public static IEnumerable<Type> GetAllConcreteImplementations(
             Type baseType, 
             Assembly assembly)
         {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
+
             return assembly.DefinedTypes
                 .Where(type => !type.IsAbstract && type.AsType().HasBase(baseType))
                 .Select(t => t.AsType());
@@ -47,24 +58,24 @@ namespace Foundations.Reflection
 
             if (method == null)
             {
-                throw new Exception($"No method found named {genericMethodName}");
+                throw new MethodReflectionException($"No method found named {genericMethodName}");
             }
 
             if (!method.IsGenericMethod)
             {
-                throw new Exception($"Generic method {method.Name} is not generic");
+                throw new MethodReflectionException($"Generic method {method.Name} is not generic");
             }
 
             if (genericMethodParameters == null || genericMethodParameters.Any(p => p == null))
             {
-                throw new Exception($"Generic method paramaters for generic method {method.Name} invalid");
+                throw new MethodReflectionException($"Generic method paramaters for generic method {method.Name} invalid");
             }
 
             var generic = method.MakeGenericMethod(genericMethodParameters);
 
             if (generic == null)
             {
-                throw new Exception($"Could not create generic type from {method.Name}");
+                throw new MethodReflectionException($"Could not create generic type from {method.Name}");
             }
 
             try

@@ -8,7 +8,7 @@ using System.Text;
 namespace Foundations
 {
     //http://stackoverflow.com/questions/20268544/portable-class-library-pcl-version-of-httputility-parsequerystring
-    public sealed class HttpUtility
+    public static class HttpUtility
     {
         public static HttpValueCollection ParseQueryString(string query)
         {
@@ -55,11 +55,11 @@ namespace Foundations
         {
         }
 
-        public HttpValueCollection(string query, bool urlencoded)
+        public HttpValueCollection(string query, bool urlEncoded)
         {
             if (!string.IsNullOrEmpty(query))
             {
-                this.FillFromString(query, urlencoded);
+                this.FillFromString(query, urlEncoded);
             }
         }
 
@@ -111,12 +111,12 @@ namespace Foundations
             return this.ToString(true);
         }
 
-        public virtual string ToString(bool urlencoded)
+        public virtual string ToString(bool urlEncoded)
         {
-            return this.ToString(urlencoded, null);
+            return this.ToString(urlEncoded, null);
         }
 
-        public virtual string ToString(bool urlencoded, IDictionary excludeKeys)
+        public virtual string ToString(bool urlEncoded, IDictionary excludeKeys)
         {
             if (this.Count == 0)
             {
@@ -133,7 +133,7 @@ namespace Foundations
                 {
                     string value = item.Value;
 
-                    if (urlencoded)
+                    if (urlEncoded)
                     {
                         key = WebUtility.UrlDecode(key);
                     }
@@ -147,7 +147,7 @@ namespace Foundations
 
                     if (!string.IsNullOrEmpty(value))
                     {
-                        if (urlencoded)
+                        if (urlEncoded)
                         {
                             value = Uri.EscapeDataString(value);
                         }

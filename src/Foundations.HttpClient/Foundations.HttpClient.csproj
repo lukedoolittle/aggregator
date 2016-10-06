@@ -24,6 +24,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,7 +67,7 @@
     <Compile Include="Exceptions\HttpRequestContentException.cs" />
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
-    <Compile Include="Extensions\UrlEncodingExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JsonWebToken.cs" />
     <Compile Include="Metadata\DateTimeFormatter.cs" />
     <Compile Include="ParameterHandlers\GetParameterHandler.cs" />

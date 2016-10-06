@@ -1,4 +1,5 @@
-﻿using Foundations.Cryptography.DigitalSignature;
+﻿using System;
+using Foundations.Cryptography.DigitalSignature;
 using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
 
@@ -10,34 +11,63 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _consumerKey;
         private readonly string _oauthToken;
         private readonly string _signatureMethod;
+        //TODO: why is this unused?
+#pragma warning disable 169
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         private readonly OAuthParameterTypeEnum _parameterHandling;
+#pragma warning restore 169
 
         public OAuth1ProtectedResource(
             string consumerKey, 
             string consumerSecret, 
             string oauthToken,
             string oauthSecret,
-            ISigningAlgorithm signingAlgorithm = null,
-            ICryptoStringGenerator stringGenerator = null)
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator)
         {
+            if (signingAlgorithm == null)
+            {
+                throw new ArgumentNullException(nameof(signingAlgorithm));
+            }
+            if (stringGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(stringGenerator));
+            }
+
             _consumerKey = consumerKey;
             _oauthToken = oauthToken;
 
-            var signer = signingAlgorithm ?? DigestSigningAlgorithm.Sha1Algorithm();
-            var generator = stringGenerator ?? new CryptoStringGenerator();
-
-            _signatureMethod = signer.SignatureMethod;
+            _signatureMethod = signingAlgorithm.SignatureMethod;
             _template = new OAuth1SigningTemplate(
                 consumerKey, 
                 consumerSecret, 
                 oauthToken, 
                 oauthSecret,
-                signer,
-                generator);
+                signingAlgorithm,
+                stringGenerator);
         }
+
+        public OAuth1ProtectedResource(
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret) : 
+            this(
+                consumerKey,
+                consumerSecret,
+                oauthToken,
+                oauthSecret, 
+                DigestSigningAlgorithm.Sha1Algorithm(), 
+                new CryptoStringGenerator())
+        { }
 
         public void Authenticate(HttpRequest request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var signatureBase = _template.ConcatenateElements(
                 request.Method,
                 request.Url,

@@ -144,10 +144,12 @@ namespace Material.Framework
 #elif WINDOWS_UWP
         public Frame Context => Window.Current.Content as Frame;
 
-        public Action<Action> RunOnMainThread { get; } = new Action<Action>(action => 
+        public Action<Action> RunOnMainThread { get; } = new Action<Action>(action =>
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal, 
                 () => { action(); }));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         public bool IsOnline
         {
@@ -159,8 +161,10 @@ namespace Material.Framework
             }
         }
 
-        public Action<Uri> LaunchBrowser => 
+        public Action<Uri> LaunchBrowser =>
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             uri => Windows.System.Launcher.LaunchUriAsync(uri);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 #else
         public Action<Action> RunOnMainThread { get; } = action => { };
 

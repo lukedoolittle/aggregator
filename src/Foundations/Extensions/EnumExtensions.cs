@@ -57,7 +57,7 @@ namespace Foundations.Extensions
                 }
             }
 
-            throw new ArgumentException();
+            throw new ArgumentException(nameof(instance));
         }
     }
 }
