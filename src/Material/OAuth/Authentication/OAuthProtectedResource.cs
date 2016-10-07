@@ -52,9 +52,9 @@ namespace Material.Infrastructure.OAuth
             IDictionary<string, string> querystringParameters,
             IDictionary<string, string> pathParameters,
             object body,
-            MediaTypeEnum bodyType,
+            MediaType bodyType,
             HttpStatusCode expectedResponse = HttpStatusCode.OK,
-            MediaTypeEnum expectedResponseType = MediaTypeEnum.Json)
+            MediaType expectedResponseType = MediaType.Json)
         {
             if (string.IsNullOrEmpty(baseUrl))
             {

@@ -2,7 +2,7 @@
 
 namespace Foundations
 {
-    public enum MediaTypeEnum
+    public enum MediaType
     {
         [Description("")]
         Undefined,

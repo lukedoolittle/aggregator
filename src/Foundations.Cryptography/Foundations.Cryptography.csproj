@@ -37,12 +37,13 @@
     <DocumentationFile>bin\Release\Foundations.Cryptography.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CryptoStringTypeEnum.cs" />
+    <Compile Include="CryptoStringType.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JsonWebToken\JwtSignerFactory.cs" />
     <Compile Include="DigitalSignature\DigestSigningAlgorithm.cs" />
     <Compile Include="DigitalSignature\ISigningAlgorithm.cs" />
     <Compile Include="JsonWebToken\IJwtSigningFactory.cs" />
-    <Compile Include="JsonWebToken\JwtAlgorithmEnum.cs" />
+    <Compile Include="JsonWebToken\JwtAlgorithm.cs" />
     <Compile Include="DigitalSignature\SigningAlgorithm.cs" />
     <Compile Include="StringCreation\ICryptoStringGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

@@ -9,7 +9,7 @@ namespace Material.Lite
     {
         public string CreateRandomString(
             int stringLength, 
-            CryptoStringTypeEnum stringType)
+            CryptoStringType stringType)
         {
             var randomBytes = new byte[stringLength];
 
@@ -23,18 +23,18 @@ namespace Material.Lite
 
             switch (stringType)
             {
-                case CryptoStringTypeEnum.Base64AlphaNumeric:
+                case CryptoStringType.Base64Alphanumeric:
                     return result
                         .Replace('/', '_')
                         .Replace('+', '-');
                 //Note that this substitution reduces the integrity of the strong string
                 //but is necessary in certain URL scenarios
-                case CryptoStringTypeEnum.LowercaseAlphaNumeric:
+                case CryptoStringType.LowercaseAlphanumeric:
                     return result
                         .Replace('/', 'a')
                         .Replace('+', 'b')
                         .ToLower();
-                case CryptoStringTypeEnum.Base64:
+                case CryptoStringType.Base64:
                 default:
                     return result;
             }

@@ -8,7 +8,7 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         public void AddParameters(
             HttpRequestMessage message, 
-            MediaTypeEnum contentType,
+            MediaType contentType,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
             message.RequestUri = message

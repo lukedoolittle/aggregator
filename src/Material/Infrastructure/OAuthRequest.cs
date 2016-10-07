@@ -26,7 +26,7 @@ namespace Material.Infrastructure
             GetParameters(RequestParameterTypeEnum.Path);
 
         public object Body { get; set; }
-        public MediaTypeEnum BodyType { get; set; } = MediaTypeEnum.Json;
+        public MediaType BodyType { get; set; } = MediaType.Json;
 
         public virtual void AddUserIdParameter(string userId) {}
 

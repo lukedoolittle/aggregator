@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Foundations.Extensions;
@@ -58,24 +59,41 @@ namespace Foundations.Reflection
 
             if (method == null)
             {
-                throw new MethodReflectionException($"No method found named {genericMethodName}");
+                
+                throw new MethodReflectionException(
+                    string.Format(
+                        CultureInfo.InvariantCulture, 
+                        "No method found named {0}", 
+                        genericMethodName));
             }
 
             if (!method.IsGenericMethod)
             {
-                throw new MethodReflectionException($"Generic method {method.Name} is not generic");
+                throw new MethodReflectionException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Generic method {0} is not generic",
+                        method.Name));
             }
 
             if (genericMethodParameters == null || genericMethodParameters.Any(p => p == null))
             {
-                throw new MethodReflectionException($"Generic method paramaters for generic method {method.Name} invalid");
+                throw new MethodReflectionException(
+                    string.Format(
+                        CultureInfo.InvariantCulture, 
+                        "Generic method parameters for generic method {0} invalid", 
+                        method.Name));
             }
 
             var generic = method.MakeGenericMethod(genericMethodParameters);
 
             if (generic == null)
             {
-                throw new MethodReflectionException($"Could not create generic type from {method.Name}");
+                throw new MethodReflectionException(
+                    string.Format(
+                        CultureInfo.InvariantCulture, 
+                        "Could not create generic type from {0}",
+                        method.Name));
             }
 
             try
@@ -94,7 +112,7 @@ namespace Foundations.Reflection
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             return instance.GetDeclaredMethod(methodName) ?? 

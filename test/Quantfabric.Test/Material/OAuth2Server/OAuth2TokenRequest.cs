@@ -10,7 +10,9 @@ namespace Quantfabric.Test.OAuthServer
         public GrantTypeEnum GrantType => _grantType.StringToEnum<GrantTypeEnum>();
 
         [DataMember(Name = "grant_type")]
+#pragma warning disable 0649
         private string _grantType;
+#pragma warning restore 0649
 
         [DataMember(Name = "code")]
         public string Code { get; set; }

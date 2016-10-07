@@ -1,6 +1,6 @@
 ﻿namespace Foundations.Cryptography.JsonWebToken
 {
-    public enum JwtAlgorithmEnum
+    public enum JwtAlgorithm
     {
         HS256, //HMAC with SHA-256
         HS384, //HMAC with SHA-384

@@ -8,14 +8,14 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         public void AddParameters(
             HttpRequestMessage message, 
-            MediaTypeEnum contentType,
+            MediaType contentType,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            if (contentType == MediaTypeEnum.Form)
+            if (contentType == MediaType.Form)
             {
                 message.Content = new FormUrlEncodedContent(parameters);
             }
-            else if (contentType == MediaTypeEnum.Json)
+            else if (contentType == MediaType.Json)
             {
                 throw new NotImplementedException();
             }

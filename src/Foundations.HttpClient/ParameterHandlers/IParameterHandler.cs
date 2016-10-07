@@ -7,7 +7,7 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         void AddParameters(
             HttpRequestMessage message,
-            MediaTypeEnum contentType,
+            MediaType contentType,
             IEnumerable<KeyValuePair<string, string>> parameters);
     }
 }

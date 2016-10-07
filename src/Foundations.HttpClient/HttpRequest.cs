@@ -28,25 +28,25 @@ namespace Foundations.HttpClient
         private readonly HttpClientHandler _messageHandler;
         private readonly CookieContainer _cookies;
 
-        private readonly Dictionary<MediaTypeEnum, ISerializer> _serializers =
-            new Dictionary<MediaTypeEnum, ISerializer>
+        private readonly Dictionary<MediaType, ISerializer> _serializers =
+            new Dictionary<MediaType, ISerializer>
             {
-                { MediaTypeEnum.Json, new JsonSerializer() },
-                { MediaTypeEnum.TextJson, new JsonSerializer() },
-                { MediaTypeEnum.TextXJson, new JsonSerializer() },
-                { MediaTypeEnum.Xml, new XmlSerializer() },
-                { MediaTypeEnum.TextXml, new XmlSerializer() },
-                { MediaTypeEnum.Html, new HtmlSerializer() },
-                { MediaTypeEnum.Text, new HtmlSerializer() },
-                { MediaTypeEnum.Form, new HtmlSerializer() },
-                { MediaTypeEnum.Javascript, new JsonSerializer() }
+                { MediaType.Json, new JsonSerializer() },
+                { MediaType.TextJson, new JsonSerializer() },
+                { MediaType.TextXJson, new JsonSerializer() },
+                { MediaType.Xml, new XmlSerializer() },
+                { MediaType.TextXml, new XmlSerializer() },
+                { MediaType.Html, new HtmlSerializer() },
+                { MediaType.Text, new HtmlSerializer() },
+                { MediaType.Form, new HtmlSerializer() },
+                { MediaType.Javascript, new JsonSerializer() }
             };
 
 
         private string _path;
         private IAuthenticator _authenticator;
         private IParameterHandler _parameterHandler;
-        private MediaTypeEnum _responseType = MediaTypeEnum.Undefined;
+        private MediaType _responseType = MediaType.Undefined;
 
         public HttpMethod Method => _message.Method;
 
@@ -136,7 +136,7 @@ namespace Foundations.HttpClient
 
         #region Accepts
 
-        public HttpRequest Accepts(MediaTypeEnum contentType)
+        public HttpRequest Accepts(MediaType contentType)
         {
             _message.Headers.Accept.Add(
                 new MediaTypeWithQualityHeaderValue(
@@ -147,47 +147,47 @@ namespace Foundations.HttpClient
 
         public HttpRequest AcceptsJson()
         {
-            return Accepts(MediaTypeEnum.Json);
+            return Accepts(MediaType.Json);
         }
 
         public HttpRequest AcceptsXml()
         {
-            return Accepts(MediaTypeEnum.Xml);
+            return Accepts(MediaType.Xml);
         }
 
         public HttpRequest AcceptsHtml()
         {
-            return Accepts(MediaTypeEnum.Html);
+            return Accepts(MediaType.Html);
         }
 
         public HttpRequest AcceptsText()
         {
-            return Accepts(MediaTypeEnum.Text);
+            return Accepts(MediaType.Text);
         }
 
         public HttpRequest AcceptsForm()
         {
-            return Accepts(MediaTypeEnum.Form);
+            return Accepts(MediaType.Form);
         }
 
         public HttpRequest AcceptsJavascript()
         {
-            return Accepts(MediaTypeEnum.Javascript);
+            return Accepts(MediaType.Javascript);
         }
 
         public HttpRequest AcceptsXJson()
         {
-            return Accepts(MediaTypeEnum.TextXJson);
+            return Accepts(MediaType.TextXJson);
         }
 
         public HttpRequest AcceptsJsonText()
         {
-            return Accepts(MediaTypeEnum.TextJson);
+            return Accepts(MediaType.TextJson);
         }
 
         public HttpRequest AcceptsXmlText()
         {
-            return Accepts(MediaTypeEnum.TextXml);
+            return Accepts(MediaType.TextXml);
         }
 
         #endregion Accepts
@@ -305,7 +305,7 @@ namespace Foundations.HttpClient
 
         public HttpRequest Content(
             object content, 
-            MediaTypeEnum mediaType)
+            MediaType mediaType)
         {
             return Content(
                 content, 
@@ -315,7 +315,7 @@ namespace Foundations.HttpClient
 
         public HttpRequest Content(
             object content,
-            MediaTypeEnum mediaType,
+            MediaType mediaType,
             Encoding encoding)
         {
             var serializedContent = _serializers[mediaType]
@@ -331,7 +331,7 @@ namespace Foundations.HttpClient
 
         #endregion Content
 
-        public HttpRequest ResponseMediaType(MediaTypeEnum mediaType)
+        public HttpRequest ResponseMediaType(MediaType mediaType)
         {
             _responseType = mediaType;
 
@@ -374,7 +374,7 @@ namespace Foundations.HttpClient
                 {
                     _parameterHandler.AddParameters(
                         _message,
-                        MediaTypeEnum.Form, 
+                        MediaType.Form, 
                         _queryParameters);
                 }
                 else
@@ -410,14 +410,14 @@ namespace Foundations.HttpClient
 
         private ISerializer GetSerializer(HttpResponseMessage response)
         {
-            var resultContentType = _responseType != MediaTypeEnum.Undefined ?
+            var resultContentType = _responseType != MediaType.Undefined ?
                                         _responseType :
                                         response
                                             .Content
                                             .Headers
                                             .ContentType
                                             .MediaType
-                                            .StringToEnum<MediaTypeEnum>();
+                                            .StringToEnum<MediaType>();
 
             return _serializers.ContainsKey(resultContentType) ? 
                         _serializers[resultContentType] : 

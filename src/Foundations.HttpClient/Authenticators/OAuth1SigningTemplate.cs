@@ -62,7 +62,7 @@ namespace Foundations.HttpClient.Authenticators
                 .ToString(CultureInfo.InvariantCulture);
             Nonce = stringGenerator.CreateRandomString(
                 16, 
-                CryptoStringTypeEnum.LowercaseAlphaNumeric);
+                CryptoStringType.LowercaseAlphanumeric);
         }
 
         public OAuth1SigningTemplate(

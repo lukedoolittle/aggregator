@@ -53,7 +53,7 @@ namespace Material.View.WebAuthorization
                         view.StopLoading();
                         view.LoadData(
                             StringResources.OAuthCallbackResponse,
-                            MediaTypeEnum.Text.EnumToString(),
+                            MediaType.Text.EnumToString(),
                             string.Empty);
                         
                         var result = _handler

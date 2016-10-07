@@ -10,7 +10,7 @@ namespace Foundations.Cryptography.StringCreation
     {
         public string CreateRandomString(
             int stringLength, 
-            CryptoStringTypeEnum stringType)
+            CryptoStringType stringType)
         {
             //Per NIST truncating a SHA256 hash by taking the left most n bits is acceptable
             //http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-107r1.pdf
@@ -26,7 +26,7 @@ namespace Foundations.Cryptography.StringCreation
         /// <param name="stringType">Filter to apply to string</param>
         /// <returns>A string with only the characters defined by stringType</returns>
         private static string CreateCryptographicallyStrongString<TDigest>(
-            CryptoStringTypeEnum stringType)
+            CryptoStringType stringType)
             where TDigest : IDigest, new()
         {
             var randomBytes = BitConverter.GetBytes(
@@ -47,18 +47,18 @@ namespace Foundations.Cryptography.StringCreation
 
             switch (stringType)
             {
-                case CryptoStringTypeEnum.Base64AlphaNumeric:
+                case CryptoStringType.Base64Alphanumeric:
                     return result
                         .Replace('/', '_')
                         .Replace('+', '-');
                 //Note that this substitution reduces the integrity of the strong string
                 //but is necessary in certain URL scenarios
-                case CryptoStringTypeEnum.LowercaseAlphaNumeric:
+                case CryptoStringType.LowercaseAlphanumeric:
                     return result
                         .Replace('/', 'a')
                         .Replace('+', 'b')
                         .ToLower();
-                case CryptoStringTypeEnum.Base64:
+                case CryptoStringType.Base64:
                 default:
                     return result;
             }

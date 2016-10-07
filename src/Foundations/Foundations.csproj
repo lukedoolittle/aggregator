@@ -46,7 +46,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpUtility.cs" />
-    <Compile Include="MediaTypeEnum.cs" />
+    <Compile Include="MediaType.cs" />
     <Compile Include="MethodReflectionException.cs" />
     <Compile Include="Reflection\InstanceCreator.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -57,6 +57,11 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\TypeMapper.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

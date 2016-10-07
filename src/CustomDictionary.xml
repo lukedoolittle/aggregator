@@ -1,0 +1,22 @@
+<Dictionary>
+      <Words>
+         <Recognized>
+            <Word>oauth</Word>
+			<Word>Querystring</Word>
+			<Word>Sha</Word>
+			<Word>Jwt</Word>
+         </Recognized>
+         <Compound>
+            <Term CompoundAlternate=""></Term>
+         </Compound>
+         <DiscreteExceptions>
+            <Term>Querystring</Term>
+         </DiscreteExceptions>
+      </Words>
+      <Acronyms>
+         <CasingExceptions>
+            <Acronym>oauth</Acronym>
+			<Acronym>Jwt</Acronym>
+         </CasingExceptions>
+      </Acronyms>
+   </Dictionary>

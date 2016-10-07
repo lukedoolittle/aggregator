@@ -10,7 +10,9 @@ namespace Quantfabric.Test.OAuthServer
         public ResponseTypeEnum ResponseType => _responseType.StringToEnum<ResponseTypeEnum>();
 
         [DataMember(Name = "response_type")]
+#pragma warning disable 0649
         private string _responseType;
+#pragma warning restore 0649
 
         [DataMember(Name = "state")]
         public string State { get; set; }

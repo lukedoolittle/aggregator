@@ -13,6 +13,7 @@ namespace Foundations.Cryptography.DigitalSignature
 
         public string SignatureMethod { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public DigestSigningAlgorithm(
             IDigest digest,
             string signatureMethod = null)
@@ -21,12 +22,18 @@ namespace Foundations.Cryptography.DigitalSignature
             {
                 throw new ArgumentNullException(nameof(digest));
             }
+
             _digest = digest;
             SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
         }
 
         public byte[] SignText(byte[] text, string privateKey)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             var hmac = new HMac(_digest);
             hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey)));
             var result = new byte[hmac.GetMacSize()];

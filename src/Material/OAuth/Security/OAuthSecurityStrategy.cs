@@ -89,7 +89,7 @@ namespace Material.Infrastructure.OAuth
             {
                 var cryptoParameter = _stringGenerator.CreateRandomString(
                     32, 
-                    CryptoStringTypeEnum.Base64AlphaNumeric);
+                    CryptoStringType.Base64Alphanumeric);
 
                 currentCryptos.SetCryptographicParameterValue(
                     userId,

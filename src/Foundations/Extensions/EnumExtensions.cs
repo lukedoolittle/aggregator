@@ -39,6 +39,7 @@ namespace Foundations.Extensions
         /// <typeparam name="TEnum">The type of the enum to convert to</typeparam>
         /// <param name="instance">The string in question</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly")]
         public static TEnum StringToEnum<TEnum>(this string instance)
         {
             if (instance == null)

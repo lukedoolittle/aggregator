@@ -28,7 +28,7 @@ namespace Foundations.Extensions
                 {
                     if (ParameterToArgumentTypeMapping[parameterType] !=
                         argumentType)
-                        throw new ArgumentException();
+                        throw new MethodReflectionException("Argument type not present in list");
                 }
                 else
                 {

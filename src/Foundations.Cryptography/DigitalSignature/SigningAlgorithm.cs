@@ -21,6 +21,11 @@ namespace Foundations.Cryptography.DigitalSignature
 
         public byte[] SignText(byte[] text, string privateKey)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             _signer.Reset();
 
             _signer.Init(true, GetParametersFromPrivateKey(privateKey));
@@ -34,6 +39,15 @@ namespace Foundations.Cryptography.DigitalSignature
             byte[] signature, 
             byte[] text)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+            if (signature == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             _signer.Reset();
 
             _signer.Init(false, GetParametersFromPublicKey(publicKey));

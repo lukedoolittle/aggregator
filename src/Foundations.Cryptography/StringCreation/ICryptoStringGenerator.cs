@@ -4,6 +4,6 @@
     {
         string CreateRandomString(
             int stringLength,
-            CryptoStringTypeEnum stringType);
+            CryptoStringType stringType);
     }
 }

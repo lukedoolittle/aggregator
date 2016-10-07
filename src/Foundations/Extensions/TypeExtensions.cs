@@ -31,6 +31,7 @@ namespace Foundations.Extensions
         /// <typeparam name="T">The base type or interface</typeparam>
         /// <param name="instance">The type to evaluate</param>
         /// <returns>True if the given type meets the criteria, false otherwise</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public static bool IsInstantiableConcreteImplementation<T>(this Type instance)
         {
             if (instance == null)
@@ -173,6 +174,7 @@ namespace Foundations.Extensions
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.String.Format(System.String,System.Object[])")]
         public static string GetNonGenericName(this Type instance)
         {
             if (instance == null)

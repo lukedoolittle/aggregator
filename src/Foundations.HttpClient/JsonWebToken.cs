@@ -20,7 +20,7 @@ namespace Foundations.HttpClient
         [DataMember(Name = "typ", Order = 0)]
         public string Type { get; set; } = "JWT";
 
-        public JwtAlgorithmEnum Algorithm { get; set; } = JwtAlgorithmEnum.RS256;
+        public JwtAlgorithm Algorithm { get; set; } = JwtAlgorithm.RS256;
 
         [DataMember(Name = "alg", Order = 1)]
         private string _algorithm

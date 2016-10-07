@@ -61,7 +61,7 @@ namespace Quantfabric.Test.Integration
                     var responseBody = new JsonSerializer().Serialize(credentials);
 
                     response.WriteHead(HttpStatusCode.OK);
-                    response.WriteHead(HttpRequestHeader.ContentType, MediaTypeEnum.Json);
+                    response.WriteHead(HttpRequestHeader.ContentType, MediaType.Json);
                     response.Write(responseBody);
                     response.End();
                 }
@@ -348,7 +348,7 @@ namespace Quantfabric.Test.Integration
             var security = new CryptoStringGenerator();
             var code = security.CreateRandomString
                 (32, 
-                CryptoStringTypeEnum.Base64AlphaNumeric);
+                CryptoStringType.Base64Alphanumeric);
 
             _validCodes.Add(code);
 
@@ -360,7 +360,7 @@ namespace Quantfabric.Test.Integration
             var security = new CryptoStringGenerator();
             var token = security.CreateRandomString(
                 32, 
-                CryptoStringTypeEnum.Base64AlphaNumeric);
+                CryptoStringType.Base64Alphanumeric);
 
             _validAccessTokens.Add(token);
 

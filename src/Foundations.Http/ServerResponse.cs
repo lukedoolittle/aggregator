@@ -35,7 +35,7 @@ namespace Foundations.Http
 
         public void WriteHead(
             HttpRequestHeader header, 
-            MediaTypeEnum headerContent)
+            MediaType headerContent)
         {
             WriteHead(header, headerContent.EnumToString());
         }

@@ -15,8 +15,8 @@ namespace Material.Contracts
             IDictionary<string, string> additionalQuerystringParameters,
             IDictionary<string, string> additionalUrlSegmentParameters,
             object body,
-            MediaTypeEnum bodyType,
+            MediaType bodyType,
             HttpStatusCode expectedResponse = HttpStatusCode.OK,
-            MediaTypeEnum expectedResponseType = MediaTypeEnum.Json);
+            MediaType expectedResponseType = MediaType.Json);
     }
 }
