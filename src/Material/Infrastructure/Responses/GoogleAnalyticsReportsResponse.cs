@@ -8,10 +8,10 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "name")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [DataMember(Name = "type")]
-        public string type { get; set; }
+        public string Type { get; set; }
     }
 
     [DataContract]
@@ -19,7 +19,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "metricHeaderEntries")]
-        public IList<GoogleAnalyticsReportsMetricHeaderEntry> metricHeaderEntries { get; set; }
+        public IList<GoogleAnalyticsReportsMetricHeaderEntry> MetricHeaderEntries { get; set; }
     }
 
     [DataContract]
@@ -27,7 +27,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "metricHeader")]
-        public GoogleAnalyticsReportsMetricHeader metricHeader { get; set; }
+        public GoogleAnalyticsReportsMetricHeader MetricHeader { get; set; }
     }
 
     [DataContract]
@@ -35,7 +35,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "values")]
-        public IList<string> values { get; set; }
+        public IList<string> Values { get; set; }
     }
 
     [DataContract]
@@ -43,7 +43,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "metrics")]
-        public IList<GoogleAnalyticsReportsMetric> metrics { get; set; }
+        public IList<GoogleAnalyticsReportsMetric> Metrics { get; set; }
     }
 
     [DataContract]
@@ -51,7 +51,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "values")]
-        public IList<string> values { get; set; }
+        public IList<string> Values { get; set; }
     }
 
     [DataContract]
@@ -59,7 +59,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "values")]
-        public IList<string> values { get; set; }
+        public IList<string> Values { get; set; }
     }
 
     [DataContract]
@@ -67,7 +67,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "values")]
-        public IList<string> values { get; set; }
+        public IList<string> Values { get; set; }
     }
 
     [DataContract]
@@ -75,19 +75,19 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "rows")]
-        public IList<Row> rows { get; set; }
+        public IList<Row> Rows { get; set; }
 
         [DataMember(Name = "totals")]
-        public IList<GoogleAnalyticsReportsTotal> totals { get; set; }
+        public IList<GoogleAnalyticsReportsTotal> Totals { get; set; }
 
         [DataMember(Name = "rowCount")]
-        public int rowCount { get; set; }
+        public int RowCount { get; set; }
 
         [DataMember(Name = "minimums")]
-        public IList<GoogleAnalyticsReportsMinimum> minimums { get; set; }
+        public IList<GoogleAnalyticsReportsMinimum> Minimums { get; set; }
 
         [DataMember(Name = "maximums")]
-        public IList<GoogleAnalyticsReportsMaximum> maximums { get; set; }
+        public IList<GoogleAnalyticsReportsMaximum> Maximums { get; set; }
     }
 
     [DataContract]
@@ -95,10 +95,10 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "columnHeader")]
-        public GoogleAnalyticsReportsColumnHeader columnHeader { get; set; }
+        public GoogleAnalyticsReportsColumnHeader ColumnHeader { get; set; }
 
         [DataMember(Name = "data")]
-        public GoogleAnalyticsReportsData data { get; set; }
+        public GoogleAnalyticsReportsData Data { get; set; }
     }
 
     [DataContract]
@@ -106,7 +106,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "reports")]
-        public IList<Report> reports { get; set; }
+        public IList<GoogleAnalyticsReport> Reports { get; set; }
     }
 
 

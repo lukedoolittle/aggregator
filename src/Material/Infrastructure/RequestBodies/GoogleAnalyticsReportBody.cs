@@ -17,10 +17,10 @@ namespace Material.Infrastructure.RequestBodies
     [DataContract]
     public class GoogleAnalyticsReportRequest
     {
-        [DataMember(Name = "viewId")]
+        [DataMember(Name = "viewId", Order = 1)]
         public string ViewId { get; set; }
 
-        [DataMember(Name = "dateRanges", EmitDefaultValue = false)]
+        [DataMember(Name = "dateRanges", Order = 2, EmitDefaultValue = false)]
         public List<GoogleAnalyticsDateRange> DateRanges { get; set; }
 
         public SamplingLevelEnum? SamplingLevel { get; set; }
@@ -31,10 +31,10 @@ namespace Material.Infrastructure.RequestBodies
             set { throw new NotImplementedException(); }
         }
 
-        [DataMember(Name = "dimensions", EmitDefaultValue = false)]
+        [DataMember(Name = "dimensions", Order = 3, EmitDefaultValue = false)]
         public List<GoogleAnalyticsDimension> Dimensions { get; set; }
 
-        [DataMember(Name = "metrics", EmitDefaultValue = false)]
+        [DataMember(Name = "metrics", Order = 4, EmitDefaultValue = false)]
         public List<GoogleAnalyticsMetric> Metrics { get; set; }
 
         [DataMember(Name = "filtersExpression", EmitDefaultValue = false)]
@@ -77,14 +77,14 @@ namespace Material.Infrastructure.RequestBodies
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        [DataMember(Name = "startDate")]
+        [DataMember(Name = "startDate", Order = 1)]
         private string _startDate
         {
             get { return StartDate.ToString("yyyy-MM-dd"); }
             set { throw new NotImplementedException(); }
         }
 
-        [DataMember(Name = "endDate")]
+        [DataMember(Name = "endDate", Order = 2)]
         private string _endDate
         {
             get { return EndDate.ToString("yyyy-MM-dd"); }

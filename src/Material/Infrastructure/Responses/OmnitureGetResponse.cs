@@ -126,6 +126,8 @@ namespace Material.Infrastructure.Responses
         public int Month { get; set; }
         [DataMember(Name = "day")]
         public int Day { get; set; }
+        [DataMember(Name = "hour")]
+        public int Hour { get; set; }
         [DataMember(Name = "counts")]
         public IList<string> Counts { get; set; }
     }

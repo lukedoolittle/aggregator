@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Foundations.HttpClient.Serialization;
 using Material;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
@@ -12,8 +13,6 @@ using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
-using Element = Material.Infrastructure.RequestBodies.Element;
-using Metric = Material.Infrastructure.RequestBodies.Metric;
 
 namespace Quantfabric.Test.Material.Interaction
 {
@@ -69,15 +68,15 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var body = new OmnitureQueueBody
             {
-                ReportDescription = new ReportDescription
+                ReportDescription = new OmnitureReportDescription
                 {
                     DateGranularity = OmnitureReportingDateGranularityEnum.Hour,
                     ReportSuiteId = "musicnotes",
                     Date = new DateTime(2016, 6, 1),
-                    Metrics = new List<Metric> {new Metric {Id = "pageviews"}},
-                    Elements = new List<Element>
+                    Metrics = new List<OmnitureMetric> {new OmnitureMetric {Id = "pageviews"}},
+                    Elements = new List<OmnitureElement>
                     {
-                        new Element
+                        new OmnitureElement
                         {
                             Id = "eVar39",
                             Selected = new List<string>
@@ -85,7 +84,7 @@ namespace Quantfabric.Test.Material.Interaction
                                 ""
                             }
                         },
-                        new Element
+                        new OmnitureElement
                         {
                             Id = "page"
                         }
@@ -105,13 +104,13 @@ namespace Quantfabric.Test.Material.Interaction
 
             var body = new OmnitureQueueBody
             {
-                ReportDescription = new ReportDescription
+                ReportDescription = new OmnitureReportDescription
                 {
-                    DateGranularity = OmnitureReportingDateGranularityEnum.Month,
+                    DateGranularity = OmnitureReportingDateGranularityEnum.Hour,
                     ReportSuiteId = "musicnotes",
-                    StartDate = new DateTime(2016, 9, 12),
-                    EndDate = new DateTime(2016, 9, 12),
-                    Metrics = new List<Metric> { new Metric { Id = "visits" } }
+                    StartDate = new DateTime(2015, 10, 6),
+                    EndDate = new DateTime(2016, 10, 6),
+                    Metrics = new List<OmnitureMetric> { new OmnitureMetric { Id = "visits" } }
                 }
             };
 
@@ -141,6 +140,19 @@ namespace Quantfabric.Test.Material.Interaction
             var getResponse = await new OAuthRequester(credentials)
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureGetResponse>(request)
                 .ConfigureAwait(false);
+
+            //var text = System.IO.File.ReadAllText("results.json");
+            //var serializer = new JsonSerializer();
+            //var result = serializer.Deserialize<OmnitureGetResponse>(text);
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"lines.csv"))
+            {
+                foreach (var item in getResponse.Report.Data)
+                {
+                    var date = $"{item.Year}-{item.Month}-{item.Day}-{item.Hour}:00";
+                    file.WriteLine($"{date},{item.Counts.First()}");
+                }
+            }
 
             Assert.NotNull(getResponse.Report.Totals[0]);
         }
@@ -186,20 +198,23 @@ namespace Quantfabric.Test.Material.Interaction
                         {
                             new GoogleAnalyticsDateRange
                             {
-                                StartDate = DateTime.Now.Subtract(TimeSpan.FromDays(1)),
-                                EndDate = DateTime.Now
+                                StartDate = new DateTime(2016, 9, 30),
+                                EndDate = new DateTime(2166, 10, 4)
                             }
                         },
-                        ViewId = "ga:118180292",
+                        ViewId = "ga:80938602",
                         Metrics = new List<GoogleAnalyticsMetric>
                         {
                             new GoogleAnalyticsMetric
                             {
-                                Expression = "ga:sessions"
-                            },
-                            new GoogleAnalyticsMetric
-                            {
                                 Expression = "ga:pageviews"
+                            }
+                        },
+                        Dimensions = new List<GoogleAnalyticsDimension>
+                        {
+                            new GoogleAnalyticsDimension
+                            {
+                                Name = "ga:date"
                             }
                         }
                     }
@@ -215,7 +230,7 @@ namespace Quantfabric.Test.Material.Interaction
                 .MakeOAuthRequestAsync<GoogleAnalyticsReports, GoogleAnalyticsReportsResponse>(request)
                 .ConfigureAwait(false);
             
-            Assert.NotNull(response);
+            Assert.NotNull(response.Reports[0].Data.Rows[0].Metrics[0].Values[0]);
         }
 
         [Fact]

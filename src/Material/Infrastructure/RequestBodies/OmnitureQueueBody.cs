@@ -7,14 +7,14 @@ using Foundations.Extensions;
 namespace Material.Infrastructure.RequestBodies
 {
     [DataContract]
-    public class Metric
+    public class OmnitureMetric
     {
         [DataMember(Name = "id")]
         public string Id { get; set; }
     }
 
     [DataContract]
-    public class Element
+    public class OmnitureElement
     {
         [DataMember(Name = "id")]
         public string Id { get; set; }
@@ -23,7 +23,7 @@ namespace Material.Infrastructure.RequestBodies
     }
 
     [DataContract]
-    public class ReportDescription
+    public class OmnitureReportDescription
     {
         [DataMember(Name = "reportSuiteID")]
         public string ReportSuiteId { get; set; }
@@ -62,16 +62,16 @@ namespace Material.Infrastructure.RequestBodies
             set { throw new Exception(); }
         }
         [DataMember(Name = "metrics")]
-        public IList<Metric> Metrics { get; set; }
+        public IList<OmnitureMetric> Metrics { get; set; }
         [DataMember(Name = "elements", EmitDefaultValue = false)]
-        public IList<Element> Elements { get; set; }
+        public IList<OmnitureElement> Elements { get; set; }
     }
 
     [DataContract]
     public class OmnitureQueueBody
     {
         [DataMember(Name = "reportDescription")]
-        public ReportDescription ReportDescription { get; set; }
+        public OmnitureReportDescription ReportDescription { get; set; }
     }
 
     [DataContract(Name = "OmnitureReportingDateGranularity")]

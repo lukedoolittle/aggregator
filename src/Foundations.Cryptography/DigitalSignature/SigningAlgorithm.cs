@@ -10,7 +10,7 @@ namespace Foundations.Cryptography.DigitalSignature
 
         public SigningAlgorithm(ISigner signer)
         {
-            if (_signer == null)
+            if (signer == null)
             {
                 throw new ArgumentNullException(nameof(signer));
             }
