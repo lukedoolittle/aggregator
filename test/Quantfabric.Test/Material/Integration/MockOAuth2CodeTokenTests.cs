@@ -8,6 +8,9 @@ using Xunit;
 using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Quantfabric.Test.OAuthServer;
+using Quantfabric.Test.OAuthServer.Builders;
+using Quantfabric.Test.OAuthServer.Handlers;
 
 namespace Quantfabric.Test.Integration
 {
@@ -24,7 +27,7 @@ namespace Quantfabric.Test.Integration
                         .AddScope<GoogleGmailMetadata>()
                         .AddScope<GoogleProfile>()
                         .AddScope<GoogleAnalyticsReports>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -35,7 +38,7 @@ namespace Quantfabric.Test.Integration
                     app => app
                             .AddScope<FacebookEvent>()
                             .AddScope<FacebookFriend>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -45,7 +48,7 @@ namespace Quantfabric.Test.Integration
             await RunServer<Pinterest, PinterestMock>(
                     app => app
                             .AddScope<PinterestLikes>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -55,7 +58,7 @@ namespace Quantfabric.Test.Integration
             await RunServer<Instagram, InstagramMock>(
                     app => app
                             .AddScope<InstagramLikes>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -64,7 +67,7 @@ namespace Quantfabric.Test.Integration
         {
             await RunServer<Foursquare, FoursquareMock>(
                 app => { },
-                server => { })
+                false)
                 .ConfigureAwait(false);
         }
 
@@ -74,7 +77,7 @@ namespace Quantfabric.Test.Integration
             await RunServer<Spotify, SpotifyMock>(
                     app => app
                             .AddScope<SpotifySavedTrack>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -89,7 +92,7 @@ namespace Quantfabric.Test.Integration
                             .AddScope<FitbitIntradayStepsBulk>()
                             .AddScope<FitbitProfile>()
                             .AddScope<FitbitSleep>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -99,7 +102,7 @@ namespace Quantfabric.Test.Integration
             await RunServer<Rescuetime, RescuetimeMock>(
                     app => app
                             .AddScope<RescuetimeAnalyticData>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -109,7 +112,7 @@ namespace Quantfabric.Test.Integration
             await RunServer<Runkeeper, RunkeeperMock>(
                     app => app
                             .AddScope<RunkeeperFitnessActivity>(),
-                server => { })
+                false)
                 .ConfigureAwait(false);
         }
 
@@ -120,7 +123,7 @@ namespace Quantfabric.Test.Integration
                     app => app
                             .AddScope<TwentyThreeAndMeUser>()
                             .AddScope<TwentyThreeAndMeGenome>(),
-                    server => server.SetRequiresScope())
+                    true)
                 .ConfigureAwait(false);
         }
 
@@ -129,13 +132,13 @@ namespace Quantfabric.Test.Integration
         {
             await RunServer<LinkedIn, LinkedInMock>(
                 app => { },
-                server => { })
+                false)
                 .ConfigureAwait(false);
         }
 
         private async Task RunServer<TRealProvider, TMockProvider>(
             Action<OAuth2App<TMockProvider>> scopes,
-            Action<OAuth2TestingServer> assertions)
+            bool requiresScope)
             where TRealProvider : OAuth2ResourceProvider
             where TMockProvider : OAuth2ResourceProviderMock, new()
         {
@@ -144,26 +147,38 @@ namespace Quantfabric.Test.Integration
 
             var port = TestUtilities.GetAvailablePort(35000);
             var providerName = typeof(TRealProvider).Name;
-            var redirectUri =$"http://localhost:{port}/oauth/{providerName}";
+            var redirectUri = new Uri($"http://localhost:{port}/oauth/{providerName}");
 
             var oauth2 = new OAuth2App<TMockProvider>(
                 clientId,
                 clientSecret,
-                redirectUri);
+                redirectUri.ToString());
             scopes(oauth2);
 
             var mock = oauth2.GetMemberValue<TMockProvider>("_provider");
 
-            using (var server = new OAuth2TestingServer())
+            using (var server = new OAuthTestingServer<OAuth2Token>())
             {
                 server
-                    .SetClientId(clientId)
-                    .SetClientSecret(clientSecret)
-                    .SetCredentialsExpiration(3600)
-                    .SetRedirectUri(redirectUri)
-                    .SetAuthorizationPath(mock.AuthorizationUrl.AbsolutePath)
-                    .SetTokenPath(mock.TokenUrl.AbsolutePath);
-                assertions(server);
+                    .AddApplicationId(clientId)
+                    .AddHandler(
+                        mock.AuthorizationUrl,
+                        new OAuth2AuthorizationHandler(
+                            clientId,
+                            redirectUri,
+                            new OAuth2CodeRedirectBuilder(),
+                            new OAuth2CodeCredentialBuilder(
+                                server.Tokens),
+                            requiresScope))
+                    .AddHandler(
+                        mock.TokenUrl,
+                        new OAuth2AccessTokenHandler(
+                            clientId,
+                            new OAuth2AuthCodeCredentialBuilder(
+                                clientSecret,
+                                redirectUri,
+                                server.Tokens,
+                                3600)));
 
                 var serverTask = server.Start(mock.Port);
 

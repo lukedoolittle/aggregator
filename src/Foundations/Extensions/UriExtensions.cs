@@ -24,6 +24,21 @@ namespace Foundations.Extensions
                 "{0}://{1}/", instance.Scheme, instance.Authority);
         }
 
+        public static string NoQuerystring(this Uri instance)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}://{1}{2}",
+                instance.Scheme, 
+                instance.Authority,
+                instance.AbsolutePath);
+        }
+
         /// <summary>
         /// Adds path with parameters to Uri
         /// </summary>
