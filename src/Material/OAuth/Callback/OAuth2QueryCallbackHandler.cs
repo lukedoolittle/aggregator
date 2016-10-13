@@ -25,16 +25,5 @@ namespace Material.Infrastructure.OAuth
             return query.ContainsKey(
                 OAuth2ParameterEnum.Error.EnumToString());
         }
-
-        public override OAuth2Credentials ParseAndValidateCallback(
-            Uri responseUri, 
-            string userId)
-        {
-            var result = base.ParseAndValidateCallback(
-                responseUri,
-                userId);
-
-            return result;
-        }
     }
 }

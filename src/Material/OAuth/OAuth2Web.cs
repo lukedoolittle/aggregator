@@ -54,24 +54,14 @@ namespace Material.Facades
         /// <param name="callbackUri">The application's registered callback url</param>
         public OAuth2Web(
             string clientId,
-            string callbackUri)
-        {
-            var strategy = new OAuthSecurityStrategy(
-                new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
-
-            var handler = new OAuth2QueryCallbackHandler(
-                strategy,
-                OAuth2ParameterEnum.State.EnumToString());
-
-            _authFacade = new OAuth2AuthenticationFacade(
-                    _resourceProvider,
-                    clientId,
+            string callbackUri) : 
+                this(
+                    clientId, 
                     callbackUri,
-                    new OAuth2Authentication(),
-                    strategy,
-                    handler);
-        }
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        TimeSpan.FromMinutes(2)))
+        {}
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
