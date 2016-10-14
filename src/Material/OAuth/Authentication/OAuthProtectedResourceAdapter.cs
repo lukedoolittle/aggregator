@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Foundations;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using HttpRequestException = Material.Exceptions.HttpRequestException;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuthProtectedResource : IOAuthProtectedResource
+    public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
     {
         private readonly IAuthenticator _authenticator;
-        private readonly OAuthParameterTypeEnum _parameterHandling;
+        private readonly HttpParameterType _parameterHandling = 
+            HttpParameterType.Querystring;
 
-        public OAuthProtectedResource(
+        public OAuthProtectedResourceAdapter(
             string accessToken,
             string accessTokenName)
         {
             _authenticator = new OAuth2ProtectedResource(
                 accessToken,
                 accessTokenName);
-
-            _parameterHandling = OAuthParameterTypeEnum.Querystring;
         }
 
-        public OAuthProtectedResource(
+        public OAuthProtectedResourceAdapter(
             string consumerKey,
             string consumerSecret,
             string oauthToken,
             string oauthSecret,
-            OAuthParameterTypeEnum parameterHandling)
+            HttpParameterType parameterHandling)
         {
             _authenticator = new OAuth1ProtectedResource(
                 consumerKey, 
@@ -69,39 +66,17 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            var request = new HttpRequest(baseUrl)
-                .Request(
-                    new HttpMethod(httpMethod),
-                    path)
+            return await (await new HttpRequest(baseUrl)
+                .Request(httpMethod, path, _parameterHandling)
                 .ResponseMediaType(expectedResponseType)
                 .Headers(headers)
                 .Parameters(querystringParameters)
                 .Segments(pathParameters)
-                .Authenticator(_authenticator);
-
-            if (body != null)
-            {
-                request.Content(body, bodyType);
-            }
-
-            if (_parameterHandling == OAuthParameterTypeEnum.Body)
-            {
-                request.WithQueryParameters();
-            }
-
-            var response = await request
+                .Authenticator(_authenticator)
+                .ThrowIfNotExpectedResponseCode(expectedResponse)
+                .Content(body, bodyType)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != expectedResponse)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            return await response
+                .ConfigureAwait(false))
                 .ContentAsync<TResponse>()
                 .ConfigureAwait(false);
         }

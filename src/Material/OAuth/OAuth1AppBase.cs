@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Material.Infrastructure.OAuth;
+using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Builder;
+using Material.Infrastructure.OAuth.Template;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -46,22 +47,29 @@ namespace Material.Infrastructure.OAuth
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
 
-            var builder =
-                new OAuth1TemplateBuilder(
-                    _uiFactory,
-                    null,
-                    securityStrategy);
-            var facade = builder.BuildFacade(
+            var handler = new OAuth1CallbackHandler(
+                securityStrategy,
+                OAuth1ParameterEnum.OAuthToken.EnumToString());
+
+            var facade = new OAuth1AuthenticationFacade(
                 _provider,
-                new OAuth1Authentication(), 
                 _consumerKey,
-                _consumerSecret, 
-                _callbackUrl);
-            var template = builder.BuildTemplate<TResourceProvider>(
+                _consumerSecret,
+                _callbackUrl,
+                new OAuth1AuthenticationAdapter(),
+                securityStrategy);
+
+            var authenticationUI = _uiFactory
+                .GetAuthorizer<TResourceProvider, OAuth1Credentials>(
+                    _browserType,
+                    handler,
+                    new Uri(_callbackUrl));
+
+            var template = new OAuth1AuthenticationTemplate(
+                authenticationUI,
                 facade,
-                _browserType,
-                userId,
-                new Uri(_callbackUrl));
+                securityStrategy,
+                userId);
 
             return template.GetAccessTokenCredentials(userId);
         }

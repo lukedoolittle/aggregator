@@ -34,18 +34,13 @@ namespace Material.Facades
         {
             _securityStrategy = securityStrategy;
 
-            var handler = new OAuth1CallbackHandler(
-                securityStrategy,
-                OAuth1ParameterEnum.OAuthToken.EnumToString());
-
             _authFacade = new OAuth1AuthenticationFacade(
                 new TResourceProvider(), 
                 consumerKey, 
                 consumerSecret,
                 callbackUrl,
-                new OAuth1Authentication(),
-                securityStrategy, 
-                handler);
+                new OAuth1AuthenticationAdapter(),
+                securityStrategy);
         }
 
         /// <summary>
@@ -78,28 +73,20 @@ namespace Material.Facades
         }
 
         /// <summary>
-        /// Convert a callback uri into intermediate OAuth2Credentials
+        /// Exchanges callback uri credentials for access token credentials
         /// </summary>
         /// <param name="responseUri">The received callback uri</param>
         /// <param name="userId">The users Id within the application</param>
-        /// <returns>Intermediate OAuth1 credentials</returns>
-        public OAuth1Credentials ParseAndValidateCallback(
+        /// <returns>Access token credentials</returns>
+        public Task<OAuth1Credentials> GetAccessTokenAsync(
             Uri responseUri,
             string userId)
         {
-            return _authFacade.ParseAndValidateCallback(responseUri, userId);
-        }
+            var result = new OAuth1CallbackHandler(
+                            _securityStrategy,
+                            OAuth1ParameterEnum.OAuthToken.EnumToString())
+                        .ParseAndValidateCallback(responseUri, userId);
 
-        /// <summary>
-        /// Exchanges intermediate credentials for access token credentials
-        /// </summary>
-        /// <param name="result">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="userId">The users Id within the application</param>
-        /// <returns>Access token credentials</returns>
-        public Task<OAuth1Credentials> GetAccessTokenAsync(
-            OAuth1Credentials result,
-            string userId)
-        {
             var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
                 userId,
                 OAuth1ParameterEnum.OAuthTokenSecret.EnumToString());

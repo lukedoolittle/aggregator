@@ -12,8 +12,7 @@ namespace Material.Infrastructure.OAuth
     {
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
-        private readonly IOAuth2Authentication _oauth;
-        private readonly IOAuthCallbackHandler<OAuth2Credentials> _handler;
+        private readonly IOAuth2AuthenticationAdapter _oauth;
         private readonly string _callbackUri;
         protected readonly IOAuthSecurityStrategy _strategy;
 
@@ -21,16 +20,14 @@ namespace Material.Infrastructure.OAuth
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             string callbackUri,
-            IOAuth2Authentication oauth,
-            IOAuthSecurityStrategy strategy,
-            IOAuthCallbackHandler<OAuth2Credentials> handler)
+            IOAuth2AuthenticationAdapter oauth,
+            IOAuthSecurityStrategy strategy)
         {
             _clientId = clientId;
             _resourceProvider = resourceProvider;
             _callbackUri = callbackUri;
             _oauth = oauth;
             _strategy = strategy;
-            _handler = handler;
         }
 
         /// <summary>
@@ -55,21 +52,6 @@ namespace Material.Infrastructure.OAuth
                     _resourceProvider.Parameters);
 
             return Task.FromResult(authorizationPath);
-        }
-
-        /// <summary>
-        /// Convert a callback uri into intermediate OAuth2Credentials
-        /// </summary>
-        /// <param name="responseUri">The received callback uri</param>
-        /// <param name="userId">Resource owner's Id</param>
-        /// <returns>Intermediate OAuth1 credentials</returns>
-        public OAuth2Credentials ParseAndValidateCallback(
-            Uri responseUri, 
-            string userId)
-        {
-            return _handler.ParseAndValidateCallback(
-                responseUri,
-                userId);
         }
 
         /// <summary>

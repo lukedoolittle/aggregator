@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Foundations.Extensions;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
@@ -11,17 +12,27 @@ namespace Foundations.HttpClient.ParameterHandlers
             MediaType contentType,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            if (contentType == MediaType.Form)
+            if (message.Content != null)
             {
-                message.Content = new FormUrlEncodedContent(parameters);
-            }
-            else if (contentType == MediaType.Json)
-            {
-                throw new NotImplementedException();
+                message.RequestUri = message
+                    .RequestUri
+                    .AddEncodedQuerystring(
+                        parameters);
             }
             else
             {
-                throw new NotImplementedException();
+                if (contentType == MediaType.Form)
+                {
+                    message.Content = new FormUrlEncodedContent(parameters);
+                }
+                else if (contentType == MediaType.Json)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
         }
     }

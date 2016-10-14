@@ -8,7 +8,7 @@ namespace Material
 {
     public class OAuthRequester
     {
-        private readonly IOAuthProtectedResource _requester;
+        private readonly IOAuthProtectedResourceAdapter _requester;
         private readonly string _userId;
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace Material
         /// <param name="credentials">OAuth1 credentials used for authentication</param>
         public OAuthRequester(OAuth1Credentials credentials)
         {
-            _requester = new OAuthProtectedResource(
+            _requester = new OAuthProtectedResourceAdapter(
                 credentials.ConsumerKey,
                 credentials.ConsumerSecret,
                 credentials.OAuthToken,
@@ -32,7 +32,7 @@ namespace Material
         /// <param name="credentials">OAuth2 credentials used for authentication</param>
         public OAuthRequester(OAuth2Credentials credentials)
         {
-            _requester = new OAuthProtectedResource(
+            _requester = new OAuthProtectedResourceAdapter(
                 credentials.AccessToken,
                 credentials.TokenName);
             _userId = credentials.UserId;

@@ -8,12 +8,11 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuth2Authentication : IOAuth2Authentication
+    public class OAuth2AuthenticationAdapter : IOAuth2AuthenticationAdapter
     {
         public Uri GetAuthorizationUri(
             Uri authorizeUrl, 
@@ -89,31 +88,19 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(refreshToken));
             }
 
-            var response = await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2RefreshToken(
                     clientId,
                     clientSecret,
                     refreshToken)
                 .Headers(headers)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var token = await response
+                .ConfigureAwait(false))
                 .ContentAsync<OAuth2Credentials>()
-                .ConfigureAwait(false);
-
-            token.TimestampToken();
-
-            return token;
+                .ConfigureAwait(false))
+                .TimestampToken();
         }
 
         public async Task<OAuth2Credentials> GetClientAccessToken(
@@ -134,29 +121,16 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(clientSecret));
             }
 
-            var response = await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2ClientAccessToken(
                     clientId,
                     clientSecret)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var token = await response
+                .ConfigureAwait(false))
                 .ContentAsync<OAuth2Credentials>()
-                .ConfigureAwait(false);
-
-            token.TimestampToken();
-
-            return token;
+                .ConfigureAwait(false)).TimestampToken();
         }
 
         public async Task<OAuth2Credentials> GetJsonWebToken(
@@ -178,30 +152,17 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(privateKey));
             }
 
-            var response = await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
                     jwt,
                     privateKey,
                     clientId)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var token = await response
-                .ContentAsync<OAuth2Credentials>()
-                .ConfigureAwait(false);
-
-            token.TimestampToken();
-
-            return token;
+                .ConfigureAwait(false)).ContentAsync<OAuth2Credentials>()
+                .ConfigureAwait(false))
+                .TimestampToken();
         }
 
         public async Task<OAuth2Credentials> GetAccessToken(
@@ -217,13 +178,12 @@ namespace Material.Infrastructure.OAuth
             {
                 throw new ArgumentNullException(nameof(accessUrl));
             }
-
             if (callbackUrl == null)
             {
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            var response = await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequest(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2AccessToken(
                     clientId,
@@ -232,24 +192,11 @@ namespace Material.Infrastructure.OAuth
                     code,
                     scope)
                 .Headers(headers)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var token = await response
-                .ContentAsync<OAuth2Credentials>()
-                .ConfigureAwait(false);
-
-            token.TimestampToken();
-
-            return token;
+                .ConfigureAwait(false)).ContentAsync<OAuth2Credentials>()
+                .ConfigureAwait(false))
+                .TimestampToken();
         }
     }
 }

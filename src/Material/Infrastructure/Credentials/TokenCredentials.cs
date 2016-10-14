@@ -64,11 +64,5 @@ namespace Material.Infrastructure.Credentials
                 }
             }
         }
-
-
-        public void TimestampToken()
-        {
-            DateCreated = DateTimeOffset.Now;
-        }
     }
 }

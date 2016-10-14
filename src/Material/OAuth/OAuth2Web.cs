@@ -13,8 +13,10 @@ namespace Material.Facades
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
+        private readonly IOAuthSecurityStrategy _strategy;
         private readonly TResourceProvider _resourceProvider = 
             new TResourceProvider();
+
         /// <summary>
         /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
@@ -26,25 +28,14 @@ namespace Material.Facades
             string callbackUri,
             IOAuthSecurityStrategy strategy)
         {
-            var handler = new OAuth2QueryCallbackHandler(
-                strategy,
-                OAuth2ParameterEnum.State.EnumToString());
-
-            //NOTE: you could create a token workflow version of this
-            //but why???
-            //
-            //var handler = new OAuth2QueryCallbackHandler(
-            //_strategy,
-            //OAuth2ParameterEnum.State.EnumToString(),
-            //userId);
+            _strategy = strategy;
 
             _authFacade = new OAuth2AuthenticationFacade(
                 _resourceProvider,
                 clientId,
                 callbackUri,
-                new OAuth2Authentication(),
-                strategy,
-                handler);
+                new OAuth2AuthenticationAdapter(),
+                strategy);
         }
 
         /// <summary>
@@ -74,28 +65,32 @@ namespace Material.Facades
         }
 
         /// <summary>
-        /// Convert a callback uri into intermediate OAuth2Credentials
+        /// Exchanges callback uri for access token credentials
         /// </summary>
-        /// <param name="responseUri">The received callback uri</param>
         /// <param name="userId">Resource owner's Id</param>
-        /// <returns>Intermediate OAuth1 credentials</returns>
-        public OAuth2Credentials ParseAndValidateCallback(
-            Uri responseUri,
-            string userId)
-        {
-            return _authFacade.ParseAndValidateCallback(responseUri, userId);
-        }
-
-        /// <summary>
-        /// Exchanges intermediate credentials for access token credentials
-        /// </summary>
-        /// <param name="result">Intermediate credentials received from OAuth2 callback</param>
         /// <param name="secret">The application's client secret</param>
+        /// <param name="responseUri">The received callback uri</param>
         /// <returns>Access token credentials</returns>
         public Task<OAuth2Credentials> GetAccessTokenAsync(
-            OAuth2Credentials result,
+            Uri responseUri,
+            string userId,
             string secret)
         {
+            //NOTE: you could create a token workflow version of this
+            //but why???
+            //
+            //var handler = new OAuth2QueryCallbackHandler(
+            //_strategy,
+            //OAuth2ParameterEnum.State.EnumToString(),
+            //userId);
+
+            var result = new OAuth2QueryCallbackHandler(
+                            _strategy,
+                            OAuth2ParameterEnum.State.EnumToString())
+                        .ParseAndValidateCallback(
+                            responseUri, 
+                            userId);
+
             return _authFacade.GetAccessTokenAsync(result, secret);
         }
 

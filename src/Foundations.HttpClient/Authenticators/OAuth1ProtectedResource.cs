@@ -14,7 +14,7 @@ namespace Foundations.HttpClient.Authenticators
         //TODO: why is this unused?
 #pragma warning disable 169
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-        private readonly OAuthParameterTypeEnum _parameterHandling;
+        private readonly HttpParameterType _parameterHandling;
 #pragma warning restore 169
 
         public OAuth1ProtectedResource(

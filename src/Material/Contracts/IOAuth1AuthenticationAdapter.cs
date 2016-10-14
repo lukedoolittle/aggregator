@@ -6,13 +6,13 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuth1Authentication
+    public interface IOAuth1AuthenticationAdapter
     {
         Task<OAuth1Credentials> GetRequestToken(
             Uri requestUrl,
             string consumerKey,
             string consumerSecret,
-            OAuthParameterTypeEnum parameterHandling,
+            HttpParameterType parameterHandling,
             Uri callbackUrl);
 
         Uri GetAuthorizationUri(
@@ -26,7 +26,7 @@ namespace Material.Contracts
             string oauthToken,
             string oauthSecret,
             string verifier,
-            OAuthParameterTypeEnum parameterHandling,
+            HttpParameterType parameterHandling,
             IDictionary<string, string> queryParameters);
     }
 }

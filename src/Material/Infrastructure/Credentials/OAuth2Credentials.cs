@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Foundations.HttpClient.Enums;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -90,6 +90,13 @@ namespace Material.Infrastructure.Credentials
         public OAuth2Credentials SetCallbackUrl(string callbackUrl)
         {
             CallbackUrl = callbackUrl;
+
+            return this;
+        }
+
+        public OAuth2Credentials TimestampToken()
+        {
+            DateCreated = DateTimeOffset.Now;
 
             return this;
         }

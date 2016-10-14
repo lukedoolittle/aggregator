@@ -28,7 +28,7 @@ namespace Material.Infrastructure.OAuth
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             return new OAuthClientFacade(
-                    new OAuth2Authentication())
+                    new OAuth2AuthenticationAdapter())
                 .GetClientAccessTokenCredentials<TResourceProvider>(
                     _clientId, 
                     _clientSecret);

@@ -13,8 +13,7 @@ namespace Material.Infrastructure.OAuth
         private readonly OAuth1ResourceProvider _resourceProvider;
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
-        private readonly IOAuth1Authentication _oauth;
-        private readonly IOAuthCallbackHandler<OAuth1Credentials> _handler;
+        private readonly IOAuth1AuthenticationAdapter _oauth;
         private readonly string _callbackUri;
         protected readonly IOAuthSecurityStrategy _securityStrategy;
 
@@ -23,16 +22,14 @@ namespace Material.Infrastructure.OAuth
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            IOAuth1Authentication oauth, 
-            IOAuthSecurityStrategy securityStrategy,
-            IOAuthCallbackHandler<OAuth1Credentials> handler)
+            IOAuth1AuthenticationAdapter oauth, 
+            IOAuthSecurityStrategy securityStrategy)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
             _resourceProvider = resourceProvider;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
-            _handler = handler;
             _callbackUri = callbackUrl;
         }
 
@@ -68,21 +65,6 @@ namespace Material.Infrastructure.OAuth
                 credentials.OAuthSecret);
 
             return authorizationPath;
-        }
-
-        /// <summary>
-        /// Convert a callback uri into intermediate OAuth1Credentials
-        /// </summary>
-        /// <param name="responseUri">The received callback uri</param>
-        /// <param name="userId">Resource owner's Id</param>
-        /// <returns>Intermediate OAuth1 credentials</returns>
-        public OAuth1Credentials ParseAndValidateCallback(
-            Uri responseUri,
-            string userId)
-        {
-            return _handler.ParseAndValidateCallback(
-                responseUri,
-                userId);
         }
 
         /// <summary>

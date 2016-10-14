@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum OAuthParameterTypeEnum
+    public enum HttpParameterType
     {
         [Description("header")]
         Header,

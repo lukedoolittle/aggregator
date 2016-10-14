@@ -151,10 +151,10 @@ namespace CodeGen
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
                     });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(OAuthParameterTypeEnum), "ParameterType")
+                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "ParameterType")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<OAuthParameterTypeEnum>())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<HttpParameterType>())
                     });
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialType))
                     {

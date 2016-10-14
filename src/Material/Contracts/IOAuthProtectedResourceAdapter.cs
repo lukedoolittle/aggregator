@@ -5,7 +5,7 @@ using Foundations;
 
 namespace Material.Contracts
 {
-    public interface IOAuthProtectedResource
+    public interface IOAuthProtectedResourceAdapter
     {
         Task<TEntity> ForProtectedResource<TEntity>(
             string baseUrl,

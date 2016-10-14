@@ -26,6 +26,12 @@ namespace Material.Infrastructure.OAuth
             _securityStrategy = securityStrategy;
         }
 
+        /// <summary>
+        /// Convert a callback uri into intermediate OAuth1Credentials
+        /// </summary>
+        /// <param name="responseUri">The received callback uri</param>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <returns>Intermediate OAuth1 credentials</returns>
         public virtual TCredentials ParseAndValidateCallback(
             Uri responseUri,
             string userId)

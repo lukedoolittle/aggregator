@@ -26,7 +26,7 @@ namespace Material.Infrastructure.OAuth
             OAuth2Credentials expiredToken)
         {
             return new OAuthClientFacade(
-                    new OAuth2Authentication())
+                    new OAuth2AuthenticationAdapter())
                 .GetRefreshedAccessTokenCredentials(
                     expiredToken,
                     _provider);

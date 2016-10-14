@@ -24,7 +24,7 @@ namespace Material.Infrastructure.Credentials
         public string Verifier { get; private set; }
 
         [DataMember(Name = "parameterHandling")]
-        public OAuthParameterTypeEnum ParameterHandling { get; private set; }
+        public HttpParameterType ParameterHandling { get; private set; }
 
         //This will get assigned via deserialization
         [DataMember(Name = "x_auth_expired", EmitDefaultValue = false)]
@@ -49,7 +49,7 @@ namespace Material.Infrastructure.Credentials
 	    }
 
 	    public OAuth1Credentials SetParameterHandling(
-            OAuthParameterTypeEnum parameterHandling)
+            HttpParameterType parameterHandling)
 	    {
 	        ParameterHandling = parameterHandling;
 

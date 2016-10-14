@@ -8,18 +8,17 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class OAuth1Authentication : IOAuth1Authentication
+    public class OAuth1AuthenticationAdapter : IOAuth1AuthenticationAdapter
     {
         public async Task<OAuth1Credentials> GetRequestToken(
             Uri requestUrl, 
             string consumerKey, 
             string consumerSecret, 
-            OAuthParameterTypeEnum parameterHandling,
+            HttpParameterType parameterHandling,
             Uri callbackUrl)
         {
             if (requestUrl == null)
@@ -31,37 +30,22 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            var request = new HttpRequest(requestUrl.NonPath())
-                .PostTo(requestUrl.AbsolutePath)
+            return (await (await new HttpRequest(requestUrl.NonPath())
+                .PostTo(
+                    requestUrl.AbsolutePath,
+                    parameterHandling)
                 .ForOAuth1RequestToken(
                     consumerKey,
                     consumerSecret,
-                    callbackUrl.ToString());
-
-            if (parameterHandling == OAuthParameterTypeEnum.Querystring)
-            {
-                request.WithQueryParameters();
-            }
-
-            var response = await request
+                    callbackUrl.ToString())
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var credentials = await response
+                .ConfigureAwait(false))
                 .ContentAsync<OAuth1Credentials>()
-                .ConfigureAwait(false);
-
-            return credentials.SetConsumerProperties(
-                consumerKey, 
-                consumerSecret);
+                .ConfigureAwait(false))
+                .SetConsumerProperties(
+                    consumerKey,
+                    consumerSecret);
         }
 
         public Uri GetAuthorizationUri(
@@ -98,7 +82,7 @@ namespace Material.Infrastructure.OAuth
             string oauthToken, 
             string oauthSecret,
             string verifier,
-            OAuthParameterTypeEnum parameterHandling, 
+            HttpParameterType parameterHandling, 
             IDictionary<string, string> queryParameters)
         {
             if (accessUri == null)
@@ -106,46 +90,25 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(accessUri));
             }
 
-            var request = new HttpRequest(accessUri.NonPath())
-                .PostTo(accessUri.AbsolutePath)
+            return (await (await new HttpRequest(accessUri.NonPath())
+                .PostTo(
+                    accessUri.AbsolutePath,
+                    parameterHandling)
                 .ForOAuth1AccessToken(
                     consumerKey,
                     consumerSecret,
                     oauthToken,
                     oauthSecret,
-                    verifier);
-
-            foreach (var querystringParameter in queryParameters)
-            {
-                request.Parameter(
-                    querystringParameter.Key,
-                    querystringParameter.Value);
-            }
-
-            if (parameterHandling == OAuthParameterTypeEnum.Querystring)
-            {
-                request.WithQueryParameters();
-            }
-
-            var response = await request
+                    verifier)
+                .Parameters(queryParameters)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
-                .ConfigureAwait(false);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(string.Format(
-                    StringResources.BadHttpRequestException,
-                    response.StatusCode,
-                    response.Reason));
-            }
-
-            var credentials = await response
+                .ConfigureAwait(false))
                 .ContentAsync<OAuth1Credentials>()
-                .ConfigureAwait(false);
-
-            return credentials.SetConsumerProperties(
-                consumerKey,
-                consumerSecret);
+                .ConfigureAwait(false))
+                .SetConsumerProperties(
+                    consumerKey,
+                    consumerSecret);
         }
     }
 }

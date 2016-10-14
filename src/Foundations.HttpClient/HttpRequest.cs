@@ -10,7 +10,6 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Exceptions;
-using Foundations.HttpClient.Extensions;
 using Foundations.HttpClient.ParameterHandlers;
 using Foundations.HttpClient.Serialization;
 
@@ -21,12 +20,13 @@ namespace Foundations.HttpClient
         private readonly Uri _baseAddress;
         private readonly HttpRequestMessage _message = 
             new HttpRequestMessage();
+        private readonly HttpClientHandler _messageHandler;
+        private readonly CookieContainer _cookies =
+            new CookieContainer();
         private readonly List<KeyValuePair<string, string>> _queryParameters = 
             new List<KeyValuePair<string, string>>();
         private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
-        private readonly HttpClientHandler _messageHandler;
-        private readonly CookieContainer _cookies;
 
         private readonly Dictionary<MediaType, ISerializer> _serializers =
             new Dictionary<MediaType, ISerializer>
@@ -42,11 +42,11 @@ namespace Foundations.HttpClient
                 { MediaType.Javascript, new JsonSerializer() }
             };
 
-
         private string _path;
         private IAuthenticator _authenticator;
         private IParameterHandler _parameterHandler;
         private MediaType _responseType = MediaType.Undefined;
+        private HttpStatusCode? _expectedResponseCode;
 
         public HttpMethod Method => _message.Method;
 
@@ -54,14 +54,18 @@ namespace Foundations.HttpClient
 
         public IEnumerable<KeyValuePair<string, string>> QueryParameters => _queryParameters;
 
+        public HttpRequest(Uri baseAddress) : 
+            this(
+                baseAddress, 
+                new HttpClientHandler())
+        { }
+
         public HttpRequest(
             Uri baseAddress,
-            HttpClientHandler messageHandler = null)
+            HttpClientHandler messageHandler)
         {
             _baseAddress = baseAddress;
-            _messageHandler = messageHandler ?? new HttpClientHandler();
-
-            _cookies = new CookieContainer();
+            _messageHandler = messageHandler;
             _messageHandler.CookieContainer = _cookies;
         }
 
@@ -71,15 +75,29 @@ namespace Foundations.HttpClient
 
         #region Method and Path
 
-        public HttpRequest Request(HttpMethod method, string path)
+        public HttpRequest Request(
+            string method, 
+            string path,
+            HttpParameterType parameterType)
+        {
+            return Request(
+                new HttpMethod(method), 
+                path,
+                parameterType);
+        }
+
+        public HttpRequest Request(
+            HttpMethod method, 
+            string path,
+            HttpParameterType parameterType)
         {
             if (method == HttpMethod.Get)
             {
-                return GetFrom(path);
+                return GetFrom(path, parameterType);
             }
             else if (method == HttpMethod.Post)
             {
-                return PostTo(path);
+                return PostTo(path, parameterType);
             }
             else
             {
@@ -89,24 +107,53 @@ namespace Foundations.HttpClient
 
         public HttpRequest PostTo(string path)
         {
+            return PostTo(
+                path, 
+                HttpParameterType.Body);
+        }
+
+        public HttpRequest PostTo(
+            string path, 
+            HttpParameterType parameterType)
+        {
             _path = path.TrimStart('/');
 
             _message.Method = HttpMethod.Post;
-            _parameterHandler = new PostParameterHandler();
+            _parameterHandler = GetParameterHandler(parameterType);
 
             return this;
         }
 
-        public HttpRequest GetFrom(string path)
+        public HttpRequest GetFrom(
+            string path,
+            HttpParameterType parameterType)
         {
             _path = path.TrimStart('/');
 
             _message.Method = HttpMethod.Get;
-            _parameterHandler = new GetParameterHandler();
+            _parameterHandler = GetParameterHandler(parameterType);
 
             return this;
         }
 
+        private IParameterHandler GetParameterHandler(
+            HttpParameterType parameterType)
+        {
+            switch (parameterType)
+            {
+                case HttpParameterType.Body:
+                    return new PostParameterHandler();
+                case HttpParameterType.Querystring:
+                    return new GetParameterHandler();
+                case HttpParameterType.Header:
+                    throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        //TODO: change above to accept an override to parameter handling
+        //then get rid of this
         public HttpRequest WithQueryParameters()
         {
             _parameterHandler = new GetParameterHandler();
@@ -318,6 +365,16 @@ namespace Foundations.HttpClient
             MediaType mediaType,
             Encoding encoding)
         {
+            if (content == null)
+            {
+                return this;
+            }
+
+            if (_message.Method != HttpMethod.Post)
+            {
+                throw new HttpRequestContentException();
+            }
+
             var serializedContent = _serializers[mediaType]
                 .Serialize(content);
 
@@ -331,12 +388,24 @@ namespace Foundations.HttpClient
 
         #endregion Content
 
+        #region Response
+
         public HttpRequest ResponseMediaType(MediaType mediaType)
         {
             _responseType = mediaType;
 
             return this;
         }
+
+        public HttpRequest ThrowIfNotExpectedResponseCode(
+            HttpStatusCode expectedResponseCode)
+        {
+            _expectedResponseCode = expectedResponseCode;
+
+            return this;
+        }
+
+        #endregion Response
 
         public HttpRequest Authenticator(
             IAuthenticator authenticator)
@@ -370,40 +439,31 @@ namespace Foundations.HttpClient
                 
                 _authenticator?.Authenticate(this);
 
-                if (_message.Content == null)
-                {
-                    _parameterHandler.AddParameters(
-                        _message,
-                        MediaType.Form, 
-                        _queryParameters);
-                }
-                else
-                {
-                    if (_message.Method != HttpMethod.Post)
-                    {
-                        throw new HttpRequestContentException();
-                    }
-                    else
-                    {
-                        _message.RequestUri = _message
-                            .RequestUri
-                            .AddEncodedQuerystring(
-                                _queryParameters);
-                    }
-                }
+                _parameterHandler.AddParameters(
+                    _message,
+                    MediaType.Form, 
+                    _queryParameters);
 
                 var response = await client
                     .SendAsync(_message)
                     .ConfigureAwait(false);
 
-                var cookies = _cookies.GetCookies(_baseAddress).Cast<Cookie>();
+                if (_expectedResponseCode != null && 
+                    _expectedResponseCode.Value != response.StatusCode)
+                {
+                    throw new HttpRequestException(string.Format(
+                        StringResource.BadHttpRequestException,
+                        response.StatusCode,
+                        _expectedResponseCode.Value,
+                        response.ReasonPhrase));
+                }
 
                 return new HttpResponse(
                     response.Content,
                     response.Headers,
                     response.StatusCode,
                     response.ReasonPhrase,
-                    cookies,
+                    _cookies.GetCookies(_baseAddress).Cast<Cookie>(),
                     GetSerializer(response));
             }
         }

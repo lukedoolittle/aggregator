@@ -22,6 +22,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override Uri RequestUrl => new Uri("http://www.fatsecret.com/oauth/request_token");
         public override Uri AuthorizationUrl => new Uri("http://www.fatsecret.com/oauth/authorize");
         public override Uri TokenUrl => new Uri("http://www.fatsecret.com/oauth/access_token");
-        public override OAuthParameterTypeEnum ParameterType => OAuthParameterTypeEnum.Body;
+        public override HttpParameterType ParameterType => HttpParameterType.Body;
 	}
 }

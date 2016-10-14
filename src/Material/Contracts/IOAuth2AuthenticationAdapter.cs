@@ -8,7 +8,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuth2Authentication
+    public interface IOAuth2AuthenticationAdapter
     {
         Uri GetAuthorizationUri(
             Uri authorizeUrl,

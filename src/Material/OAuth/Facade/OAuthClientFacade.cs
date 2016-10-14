@@ -11,9 +11,9 @@ namespace Material.Infrastructure.OAuth
         IRefreshTokenFacade, 
         IClientTokenFacade
     {
-        private readonly IOAuth2Authentication _oauth;
+        private readonly IOAuth2AuthenticationAdapter _oauth;
 
-        public OAuthClientFacade(IOAuth2Authentication oauth)
+        public OAuthClientFacade(IOAuth2AuthenticationAdapter oauth)
         {
             _oauth = oauth;
         }

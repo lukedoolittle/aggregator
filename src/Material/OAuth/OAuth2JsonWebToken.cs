@@ -53,7 +53,7 @@ namespace Material.OAuth
             };
 
             return new OAuthClientFacade(
-                        new OAuth2Authentication())
+                        new OAuth2AuthenticationAdapter())
                     .GetJsonWebTokenTokenCredentials(
                         token, 
                         _privateKey,
