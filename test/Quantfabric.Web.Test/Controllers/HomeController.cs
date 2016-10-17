@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Material;
 using Material.Contracts;
 using Material.Facades;
 using Material.Infrastructure;
@@ -24,6 +25,23 @@ namespace Quantfabric.Web.Test.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> FacebookRedirect()
+        {
+            //Or get the userId from your application
+            string userId = Guid.NewGuid().ToString();
+            this.AddUserIdCookie(userId);
+
+            Uri authorizationUri = await new OAuth2Web<Facebook>(
+                    "YOUR CLIENT ID",
+                    "HTTP://YOURCALLBACKURI")
+                .AddScope<FacebookUser>()
+                .GetAuthorizationUriAsync(userId)
+                .ConfigureAwait(false);
+
+            return Redirect(authorizationUri.ToString());
         }
 
         [HttpGet]

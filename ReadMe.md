@@ -44,22 +44,16 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
 
     public class OAuthController : Controller
     {
-        // GET: oauth/facebook
+        // GET: oauth/facebookcallback
         [HttpGet]
         public async Task<ActionResult> FacebookCallback()
         {
-            OAuth2Web<Facebook> oauth = new OAuth2Web<Facebook>(
-                "YOUR CLIENT ID",
-                "HTTP://YOURCALLBACKURI");
-
-            OAuth2Credentials intermediateCredentials = oauth
-                .ParseAndValidateCallback(
-                    ControllerContext.HttpContext.Request.Url,
-                    this.GetUserIdFromCookie());
-
-            OAuth2Credentials fullCredentials = await oauth
+            OAuth2Credentials fullCredentials = await new OAuth2Web<Facebook>(
+                    "YOUR CLIENT ID",
+                    "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
-                    intermediateCredentials, 
+                    ControllerContext.HttpContext.Request.Url,
+                    this.GetUserIdFromCookie(),
                     "YOUR CLIENT SECRET")
                 .ConfigureAwait(false);
 

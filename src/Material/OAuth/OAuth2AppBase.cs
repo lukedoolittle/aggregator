@@ -14,16 +14,16 @@ namespace Material.Infrastructure.OAuth
         where TResourceProvider : OAuth2ResourceProvider
     {
         private readonly Uri _callbackUri;
-        private readonly AuthenticationInterfaceEnum _browserType;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly IOAuthFacade<OAuth2Credentials> _oauthFacade;
-        private readonly IOAuthSecurityStrategy _securityStrategy;
-        protected readonly TResourceProvider _provider;
+        private readonly TResourceProvider _provider;
+        protected readonly AuthenticationInterfaceEnum _browserType;
 
         public OAuth2AppBase(
             string clientId,
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
+            IOAuthSecurityStrategy securityStrategy,
             TResourceProvider provider,
             AuthenticationInterfaceEnum browserType)
         {
@@ -32,32 +32,34 @@ namespace Material.Infrastructure.OAuth
             _provider = provider;
             _uiFactory = uiFactory;
 
-            _securityStrategy = new OAuthSecurityStrategy(
-                new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
+
 
             _oauthFacade = new OAuth2AuthenticationFacade(
                 _provider,
                 clientId,
                 callbackUrl,
                 new OAuth2AuthenticationAdapter(),
-                _securityStrategy);
+                securityStrategy);
         }
 
         /// <summary>
         /// Authenticates a resource owner using the OAuth2 token workflow
         /// </summary>
         /// <returns></returns>
-        public virtual Task<OAuth2Credentials> GetCredentialsAsync()
+        public virtual Task<OAuth2Credentials> GetCredentialsAsync(
+            ResponseTypeEnum flowType,
+            IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
-            var handler = new OAuth2FragmentCallbackHandler(
-                _securityStrategy,
-                OAuth2ParameterEnum.State.EnumToString());
+            _provider.SetFlow(flowType);
+
+            //var handler = new OAuth2FragmentCallbackHandler(
+            //    _securityStrategy,
+            //    OAuth2ParameterEnum.State.EnumToString());
 
             var authenticationUI = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
                     _browserType,
-                    handler,
+                    callbackHandler,
                     _callbackUri);
 
             var template = new OAuth2TokenAuthenticationTemplate(
@@ -74,16 +76,20 @@ namespace Material.Infrastructure.OAuth
         /// <param name="clientSecret">The client secret for the application</param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
-            string clientSecret)
+            string clientSecret,
+            ResponseTypeEnum flowType,
+            IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
-            var handler = new OAuth2QueryCallbackHandler(
-                _securityStrategy,
-                OAuth2ParameterEnum.State.EnumToString());
+            _provider.SetFlow(flowType);
+
+            //var handler = new OAuth2QueryCallbackHandler(
+            //    _securityStrategy,
+            //    OAuth2ParameterEnum.State.EnumToString());
 
             var authenticationUI = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
                     _browserType,
-                    handler,
+                    callbackHandler,
                     _callbackUri);
 
             var template = new OAuth2CodeAuthenticationTemplate(

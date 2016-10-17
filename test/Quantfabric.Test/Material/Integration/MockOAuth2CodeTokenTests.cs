@@ -151,11 +151,12 @@ namespace Quantfabric.Test.Integration
 
             var oauth2 = new OAuth2App<TMockProvider>(
                 clientId,
-                clientSecret,
                 redirectUri.ToString());
             scopes(oauth2);
 
-            var mock = oauth2.GetMemberValue<TMockProvider>("_provider");
+            var mock = oauth2
+                .GetMemberValue<OAuth2AppBase<TMockProvider>>("_app")
+                .GetMemberValue<TMockProvider>("_provider");
 
             using (var server = new OAuthTestingServer<OAuth2Token>())
             {
@@ -182,7 +183,7 @@ namespace Quantfabric.Test.Integration
 
                 var serverTask = server.Start(mock.Port);
 
-                var tokenTask = oauth2.GetCredentialsAsync();
+                var tokenTask = oauth2.GetCredentialsAsync(clientSecret);
 
                 await Task.WhenAny(serverTask, tokenTask)
                     .ConfigureAwait(false);

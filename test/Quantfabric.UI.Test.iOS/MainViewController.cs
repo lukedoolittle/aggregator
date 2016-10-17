@@ -100,11 +100,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Facebook>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -119,11 +118,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Spotify>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<SpotifySavedTrack>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -137,12 +135,11 @@ namespace Quantfabric.UI.Test.iOS
                 var redirectUri = settings.GetRedirectUri<Google>();
 
                 var token = await new OAuth2App<Google>(
-                        clientId,
-                        clientSecret,
-                        redirectUri,
+                            clientId,
+                            redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
-                        .GetCredentialsAsync()
+                        .GetCredentialsAsync(clientSecret)
                         .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -157,11 +154,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Fitbit>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FitbitProfile>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -176,11 +172,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Runkeeper>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                         .AddScope<RunkeeperFitnessActivity>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -195,10 +190,9 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Foursquare>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -213,11 +207,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<Rescuetime>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<RescuetimeAnalyticData>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -232,11 +225,10 @@ namespace Quantfabric.UI.Test.iOS
 
                 var token = await new OAuth2App<LinkedIn>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<LinkedinPersonal>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);

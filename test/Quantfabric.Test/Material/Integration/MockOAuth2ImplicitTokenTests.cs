@@ -161,7 +161,9 @@ namespace Quantfabric.Test.Material.Integration
                 redirectUri.ToString());
             scopes(oauth2);
 
-            var mock = oauth2.GetMemberValue<TMockProvider>("_provider");
+            var mock = oauth2
+                .GetMemberValue<OAuth2AppBase<TMockProvider>>("_app")
+                .GetMemberValue<TMockProvider>("_provider");
 
             using (var server = new OAuthTestingServer<OAuth2Token>())
             {

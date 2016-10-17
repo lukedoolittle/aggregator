@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Material;
 using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
+using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using Quantfabric.Test.Helpers;
 using Quantfabric.UI.Test.UWP.Annotations;
 
@@ -52,6 +56,39 @@ namespace Quantfabric.UI.Test.UWP
             this.InitializeComponent();
         }
 
+        private async void OnFacebookEmailClick(object sender, RoutedEventArgs e)
+        {
+
+            OAuth2Credentials credentials = await new OAuth2App<Facebook>(
+                    "YOUR CLIENT ID",
+                    "HTTP://YOURCALLBACKURI")
+                .AddScope<FacebookUser>()
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+
+            FacebookUserResponse user = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
+                .ConfigureAwait(false);
+
+            string email = user.Email;
+        }
+
+        private async void OnGoogleEmailClick(object sender, RoutedEventArgs e)
+        {
+            OAuth2Credentials credentials = await new OAuth2App<Google>(
+                    "YOUR CLIENT ID",
+                    "HTTP://YOURCALLBACKURI")
+                .AddScope<GoogleProfile>()
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+
+            GoogleProfileResponse profile = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
+                .ConfigureAwait(false);
+
+            string email = profile.Emails.First().Value;
+        }
+
         private async void OnFacebookClick(object sender, RoutedEventArgs e)
         {
             var settings = new AppCredentialRepository(_callbackType);
@@ -61,11 +98,10 @@ namespace Quantfabric.UI.Test.UWP
 
             var token = await new OAuth2App<Facebook>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
@@ -98,12 +134,11 @@ namespace Quantfabric.UI.Test.UWP
 
             var token = await new OAuth2App<Google>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleGmail>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
@@ -118,12 +153,11 @@ namespace Quantfabric.UI.Test.UWP
 
             var token = await new OAuth2App<Fitbit>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FitbitIntradaySteps>()
                     .AddScope<FitbitIntradayStepsBulk>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
@@ -138,11 +172,10 @@ namespace Quantfabric.UI.Test.UWP
 
             var token = await new OAuth2App<Pinterest>(
                         clientId,
-                        clientSecret,
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<PinterestLikes>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");

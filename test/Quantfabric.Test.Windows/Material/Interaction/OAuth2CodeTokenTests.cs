@@ -26,13 +26,12 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Google>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<GoogleGmail>()
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleProfile>()
                     .AddScope<GoogleAnalyticsReports>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -60,14 +59,13 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Facebook>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<FacebookUser>()
                     .AddScope<FacebookEvent>()
                     .AddScope<FacebookFeed>()
                     .AddScope<FacebookFriend>()
                     .AddScope<FacebookPageLike>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -84,9 +82,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Foursquare>(
                         clientId,
-                        clientSecret,
                         redirectUri)
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -103,9 +100,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<LinkedIn>(
                         clientId,
-                        clientSecret,
                         redirectUri)
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -122,10 +118,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Spotify>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<SpotifySavedTrack>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -142,7 +137,6 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Fitbit>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<FitbitIntradayHeartRate>()
                     .AddScope<FitbitIntradayHeartRateBulk>()
@@ -150,7 +144,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .AddScope<FitbitIntradayStepsBulk>()
                     .AddScope<FitbitSleep>()
                     .AddScope<FitbitProfile>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -167,10 +161,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Runkeeper>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<RunkeeperFitnessActivity>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -187,10 +180,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Rescuetime>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<RescuetimeAnalyticData>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -207,11 +199,10 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<TwentyThreeAndMe>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<TwentyThreeAndMeUser>()
                     .AddScope<TwentyThreeAndMeGenome>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -228,10 +219,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Instagram>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<InstagramLikes>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));
@@ -248,10 +238,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var token = await new OAuth2App<Pinterest>(
                         clientId,
-                        clientSecret,
                         redirectUri)
                     .AddScope<PinterestLikes>()
-                    .GetCredentialsAsync()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(IsValidToken(token));

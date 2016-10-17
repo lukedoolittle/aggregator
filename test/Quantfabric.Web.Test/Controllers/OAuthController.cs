@@ -1,10 +1,13 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Material;
 using Material.Contracts;
 using Material.Facades;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
+using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers
@@ -17,6 +20,28 @@ namespace Quantfabric.Web.Test.Controllers
         {
             _appRepository = new AppCredentialRepository(
                 CallbackTypeEnum.Localhost);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> FacebookCallback()
+        {
+            OAuth2Credentials fullCredentials = await new OAuth2Web<Facebook>(
+                    "YOUR CLIENT ID",
+                    "HTTP://YOURCALLBACKURI")
+                .GetAccessTokenAsync(
+                    ControllerContext.HttpContext.Request.Url,
+                    this.GetUserIdFromCookie(),
+                    "YOUR CLIENT SECRET")
+                .ConfigureAwait(false);
+
+            FacebookUserResponse user = await new OAuthRequester(fullCredentials)
+                .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
+                .ConfigureAwait(false);
+
+            string email = user.Email;
+            //Do something with users email address
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: oauth/twitter
@@ -195,12 +220,9 @@ namespace Quantfabric.Web.Test.Controllers
             var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
-            var intermediateCredentials = oauth
-                .ParseAndValidateCallback(url, userId);
-
             return oauth
                 .GetAccessTokenAsync(
-                    intermediateCredentials,
+                    url,
                     userId);
         }
 
@@ -214,12 +236,10 @@ namespace Quantfabric.Web.Test.Controllers
             var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
-            var intermediateCredentials = oauth
-                .ParseAndValidateCallback(url, userId);
-
             return oauth
                 .GetAccessTokenAsync(
-                    intermediateCredentials,
+                    url, 
+                    userId,
                     _appRepository.GetClientSecret<TResourceProvider>());
         }
     }
