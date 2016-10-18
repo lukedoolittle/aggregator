@@ -19,7 +19,9 @@ namespace Quantfabric.Test.Material.Interaction
             var privateKey = _appRepository.GetPrivateKey<GoogleAnalytics>();
             var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
 
-            var token = await new OAuth2JsonWebToken<GoogleAnalytics>(privateKey, clientEmail)
+            var token = await new OAuth2Assert<GoogleAnalytics>(
+                privateKey,
+                    clientEmail)
                 .AddScope<GoogleAnalyticsReports>()
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);

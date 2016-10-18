@@ -27,11 +27,11 @@ namespace Quantfabric.Web.Test.Controllers
         {
             OAuth2Credentials fullCredentials = await new OAuth2Web<Facebook>(
                     "YOUR CLIENT ID",
+                    "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
                     ControllerContext.HttpContext.Request.Url,
-                    this.GetUserIdFromCookie(),
-                    "YOUR CLIENT SECRET")
+                    this.GetUserIdFromCookie())
                 .ConfigureAwait(false);
 
             FacebookUserResponse user = await new OAuthRequester(fullCredentials)
@@ -231,6 +231,7 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var oauth = new OAuth2Web<TResourceProvider>(
                 _appRepository.GetClientId<TResourceProvider>(),
+                _appRepository.GetClientSecret<TResourceProvider>(),
                 _appRepository.GetRedirectUri<TResourceProvider>());
 
             var userId = Request.Cookies["userId"]?.Values["userId"];
@@ -239,8 +240,7 @@ namespace Quantfabric.Web.Test.Controllers
             return oauth
                 .GetAccessTokenAsync(
                     url, 
-                    userId,
-                    _appRepository.GetClientSecret<TResourceProvider>());
+                    userId);
         }
     }
 }

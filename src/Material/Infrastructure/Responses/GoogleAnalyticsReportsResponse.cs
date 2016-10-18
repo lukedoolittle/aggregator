@@ -39,8 +39,10 @@ namespace Material.Infrastructure.Responses
     }
 
     [DataContract]
-    public class Row
+    public class GoogleAnalyticsRow
     {
+        [DataMember(Name = "dimensions")]
+        public IList<string> Dimensions { get; set; }
 
         [DataMember(Name = "metrics")]
         public IList<GoogleAnalyticsReportsMetric> Metrics { get; set; }
@@ -49,7 +51,6 @@ namespace Material.Infrastructure.Responses
     [DataContract]
     public class GoogleAnalyticsReportsTotal
     {
-
         [DataMember(Name = "values")]
         public IList<string> Values { get; set; }
     }
@@ -75,7 +76,7 @@ namespace Material.Infrastructure.Responses
     {
 
         [DataMember(Name = "rows")]
-        public IList<Row> Rows { get; set; }
+        public IList<GoogleAnalyticsRow> Rows { get; set; }
 
         [DataMember(Name = "totals")]
         public IList<GoogleAnalyticsReportsTotal> Totals { get; set; }
@@ -88,6 +89,16 @@ namespace Material.Infrastructure.Responses
 
         [DataMember(Name = "maximums")]
         public IList<GoogleAnalyticsReportsMaximum> Maximums { get; set; }
+
+        [DataMember(Name = "samplesReadCounts")]
+        public IList<string> SamplesReadCounts { get; set; }
+
+        [DataMember(Name = "samplingSpaceSizes")]
+        public IList<string> SamplingSpaceSizes { get; set; }
+
+        [DataMember(Name = "isDataGolden")]
+        public bool IsDataGolden { get; set; }
+
     }
 
     [DataContract]

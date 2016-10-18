@@ -31,7 +31,8 @@ Authorize with Facebook in a web app (.NET MVC):
         this.AddUserIdCookie(userId);
 
         Uri authorizationUri = await new OAuth2Web<Facebook>(
-                "YOUR CLIENT ID",
+                "YOUR CLIENT ID", 
+                "YOUR CLIENT SECRET",
                 "HTTP://YOURCALLBACKURI")
             .AddScope<FacebookUser>()
             .GetAuthorizationUriAsync(userId)
@@ -49,7 +50,8 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
         public async Task<ActionResult> FacebookCallback()
         {
             OAuth2Credentials fullCredentials = await new OAuth2Web<Facebook>(
-                    "YOUR CLIENT ID",
+                    "YOUR CLIENT ID", 
+                    "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
                     ControllerContext.HttpContext.Request.Url,

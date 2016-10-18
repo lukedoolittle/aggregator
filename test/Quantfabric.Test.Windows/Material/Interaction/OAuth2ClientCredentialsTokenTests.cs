@@ -1,7 +1,7 @@
 ﻿using Material.Contracts;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
+using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
@@ -23,7 +23,7 @@ namespace Quantfabric.Test.Material.Interaction
             var clientSecret = _appRepository.GetClientSecret<Omniture>();
 
             var token = await new OAuth2Client<Omniture>(
-                    clientId, 
+                clientId,
                     clientSecret)
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);

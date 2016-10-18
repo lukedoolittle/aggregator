@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2
@@ -10,11 +12,17 @@ namespace Material.Infrastructure.OAuth
     public class OAuth2Refresh<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
-        private readonly TResourceProvider _provider;
+        private readonly OAuthClientFacade<TResourceProvider> _facade;
 
-        public OAuth2Refresh(TResourceProvider provider = null)
+        public OAuth2Refresh() : 
+            this(new TResourceProvider())
+        { }
+
+        public OAuth2Refresh(TResourceProvider resourceProvider)
         {
-            _provider = provider ?? new TResourceProvider();
+            _facade = new OAuthClientFacade<TResourceProvider>(
+                new OAuth2AuthenticationAdapter(),
+                resourceProvider);
         }
 
         /// <summary>
@@ -25,11 +33,9 @@ namespace Material.Infrastructure.OAuth
         public Task<OAuth2Credentials> RefreshCredentialsAsync(
             OAuth2Credentials expiredToken)
         {
-            return new OAuthClientFacade(
-                    new OAuth2AuthenticationAdapter())
+            return _facade
                 .GetRefreshedAccessTokenCredentials(
-                    expiredToken,
-                    _provider);
+                    expiredToken);
         }
     }
 }

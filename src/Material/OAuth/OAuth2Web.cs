@@ -12,6 +12,7 @@ namespace Material.Facades
     public class OAuth2Web<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
+        private readonly string _clientSecret;
         private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
         private readonly IOAuthSecurityStrategy _strategy;
         private readonly TResourceProvider _resourceProvider = 
@@ -21,14 +22,17 @@ namespace Material.Facades
         /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
+        /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUri">The application's registered callback url</param>
         /// <param name="strategy">The security strategy to use for "state" handling</param>
         public OAuth2Web(
             string clientId,
+            string clientSecret,
             string callbackUri,
             IOAuthSecurityStrategy strategy)
         {
             _strategy = strategy;
+            _clientSecret = clientSecret;
 
             _authFacade = new OAuth2AuthenticationFacade(
                 _resourceProvider,
@@ -42,12 +46,15 @@ namespace Material.Facades
         /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
+        /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUri">The application's registered callback url</param>
         public OAuth2Web(
             string clientId,
+            string clientSecret,
             string callbackUri) : 
                 this(
                     clientId, 
+                    clientSecret,
                     callbackUri,
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
@@ -73,8 +80,7 @@ namespace Material.Facades
         /// <returns>Access token credentials</returns>
         public Task<OAuth2Credentials> GetAccessTokenAsync(
             Uri responseUri,
-            string userId,
-            string secret)
+            string userId)
         {
             //NOTE: you could create a token workflow version of this
             //but why???
@@ -91,7 +97,9 @@ namespace Material.Facades
                             responseUri, 
                             userId);
 
-            return _authFacade.GetAccessTokenAsync(result, secret);
+            return _authFacade.GetAccessTokenAsync(
+                result, 
+                _clientSecret);
         }
 
         /// <summary>

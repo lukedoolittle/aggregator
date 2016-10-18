@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Callback;
 using Material.Infrastructure.OAuth.Template;
 
 namespace Material.Infrastructure.OAuth
@@ -32,8 +30,6 @@ namespace Material.Infrastructure.OAuth
             _provider = provider;
             _uiFactory = uiFactory;
 
-
-
             _oauthFacade = new OAuth2AuthenticationFacade(
                 _provider,
                 clientId,
@@ -45,16 +41,14 @@ namespace Material.Infrastructure.OAuth
         /// <summary>
         /// Authenticates a resource owner using the OAuth2 token workflow
         /// </summary>
+        /// <param name="flowType"></param>
+        /// <param name="callbackHandler"></param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             ResponseTypeEnum flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             _provider.SetFlow(flowType);
-
-            //var handler = new OAuth2FragmentCallbackHandler(
-            //    _securityStrategy,
-            //    OAuth2ParameterEnum.State.EnumToString());
 
             var authenticationUI = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
@@ -74,6 +68,8 @@ namespace Material.Infrastructure.OAuth
         /// Authenticates a resource owner using the OAuth2 code workflow
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
+        /// <param name="flowType"></param>
+        /// <param name="callbackHandler"></param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
@@ -81,10 +77,6 @@ namespace Material.Infrastructure.OAuth
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             _provider.SetFlow(flowType);
-
-            //var handler = new OAuth2QueryCallbackHandler(
-            //    _securityStrategy,
-            //    OAuth2ParameterEnum.State.EnumToString());
 
             var authenticationUI = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(

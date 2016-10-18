@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.OAuth;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2
@@ -10,15 +12,29 @@ namespace Material.Infrastructure.OAuth
     public class OAuth2Client<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
+        private readonly OAuthClientFacade<TResourceProvider> _facade;
         private readonly string _clientId;
         private readonly string _clientSecret;
 
         public OAuth2Client(
-            string clientId, 
-            string clientSecret)
+            string clientId,
+            string clientSecret) : 
+                this(
+                    clientId,
+                    clientSecret,
+                    new TResourceProvider())
+        { }
+
+        public OAuth2Client(
+            string clientId,
+            string clientSecret,
+            TResourceProvider resourceProvider)
         {
-            _clientId = clientId;
             _clientSecret = clientSecret;
+            _clientId = clientId;
+            _facade = new OAuthClientFacade<TResourceProvider>(
+                new OAuth2AuthenticationAdapter(), 
+                resourceProvider);
         }
 
         /// <summary>
@@ -27,11 +43,10 @@ namespace Material.Infrastructure.OAuth
         /// <returns>OAuth2Credentials with access token</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-            return new OAuthClientFacade(
-                    new OAuth2AuthenticationAdapter())
-                .GetClientAccessTokenCredentials<TResourceProvider>(
-                    _clientId, 
-                    _clientSecret);
+            return _facade
+                .GetClientAccessTokenCredentials(
+                   _clientId, 
+                   _clientSecret);
         }
     }
 }

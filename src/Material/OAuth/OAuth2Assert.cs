@@ -12,24 +12,39 @@ namespace Material.OAuth
     /// Authenticates a resource owner with the given resource provider using OAuth2
     /// </summary>
     /// <typeparam name="TResourceProvider">Resource provider to authenticate with</typeparam>
-    public class OAuth2JsonWebToken<TResourceProvider>
+    public class OAuth2Assert<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly TResourceProvider _resourceProvider;
+        private readonly OAuthClientFacade<TResourceProvider> _facade;
         private readonly string _privateKey;
         private readonly string _issuer;
         private readonly string _clientId;
 
-        public OAuth2JsonWebToken(
-            string privateKey, 
-            string issuer, 
-            string clientId = null,
-            TResourceProvider resourceProvider = null)
+        public OAuth2Assert(
+            string privateKey,
+            string issuer,
+            string clientId = null) : 
+                this(
+                    privateKey,
+                    issuer,
+                    clientId,
+                    new TResourceProvider())
+        { }
+
+        public OAuth2Assert(
+            string privateKey,
+            string issuer,
+            string clientId,
+            TResourceProvider resourceProvider)
         {
             _privateKey = privateKey;
             _issuer = issuer;
             _clientId = clientId;
-            _resourceProvider = resourceProvider ?? new TResourceProvider();
+            _resourceProvider = resourceProvider;
+            _facade = new OAuthClientFacade<TResourceProvider>(
+                new OAuth2AuthenticationAdapter(),
+                resourceProvider);
         }
 
         /// <summary>
@@ -52,13 +67,11 @@ namespace Material.OAuth
                 }
             };
 
-            return new OAuthClientFacade(
-                        new OAuth2AuthenticationAdapter())
+            return _facade
                     .GetJsonWebTokenTokenCredentials(
                         token, 
                         _privateKey,
-                        _clientId,
-                        _resourceProvider);
+                        _clientId);
         }
 
         /// <summary>
@@ -66,7 +79,7 @@ namespace Material.OAuth
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
-        public OAuth2JsonWebToken<TResourceProvider> AddScope<TRequest>()
+        public OAuth2Assert<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
             _resourceProvider.AddRequestScope<TRequest>();

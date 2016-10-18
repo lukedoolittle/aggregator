@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Foundations.HttpClient.Serialization;
 using Material;
 using Material.Contracts;
@@ -64,36 +66,7 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion Fatsecret Requests
 
-        public void MakeRequestForOmnitureUserLevelReports()
-        {
-            var body = new OmnitureQueueBody
-            {
-                ReportDescription = new OmnitureReportDescription
-                {
-                    DateGranularity = OmnitureReportingDateGranularityEnum.Hour,
-                    ReportSuiteId = "musicnotes",
-                    Date = new DateTime(2016, 6, 1),
-                    Metrics = new List<OmnitureMetric> {new OmnitureMetric {Id = "pageviews"}},
-                    Elements = new List<OmnitureElement>
-                    {
-                        new OmnitureElement
-                        {
-                            Id = "eVar39",
-                            Selected = new List<string>
-                            {
-                                ""
-                            }
-                        },
-                        new OmnitureElement
-                        {
-                            Id = "page"
-                        }
-                    }
-                }
-            };
-
-            throw new NotImplementedException();
-        }
+        #region Omniture
 
         [Fact]
         public async void MakeRequestForOmnitureAggregateReports()
@@ -141,21 +114,10 @@ namespace Quantfabric.Test.Material.Interaction
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureGetResponse>(request)
                 .ConfigureAwait(false);
 
-            //var text = System.IO.File.ReadAllText("results.json");
-            //var serializer = new JsonSerializer();
-            //var result = serializer.Deserialize<OmnitureGetResponse>(text);
-
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"lines.csv"))
-            {
-                foreach (var item in getResponse.Report.Data)
-                {
-                    var date = $"{item.Year}-{item.Month}-{item.Day}-{item.Hour}:00";
-                    file.WriteLine($"{date},{item.Counts.First()}");
-                }
-            }
-
             Assert.NotNull(getResponse.Report.Totals[0]);
         }
+
+        #endregion Omniture
 
         [Fact]
         public async void MakeRequestForWithingsWeighins()
@@ -183,7 +145,9 @@ namespace Quantfabric.Test.Material.Interaction
             var privateKey = _appRepository.GetPrivateKey<GoogleAnalytics>();
             var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
 
-            var credentials = await new OAuth2JsonWebToken<GoogleAnalytics>(privateKey, clientEmail)
+            var credentials = await new OAuth2Assert<GoogleAnalytics>(
+                privateKey,
+                    clientEmail)
                 .AddScope<GoogleAnalyticsReports>()
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);

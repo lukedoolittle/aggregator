@@ -36,6 +36,7 @@ namespace Quantfabric.Web.Test.Controllers
 
             Uri authorizationUri = await new OAuth2Web<Facebook>(
                     "YOUR CLIENT ID",
+                    "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .AddScope<FacebookUser>()
                 .GetAuthorizationUriAsync(userId)
@@ -103,6 +104,7 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var oauth = new OAuth2Web<Google>(
                 _appRepository.GetClientId<Google>(),
+                _appRepository.GetClientSecret<Google>(),
                 _appRepository.GetRedirectUri<Google>())
                 .AddScope<GoogleGmailMetadata>();
 
@@ -117,6 +119,7 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var oauth = new OAuth2Web<Pinterest>(
                 _appRepository.GetClientId<Pinterest>(),
+                _appRepository.GetClientSecret<Pinterest>(),
                 _appRepository.GetRedirectUri<Pinterest>())
                 .AddScope<PinterestLikes>();
 
@@ -185,6 +188,7 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var oauth = new OAuth2Web<Instagram>(
                 _appRepository.GetClientId<Instagram>(),
+                _appRepository.GetClientSecret<Instagram>(),
                 _appRepository.GetRedirectUri<Instagram>())
                 .AddScope<InstagramLikes>();
 
@@ -216,6 +220,7 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var oauth = new OAuth2Web<TProtectedResource>(
                 _appRepository.GetClientId<TProtectedResource>(),
+                _appRepository.GetClientSecret<TProtectedResource>(),
                 _appRepository.GetRedirectUri<TProtectedResource>());
 
             return GetOAuth2AuthorizationUri(oauth);
