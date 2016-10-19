@@ -69,5 +69,41 @@ namespace Foundations.HttpClient {
                 return ResourceManager.GetString("BadHttpRequestException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No serializer found for content type {0}.
+        /// </summary>
+        internal static string ContentTypeNotSupported {
+            get {
+                return ResourceManager.GetString("ContentTypeNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot make an HTTP Get request with a body.
+        /// </summary>
+        internal static string GetWithBodyNotSupported {
+            get {
+                return ResourceManager.GetString("GetWithBodyNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add header query or body parameters.
+        /// </summary>
+        internal static string HeaderParametersNotSupported {
+            get {
+                return ResourceManager.GetString("HeaderParametersNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot deserialize content with media type {0}.
+        /// </summary>
+        internal static string UnknownMediaType {
+            get {
+                return ResourceManager.GetString("UnknownMediaType", resourceCulture);
+            }
+        }
     }
 }

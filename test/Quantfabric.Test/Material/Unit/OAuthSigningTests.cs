@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Xunit;
 
@@ -18,8 +19,7 @@ namespace Quantfabric.Test.Material.Unit
             const string consumerSecret = "";
 
             var request = await new HttpRequest(baseAddress)
-                .PostTo(path)
-                .WithQueryParameters()
+                .PostTo(path, HttpParameterType.Querystring)
                 .ForOAuth1RequestToken(
                     consumerKey, 
                     consumerSecret, 

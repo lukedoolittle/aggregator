@@ -4,14 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Exceptions;
-using Foundations.HttpClient.ParameterHandlers;
-using Foundations.HttpClient.Serialization;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient
 {
@@ -20,31 +19,15 @@ namespace Foundations.HttpClient
         private readonly Uri _baseAddress;
         private readonly HttpRequestMessage _message = 
             new HttpRequestMessage();
-        private readonly HttpClientHandler _messageHandler;
-        private readonly CookieContainer _cookies =
-            new CookieContainer();
-        private readonly List<KeyValuePair<string, string>> _queryParameters = 
-            new List<KeyValuePair<string, string>>();
+        private readonly HttpClientHandler _messageHandler =
+            HttpConfiguration.MessageHandlerFactory();
+        private readonly RequestPayload _payload = 
+            new RequestPayload();
         private readonly List<KeyValuePair<string, string>> _pathParameters =
             new List<KeyValuePair<string, string>>();
 
-        private readonly Dictionary<MediaType, ISerializer> _serializers =
-            new Dictionary<MediaType, ISerializer>
-            {
-                { MediaType.Json, new JsonSerializer() },
-                { MediaType.TextJson, new JsonSerializer() },
-                { MediaType.TextXJson, new JsonSerializer() },
-                { MediaType.Xml, new XmlSerializer() },
-                { MediaType.TextXml, new XmlSerializer() },
-                { MediaType.Html, new HtmlSerializer() },
-                { MediaType.Text, new HtmlSerializer() },
-                { MediaType.Form, new HtmlSerializer() },
-                { MediaType.Javascript, new JsonSerializer() }
-            };
-
         private string _path;
         private IAuthenticator _authenticator;
-        private IParameterHandler _parameterHandler;
         private MediaType _responseType = MediaType.Undefined;
         private HttpStatusCode? _expectedResponseCode;
 
@@ -52,21 +35,16 @@ namespace Foundations.HttpClient
 
         public Uri Url => new Uri(_baseAddress + _path);
 
-        public IEnumerable<KeyValuePair<string, string>> QueryParameters => _queryParameters;
+        public IEnumerable<KeyValuePair<string, string>> QueryParameters => 
+            _payload.QueryParameters;
 
-        public HttpRequest(Uri baseAddress) : 
-            this(
-                baseAddress, 
-                new HttpClientHandler())
-        { }
-
-        public HttpRequest(
-            Uri baseAddress,
-            HttpClientHandler messageHandler)
+        public HttpRequest(Uri baseAddress) 
         {
             _baseAddress = baseAddress;
-            _messageHandler = messageHandler;
-            _messageHandler.CookieContainer = _cookies;
+
+            _messageHandler.CookieContainer = new CookieContainer();
+
+            AcceptsEncodingGzip().AcceptsEncodingDeflate();
         }
 
         public HttpRequest(string baseAddress) : 
@@ -86,25 +64,6 @@ namespace Foundations.HttpClient
                 parameterType);
         }
 
-        public HttpRequest Request(
-            HttpMethod method, 
-            string path,
-            HttpParameterType parameterType)
-        {
-            if (method == HttpMethod.Get)
-            {
-                return GetFrom(path, parameterType);
-            }
-            else if (method == HttpMethod.Post)
-            {
-                return PostTo(path, parameterType);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-        }
-
         public HttpRequest PostTo(string path)
         {
             return PostTo(
@@ -116,47 +75,38 @@ namespace Foundations.HttpClient
             string path, 
             HttpParameterType parameterType)
         {
-            _path = path.TrimStart('/');
+            return Request(
+                HttpMethod.Post, 
+                path, 
+                parameterType);
+        }
 
-            _message.Method = HttpMethod.Post;
-            _parameterHandler = GetParameterHandler(parameterType);
-
-            return this;
+        public HttpRequest GetFrom(string path)
+        {
+            return GetFrom(
+                path, 
+                HttpParameterType.Querystring);
         }
 
         public HttpRequest GetFrom(
             string path,
             HttpParameterType parameterType)
         {
-            _path = path.TrimStart('/');
-
-            _message.Method = HttpMethod.Get;
-            _parameterHandler = GetParameterHandler(parameterType);
-
-            return this;
+            return Request(
+                HttpMethod.Get,
+                path,
+                parameterType);
         }
 
-        private IParameterHandler GetParameterHandler(
+        private HttpRequest Request(
+            HttpMethod method,
+            string path,
             HttpParameterType parameterType)
         {
-            switch (parameterType)
-            {
-                case HttpParameterType.Body:
-                    return new PostParameterHandler();
-                case HttpParameterType.Querystring:
-                    return new GetParameterHandler();
-                case HttpParameterType.Header:
-                    throw new NotImplementedException();
-                default:
-                    throw new NotImplementedException();
-            }
-        }
+            _path = path.TrimStart('/');
 
-        //TODO: change above to accept an override to parameter handling
-        //then get rid of this
-        public HttpRequest WithQueryParameters()
-        {
-            _parameterHandler = new GetParameterHandler();
+            _message.Method = method;
+            _payload.SetParameterHandling(parameterType);
 
             return this;
         }
@@ -168,13 +118,6 @@ namespace Foundations.HttpClient
             {
                 _pathParameters.Add(parameter);
             }
-
-            return this;
-        }
-
-        public HttpRequest DisallowAutoRedirects()
-        {
-            _messageHandler.AllowAutoRedirect = false;
 
             return this;
         }
@@ -269,6 +212,8 @@ namespace Foundations.HttpClient
 
         public HttpRequest AcceptsEncodingNone()
         {
+            _message.Headers.AcceptEncoding.Clear();
+
             _message.Headers.AcceptEncoding.Add(
                 new StringWithQualityHeaderValue(
                     DecompressionMethods.None.ToString().ToLower()));
@@ -318,10 +263,9 @@ namespace Foundations.HttpClient
             string key, 
             string value)
         {
-            _queryParameters.Add(
-                new KeyValuePair<string, string>(
+            _payload.AddParameter(
                     key, 
-                    value));
+                    value);
 
             return this;
         }
@@ -340,8 +284,26 @@ namespace Foundations.HttpClient
         {
             foreach (var parameter in parameters)
             {
-                _queryParameters.Add(parameter);
+                _payload.AddParameter(
+                    parameter.Key, 
+                    parameter.Value);
             }
+
+            return this;
+        }
+
+        public HttpRequest ParameterFromObject(object item)
+        {
+            var parameters = item
+                .GetType()
+                .GetTypeInfo()
+                .DeclaredProperties
+                .Select(
+                    x => new KeyValuePair<string, string>(
+                        x.Name,
+                        x.GetValue(item, null).ToString()));
+
+            _payload.AddParameters(parameters);
 
             return this;
         }
@@ -349,6 +311,13 @@ namespace Foundations.HttpClient
         #endregion Parameters
 
         #region Content
+
+        public HttpRequest JsonContent(object content)
+        {
+            return Content(
+                content, 
+                MediaType.Json);
+        }
 
         public HttpRequest Content(
             object content, 
@@ -370,18 +339,12 @@ namespace Foundations.HttpClient
                 return this;
             }
 
-            if (_message.Method != HttpMethod.Post)
+            _payload.AddContent(new Body()
             {
-                throw new HttpRequestContentException();
-            }
-
-            var serializedContent = _serializers[mediaType]
-                .Serialize(content);
-
-            _message.Content = new StringContent(
-                serializedContent, 
-                encoding, 
-                mediaType.EnumToString());
+                Content = content,
+                MediaType = mediaType,
+                Encoding = encoding
+            });
 
             return this;
         }
@@ -427,11 +390,42 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequest PreventAutoRedirects()
+        {
+            _messageHandler.AllowAutoRedirect = false;
+
+            return this;
+        }
+
+        #region Request
+
+        public async Task<string> ResultAsync()
+        {
+            var result = await ExecuteAsync().ConfigureAwait(false);
+
+            return await result.ContentAsync().ConfigureAwait(false);
+        }
+
+        public async Task<T> ResultAsync<T>()
+        {
+            var result = await ExecuteAsync().ConfigureAwait(false);
+
+            return await result.ContentAsync<T>().ConfigureAwait(false);
+        }
+
         public async Task<HttpResponse> ExecuteAsync()
         {
             using (var client = new System.Net.Http.HttpClient(_messageHandler))
             {
-                AddDefaults();
+                if (_message.Headers.Accept.Count == 0)
+                {
+                    AcceptsJson()
+                        .AcceptsXml()
+                        .AcceptsJsonText()
+                        .AcceptsXmlText()
+                        .AcceptsXJson()
+                        .AcceptsJavascript();
+                }
 
                 _message.RequestUri = _baseAddress.AddPathParameters(
                     _path,
@@ -439,10 +433,14 @@ namespace Foundations.HttpClient
                 
                 _authenticator?.Authenticate(this);
 
-                _parameterHandler.AddParameters(
-                    _message,
-                    MediaType.Form, 
-                    _queryParameters);
+                _payload.Attach(_message);
+
+                if (_message.Method == HttpMethod.Get &&
+                    _message.Content != null)
+                {
+                    throw new NotSupportedException(
+                        StringResource.GetWithBodyNotSupported);
+                }
 
                 var response = await client
                     .SendAsync(_message)
@@ -459,61 +457,14 @@ namespace Foundations.HttpClient
                 }
 
                 return new HttpResponse(
-                    response.Content,
-                    response.Headers,
-                    response.StatusCode,
-                    response.ReasonPhrase,
-                    _cookies.GetCookies(_baseAddress).Cast<Cookie>(),
-                    GetSerializer(response));
+                    response,
+                    _messageHandler.CookieContainer.GetCookies(_baseAddress),
+                    _responseType);
             }
         }
 
-        private ISerializer GetSerializer(HttpResponseMessage response)
-        {
-            var resultContentType = _responseType != MediaType.Undefined ?
-                                        _responseType :
-                                        response
-                                            .Content
-                                            .Headers
-                                            .ContentType
-                                            .MediaType
-                                            .StringToEnum<MediaType>();
+        #endregion Requests
 
-            return _serializers.ContainsKey(resultContentType) ? 
-                        _serializers[resultContentType] : 
-                        null;
-        }
-
-        private void AddDefaults()
-        {
-            if (_message.Headers.Accept.Count == 0)
-            {
-                AcceptsJson()
-                    .AcceptsXml()
-                    .AcceptsJsonText()
-                    .AcceptsXmlText()
-                    .AcceptsXJson()
-                    .AcceptsJavascript();
-            }
-
-            if (ContainsNoneEncoding())
-            {
-                _message.Headers.AcceptEncoding.Clear();
-            }
-            else if (_message.Headers.AcceptEncoding.Count == 0)
-            {
-                AcceptsEncodingGzip()
-                    .AcceptsEncodingDeflate();
-            }
-        }
-
-        private bool ContainsNoneEncoding()
-        {
-            var noneHeaders = _message.Headers.AcceptEncoding.Count(i =>
-                i.Value == DecompressionMethods.None.ToString().ToLower());
-
-            return noneHeaders >= 1;
-        }
     }
 }
 

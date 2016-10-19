@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Serialization;
 using Foundations.HttpClient.Metadata;
 
 namespace Foundations.HttpClient
@@ -21,22 +20,35 @@ namespace Foundations.HttpClient
         public HttpResponseHeaders Headers { get; }
 
         private readonly HttpContent _content;
-        private readonly ISerializer _serializer;
+        private readonly MediaType _responseContentType;
+
+        private readonly DefaultingDictionary<string, Encoding> _encodings =
+            new DefaultingDictionary<string, Encoding>(s => Encoding.UTF8)
+            {
+                {ContentTypeEncodingEnum.UTF16BigEndian.EnumToString(),
+                    Encoding.BigEndianUnicode},
+                {ContentTypeEncodingEnum.UTF16LittleEndian.EnumToString(),
+                    Encoding.Unicode}
+            };
 
         public HttpResponse(
-            HttpContent content, 
-            HttpResponseHeaders headers,
-            HttpStatusCode statusCode,
-            string reason,
-            IEnumerable<Cookie> cookies,
-            ISerializer serializer)
+            HttpResponseMessage response,
+            IEnumerable cookies,
+            MediaType expectedResponseType)
         {
-            _content = content;
-            Headers = headers;
-            StatusCode = statusCode;
-            Reason = reason;
-            Cookies = cookies;
-            _serializer = serializer;
+            _content = response.Content;
+            Headers = response.Headers;
+            StatusCode = response.StatusCode;
+            Reason = response.ReasonPhrase;
+            Cookies = cookies.Cast<Cookie>();
+            _responseContentType = expectedResponseType != MediaType.Undefined
+                ? expectedResponseType
+                : response
+                        .Content
+                        .Headers
+                        .ContentType
+                        .MediaType
+                        .StringToEnum<MediaType>();
         }
 
         public async Task<string> ContentAsync()
@@ -46,7 +58,7 @@ namespace Foundations.HttpClient
                 .ConfigureAwait(false);
 
             var responseString = 
-                GetEncoding(_content.Headers.ContentType)
+                _encodings[_content.Headers.ContentType.CharSet]
                 .GetString(buffer, 0, buffer.Length);
 
             return responseString;
@@ -57,41 +69,17 @@ namespace Foundations.HttpClient
             var result = await ContentAsync()
                 .ConfigureAwait(false);
 
-            if (_serializer == null)
-            {
-                var mediaType = _content
-                    .Headers
-                    .ContentType
-                    .MediaType;
-
-                throw new SerializationException(
-                    $"Cannot deserialize content with media type {mediaType}");
-            }
+            var serializer = HttpConfiguration.ContentSerializers[
+                _responseContentType];
 
             var datetimeFormatter = typeof(T)
                 .GetCustomAttributes<DatetimeFormatter>()
                 .FirstOrDefault()
                 ?.Formatter;
 
-            return _serializer.Deserialize<T>(
+            return serializer.Deserialize<T>(
                 result, 
                 datetimeFormatter);
-        }
-
-        private static Encoding GetEncoding(MediaTypeHeaderValue header)
-        {
-            if (header.CharSet == ContentTypeEncodingEnum.UTF16BigEndian.EnumToString())
-            {
-                return Encoding.BigEndianUnicode;
-            }
-            else if (header.CharSet == ContentTypeEncodingEnum.UTF16LittleEndian.EnumToString())
-            {
-                return Encoding.Unicode;
-            }
-            else
-            {
-                return Encoding.UTF8;
-            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Foundations.HttpClient.Serialization
 
         public string Serialize<T>(T item)
         {
-            throw new NotImplementedException();
+            return Serialize((object)item);
         }
 
         public T Deserialize<T>(

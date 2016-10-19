@@ -120,4 +120,16 @@
   <data name="BadHttpRequestException" xml:space="preserve">
     <value>Received code {0} instead of {1}. Body content : {1}</value>
   </data>
+  <data name="ContentTypeNotSupported" xml:space="preserve">
+    <value>No serializer found for content type {0}</value>
+  </data>
+  <data name="GetWithBodyNotSupported" xml:space="preserve">
+    <value>Cannot make an HTTP Get request with a body</value>
+  </data>
+  <data name="HeaderParametersNotSupported" xml:space="preserve">
+    <value>Cannot add header query or body parameters</value>
+  </data>
+  <data name="UnknownMediaType" xml:space="preserve">
+    <value>Cannot deserialize content with media type {0}</value>
+  </data>
 </root>

@@ -49,7 +49,10 @@ namespace Foundations.HttpClient.Serialization
             string entity, 
             string datetimeFormat = null)
         {
-            var settings = new DataContractJsonSerializerSettings();
+            var settings = new DataContractJsonSerializerSettings
+            {
+                UseSimpleDictionaryFormat = true
+            };
             if (datetimeFormat != null)
             {
                 settings.DateTimeFormat = new DateTimeFormat(datetimeFormat);
