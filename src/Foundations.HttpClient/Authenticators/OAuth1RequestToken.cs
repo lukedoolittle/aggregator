@@ -10,14 +10,13 @@ namespace Foundations.HttpClient.Authenticators
     {
         private readonly OAuth1SigningTemplate _template;
         private readonly string _consumerKey;
-        private readonly string _callbackUrl;
+        private readonly Uri _callbackUrl;
         private readonly string _signatureMethod;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1RequestToken(
             string consumerKey, 
             string consumerSecret, 
-            string callbackUrl,
+            Uri callbackUrl,
             ISigningAlgorithm signingAlgorithm,
             ICryptoStringGenerator stringGenerator)
         {
@@ -42,11 +41,10 @@ namespace Foundations.HttpClient.Authenticators
                 stringGenerator);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1RequestToken(
             string consumerKey,
             string consumerSecret,
-            string callbackUrl) : 
+            Uri callbackUrl) : 
                 this(
                     consumerKey, 
                     consumerSecret,
@@ -55,10 +53,9 @@ namespace Foundations.HttpClient.Authenticators
                     new CryptoStringGenerator())
         { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth1RequestToken(
             string consumerKey,
-            string callbackUrl,
+            Uri callbackUrl,
             OAuth1SigningTemplate template,
             string signatureMethod)
         {
@@ -91,7 +88,7 @@ namespace Foundations.HttpClient.Authenticators
                     _template.Timestamp)
                 .Parameter(
                     OAuth1ParameterEnum.Callback,
-                    _callbackUrl)
+                    _callbackUrl.ToString())
                 .Parameter(
                     OAuth1ParameterEnum.ConsumerKey,
                     _consumerKey)

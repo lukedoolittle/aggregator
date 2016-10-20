@@ -36,6 +36,8 @@ namespace Material
             TResourceProvider provider,
             AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded)
         {
+            _browserType = browserType;
+
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));

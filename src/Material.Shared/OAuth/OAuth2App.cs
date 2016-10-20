@@ -38,6 +38,8 @@ namespace Material.Infrastructure.OAuth
 #endif
             )
         {
+            _browserType = browserType;
+
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));

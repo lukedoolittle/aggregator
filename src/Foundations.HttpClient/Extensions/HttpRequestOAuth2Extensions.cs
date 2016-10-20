@@ -10,7 +10,7 @@ namespace Foundations.HttpClient.Extensions
             this HttpRequestBuilder instance,
             string clientId,
             string clientSecret,
-            string redirectUrl,
+            Uri redirectUrl,
             string code,
             string scope)
         {

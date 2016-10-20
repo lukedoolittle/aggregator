@@ -14,14 +14,14 @@ namespace Material.Infrastructure.OAuth
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
         private readonly IOAuth1AuthenticationAdapter _oauth;
-        private readonly string _callbackUri;
+        private readonly Uri _callbackUri;
         protected readonly IOAuthSecurityStrategy _securityStrategy;
 
         public OAuth1AuthenticationFacade(
             OAuth1ResourceProvider resourceProvider,
             string consumerKey,
             string consumerSecret,
-            string callbackUrl,
+            Uri callbackUri,
             IOAuth1AuthenticationAdapter oauth, 
             IOAuthSecurityStrategy securityStrategy)
         {
@@ -30,7 +30,7 @@ namespace Material.Infrastructure.OAuth
             _resourceProvider = resourceProvider;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
-            _callbackUri = callbackUrl;
+            _callbackUri = callbackUri;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Material.Infrastructure.OAuth
                         _consumerKey,
                         _consumerSecret,
                         _resourceProvider.ParameterType,
-                        new Uri(_callbackUri))
+                        _callbackUri)
                     .ConfigureAwait(false);
 
             var authorizationPath =

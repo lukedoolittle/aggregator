@@ -5,19 +5,19 @@ using System.Linq;
 
 namespace Foundations
 {
-    public class DefaultingDictionary<T, K> : IDictionary<T, K>
+    public class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly Dictionary<T,K> _this = 
-            new Dictionary<T, K>();
+        private readonly Dictionary<TKey,TValue> _this = 
+            new Dictionary<TKey, TValue>();
 
-        private readonly Func<T, K> _default;
+        private readonly Func<TKey, TValue> _default;
 
-        public DefaultingDictionary(Func<T, K> @default)
+        public DefaultingDictionary(Func<TKey, TValue> @default)
         {
             _default = @default;
         }
 
-        public IEnumerator<KeyValuePair<T, K>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _this.GetEnumerator();
         }
@@ -27,7 +27,7 @@ namespace Foundations
             return GetEnumerator();
         }
 
-        public void Add(KeyValuePair<T, K> item)
+        public void Add(KeyValuePair<TKey, TValue> item)
         {
             Add(item.Key, item.Value);
         }
@@ -37,44 +37,44 @@ namespace Foundations
             _this.Clear();
         }
 
-        public bool Contains(KeyValuePair<T, K> item)
+        public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             return _this.Contains(item);
         }
 
-        public void CopyTo(KeyValuePair<T, K>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(KeyValuePair<T, K> item)
+        public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             return Remove(item.Key);
         }
 
         public int Count => _this.Count;
         public bool IsReadOnly => false;
-        public void Add(T key, K value)
+        public void Add(TKey key, TValue value)
         {
             _this.Add(key, value);
         }
 
-        public bool ContainsKey(T key)
+        public bool ContainsKey(TKey key)
         {
             return _this.ContainsKey(key);
         }
 
-        public bool Remove(T key)
+        public bool Remove(TKey key)
         {
             return _this.Remove(key);
         }
 
-        public bool TryGetValue(T key, out K value)
+        public bool TryGetValue(TKey key, out TValue value)
         {
             return _this.TryGetValue(key, out value);
         }
 
-        public K this[T key]
+        public TValue this[TKey key]
         {
             get {
                 if (key == null)
@@ -99,7 +99,7 @@ namespace Foundations
             }
         }
 
-        public ICollection<T> Keys => _this.Keys;
-        public ICollection<K> Values => _this.Values;
+        public ICollection<TKey> Keys => _this.Keys;
+        public ICollection<TValue> Values => _this.Values;
     }
 }

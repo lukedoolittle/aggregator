@@ -8,14 +8,14 @@ namespace Foundations.HttpClient.Authenticators
     {
         private readonly string _clientId;
         private readonly string _clientSecret;
-        private readonly string _redirectUrl;
+        private readonly Uri _redirectUrl;
         private readonly string _code;
         private readonly string _scope;
 
         public OAuth2AccessToken(
             string clientId,
             string clientSecret,
-            string redirectUrl,
+            Uri redirectUrl,
             string code,
             string scope)
         {
@@ -29,7 +29,7 @@ namespace Foundations.HttpClient.Authenticators
                 throw new ArgumentNullException(nameof(scope));
             }
 
-            if (string.IsNullOrEmpty(redirectUrl))
+            if (redirectUrl == null)
             {
                 throw new ArgumentNullException(nameof(redirectUrl));
             }
@@ -54,7 +54,7 @@ namespace Foundations.HttpClient.Authenticators
                     _code)
                 .Parameter(
                     OAuth2ParameterEnum.RedirectUri.EnumToString(),
-                    _redirectUrl)
+                    _redirectUrl.ToString())
                 .Parameter(
                     OAuth2ParameterEnum.ClientId.EnumToString(),
                     _clientId)

@@ -33,7 +33,7 @@ namespace Material.Infrastructure.OAuth
             _oauthFacade = new OAuth2AuthenticationFacade(
                 _provider,
                 clientId,
-                callbackUrl,
+                _callbackUri,
                 new OAuth2AuthenticationAdapter(),
                 securityStrategy);
         }

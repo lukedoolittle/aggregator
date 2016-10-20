@@ -9,7 +9,7 @@ namespace Foundations.HttpClient.Extensions
             this HttpRequestBuilder instance,
             string consumerKey,
             string consumerSecret,
-            string callbackUri)
+            Uri callbackUri)
         {
             if (instance == null)
             {

@@ -189,7 +189,7 @@ namespace Material.Infrastructure.OAuth
                 .ForOAuth2AccessToken(
                     clientId,
                     clientSecret,
-                    callbackUrl.ToString(),
+                    callbackUrl,
                     code,
                     scope)
                 .Headers(headers)

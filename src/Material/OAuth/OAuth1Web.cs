@@ -38,7 +38,7 @@ namespace Material.Facades
                 new TResourceProvider(), 
                 consumerKey, 
                 consumerSecret,
-                callbackUrl,
+                new Uri(callbackUrl),
                 new OAuth1AuthenticationAdapter(),
                 securityStrategy);
         }

@@ -380,7 +380,7 @@ namespace Foundations.Test
             };
             var consumerKey = Guid.NewGuid().ToString();
             var consumerSecret = Guid.NewGuid().ToString();
-            var callbackUrl = "http://localhost:8080";
+            var callbackUrl = new Uri("http://localhost:8080");
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -453,7 +453,7 @@ namespace Foundations.Test
             };
             var clientId = Guid.NewGuid().ToString();
             var clientSecret = Guid.NewGuid().ToString();
-            var redirectUri = "http://www.google.com";
+            var redirectUri = new Uri("http://localhost:8080");
             var code = Guid.NewGuid().ToString();
             var scope = Guid.NewGuid().ToString();
 
@@ -472,7 +472,7 @@ namespace Foundations.Test
             Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.Equal(clientId, response.Args[OAuth2ParameterEnum.ClientId.EnumToString()]);
             Assert.Equal(clientSecret, response.Args[OAuth2ParameterEnum.ClientSecret.EnumToString()]);
-            Assert.Equal(redirectUri, response.Args[OAuth2ParameterEnum.RedirectUri.EnumToString()]);
+            Assert.Equal(redirectUri.ToString(), response.Args[OAuth2ParameterEnum.RedirectUri.EnumToString()]);
             Assert.Equal(code, response.Args[ResponseTypeEnum.Code.EnumToString()]);
             Assert.Equal(scope, response.Args[OAuth2ParameterEnum.Scope.EnumToString()]);
             Assert.Equal(GrantTypeEnum.AuthCode.EnumToString(), response.Args[OAuth2ParameterEnum.GrantType.EnumToString()]);

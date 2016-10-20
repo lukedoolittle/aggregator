@@ -23,15 +23,14 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _consumerSecret;
         private readonly string _oauthToken;
         private readonly string _oauthSecret;
-        private readonly string _callbackUrl;
+        private readonly Uri _callbackUrl;
         private readonly string _verifier;
         private readonly ISigningAlgorithm _signingAlgorithm;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1SigningTemplate(
             string consumerKey, 
             string consumerSecret, 
-            string callbackUrl,
+            Uri callbackUrl,
             ISigningAlgorithm signingAlgorithm,
             ICryptoStringGenerator stringGenerator)
         {
@@ -152,7 +151,7 @@ namespace Foundations.HttpClient.Authenticators
                 allParameters.Add(
                     new KeyValuePair<string, string>(
                         OAuth1ParameterEnum.Callback.EnumToString(),
-                        _callbackUrl));
+                        _callbackUrl.ToString()));
             }
 
             //Required parameters for any request

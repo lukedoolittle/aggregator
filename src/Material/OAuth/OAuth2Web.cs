@@ -23,12 +23,12 @@ namespace Material.Facades
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
-        /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="strategy">The security strategy to use for "state" handling</param>
         public OAuth2Web(
             string clientId,
             string clientSecret,
-            string callbackUri,
+            string callbackUrl,
             IOAuthSecurityStrategy strategy)
         {
             _strategy = strategy;
@@ -37,7 +37,7 @@ namespace Material.Facades
             _authFacade = new OAuth2AuthenticationFacade(
                 _resourceProvider,
                 clientId,
-                callbackUri,
+                new Uri(callbackUrl),
                 new OAuth2AuthenticationAdapter(),
                 strategy);
         }

@@ -37,7 +37,7 @@ namespace Material.Infrastructure.OAuth
                 .ForOAuth1RequestToken(
                     consumerKey,
                     consumerSecret,
-                    callbackUrl.ToString())
+                    callbackUrl)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ExecuteAsync()
                 .ConfigureAwait(false))

@@ -36,13 +36,13 @@ namespace Quantfabric.Test.Lite
             var template = new OAuth1SigningTemplate(
                 consumerKey,
                 consumerSecret,
-                redirectUri,
+                new Uri(redirectUri),
                 signingAlgorithm,
                 nonceGenerator);
 
             var authenticator = new OAuth1RequestToken(
                 consumerKey,
-                redirectUri,
+                new Uri(redirectUri),
                 template,
                 signingAlgorithm.SignatureMethod);
 

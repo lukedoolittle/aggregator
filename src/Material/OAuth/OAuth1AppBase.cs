@@ -14,7 +14,7 @@ namespace Material.Infrastructure.OAuth
     {
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
-        private readonly string _callbackUrl;
+        private readonly Uri _callbackUri;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthenticationInterfaceEnum _browserType;
         private readonly TResourceProvider _provider;
@@ -29,7 +29,7 @@ namespace Material.Infrastructure.OAuth
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
-            _callbackUrl = callbackUrl;
+            _callbackUri = new Uri(callbackUrl);
             _uiFactory = uiFactory;
             _provider = provider;
             _browserType = browserType;
@@ -55,7 +55,7 @@ namespace Material.Infrastructure.OAuth
                 _provider,
                 _consumerKey,
                 _consumerSecret,
-                _callbackUrl,
+                _callbackUri,
                 new OAuth1AuthenticationAdapter(),
                 securityStrategy);
 
@@ -63,7 +63,7 @@ namespace Material.Infrastructure.OAuth
                 .GetAuthorizer<TResourceProvider, OAuth1Credentials>(
                     _browserType,
                     handler,
-                    new Uri(_callbackUrl));
+                    _callbackUri);
 
             var template = new OAuth1AuthenticationTemplate(
                 authenticationUI,
