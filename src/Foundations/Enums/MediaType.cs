@@ -1,6 +1,6 @@
 ﻿using Foundations.Attributes;
 
-namespace Foundations
+namespace Foundations.Enums
 {
     public enum MediaType
     {

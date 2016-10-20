@@ -38,17 +38,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\DescriptionAttribute.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DefaultingDictionary.cs" />
+    <Compile Include="Collections\DefaultingDictionary.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="CurrentAppDomain.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpUtility.cs" />
-    <Compile Include="MediaType.cs" />
-    <Compile Include="MethodReflectionException.cs" />
+    <Compile Include="Collections\HttpUtility.cs" />
+    <Compile Include="Enums\MediaType.cs" />
+    <Compile Include="Reflection\MethodReflectionException.cs" />
     <Compile Include="Reflection\InstanceCreator.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Reflection\MethodInvoker.cs" />

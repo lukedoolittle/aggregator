@@ -1,4 +1,5 @@
 ﻿using Foundations;
+using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;

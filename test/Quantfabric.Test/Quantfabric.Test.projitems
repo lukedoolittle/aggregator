@@ -31,9 +31,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Material\OAuthServer\OAuth2Token.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\OAuthServer\OAuth2TokenRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\OAuthServer\OAuthTestingServer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Material\TestUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\OAuthSigningTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\TestUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Material\Unit\TokenDeserializationTests.cs" />
   </ItemGroup>
 </Project>

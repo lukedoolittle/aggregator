@@ -120,6 +120,20 @@ namespace Quantfabric.Test.Material.Interaction
         #endregion Omniture
 
         [Fact]
+        public async void MakeRequestForTumblrLikes()
+        {
+            var credentials = _tokenRepository.GetToken<Tumblr, OAuth1Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<TumblrLikes, TumblrLikeResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact]
         public async void MakeRequestForWithingsWeighins()
         {
             var credentials = _tokenRepository.GetToken<Withings, OAuth1Credentials>();
@@ -237,13 +251,13 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var ids =
-                "155eb306d5906267,155d77ab8bd5ff83,155d6e3d49a8851e,155d0cb7ecef940a,155c75be7cf36899,155c60466b49fb9c,155c3586947e6a40,155bd9817b81a36e,155bd98091e6e545,155ac8385b14f3b0,155ac8378c283efa"
-                    .Split(',');
+            var metadataResponse = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<GoogleGmailMetadata, GoogleGmailMetadataResponse>()
+                .ConfigureAwait(false);
 
-            foreach (var id in ids)
+            foreach (var message in metadataResponse.Messages.Take(5))
             {
-                var request = new GoogleGmail {MessageId = id};
+                var request = new GoogleGmail {MessageId = message.Id};
                 var response = await new OAuthRequester(credentials)
                     .MakeOAuthRequestAsync<GoogleGmail, GoogleGmailResponse>(request).ConfigureAwait(false);
 

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Reflection;
 using Foundations;
+using Foundations.Enums;
 using Foundations.Extensions;
 using Material.Enums;
 using Material.Metadata;

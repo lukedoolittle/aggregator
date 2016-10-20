@@ -140,7 +140,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="CodegenTests.cs" />
     <Compile Include="Material\Interaction\OAuth1TokenTests.cs" />
     <Compile Include="Material\Interaction\OAuth2ClientCredentialsTokenTests.cs" />
     <Compile Include="Material\Interaction\OAuth2CodeTokenTests.cs" />

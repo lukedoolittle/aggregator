@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Foundations;
+using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;

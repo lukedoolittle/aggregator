@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using Foundations.Collections;
+using Foundations.Enums;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient

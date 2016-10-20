@@ -61,7 +61,7 @@ namespace Foundations.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var loadedAssemblies = CurrentAppDomain.GetAssemblies();
+            var loadedAssemblies = CurrentAppDomain.Assemblies;
 
             if (loadedAssemblies != null)
             {

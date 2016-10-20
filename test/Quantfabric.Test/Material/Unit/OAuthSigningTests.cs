@@ -11,7 +11,7 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public async void GenerateRequestTokenSignature()
         {
-            var baseAddress = new Uri("https://api.twitter.com");
+            var baseAddress = "https://api.twitter.com";
             var path = "oauth/request_token";
             var callbackUri = new Uri("http://localhost:33533/twitter");
 

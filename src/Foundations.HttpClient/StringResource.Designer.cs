@@ -62,7 +62,7 @@ namespace Foundations.HttpClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Received code {0} instead of {1}. Body content : {1}.
+        ///   Looks up a localized string similar to Received HTTP status code {0} but expected {1}. Body content : {2}.
         /// </summary>
         internal static string BadHttpRequestException {
             get {

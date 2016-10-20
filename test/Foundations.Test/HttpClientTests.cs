@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;

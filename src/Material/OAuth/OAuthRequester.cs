@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -22,7 +23,7 @@ namespace Material
                 credentials.ConsumerSecret,
                 credentials.OAuthToken,
                 credentials.OAuthSecret,
-                credentials.ParameterHandling);
+                HttpParameterType.Querystring);
             _userId = credentials.UserId;
         }
 
@@ -34,7 +35,8 @@ namespace Material
         {
             _requester = new OAuthProtectedResourceAdapter(
                 credentials.AccessToken,
-                credentials.TokenName);
+                credentials.TokenName,
+                HttpParameterType.Querystring);
             _userId = credentials.UserId;
         }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Foundations
+namespace Foundations.Collections
 {
     public class DefaultingDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {

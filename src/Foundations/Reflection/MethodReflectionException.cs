@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Foundations
+namespace Foundations.Reflection
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors")]
     public class MethodReflectionException : Exception

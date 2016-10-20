@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
@@ -13,7 +14,7 @@ using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient
 {
-    public class HttpRequestBuilder
+    public class HttpRequestBuilder : IDisposable
     {
         private readonly Uri _baseAddress;
         private readonly HttpRequestMessage _message = 
@@ -29,6 +30,7 @@ namespace Foundations.HttpClient
         private IAuthenticator _authenticator;
         private MediaType _responseType = MediaType.Undefined;
         private HttpStatusCode? _expectedResponseCode;
+        private bool _hasDefaultAccepts;
 
         public HttpMethod Method => _message.Method;
 
@@ -47,6 +49,7 @@ namespace Foundations.HttpClient
             _baseAddress = baseAddress;
 
             HttpConfiguration.DefaultBuilderSetup(this);
+            _hasDefaultAccepts = true;
         }
 
         public HttpRequestBuilder(string baseAddress) : 
@@ -135,6 +138,13 @@ namespace Foundations.HttpClient
 
             foreach (var header in headers)
             {
+                if (header.Key == HttpRequestHeader.Accept && 
+                    _hasDefaultAccepts)
+                {
+                    _message.Headers.Accept.Clear();
+                    _hasDefaultAccepts = false;
+                }
+
                 _message.Headers.Add(
                     header.Key.ToString(), 
                     header.Value);
@@ -263,13 +273,18 @@ namespace Foundations.HttpClient
                 if (_expectedResponseCode != null && 
                     _expectedResponseCode.Value != response.StatusCode)
                 {
+                    var content = await response
+                        .Content
+                        .ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
                     throw new HttpRequestException(
                         string.Format(
                             CultureInfo.InvariantCulture,
                             StringResource.BadHttpRequestException,
                             response.StatusCode,
                             _expectedResponseCode.Value,
-                            response.ReasonPhrase));
+                            content));
                 }
 
                 return new HttpResponse(
@@ -277,6 +292,12 @@ namespace Foundations.HttpClient
                     _messageHandler.CookieContainer.GetCookies(_baseAddress),
                     _responseType);
             }
+        }
+
+        public void Dispose()
+        {
+            (_message as IDisposable).Dispose();
+            (_messageHandler as IDisposable).Dispose();
         }
     }
 }

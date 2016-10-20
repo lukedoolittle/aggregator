@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Foundations
+namespace Foundations.Collections
 {
     //http://stackoverflow.com/questions/20268544/portable-class-library-pcl-version-of-httputility-parsequerystring
     public static class HttpUtility

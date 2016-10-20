@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.Collections;
 using Xunit;
 
 namespace Foundations.Test

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Foundations.Enums;
 
 namespace Foundations.HttpClient.Extensions
 {

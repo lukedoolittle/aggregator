@@ -1,17 +1,23 @@
 ﻿using System;
+using Foundations.Collections;
+using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Serialization;
 using Material.Contracts;
+using Material.Infrastructure.Credentials;
 
 namespace Material.Infrastructure.OAuth.Callback
 {
-    public class OAuth2FragmentCallbackHandler : 
-        OAuth2QueryCallbackHandler
+    public class OAuth2FragmentCallbackHandler :
+        OAuthCallbackHandlerBase<OAuth2Credentials>
     {
         public OAuth2FragmentCallbackHandler(
             IOAuthSecurityStrategy securityStrategy,
             string securityParameter) :
                 base(
                     securityStrategy,
-                    securityParameter)
+                    securityParameter,
+                    new HtmlSerializer())
         { }
 
         protected override string GetQuerystring(Uri uri)
@@ -22,6 +28,12 @@ namespace Material.Infrastructure.OAuth.Callback
             }
 
             return null;
+        }
+
+        protected override bool IsResponseError(HttpValueCollection query)
+        {
+            return query.ContainsKey(
+                OAuth2ParameterEnum.Error.EnumToString());
         }
     }
 }

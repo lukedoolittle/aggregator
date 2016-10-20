@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Webkit;
 using Foundations;
+using Foundations.Enums;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Enums;

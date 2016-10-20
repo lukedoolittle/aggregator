@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations;
+using Foundations.Enums;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
@@ -14,16 +14,18 @@ namespace Material.Infrastructure.OAuth
     public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
     {
         private readonly IAuthenticator _authenticator;
-        private readonly HttpParameterType _parameterHandling = 
-            HttpParameterType.Querystring;
+        private readonly HttpParameterType _parameterHandling;
 
         public OAuthProtectedResourceAdapter(
             string accessToken,
-            string accessTokenName)
+            string accessTokenName,
+            HttpParameterType parameterHandling)
         {
             _authenticator = new OAuth2ProtectedResource(
                 accessToken,
                 accessTokenName);
+
+            _parameterHandling = parameterHandling;
         }
 
         public OAuthProtectedResourceAdapter(

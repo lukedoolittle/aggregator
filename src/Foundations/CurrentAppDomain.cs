@@ -11,32 +11,34 @@ namespace Foundations
         /// Get all of the loaded assemblies in the current app domain
         /// </summary>
         /// <returns>List of loaded assemblies OR null if System.AppDomain.CurrentDomain.GetAssemblies is not available</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public static List<Assembly> GetAssemblies()
+        public static List<Assembly> Assemblies
         {
-            try
+            get
             {
-                var currentdomain = typeof(string)
-                    .GetTypeInfo()
-                    .Assembly
-                    .GetType("System.AppDomain")
-                    .GetRuntimeProperty("CurrentDomain")
-                    .GetMethod
-                    .Invoke(null, new object[] { });
+                try
+                {
+                    var currentdomain = typeof(string)
+                        .GetTypeInfo()
+                        .Assembly
+                        .GetType("System.AppDomain")
+                        .GetRuntimeProperty("CurrentDomain")
+                        .GetMethod
+                        .Invoke(null, new object[] {});
 
-                var getassemblies = currentdomain
-                    .GetType()
-                    .GetRuntimeMethod("GetAssemblies", new Type[] { });
+                    var getassemblies = currentdomain
+                        .GetType()
+                        .GetRuntimeMethod("GetAssemblies", new Type[] {});
 
-                var assemblies = getassemblies
-                    .Invoke(currentdomain, new object[] { }) as Assembly[];
+                    var assemblies = getassemblies
+                        .Invoke(currentdomain, new object[] {}) as Assembly[];
 
-                return assemblies.ToList();
-            }
-            catch (Exception)
-            {
-                return null;
+                    return assemblies.ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
     }
