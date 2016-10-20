@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Request;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;

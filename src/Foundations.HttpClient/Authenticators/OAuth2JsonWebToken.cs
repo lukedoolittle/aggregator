@@ -1,6 +1,7 @@
 ﻿using Foundations.Cryptography.JsonWebToken;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.Authenticators
 {
@@ -23,7 +24,7 @@ namespace Foundations.HttpClient.Authenticators
             _template = new OAuth2JwtSigningTemplate(token, factory);
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
             var signatureBase = _template.CreateSignatureBase();
             var signature = _template.CreateSignature(
@@ -31,7 +32,7 @@ namespace Foundations.HttpClient.Authenticators
                 _privateKey);
             var assertion = $"{signatureBase}.{signature}";
 
-            request
+            requestBuilder
                 .Parameter(
                     OAuth2ParameterEnum.Assertion.EnumToString(),
                     assertion)
@@ -41,7 +42,7 @@ namespace Foundations.HttpClient.Authenticators
 
             if (_clientId != null)
             {
-                request.Parameter(
+                requestBuilder.Parameter(
                     OAuth2ParameterEnum.ClientId.EnumToString(),
                     _clientId);
             }

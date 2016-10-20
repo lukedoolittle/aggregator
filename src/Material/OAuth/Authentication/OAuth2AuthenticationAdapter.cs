@@ -7,6 +7,7 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
+using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -88,7 +89,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(refreshToken));
             }
 
-            return (await (await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2RefreshToken(
                     clientId,
@@ -121,7 +122,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(clientSecret));
             }
 
-            return (await (await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2ClientAccessToken(
                     clientId,
@@ -152,7 +153,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(privateKey));
             }
 
-            return (await (await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
                     jwt,
@@ -183,7 +184,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            return (await (await new HttpRequest(accessUrl.NonPath())
+            return (await (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2AccessToken(
                     clientId,

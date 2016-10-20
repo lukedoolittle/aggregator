@@ -46,9 +46,9 @@ namespace Foundations.HttpClient.Authenticators
             _scope = scope;
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
-            request
+            requestBuilder
                 .Parameter(
                     ResponseTypeEnum.Code.EnumToString(),
                     _code)
@@ -67,7 +67,7 @@ namespace Foundations.HttpClient.Authenticators
 
             if (_clientSecret != null)
             {
-                request
+                requestBuilder
                     .Parameter(
                         OAuth2ParameterEnum.ClientSecret.EnumToString(),
                         _clientSecret);

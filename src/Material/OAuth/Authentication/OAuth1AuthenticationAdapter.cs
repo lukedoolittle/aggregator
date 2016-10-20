@@ -30,7 +30,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            return (await (await new HttpRequest(requestUrl.NonPath())
+            return (await (await new HttpRequestBuilder(requestUrl.NonPath())
                 .PostTo(
                     requestUrl.AbsolutePath,
                     parameterHandling)
@@ -90,7 +90,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(accessUri));
             }
 
-            return (await (await new HttpRequest(accessUri.NonPath())
+            return (await (await new HttpRequestBuilder(accessUri.NonPath())
                 .PostTo(
                     accessUri.AbsolutePath,
                     parameterHandling)

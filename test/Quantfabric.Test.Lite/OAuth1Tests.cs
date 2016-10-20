@@ -7,6 +7,7 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
@@ -45,7 +46,7 @@ namespace Quantfabric.Test.Lite
                 template,
                 signingAlgorithm.SignatureMethod);
 
-            var response = await new HttpRequest(provider.RequestUrl.NonPath())
+            var response = await new HttpRequestBuilder(provider.RequestUrl.NonPath())
                 .PostTo(provider.RequestUrl.AbsolutePath)
                 .Authenticator(authenticator)
                 .ExecuteAsync()

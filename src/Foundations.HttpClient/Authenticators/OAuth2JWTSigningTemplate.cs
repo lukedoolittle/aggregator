@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Foundations.Cryptography.JsonWebToken;
+using Foundations.HttpClient.Request;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient.Authenticators

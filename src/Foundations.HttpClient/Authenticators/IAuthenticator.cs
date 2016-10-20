@@ -2,6 +2,6 @@
 {
     public interface IAuthenticator
     {
-        void Authenticate(HttpRequest request);
+        void Authenticate(HttpRequestBuilder requestBuilder);
     }
 }

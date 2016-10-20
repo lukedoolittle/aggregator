@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;

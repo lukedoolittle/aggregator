@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Extensions;
 
 namespace Foundations.HttpClient.Authenticators
 {
@@ -27,18 +28,18 @@ namespace Foundations.HttpClient.Authenticators
             _accessTokenName = accessTokenName;
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
             if (String.Equals(
                     _accessTokenName, 
                     OAuth2ParameterEnum.BearerHeader.EnumToString(), 
                     StringComparison.CurrentCultureIgnoreCase))
             {
-                request.Bearer(_accessToken);
+                requestBuilder.Bearer(_accessToken);
             }
             else
             {
-                request.Parameter(
+                requestBuilder.Parameter(
                     _accessTokenName,
                     _accessToken);
             }

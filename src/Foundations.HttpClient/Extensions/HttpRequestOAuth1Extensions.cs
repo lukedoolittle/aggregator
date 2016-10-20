@@ -5,8 +5,8 @@ namespace Foundations.HttpClient.Extensions
 {
     public static class HttpRequestOAuth1Extensions
     {
-        public static HttpRequest ForOAuth1RequestToken(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth1RequestToken(
+            this HttpRequestBuilder instance,
             string consumerKey,
             string consumerSecret,
             string callbackUri)
@@ -24,8 +24,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
-        public static HttpRequest ForOAuth1AccessToken(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth1AccessToken(
+            this HttpRequestBuilder instance,
             string consumerKey,
             string consumerSecret,
             string oauthToken,
@@ -43,6 +43,27 @@ namespace Foundations.HttpClient.Extensions
                 oauthToken,
                 oauthSecret,
                 verifier);
+
+            return instance.Authenticator(authenticator);
+        }
+
+        public static HttpRequestBuilder ForOAuth1ProtectedResource(
+            this HttpRequestBuilder instance,
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret)
+        {
+            if (instance == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            var authenticator = new OAuth1ProtectedResource(
+                consumerKey, 
+                consumerSecret, 
+                oauthToken, 
+                oauthSecret);
 
             return instance.Authenticator(authenticator);
         }

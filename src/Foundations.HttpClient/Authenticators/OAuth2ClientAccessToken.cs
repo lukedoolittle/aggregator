@@ -28,9 +28,9 @@ namespace Foundations.HttpClient.Authenticators
             _clientSecret = clientSecret;
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
-            request
+            requestBuilder
                 .Header(
                     HttpRequestHeader.Authorization, 
                     CreateHeader())

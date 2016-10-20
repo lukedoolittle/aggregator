@@ -2,6 +2,7 @@
 using Foundations.Cryptography.DigitalSignature;
 using Foundations.Cryptography.StringCreation;
 using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Extensions;
 
 namespace Foundations.HttpClient.Authenticators
 {
@@ -67,21 +68,21 @@ namespace Foundations.HttpClient.Authenticators
             _signatureMethod = signatureMethod;
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
-            if (request == null)
+            if (requestBuilder == null)
             {
-                throw new ArgumentNullException(nameof(request));
+                throw new ArgumentNullException(nameof(requestBuilder));
             }
 
             var signatureBase = _template.ConcatenateElements(
-                request.Method, 
-                request.Url,
-                request.QueryParameters);
+                requestBuilder.Method, 
+                requestBuilder.Url,
+                requestBuilder.QueryParameters);
 
             var signature = _template.GenerateSignature(signatureBase);
 
-            request
+            requestBuilder
                 .Parameter(
                     OAuth1ParameterEnum.Nonce,
                     _template.Nonce)

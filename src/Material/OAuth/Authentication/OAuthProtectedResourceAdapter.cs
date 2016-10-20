@@ -7,6 +7,7 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
+using Foundations.HttpClient.Extensions;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -66,7 +67,7 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            return await (await new HttpRequest(baseUrl)
+            return await (await new HttpRequestBuilder(baseUrl)
                 .Request(httpMethod, path, _parameterHandling)
                 .ResponseMediaType(expectedResponseType)
                 .Headers(headers)

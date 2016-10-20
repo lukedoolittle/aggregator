@@ -18,7 +18,7 @@ namespace Quantfabric.Test.Material.Unit
             const string consumerKey = "";
             const string consumerSecret = "";
 
-            var request = await new HttpRequest(baseAddress)
+            var request = await new HttpRequestBuilder(baseAddress)
                 .PostTo(path, HttpParameterType.Querystring)
                 .ForOAuth1RequestToken(
                     consumerKey, 

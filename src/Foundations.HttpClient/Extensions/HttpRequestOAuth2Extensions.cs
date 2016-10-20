@@ -1,12 +1,13 @@
 ﻿using System;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.Extensions
 {
     public static class HttpRequestOAuth2Extensions
     {
-        public static HttpRequest ForOAuth2AccessToken(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth2AccessToken(
+            this HttpRequestBuilder instance,
             string clientId,
             string clientSecret,
             string redirectUrl,
@@ -28,8 +29,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
-        public static HttpRequest ForOAuth2ClientAccessToken(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth2ClientAccessToken(
+            this HttpRequestBuilder instance,
             string clientId,
             string clientSecret)
         {
@@ -45,8 +46,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
-        public static HttpRequest ForOAuth2RefreshToken(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth2RefreshToken(
+            this HttpRequestBuilder instance,
             string clientId,
             string clientSecret,
             string refreshToken)
@@ -64,8 +65,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
-        public static HttpRequest ForOAuth2JsonWebToken(
-            this HttpRequest instance, 
+        public static HttpRequestBuilder ForOAuth2JsonWebToken(
+            this HttpRequestBuilder instance, 
             JsonWebToken token, 
             string privateKey,
             string clientId)
@@ -83,8 +84,8 @@ namespace Foundations.HttpClient.Extensions
             return instance.Authenticator(authenticator);
         }
 
-        public static HttpRequest ForOAuth2ProtectedResource(
-            this HttpRequest instance,
+        public static HttpRequestBuilder ForOAuth2ProtectedResource(
+            this HttpRequestBuilder instance,
             string accessToken,
             string accessTokenName)
         {

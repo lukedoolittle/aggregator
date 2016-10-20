@@ -35,9 +35,9 @@ namespace Foundations.HttpClient.Authenticators
             _refreshToken = refreshToken;
         }
 
-        public void Authenticate(HttpRequest request)
+        public void Authenticate(HttpRequestBuilder requestBuilder)
         {
-            request.
+            requestBuilder.
                 Parameter(
                     OAuth2ParameterEnum.ClientId.EnumToString(),
                     _clientId)

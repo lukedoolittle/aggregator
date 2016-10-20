@@ -5,6 +5,7 @@ using System.Text;
 using Foundations.Cryptography.JsonWebToken;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Request;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;

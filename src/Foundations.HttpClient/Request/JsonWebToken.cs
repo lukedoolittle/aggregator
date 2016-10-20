@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Foundations.Cryptography.JsonWebToken;
 
-namespace Foundations.HttpClient
+namespace Foundations.HttpClient.Request
 {
     [DataContract]
     public class JsonWebToken

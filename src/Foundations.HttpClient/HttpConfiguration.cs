@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using Foundations.HttpClient.Serialization;
@@ -9,8 +10,21 @@ namespace Foundations.HttpClient
 {
     public static class HttpConfiguration
     {
-        public static Func<HttpClientHandler> MessageHandlerFactory = 
-            () => new HttpClientHandler();
+        public static Func<HttpClientHandler> MessageHandlerFactory =
+            () => new HttpClientHandler {CookieContainer = new CookieContainer()};
+
+        public static Action<HttpRequestBuilder> DefaultBuilderSetup = builder =>
+        {
+            builder.AcceptsDecompressionEncoding(DecompressionMethods.GZip);
+            builder.AcceptsDecompressionEncoding(DecompressionMethods.Deflate);
+
+            builder.Accepts(MediaType.Json);
+            builder.Accepts(MediaType.Xml);
+            builder.Accepts(MediaType.TextJson);
+            builder.Accepts(MediaType.TextXml);
+            builder.Accepts(MediaType.TextXJson);
+            builder.Accepts(MediaType.Javascript);
+        };
 
         public static IDictionary<MediaType, ISerializer> ContentSerializers =
             new DefaultingDictionary<MediaType, ISerializer>(type =>
