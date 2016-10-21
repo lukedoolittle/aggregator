@@ -28,7 +28,10 @@ Authorize with Facebook in a web app (.NET MVC):
     {
     	//Or get the userId from your application
         string userId = Guid.NewGuid().ToString();  
-        this.AddUserIdCookie(userId);
+
+        HttpCookie cookie = new HttpCookie("userId");
+        cookie.Values["userId"] = userId;
+        ControllerContext.HttpContext.Response.Cookies.Add(cookie);
 
         Uri authorizationUri = await new OAuth2Web<Facebook>(
                 "YOUR CLIENT ID", 
@@ -55,7 +58,7 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
                     ControllerContext.HttpContext.Request.Url,
-                    this.GetUserIdFromCookie(),
+                    Request.Cookies["userId"]?.Values["userId"],
                     "YOUR CLIENT SECRET")
                 .ConfigureAwait(false);
 
@@ -101,4 +104,4 @@ Documentation is available in the [gihub wiki](https://github.com/lukedoolittle/
 There are automated tests for Windows Console, Xamarin.iOS and Xamarin.Android. There are also manual UI tests for Xamarin.iOS, Xamarin.Android, UWP and .NET MVC.
 
 ## Contributing
-All contributions are welcome. The only requirement is unit or integration test coverage of any code change. Quantfabric has a [waffle.io](https://waffle.io/lukedoolittle/quantfabric) site for viewing and managing issues as well as a [slack channel](https://quantfabric.slack.com/) for any discussions.
+All contributions are welcome! The only requirement is some test coverage of any code change. Also the static code analyzer runs on a few of the projects so check build warnings for any changes. Quantfabric has a [waffle.io](https://waffle.io/lukedoolittle/quantfabric) site for viewing and managing issues as well as a [slack channel](https://quantfabric.slack.com/) for any discussions.

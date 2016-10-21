@@ -31,7 +31,7 @@ namespace Quantfabric.Web.Test.Controllers
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
                     ControllerContext.HttpContext.Request.Url,
-                    this.GetUserIdFromCookie())
+                    Request.Cookies["userId"]?.Values["userId"])
                 .ConfigureAwait(false);
 
             FacebookUserResponse user = await new OAuthRequester(fullCredentials)

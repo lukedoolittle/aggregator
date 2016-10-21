@@ -32,7 +32,10 @@ namespace Quantfabric.Web.Test.Controllers
         {
             //Or get the userId from your application
             string userId = Guid.NewGuid().ToString();
-            this.AddUserIdCookie(userId);
+
+            HttpCookie cookie = new HttpCookie("userId");
+            cookie.Values["userId"] = userId;
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
 
             Uri authorizationUri = await new OAuth2Web<Facebook>(
                     "YOUR CLIENT ID",
