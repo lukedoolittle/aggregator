@@ -81,7 +81,7 @@ namespace Quantfabric.Test.Material.Interaction
                 {
                     DateGranularity = OmnitureReportingDateGranularityEnum.Hour,
                     ReportSuiteId = "musicnotes",
-                    StartDate = new DateTime(2015, 10, 6),
+                    StartDate = new DateTime(2016, 9, 6),
                     EndDate = new DateTime(2016, 10, 6),
                     Metrics = new List<OmnitureMetric> { new OmnitureMetric { Id = "visits" } }
                 }

@@ -8,6 +8,26 @@ namespace Foundations.Extensions
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Url encodes each pair in a list
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<string, string>> EncodeParameters(
+            this IEnumerable<KeyValuePair<string, string>> instance)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            return instance.Select(p =>
+                new KeyValuePair<string, string>(
+                    p.Key.UrlEncodeString(),
+                    p.Value.UrlEncodeString()));
+        }
+             
+
+        /// <summary>
         /// Determine if the intersection of this and another list is null
         /// </summary>
         /// <typeparam name="T"></typeparam>

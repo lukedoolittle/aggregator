@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace Foundations.Extensions
 {
@@ -21,7 +20,9 @@ namespace Foundations.Extensions
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}://{1}/", instance.Scheme, instance.Authority);
+                "{0}://{1}/", 
+                instance.Scheme, 
+                instance.Authority);
         }
 
         public static string NoQuerystring(this Uri instance)
@@ -55,12 +56,10 @@ namespace Foundations.Extensions
             {
                 throw new ArgumentNullException(nameof(instance));
             }
-
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
-
             if (pathParameters == null)
             {
                 throw new ArgumentNullException(nameof(pathParameters));
@@ -92,9 +91,8 @@ namespace Foundations.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var querstring = queryParameters.ToDictionary(
-                    d => d.Key.UrlEncodeStrict(),
-                    d => d.Value.UrlEncodeStrict())
+            var querstring = queryParameters
+                .EncodeParameters()
                 .Concatenate("=", "&");
 
             var uriBuilder = new UriBuilder(instance)

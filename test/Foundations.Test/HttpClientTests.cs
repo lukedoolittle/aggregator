@@ -372,6 +372,68 @@ namespace Foundations.Test
         }
 
         [Fact]
+        public async void AddOAuth1ProtectedResource()
+        {
+            var expectedArgsCount = 7;
+            var expected = new SampleBody
+            {
+                SomeKey = Guid.NewGuid().ToString()
+            };
+            var consumerKey = Guid.NewGuid().ToString();
+            var consumerSecret = Guid.NewGuid().ToString();
+            var oauthToken = Guid.NewGuid().ToString();
+            var oauthSecret = Guid.NewGuid().ToString();
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .JsonContent(expected)
+                .ForOAuth1ProtectedResource(
+                    consumerKey,
+                    consumerSecret,
+                    oauthToken,
+                    oauthSecret)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.OAuthToken.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.ConsumerKey.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.Timestamp.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.Nonce.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.Version.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.SignatureMethod.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1ParameterEnum.Signature.EnumToString()]);
+
+            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
+        }
+
+        [Fact]
+        public async void AddOAuth2ProtectedResource()
+        {
+            var expectedArgsCount = 1;
+            var expected = new SampleBody
+            {
+                SomeKey = Guid.NewGuid().ToString()
+            };
+            var accessToken = Guid.NewGuid().ToString();
+            var accessTokenName = "accessToken";
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .JsonContent(expected)
+                .ForOAuth2ProtectedResource(
+                    accessToken, 
+                    accessTokenName)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
+            Assert.Equal(accessToken, response.Args[accessTokenName]);
+
+            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
+        }
+
+        [Fact]
         public async void AddOAuth1RequestTokenAuthentication()
         {
             var expectedArgsCount = 7;

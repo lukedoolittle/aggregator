@@ -30,7 +30,7 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
-            if (String.Equals(
+            if (string.Equals(
                     _accessTokenName, 
                     OAuth2ParameterEnum.BearerHeader.EnumToString(), 
                     StringComparison.CurrentCultureIgnoreCase))

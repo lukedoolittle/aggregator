@@ -120,75 +120,47 @@ namespace Foundations.HttpClient.Authenticators
             Uri url,
             IEnumerable<KeyValuePair<string, string>> parameters)
         {
-            var allParameters = new List<KeyValuePair<string, string>>();
-            allParameters.AddRange(parameters);
+            var allParameters = new List<KeyValuePair<string, string>>(
+                parameters);
 
-            //Request specific parameters
-
-            if (_consumerKey != null)
-            {
-                allParameters.Add(
-                    new KeyValuePair<string, string>(
-                        OAuth1ParameterEnum.ConsumerKey.EnumToString(), 
-                        _consumerKey));
-            }
-            if (_oauthToken != null)
-            {
-                allParameters.Add(
-                    new KeyValuePair<string, string>(
-                        OAuth1ParameterEnum.OAuthToken.EnumToString(),
-                        _oauthToken));
-            }
-            if (_verifier != null)
-            {
-                allParameters.Add(
-                    new KeyValuePair<string, string>(
-                        OAuth1ParameterEnum.Verifier.EnumToString(),
-                        _verifier));
-            }
-            if (_callbackUrl != null)
-            {
-                allParameters.Add(
-                    new KeyValuePair<string, string>(
-                        OAuth1ParameterEnum.Callback.EnumToString(),
-                        _callbackUrl.ToString()));
-            }
-
-            //Required parameters for any request
-
-            allParameters.Add(
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.Timestamp.EnumToString(),
-                    Timestamp));
-
-            allParameters.Add(
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.Nonce.EnumToString(),
-                    Nonce));
-
-            allParameters.Add(
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.SignatureMethod.EnumToString(),
-                    _signingAlgorithm.SignatureMethod));
-
-            allParameters.Add(
-                new KeyValuePair<string, string>(
-                    OAuth1ParameterEnum.Version.EnumToString(),
-                    Version));
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.ConsumerKey, _consumerKey);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.OAuthToken, _oauthToken);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Verifier, _verifier);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Callback, _callbackUrl?.ToString());
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Timestamp, Timestamp);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Nonce, Nonce);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.SignatureMethod, _signingAlgorithm.SignatureMethod);
+            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Version, Version);
 
             var elements = new List<string>
             {
                 method.ToString(),
-                url.ToString().UrlEncodeRelaxed(),
-                allParameters.Normalize().Concatenate("=", "&").UrlEncodeRelaxed()
+                url.ToString().UrlEncodeString(),
+                allParameters.EncodeAndSortParameters().Concatenate("=", "&").UrlEncodeString()
             };
 
             return elements.Concatenate("&");
         }
 
+        private static void AddOAuth1Parameter(
+            ICollection<KeyValuePair<string, string>> parameters, 
+            OAuth1ParameterEnum parameterKey,
+            string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            parameters.Add(
+                new KeyValuePair<string, string>(
+                    parameterKey.EnumToString(),
+                    value));
+        }
+
         public string GenerateSignature(string signatureBase)
         {
-            var key = $"{_consumerSecret.UrlEncodeRelaxed()}&{_oauthSecret.UrlEncodeRelaxed()}";
+            var key = $"{_consumerSecret.UrlEncodeString()}&{_oauthSecret.UrlEncodeString()}";
             var signature = _signingAlgorithm.SignText(
                 Encoding.UTF8.GetBytes(signatureBase), 
                 key);

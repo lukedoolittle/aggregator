@@ -28,6 +28,12 @@ namespace Foundations.Extensions
             instance.AddRange(uniqueItems);
         }
 
+        /// <summary>
+        /// Performs an action on each item in a sequence
+        /// </summary>
+        /// <typeparam name="T">Type of the item in the list</typeparam>
+        /// <param name="instance">The list of items</param>
+        /// <param name="action">The action to perform on each item</param>
         public static void ForEach<T>(
             this IEnumerable<T> instance, 
             Action<T> action)
@@ -36,8 +42,7 @@ namespace Foundations.Extensions
             {
                 throw new ArgumentNullException(nameof(instance));
             }
-
-            if (action== null)
+            if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
             }
