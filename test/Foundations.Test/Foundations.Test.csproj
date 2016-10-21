@@ -78,6 +78,7 @@
     <Compile Include="EnumExtensionTests.cs" />
     <Compile Include="HttpClientTests.cs" />
     <Compile Include="JsonWebTokenTests.cs" />
+    <Compile Include="OAuth1SigningTemplateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuerystringParsingTests.cs" />
     <Compile Include="ServerTests.cs" />

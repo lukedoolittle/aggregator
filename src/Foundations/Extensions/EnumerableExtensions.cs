@@ -25,7 +25,9 @@ namespace Foundations.Extensions
 
             foreach (var value in instance)
             {
-                newCollection.Add(value);
+                newCollection.Add(
+                    value.Key.UrlEncodeString(), 
+                    value.Value.UrlEncodeString());
             }
 
             return newCollection;

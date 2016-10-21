@@ -29,11 +29,12 @@ namespace Foundations.HttpClient.Authenticators
         private readonly ISigningAlgorithm _signingAlgorithm;
 
         public OAuth1SigningTemplate(
-            string consumerKey, 
-            string consumerSecret, 
+            string consumerKey,
+            string consumerSecret,
             Uri callbackUrl,
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator)
+            DateTime timestamp,
+            string nonce)
         {
             if (string.IsNullOrEmpty(consumerKey))
             {
@@ -47,10 +48,7 @@ namespace Foundations.HttpClient.Authenticators
             {
                 throw new ArgumentNullException(nameof(signingAlgorithm));
             }
-            if (stringGenerator == null)
-            {
-                throw new ArgumentNullException(nameof(stringGenerator));
-            }
+            if (nonce == null) throw new ArgumentNullException(nameof(nonce));
 
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -58,12 +56,27 @@ namespace Foundations.HttpClient.Authenticators
             Version = DEFAULT_VERSION;
             _signingAlgorithm = signingAlgorithm;
 
-            Timestamp = ((int)DateTime.UtcNow.ToUnixTimeSeconds())
+            Timestamp = ((int)timestamp.ToUnixTimeSeconds())
                 .ToString(CultureInfo.InvariantCulture);
-            Nonce = stringGenerator.CreateRandomString(
-                16, 
-                CryptoStringType.LowercaseAlphanumeric);
+            Nonce = nonce;
         }
+
+        public OAuth1SigningTemplate(
+            string consumerKey, 
+            string consumerSecret, 
+            Uri callbackUrl,
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator) : 
+                this(
+                    consumerKey, 
+                    consumerSecret, 
+                    callbackUrl, 
+                    signingAlgorithm, 
+                    DateTime.UtcNow, 
+                    stringGenerator?.CreateRandomString(
+                        16,
+                        CryptoStringType.LowercaseAlphanumeric))
+        {}
 
         public OAuth1SigningTemplate(
             string consumerKey, 
@@ -72,14 +85,16 @@ namespace Foundations.HttpClient.Authenticators
             string oauthSecret,
             string verifier, 
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator) :
-            this(
-                consumerKey, 
-                consumerSecret, 
-                oauthToken, 
-                oauthSecret, 
-                signingAlgorithm,
-                stringGenerator)
+            DateTime timestamp,
+            string nonce) :
+                this(
+                    consumerKey, 
+                    consumerSecret, 
+                    oauthToken, 
+                    oauthSecret, 
+                    signingAlgorithm,
+                    timestamp, 
+                    nonce)
         {
             if (string.IsNullOrEmpty(verifier))
             {
@@ -94,14 +109,37 @@ namespace Foundations.HttpClient.Authenticators
             string consumerSecret,
             string oauthToken,
             string oauthSecret,
+            string verifier,
             ISigningAlgorithm signingAlgorithm,
             ICryptoStringGenerator stringGenerator) :
                 this(
                     consumerKey,
                     consumerSecret,
+                    oauthToken,
+                    oauthSecret,
+                    verifier,
+                    signingAlgorithm,
+                    DateTime.UtcNow,
+                    stringGenerator?.CreateRandomString(
+                        16,
+                        CryptoStringType.LowercaseAlphanumeric))
+        {}
+
+        public OAuth1SigningTemplate(
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret,
+            ISigningAlgorithm signingAlgorithm,
+            DateTime timestamp,
+            string nonce) :
+                this(
+                    consumerKey,
+                    consumerSecret,
                     null,
                     signingAlgorithm,
-                    stringGenerator)
+                    timestamp, 
+                    nonce)
         {
             if (string.IsNullOrEmpty(oauthToken))
             {
@@ -115,6 +153,25 @@ namespace Foundations.HttpClient.Authenticators
             _oauthToken = oauthToken;
             _oauthSecret = oauthSecret;
         }
+
+        public OAuth1SigningTemplate(
+            string consumerKey,
+            string consumerSecret,
+            string oauthToken,
+            string oauthSecret,
+            ISigningAlgorithm signingAlgorithm,
+            ICryptoStringGenerator stringGenerator) :
+                        this(
+                            consumerKey,
+                            consumerSecret,
+                            oauthToken,
+                            oauthSecret,
+                            signingAlgorithm,
+                            DateTime.UtcNow,
+                            stringGenerator?.CreateRandomString(
+                                16,
+                                CryptoStringType.LowercaseAlphanumeric))
+        {}
 
         public string ConcatenateElements(
             HttpMethod method,
