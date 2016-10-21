@@ -19,6 +19,7 @@
         <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="138,222,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
         <Button x:Name="fitbitAuth" Content="Fitbit" HorizontalAlignment="Left" Margin="66,348,0,0" VerticalAlignment="Top" Click="OnFitbitClick"/>
         <Button x:Name="pinterestAuth" Content="Pinterest" HorizontalAlignment="Left" Margin="138,348,0,0" VerticalAlignment="Top" Click="OnPinterestClick"/>
+        <Button x:Name="runkeeperAuth" Content="Runkeeper" HorizontalAlignment="Left" Margin="224,348,0,0" VerticalAlignment="Top" Click="OnRunkeeperClick"/>
 
     </Grid>
 </Page>

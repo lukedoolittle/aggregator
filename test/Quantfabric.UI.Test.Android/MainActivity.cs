@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -105,7 +106,7 @@ namespace Quantfabric.UI.Test
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -158,7 +159,7 @@ namespace Quantfabric.UI.Test
                             redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
-                        .GetCredentialsAsync(clientSecret)
+                        .GetCredentialsAsync()
                         .ConfigureAwait(false);
 
                 WriteCredentials(token);
@@ -254,6 +255,24 @@ namespace Quantfabric.UI.Test
                 WriteCredentials(token);
             };
 
+            FindViewById<Button>(Resource.Id.instagram).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Instagram>();
+                var clientSecret = settings.GetClientSecret<Instagram>();
+                var redirectUri = settings.GetRedirectUri<Instagram>();
+
+                var token = await new OAuth2App<Instagram>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                        .AddScope<InstagramLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
             {
                 var credentials = await new BluetoothApp<Mioalpha>()
@@ -316,13 +335,19 @@ namespace Quantfabric.UI.Test
 
         private void WriteResultToTextView(string result)
         {
-            RunOnUiThread(() =>
+            RunOnUiThread(async () =>
             {
-                var resultView = Platform
-                    .Current
-                    .Context
-                    .FindViewById<TextView>(Resource.Id.resultView);
+                TextView resultView = null;
 
+                while (resultView == null)
+                {
+                    await Task.Delay(100);
+
+                    resultView = Platform
+                        .Current
+                        .Context
+                        .FindViewById<TextView>(Resource.Id.resultView);
+                }
                 resultView.Text = result;
             });
         }

@@ -124,5 +124,12 @@
             android:gravity="center"
             android:id="@+id/pinterest"
             android:text="Pinterest" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/instagram"
+            android:text="Instagram" />
     </GridLayout>
 </LinearLayout>

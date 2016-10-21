@@ -46,33 +46,36 @@ namespace Material.View.WebAuthorization
             context.StartActivity(intent);
             
             var activity = await webViewCompletionSource.Task.ConfigureAwait(false);
-            activity.View.SetWebViewClient(
-                new AuthorizingWebViewClient((view, url, favicon) =>
-                {
-                    if (url.StartsWith(_callbackUri.AbsoluteUri))
-                    {
-                        view.StopLoading();
-                        view.LoadData(
-                            StringResources.OAuthCallbackResponse,
-                            MediaType.Text.EnumToString(),
-                            string.Empty);
-                        
-                        var result = _handler
-                            .ParseAndValidateCallback(
-                                new Uri(url),
-                                userId);
-                        taskCompletion.SetResult(result);
-                        activity.Finish();
-                    }
-                }));
-
-            if (!Platform.Current.IsOnline)
+            Platform.Current.RunOnMainThread(() =>
             {
-                throw new NoConnectivityException(
-                    StringResources.OfflineConnectivityException);
-            }
+                activity.View.SetWebViewClient(
+                    new AuthorizingWebViewClient((view, url, favicon) =>
+                    {
+                        if (url.StartsWith(_callbackUri.AbsoluteUri))
+                        {
+                            view.StopLoading();
+                            view.LoadData(
+                                StringResources.OAuthCallbackResponse,
+                                MediaType.Text.EnumToString(),
+                                string.Empty);
 
-            activity.View.LoadUrl(authorizationUri.ToString());
+                            var result = _handler
+                                .ParseAndValidateCallback(
+                                    new Uri(url),
+                                    userId);
+                            activity.Finish();
+                            taskCompletion.SetResult(result);
+                        }
+                    }));
+
+                if (!Platform.Current.IsOnline)
+                {
+                    throw new NoConnectivityException(
+                        StringResources.OfflineConnectivityException);
+                }
+
+                activity.View.LoadUrl(authorizationUri.ToString());
+            });
 
             return await taskCompletion.Task.ConfigureAwait(false);
         }

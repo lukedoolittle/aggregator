@@ -88,6 +88,9 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f050002
 			public const int gridLayout1 = 2131034114;
 			
+			// aapt resource value: 0x7f050012
+			public const int instagram = 2131034130;
+			
 			// aapt resource value: 0x7f05000b
 			public const int linkedinAuth = 2131034123;
 			

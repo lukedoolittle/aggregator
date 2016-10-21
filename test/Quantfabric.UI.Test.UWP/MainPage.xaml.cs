@@ -101,7 +101,7 @@ namespace Quantfabric.UI.Test.UWP
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
@@ -175,6 +175,24 @@ namespace Quantfabric.UI.Test.UWP
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnRunkeeperClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Runkeeper>();
+            var clientSecret = settings.GetClientSecret<Runkeeper>();
+            var redirectUri = settings.GetRedirectUri<Runkeeper>();
+
+            var token = await new OAuth2App<Runkeeper>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<RunkeeperFitnessActivity>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
