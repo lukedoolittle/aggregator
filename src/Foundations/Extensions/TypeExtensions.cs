@@ -355,14 +355,6 @@ namespace Foundations.Extensions
                     return true;
                 }
             }
-            else if (parameterType.IsGenericParameter)
-            {
-                if (parameterType.GetTypeInfo().IsAssignableFrom(
-                    argumentType.GetTypeInfo()))
-                {
-                    return true;
-                }
-            }
             else
             {
                 if (parameterType.GetTypeInfo().IsAssignableFrom(

@@ -14,10 +14,7 @@ namespace Foundations.HttpClient.Extensions
             string code,
             string scope)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2AccessToken(
                 clientId, 
@@ -34,10 +31,7 @@ namespace Foundations.HttpClient.Extensions
             string clientId,
             string clientSecret)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2ClientAccessToken(
                 clientId,
@@ -52,10 +46,7 @@ namespace Foundations.HttpClient.Extensions
             string clientSecret,
             string refreshToken)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2RefreshToken(
                 clientId,
@@ -71,10 +62,7 @@ namespace Foundations.HttpClient.Extensions
             string privateKey,
             string clientId)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2JsonWebToken(
                 token,
@@ -89,10 +77,7 @@ namespace Foundations.HttpClient.Extensions
             string accessToken,
             string accessTokenName)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2ProtectedResource(
                 accessToken,

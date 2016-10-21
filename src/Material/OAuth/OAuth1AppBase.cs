@@ -49,7 +49,7 @@ namespace Material.Infrastructure.OAuth
 
             var handler = new OAuth1CallbackHandler(
                 securityStrategy,
-                OAuth1ParameterEnum.OAuthToken.EnumToString());
+                OAuth1Parameter.OAuthToken.EnumToString());
 
             var facade = new OAuth1AuthenticationFacade(
                 _provider,

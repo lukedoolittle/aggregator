@@ -30,9 +30,11 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
+            if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
+
             if (string.Equals(
                     _accessTokenName, 
-                    OAuth2ParameterEnum.BearerHeader.EnumToString(), 
+                    OAuth2Parameter.BearerHeader.EnumToString(), 
                     StringComparison.CurrentCultureIgnoreCase))
             {
                 requestBuilder.Bearer(_accessToken);

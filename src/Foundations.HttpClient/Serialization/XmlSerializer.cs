@@ -4,21 +4,26 @@ namespace Foundations.HttpClient.Serialization
 {
     public class XmlSerializer : ISerializer
     {
-        public string Serialize(object item)
+        public string Serialize(object entity)
         {
             throw new NotImplementedException();
         }
 
-        public string Serialize<T>(T item)
+        public string Serialize<TEntity>(TEntity entity)
+        {
+            return Serialize((object)entity);
+        }
+
+        public TEntity Deserialize<TEntity>(
+            string entity, 
+            string dateTimeFormat)
         {
             throw new NotImplementedException();
         }
 
-        public T Deserialize<T>(
-            string item, 
-            string datetimeFormat = null)
+        public TEntity Deserialize<TEntity>(string entity)
         {
-            throw new NotImplementedException();
+            return Deserialize<TEntity>(entity, null);
         }
     }
 }

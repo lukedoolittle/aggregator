@@ -11,10 +11,7 @@ namespace Foundations.HttpClient.Extensions
             string consumerSecret,
             Uri callbackUri)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth1RequestToken(
                 consumerKey,
@@ -32,10 +29,7 @@ namespace Foundations.HttpClient.Extensions
             string oauthSecret,
             string verifier)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth1AccessToken(
                 consumerKey,
@@ -54,10 +48,7 @@ namespace Foundations.HttpClient.Extensions
             string oauthToken,
             string oauthSecret)
         {
-            if (instance == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth1ProtectedResource(
                 consumerKey, 

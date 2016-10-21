@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
@@ -63,7 +64,18 @@ namespace Foundations.Collections
             }
         }
 
+        public HttpValueCollection(HttpValueCollection copy)
+        {
+            Add(copy);
+        }
+
         #endregion
+
+        public static implicit operator HttpValueCollection(
+            List<HttpValue> values)
+        {
+            return new HttpValueCollection {values};
+        }
 
         #region Parameters
 
@@ -76,6 +88,16 @@ namespace Foundations.Collections
         #endregion
 
         #region Public Methods
+
+        public void Add(ICollection<HttpValue> collection)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            foreach (var item in collection)
+            {
+                this.Add(item);
+            }
+        }
 
         public void Add(string key, string value)
         {
@@ -116,6 +138,7 @@ namespace Foundations.Collections
             return this.ToString(urlEncoded, null);
         }
 
+        //TODO: this should match up with the other encoding functionality in Foundations
         public virtual string ToString(bool urlEncoded, IDictionary excludeKeys)
         {
             if (this.Count == 0)

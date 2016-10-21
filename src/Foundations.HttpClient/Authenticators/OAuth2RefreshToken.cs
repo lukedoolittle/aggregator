@@ -37,18 +37,20 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
+            if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
+
             requestBuilder.
                 Parameter(
-                    OAuth2ParameterEnum.ClientId.EnumToString(),
+                    OAuth2Parameter.ClientId.EnumToString(),
                     _clientId)
                 .Parameter(
-                    OAuth2ParameterEnum.ClientSecret.EnumToString(),
+                    OAuth2Parameter.ClientSecret.EnumToString(),
                     _clientSecret)
                 .Parameter(
-                    OAuth2ParameterEnum.GrantType.EnumToString(),
-                    GrantTypeEnum.RefreshToken.EnumToString())
+                    OAuth2Parameter.GrantType.EnumToString(),
+                    GrantType.RefreshToken.EnumToString())
                 .Parameter(
-                    OAuth2ParameterEnum.RefreshToken.EnumToString(),
+                    OAuth2Parameter.RefreshToken.EnumToString(),
                     _refreshToken);
         }
     }

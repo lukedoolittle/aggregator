@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Foundations.Enums;
+using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
@@ -44,6 +45,7 @@ namespace Material.Infrastructure.OAuth
             _parameterHandling = parameterHandling;
         }
 
+        //TODO: parameters shouldn't be dictionaries because there can be duplicates
         public async Task<TResponse> ForProtectedResource<TResponse>(
             string baseUrl,
             string path,
@@ -69,19 +71,20 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            return await (await new HttpRequestBuilder(baseUrl)
-                .Request(httpMethod, path, _parameterHandling)
-                .ResponseMediaType(expectedResponseType)
-                .Headers(headers)
-                .Parameters(querystringParameters)
-                .Segments(pathParameters)
-                .Authenticator(_authenticator)
-                .ThrowIfNotExpectedResponseCode(expectedResponse)
-                .Content(body, bodyType)
-                .ExecuteAsync()
-                .ConfigureAwait(false))
-                .ContentAsync<TResponse>()
-                .ConfigureAwait(false);
+            using (var requestBuilder = new HttpRequestBuilder(baseUrl))
+            {
+                return await requestBuilder
+                    .Request(httpMethod, path, _parameterHandling)
+                    .ResponseMediaType(expectedResponseType)
+                    .Headers(headers)
+                    .Parameters(querystringParameters)
+                    .Segments(pathParameters.ToHttpValueCollection())
+                    .Authenticator(_authenticator)
+                    .ThrowIfNotExpectedResponseCode(expectedResponse)
+                    .Content(body, bodyType)
+                    .ResultAsync<TResponse>()
+                    .ConfigureAwait(false);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Foundations.Collections;
 
 namespace Foundations.Extensions
 {
@@ -12,21 +13,24 @@ namespace Foundations.Extensions
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        public static IEnumerable<KeyValuePair<string, string>> EncodeParameters(
-            this IEnumerable<KeyValuePair<string, string>> instance)
+        public static HttpValueCollection EncodeParameters(
+            this HttpValueCollection instance)
         {
             if (instance == null)
             {
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            return instance.Select(p =>
-                new KeyValuePair<string, string>(
-                    p.Key.UrlEncodeString(),
-                    p.Value.UrlEncodeString()));
+            var newCollection = new HttpValueCollection();
+
+            foreach (var value in instance)
+            {
+                newCollection.Add(value);
+            }
+
+            return newCollection;
         }
              
-
         /// <summary>
         /// Determine if the intersection of this and another list is null
         /// </summary>
@@ -72,9 +76,8 @@ namespace Foundations.Extensions
         /// <param name="separator">String to seperate each key and value</param>
         /// <param name="spacer">String to seperate each key-value pair</param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static string Concatenate(
-            this IEnumerable<KeyValuePair<string, string>> instance, 
+            this HttpValueCollection instance, 
             string separator, 
             string spacer)
         {

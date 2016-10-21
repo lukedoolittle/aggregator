@@ -3,11 +3,11 @@
 namespace Foundations.HttpClient.Metadata
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class DatetimeFormatter : Attribute
+    public sealed class DateTimeFormatterAttribute : Attribute
     {
-        public string Formatter { get; set; }
+        public string Formatter { get; }
 
-        public DatetimeFormatter(string formatter)
+        public DateTimeFormatterAttribute(string formatter)
         {
             Formatter = formatter;
         }

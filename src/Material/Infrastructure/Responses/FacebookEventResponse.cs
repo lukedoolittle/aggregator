@@ -32,7 +32,7 @@ namespace Material.Infrastructure.Responses
         public FacebookPlace Place { get; set; }
     }
 
-    [DatetimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
+    [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
     [DataContract]
     public class FacebookEventResponse
     {

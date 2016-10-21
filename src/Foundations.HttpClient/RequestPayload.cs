@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.ParameterHandlers;
@@ -14,8 +15,8 @@ namespace Foundations.HttpClient
         private IParameterHandler _parameterHandler = 
             new QuerystringParameterHandler();
 
-        public List<KeyValuePair<string, string>> QueryParameters { get; } = 
-            new List<KeyValuePair<string, string>>();
+        public HttpValueCollection QueryParameters { get; } =
+            new HttpValueCollection();
 
         public void AddContent(Body content)
         {
@@ -30,15 +31,16 @@ namespace Foundations.HttpClient
         }
 
         public void AddParameters(
-            IEnumerable<KeyValuePair<string, string>> parameters)
+            HttpValueCollection parameters)
         {
-            QueryParameters.AddRange(parameters);
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            QueryParameters.Add(parameters);
         }
 
         public void AddParameter(string key, string value)
         {
-            QueryParameters.Add(
-                new KeyValuePair<string, string>(key, value));
+            QueryParameters.Add(key, value);
         }
 
         public void SetParameterHandling(HttpParameterType parameterType)
@@ -58,6 +60,8 @@ namespace Foundations.HttpClient
 
         public void Attach(HttpRequestMessage message)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
             if (_content != null)
             {
                 var serializedContent = HttpConfiguration

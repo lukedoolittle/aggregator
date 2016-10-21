@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Foundations.Collections;
 
@@ -6,31 +7,40 @@ namespace Foundations.HttpClient.Serialization
 {
     public class HtmlSerializer : ISerializer
     {
-        public string Serialize(object item)
+        public string Serialize(object entity)
         {
             throw new NotImplementedException();
         }
 
-        public string Serialize<T>(T item)
+        public string Serialize<TEntity>(TEntity entity)
         {
-            return Serialize((object)item);
+            return Serialize((object)entity);
         }
 
-        public T Deserialize<T>(
-            string item, 
-            string datetimeFormat = null)
+        public TEntity Deserialize<TEntity>(
+            string entity, 
+            string dateTimeFormat)
         {
             var jsonArray = HttpUtility
-                .ParseQueryString(item)
-                .Select(q => $"\"{q.Key}\" : \"{q.Value}\"");
+                .ParseQueryString(entity)
+                .Select(q => string.Format(
+                    CultureInfo.CurrentCulture, 
+                    "\"{0}\" : \"{1}\"", 
+                    q.Key, 
+                    q.Value));
 
             var json = "{ " + string.Join(",", jsonArray) + " }";
 
-            var dotnet = new JsonSerializer().Deserialize<T>(
+            var dotnet = new JsonSerializer().Deserialize<TEntity>(
                 json, 
-                datetimeFormat);
+                dateTimeFormat);
 
             return dotnet;
+        }
+
+        public TEntity Deserialize<TEntity>(string entity)
+        {
+            return Deserialize<TEntity>(entity, null);
         }
     }
 }

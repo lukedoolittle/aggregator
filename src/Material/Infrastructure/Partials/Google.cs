@@ -9,7 +9,7 @@ namespace Material.Infrastructure.ProtectedResources
             new KeyValuePair<string, string>("access_type", "offline");
 
 
-        public override OAuth2ResourceProvider SetFlow(ResponseTypeEnum flow)
+        public override OAuth2ResourceProvider SetFlow(OAuth2ResponseType flow)
         {
             //When using the 'code' flow adding access_type=offline to the authentication 
             //uri results in a refresh token being returned. This is the behavior of every
@@ -17,10 +17,10 @@ namespace Material.Infrastructure.ProtectedResources
             //You cannot request an offline token using the 'token' flow
             switch (flow)
             {
-                case ResponseTypeEnum.Token:
+                case OAuth2ResponseType.Token:
                     Parameters.Remove(_accessType.Key);
                     break;
-                case ResponseTypeEnum.Code:
+                case OAuth2ResponseType.Code:
                     if (!Parameters.ContainsKey(_accessType.Key))
                     {
                         Parameters.Add(

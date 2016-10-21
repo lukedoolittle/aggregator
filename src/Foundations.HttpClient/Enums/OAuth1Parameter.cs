@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum OAuth1ParameterEnum
+    public enum OAuth1Parameter
     {
         [Description("oauth_consumer_key")]
         ConsumerKey,

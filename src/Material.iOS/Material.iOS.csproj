@@ -84,6 +84,11 @@
     <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
     <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />
   </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <PropertyGroup>

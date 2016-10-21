@@ -106,13 +106,13 @@ namespace CodeGen
             {
                 return PrettyPrintList((List<string>)value);
             }
-            if (value is List<ResponseTypeEnum>)
+            if (value is List<OAuth2ResponseType>)
             {
-                return PrettyPrintList((List<ResponseTypeEnum>)value);
+                return PrettyPrintList((List<OAuth2ResponseType>)value);
             }
-            if (value is List<GrantTypeEnum>)
+            if (value is List<GrantType>)
             {
-                return PrettyPrintList((List<GrantTypeEnum>)value);
+                return PrettyPrintList((List<GrantType>)value);
             }
             if (value is Dictionary<HttpRequestHeader, string>)
             {

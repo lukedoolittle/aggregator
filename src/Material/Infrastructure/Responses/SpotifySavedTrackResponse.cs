@@ -5,7 +5,7 @@ using Foundations.HttpClient.Metadata;
 
 namespace Material.Infrastructure.Responses
 {
-    [DatetimeFormatter("yyyy-MM-ddTHH:mm:ssZ")]
+    [DateTimeFormatter("yyyy-MM-ddTHH:mm:ssZ")]
     [DataContract]
     public class SpotifySavedTrackResponse
     {

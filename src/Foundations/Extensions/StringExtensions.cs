@@ -3,11 +3,28 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Foundations.Collections;
 
 namespace Foundations.Extensions
 {
     public static class StringExtensions
     {
+        public static string Concatenate(
+            string first, 
+            string second, 
+            string separator)
+        {
+            if (first == null) throw new ArgumentNullException(nameof(first));
+            if (second == null) throw new ArgumentNullException(nameof(second));
+            if (separator == null) throw new ArgumentNullException(nameof(separator));
+
+            return new StringBuilder()
+                .Append(first)
+                .Append(separator)
+                .Append(second)
+                .ToString();
+        }
+
         public static string ToBase64String(this string instance)
         {
             if (instance == null)
@@ -19,8 +36,8 @@ namespace Foundations.Extensions
             return Convert.ToBase64String(plainTextBytes);
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> EncodeAndSortParameters(
-            this IEnumerable<KeyValuePair<string, string>> instance)
+        public static HttpValueCollection EncodeAndSortParameters(
+            this HttpValueCollection instance)
         {
             if (instance == null)
             {
@@ -38,6 +55,7 @@ namespace Foundations.Extensions
         }
 
         //Adapted from https://github.com/xamarin/Xamarin.Auth/blob/master/src/Xamarin.Auth/OAuth1.cs
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
         public static string UrlEncodeString(this string instance)
         {
             if (instance == null)

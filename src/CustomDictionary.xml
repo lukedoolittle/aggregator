@@ -2,21 +2,24 @@
       <Words>
          <Recognized>
             <Word>oauth</Word>
-			<Word>Querystring</Word>
-			<Word>Sha</Word>
-			<Word>Jwt</Word>
+			      <Word>Querystring</Word>
+			      <Word>Sha</Word>
+			      <Word>Jwt</Word>
+            <Word>Auth</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate=""></Term>
          </Compound>
          <DiscreteExceptions>
             <Term>Querystring</Term>
+             <Term>OAuth</Term>
          </DiscreteExceptions>
       </Words>
       <Acronyms>
          <CasingExceptions>
             <Acronym>oauth</Acronym>
-			<Acronym>Jwt</Acronym>
+			      <Acronym>Jwt</Acronym>
+            <Acronym>UTF</Acronym>
          </CasingExceptions>
       </Acronyms>
    </Dictionary>

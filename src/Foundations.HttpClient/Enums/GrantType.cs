@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum GrantTypeEnum
+    public enum GrantType
     {
         [Description("authorization_code")]
         AuthCode,

@@ -1,4 +1,6 @@
-﻿using Foundations.Cryptography.JsonWebToken;
+﻿using System;
+using System.Text;
+using Foundations.Cryptography.JsonWebToken;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Request;
@@ -7,7 +9,7 @@ namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth2JsonWebToken : IAuthenticator
     {
-        private readonly OAuth2JwtSigningTemplate _template;
+        private readonly OAuth2JsonWebTokenSigningTemplate _template;
         private readonly string _privateKey;
         private readonly string _clientId;
 
@@ -15,35 +17,55 @@ namespace Foundations.HttpClient.Authenticators
             JsonWebToken token,
             string privateKey,
             string clientId,
-            IJwtSigningFactory signingFactory = null)
+            IJsonWebTokenSigningFactory signingFactory)
         {
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
+            if (signingFactory == null) throw new ArgumentNullException(nameof(signingFactory));
+
             _clientId = clientId;
             _privateKey = privateKey;
 
-            var factory = signingFactory ?? new JwtSignerFactory();
-            _template = new OAuth2JwtSigningTemplate(token, factory);
+            _template = new OAuth2JsonWebTokenSigningTemplate(
+                token, 
+                signingFactory);
         }
+
+        public OAuth2JsonWebToken(
+            JsonWebToken token,
+            string privateKey,
+            string clientId) : this(
+                token, 
+                privateKey, 
+                clientId, 
+                new JsonWebTokenSignerFactory())
+        {}
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
+            if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
+
             var signatureBase = _template.CreateSignatureBase();
             var signature = _template.CreateSignature(
                 signatureBase,
                 _privateKey);
-            var assertion = $"{signatureBase}.{signature}";
+
+            var assertion = StringExtensions.Concatenate(
+                signatureBase, 
+                signature, 
+                ".");
 
             requestBuilder
                 .Parameter(
-                    OAuth2ParameterEnum.Assertion.EnumToString(),
+                    OAuth2Parameter.Assertion.EnumToString(),
                     assertion)
                  .Parameter(
-                    OAuth2ParameterEnum.GrantType.EnumToString(),
-                    GrantTypeEnum.JsonWebToken.EnumToString());
+                    OAuth2Parameter.GrantType.EnumToString(),
+                    GrantType.JsonWebToken.EnumToString());
 
             if (_clientId != null)
             {
                 requestBuilder.Parameter(
-                    OAuth2ParameterEnum.ClientId.EnumToString(),
+                    OAuth2Parameter.ClientId.EnumToString(),
                     _clientId);
             }
         }

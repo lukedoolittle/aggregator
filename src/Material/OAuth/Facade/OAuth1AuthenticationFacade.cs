@@ -57,11 +57,11 @@ namespace Material.Infrastructure.OAuth
 
             _securityStrategy.SetSecureParameter(
                 userId, 
-                OAuth1ParameterEnum.OAuthToken.EnumToString(), 
+                OAuth1Parameter.OAuthToken.EnumToString(), 
                 credentials.OAuthToken);
             _securityStrategy.SetSecureParameter(
                 userId,
-                OAuth1ParameterEnum.OAuthTokenSecret.EnumToString(),
+                OAuth1Parameter.OAuthTokenSecret.EnumToString(),
                 credentials.OAuthSecret);
 
             return authorizationPath;

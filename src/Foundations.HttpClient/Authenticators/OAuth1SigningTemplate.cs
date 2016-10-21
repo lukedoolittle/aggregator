@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Text;
+using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.Cryptography;
 using Foundations.Cryptography.DigitalSignature;
@@ -118,19 +119,22 @@ namespace Foundations.HttpClient.Authenticators
         public string ConcatenateElements(
             HttpMethod method,
             Uri url,
-            IEnumerable<KeyValuePair<string, string>> parameters)
+            HttpValueCollection parameters)
         {
-            var allParameters = new List<KeyValuePair<string, string>>(
-                parameters);
+            if (method == null) throw new ArgumentNullException(nameof(method));
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.ConsumerKey, _consumerKey);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.OAuthToken, _oauthToken);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Verifier, _verifier);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Callback, _callbackUrl?.ToString());
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Timestamp, Timestamp);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Nonce, Nonce);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.SignatureMethod, _signingAlgorithm.SignatureMethod);
-            AddOAuth1Parameter(allParameters, OAuth1ParameterEnum.Version, Version);
+            var allParameters = new HttpValueCollection(parameters);
+
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.ConsumerKey, _consumerKey);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.OAuthToken, _oauthToken);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.Verifier, _verifier);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.Callback, _callbackUrl?.ToString());
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.Timestamp, Timestamp);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.Nonce, Nonce);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.SignatureMethod, _signingAlgorithm.SignatureMethod);
+            AddOAuth1Parameter(allParameters, OAuth1Parameter.Version, Version);
 
             var elements = new List<string>
             {
@@ -143,24 +147,29 @@ namespace Foundations.HttpClient.Authenticators
         }
 
         private static void AddOAuth1Parameter(
-            ICollection<KeyValuePair<string, string>> parameters, 
-            OAuth1ParameterEnum parameterKey,
+            HttpValueCollection parameters, 
+            OAuth1Parameter parameterKey,
             string value)
         {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
             if (string.IsNullOrEmpty(value))
             {
                 return;
             }
 
-            parameters.Add(
-                new KeyValuePair<string, string>(
-                    parameterKey.EnumToString(),
-                    value));
+            parameters.Add(parameterKey.EnumToString(), value);
         }
 
         public string GenerateSignature(string signatureBase)
         {
-            var key = $"{_consumerSecret.UrlEncodeString()}&{_oauthSecret.UrlEncodeString()}";
+            if (signatureBase == null) throw new ArgumentNullException(nameof(signatureBase));
+
+            var key = StringExtensions.Concatenate(
+                _consumerSecret.UrlEncodeString(),
+                _oauthSecret.UrlEncodeString(),
+                "&");
+
             var signature = _signingAlgorithm.SignText(
                 Encoding.UTF8.GetBytes(signatureBase), 
                 key);

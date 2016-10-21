@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using Foundations.Collections;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
@@ -7,6 +8,6 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         void AddParameters(
             HttpRequestMessage message,
-            IEnumerable<KeyValuePair<string, string>> parameters);
+            HttpValueCollection parameters);
     }
 }

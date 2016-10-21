@@ -79,28 +79,28 @@ namespace Foundations.HttpClient.Authenticators
 
             requestBuilder
                 .Parameter(
-                    OAuth1ParameterEnum.Nonce,
+                    OAuth1Parameter.Nonce,
                     _template.Nonce)
                 .Parameter(
-                    OAuth1ParameterEnum.Timestamp,
+                    OAuth1Parameter.Timestamp,
                     _template.Timestamp)
                 .Parameter(
-                    OAuth1ParameterEnum.ConsumerKey,
+                    OAuth1Parameter.ConsumerKey,
                     _consumerKey)
                 .Parameter(
-                    OAuth1ParameterEnum.OAuthToken,
+                    OAuth1Parameter.OAuthToken,
                     _oauthToken)
                 .Parameter(
-                    OAuth1ParameterEnum.Verifier,
+                    OAuth1Parameter.Verifier,
                     _verifier)
                 .Parameter(
-                    OAuth1ParameterEnum.SignatureMethod,
+                    OAuth1Parameter.SignatureMethod,
                     _signatureMethod)
                 .Parameter(
-                    OAuth1ParameterEnum.Version,
+                    OAuth1Parameter.Version,
                     _template.Version)
                 .Parameter(
-                    OAuth1ParameterEnum.Signature,
+                    OAuth1Parameter.Signature,
                     signature);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum ContentTypeEncodingEnum
+    public enum ContentTypeEncoding
     {
         [Description("utf-8")]
         UTF8,

@@ -12,23 +12,24 @@ namespace Foundations.HttpClient
 {
     public static class HttpConfiguration
     {
-        public static Func<HttpClientHandler> MessageHandlerFactory =
+        public static Func<HttpClientHandler> MessageHandlerFactory { get; set; } =
             () => new HttpClientHandler {CookieContainer = new CookieContainer()};
 
-        public static Action<HttpRequestBuilder> DefaultBuilderSetup = builder =>
-        {
-            builder.AcceptsDecompressionEncoding(DecompressionMethods.GZip);
-            builder.AcceptsDecompressionEncoding(DecompressionMethods.Deflate);
+        public static Action<HttpRequestBuilder> DefaultBuilderSetup { get; set; } = 
+            builder =>
+            {
+                builder.AcceptsDecompressionEncoding(DecompressionMethods.GZip);
+                builder.AcceptsDecompressionEncoding(DecompressionMethods.Deflate);
 
-            builder.Accepts(MediaType.Json);
-            builder.Accepts(MediaType.Xml);
-            builder.Accepts(MediaType.TextJson);
-            builder.Accepts(MediaType.TextXml);
-            builder.Accepts(MediaType.TextXJson);
-            builder.Accepts(MediaType.Javascript);
-        };
+                builder.Accepts(MediaType.Json);
+                builder.Accepts(MediaType.Xml);
+                builder.Accepts(MediaType.TextJson);
+                builder.Accepts(MediaType.TextXml);
+                builder.Accepts(MediaType.TextXJson);
+                builder.Accepts(MediaType.Javascript);
+            };
 
-        public static IDictionary<MediaType, ISerializer> ContentSerializers =
+        public static IDictionary<MediaType, ISerializer> ContentSerializers { get; } =
             new DefaultingDictionary<MediaType, ISerializer>(type =>
             {
                 throw new SerializationException(

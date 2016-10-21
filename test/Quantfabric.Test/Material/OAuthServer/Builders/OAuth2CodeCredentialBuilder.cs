@@ -22,7 +22,7 @@ namespace Quantfabric.Test.OAuthServer.Builders
         public OAuth2Credentials BuildCredentials(
             OAuth2AuthorizationRequest request)
         {
-            if (request.ResponseType != ResponseTypeEnum.Code)
+            if (request.ResponseType != OAuth2ResponseType.Code)
             {
                 throw new Exception();
             }

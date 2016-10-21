@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Foundations.Collections;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
@@ -23,8 +24,8 @@ namespace Foundations.HttpClient
             HttpConfiguration.MessageHandlerFactory();
         private readonly RequestPayload _payload = 
             new RequestPayload();
-        private readonly List<KeyValuePair<string, string>> _pathParameters =
-            new List<KeyValuePair<string, string>>();
+        private readonly HttpValueCollection _pathParameters =
+            new HttpValueCollection();
 
         private string _path;
         private IAuthenticator _authenticator;
@@ -36,7 +37,7 @@ namespace Foundations.HttpClient
 
         public Uri Url => new Uri(_baseAddress + _path);
 
-        public IEnumerable<KeyValuePair<string, string>> QueryParameters => 
+        public HttpValueCollection QueryParameters => 
             _payload.QueryParameters;
 
         public HttpRequestBuilder(Uri baseAddress) 
@@ -61,10 +62,8 @@ namespace Foundations.HttpClient
             string path,
             HttpParameterType parameterType)
         {
-            if (method == null)
-            {
-                throw new ArgumentNullException(nameof(method));
-            }
+            if (method == null) throw new ArgumentNullException(nameof(method));
+            if (path == null) throw new ArgumentNullException(nameof(path));
 
             _path = path.TrimStart('/');
 
@@ -75,7 +74,7 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Segments(
-            IEnumerable<KeyValuePair<string, string>> parameters)
+            HttpValueCollection parameters)
         {
             if (parameters == null)
             {
@@ -119,24 +118,24 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Header(
-            HttpRequestHeader header, 
+            HttpRequestHeader httpHeader, 
             string value)
         {
             return Headers(new Dictionary<HttpRequestHeader, string>
             {
-                {header, value}
+                {httpHeader, value}
             });
         }
 
         public HttpRequestBuilder Headers(
-            IDictionary<HttpRequestHeader, string> headers)
+            IDictionary<HttpRequestHeader, string> httpHeaders)
         {
-            if (headers == null)
+            if (httpHeaders == null)
             {
-                throw new ArgumentNullException(nameof(headers));
+                throw new ArgumentNullException(nameof(httpHeaders));
             }
 
-            foreach (var header in headers)
+            foreach (var header in httpHeaders)
             {
                 if (header.Key == HttpRequestHeader.Accept && 
                     _hasDefaultAccepts)
@@ -158,18 +157,18 @@ namespace Foundations.HttpClient
             string value)
         {
             return Parameters(
-                new Dictionary<string, string> { {key, value} });
+                new HttpValueCollection { { key, value } });
         }
 
         public HttpRequestBuilder Parameters(
-            IDictionary<string, string> parameters)
+            HttpValueCollection requestParameters)
         {
-            if (parameters == null)
+            if (requestParameters == null)
             {
-                throw new ArgumentNullException(nameof(parameters));
+                throw new ArgumentNullException(nameof(requestParameters));
             }
 
-            foreach (var parameter in parameters)
+            foreach (var parameter in requestParameters)
             {
                 _payload.AddParameter(
                     parameter.Key,
@@ -180,11 +179,11 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Content(
-            object content,
+            object bodyContent,
             MediaType mediaType,
             Encoding encoding)
         {
-            if (content == null)
+            if (bodyContent == null)
             {
                 return this;
             }
@@ -196,7 +195,7 @@ namespace Foundations.HttpClient
 
             _payload.AddContent(new Body()
             {
-                Content = content,
+                Content = bodyContent,
                 MediaType = mediaType,
                 Encoding = encoding
             });
@@ -221,9 +220,9 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Authenticator(
-            IAuthenticator authenticator)
+            IAuthenticator requestAuthenticator)
         {
-            _authenticator = authenticator;
+            _authenticator = requestAuthenticator;
 
             return this;
         }
@@ -294,10 +293,36 @@ namespace Foundations.HttpClient
             }
         }
 
+        bool _disposed;
+
         public void Dispose()
         {
-            (_message as IDisposable).Dispose();
-            (_messageHandler as IDisposable).Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~HttpRequestBuilder()
+        {
+            // Finalizer calls Dispose(false)
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                // free managed resources
+                (_message as IDisposable).Dispose();
+                (_messageHandler as IDisposable).Dispose();
+            }
+
+            // release any unmanaged objects
+            // set the object references to null
+
+            _disposed = true;
         }
     }
 }

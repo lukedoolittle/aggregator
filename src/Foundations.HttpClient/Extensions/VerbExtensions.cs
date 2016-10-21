@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Foundations.Collections;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Extensions
@@ -17,11 +18,7 @@ namespace Foundations.HttpClient.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            return instance.Segments(
-                new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>(key, value)
-                });
+            return instance.Segments(new HttpValueCollection { { key, value } });
         }
 
         public static HttpRequestBuilder Request(

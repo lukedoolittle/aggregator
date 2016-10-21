@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum OAuth2ParameterEnum
+    public enum OAuth2Parameter
     {
         [Description("oauth_token")]
         OAuthToken,

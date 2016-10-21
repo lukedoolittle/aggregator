@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Foundations.Collections;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
@@ -8,14 +10,19 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         public void AddParameters(
             HttpRequestMessage message,
-            IEnumerable<KeyValuePair<string, string>> parameters)
+            HttpValueCollection parameters)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
             if (parameters == null || !parameters.Any())
             {
                 return;
             }
 
-            message.Content = new FormUrlEncodedContent(parameters);
+            message.Content = new FormUrlEncodedContent(
+                parameters.Select(item =>
+                    new KeyValuePair<string, string>(
+                            item.Key,
+                            item.Value)));
         }
     }
 }

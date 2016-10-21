@@ -22,7 +22,7 @@ namespace Material.Infrastructure.OAuth
         protected override bool IsResponseError(HttpValueCollection query)
         {
             return query.ContainsKey(
-                OAuth2ParameterEnum.Error.EnumToString());
+                OAuth2Parameter.Error.EnumToString());
         }
     }
 }

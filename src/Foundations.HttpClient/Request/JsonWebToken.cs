@@ -18,10 +18,13 @@ namespace Foundations.HttpClient.Request
     public class JsonWebTokenHeader
     {
         [DataMember(Name = "typ", Order = 0)]
-        public string Type { get; set; } = "JWT";
+        public string MediaType { get; set; } = "JWT";
 
-        public JwtAlgorithm Algorithm { get; set; } = JwtAlgorithm.RS256;
+        public JsonWebTokenAlgorithm Algorithm { get; set; } = JsonWebTokenAlgorithm.RS256;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
         [DataMember(Name = "alg", Order = 1)]
         private string _algorithm
         {
@@ -55,6 +58,6 @@ namespace Foundations.HttpClient.Request
         public string NotBefore { get; set; }
 
         [DataMember(Name = "jti", Order = 7, EmitDefaultValue = false)]
-        public string JWTId { get; set; }
+        public string Id { get; set; }
     }
 }

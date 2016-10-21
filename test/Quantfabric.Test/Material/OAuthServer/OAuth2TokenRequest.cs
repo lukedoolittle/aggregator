@@ -7,7 +7,7 @@ namespace Quantfabric.Test.OAuthServer
     [DataContract]
     public class OAuth2TokenRequest
     {
-        public GrantTypeEnum GrantType => _grantType.StringToEnum<GrantTypeEnum>();
+        public GrantType GrantType => _grantType.StringToEnum<GrantType>();
 
         [DataMember(Name = "grant_type")]
 #pragma warning disable 0649

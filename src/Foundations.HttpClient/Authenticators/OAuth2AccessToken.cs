@@ -48,28 +48,30 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
+            if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
+
             requestBuilder
                 .Parameter(
-                    ResponseTypeEnum.Code.EnumToString(),
+                    OAuth2ResponseType.Code.EnumToString(),
                     _code)
                 .Parameter(
-                    OAuth2ParameterEnum.RedirectUri.EnumToString(),
+                    OAuth2Parameter.RedirectUri.EnumToString(),
                     _redirectUrl.ToString())
                 .Parameter(
-                    OAuth2ParameterEnum.ClientId.EnumToString(),
+                    OAuth2Parameter.ClientId.EnumToString(),
                     _clientId)
                 .Parameter(
-                    OAuth2ParameterEnum.Scope.EnumToString(),
+                    OAuth2Parameter.Scope.EnumToString(),
                     _scope)
                 .Parameter(
-                    OAuth2ParameterEnum.GrantType.EnumToString(),
-                    GrantTypeEnum.AuthCode.EnumToString());
+                    OAuth2Parameter.GrantType.EnumToString(),
+                    GrantType.AuthCode.EnumToString());
 
             if (_clientSecret != null)
             {
                 requestBuilder
                     .Parameter(
-                        OAuth2ParameterEnum.ClientSecret.EnumToString(),
+                        OAuth2Parameter.ClientSecret.EnumToString(),
                         _clientSecret);
             }
         }

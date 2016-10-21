@@ -53,7 +53,7 @@ namespace Foundations.Test
         [Fact]
         public void VerifyJwtSignature()
         {
-            var signer = new JwtSignerFactory().GetAlgorithm(JwtAlgorithm.RS256);
+            var signer = new JsonWebTokenSignerFactory().GetAlgorithm(JsonWebTokenAlgorithm.RS256);
 
             var signatureBase = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhbmFseXRpY3MtYXBpQG11c2ljbm90ZXMtMTQ0MjE3LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic2NvcGUiOiJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9hdXRoL2FuYWx5dGljcy5yZWFkb25seSIsImF1ZCI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi90b2tlbiIsImlhdCI6MTAwLCJleHAiOjIwMH0=";
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);

@@ -19,10 +19,13 @@ namespace Foundations.HttpClient.Extensions
 
             return instance.Header(
                 HttpRequestHeader.Authorization,
-                $"{OAuth2ParameterEnum.BearerHeader.EnumToString()} {token}");
+                StringExtensions.Concatenate(
+                    OAuth2Parameter.BearerHeader.EnumToString(), 
+                    token, 
+                    " "));
         }
 
-        public static HttpRequestBuilder AcceptsEncodingGzip(
+        public static HttpRequestBuilder AcceptsEncodingGZip(
             this HttpRequestBuilder instance)
         {
             if (instance == null)

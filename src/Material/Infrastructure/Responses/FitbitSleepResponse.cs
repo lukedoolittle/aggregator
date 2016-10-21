@@ -64,7 +64,7 @@ namespace Material.Infrastructure.Responses
         public int TotalTimeInBed { get; set; }
     }
 
-    [DatetimeFormatter("yyyy-MM-ddTHH:mm:ss.fff")]
+    [DateTimeFormatter("yyyy-MM-ddTHH:mm:ss.fff")]
     [DataContract]
     public class FitbitSleepResponse
     {

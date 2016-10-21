@@ -22,7 +22,7 @@ namespace Foundations.HttpClient.Extensions
 
         public static HttpRequestBuilder Content(
             this HttpRequestBuilder instance, 
-            object content,
+            object newContent,
             MediaType mediaType)
         {
             if (instance == null)
@@ -31,7 +31,7 @@ namespace Foundations.HttpClient.Extensions
             }
 
             return instance.Content(
-                content,
+                newContent,
                 mediaType,
                 Encoding.UTF8);
         }

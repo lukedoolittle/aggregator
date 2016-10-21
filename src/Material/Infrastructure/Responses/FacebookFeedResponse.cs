@@ -27,7 +27,7 @@ namespace Material.Infrastructure.Responses
         public string Next { get; set; }
     }
 
-    [DatetimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
+    [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
     [DataContract]
     public class FacebookFeedResponse
     {

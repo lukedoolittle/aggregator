@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations;
 using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
@@ -31,22 +30,23 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            return (await (await new HttpRequestBuilder(requestUrl.NonPath())
-                .PostTo(
-                    requestUrl.AbsolutePath,
-                    parameterHandling)
-                .ForOAuth1RequestToken(
-                    consumerKey,
-                    consumerSecret,
-                    callbackUrl)
-                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
-                .ExecuteAsync()
-                .ConfigureAwait(false))
-                .ContentAsync<OAuth1Credentials>()
-                .ConfigureAwait(false))
-                .SetConsumerProperties(
-                    consumerKey,
-                    consumerSecret);
+            using (var requestBuilder = new HttpRequestBuilder(requestUrl.NonPath()))
+            {
+                return (await requestBuilder
+                            .PostTo(
+                                requestUrl.AbsolutePath,
+                                parameterHandling)
+                            .ForOAuth1RequestToken(
+                                consumerKey,
+                                consumerSecret,
+                                callbackUrl)
+                            .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
+                            .ResultAsync<OAuth1Credentials>()
+                            .ConfigureAwait(false))
+                            .SetConsumerProperties(
+                                consumerKey,
+                                consumerSecret);
+            }
         }
 
         public Uri GetAuthorizationUri(
@@ -68,7 +68,7 @@ namespace Material.Infrastructure.OAuth
 
             var query = new HttpValueCollection
             {
-                { OAuth2ParameterEnum.OAuthToken.EnumToString(), oauthToken}
+                { OAuth2Parameter.OAuthToken.EnumToString(), oauthToken}
             };
 
             builder.Query += query.ToString();
@@ -76,6 +76,7 @@ namespace Material.Infrastructure.OAuth
             return builder.Uri;
         }
 
+        //TODO: parameters shouldn't be dictionaries because there can be duplicates
         public async Task<OAuth1Credentials> GetAccessToken(
             Uri accessUri, 
             string consumerKey, 
@@ -91,25 +92,26 @@ namespace Material.Infrastructure.OAuth
                 throw new ArgumentNullException(nameof(accessUri));
             }
 
-            return (await (await new HttpRequestBuilder(accessUri.NonPath())
-                .PostTo(
-                    accessUri.AbsolutePath,
-                    parameterHandling)
-                .ForOAuth1AccessToken(
-                    consumerKey,
-                    consumerSecret,
-                    oauthToken,
-                    oauthSecret,
-                    verifier)
-                .Parameters(queryParameters)
-                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
-                .ExecuteAsync()
-                .ConfigureAwait(false))
-                .ContentAsync<OAuth1Credentials>()
-                .ConfigureAwait(false))
-                .SetConsumerProperties(
-                    consumerKey,
-                    consumerSecret);
+            using (var requestBuilder = new HttpRequestBuilder(accessUri.NonPath()))
+            {
+                return (await requestBuilder
+                            .PostTo(
+                                accessUri.AbsolutePath,
+                                parameterHandling)
+                            .ForOAuth1AccessToken(
+                                consumerKey,
+                                consumerSecret,
+                                oauthToken,
+                                oauthSecret,
+                                verifier)
+                            .Parameters(queryParameters)
+                            .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
+                            .ResultAsync<OAuth1Credentials>()
+                            .ConfigureAwait(false))
+                            .SetConsumerProperties(
+                                consumerKey,
+                                consumerSecret);
+            }
         }
     }
 }

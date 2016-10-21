@@ -33,7 +33,7 @@ namespace Material.Infrastructure.OAuth.Callback
         protected override bool IsResponseError(HttpValueCollection query)
         {
             return query.ContainsKey(
-                OAuth2ParameterEnum.Error.EnumToString());
+                OAuth2Parameter.Error.EnumToString());
         }
     }
 }

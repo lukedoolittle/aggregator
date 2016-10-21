@@ -396,13 +396,13 @@ namespace Foundations.Test
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.OAuthToken.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Signature.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.OAuthToken.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -456,13 +456,13 @@ namespace Foundations.Test
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Callback.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Signature.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Callback.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -494,14 +494,14 @@ namespace Foundations.Test
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.OAuthToken.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Signature.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1ParameterEnum.Verifier.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.OAuthToken.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
+            Assert.NotNull(response.Args[OAuth1Parameter.Verifier.EnumToString()]);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -533,12 +533,12 @@ namespace Foundations.Test
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(clientId, response.Args[OAuth2ParameterEnum.ClientId.EnumToString()]);
-            Assert.Equal(clientSecret, response.Args[OAuth2ParameterEnum.ClientSecret.EnumToString()]);
-            Assert.Equal(redirectUri.ToString(), response.Args[OAuth2ParameterEnum.RedirectUri.EnumToString()]);
-            Assert.Equal(code, response.Args[ResponseTypeEnum.Code.EnumToString()]);
-            Assert.Equal(scope, response.Args[OAuth2ParameterEnum.Scope.EnumToString()]);
-            Assert.Equal(GrantTypeEnum.AuthCode.EnumToString(), response.Args[OAuth2ParameterEnum.GrantType.EnumToString()]);
+            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
+            Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
+            Assert.Equal(redirectUri.ToString(), response.Args[OAuth2Parameter.RedirectUri.EnumToString()]);
+            Assert.Equal(code, response.Args[OAuth2ResponseType.Code.EnumToString()]);
+            Assert.Equal(scope, response.Args[OAuth2Parameter.Scope.EnumToString()]);
+            Assert.Equal(GrantType.AuthCode.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -564,7 +564,7 @@ namespace Foundations.Test
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(GrantTypeEnum.ClientCredentials.EnumToString(), response.Args[OAuth2ParameterEnum.GrantType.EnumToString()]);
+            Assert.Equal(GrantType.ClientCredentials.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
             Assert.True(response.Headers[HttpRequestHeader.Authorization.ToString()].StartsWith("Basic"));
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -620,8 +620,8 @@ e451rpYJcee/1EhNRpvn6Q==
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.NotNull(response.Args["assertion"]);
-            Assert.Equal(clientId, response.Args[OAuth2ParameterEnum.ClientId.EnumToString()]);
-            Assert.Equal(GrantTypeEnum.JsonWebToken.EnumToString(), response.Args[OAuth2ParameterEnum.GrantType.EnumToString()]);
+            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
+            Assert.Equal(GrantType.JsonWebToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
 
@@ -648,10 +648,10 @@ e451rpYJcee/1EhNRpvn6Q==
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(clientId, response.Args[OAuth2ParameterEnum.ClientId.EnumToString()]);
-            Assert.Equal(clientSecret, response.Args[OAuth2ParameterEnum.ClientSecret.EnumToString()]);
-            Assert.Equal(refreshToken, response.Args[OAuth2ParameterEnum.RefreshToken.EnumToString()]);
-            Assert.Equal(GrantTypeEnum.RefreshToken.EnumToString(), response.Args[OAuth2ParameterEnum.GrantType.EnumToString()]);
+            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
+            Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
+            Assert.Equal(refreshToken, response.Args[OAuth2Parameter.RefreshToken.EnumToString()]);
+            Assert.Equal(GrantType.RefreshToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }

@@ -66,6 +66,11 @@
       <Name>Foundations</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <Import Project="..\Foundations.Http\Foundations.Http.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

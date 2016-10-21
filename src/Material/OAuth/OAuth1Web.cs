@@ -84,12 +84,12 @@ namespace Material.Facades
         {
             var result = new OAuth1CallbackHandler(
                             _securityStrategy,
-                            OAuth1ParameterEnum.OAuthToken.EnumToString())
+                            OAuth1Parameter.OAuthToken.EnumToString())
                         .ParseAndValidateCallback(responseUri, userId);
 
             var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
                 userId,
-                OAuth1ParameterEnum.OAuthTokenSecret.EnumToString());
+                OAuth1Parameter.OAuthTokenSecret.EnumToString());
 
             return _authFacade.GetAccessTokenAsync(result, oauthSecret);
         }

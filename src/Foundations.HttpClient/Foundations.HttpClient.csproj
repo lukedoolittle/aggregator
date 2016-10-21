@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -55,15 +55,15 @@
     <Compile Include="Authenticators\OAuth2AccessToken.cs" />
     <Compile Include="Authenticators\OAuth2ClientAccessToken.cs" />
     <Compile Include="Authenticators\OAuth2JsonWebToken.cs" />
-    <Compile Include="Authenticators\OAuth2JWTSigningTemplate.cs" />
+    <Compile Include="Authenticators\OAuth2JsonWebTokenSigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
-    <Compile Include="Enums\ContentTypeEncodingEnum.cs" />
-    <Compile Include="Enums\GrantTypeEnum.cs" />
-    <Compile Include="Enums\OAuth1ParameterEnum.cs" />
-    <Compile Include="Enums\OAuth2ParameterEnum.cs" />
+    <Compile Include="Enums\ContentTypeEncoding.cs" />
+    <Compile Include="Enums\GrantType.cs" />
+    <Compile Include="Enums\OAuth1Parameter.cs" />
+    <Compile Include="Enums\OAuth2Parameter.cs" />
     <Compile Include="Enums\HttpParameterType.cs" />
-    <Compile Include="Enums\ResponseTypeEnum.cs" />
+    <Compile Include="Enums\OAuth2ResponseType.cs" />
     <Compile Include="Extensions\HeaderExtensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Request\JsonWebToken.cs" />
-    <Compile Include="Metadata\DateTimeFormatter.cs" />
+    <Compile Include="Metadata\DatetimeFormatterAttribute.cs" />
     <Compile Include="ParameterHandlers\QuerystringParameterHandler.cs" />
     <Compile Include="HttpRequestBuilder.cs" />
     <Compile Include="HttpResponse.cs" />
@@ -99,6 +99,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

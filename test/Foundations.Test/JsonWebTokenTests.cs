@@ -33,7 +33,7 @@ namespace Foundations.Test
                 }
             };
 
-            var template = new OAuth2JwtSigningTemplate(token, new JwtSignerFactory());
+            var template = new OAuth2JsonWebTokenSigningTemplate(token, new JsonWebTokenSignerFactory());
 
             var actual = template.CreateSignatureBase();
 

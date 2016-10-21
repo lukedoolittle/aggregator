@@ -87,12 +87,12 @@ namespace Material.Facades
             //
             //var handler = new OAuth2QueryCallbackHandler(
             //_strategy,
-            //OAuth2ParameterEnum.State.EnumToString(),
+            //OAuth2Parameter.State.EnumToString(),
             //userId);
 
             var result = new OAuth2QueryCallbackHandler(
                             _strategy,
-                            OAuth2ParameterEnum.State.EnumToString())
+                            OAuth2Parameter.State.EnumToString())
                         .ParseAndValidateCallback(
                             responseUri, 
                             userId);

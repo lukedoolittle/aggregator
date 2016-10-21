@@ -26,12 +26,12 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string clientSecret)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantTypeEnum.ClientCredentials))
+            if (!_resourceProvider.GrantTypes.Contains(GrantType.ClientCredentials))
             {
                 throw new InvalidGrantTypeException(
                     string.Format(
                         StringResources.GrantTypeNotSupportedException,
-                        GrantTypeEnum.ClientCredentials,
+                        GrantType.ClientCredentials,
                         _resourceProvider.GetType().Name));
             }
 
@@ -54,12 +54,12 @@ namespace Material.Infrastructure.OAuth
             string privateKey,
             string clientId)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantTypeEnum.JsonWebToken))
+            if (!_resourceProvider.GrantTypes.Contains(GrantType.JsonWebToken))
             {
                 throw new InvalidGrantTypeException(
                     string.Format(
                         StringResources.GrantTypeNotSupportedException,
-                        GrantTypeEnum.JsonWebToken,
+                        GrantType.JsonWebToken,
                         _resourceProvider.GetType().Name));
             }
 
@@ -81,12 +81,12 @@ namespace Material.Infrastructure.OAuth
         public async Task<OAuth2Credentials> GetRefreshedAccessTokenCredentials(
             OAuth2Credentials expiredCredentials)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantTypeEnum.RefreshToken))
+            if (!_resourceProvider.GrantTypes.Contains(GrantType.RefreshToken))
             {
                 throw new InvalidGrantTypeException(
                     string.Format(
                         StringResources.GrantTypeNotSupportedException, 
-                        GrantTypeEnum.RefreshToken,
+                        GrantType.RefreshToken,
                         _resourceProvider.GetType().Name));
             }
 

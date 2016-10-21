@@ -30,7 +30,7 @@ namespace Material.Infrastructure.OAuth.Template
         {
             var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
                 _userId,
-                OAuth1ParameterEnum.OAuthTokenSecret.EnumToString());
+                OAuth1Parameter.OAuthTokenSecret.EnumToString());
 
             return _oauthFacade.GetAccessTokenAsync(
                 intermediateResult, 

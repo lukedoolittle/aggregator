@@ -19,11 +19,11 @@ namespace Material.Infrastructure
             new Dictionary<string, string>();
         public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
-        public abstract List<ResponseTypeEnum> Flows { get; }
-        public virtual ResponseTypeEnum Flow { get; private set; }
-        public abstract List<GrantTypeEnum> GrantTypes { get; }
+        public abstract List<OAuth2ResponseType> Flows { get; }
+        public virtual OAuth2ResponseType Flow { get; private set; }
+        public abstract List<GrantType> GrantTypes { get; }
         
-        public virtual OAuth2ResourceProvider SetFlow(ResponseTypeEnum flow)
+        public virtual OAuth2ResourceProvider SetFlow(OAuth2ResponseType flow)
         {
             if (!Flows.Contains(flow))
             {

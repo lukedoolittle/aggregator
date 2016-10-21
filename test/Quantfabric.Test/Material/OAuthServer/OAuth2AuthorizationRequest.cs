@@ -7,7 +7,7 @@ namespace Quantfabric.Test.OAuthServer
     [DataContract]
     public class OAuth2AuthorizationRequest
     {
-        public ResponseTypeEnum ResponseType => _responseType.StringToEnum<ResponseTypeEnum>();
+        public OAuth2ResponseType ResponseType => _responseType.StringToEnum<OAuth2ResponseType>();
 
         [DataMember(Name = "response_type")]
 #pragma warning disable 0649

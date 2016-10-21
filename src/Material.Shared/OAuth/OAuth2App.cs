@@ -85,11 +85,11 @@ namespace Material.Infrastructure.OAuth
         {
             var handler = new OAuth2QueryCallbackHandler(
                 _securityStrategy,
-                OAuth2ParameterEnum.State.EnumToString());
+                OAuth2Parameter.State.EnumToString());
 
             return _app.GetCredentialsAsync(
                 clientSecret, 
-                ResponseTypeEnum.Code, 
+                OAuth2ResponseType.Code, 
                 handler);
         }
 
@@ -99,32 +99,32 @@ namespace Material.Infrastructure.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-            ResponseTypeEnum flow;
+            OAuth2ResponseType flow;
             IOAuthCallbackHandler<OAuth2Credentials> handler = null;
 
 #if __WINDOWS__
-            flow = ResponseTypeEnum.Token;
+            flow = OAuth2ResponseType.Token;
 
             handler = new OAuth2QueryCallbackHandler(
                     _securityStrategy,
-                    OAuth2ParameterEnum.State.EnumToString());
+                    OAuth2Parameter.State.EnumToString());
 
 #else
             if (_browserType == AuthenticationInterfaceEnum.Dedicated)
             {
-                flow = ResponseTypeEnum.Code;
+                flow = OAuth2ResponseType.Code;
 
                 handler = new OAuth2QueryCallbackHandler(
                     _securityStrategy,
-                    OAuth2ParameterEnum.State.EnumToString());
+                    OAuth2Parameter.State.EnumToString());
             }
             else if (_browserType == AuthenticationInterfaceEnum.Embedded)
             {
-                flow = ResponseTypeEnum.Token;
+                flow = OAuth2ResponseType.Token;
 
                 handler = new OAuth2FragmentCallbackHandler(
                     _securityStrategy,
-                    OAuth2ParameterEnum.State.EnumToString());
+                    OAuth2Parameter.State.EnumToString());
             }
             else
             {

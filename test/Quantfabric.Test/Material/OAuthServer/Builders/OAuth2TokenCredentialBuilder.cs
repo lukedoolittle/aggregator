@@ -25,7 +25,7 @@ namespace Quantfabric.Test.OAuthServer.Builders
         public OAuth2Credentials BuildCredentials(
             OAuth2AuthorizationRequest request)
         {
-            if (request.ResponseType != ResponseTypeEnum.Token)
+            if (request.ResponseType != OAuth2ResponseType.Token)
             {
                 throw new Exception();
             }

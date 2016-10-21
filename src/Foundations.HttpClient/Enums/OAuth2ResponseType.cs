@@ -2,7 +2,7 @@
 
 namespace Foundations.HttpClient.Enums
 {
-    public enum ResponseTypeEnum
+    public enum OAuth2ResponseType
     {
         [Description("code")]
         Code,

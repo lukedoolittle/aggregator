@@ -39,7 +39,7 @@ namespace Material.Infrastructure.OAuth
         {
             var state = _strategy.CreateOrGetSecureParameter(
                 userId,
-                OAuth2ParameterEnum.State.EnumToString());
+                OAuth2Parameter.State.EnumToString());
 
             var authorizationPath =
                 _oauth.GetAuthorizationUri(

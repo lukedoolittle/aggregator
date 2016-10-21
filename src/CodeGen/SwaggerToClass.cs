@@ -52,15 +52,15 @@ namespace CodeGen
                                 .Select(p => p.Name)
                                 .ToList())
                         });
-                        @class.Properties.Add(new PropertyRepresentation(typeof(List<ResponseTypeEnum>), "Flows")
+                        @class.Properties.Add(new PropertyRepresentation(typeof(List<OAuth2ResponseType>), "Flows")
                         {
                             IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<ResponseTypeEnum>())
+                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2ResponseType>())
                         });
-                        @class.Properties.Add(new PropertyRepresentation(typeof(List<GrantTypeEnum>), "GrantTypes")
+                        @class.Properties.Add(new PropertyRepresentation(typeof(List<GrantType>), "GrantTypes")
                         {
                             IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<GrantTypeEnum>())
+                            PropertyValue = new ConcreteValueRepresentation(new List<GrantType>())
                         });
                         if (securityDefinition["x-token-name"] != null)
                         {
@@ -90,7 +90,7 @@ namespace CodeGen
                     if (flow != null)
                     {
                         var flows = @class.Properties.Single(p => p.Name == "Flows");
-                        ((List<ResponseTypeEnum>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
+                        ((List<OAuth2ResponseType>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
                             .Add(ResponseTypeStringToEnum(flow));
                     }
 
@@ -100,9 +100,9 @@ namespace CodeGen
                         var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == "GrantTypes");
                         foreach (var grantType in grants)
                         {
-                            ((List<GrantTypeEnum>)
+                            ((List<GrantType>)
                                 ((ConcreteValueRepresentation)grantTypes.PropertyValue).PropertyValue).Add(
-                                    grantType.StringToEnum<GrantTypeEnum>());
+                                    grantType.StringToEnum<GrantType>());
                         }
                     }
 
@@ -531,15 +531,15 @@ namespace CodeGen
             throw new Exception();
         }
 
-        private ResponseTypeEnum ResponseTypeStringToEnum(string responseType)
+        private OAuth2ResponseType ResponseTypeStringToEnum(string responseType)
         {
             if (responseType == "implicit")
             {
-                return ResponseTypeEnum.Token;
+                return OAuth2ResponseType.Token;
             }
             else if (responseType == "accessCode")
             {
-                return ResponseTypeEnum.Code;
+                return OAuth2ResponseType.Code;
             }
             else
             {

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -11,6 +13,8 @@ namespace Foundations.HttpClient.Serialization
         //http://stackoverflow.com/questions/794838/datacontractjsonserializer-and-enums
         public string Serialize(object entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
             using (var memoryStream = new MemoryStream())
             {
                 var serializer = new DataContractJsonSerializer(
@@ -29,33 +33,24 @@ namespace Foundations.HttpClient.Serialization
 
         public string Serialize<TEntity>(TEntity entity)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                var serializer = new DataContractJsonSerializer(
-                    typeof(TEntity));
-                serializer.WriteObject(
-                    memoryStream, 
-                    entity);
-
-                var streamArray = memoryStream.ToArray();
-                return Encoding.UTF8.GetString(
-                    streamArray, 
-                    0, 
-                    streamArray.Length);
-            }
+            return Serialize((object)entity);
         }
 
         public TEntity Deserialize<TEntity>(
             string entity, 
-            string datetimeFormat = null)
+            string dateTimeFormat)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
             var settings = new DataContractJsonSerializerSettings
             {
                 UseSimpleDictionaryFormat = true
             };
-            if (datetimeFormat != null)
+            if (dateTimeFormat != null)
             {
-                settings.DateTimeFormat = new DateTimeFormat(datetimeFormat);
+                settings.DateTimeFormat = new DateTimeFormat(
+                    dateTimeFormat, 
+                    CultureInfo.InvariantCulture);
             }
             var serializer = new DataContractJsonSerializer(
                 typeof(TEntity),
@@ -65,6 +60,11 @@ namespace Foundations.HttpClient.Serialization
             {
                 return (TEntity)serializer.ReadObject(stream);
             }
+        }
+
+        public TEntity Deserialize<TEntity>(string entity)
+        {
+            return Deserialize<TEntity>(entity, null);
         }
     }
 }

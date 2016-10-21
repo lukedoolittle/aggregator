@@ -18,8 +18,8 @@ namespace Quantfabric.Test.Integration
         }
 
         public override List<string> AvailableScopes => _provider.AvailableScopes;
-        public override List<ResponseTypeEnum> Flows => _provider.Flows;
-        public override List<GrantTypeEnum> GrantTypes => _provider.GrantTypes;
+        public override List<OAuth2ResponseType> Flows => _provider.Flows;
+        public override List<GrantType> GrantTypes => _provider.GrantTypes;
 
         public override Uri AuthorizationUrl => _provider.AuthorizationUrl != null ? 
             new Uri($"http://localhost:{Port}{_provider.AuthorizationUrl.AbsolutePath}") : 

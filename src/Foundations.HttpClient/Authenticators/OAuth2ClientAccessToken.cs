@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
@@ -30,19 +31,28 @@ namespace Foundations.HttpClient.Authenticators
 
         public void Authenticate(HttpRequestBuilder requestBuilder)
         {
+            if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
+
             requestBuilder
                 .Header(
                     HttpRequestHeader.Authorization, 
                     CreateHeader())
                 .Parameter(
-                    OAuth2ParameterEnum.GrantType.EnumToString(),
-                    GrantTypeEnum.ClientCredentials.EnumToString());
+                    OAuth2Parameter.GrantType.EnumToString(),
+                    GrantType.ClientCredentials.EnumToString());
         }
 
         public string CreateHeader()
         {
-            var key = $"{_clientId}:{_clientSecret}".ToBase64String();
-            return $"{OAuth2ParameterEnum.BasicHeader.EnumToString()} {key}";
+            var key = StringExtensions.Concatenate(
+                _clientId, 
+                _clientSecret,
+                ":").ToBase64String();
+
+            return StringExtensions.Concatenate(
+                OAuth2Parameter.BasicHeader.EnumToString(),
+                key,
+                " ");
         }
     }
 }

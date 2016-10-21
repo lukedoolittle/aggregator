@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -27,9 +28,9 @@ namespace Foundations.HttpClient
         private readonly DefaultingDictionary<string, Encoding> _encodings =
             new DefaultingDictionary<string, Encoding>(s => Encoding.UTF8)
             {
-                {ContentTypeEncodingEnum.UTF16BigEndian.EnumToString(),
+                {ContentTypeEncoding.UTF16BigEndian.EnumToString(),
                     Encoding.BigEndianUnicode},
-                {ContentTypeEncodingEnum.UTF16LittleEndian.EnumToString(),
+                {ContentTypeEncoding.UTF16LittleEndian.EnumToString(),
                     Encoding.Unicode}
             };
 
@@ -38,11 +39,13 @@ namespace Foundations.HttpClient
             IEnumerable cookies,
             MediaType expectedResponseType)
         {
+            if (response == null) throw new ArgumentNullException(nameof(response));
+
             _content = response.Content;
             Headers = response.Headers;
             StatusCode = response.StatusCode;
             Reason = response.ReasonPhrase;
-            Cookies = cookies.Cast<Cookie>();
+            Cookies = cookies?.Cast<Cookie>();
             _responseContentType = expectedResponseType != MediaType.Undefined
                 ? expectedResponseType
                 : response
@@ -75,7 +78,7 @@ namespace Foundations.HttpClient
                 _responseContentType];
 
             var datetimeFormatter = typeof(T)
-                .GetCustomAttributes<DatetimeFormatter>()
+                .GetCustomAttributes<DateTimeFormatterAttribute>()
                 .FirstOrDefault()
                 ?.Formatter;
 

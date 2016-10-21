@@ -39,11 +39,11 @@
   <ItemGroup>
     <Compile Include="CryptoStringType.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="JsonWebToken\JwtSignerFactory.cs" />
+    <Compile Include="JsonWebToken\JsonWebTokenSignerFactory.cs" />
     <Compile Include="DigitalSignature\DigestSigningAlgorithm.cs" />
     <Compile Include="DigitalSignature\ISigningAlgorithm.cs" />
-    <Compile Include="JsonWebToken\IJwtSigningFactory.cs" />
-    <Compile Include="JsonWebToken\JwtAlgorithm.cs" />
+    <Compile Include="JsonWebToken\IJsonWebTokenSigningFactory.cs" />
+    <Compile Include="JsonWebToken\JsonWebTokenAlgorithm.cs" />
     <Compile Include="DigitalSignature\SigningAlgorithm.cs" />
     <Compile Include="StringCreation\ICryptoStringGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

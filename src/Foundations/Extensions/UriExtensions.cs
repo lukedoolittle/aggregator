@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Foundations.Collections;
 
 namespace Foundations.Extensions
 {
@@ -50,7 +51,7 @@ namespace Foundations.Extensions
         public static Uri AddPathParameters(
             this Uri instance,
             string path,
-            IEnumerable<KeyValuePair<string, string>> pathParameters)
+            HttpValueCollection pathParameters)
         {
             if (instance == null)
             {
@@ -84,12 +85,10 @@ namespace Foundations.Extensions
         /// <returns></returns>
         public static Uri AddEncodedQuerystring(
             this Uri instance,
-            IEnumerable<KeyValuePair<string, string>> queryParameters)
+            HttpValueCollection queryParameters)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (queryParameters == null) throw new ArgumentNullException(nameof(queryParameters));
 
             var querstring = queryParameters
                 .EncodeParameters()

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
+using Foundations.Collections;
 using Foundations.Extensions;
 
 namespace Foundations.HttpClient.ParameterHandlers
@@ -9,8 +10,10 @@ namespace Foundations.HttpClient.ParameterHandlers
     {
         public void AddParameters(
             HttpRequestMessage message, 
-            IEnumerable<KeyValuePair<string, string>> parameters)
+            HttpValueCollection parameters)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
             if (parameters == null || !parameters.Any())
             {
                 return;

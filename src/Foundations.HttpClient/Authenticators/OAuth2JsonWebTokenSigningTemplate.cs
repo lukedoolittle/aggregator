@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Text;
 using Foundations.Cryptography.JsonWebToken;
+using Foundations.Extensions;
 using Foundations.HttpClient.Request;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2JwtSigningTemplate
+    public class OAuth2JsonWebTokenSigningTemplate
     {
         private readonly JsonWebToken _token;
-        private readonly IJwtSigningFactory _factory;
+        private readonly IJsonWebTokenSigningFactory _factory;
 
-        public OAuth2JwtSigningTemplate(
+        public OAuth2JsonWebTokenSigningTemplate(
             JsonWebToken token, 
-            IJwtSigningFactory factory)
+            IJsonWebTokenSigningFactory factory)
         {
             if (token == null)
             {
@@ -40,7 +41,10 @@ namespace Foundations.HttpClient.Authenticators
             var claimsBytes = Encoding.UTF8.GetBytes(claims);
             var claimsEncoded = Convert.ToBase64String(claimsBytes);
 
-            return $"{headerEncoded}.{claimsEncoded}";
+            return StringExtensions.Concatenate(
+                headerEncoded,
+                claimsEncoded,
+                ".");
         }
 
         public string CreateSignature(

@@ -45,7 +45,7 @@ namespace Material.Infrastructure.OAuth
         /// <param name="callbackHandler"></param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
-            ResponseTypeEnum flowType,
+            OAuth2ResponseType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             _provider.SetFlow(flowType);
@@ -73,7 +73,7 @@ namespace Material.Infrastructure.OAuth
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
-            ResponseTypeEnum flowType,
+            OAuth2ResponseType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             _provider.SetFlow(flowType);

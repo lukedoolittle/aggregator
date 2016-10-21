@@ -16,7 +16,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var expected = target.CreateOrGetSecureParameter(
                 userId, 
@@ -38,7 +38,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromSeconds(1));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var expected = target.CreateOrGetSecureParameter(
                 userId,
@@ -61,7 +61,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
             var parameterValue = Guid.NewGuid().ToString();
 
             var actual = target.IsSecureParameterValid(
@@ -79,7 +79,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             target.CreateOrGetSecureParameter(
                 userId,
@@ -100,7 +100,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var actual = target.IsSecureParameterValid(
                 userId,
@@ -117,7 +117,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromSeconds(1));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var expected = target.CreateOrGetSecureParameter(
                 userId,
@@ -140,7 +140,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var expected = target.CreateOrGetSecureParameter(
                 userId,
@@ -161,7 +161,7 @@ namespace Quantfabric.Test.Material.Unit
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
-            var parameterName = OAuth2ParameterEnum.State.EnumToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
 
             var expected = target.CreateOrGetSecureParameter(
                 userId,

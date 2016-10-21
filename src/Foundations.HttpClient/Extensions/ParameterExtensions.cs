@@ -25,7 +25,7 @@ namespace Foundations.HttpClient.Extensions
 
         public static HttpRequestBuilder Parameters(
             this HttpRequestBuilder instance,
-            params KeyValuePair<string, string>[] parameters)
+            IDictionary<string, string> newParameters)
         {
             if (instance == null)
             {
@@ -33,9 +33,19 @@ namespace Foundations.HttpClient.Extensions
             }
 
             return instance.Parameters(
-                parameters.ToDictionary(
-                    x => x.Key, 
-                    x=> x.Value));
+                newParameters.ToHttpValueCollection());
+        }
+
+        public static HttpRequestBuilder Parameters(
+            this HttpRequestBuilder instance,
+            params KeyValuePair<string, string>[] newParameters)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            return instance.Parameters(newParameters);
         }
 
         public static HttpRequestBuilder ParameterFromObject(

@@ -31,7 +31,7 @@ namespace Quantfabric.Test.OAuthServer.Builders
 
         public OAuth2Credentials BuildCredentials(OAuth2TokenRequest request)
         {
-            if (request.GrantType != GrantTypeEnum.AuthCode)
+            if (request.GrantType != GrantType.AuthCode)
             {
                 throw new Exception();
             }
