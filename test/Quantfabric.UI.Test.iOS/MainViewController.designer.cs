@@ -1,4 +1,4 @@
-// WARNING
+﻿// WARNING
 //
 // This file has been generated automatically by Xamarin Studio from the outlets and
 // actions declared in your storyboard file.
@@ -44,11 +44,19 @@ namespace Quantfabric.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton InstagramAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton LinkedinAuth { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton MioAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton PinterestAuth { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -65,6 +73,14 @@ namespace Quantfabric.UI.Test.iOS
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton SpotifyAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton TumblrAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton TwentyThreeAndMeAuth { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -111,6 +127,11 @@ namespace Quantfabric.UI.Test.iOS
                 GPS = null;
             }
 
+            if (InstagramAuth != null) {
+                InstagramAuth.Dispose ();
+                InstagramAuth = null;
+            }
+
             if (LinkedinAuth != null) {
                 LinkedinAuth.Dispose ();
                 LinkedinAuth = null;
@@ -119,6 +140,11 @@ namespace Quantfabric.UI.Test.iOS
             if (MioAuth != null) {
                 MioAuth.Dispose ();
                 MioAuth = null;
+            }
+
+            if (PinterestAuth != null) {
+                PinterestAuth.Dispose ();
+                PinterestAuth = null;
             }
 
             if (RescuetimeAuth != null) {
@@ -139,6 +165,16 @@ namespace Quantfabric.UI.Test.iOS
             if (SpotifyAuth != null) {
                 SpotifyAuth.Dispose ();
                 SpotifyAuth = null;
+            }
+
+            if (TumblrAuth != null) {
+                TumblrAuth.Dispose ();
+                TumblrAuth = null;
+            }
+
+            if (TwentyThreeAndMeAuth != null) {
+                TwentyThreeAndMeAuth.Dispose ();
+                TwentyThreeAndMeAuth = null;
             }
 
             if (TwitterAuth != null) {

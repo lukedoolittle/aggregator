@@ -103,7 +103,7 @@ namespace Quantfabric.UI.Test.iOS
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FacebookEvent>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -121,7 +121,7 @@ namespace Quantfabric.UI.Test.iOS
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<SpotifySavedTrack>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -139,7 +139,7 @@ namespace Quantfabric.UI.Test.iOS
                             redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
-                        .GetCredentialsAsync(clientSecret)
+                        .GetCredentialsAsync()
                         .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -157,7 +157,7 @@ namespace Quantfabric.UI.Test.iOS
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FitbitProfile>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteResultToTextView("Access Token:" + token.AccessToken);
@@ -234,7 +234,78 @@ namespace Quantfabric.UI.Test.iOS
                 WriteResultToTextView("Access Token:" + token.AccessToken);
             };
 
+            InstagramAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Instagram>();
+                var clientSecret = settings.GetClientSecret<Instagram>();
+                var redirectUri = settings.GetRedirectUri<Instagram>();
 
+                var token = await new OAuth2App<Instagram>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<InstagramLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+
+            PinterestAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Pinterest>();
+                var clientSecret = settings.GetClientSecret<Pinterest>();
+                var redirectUri = settings.GetRedirectUri<Pinterest>();
+
+                var token = await new OAuth2App<Pinterest>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<PinterestLikes>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+
+            TwentyThreeAndMeAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<TwentyThreeAndMe>();
+                var clientSecret = settings.GetClientSecret<TwentyThreeAndMe>();
+                var redirectUri = settings.GetRedirectUri<TwentyThreeAndMe>();
+
+                var token = await new OAuth2App<TwentyThreeAndMe>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<TwentyThreeAndMeUser>()
+                    .AddScope<TwentyThreeAndMeGenome>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+
+            TumblrAuth.TouchUpInside += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Tumblr>();
+                var consumerSecret = settings.GetConsumerSecret<Tumblr>();
+                var redirectUri = settings.GetRedirectUri<Tumblr>();
+
+                var token = await new OAuth1App<Tumblr>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+            };
 
             MioAuth.TouchUpInside += async (sender, args) =>
             {

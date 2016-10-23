@@ -6,6 +6,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth.Callback;
+using Material.Infrastructure.ProtectedResources;
 
 namespace Material.Infrastructure.OAuth
 {
@@ -99,40 +100,35 @@ namespace Material.Infrastructure.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-            OAuth2ResponseType flow;
-            IOAuthCallbackHandler<OAuth2Credentials> handler = null;
-
 #if __WINDOWS__
-            flow = OAuth2ResponseType.Token;
-
-            handler = new OAuth2QueryCallbackHandler(
-                    _securityStrategy,
-                    OAuth2Parameter.State.EnumToString());
+            return _app.GetCredentialsAsync(
+                    OAuth2ResponseType.Token, 
+                    new OAuth2QueryCallbackHandler(
+                        _securityStrategy,
+                        OAuth2Parameter.State.EnumToString()));
 
 #else
-            if (_browserType == AuthenticationInterfaceEnum.Dedicated)
+            //This is sort of a bizarre hack because Google requires that you go through the
+            //code workflow with a mobile device even if you don't have a client secret
+            if (_browserType == AuthenticationInterfaceEnum.Dedicated && 
+                typeof(TResourceProvider) == typeof(Google))
             {
-                flow = OAuth2ResponseType.Code;
-
-                handler = new OAuth2QueryCallbackHandler(
-                    _securityStrategy,
-                    OAuth2Parameter.State.EnumToString());
-            }
-            else if (_browserType == AuthenticationInterfaceEnum.Embedded)
-            {
-                flow = OAuth2ResponseType.Token;
-
-                handler = new OAuth2FragmentCallbackHandler(
-                    _securityStrategy,
-                    OAuth2Parameter.State.EnumToString());
+                return _app.GetCredentialsAsync(
+                        null, 
+                        OAuth2ResponseType.Code, 
+                        new OAuth2QueryCallbackHandler(
+                            _securityStrategy,
+                            OAuth2Parameter.State.EnumToString()));
             }
             else
             {
-                throw new NotSupportedException();
+                return _app.GetCredentialsAsync(
+                        OAuth2ResponseType.Token,
+                        new OAuth2FragmentCallbackHandler(
+                            _securityStrategy,
+                            OAuth2Parameter.State.EnumToString()));
             }
 #endif
-
-            return _app.GetCredentialsAsync(flow, handler);
         }
 
 

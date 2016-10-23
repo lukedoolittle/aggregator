@@ -138,7 +138,7 @@ namespace Quantfabric.UI.Test.UWP
                         browserType: _browserType)
                     .AddScope<GoogleGmailMetadata>()
                     .AddScope<GoogleGmail>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
@@ -157,7 +157,7 @@ namespace Quantfabric.UI.Test.UWP
                         browserType: _browserType)
                     .AddScope<FitbitIntradaySteps>()
                     .AddScope<FitbitIntradayStepsBulk>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");
