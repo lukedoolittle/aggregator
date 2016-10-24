@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+using Material.OAuth.Authentication;
+using Material.OAuth.Facade;
 
 namespace Material.OAuth
 {

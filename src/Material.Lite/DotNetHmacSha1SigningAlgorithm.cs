@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using Foundations.Cryptography.DigitalSignature;
+using Foundations.HttpClient.Cryptography;
 
 namespace Material.Lite
 {

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Foundations.HttpClient.Serialization;
 using Material;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;

@@ -5,7 +5,7 @@ using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace Foundations.Cryptography.DigitalSignature
+namespace Foundations.HttpClient.Cryptography
 {
     public class DigestSigningAlgorithm : ISigningAlgorithm
     {

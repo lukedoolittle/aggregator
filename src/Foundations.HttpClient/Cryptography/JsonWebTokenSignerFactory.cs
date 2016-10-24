@@ -1,9 +1,8 @@
 ﻿using System;
-using Foundations.Cryptography.DigitalSignature;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.Cryptography.JsonWebToken
+namespace Foundations.HttpClient.Cryptography
 {
     public class JsonWebTokenSignerFactory : IJsonWebTokenSigningFactory
     {

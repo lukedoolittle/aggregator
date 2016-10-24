@@ -5,8 +5,10 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Callback;
 using Material.Infrastructure.ProtectedResources;
+using Material.OAuth;
+using Material.OAuth.Callback;
+using Material.OAuth.Security;
 
 namespace Material.Infrastructure.OAuth
 {

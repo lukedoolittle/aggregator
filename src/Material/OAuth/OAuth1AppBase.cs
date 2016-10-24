@@ -4,10 +4,15 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Authentication;
+using Material.OAuth.Callback;
+using Material.OAuth.Facade;
+using Material.OAuth.Security;
+using Material.OAuth.Template;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     public class OAuth1AppBase<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()

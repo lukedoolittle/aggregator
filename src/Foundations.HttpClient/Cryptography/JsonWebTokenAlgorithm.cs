@@ -1,4 +1,4 @@
-﻿namespace Foundations.Cryptography.JsonWebToken
+﻿namespace Foundations.HttpClient.Cryptography
 {
     public enum JsonWebTokenAlgorithm
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Net;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;

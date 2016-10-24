@@ -3,6 +3,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
+using Material.OAuth;
 #if !__WINDOWS__
 using Material.View;
 using Material.View.WebAuthorization;

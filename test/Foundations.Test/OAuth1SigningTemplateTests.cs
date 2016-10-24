@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using Foundations.Collections;
-using Foundations.Cryptography.DigitalSignature;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Cryptography;
 using Xunit;
 
 namespace Foundations.Test

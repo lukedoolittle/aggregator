@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Template
 { 
     public abstract class OAuthAuthenticationTemplateBase<TCredentials> : 
         IOAuthAuthenticationTemplate<TCredentials>

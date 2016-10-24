@@ -4,7 +4,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure
+namespace Material.OAuth
 {
     public class BrowserAuthorizerUI<TCredentials> : 
         IOAuthAuthorizerUI<TCredentials>

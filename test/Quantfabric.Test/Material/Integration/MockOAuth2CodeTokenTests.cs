@@ -8,6 +8,7 @@ using Xunit;
 using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.OAuthServer;
 using Quantfabric.Test.OAuthServer.Builders;

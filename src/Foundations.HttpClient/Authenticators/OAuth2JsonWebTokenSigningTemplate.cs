@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using Foundations.Cryptography.JsonWebToken;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Request;
 using Foundations.HttpClient.Serialization;
 

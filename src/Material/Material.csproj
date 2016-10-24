@@ -332,10 +332,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
-      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
-      <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>

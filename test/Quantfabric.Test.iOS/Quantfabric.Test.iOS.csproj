@@ -242,10 +242,6 @@
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Accumulator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
-      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
-      <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>

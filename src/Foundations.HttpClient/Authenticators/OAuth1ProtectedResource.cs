@@ -1,6 +1,5 @@
 ﻿using System;
-using Foundations.Cryptography.DigitalSignature;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 

@@ -129,10 +129,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Foundations.Cryptography\Foundations.Cryptography.csproj">
-      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
-      <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>

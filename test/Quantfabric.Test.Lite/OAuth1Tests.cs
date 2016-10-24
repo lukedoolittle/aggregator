@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;

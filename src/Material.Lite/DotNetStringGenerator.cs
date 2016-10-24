@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
-using Foundations.Cryptography;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 
 namespace Material.Lite
 {

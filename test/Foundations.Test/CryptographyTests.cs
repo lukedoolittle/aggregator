@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Text;
-using Foundations.Cryptography;
-using Foundations.Cryptography.JsonWebToken;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.OpenSsl;

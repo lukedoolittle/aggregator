@@ -1,6 +1,4 @@
-﻿using Foundations.Cryptography.DigitalSignature;
-
-namespace Foundations.Cryptography.JsonWebToken
+﻿namespace Foundations.HttpClient.Cryptography
 {
     public interface IJsonWebTokenSigningFactory
     {

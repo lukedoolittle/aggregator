@@ -1,12 +1,11 @@
-﻿using Foundations;
-using Foundations.Collections;
+﻿using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Callback
 {
     public class OAuth1CallbackHandler : OAuthCallbackHandlerBase<OAuth1Credentials>
     {

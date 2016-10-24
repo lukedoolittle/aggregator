@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Foundations.Cryptography.JsonWebToken;
+using Foundations.HttpClient.Cryptography;
 
 namespace Foundations.HttpClient.Request
 {

@@ -12,6 +12,7 @@ using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
+using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.UI.Test.UWP.Annotations;
 

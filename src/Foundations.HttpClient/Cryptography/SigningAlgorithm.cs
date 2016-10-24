@@ -2,7 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.Cryptography.DigitalSignature
+namespace Foundations.HttpClient.Cryptography
 {
     public class SigningAlgorithm : ISigningAlgorithm
     {

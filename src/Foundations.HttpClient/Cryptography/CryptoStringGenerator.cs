@@ -4,7 +4,7 @@ using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.Cryptography.StringCreation
+namespace Foundations.HttpClient.Cryptography
 {
     public class CryptoStringGenerator : ICryptoStringGenerator
     {

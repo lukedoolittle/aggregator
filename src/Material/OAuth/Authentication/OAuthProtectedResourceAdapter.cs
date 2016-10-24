@@ -7,10 +7,10 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
-using Material.Contracts;
 using Foundations.HttpClient.Extensions;
+using Material.Contracts;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Authentication
 {
     public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
     {

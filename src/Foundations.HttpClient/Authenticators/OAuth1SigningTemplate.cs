@@ -5,9 +5,7 @@ using System.Net.Http;
 using System.Text;
 using Foundations.Collections;
 using Foundations.Extensions;
-using Foundations.Cryptography;
-using Foundations.Cryptography.DigitalSignature;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators

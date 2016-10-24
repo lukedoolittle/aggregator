@@ -1,4 +1,4 @@
-﻿namespace Foundations.Cryptography.StringCreation
+﻿namespace Foundations.HttpClient.Cryptography
 {
     public interface ICryptoStringGenerator
     {

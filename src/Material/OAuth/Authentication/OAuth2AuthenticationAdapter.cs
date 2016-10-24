@@ -11,7 +11,7 @@ using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Authentication
 {
     public class OAuth2AuthenticationAdapter : IOAuth2AuthenticationAdapter
     {

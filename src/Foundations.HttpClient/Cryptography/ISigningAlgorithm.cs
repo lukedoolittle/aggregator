@@ -1,4 +1,4 @@
-﻿namespace Foundations.Cryptography.DigitalSignature
+﻿namespace Foundations.HttpClient.Cryptography
 {
     public interface ISigningAlgorithm
     {

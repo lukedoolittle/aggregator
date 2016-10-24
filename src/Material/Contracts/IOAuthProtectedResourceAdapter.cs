@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations;
 using Foundations.Enums;
 
 namespace Material.Contracts

@@ -1,9 +1,8 @@
 ﻿using System;
-using Foundations.Cryptography;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 using Material.Contracts;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Security
 {
     public class OAuthSecurityStrategy : IOAuthSecurityStrategy
     {

@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
-using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Exceptions;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Facade
 {
     public class OAuthClientFacade<TResourceProvider> 
         where TResourceProvider : OAuth2ResourceProvider

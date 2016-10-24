@@ -5,9 +5,12 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+using Material.OAuth.Authentication;
+using Material.OAuth.Callback;
+using Material.OAuth.Facade;
+using Material.OAuth.Security;
 
-namespace Material.Facades
+namespace Material.OAuth
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth1a

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Request;
 using Material.Infrastructure.Credentials;

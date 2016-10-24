@@ -1,7 +1,7 @@
 ﻿using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
-using Material.Infrastructure.OAuth;
+using Material.OAuth;
 using Xamarin.Forms;
 
 namespace Material

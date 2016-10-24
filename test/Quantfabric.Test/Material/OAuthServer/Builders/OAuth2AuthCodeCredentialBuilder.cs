@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Foundations.Cryptography;
-using Foundations.Cryptography.StringCreation;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 using Quantfabric.Test.Integration;

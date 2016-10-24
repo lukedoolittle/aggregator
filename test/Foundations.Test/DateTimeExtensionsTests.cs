@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Foundations;
 using Foundations.Extensions;
 using Xunit;
 

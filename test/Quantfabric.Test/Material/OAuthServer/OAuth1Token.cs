@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Quantfabric.Test.OAuthServer
+﻿namespace Quantfabric.Test.OAuthServer
 {
     public class OAuth1Token
     {

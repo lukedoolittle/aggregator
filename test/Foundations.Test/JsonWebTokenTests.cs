@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Foundations.Cryptography.JsonWebToken;
-using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Request;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;

@@ -3,9 +3,9 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+using Material.OAuth.Authentication;
 
-namespace Material
+namespace Material.OAuth
 {
     public class OAuthRequester
     {

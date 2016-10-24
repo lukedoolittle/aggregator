@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Foundations;
 using Foundations.Enums;
 using Foundations.Http;
 using Foundations.HttpClient.Serialization;

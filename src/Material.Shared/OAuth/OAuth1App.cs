@@ -5,6 +5,7 @@ using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
+using Material.OAuth;
 
 namespace Material.Infrastructure.OAuth
 {

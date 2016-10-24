@@ -38,10 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Foundations.Cryptography\Foundations.Cryptography.csproj">
-      <Project>{84ad1c35-2bbf-4ae1-9b42-30cc95709e4a}</Project>
-      <Name>Foundations.Cryptography</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
@@ -58,6 +54,15 @@
     <Compile Include="Authenticators\OAuth2JsonWebTokenSigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
+    <Compile Include="Cryptography\CryptoStringGenerator.cs" />
+    <Compile Include="Cryptography\CryptoStringType.cs" />
+    <Compile Include="Cryptography\DigestSigningAlgorithm.cs" />
+    <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
+    <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />
+    <Compile Include="Cryptography\ISigningAlgorithm.cs" />
+    <Compile Include="Cryptography\JsonWebTokenAlgorithm.cs" />
+    <Compile Include="Cryptography\JsonWebTokenSignerFactory.cs" />
+    <Compile Include="Cryptography\SigningAlgorithm.cs" />
     <Compile Include="Enums\ContentTypeEncoding.cs" />
     <Compile Include="Enums\GrantType.cs" />
     <Compile Include="Enums\OAuth1Parameter.cs" />
@@ -104,6 +109,15 @@
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

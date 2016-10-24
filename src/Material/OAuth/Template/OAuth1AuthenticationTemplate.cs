@@ -4,7 +4,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth.Template
+namespace Material.OAuth.Template
 {
     public class OAuth1AuthenticationTemplate :
         OAuthAuthenticationTemplateBase<OAuth1Credentials>

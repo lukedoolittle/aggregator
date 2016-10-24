@@ -5,7 +5,7 @@ using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Callback
 {
     public class OAuth2QueryCallbackHandler : 
         OAuthCallbackHandlerBase<OAuth2Credentials>

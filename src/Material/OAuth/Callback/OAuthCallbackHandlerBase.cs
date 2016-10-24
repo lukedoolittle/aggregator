@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Security;
-using Foundations;
 using Foundations.Collections;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth.Callback
 {
     public abstract class OAuthCallbackHandlerBase<TCredentials> : 
         IOAuthCallbackHandler<TCredentials>
