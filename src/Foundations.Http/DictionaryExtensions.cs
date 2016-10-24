@@ -13,17 +13,19 @@ namespace Foundations.Http
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
+
             return instance.AllKeys.ToLookup(a => a, a => instance[a]);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
         public static List<Cookie> ToList(
             this CookieCollection instance)
         {
             if (instance == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(instance));
             }
 
             var cookies = new List<Cookie>();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Material.Infrastructure.Static
+namespace Material.Infrastructure.Requests
 {
     public class SMSResponse : List<SMSMessage>
     { }

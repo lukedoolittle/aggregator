@@ -42,13 +42,18 @@ namespace Foundations.Http
 
         public void WriteHead(HttpRequestHeader header, string headerContent)
         {
+            if (headerContent == null)
+            {
+                throw new ArgumentNullException(nameof(headerContent));
+            }
+
             switch (header)
             {
                 case HttpRequestHeader.ContentType: 
                     WriteHead("Content-Type", headerContent);
                     break;
                 default:
-                    throw new Exception();
+                    throw new NotSupportedException();
             }
         }
 
@@ -61,6 +66,11 @@ namespace Foundations.Http
 
         public void WriteHead(params HeaderPair[] headers)
         {
+            if (headers == null)
+            {
+                throw new ArgumentNullException(nameof(headers));
+            }
+
             foreach (var header in headers)
             {
                 _headers.Add(header.Key, header.Value);
@@ -74,6 +84,11 @@ namespace Foundations.Http
 
         public void WriteHtmlString(string html)
         {
+            if (html == null)
+            {
+                throw new ArgumentNullException(nameof(html));
+            }
+
             WriteHead(HttpStatusCode.OK);
             WriteHead(HttpRequestHeader.ContentType, "text/html");
             Write(html);
@@ -82,12 +97,17 @@ namespace Foundations.Http
 
         public void Redirect(Uri newUrl)
         {
+            if (newUrl == null)
+            {
+                throw new ArgumentNullException(nameof(newUrl));
+            }
+
             WriteHead(HttpStatusCode.Redirect);
             WriteHead("Location", newUrl.ToString());
             End();
         }
 
-        public void End(bool failSilently = true)
+        public void End(bool failSilently)
         {
             try
             {
@@ -106,6 +126,11 @@ namespace Foundations.Http
                     throw;
                 }
             }
+        }
+
+        public void End()
+        {
+            End(true);
         }
     }
 

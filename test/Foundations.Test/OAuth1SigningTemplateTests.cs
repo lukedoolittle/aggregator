@@ -145,7 +145,6 @@ namespace Foundations.Test
             var consumerSecret = "myConsumerSecret";
             var oauthToken = "myOAuthToken";
             var oauthSecret = "myOAuthSecret";
-            var verifier = "myVerifier";
             var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
@@ -182,7 +181,6 @@ namespace Foundations.Test
             var consumerSecret = "myConsumerSecret";
             var oauthToken = "myOAuthToken";
             var oauthSecret = "myOAuthSecret";
-            var verifier = "myVerifier";
             var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";

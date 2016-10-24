@@ -1,7 +1,7 @@
 ﻿#if __ANDROID__
 using System;
 using Material.Adapters;
-using Material.Infrastructure.Static;
+using Material.Infrastructure.Requests;
 
 namespace Material
 {

@@ -16,9 +16,10 @@ namespace Material.Infrastructure.OAuth
 {
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TResourceProvider, TCredentials>(
             AuthenticationInterfaceEnum browserType,
-            IOAuthCallbackHandler<TCredentials> callbackHandler,
+            IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri)
             where TResourceProvider : ResourceProvider
             where TCredentials : TokenCredentials
@@ -29,13 +30,13 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler,
+                            handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
-                        callbackHandler,
+                        handler,
                         callbackUri);
                 default:
                     throw new NotSupportedException();
@@ -46,13 +47,13 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler,
+                            handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
                     return new UIWebViewAuthorizerUI<TCredentials>(
-                        callbackHandler,
+                        handler,
                         callbackUri);
                 default:
                     throw new NotSupportedException();
@@ -63,13 +64,13 @@ namespace Material.Infrastructure.OAuth
                 case AuthenticationInterfaceEnum.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
-                            callbackHandler,
+                            handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
                 case AuthenticationInterfaceEnum.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
-                        callbackHandler,
+                        handler,
                         callbackUri);
                 default:
                     throw new NotSupportedException();
@@ -77,8 +78,8 @@ namespace Material.Infrastructure.OAuth
 #elif __WINDOWS__
             return new BrowserAuthorizerUI<TCredentials>(
                 new HttpOAuthCallbackListener<TCredentials>(
-                    new HttpServer(), 
-                    callbackHandler), 
+                    new HttpServer(),
+                    handler), 
                 Platform.Current,
                 callbackUri);
 #else

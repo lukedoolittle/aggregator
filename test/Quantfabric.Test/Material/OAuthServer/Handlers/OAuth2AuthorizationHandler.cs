@@ -48,7 +48,7 @@ namespace Quantfabric.Test.OAuthServer.Handlers
         }
 
         public void HandleRequest(
-            IncommingMessage request, 
+            IncomingMessage request, 
             ServerResponse response)
         {
             var message = new HtmlSerializer()

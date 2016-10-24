@@ -6,12 +6,13 @@ using System.Net;
 
 namespace Foundations.Http
 {
-    public class IncommingMessage
+    public class IncomingMessage
     {
         private readonly HttpListenerRequest _request;
 
         public Uri Uri => _request.Url;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string Url => _request.RawUrl;
 
         private string _body;
@@ -25,12 +26,11 @@ namespace Foundations.Http
                     return _body;
                 }
 
-                using (var body = _request.InputStream)
+                using (var reader = new StreamReader(
+                        _request.InputStream, 
+                        _request.ContentEncoding))
                 {
-                    using (var reader = new StreamReader(body, _request.ContentEncoding))
-                    {
-                        _body = reader.ReadToEnd();
-                    }
+                    _body = reader.ReadToEnd();
                 }
 
                 return _body;
@@ -43,7 +43,7 @@ namespace Foundations.Http
 
         public IList<Cookie> Cookies => _request.Cookies.ToList();
 
-        public IncommingMessage(HttpListenerRequest request)
+        public IncomingMessage(HttpListenerRequest request)
         {
             _request = request;
         }

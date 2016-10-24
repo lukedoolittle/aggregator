@@ -33,10 +33,8 @@ namespace $rootnamespace$
         {
             Material.Framework.Platform.Current.Context = activity;
             
-            var callbackUri = "";  //TODO: add OAuth callback uri
-
             var data = activity.Intent?.Data?.ToString();
-            if (data != null && data.StartsWith(callbackUri))
+            if (data != null)
             {
                 //necessary for custom uri scheme OAuth callbacks to function
                 Material.Framework.Platform.Current.Protocol(new Uri(data));

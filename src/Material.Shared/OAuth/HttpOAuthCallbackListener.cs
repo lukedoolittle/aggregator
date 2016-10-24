@@ -46,6 +46,7 @@ namespace Material.Infrastructure.OAuth
                     catch (Exception e)
                     {
                         completionSource.SetException(e);
+                        throw;
                     }
                 })
                 .Listen(callbackUri);

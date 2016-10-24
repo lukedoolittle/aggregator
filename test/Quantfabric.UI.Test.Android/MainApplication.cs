@@ -32,12 +32,10 @@ namespace Quantfabric.UI.Test
         {
             Material.Framework.Platform.Current.Context = activity;
 
-            var callbackUri = "quantfabric.material";
-
             var data = activity.Intent?.Data?.ToString();
-            if (data != null && data.StartsWith(callbackUri))
+            //necessary for custom uri scheme OAuth callbacks to function
+            if (data != null)
             {
-                //necessary for custom uri scheme OAuth callbacks to function
                 Material.Framework.Platform.Current.Protocol(new Uri(data));
             }
         }

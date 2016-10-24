@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,6 +14,11 @@ namespace Material.View.WebAuthorization
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
             base.OnNavigatedTo(e);
 
             var parameters = (TaskCompletionSource<WebView>)e.Parameter;

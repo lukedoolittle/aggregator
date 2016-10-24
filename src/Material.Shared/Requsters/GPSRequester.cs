@@ -1,5 +1,5 @@
 ﻿#if __MOBILE__
-using Material.Infrastructure.Static;
+using Material.Infrastructure.Requests;
 
 namespace Material
 {

@@ -21,7 +21,9 @@ namespace Material.Infrastructure.OAuth
     {
         private readonly OAuth2AppBase<TResourceProvider> _app;
         private readonly IOAuthSecurityStrategy _securityStrategy;
+#if !__WINDOWS__
         private readonly AuthenticationInterfaceEnum _browserType;
+#endif
 
         /// <summary>
         /// Authenticate a resource owner using the OAuth2 workflow
@@ -30,6 +32,8 @@ namespace Material.Infrastructure.OAuth
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="provider">The provider to authenticate with (CUSTOM IMPLEMENTAIONS ONLY)</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
@@ -41,7 +45,9 @@ namespace Material.Infrastructure.OAuth
 #endif
             )
         {
+#if !__WINDOWS__
             _browserType = browserType;
+#endif
 
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
@@ -62,6 +68,8 @@ namespace Material.Infrastructure.OAuth
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
@@ -139,6 +147,7 @@ namespace Material.Infrastructure.OAuth
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2App<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {

@@ -28,7 +28,7 @@ namespace Material.Framework
 
     public class Platform : IBrowser, IProtocolLauncher
     {
-        private static Platform _instance;
+        private static volatile Platform _instance;
         private static readonly object _syncLock = new object();
 
         protected Platform() {}
@@ -142,6 +142,7 @@ namespace Material.Framework
         public bool IsOnline => Reachability.IsReachable();
 
 #elif WINDOWS_UWP
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Frame Context => Window.Current.Content as Frame;
 
         public Action<Action> RunOnMainThread { get; } = new Action<Action>(action =>
@@ -151,6 +152,7 @@ namespace Material.Framework
                 () => { action(); }));
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline
         {
             get
@@ -161,17 +163,18 @@ namespace Material.Framework
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Action<Uri> LaunchBrowser =>
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             uri => Windows.System.Launcher.LaunchUriAsync(uri);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 #else
-        public Action<Action> RunOnMainThread { get; } = action => { };
+        public static Action<Action> RunOnMainThread { get; } = action => { };
 
-        public Action<Uri> LaunchBrowser => 
+        public static Action<Uri> LaunchBrowser => 
             uri => Process.Start(uri.ToString());
 
-        public bool IsOnline => true;
+        public static bool IsOnline => true;
 #endif
     }
 

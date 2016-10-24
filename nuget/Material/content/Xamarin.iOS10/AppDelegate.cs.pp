@@ -37,13 +37,8 @@ namespace $rootnamespace$
             NSUrl url, 
             NSDictionary options)
 	    {
-            var callbackUri = "";  //TODO: add OAuth callback uri
-
-            if (url.ToString().StartsWith(callbackUri))
-            {
-                //necessary for custom uri scheme OAuth callbacks to function
-                Material.Framework.Platform.Current.Protocol(url);
-            }
+            //necessary for custom uri scheme OAuth callbacks to function
+            Material.Framework.Platform.Current.Protocol(url);
 
 	        return true;
 	    }

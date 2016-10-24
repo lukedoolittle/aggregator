@@ -34,13 +34,8 @@ namespace Quantfabric.UI.Test.iOS
             NSUrl url, 
             NSDictionary options)
 	    {
-            var callbackUri = "quantfabric.material";  //TODO: add OAuth callback uri
-
-            if (url.ToString().StartsWith(callbackUri))
-            {
-                //necessary for custom uri scheme OAuth callbacks to function
-                Material.Framework.Platform.Current.Protocol(url);
-            }
+            //necessary for custom uri scheme OAuth callbacks to function
+            Material.Framework.Platform.Current.Protocol(url);
 
             return true;
 	    }

@@ -9,18 +9,14 @@ namespace Foundations.Http
         public Exception Exception { get; set; }
     }
 
-    public delegate void ServerExceptionEventHandler(
-        object sender, ServerExceptionEventArgs 
-        eventArgs);
-
     public class HttpServer : IDisposable
     {
         private readonly HttpListener _listener;
 
         private bool _isRunning;
-        private Action<IncommingMessage, ServerResponse> _requestListener;
+        private Action<IncomingMessage, ServerResponse> _requestListener;
 
-        public event ServerExceptionEventHandler ServerException;
+        public event EventHandler<ServerExceptionEventArgs> ServerException;
 
         public HttpServer()
         {
@@ -28,7 +24,7 @@ namespace Foundations.Http
         }
 
         public HttpServer CreateServer(
-            Action<IncommingMessage, ServerResponse> requestListener)
+            Action<IncomingMessage, ServerResponse> requestListener)
         {
             _requestListener = requestListener;
 
@@ -70,11 +66,12 @@ namespace Foundations.Http
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         private void ProcessRequest(HttpListenerContext context)
         {
             try
             {
-                var request = new IncommingMessage(context.Request);
+                var request = new IncomingMessage(context.Request);
                 var response = new ServerResponse(context.Response);
 
                 if (request.Url == @"/favicon.ico")
@@ -99,9 +96,35 @@ namespace Foundations.Http
             ServerException?.Invoke(this, e);
         }
 
-        void IDisposable.Dispose()
+        bool _disposed;
+
+        public void Dispose()
         {
-            (_listener as IDisposable).Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~HttpServer()
+        {
+            // Finalizer calls Dispose(false)
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                // free managed resources
+                (_listener as IDisposable).Dispose();
+            }
+
+            // release any unmanaged objects
+            // set the object references to null
+
+            _disposed = true;
         }
     }
 }

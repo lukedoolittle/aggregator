@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Material.Infrastructure.Static
+namespace Material.Infrastructure.Requests
 {
     public class BluetoothResponse
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Material.Adapters;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Static;
+using Material.Infrastructure.Requests;
 using Material.Framework;
 
 namespace Material

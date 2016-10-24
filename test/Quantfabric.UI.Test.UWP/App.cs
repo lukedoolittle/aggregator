@@ -14,11 +14,7 @@ namespace Quantfabric.UI.Test.UWP
                 ProtocolActivatedEventArgs protocolArgs = (ProtocolActivatedEventArgs)args;
                 Uri uri = protocolArgs.Uri;
 
-                var callbackUri = "";
-                if (uri.ToString().StartsWith(callbackUri))
-                {
-                    Material.Framework.Platform.Current.Protocol(uri);
-                }
+                Material.Framework.Platform.Current.Protocol(uri);
 
                 var frame = Window.Current.Content as Frame;
                 if (frame == null)

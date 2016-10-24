@@ -23,6 +23,8 @@ namespace Material.Infrastructure.OAuth
         /// <param name="consumerSecret">The application's consumer secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public OAuth1App(
             string consumerKey,
             string consumerSecret,

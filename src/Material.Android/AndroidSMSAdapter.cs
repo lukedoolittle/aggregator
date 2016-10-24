@@ -10,7 +10,7 @@ using Android.Database;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Framework;
-using Material.Infrastructure.Static;
+using Material.Infrastructure.Requests;
 using Org.BouncyCastle.Asn1;
 using Uri = Android.Net.Uri;
 

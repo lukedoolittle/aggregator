@@ -6,6 +6,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
 using Material.OAuth.Callback;
 using Material.OAuth.Security;
@@ -31,11 +32,12 @@ namespace Material
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="provider">The provider to authenticate with (CUSTOM IMPLEMENTAIONS ONLY)</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded)
+            AuthenticationInterfaceEnum browserType)
         {
             _browserType = browserType;
 
@@ -57,16 +59,52 @@ namespace Material
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
-        /// <param name="browserType">The type of browser interface used for the workflow</param>
+        /// <param name="provider">The provider to authenticate with (CUSTOM IMPLEMENTAIONS ONLY)</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded) :
+            TResourceProvider provider) : 
+                this(
+                    clientId, 
+                    callbackUrl, 
+                    provider, 
+                    AuthenticationInterfaceEnum.Embedded)
+        { }
+
+        /// <summary>
+        /// Authenticate a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OAuth2App(
+            string clientId,
+            string callbackUrl,
+            AuthenticationInterfaceEnum browserType) :
             this(
                 clientId,
                 callbackUrl,
                 new TResourceProvider(),
                 browserType)
+        { }
+
+        /// <summary>
+        /// Authenticate a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OAuth2App(
+            string clientId,
+            string callbackUrl) :
+            this(
+                clientId,
+                callbackUrl,
+                new TResourceProvider(),
+                AuthenticationInterfaceEnum.Embedded)
         { }
 
         /// <summary>
@@ -93,39 +131,34 @@ namespace Material
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-            OAuth2ResponseType flow;
-            IOAuthCallbackHandler<OAuth2Credentials> handler = null;
-
-            if (_browserType == AuthenticationInterfaceEnum.Dedicated)
+            //This is sort of a bizarre hack because Google requires that you go through the
+            //code workflow with a mobile device even if you don't have a client secret
+            if (_browserType == AuthenticationInterfaceEnum.Dedicated &&
+                typeof(TResourceProvider) == typeof(Google))
             {
-                flow = OAuth2ResponseType.Code;
-
-                handler = new OAuth2QueryCallbackHandler(
-                    _securityStrategy,
-                    OAuth2Parameter.State.EnumToString());
-            }
-            else if (_browserType == AuthenticationInterfaceEnum.Embedded)
-            {
-                flow = OAuth2ResponseType.Token;
-
-                handler = new OAuth2FragmentCallbackHandler(
-                    _securityStrategy,
-                    OAuth2Parameter.State.EnumToString());
+                return _app.GetCredentialsAsync(
+                        null,
+                        OAuth2ResponseType.Code,
+                        new OAuth2QueryCallbackHandler(
+                            _securityStrategy,
+                            OAuth2Parameter.State.EnumToString()));
             }
             else
             {
-                throw new NotSupportedException();
+                return _app.GetCredentialsAsync(
+                        OAuth2ResponseType.Token,
+                        new OAuth2FragmentCallbackHandler(
+                            _securityStrategy,
+                            OAuth2Parameter.State.EnumToString()));
             }
-
-            return _app.GetCredentialsAsync(flow, handler);
         }
-
 
         /// <summary>
         /// Adds scope to be requested with OAuth2 authentication
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2App<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
