@@ -131,5 +131,19 @@
             android:gravity="center"
             android:id="@+id/instagram"
             android:text="Instagram" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/twentythreeandme"
+            android:text="23AndMe" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/tumblr"
+            android:text="Tumblr" />
     </GridLayout>
 </LinearLayout>

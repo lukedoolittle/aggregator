@@ -32,7 +32,7 @@ namespace Quantfabric.UI.Test
         {
             Material.Framework.Platform.Current.Context = activity;
 
-            var callbackUri = "";  //TODO: add OAuth callback uri
+            var callbackUri = "quantfabric.material";
 
             var data = activity.Intent?.Data?.ToString();
             if (data != null && data.StartsWith(callbackUri))

@@ -11,17 +11,23 @@ If you intend to use OAuth the ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE, INTERNET
 If you intend to use an OAuth workflow with a dedicated browser insert the following into your AndroidManifest.xml:
 	<manifest>
 		<application>
-			<activity android:label="MAIN_ACTIVITY_LABEL_HERE">
+			<activity android:name="SOME_NAME">
+				<intent-filter>
+					<action android:name="android.intent.action.MAIN" />
+					<category android:name="android.intent.category.LAUNCHER" />
+				</intent-filter>
 				<intent-filter>
 					<action android:name="android.intent.action.VIEW" />
 					<category android:name="android.intent.category.DEFAULT" />
 					<category android:name="android.intent.category.BROWSABLE" />
-					<data android:scheme="CALLBACK_SCHEME_HERE"/>
+					<data android:scheme="CALLBACK_SCHEME_HERE" />
 				</intent-filter>
 			</activity>
-		<application>
+		</application>
 	</manifest>
-
+	
+And decorate the main activity with the following metadata
+	[Activity(Name = "SOME_NAME")]
 
 -------------------------------
               iOS

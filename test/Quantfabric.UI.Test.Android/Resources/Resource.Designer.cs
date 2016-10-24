@@ -115,6 +115,12 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f050008
 			public const int spotifyAuth = 2131034120;
 			
+			// aapt resource value: 0x7f050014
+			public const int tumblr = 2131034132;
+			
+			// aapt resource value: 0x7f050013
+			public const int twentythreeandme = 2131034131;
+			
 			// aapt resource value: 0x7f050004
 			public const int twitterAuth = 2131034116;
 			

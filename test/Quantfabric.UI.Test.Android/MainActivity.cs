@@ -15,7 +15,7 @@ using Material.Framework;
 
 namespace Quantfabric.UI.Test
 {
-    [Activity(Label = "Quantfabric.UI.Test.MainActivity", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Name = "quantfabric.ui.test.MainActivity")]
     public class MainActivity : Activity
     {
         private AuthenticationInterfaceEnum _browserType = 
@@ -268,6 +268,43 @@ namespace Quantfabric.UI.Test
                         browserType: _browserType)
                         .AddScope<InstagramLikes>()
                     .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
+            FindViewById<Button>(Resource.Id.tumblr).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var consumerKey = settings.GetConsumerKey<Tumblr>();
+                var consumerSecret = settings.GetConsumerSecret<Tumblr>();
+                var redirectUri = settings.GetRedirectUri<Tumblr>();
+
+                var token = await new OAuth1App<Tumblr>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
+            FindViewById<Button>(Resource.Id.twentythreeandme).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<TwentyThreeAndMe>();
+                var clientSecret = settings.GetClientSecret<TwentyThreeAndMe>();
+                var redirectUri = settings.GetRedirectUri<TwentyThreeAndMe>();
+
+                var token = await new OAuth2App<TwentyThreeAndMe>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<TwentyThreeAndMeUser>()
+                    .AddScope<TwentyThreeAndMeGenome>()
+                    .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
