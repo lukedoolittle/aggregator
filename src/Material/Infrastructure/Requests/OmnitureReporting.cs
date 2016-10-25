@@ -31,9 +31,9 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("method")]
         [ParameterType(RequestParameterType.Query)]
-        public  OmnitureReportingMethodEnum Method { get; set; }
+        public  OmnitureReportingMethod Method { get; set; }
 	}
-    public enum OmnitureReportingMethodEnum
+    public enum OmnitureReportingMethod
     {
         [Description("Report.Cancel")] ReportCancel,
         [Description("Report.Get")] ReportGet,

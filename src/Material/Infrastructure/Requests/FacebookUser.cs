@@ -31,9 +31,9 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("fields")]
         [ParameterType(RequestParameterType.Query)]
-        public  FacebookUserFieldsEnum Fields { get; set; } = FacebookUserFieldsEnum.Email;
+        public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
 	}
-    public enum FacebookUserFieldsEnum
+    public enum FacebookUserFields
     {
         [Description("email")] Email,
     }

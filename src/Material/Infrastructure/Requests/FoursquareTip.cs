@@ -37,7 +37,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
-        public  FoursquareTipMEnum M { get; set; } = FoursquareTipMEnum.Foursquare;
+        public  FoursquareTipM M { get; set; } = FoursquareTipM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
@@ -51,7 +51,7 @@ namespace Material.Infrastructure.Requests
         [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Offset { get; set; }
 	}
-    public enum FoursquareTipMEnum
+    public enum FoursquareTipM
     {
         [Description("foursquare")] Foursquare,
         [Description("swarm")] Swarm,

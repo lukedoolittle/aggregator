@@ -51,9 +51,9 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("type")]
         [ParameterType(RequestParameterType.Query)]
-        public  FacebookEventTypeEnum Type { get; set; }
+        public  FacebookEventType Type { get; set; }
 	}
-    public enum FacebookEventTypeEnum
+    public enum FacebookEventType
     {
         [Description("attending")] Attending,
         [Description("created")] Created,

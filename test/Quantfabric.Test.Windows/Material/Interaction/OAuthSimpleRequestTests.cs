@@ -85,7 +85,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             var request = new OmnitureReporting
             {
-                Method = OmnitureReportingMethodEnum.ReportQueue,
+                Method = OmnitureReportingMethod.ReportQueue,
                 Body = body
             };
 
@@ -102,7 +102,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             request = new OmnitureReporting
             {
-                Method = OmnitureReportingMethodEnum.ReportGet,
+                Method = OmnitureReportingMethod.ReportGet,
                 Body = getBody
             };
 
@@ -136,12 +136,12 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var request = new WithingsWeighin()
+            var request = new WithingsWeighIn()
             {
                 Lastupdate = DateTime.Today.Subtract(TimeSpan.FromDays(50))
             };
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequestAsync<WithingsWeighin, WithingsWeighInResponse>(request)
+                .MakeOAuthRequestAsync<WithingsWeighIn, WithingsWeighInResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);

@@ -31,25 +31,25 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
-        public  RescuetimeAnalyticDataFormatEnum Format { get; set; } = RescuetimeAnalyticDataFormatEnum.Json;
+        public  RescuetimeAnalyticDataFormat Format { get; set; } = RescuetimeAnalyticDataFormat.Json;
         /// <summary>
         /// 
         /// </summary>
         [Name("resolution_time")]
         [ParameterType(RequestParameterType.Query)]
-        public  RescuetimeAnalyticDataResolutionTimeEnum ResolutionTime { get; set; } = RescuetimeAnalyticDataResolutionTimeEnum.Hour;
+        public  RescuetimeAnalyticDataResolutionTime ResolutionTime { get; set; } = RescuetimeAnalyticDataResolutionTime.Hour;
         /// <summary>
         /// organization of data
         /// </summary>
         [Name("perspective")]
         [ParameterType(RequestParameterType.Query)]
-        public  RescuetimeAnalyticDataPerspectiveEnum Perspective { get; set; } = RescuetimeAnalyticDataPerspectiveEnum.Interval;
+        public  RescuetimeAnalyticDataPerspective Perspective { get; set; } = RescuetimeAnalyticDataPerspective.Interval;
         /// <summary>
         /// restrict the kind of information returned
         /// </summary>
         [Name("restrict_kind")]
         [ParameterType(RequestParameterType.Query)]
-        public  RescuetimeAnalyticDataRestrictKindEnum RestrictKind { get; set; } = RescuetimeAnalyticDataRestrictKindEnum.Efficiency;
+        public  RescuetimeAnalyticDataRestrictKind RestrictKind { get; set; } = RescuetimeAnalyticDataRestrictKind.Efficiency;
         /// <summary>
         /// Sets the start day for data batch, inclusive (always at time 00:00, start hour/minute not supported)
         /// </summary>
@@ -65,12 +65,12 @@ namespace Material.Infrastructure.Requests
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> RestrictEnd { get; set; }
 	}
-    public enum RescuetimeAnalyticDataFormatEnum
+    public enum RescuetimeAnalyticDataFormat
     {
         [Description("json")] Json,
         [Description("csv")] Csv,
     }
-    public enum RescuetimeAnalyticDataResolutionTimeEnum
+    public enum RescuetimeAnalyticDataResolutionTime
     {
         [Description("month")] Month,
         [Description("week")] Week,
@@ -78,13 +78,13 @@ namespace Material.Infrastructure.Requests
         [Description("hour")] Hour,
         [Description("minute")] Minute,
     }
-    public enum RescuetimeAnalyticDataPerspectiveEnum
+    public enum RescuetimeAnalyticDataPerspective
     {
         [Description("interval")] Interval,
         [Description("rank")] Rank,
         [Description("member")] Member,
     }
-    public enum RescuetimeAnalyticDataRestrictKindEnum
+    public enum RescuetimeAnalyticDataRestrictKind
     {
         [Description("category")] Category,
         [Description("activity")] Activity,

@@ -31,9 +31,9 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
-        public  LinkedinPersonalFormatEnum Format { get; set; } = LinkedinPersonalFormatEnum.Json;
+        public  LinkedinPersonalFormat Format { get; set; } = LinkedinPersonalFormat.Json;
 	}
-    public enum LinkedinPersonalFormatEnum
+    public enum LinkedinPersonalFormat
     {
         [Description("json")] Json,
         [Description("xml")] Xml,

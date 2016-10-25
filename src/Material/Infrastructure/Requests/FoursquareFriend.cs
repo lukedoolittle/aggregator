@@ -37,7 +37,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
-        public  FoursquareFriendMEnum M { get; set; } = FoursquareFriendMEnum.Foursquare;
+        public  FoursquareFriendM M { get; set; } = FoursquareFriendM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
@@ -51,7 +51,7 @@ namespace Material.Infrastructure.Requests
         [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Offset { get; set; }
 	}
-    public enum FoursquareFriendMEnum
+    public enum FoursquareFriendM
     {
         [Description("foursquare")] Foursquare,
         [Description("swarm")] Swarm,

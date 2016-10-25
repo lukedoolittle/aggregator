@@ -1,6 +1,6 @@
 ﻿namespace Material.Infrastructure.Requests
 {
-    public partial class WithingsWeighin
+    public partial class WithingsWeighIn
     {
         public override void AddUserIdParameter(string userId)
         {

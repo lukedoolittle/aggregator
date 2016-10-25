@@ -37,7 +37,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
-        public  FoursquareCheckinMEnum M { get; set; } = FoursquareCheckinMEnum.Foursquare;
+        public  FoursquareCheckinM M { get; set; } = FoursquareCheckinM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
@@ -55,7 +55,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("sort")]
         [ParameterType(RequestParameterType.Query)]
-        public  FoursquareCheckinSortEnum Sort { get; set; } = FoursquareCheckinSortEnum.Newestfirst;
+        public  FoursquareCheckinSort Sort { get; set; } = FoursquareCheckinSort.Newestfirst;
         /// <summary>
         /// Retrieve the first results to follow these seconds since epoch
         /// </summary>
@@ -71,12 +71,12 @@ namespace Material.Infrastructure.Requests
         [Format("ddd")]
         public  Nullable<DateTime> BeforeTimestamp { get; set; }
 	}
-    public enum FoursquareCheckinMEnum
+    public enum FoursquareCheckinM
     {
         [Description("foursquare")] Foursquare,
         [Description("swarm")] Swarm,
     }
-    public enum FoursquareCheckinSortEnum
+    public enum FoursquareCheckinSort
     {
         [Description("newestfirst")] Newestfirst,
         [Description("oldestfirst")] Oldestfirst,

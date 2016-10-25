@@ -325,7 +325,7 @@
 .\Infrastructure\Requests\TwitterTimeline.cs
 .\Infrastructure\Requests\TwitterTweet.cs
 .\Infrastructure\Requests\TwitterVerifyCredentials.cs
-.\Infrastructure\Requests\WithingsWeighin.cs
+.\Infrastructure\Requests\WithingsWeighIn.cs
 </LastOutputs>
     </AdditionalFiles>
   </ItemGroup>

@@ -286,7 +286,7 @@ namespace CodeGen
 
                             if (parameter["enum"] != null)
                             {
-                                var enumName = @class.Name + name + "Enum";
+                                var enumName = @class.Name + name;
                                 var enumNamespace = "Foundations.Attributes";
                                 var @enum = new EnumRepresentation(
                                     enumName, 

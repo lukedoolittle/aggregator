@@ -42,9 +42,9 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
-        public  FatsecretMealFormatEnum Format { get; set; } = FatsecretMealFormatEnum.Json;
+        public  FatsecretMealFormat Format { get; set; } = FatsecretMealFormat.Json;
 	}
-    public enum FatsecretMealFormatEnum
+    public enum FatsecretMealFormat
     {
         [Description("xml")] Xml,
         [Description("json")] Json,

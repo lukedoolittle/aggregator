@@ -17,7 +17,7 @@ namespace Material.Infrastructure.Requests
     /// Get the body measures for a user
     /// </summary>
     [ServiceType(typeof(Withings))]
-	public partial class WithingsWeighin : OAuthRequest              
+	public partial class WithingsWeighIn : OAuthRequest              
 	{
         public override String Host => "https://wbsapi.withings.net";
         public override String Path => "/measure";

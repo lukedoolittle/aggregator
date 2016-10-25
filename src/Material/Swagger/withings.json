@@ -16,7 +16,7 @@
             "get": {
                 "summary": "Get the body measures for a user",
                 "description": "http://oauth.withings.com/api/doc#api-Measure-get_measure",
-                "operationId": "WithingsWeighin",
+                "operationId": "WithingsWeighIn",
                 "parameters": [
                     {
                         "in": "query",
