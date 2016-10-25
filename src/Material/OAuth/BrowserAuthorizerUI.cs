@@ -14,8 +14,8 @@ namespace Material.OAuth
         private readonly IBrowser _browser;
         private readonly IOAuthCallbackListener<TCredentials> _listener;
 
-        public AuthenticationInterfaceEnum BrowserType =>
-            AuthenticationInterfaceEnum.Dedicated;
+        public AuthenticationInterface BrowserType =>
+            AuthenticationInterface.Dedicated;
 
         public BrowserAuthorizerUI(
             IOAuthCallbackListener<TCredentials> listener,

@@ -18,16 +18,21 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "clientEmail", EmitDefaultValue = false)]
         public string ClientEmail { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string CallbackUrl { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "access_token", EmitDefaultValue = false)]
         protected string _accessToken;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "accessToken", EmitDefaultValue = false)]
         protected string _accessTokenAlternate;
         public string AccessToken => _accessToken ?? _accessTokenAlternate;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "expires_in", EmitDefaultValue = false)]
         protected string _expiresIn;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "expires", EmitDefaultValue = false)]
         protected string _expiresInAlternate;
         public override string ExpiresIn => _expiresIn ?? _expiresInAlternate;
@@ -87,6 +92,7 @@ namespace Material.Infrastructure.Credentials
             return this;
 	    }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#")]
         public OAuth2Credentials SetCallbackUrl(string callbackUrl)
         {
             CallbackUrl = callbackUrl;

@@ -18,6 +18,7 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "oauth_token_secret")]
         public string OAuthSecret { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string CallbackUrl { get; private set; }
 
         [DataMember(Name = "oauth_verifier", EmitDefaultValue = false)]
@@ -56,6 +57,7 @@ namespace Material.Infrastructure.Credentials
 	        return this;
 	    }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#")]
         public OAuth1Credentials SetCallbackUrl(string callbackUrl)
         {
             CallbackUrl = callbackUrl;

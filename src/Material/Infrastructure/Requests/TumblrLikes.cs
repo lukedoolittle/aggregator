@@ -26,26 +26,26 @@ namespace Material.Infrastructure.Requests
         /// The number of results to return: 1–20, inclusive
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; } = 20;
         /// <summary>
         /// Liked post number to start at
         /// </summary>
         [Name("offset")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Offset { get; set; }
         /// <summary>
         /// Retrieve posts liked before the specified timestamp
         /// </summary>
         [Name("before")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("ddd")]
         public  Nullable<DateTime> Before { get; set; }
         /// <summary>
         /// Retrieve posts liked after the specified timestamp
         /// </summary>
         [Name("after")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("ddd")]
         public  Nullable<DateTime> After { get; set; }
 	}

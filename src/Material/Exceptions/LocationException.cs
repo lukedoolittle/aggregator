@@ -6,5 +6,12 @@ namespace Material.Exceptions
     {
         public LocationException(string message):  base(message)
         { }
+
+        public LocationException(string message, Exception exception) : 
+            base(message, exception)
+        { }
+
+        public LocationException() : base()
+        { }
     }
 }

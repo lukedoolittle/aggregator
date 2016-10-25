@@ -19,7 +19,7 @@ namespace Quantfabric.Web.Test.Controllers
         public OAuthController()
         {
             _appRepository = new AppCredentialRepository(
-                CallbackTypeEnum.Localhost);
+                CallbackType.Localhost);
         }
 
         [HttpGet]

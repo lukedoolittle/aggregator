@@ -28,27 +28,27 @@ namespace Material.Infrastructure.Requests
         ///  A Unix timestamp or strtotime data value that points to the start of the range of time-based data
         /// </summary>
         [Name("since")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-ddTHH:mm:sszzz")]
         public  Nullable<DateTime> Since { get; set; }
         /// <summary>
         ///  A Unix timestamp or strtotime data value that points to the end of the range of time-based data
         /// </summary>
         [Name("until")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-ddTHH:mm:sszzz")]
         public  Nullable<DateTime> Until { get; set; }
         /// <summary>
         /// This is the number of individual objects that are returned in each page
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// Aggregated information about the edge, such as counts
         /// </summary>
         [Name("summary")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Summary { get; set; } = "total_count";
 	}
 }

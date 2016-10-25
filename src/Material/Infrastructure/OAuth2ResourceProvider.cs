@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using Foundations.HttpClient.Enums;
 using Material.Exceptions;
@@ -29,6 +30,7 @@ namespace Material.Infrastructure
             {
                 throw new InvalidFlowTypeException(
                     string.Format(
+                        CultureInfo.InvariantCulture,
                         StringResources.FlowTypeNotSupportedException,
                         GetType().Name));
             }
@@ -43,6 +45,7 @@ namespace Material.Infrastructure
             string clientSecret)
         { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2ResourceProvider AddRequestScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
@@ -53,6 +56,7 @@ namespace Material.Infrastructure
                 if (!AvailableScopes.Contains(scope))
                 {
                     throw new InvalidScopeException(string.Format(
+                        CultureInfo.InvariantCulture,
                         StringResources.ScopeException, 
                         scope, 
                         this.GetType().Name));

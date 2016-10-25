@@ -28,13 +28,13 @@ namespace Material.Infrastructure.Requests
         /// The maximum number of objects to return
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; } = 50;
         /// <summary>
         /// The index of the first object to return
         /// </summary>
         [Name("offset")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Offset { get; set; }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using Foundations.Enums;
@@ -21,16 +22,16 @@ namespace Material.Infrastructure
         public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
         public virtual IDictionary<string, string> QuerystringParameters => 
-            GetParameters(RequestParameterTypeEnum.Query);
+            GetParameters(RequestParameterType.Query);
         public virtual IDictionary<string, string> PathParameters => 
-            GetParameters(RequestParameterTypeEnum.Path);
+            GetParameters(RequestParameterType.Path);
 
         public object Body { get; set; }
         public MediaType BodyType { get; set; } = MediaType.Json;
 
         public virtual void AddUserIdParameter(string userId) {}
 
-        protected virtual IDictionary<string, string> GetParameters(RequestParameterTypeEnum type)
+        protected virtual IDictionary<string, string> GetParameters(RequestParameterType type)
         {
             var parameterProperties = this.GetPropertiesWhere(prop =>
                 prop.GetCustomAttribute<ParameterType>()?.Type == type);
@@ -68,11 +69,11 @@ namespace Material.Infrastructure
                 switch (formatter)
                 {
                     case "ddd":
-                        return ((DateTimeOffset) instance).ToUnixTimeSeconds().ToString();
+                        return ((DateTimeOffset) instance).ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture);
                     case "d":
-                        return ((DateTimeOffset)instance).ToUnixTimeDays().ToString();
+                        return ((DateTimeOffset)instance).ToUnixTimeDays().ToString(CultureInfo.InvariantCulture);
                     default:
-                        return ((DateTimeOffset)instance).ToString(formatter);
+                        return ((DateTimeOffset)instance).ToString(formatter, CultureInfo.InvariantCulture);
                 }
             }
             else if (instance is DateTime)
@@ -80,11 +81,11 @@ namespace Material.Infrastructure
                 switch (formatter)
                 {
                     case "ddd":
-                        return ((DateTime)instance).ToUnixTimeSeconds().ToString();
+                        return ((DateTime)instance).ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture);
                     case "d":
-                        return ((DateTime)instance).ToUnixTimeDays().ToString();
+                        return ((DateTime)instance).ToUnixTimeDays().ToString(CultureInfo.InvariantCulture);
                     default:
-                        return ((DateTime)instance).ToString(formatter);
+                        return ((DateTime)instance).ToString(formatter, CultureInfo.InvariantCulture);
                 }
             }
             else if (instance.GetType().GetTypeInfo().IsEnum)

@@ -14,10 +14,10 @@ namespace Quantfabric.UI.Test.iOS
 
     public partial class MainViewController : UIViewController
     {
-        private AuthenticationInterfaceEnum _browserType = 
-            AuthenticationInterfaceEnum.Embedded;
-        private CallbackTypeEnum _callbackType = 
-            CallbackTypeEnum.Localhost;
+        private AuthenticationInterface _browserType = 
+            AuthenticationInterface.Embedded;
+        private CallbackType _callbackType = 
+            CallbackType.Localhost;
 
         public MainViewController (IntPtr handle) : base (handle)
         {
@@ -30,11 +30,11 @@ namespace Quantfabric.UI.Test.iOS
             BrowserToggle.TouchUpInside += (sender, args) =>
             {
                 _browserType = BrowserToggle.On
-                    ? AuthenticationInterfaceEnum.Embedded
-                    : AuthenticationInterfaceEnum.Dedicated;
+                    ? AuthenticationInterface.Embedded
+                    : AuthenticationInterface.Dedicated;
                 _callbackType = BrowserToggle.On
-                    ? CallbackTypeEnum.Localhost
-                    : CallbackTypeEnum.Protocol;
+                    ? CallbackType.Localhost
+                    : CallbackType.Protocol;
             };
 
             TwitterAuth.TouchUpInside += async (sender, e) =>

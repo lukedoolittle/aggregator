@@ -28,13 +28,13 @@ namespace Material.Infrastructure.Requests
         /// return what services are available to the profiles
         /// </summary>
         [Name("services")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         public  Nullable<Boolean> Services { get; set; }
         /// <summary>
         /// request the email for this account
         /// </summary>
         [Name("email")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         public  Nullable<Boolean> Email { get; set; }
 	}
 }

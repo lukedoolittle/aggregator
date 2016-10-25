@@ -18,7 +18,7 @@ namespace Material.OAuth
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly IOAuthFacade<OAuth2Credentials> _oauthFacade;
         private readonly TResourceProvider _provider;
-        protected readonly AuthenticationInterfaceEnum _browserType;
+        protected readonly AuthenticationInterface _browserType;
 
         public OAuth2AppBase(
             string clientId,
@@ -26,7 +26,7 @@ namespace Material.OAuth
             IOAuthAuthorizerUIFactory uiFactory,
             IOAuthSecurityStrategy securityStrategy,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType)
+            AuthenticationInterface browserType)
         {
             _callbackUri = new Uri(callbackUrl);
             _browserType = browserType;

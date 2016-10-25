@@ -13,7 +13,7 @@ namespace Quantfabric.Test.Material.Interaction
     public class OAuth2CodeTokenTests
     {
         private readonly AppCredentialRepository _appRepository = 
-            new AppCredentialRepository(CallbackTypeEnum.Localhost);
+            new AppCredentialRepository(CallbackType.Localhost);
         private readonly TokenCredentialRepository _tokenRepository = 
             new TokenCredentialRepository(true);
 

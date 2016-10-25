@@ -26,25 +26,25 @@ namespace Material.Infrastructure.Requests
         /// Causes the results to be broken into pages
         /// </summary>
         [Name("cursor")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int64> Cursor { get; set; }
         /// <summary>
         /// Specifies the number of records to retrieve. Must be less than or equal to 100
         /// </summary>
         [Name("count")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_user_entities")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> IncludeUserEntities { get; set; }
         /// <summary>
         /// When set to either true, t or 1 statuses will not be included in the returned user objects
         /// </summary>
         [Name("skip_status")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> SkipStatus { get; set; }
 	}
 }

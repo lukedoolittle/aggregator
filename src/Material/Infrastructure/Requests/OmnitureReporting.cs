@@ -30,7 +30,7 @@ namespace Material.Infrastructure.Requests
         /// The name of the method to call
         /// </summary>
         [Name("method")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  OmnitureReportingMethodEnum Method { get; set; }
 	}
     public enum OmnitureReportingMethodEnum

@@ -28,20 +28,20 @@ namespace Material.Infrastructure.Requests
         /// MUST be food_entries.get
         /// </summary>
         [Name("method")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Method { get; set; } = "food_entries.get";
         /// <summary>
         /// The number of days since January 1, 1970 (default value is the current day)
         /// </summary>
         [Name("date")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("d")]
         public  Nullable<DateTime> Date { get; set; }
         /// <summary>
         /// The desired response format.
         /// </summary>
         [Name("format")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  FatsecretMealFormatEnum Format { get; set; } = FatsecretMealFormatEnum.Json;
 	}
     public enum FatsecretMealFormatEnum

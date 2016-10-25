@@ -25,7 +25,7 @@ namespace Material.Infrastructure.OAuth
         private readonly OAuth2AppBase<TResourceProvider> _app;
         private readonly IOAuthSecurityStrategy _securityStrategy;
 #if !__WINDOWS__
-        private readonly AuthenticationInterfaceEnum _browserType;
+        private readonly AuthenticationInterface _browserType;
 #endif
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace Material.Infrastructure.OAuth
             string callbackUrl,
             TResourceProvider provider,
 #if __WINDOWS__
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
+            AuthenticationInterface browserType = AuthenticationInterface.Dedicated
 #else
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
+            AuthenticationInterface browserType = AuthenticationInterface.Embedded
 #endif
             )
         {
@@ -81,9 +81,9 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string callbackUrl,
 #if __WINDOWS__
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Dedicated
+            AuthenticationInterface browserType = AuthenticationInterface.Dedicated
 #else
-            AuthenticationInterfaceEnum browserType = AuthenticationInterfaceEnum.Embedded
+            AuthenticationInterface browserType = AuthenticationInterface.Embedded
 #endif
             ) :
             this(
@@ -124,7 +124,7 @@ namespace Material.Infrastructure.OAuth
 #if !__WINDOWS__
             //This is sort of a bizarre hack: Google requires that you go through the
             //code workflow with a mobile device even if you don't have a client secret
-            if (_browserType == AuthenticationInterfaceEnum.Dedicated &&
+            if (_browserType == AuthenticationInterface.Dedicated &&
                 typeof(TResourceProvider) == typeof(Google))
             {
                 return _app.GetCredentialsAsync(

@@ -3,7 +3,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public enum CallbackTypeEnum
+    public enum CallbackType
     {
         Localhost,
         Protocol
@@ -11,12 +11,19 @@ namespace Material.Contracts
 
     public interface IClientCredentials
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         TCredentials GetClientCredentials<TService, TCredentials>(
-            CallbackTypeEnum callbackType = CallbackTypeEnum.Localhost)
+            CallbackType callbackType)
             where TService : ResourceProvider
             where TCredentials : TokenCredentials;
 
-        OAuth2Credentials GetJWTCredentials<TService>()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        TCredentials GetClientCredentials<TService, TCredentials>()
+            where TService : ResourceProvider
+            where TCredentials : TokenCredentials;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        OAuth2Credentials GetJsonWebTokenCredentials<TService>()
             where TService : ResourceProvider;
     }
 }

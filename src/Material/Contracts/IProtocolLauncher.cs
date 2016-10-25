@@ -12,12 +12,8 @@ namespace Material.Contracts
         }
     }
 
-    public delegate void ProtocolLaunchEventHandler(
-        object sender,
-        ProtocolLaunchEventArgs e);
-
     public interface IProtocolLauncher
     {
-        event ProtocolLaunchEventHandler ProtocolLaunch;
+        event EventHandler<ProtocolLaunchEventArgs> ProtocolLaunch;
     }
 }

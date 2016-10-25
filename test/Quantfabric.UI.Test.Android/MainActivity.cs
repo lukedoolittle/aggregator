@@ -18,10 +18,10 @@ namespace Quantfabric.UI.Test
     [Activity(Name = "quantfabric.ui.test.MainActivity")]
     public class MainActivity : Activity
     {
-        private AuthenticationInterfaceEnum _browserType = 
-            AuthenticationInterfaceEnum.Embedded;
-        private CallbackTypeEnum _callbackType =
-            CallbackTypeEnum.Localhost;
+        private AuthenticationInterface _browserType = 
+            AuthenticationInterface.Embedded;
+        private CallbackType _callbackType =
+            CallbackType.Localhost;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -33,11 +33,11 @@ namespace Quantfabric.UI.Test
             toggleButton.Click += (o, e) =>
             {
                 _browserType = toggleButton.Checked
-                    ? AuthenticationInterfaceEnum.Dedicated
-                    : AuthenticationInterfaceEnum.Embedded;
+                    ? AuthenticationInterface.Dedicated
+                    : AuthenticationInterface.Embedded;
                 _callbackType = toggleButton.Checked
-                    ? CallbackTypeEnum.Protocol
-                    : CallbackTypeEnum.Localhost;
+                    ? CallbackType.Protocol
+                    : CallbackType.Localhost;
             };
 
             FindViewById<Button>(Resource.Id.twitterAuth).Click += async (sender, args) =>

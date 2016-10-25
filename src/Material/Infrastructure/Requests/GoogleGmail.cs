@@ -28,7 +28,7 @@ namespace Material.Infrastructure.Requests
         /// The ID of the message to retrieve
         /// </summary>
         [Name("messageId")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         public  String MessageId { get; set; }
 	}
 }

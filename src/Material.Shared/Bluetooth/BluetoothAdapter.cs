@@ -21,7 +21,12 @@ namespace Material.Adapters
             _adapter = adapter;
         }
 
-        public async Task<bool> ConnectToDevice(Guid deviceAddress = default(Guid))
+        public Task<bool> ConnectToDevice()
+        {
+            return ConnectToDevice(default(Guid));
+        }
+
+        public async Task<bool> ConnectToDevice(Guid deviceAddress)
         {
             var device = await Connect(deviceAddress)
                 .ConfigureAwait(true);

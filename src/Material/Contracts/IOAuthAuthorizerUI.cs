@@ -8,7 +8,7 @@ namespace Material.Contracts
     public interface IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
-        AuthenticationInterfaceEnum BrowserType { get; }
+        AuthenticationInterface BrowserType { get; }
 
         Task<TCredentials> Authorize(
             Uri authorizationUri,

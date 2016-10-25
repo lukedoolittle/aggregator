@@ -30,25 +30,25 @@ namespace Material.Infrastructure.Requests
         /// timestamp of the revision version of the api
         /// </summary>
         [Name("v")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String V { get; set; } = "20140806";
         /// <summary>
         /// platform context for the request
         /// </summary>
         [Name("m")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  FoursquareFriendMEnum M { get; set; } = FoursquareFriendMEnum.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// The number of results to skip
         /// </summary>
         [Name("offset")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Offset { get; set; }
 	}
     public enum FoursquareFriendMEnum

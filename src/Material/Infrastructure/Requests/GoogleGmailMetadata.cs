@@ -28,31 +28,31 @@ namespace Material.Infrastructure.Requests
         /// Only return messages matching the specified query
         /// </summary>
         [Name("q")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Q { get; set; }
         /// <summary>
         /// Maximum number of messages to return
         /// </summary>
         [Name("maxResults")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> MaxResults { get; set; }
         /// <summary>
         /// Page token to retrieve a specific page of results in the list
         /// </summary>
         [Name("pageToken")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String PageToken { get; set; }
         /// <summary>
         /// Include messages from SPAM and TRASH in the results
         /// </summary>
         [Name("includeSpamTrash")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> IncludeSpamTrash { get; set; }
         /// <summary>
         /// Only return messages with labels that match all of the specified label IDs
         /// </summary>
         [Name("labelIds")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String LabelIds { get; set; }
 	}
 }

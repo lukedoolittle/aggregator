@@ -17,8 +17,8 @@ namespace Material.View.WebAuthorization
         private readonly Uri _callbackUri;
         private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
-        public AuthenticationInterfaceEnum BrowserType => 
-            AuthenticationInterfaceEnum.Embedded;
+        public AuthenticationInterface BrowserType => 
+            AuthenticationInterface.Embedded;
 
         public UIWebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler, 

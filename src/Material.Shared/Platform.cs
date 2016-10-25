@@ -57,7 +57,7 @@ namespace Material.Framework
             LaunchBrowser(uri);
         }
 
-        public event ProtocolLaunchEventHandler ProtocolLaunch;
+        public event EventHandler<ProtocolLaunchEventArgs> ProtocolLaunch;
 
         protected virtual void OnProtocolLaunched(Uri uri)
         {

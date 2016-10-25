@@ -28,7 +28,7 @@ namespace Material.Infrastructure.Requests
         /// the profile id of the genome holder
         /// </summary>
         [Name("profile_id")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         public  String ProfileId { get; set; }
 	}
 }

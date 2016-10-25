@@ -6,6 +6,17 @@
 			      <Word>Sha</Word>
 			      <Word>Jwt</Word>
             <Word>Auth</Word>
+            <Word>Uuid</Word>
+           <Word>CGM</Word>
+           <Word>CSC</Word>
+           <Word>Oximeter</Word>
+           <Word>Instagram</Word>
+           <Word>Fatsecret</Word>
+           <Word>Pinterest</Word>
+           <Word>Rescuetime</Word>
+           <Word>Runkeeper</Word>
+           <Word>Tumblr</Word>
+           <Word>Withings</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate=""></Term>
@@ -20,6 +31,23 @@
             <Acronym>oauth</Acronym>
 			      <Acronym>Jwt</Acronym>
             <Acronym>UTF</Acronym>
+            <Acronym>SMS</Acronym>
+            <Acronym>GPS</Acronym>
+            <Acronym>iOS</Acronym>
+           <Acronym>CSC</Acronym>
+           <Acronym>CGM</Acronym>
+             <Acronum>DST</Acronum>
+             <Acronum>HID</Acronum>
+             <Acronum>HTTP</Acronum>
+             <Acronum>OTS</Acronum>
+             <Acronum>PLX</Acronum>
+             <Acronum>PID</Acronum>
+             <Acronum>RSC</Acronum>
+             <Acronum>SCC</Acronum>
+             <Acronum>TDS</Acronum>
+             <Acronum>UV</Acronum>
+             <Acronum>VO2</Acronum>
+           <Acronum>OTS</Acronum>
          </CasingExceptions>
       </Acronyms>
    </Dictionary>

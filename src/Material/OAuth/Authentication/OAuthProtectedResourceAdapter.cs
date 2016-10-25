@@ -45,9 +45,31 @@ namespace Material.OAuth.Authentication
             _parameterHandling = parameterHandling;
         }
 
+        public Task<TResponse> ForProtectedResource<TResponse>(
+            string host,
+            string path,
+            string httpMethod,
+            Dictionary<HttpRequestHeader, string> headers,
+            IDictionary<string, string> querystringParameters,
+            IDictionary<string, string> pathParameters,
+            object body,
+            MediaType bodyType)
+        {
+            return ForProtectedResource<TResponse>(
+                host, 
+                path, 
+                httpMethod,
+                headers, 
+                querystringParameters, 
+                pathParameters, 
+                body, 
+                bodyType, 
+                HttpStatusCode.OK);
+        }
+
         //TODO: parameters shouldn't be dictionaries because there can be duplicates
         public async Task<TResponse> ForProtectedResource<TResponse>(
-            string baseUrl,
+            string host,
             string path,
             string httpMethod,
             Dictionary<HttpRequestHeader, string> headers,
@@ -55,12 +77,11 @@ namespace Material.OAuth.Authentication
             IDictionary<string, string> pathParameters,
             object body,
             MediaType bodyType,
-            HttpStatusCode expectedResponse = HttpStatusCode.OK,
-            MediaType expectedResponseType = MediaType.Json)
+            HttpStatusCode expectedResponse)
         {
-            if (string.IsNullOrEmpty(baseUrl))
+            if (string.IsNullOrEmpty(host))
             {
-                throw new ArgumentNullException(nameof(baseUrl));
+                throw new ArgumentNullException(nameof(host));
             }
             if (string.IsNullOrEmpty(path))
             {
@@ -71,11 +92,11 @@ namespace Material.OAuth.Authentication
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            using (var requestBuilder = new HttpRequestBuilder(baseUrl))
+            using (var requestBuilder = new HttpRequestBuilder(host))
             {
                 return await requestBuilder
                     .Request(httpMethod, path, _parameterHandling)
-                    .ResponseMediaType(expectedResponseType)
+                    .ResponseMediaType(MediaType.Json)
                     .Headers(headers)
                     .Parameters(querystringParameters)
                     .Segments(pathParameters.ToHttpValueCollection())

@@ -28,28 +28,28 @@ namespace Material.Infrastructure.Requests
         /// The start date, in the format yyyy-MM-dd or today
         /// </summary>
         [Name("startdate")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> Startdate { get; set; }
         /// <summary>
         /// The end date, in the format yyyy-MM-dd or today
         /// </summary>
         [Name("enddate")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> Enddate { get; set; }
         /// <summary>
         /// The start of the period, in the format HH:mm
         /// </summary>
         [Name("starttime")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         [Format("HH:mm")]
         public  Nullable<DateTime> Starttime { get; set; }
         /// <summary>
         /// The end of the period, in the format HH:mm
         /// </summary>
         [Name("endtime")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         [Format("HH:mm")]
         public  Nullable<DateTime> Endtime { get; set; }
 	}

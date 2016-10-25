@@ -2,7 +2,7 @@
 
 namespace Material.Contracts
 {
-    public interface ITimeseries
+    public interface ITimeSeries
     {
         TimestampOptions ResponseTimestamp { get; }
     }

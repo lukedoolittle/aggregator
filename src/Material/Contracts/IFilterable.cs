@@ -1,6 +1,6 @@
 ﻿namespace Material.Contracts
 {
-    public interface IFilterable : ITimeseries
+    public interface IFilterable : ITimeSeries
     {
         string RequestFilterKey { get; }
         string ResponseFilterKey { get; }

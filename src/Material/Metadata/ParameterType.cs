@@ -6,9 +6,9 @@ namespace Material.Metadata
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ParameterType : Attribute
     {
-        public RequestParameterTypeEnum Type { get; set; }
+        public RequestParameterType Type { get; set; }
 
-        public ParameterType(RequestParameterTypeEnum type)
+        public ParameterType(RequestParameterType type)
         {
             Type = type;
         }

@@ -30,7 +30,7 @@ namespace Material.Infrastructure.Requests
         /// Optional fields to request
         /// </summary>
         [Name("fields")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  FacebookUserFieldsEnum Fields { get; set; } = FacebookUserFieldsEnum.Email;
 	}
     public enum FacebookUserFieldsEnum

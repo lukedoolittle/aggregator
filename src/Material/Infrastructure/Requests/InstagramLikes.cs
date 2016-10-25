@@ -28,13 +28,13 @@ namespace Material.Infrastructure.Requests
         /// Count of media to return
         /// </summary>
         [Name("count")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// Return media liked before this id
         /// </summary>
         [Name("max_like_id")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String MaxLikeId { get; set; }
 	}
 }

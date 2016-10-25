@@ -2,7 +2,7 @@
 
 namespace Material.Enums
 {
-    public enum AuthenticationInterfaceEnum
+    public enum AuthenticationInterface
     {
         [Description("embedded")] Embedded,
         [Description("dedicated")] Dedicated

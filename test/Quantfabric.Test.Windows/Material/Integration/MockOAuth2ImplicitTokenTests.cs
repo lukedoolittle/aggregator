@@ -20,7 +20,7 @@ namespace Quantfabric.Test.Material.Integration
     public class MockOAuth2ImplicitTokenTests
     {
         private readonly AppCredentialRepository _appRepository =
-            new AppCredentialRepository(CallbackTypeEnum.Localhost);
+            new AppCredentialRepository(CallbackType.Localhost);
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogle()

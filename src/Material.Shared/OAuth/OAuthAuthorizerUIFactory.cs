@@ -18,7 +18,7 @@ namespace Material.Infrastructure.OAuth
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TResourceProvider, TCredentials>(
-            AuthenticationInterfaceEnum browserType,
+            AuthenticationInterface browserType,
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri)
             where TResourceProvider : ResourceProvider
@@ -27,14 +27,14 @@ namespace Material.Infrastructure.OAuth
 #if __ANDROID__
             switch (browserType)
             {
-                case AuthenticationInterfaceEnum.Dedicated:
+                case AuthenticationInterface.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
-                case AuthenticationInterfaceEnum.Embedded:
+                case AuthenticationInterface.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
                         handler,
                         callbackUri);
@@ -44,14 +44,14 @@ namespace Material.Infrastructure.OAuth
 #elif __IOS__
             switch (browserType)
             {
-                case AuthenticationInterfaceEnum.Dedicated:
+                case AuthenticationInterface.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
-                case AuthenticationInterfaceEnum.Embedded:
+                case AuthenticationInterface.Embedded:
                     return new UIWebViewAuthorizerUI<TCredentials>(
                         handler,
                         callbackUri);
@@ -61,14 +61,14 @@ namespace Material.Infrastructure.OAuth
 #elif WINDOWS_UWP
             switch (browserType)
             {
-                case AuthenticationInterfaceEnum.Dedicated:
+                case AuthenticationInterface.Dedicated:
                     return new BrowserAuthorizerUI<TCredentials>(
                         new ProtocolOAuthCallbackListener<TCredentials>(
                             handler,
                             Platform.Current),
                         Platform.Current,
                         callbackUri);
-                case AuthenticationInterfaceEnum.Embedded:
+                case AuthenticationInterface.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
                         handler,
                         callbackUri);

@@ -7,7 +7,9 @@ namespace Material.Contracts
     {
         void ListDevices(Action<BluetoothDevice> newDeviceFound);
 
-        Task<bool> ConnectToDevice(Guid address = default(Guid));
+        Task<bool> ConnectToDevice(Guid address);
+
+        Task<bool> ConnectToDevice();
 
         Task<byte[]> GetCharacteristicValue(
             Guid deviceAddress,

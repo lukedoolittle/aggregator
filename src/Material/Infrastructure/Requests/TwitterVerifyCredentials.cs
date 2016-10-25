@@ -26,19 +26,19 @@ namespace Material.Infrastructure.Requests
         /// When set to true statuses will not be included in the returned user object
         /// </summary>
         [Name("skip_status")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> SkipStatus { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_entities")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> IncludeEntities { get; set; }
         /// <summary>
         /// When set to true email will be returned in the user objects as a string
         /// </summary>
         [Name("include_email")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> IncludeEmail { get; set; } = true;
 	}
 }

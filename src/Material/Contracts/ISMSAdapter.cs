@@ -9,6 +9,7 @@ namespace Material.Contracts
     {
         //Action<IEnumerable<Tuple<DateTimeOffset, JObject>>> Handler { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         Task<IEnumerable<SMSMessage>> GetAllSMS(DateTime filterDate);
     }
 }

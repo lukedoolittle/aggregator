@@ -30,33 +30,33 @@ namespace Material.Infrastructure.Requests
         /// Starting ime scope for the request
         /// </summary>
         [Name("noEarlierThan")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> NoEarlierThan { get; set; }
         /// <summary>
         /// Ending time scope for the request
         /// </summary>
         [Name("noLaterThan")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> NoLaterThan { get; set; }
         /// <summary>
         /// The pageSize query parameter controls how many entries are returned per page.
         /// </summary>
         [Name("pageSize")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> PageSize { get; set; }
         /// <summary>
         /// The page number to request
         /// </summary>
         [Name("page")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Page { get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Name("If-Modified-Since")]
-        [ParameterType(RequestParameterTypeEnum.Header)]
+        [ParameterType(RequestParameterType.Header)]
         [Format("yyyy-MM-ddTHH:mm:ss")]
         public  Nullable<DateTime> IfModifiedSince { get; set; }
 	}

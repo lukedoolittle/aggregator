@@ -30,7 +30,7 @@ namespace Material.Infrastructure.Requests
         /// the format of the response
         /// </summary>
         [Name("format")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  LinkedinPersonalFormatEnum Format { get; set; } = LinkedinPersonalFormatEnum.Json;
 	}
     public enum LinkedinPersonalFormatEnum

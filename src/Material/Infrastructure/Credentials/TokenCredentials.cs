@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -13,13 +14,16 @@ namespace Material.Infrastructure.Credentials
         public abstract string ExpiresIn { get; }
         public abstract bool AreValidIntermediateCredentials { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "user_id", EmitDefaultValue = false)]
         protected string _userId1;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "userid", EmitDefaultValue = false)]
         protected string _userId2;
 
         public string UserId => _userId1 ?? _userId2;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "created_at", EmitDefaultValue = false)]
         protected string _dateCreated;
 
@@ -36,7 +40,9 @@ namespace Material.Infrastructure.Credentials
                 }
                 else
                 {
-                    var secondsUntilExpiration = Convert.ToInt32(ExpiresIn);
+                    var secondsUntilExpiration = Convert.ToInt32(
+                        ExpiresIn, 
+                        CultureInfo.CurrentCulture);
                     var secondsSinceCreation = (DateTimeOffset.Now - DateCreated).TotalSeconds;
                     return secondsSinceCreation > secondsUntilExpiration;
                 }

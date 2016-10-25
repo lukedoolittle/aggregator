@@ -28,7 +28,7 @@ namespace Material.Infrastructure.Requests
         /// The date of records to be returned. In the format yyyy-MM-dd
         /// </summary>
         [Name("date")]
-        [ParameterType(RequestParameterTypeEnum.Path)]
+        [ParameterType(RequestParameterType.Path)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> Date { get; set; }
 	}

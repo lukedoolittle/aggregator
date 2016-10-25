@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Foundations.Extensions;
 using Material.Enums;
 
@@ -10,7 +11,7 @@ namespace Material.Infrastructure.Requests
         public Nullable<DateTime> Before { get; set; }
         public Nullable<DateTime> After { get; set; }
 
-        protected override IDictionary<string, string> GetParameters(RequestParameterTypeEnum type)
+        protected override IDictionary<string, string> GetParameters(RequestParameterType type)
         {
             if (Before != null)
             {
@@ -19,7 +20,10 @@ namespace Material.Infrastructure.Requests
                     Q = string.Empty;
                 }
 
-                Q += $"before:{Before.Value.ToUnixTimeSeconds()} ";
+                Q += string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "before:{0} ", 
+                    Before.Value.ToUnixTimeSeconds());
             }
 
             if (After != null)
@@ -29,7 +33,10 @@ namespace Material.Infrastructure.Requests
                     Q = string.Empty;
                 }
 
-                Q += $"after:{After.Value.ToUnixTimeSeconds()} ";
+                Q += string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "after:{0} ", 
+                    After.Value.ToUnixTimeSeconds());
             }
 
             return base.GetParameters(type);

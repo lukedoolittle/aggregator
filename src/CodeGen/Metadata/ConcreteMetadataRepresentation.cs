@@ -70,7 +70,7 @@ namespace CodeGen.Metadata
                 {
                     stringBuilder.Append($"\"{item.ToString()}\", ");
                 }
-                else if (item is RequestParameterTypeEnum)
+                else if (item is RequestParameterType)
                 {
                     stringBuilder.Append($"RequestParameterTypeEnum.{item.ToString()}, ");
                 }

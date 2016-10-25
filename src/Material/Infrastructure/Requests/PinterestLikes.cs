@@ -28,13 +28,13 @@ namespace Material.Infrastructure.Requests
         /// The maximum number of objects to return
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; } = 25;
         /// <summary>
         /// The starting page of the object to return
         /// </summary>
         [Name("cursor")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Cursor { get; set; }
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Material.Enums
 {
-    public enum RequestParameterTypeEnum
+    public enum RequestParameterType
     {
         Query,
         Path,

@@ -30,38 +30,38 @@ namespace Material.Infrastructure.Requests
         /// the format of the response
         /// </summary>
         [Name("format")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  RescuetimeAnalyticDataFormatEnum Format { get; set; } = RescuetimeAnalyticDataFormatEnum.Json;
         /// <summary>
         /// 
         /// </summary>
         [Name("resolution_time")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  RescuetimeAnalyticDataResolutionTimeEnum ResolutionTime { get; set; } = RescuetimeAnalyticDataResolutionTimeEnum.Hour;
         /// <summary>
         /// organization of data
         /// </summary>
         [Name("perspective")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  RescuetimeAnalyticDataPerspectiveEnum Perspective { get; set; } = RescuetimeAnalyticDataPerspectiveEnum.Interval;
         /// <summary>
         /// restrict the kind of information returned
         /// </summary>
         [Name("restrict_kind")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  RescuetimeAnalyticDataRestrictKindEnum RestrictKind { get; set; } = RescuetimeAnalyticDataRestrictKindEnum.Efficiency;
         /// <summary>
         /// Sets the start day for data batch, inclusive (always at time 00:00, start hour/minute not supported)
         /// </summary>
         [Name("restrict_begin")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> RestrictBegin { get; set; }
         /// <summary>
         /// Sets the end day for data batch, inclusive (always at time 00:00, end hour/minute not supported) 
         /// </summary>
         [Name("restrict_end")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("yyyy-MM-dd")]
         public  Nullable<DateTime> RestrictEnd { get; set; }
 	}

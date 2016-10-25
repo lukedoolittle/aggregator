@@ -9,12 +9,12 @@ namespace Quantfabric.Test.Helpers
 {
     public class AppCredentialRepository
     {
-        private readonly CallbackTypeEnum _callbackType;
+        private readonly CallbackType _callbackType;
         private readonly IClientCredentials _clientCredentials =
             new CredentialApplicationSettings();
 
         public AppCredentialRepository(
-            CallbackTypeEnum callbackType)
+            CallbackType callbackType)
         {
             _callbackType = callbackType;
         }
@@ -90,7 +90,7 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth2ResourceProvider
         {
             return _clientCredentials
-                .GetJWTCredentials<TService>()
+                .GetJsonWebTokenCredentials<TService>()
                 .ClientId;
         }
 
@@ -98,7 +98,7 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth2ResourceProvider
         {
             return _clientCredentials
-                .GetJWTCredentials<TService>()
+                .GetJsonWebTokenCredentials<TService>()
                 .PrivateKey;
         }
 
@@ -106,7 +106,7 @@ namespace Quantfabric.Test.Helpers
             where TService : OAuth2ResourceProvider
         {
             return _clientCredentials
-                .GetJWTCredentials<TService>()
+                .GetJsonWebTokenCredentials<TService>()
                 .ClientEmail;
         }
     }

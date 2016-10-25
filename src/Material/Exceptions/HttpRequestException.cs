@@ -9,5 +9,9 @@ namespace Material.Exceptions
 
         public HttpRequestException() : base()
         { }
+
+        public HttpRequestException(string message, Exception exception) :
+            base(message, exception)
+        { }
     }
 }

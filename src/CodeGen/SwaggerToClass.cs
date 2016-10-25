@@ -353,7 +353,7 @@ namespace CodeGen
                             {
                                 //querystringParameters.Add(parameter["name"].ToString(), name);
                                 var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
-                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterTypeEnum.Query };
+                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Query };
                                 property.Metadatas.Add(propertyTypeMetadata);
 
                             }
@@ -361,13 +361,13 @@ namespace CodeGen
                             {
                                 //urlsegmentParameters.Add(parameter["name"].ToString(), name);
                                 var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
-                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterTypeEnum.Path };
+                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Path };
                                 property.Metadatas.Add(propertyTypeMetadata);
                             }
                             else if (parameter["in"].ToString() == "header")
                             {
                                 var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
-                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterTypeEnum.Header };
+                                propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Header };
                                 property.Metadatas.Add(propertyTypeMetadata);
                             }
                             else

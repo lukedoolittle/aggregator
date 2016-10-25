@@ -26,32 +26,32 @@ namespace Material.Infrastructure.Requests
         /// the action to take (must be getmeas for this query)
         /// </summary>
         [Name("action")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Action { get; set; } = "getmeas";
         /// <summary>
         /// the user id of the requester
         /// </summary>
         [Name("userid")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String Userid { get; set; }
         /// <summary>
         /// Returns measures updated or created after a certain date
         /// </summary>
         [Name("lastupdate")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         [Format("ddd")]
         public  Nullable<DateTime> Lastupdate { get; set; }
         /// <summary>
         /// maximum number of measure groups to return
         /// </summary>
         [Name("limit")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// skip the offset most recent measure groups
         /// </summary>
         [Name("offset")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Offset { get; set; }
 	}
 }

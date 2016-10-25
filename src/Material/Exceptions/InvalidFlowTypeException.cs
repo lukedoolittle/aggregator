@@ -6,5 +6,12 @@ namespace Material.Exceptions
     {
         public InvalidFlowTypeException(string message) : base(message)
         { }
+
+        public InvalidFlowTypeException(string message, Exception exception) : 
+            base(message, exception)
+        { }
+
+        public InvalidFlowTypeException() : base()
+        { }
     }
 }

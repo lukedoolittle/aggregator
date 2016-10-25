@@ -19,7 +19,7 @@ namespace Quantfabric.Web.Test.Controllers
         public HomeController()
         {
             _appRepository = new AppCredentialRepository(
-                CallbackTypeEnum.Localhost);
+                CallbackType.Localhost);
         }
 
         public ActionResult Index()

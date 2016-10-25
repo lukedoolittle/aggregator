@@ -21,7 +21,7 @@ namespace Material.OAuth
         private readonly string _consumerSecret;
         private readonly Uri _callbackUri;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
-        private readonly AuthenticationInterfaceEnum _browserType;
+        private readonly AuthenticationInterface _browserType;
         private readonly TResourceProvider _provider;
 
         public OAuth1AppBase(
@@ -30,7 +30,7 @@ namespace Material.OAuth
             string callbackUrl,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthenticationInterfaceEnum browserType)
+            AuthenticationInterface browserType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;

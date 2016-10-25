@@ -46,10 +46,10 @@ namespace Quantfabric.UI.Test.UWP
 
     public sealed partial class MainPage : Page
     {
-        private AuthenticationInterfaceEnum _browserType =
-            AuthenticationInterfaceEnum.Embedded;
-        private CallbackTypeEnum _callbackType =
-            CallbackTypeEnum.Localhost;
+        private AuthenticationInterface _browserType =
+            AuthenticationInterface.Embedded;
+        private CallbackType _callbackType =
+            CallbackType.Localhost;
 
         public MainPage()
         {
@@ -373,11 +373,11 @@ namespace Quantfabric.UI.Test.UWP
         private void BrowserTypeToggled(object sender, RoutedEventArgs e)
         {
             _browserType = authTypeToggleSwitch.IsOn
-                ? AuthenticationInterfaceEnum.Dedicated
-                : AuthenticationInterfaceEnum.Embedded;
+                ? AuthenticationInterface.Dedicated
+                : AuthenticationInterface.Embedded;
             _callbackType = authTypeToggleSwitch.IsOn
-                ? CallbackTypeEnum.Protocol 
-                : CallbackTypeEnum.Localhost;
+                ? CallbackType.Protocol 
+                : CallbackType.Localhost;
         }
     }
 }

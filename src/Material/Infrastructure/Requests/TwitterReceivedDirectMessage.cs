@@ -26,31 +26,31 @@ namespace Material.Infrastructure.Requests
         /// Returns results with an ID greater than (that is, more recent than) the specified ID
         /// </summary>
         [Name("since_id")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String SinceId { get; set; }
         /// <summary>
         /// Returns results with an ID less than (that is, older than) or equal to the specified ID
         /// </summary>
         [Name("max_id")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  String MaxId { get; set; }
         /// <summary>
         /// Specifies the number of records to retrieve. Must be less than or equal to 100
         /// </summary>
         [Name("count")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_entities")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> IncludeEntities { get; set; }
         /// <summary>
         /// When set to either true, t or 1 statuses will not be included in the returned user objects
         /// </summary>
         [Name("skip_status")]
-        [ParameterType(RequestParameterTypeEnum.Query)]
+        [ParameterType(RequestParameterType.Query)]
         public  Nullable<Boolean> SkipStatus { get; set; }
 	}
 }
