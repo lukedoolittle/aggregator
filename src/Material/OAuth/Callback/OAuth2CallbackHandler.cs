@@ -8,10 +8,9 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Callback
 {
-    public class OAuth2FragmentCallbackHandler :
-        OAuthCallbackHandlerBase<OAuth2Credentials>
+    public class OAuth2CallbackHandler : OAuthCallbackHandlerBase<OAuth2Credentials>
     {
-        public OAuth2FragmentCallbackHandler(
+        public OAuth2CallbackHandler(
             IOAuthSecurityStrategy securityStrategy,
             string securityParameter) :
                 base(
@@ -20,14 +19,13 @@ namespace Material.OAuth.Callback
                     new HtmlSerializer())
         { }
 
-        protected override string GetQuerystring(Uri uri)
+        protected override HttpValueCollection GetQuerystring(Uri uri)
         {
-            if (!string.IsNullOrEmpty(uri.Fragment) && uri.Fragment != "#_=_")
-            {
-                return uri.Fragment.TrimStart('#');
-            }
+            var query = base.GetQuerystring(uri);
 
-            return null;
+            query.Add(HttpUtility.ParseQueryString(uri.Fragment));
+
+            return query;
         }
 
         protected override bool IsResponseError(HttpValueCollection query)

@@ -93,7 +93,7 @@ namespace Material.OAuth
             //OAuth2Parameter.State.EnumToString(),
             //userId);
 
-            var result = new OAuth2QueryCallbackHandler(
+            var result = new OAuth2CallbackHandler(
                             _strategy,
                             OAuth2Parameter.State.EnumToString())
                         .ParseAndValidateCallback(

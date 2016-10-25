@@ -13,12 +13,16 @@ namespace Foundations.Collections
     {
         public static HttpValueCollection ParseQueryString(string query)
         {
-            if (query == null)
+            if (query == null || query == "#_=_")
             {
-                throw new ArgumentNullException(nameof(query));
+                return new HttpValueCollection();
             }
 
             if ((query.Length > 0) && (query[0] == '?'))
+            {
+                query = query.Substring(1);
+            }
+            if ((query.Length > 0) && (query[0] == '#'))
             {
                 query = query.Substring(1);
             }

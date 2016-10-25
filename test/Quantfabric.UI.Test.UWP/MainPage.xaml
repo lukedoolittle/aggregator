@@ -10,16 +10,41 @@
     <Page.DataContext>
         <local:TestViewModel />
     </Page.DataContext>
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="ResultTextBlock"  TextWrapping="Wrap" Text="{Binding Path=Result}" Width="340" Height="100"/>
+        <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser"  Toggled="BrowserTypeToggled" Margin="30,0,0,10"/>
+        <Grid Margin="30,0,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="facebookAuth" Content="Facebook" Grid.Row="0" Grid.Column ="0" Click="OnFacebookClick" Margin="0,10,5,10"/>
+            <Button x:Name="twitterAuth" Content="Twitter" Grid.Row="0" Grid.Column ="1"  Click="OnTwitterClick" Margin="0,10,5,10"/>
+            <Button x:Name="googleAuth" Content="Google"  Grid.Row="0" Grid.Column ="2" Click="OnGoogleClick" Margin="0,10,5,10"/>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="facebookAuth" Content="Facebook" HorizontalAlignment="Left" Margin="66,291,0,0" VerticalAlignment="Top" Click="OnFacebookClick"/>
-        <Button x:Name="twitterAuth" Content="Twitter" HorizontalAlignment="Left" Margin="154,291,0,0" VerticalAlignment="Top" Click="OnTwitterClick"/>
-        <TextBlock x:Name="ResultTextBlock" HorizontalAlignment="Left" Margin="10,52,0,0" TextWrapping="Wrap" Text="{Binding Path=Result}" VerticalAlignment="Top" Width="340" Height="165"/>
-        <Button x:Name="googleAuth" Content="Google" HorizontalAlignment="Left" Margin="224,291,0,0" VerticalAlignment="Top" Click="OnGoogleClick"/>
-        <ToggleSwitch x:Name="authTypeToggleSwitch" Header="Dedicated Browser" HorizontalAlignment="Left" Margin="138,222,0,0" VerticalAlignment="Top" Toggled="BrowserTypeToggled"/>
-        <Button x:Name="fitbitAuth" Content="Fitbit" HorizontalAlignment="Left" Margin="66,348,0,0" VerticalAlignment="Top" Click="OnFitbitClick"/>
-        <Button x:Name="pinterestAuth" Content="Pinterest" HorizontalAlignment="Left" Margin="138,348,0,0" VerticalAlignment="Top" Click="OnPinterestClick"/>
-        <Button x:Name="runkeeperAuth" Content="Runkeeper" HorizontalAlignment="Left" Margin="224,348,0,0" VerticalAlignment="Top" Click="OnRunkeeperClick"/>
+            <Button x:Name="fitbitAuth" Content="Fitbit" Grid.Row="1" Grid.Column ="0" Click="OnFitbitClick" Margin="0,10,5,10"/>
+            <Button x:Name="pinterestAuth" Content="Pinterest" Grid.Row="1" Grid.Column ="1" Click="OnPinterestClick" Margin="0,10,5,10"/>
+            <Button x:Name="runkeeperAuth" Content="Runkeeper" Grid.Row="1" Grid.Column ="2" Click="OnRunkeeperClick" Margin="0,10,5,10"/>
+            
+            <Button x:Name="instagramAuth" Content="Instagram" Grid.Row="2" Grid.Column ="0"  Click="OnInstagramClick" Margin="0,10,5,10"/>
+            <Button x:Name="twentyThreeAndMeAuth" Content="23AndMe" Grid.Row="2" Grid.Column ="1" Click="OnTwentyThreeAndMeClick" Margin="0,10,5,10"/>
+            <Button x:Name="withingsAuth" Content="Withings" Grid.Row="2" Grid.Column ="2" Click="OnWithingsClick" Margin="0,10,5,10"/>
+            
+            <Button x:Name="tumblrAuth" Content="Tumblr" Grid.Row="3" Grid.Column ="0" Click="OnTumblrClick" Margin="0,10,5,10"/>
+            <Button x:Name="fatsecretAuth" Content="Fatsecret" Grid.Row="3" Grid.Column ="1" Click="OnFatsecretClick" Margin="0,10,5,10"/>
+            <Button x:Name="spotifyAuth" Content="Spotify" Grid.Row="3" Grid.Column ="2" Click="OnSpotifyClick" Margin="0,10,5,10"/>
 
-    </Grid>
+            <Button x:Name="foursquareAuth" Content="Foursquare" Grid.Row="4" Grid.Column ="0" Click="OnFoursquareClick" Margin="0,10,5,10"/>
+            <Button x:Name="linkedinAuth" Content="LinkedIn" Grid.Row="4" Grid.Column ="1" Click="OnLinkedInClick" Margin="0,10,5,10"/>
+            <Button x:Name="rescuetimeAuth" Content="Rescuetime" Grid.Row="4" Grid.Column ="2" Click="OnRescuetimeClick" Margin="0,10,5,10"/>
+        </Grid>
+    </StackPanel>
 </Page>

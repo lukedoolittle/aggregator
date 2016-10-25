@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Material.Contracts;
+using Material.Infrastructure;
+using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Quantfabric.Test.Helpers;
-using Xunit;
-using System.Threading.Tasks;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.OAuth;
+using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.OAuthServer;
 using Quantfabric.Test.OAuthServer.Builders;
 using Quantfabric.Test.OAuthServer.Handlers;
+using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     public class MockOAuth2CodeTokenTests
     {

@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.Test.Windows", "test\Quantfabric.Test.Windows\Quantfabric.Test.Windows.csproj", "{15E582C9-8B2B-4C1A-BC64-050B0B19B249}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Quantfabric.Test", "test\Quantfabric.Test\Quantfabric.Test.shproj", "{881DD912-9FBA-4446-8D2C-21EFF73D233A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.UI.Test.Android", "test\Quantfabric.UI.Test.Android\Quantfabric.UI.Test.Android.csproj", "{A3AAFEEF-513A-4296-A9DF-4F7BE657AA45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.UI.Test.iOS", "test\Quantfabric.UI.Test.iOS\Quantfabric.UI.Test.iOS.csproj", "{15A1CCE5-395D-4CCB-9B94-43A5A2BB3774}"
@@ -59,10 +57,8 @@ Global
 		src\Foundations.Http\Foundations.Http.projitems*{0b1bba44-0118-495e-8e2f-04d10302d81b}*SharedItemsImports = 13
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{15a1cce5-395d-4ccb-9b94-43a5a2bb3774}*SharedItemsImports = 4
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{15e582c9-8b2b-4c1a-bc64-050b0b19b249}*SharedItemsImports = 4
-		test\Quantfabric.Test\Quantfabric.Test.projitems*{15e582c9-8b2b-4c1a-bc64-050b0b19b249}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{35e4822b-853b-4cb2-aae1-7d40d76c1e84}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{6084ced8-dbfa-4043-9dac-3dd880d0e533}*SharedItemsImports = 4
-		test\Quantfabric.Test\Quantfabric.Test.projitems*{881dd912-9fba-4446-8d2c-21eff73d233a}*SharedItemsImports = 13
 		src\Foundations.Http\Foundations.Http.projitems*{9ccba100-072a-4f30-b3c6-aa688f01be07}*SharedItemsImports = 4
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{a3aafeef-513a-4296-a9df-4f7be657aa45}*SharedItemsImports = 4
 		src\Foundations.Http\Foundations.Http.projitems*{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}*SharedItemsImports = 4
@@ -1045,7 +1041,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{15E582C9-8B2B-4C1A-BC64-050B0B19B249} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
-		{881DD912-9FBA-4446-8D2C-21EFF73D233A} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
 		{A3AAFEEF-513A-4296-A9DF-4F7BE657AA45} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
 		{15A1CCE5-395D-4CCB-9B94-43A5A2BB3774} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
 		{739AFEB7-C23A-45C1-89EF-2AD231F64B65} = {B1A50379-018A-4280-9EC5-95F5338F890A}

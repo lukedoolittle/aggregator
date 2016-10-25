@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__FORMS__;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -33,15 +33,19 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;__FORMS__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Material.Shared\OAuth\OAuth1App.cs">
+      <Link>OAuth1App.cs</Link>
+    </Compile>
+    <Compile Include="..\Material.Shared\OAuth\OAuth2App.cs">
+      <Link>OAuth2App.cs</Link>
+    </Compile>
     <Compile Include="BluetoothApp.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="OAuth1App.cs" />
-    <Compile Include="OAuth2App.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

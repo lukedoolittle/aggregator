@@ -3,7 +3,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Material;
 using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
@@ -194,6 +193,169 @@ namespace Quantfabric.UI.Test.UWP
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<RunkeeperFitnessActivity>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnInstagramClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Instagram>();
+            var clientSecret = settings.GetClientSecret<Instagram>();
+            var redirectUri = settings.GetRedirectUri<Instagram>();
+
+            var token = await new OAuth2App<Instagram>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<InstagramLikes>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnTwentyThreeAndMeClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<TwentyThreeAndMe>();
+            var clientSecret = settings.GetClientSecret<TwentyThreeAndMe>();
+            var redirectUri = settings.GetRedirectUri<TwentyThreeAndMe>();
+
+            var token = await new OAuth2App<TwentyThreeAndMe>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<TwentyThreeAndMeGenome>()
+                    .AddScope<TwentyThreeAndMeUser>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnWithingsClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var consumerKey = settings.GetConsumerKey<Withings>();
+            var consumerSecret = settings.GetConsumerSecret<Withings>();
+            var redirectUri = settings.GetRedirectUri<Withings>();
+
+            var token = await new OAuth1App<Withings>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+        }
+
+        private async void OnTumblrClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var consumerKey = settings.GetConsumerKey<Tumblr>();
+            var consumerSecret = settings.GetConsumerSecret<Tumblr>();
+            var redirectUri = settings.GetRedirectUri<Tumblr>();
+
+            var token = await new OAuth1App<Tumblr>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+        }
+
+        private async void OnFatsecretClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var consumerKey = settings.GetConsumerKey<Fatsecret>();
+            var consumerSecret = settings.GetConsumerSecret<Fatsecret>();
+            var redirectUri = settings.GetRedirectUri<Fatsecret>();
+
+            var token = await new OAuth1App<Fatsecret>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+        }
+
+        private async void OnFoursquareClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Foursquare>();
+            var clientSecret = settings.GetClientSecret<Foursquare>();
+            var redirectUri = settings.GetRedirectUri<Foursquare>();
+
+            var token = await new OAuth2App<Foursquare>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<FoursquareCheckin>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnSpotifyClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Spotify>();
+            var clientSecret = settings.GetClientSecret<Spotify>();
+            var redirectUri = settings.GetRedirectUri<Spotify>();
+
+            var token = await new OAuth2App<Spotify>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<SpotifySavedTrack>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnLinkedInClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<LinkedIn>();
+            var clientSecret = settings.GetClientSecret<LinkedIn>();
+            var redirectUri = settings.GetRedirectUri<LinkedIn>();
+
+            var token = await new OAuth2App<LinkedIn>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<LinkedinPersonal>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
+        private async void OnRescuetimeClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Rescuetime>();
+            var clientSecret = settings.GetClientSecret<Rescuetime>();
+            var redirectUri = settings.GetRedirectUri<Rescuetime>();
+
+            var token = await new OAuth2App<Rescuetime>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<RescuetimeAnalyticData>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 

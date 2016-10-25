@@ -9,6 +9,9 @@ using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
 using Material.OAuth.Callback;
 using Material.OAuth.Security;
+#if __FORMS__
+using Xamarin.Forms;
+#endif
 
 namespace Material.Infrastructure.OAuth
 {
@@ -55,8 +58,12 @@ namespace Material.Infrastructure.OAuth
 
             _app = new OAuth2AppBase<TResourceProvider>(
                 clientId, 
-                callbackUrl, 
-                new OAuthAuthorizerUIFactory(), 
+                callbackUrl,
+#if __FORMS__
+                    DependencyService.Get<IOAuthAuthorizerUIFactory>(),
+#else
+                    new OAuthAuthorizerUIFactory(),
+#endif
                 _securityStrategy, 
                 provider, 
                 browserType);
@@ -94,7 +101,7 @@ namespace Material.Infrastructure.OAuth
         public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
-            var handler = new OAuth2QueryCallbackHandler(
+            var handler = new OAuth2CallbackHandler(
                 _securityStrategy,
                 OAuth2Parameter.State.EnumToString());
 
@@ -110,35 +117,26 @@ namespace Material.Infrastructure.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-#if __WINDOWS__
-            return _app.GetCredentialsAsync(
-                    OAuth2ResponseType.Token, 
-                    new OAuth2QueryCallbackHandler(
-                        _securityStrategy,
-                        OAuth2Parameter.State.EnumToString()));
+            var handler = new OAuth2CallbackHandler(
+                _securityStrategy,
+                OAuth2Parameter.State.EnumToString());
 
-#else
-            //This is sort of a bizarre hack because Google requires that you go through the
+#if !__WINDOWS__
+            //This is sort of a bizarre hack: Google requires that you go through the
             //code workflow with a mobile device even if you don't have a client secret
-            if (_browserType == AuthenticationInterfaceEnum.Dedicated && 
+            if (_browserType == AuthenticationInterfaceEnum.Dedicated &&
                 typeof(TResourceProvider) == typeof(Google))
             {
                 return _app.GetCredentialsAsync(
-                        null, 
-                        OAuth2ResponseType.Code, 
-                        new OAuth2QueryCallbackHandler(
-                            _securityStrategy,
-                            OAuth2Parameter.State.EnumToString()));
-            }
-            else
-            {
-                return _app.GetCredentialsAsync(
-                        OAuth2ResponseType.Token,
-                        new OAuth2FragmentCallbackHandler(
-                            _securityStrategy,
-                            OAuth2Parameter.State.EnumToString()));
+                        null,
+                        OAuth2ResponseType.Code,
+                        handler);
             }
 #endif
+
+            return _app.GetCredentialsAsync(
+                OAuth2ResponseType.Token,
+                handler);
         }
 
 

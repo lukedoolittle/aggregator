@@ -1,11 +1,14 @@
 ﻿using System.Threading.Tasks;
+using Material.Contracts;
 using Material.Enums;
 using Material.Exceptions;
-using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.OAuth;
+#if __FORMS__
+using Xamarin.Forms;
+#endif
 
 namespace Material.Infrastructure.OAuth
 {
@@ -39,7 +42,11 @@ namespace Material.Infrastructure.OAuth
                     consumerKey,
                     consumerSecret,
                     callbackUrl,
+#if __FORMS__
+                    DependencyService.Get<IOAuthAuthorizerUIFactory>(),
+#else
                     new OAuthAuthorizerUIFactory(),
+#endif
                     new TResourceProvider(),
                     browserType)
         { }

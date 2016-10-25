@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using CoreLocation;
 using Foundation;
 using Material.Contracts;
-using Material.Infrastructure.Static;
 using System.Timers;
 using Material.Exceptions;
+using Material.Infrastructure.Requests;
 using UIKit;
 
 namespace Material

@@ -36,13 +36,12 @@ namespace Material.OAuth.Callback
             Uri responseUri,
             string userId)
         {
-            var querystring = GetQuerystring(responseUri);
-            if (querystring == null)
+            var query = GetQuerystring(responseUri);
+
+            if (query == null || query.Count == 0)
             {
                 return null;
             }
-
-            var query = HttpUtility.ParseQueryString(querystring);
 
             if (IsResponseError(query))
             {
@@ -67,14 +66,9 @@ namespace Material.OAuth.Callback
             return token;
         }
 
-        protected virtual string GetQuerystring(Uri uri)
+        protected virtual HttpValueCollection GetQuerystring(Uri uri)
         {
-            if (!string.IsNullOrEmpty(uri.Query) && uri.Query != "?")
-            {
-                return uri.Query;
-            }
-
-            return null;
+            return HttpUtility.ParseQueryString(uri.Query);
         }
 
         protected virtual bool IsResponseSecure(

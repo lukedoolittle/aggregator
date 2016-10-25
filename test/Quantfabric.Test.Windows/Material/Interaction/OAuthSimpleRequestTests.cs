@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Material;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
