@@ -2,6 +2,7 @@
 
 namespace Material.Infrastructure.Requests
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class SMSResponse : List<SMSMessage>
     { }
 

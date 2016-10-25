@@ -7,6 +7,8 @@ using UIKit;
 
 namespace Material.View.BluetoothAuthorization
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1010:CollectionsShouldImplementGenericInterface")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public partial class DeviceTableViewController : UIViewController
     {
         public Action<BluetoothDevice> DeviceSelected

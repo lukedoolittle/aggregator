@@ -3,11 +3,11 @@
 namespace Material.Metadata
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class Format : Attribute
+    public sealed class FormatAttribute : Attribute
     {
-        public string Formatter { get; set; }
+        public string Formatter { get; }
 
-        public Format(string formatter)
+        public FormatAttribute(string formatter)
         {
             Formatter = formatter;
         }

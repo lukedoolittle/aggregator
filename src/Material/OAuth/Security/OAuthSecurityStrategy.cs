@@ -13,12 +13,21 @@ namespace Material.OAuth.Security
         public OAuthSecurityStrategy(
             ICryptographicParameterRepository repository, 
             TimeSpan cryptographicParameterTimeout,
-            ICryptoStringGenerator stringGenerator = null)
+            ICryptoStringGenerator stringGenerator)
         {
             _cryptographicParameterTimeout = cryptographicParameterTimeout;
             _repository = repository;
-            _stringGenerator = stringGenerator ?? new CryptoStringGenerator();
+            _stringGenerator = stringGenerator;
         }
+
+        public OAuthSecurityStrategy(
+            ICryptographicParameterRepository repository,
+            TimeSpan cryptographicParameterTimeout) : 
+                this(
+                    repository, 
+                    cryptographicParameterTimeout, 
+                    new CryptoStringGenerator())
+        { }
 
         public string CreateOrGetSecureParameter(
             string userId, 
@@ -105,20 +114,22 @@ namespace Material.OAuth.Security
         /// <summary>
         /// Checks given crypto list and determines if given secure parameter is valid
         /// </summary>
-        /// <param name="currentCryptos">List of the currently valid cryptos</param>
+        /// <param name="repository">List of the currently valid cryptos</param>
         /// <param name="parameterName">Name of the cryptographic parameter</param>
         /// <param name="parameterValue">Returned value of the cryptographic parameter</param>
         /// <param name="userId">The identifier of the user submitting the request</param>
         /// <param name="timeout">Expiration time for the parameter</param>
         /// <returns>False if the parameter is incorrect or expected and missing, True otherwise</returns>
         protected static bool CheckCrypto(
-            ICryptographicParameterRepository currentCryptos,
+            ICryptographicParameterRepository repository,
             string userId,
             string parameterName,
             string parameterValue,
             TimeSpan timeout)
         {
-            var expectedParameterValue = currentCryptos.GetCryptographicParameterValue(
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
+
+            var expectedParameterValue = repository.GetCryptographicParameterValue(
                 userId,
                 parameterName);
 
@@ -128,7 +139,7 @@ namespace Material.OAuth.Security
             }
             else if (DateTimeOffset.Now - timeout > expectedParameterValue.Item2)
             {
-                currentCryptos.DeleteCryptographicParameterValue(
+                repository.DeleteCryptographicParameterValue(
                     userId,
                     parameterName);
 

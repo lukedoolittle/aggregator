@@ -27,14 +27,14 @@ namespace Material.OAuth
         public OAuth1AppBase(
             string consumerKey,
             string consumerSecret,
-            string callbackUrl,
+            Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
             AuthenticationInterface browserType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
-            _callbackUri = new Uri(callbackUrl);
+            _callbackUri = callbackUri;
             _uiFactory = uiFactory;
             _provider = provider;
             _browserType = browserType;

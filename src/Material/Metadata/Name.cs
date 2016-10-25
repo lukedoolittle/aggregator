@@ -3,11 +3,11 @@
 namespace Material.Metadata
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class Name : Attribute
+    public sealed class NameAttribute : Attribute
     {
-        public string Value { get; set; }
+        public string Value { get; }
 
-        public Name(string value)
+        public NameAttribute(string value)
         {
             Value = value;
         }

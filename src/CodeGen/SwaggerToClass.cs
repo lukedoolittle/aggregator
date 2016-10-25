@@ -79,7 +79,7 @@ namespace CodeGen
                             });
                         }
 
-                        @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialType))
+                        @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
                         {
                             ConstructorParameters = new List<object> { typeof(OAuth2Credentials) }
                         });
@@ -156,7 +156,7 @@ namespace CodeGen
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<HttpParameterType>())
                     });
-                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialType))
+                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
                     {
                         ConstructorParameters = new List<object> { typeof(OAuth1Credentials) }
                     });
@@ -200,7 +200,7 @@ namespace CodeGen
                         Comments = details["summary"].ToString()
                     };
 
-                    @class.Metadatas.Add(new AbstractMetadataRepresentation(typeof(ServiceType), serviceTypeNamespace, serviceTypeName));
+                    @class.Metadatas.Add(new AbstractMetadataRepresentation(typeof(ServiceTypeAttribute), serviceTypeNamespace, serviceTypeName));
 
                     @class.BaseType = new BaseTypeRepresentation(typeof(OAuthRequest));
 
@@ -344,7 +344,7 @@ namespace CodeGen
                                 };
                             }
 
-                            var nameMetadata = new ConcreteMetadataRepresentation(typeof(Name));
+                            var nameMetadata = new ConcreteMetadataRepresentation(typeof(NameAttribute));
                             nameMetadata.ConstructorParameters = new List<object> { parameter["name"].ToString()};
                             property.Metadatas.Add(nameMetadata);
 
@@ -352,7 +352,7 @@ namespace CodeGen
                             if (parameter["in"].ToString() == "query")
                             {
                                 //querystringParameters.Add(parameter["name"].ToString(), name);
-                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
+                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterTypeAttribute));
                                 propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Query };
                                 property.Metadatas.Add(propertyTypeMetadata);
 
@@ -360,13 +360,13 @@ namespace CodeGen
                             else if (parameter["in"].ToString() == "path")
                             {
                                 //urlsegmentParameters.Add(parameter["name"].ToString(), name);
-                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
+                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterTypeAttribute));
                                 propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Path };
                                 property.Metadatas.Add(propertyTypeMetadata);
                             }
                             else if (parameter["in"].ToString() == "header")
                             {
-                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterType));
+                                var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterTypeAttribute));
                                 propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Header };
                                 property.Metadatas.Add(propertyTypeMetadata);
                             }
@@ -378,12 +378,12 @@ namespace CodeGen
 
                             if (parameter["required"]?.ToString() == "true")
                             {
-                                property.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(Required)));
+                                property.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(RequiredAttribute)));
                             }
 
                             if (parameter["pattern"]?.ToString() != null)
                             {
-                                var formatMetadata = new ConcreteMetadataRepresentation(typeof(Format));
+                                var formatMetadata = new ConcreteMetadataRepresentation(typeof(FormatAttribute));
                                 formatMetadata.ConstructorParameters = new List<object> { parameter["pattern"]?.ToString()};
                                 property.Metadatas.Add(formatMetadata);
                             }

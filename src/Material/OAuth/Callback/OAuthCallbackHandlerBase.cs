@@ -68,6 +68,8 @@ namespace Material.OAuth.Callback
 
         protected virtual HttpValueCollection GetQuerystring(Uri uri)
         {
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+
             return HttpUtility.ParseQueryString(uri.Query);
         }
 
@@ -75,6 +77,8 @@ namespace Material.OAuth.Callback
             HttpValueCollection query,
             string userId)
         {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
             string securityValue = null;
             if (query.ContainsKey(_securityParameter))
             {

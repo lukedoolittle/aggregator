@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
@@ -18,6 +19,8 @@ namespace Material.OAuth
         /// <param name="credentials">OAuth1 credentials used for authentication</param>
         public OAuthRequester(OAuth1Credentials credentials)
         {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
             _requester = new OAuthProtectedResourceAdapter(
                 credentials.ConsumerKey,
                 credentials.ConsumerSecret,
@@ -33,6 +36,8 @@ namespace Material.OAuth
         /// <param name="credentials">OAuth2 credentials used for authentication</param>
         public OAuthRequester(OAuth2Credentials credentials)
         {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
             _requester = new OAuthProtectedResourceAdapter(
                 credentials.AccessToken,
                 credentials.TokenName,
@@ -48,7 +53,7 @@ namespace Material.OAuth
         /// <param name="request"></param>
         /// <returns>Protected resource from provider</returns>
         public Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>(
-            TRequest request = null)
+            TRequest request)
             where TRequest : OAuthRequest, new()
         {
             if (request == null)
@@ -68,6 +73,19 @@ namespace Material.OAuth
                         request.PathParameters,
                         request.Body,
                         request.BodyType);
+        }
+
+        /// <summary>
+        /// Get a protected resource from the authenticated provider
+        /// </summary>
+        /// <typeparam name="TRequest">Request to make to provider</typeparam>
+        /// <typeparam name="TResponse">Protected resource</typeparam>
+        /// <returns>Protected resource from provider</returns>
+        public Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>()
+            where TRequest : OAuthRequest, new()
+        {
+            return MakeOAuthRequestAsync<TRequest, TResponse>(
+                new TRequest());
         }
     }
 }

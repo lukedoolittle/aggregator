@@ -16,7 +16,7 @@ namespace Material.OAuth.Facade
         private readonly string _consumerSecret;
         private readonly IOAuth1AuthenticationAdapter _oauth;
         private readonly Uri _callbackUri;
-        protected readonly IOAuthSecurityStrategy _securityStrategy;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         public OAuth1AuthenticationFacade(
             OAuth1ResourceProvider resourceProvider,
@@ -72,11 +72,11 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth1 callback</param>
-        /// <param name="oauthSecret">The oauth secret provided during the token request</param>
+        /// <param name="secret">The oauth secret provided during the token request</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials intermediateResult,
-            string oauthSecret)
+            string secret)
         {
             var token = await _oauth
                 .GetAccessToken(
@@ -84,7 +84,7 @@ namespace Material.OAuth.Facade
                     _consumerKey,
                     _consumerSecret,
                     intermediateResult.OAuthToken,
-                    oauthSecret,
+                    secret,
                     intermediateResult.Verifier,
                     _resourceProvider.ParameterType,
                     intermediateResult.AdditionalParameters)

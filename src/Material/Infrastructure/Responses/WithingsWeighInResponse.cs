@@ -48,7 +48,7 @@ namespace Material.Infrastructure.Responses
     }
 
     [DataContract]
-    public class Measuregrp
+    public class WithingsMeasureGroup
     {
         [DataMember(Name = "grpid")]
         public int Grpid { get; set; }
@@ -68,7 +68,7 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "updatetime")]
         public int Updatetime { get; set; }
         [DataMember(Name = "measuregrps")]
-        public IList<Measuregrp> Measuregrps { get; set; }
+        public IList<WithingsMeasureGroup> Measuregrps { get; set; }
         [DataMember(Name = "timezone")]
         public string Timezone { get; set; }
     }

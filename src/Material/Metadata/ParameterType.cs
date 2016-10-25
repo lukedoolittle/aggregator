@@ -4,13 +4,14 @@ using Material.Enums;
 namespace Material.Metadata
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ParameterType : Attribute
+    public sealed class ParameterTypeAttribute : Attribute
     {
-        public RequestParameterType Type { get; set; }
+        public RequestParameterType TypeOfParameter { get; }
 
-        public ParameterType(RequestParameterType type)
+        public ParameterTypeAttribute(
+            RequestParameterType typeOfParameter)
         {
-            Type = type;
+            TypeOfParameter = typeOfParameter;
         }
     }
 }

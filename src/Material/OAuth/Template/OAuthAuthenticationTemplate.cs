@@ -10,7 +10,8 @@ namespace Material.OAuth.Template
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
-        protected readonly IOAuthFacade<TCredentials> _oauthFacade;
+        private readonly IOAuthFacade<TCredentials> _oauthFacade;
+        protected IOAuthFacade<TCredentials> oauthFacade => _oauthFacade;
 
         protected OAuthAuthenticationTemplateBase(
             IOAuthAuthorizerUI<TCredentials> authorizerUI, 

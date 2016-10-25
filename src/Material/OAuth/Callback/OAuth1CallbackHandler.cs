@@ -1,4 +1,5 @@
-﻿using Foundations.Collections;
+﻿using System;
+using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Serialization;
@@ -20,6 +21,8 @@ namespace Material.OAuth.Callback
 
         protected override bool IsResponseError(HttpValueCollection query)
         {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
             return query.ContainsKey(
                 OAuth1Parameter.Error.EnumToString());
         }

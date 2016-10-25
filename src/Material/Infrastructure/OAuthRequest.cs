@@ -34,13 +34,13 @@ namespace Material.Infrastructure
         protected virtual IDictionary<string, string> GetParameters(RequestParameterType type)
         {
             var parameterProperties = this.GetPropertiesWhere(prop =>
-                prop.GetCustomAttribute<ParameterType>()?.Type == type);
+                prop.GetCustomAttribute<ParameterTypeAttribute>()?.TypeOfParameter == type);
 
             var dictionary = new Dictionary<string, string>();
             foreach (var parameterProperty in parameterProperties)
             {
-                var format = parameterProperty.GetCustomAttribute<Format>();
-                var name = parameterProperty.GetCustomAttribute<Name>().Value;
+                var format = parameterProperty.GetCustomAttribute<FormatAttribute>();
+                var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
                 var value = ToString(
                     parameterProperty.GetValue(this), 
                     format?.Formatter);

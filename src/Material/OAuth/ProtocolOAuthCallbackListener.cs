@@ -43,6 +43,7 @@ namespace Material.OAuth
                     catch (Exception ex)
                     {
                         completionSource.SetException(ex);
+                        throw;
                     }
                 }
             };

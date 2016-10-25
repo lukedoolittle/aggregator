@@ -57,11 +57,14 @@ namespace Material.OAuth.Authentication
                 query.Add(OAuth2Parameter.Scope.EnumToString(), scope);
             }
 
-            foreach (var parameter in queryParameters)
+            if (queryParameters != null)
             {
-                query.Add(
-                    parameter.Key, 
-                    parameter.Value);
+                foreach (var parameter in queryParameters)
+                {
+                    query.Add(
+                        parameter.Key,
+                        parameter.Value);
+                }
             }
 
             builder.Query += query.ToString();
@@ -106,13 +109,13 @@ namespace Material.OAuth.Authentication
         }
 
         public async Task<OAuth2Credentials> GetClientAccessToken(
-            Uri accessUrl,
+            Uri accessUri,
             string clientId,
             string clientSecret)
         {
-            if (accessUrl == null)
+            if (accessUri == null)
             {
-                throw new ArgumentNullException(nameof(accessUrl));
+                throw new ArgumentNullException(nameof(accessUri));
             }
             if (string.IsNullOrEmpty(clientId))
             {
@@ -123,10 +126,10 @@ namespace Material.OAuth.Authentication
                 throw new ArgumentNullException(nameof(clientSecret));
             }
 
-            using (var requestBuilder = new HttpRequestBuilder(accessUrl.NonPath()))
+            using (var requestBuilder = new HttpRequestBuilder(accessUri.NonPath()))
             {
                 return (await requestBuilder
-                            .PostTo(accessUrl.AbsolutePath)
+                            .PostTo(accessUri.AbsolutePath)
                             .ForOAuth2ClientAccessToken(
                                 clientId,
                                 clientSecret)
@@ -139,7 +142,7 @@ namespace Material.OAuth.Authentication
 
         public async Task<OAuth2Credentials> GetJsonWebToken(
             Uri accessUrl,
-            JsonWebToken jwt,
+            JsonWebToken jsonWebToken,
             string privateKey,
             string clientId)
         {
@@ -147,9 +150,9 @@ namespace Material.OAuth.Authentication
             {
                 throw new ArgumentNullException(nameof(accessUrl));
             }
-            if (jwt == null)
+            if (jsonWebToken == null)
             {
-                throw new ArgumentNullException(nameof(jwt));
+                throw new ArgumentNullException(nameof(jsonWebToken));
             }
             if (string.IsNullOrEmpty(privateKey))
             {
@@ -161,7 +164,7 @@ namespace Material.OAuth.Authentication
                 return (await requestBuilder
                             .PostTo(accessUrl.AbsolutePath)
                             .ForOAuth2JsonWebToken(
-                                jwt,
+                                jsonWebToken,
                                 privateKey,
                                 clientId)
                             .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)

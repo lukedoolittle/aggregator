@@ -25,12 +25,21 @@ namespace Material.OAuth
         public OAuth2Assert(
             string privateKey,
             string issuer,
-            string clientId = null) : 
+            string clientId) : 
                 this(
                     privateKey,
                     issuer,
                     clientId,
                     new TResourceProvider())
+        { }
+
+        public OAuth2Assert(
+            string privateKey,
+            string issuer) :
+                this(
+                    privateKey,
+                    issuer,
+                    null)
         { }
 
         public OAuth2Assert(

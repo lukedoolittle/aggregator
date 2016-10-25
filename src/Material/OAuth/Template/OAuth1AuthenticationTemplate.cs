@@ -32,7 +32,7 @@ namespace Material.OAuth.Template
                 _userId,
                 OAuth1Parameter.OAuthTokenSecret.EnumToString());
 
-            return _oauthFacade.GetAccessTokenAsync(
+            return oauthFacade.GetAccessTokenAsync(
                 intermediateResult, 
                 oauthSecret);
         }

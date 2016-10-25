@@ -26,6 +26,8 @@ namespace Material
             int gpsTimeoutInMs = 30000,
             float desiredAccuracyInMeters = 50)
         {
+            if (locationManager == null) throw new ArgumentNullException(nameof(locationManager));
+
             _locationManager = locationManager;
 
             _locationManager.PausesLocationUpdatesAutomatically = false;

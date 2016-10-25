@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Enums;
 using Material.Exceptions;
@@ -41,7 +42,7 @@ namespace Material.Infrastructure.OAuth
                 base(
                     consumerKey,
                     consumerSecret,
-                    callbackUrl,
+                    new Uri(callbackUrl),
 #if __FORMS__
                     DependencyService.Get<IOAuthAuthorizerUIFactory>(),
 #else

@@ -13,7 +13,7 @@ namespace Material.Contracts
             string httpMethod,
             Dictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> additionalQuerystringParameters,
-            IDictionary<string, string> additionalUrlSegmentParameters,
+            IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
             HttpStatusCode expectedResponse);
@@ -24,7 +24,7 @@ namespace Material.Contracts
             string httpMethod,
             Dictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> additionalQuerystringParameters,
-            IDictionary<string, string> additionalUrlSegmentParameters,
+            IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType);
     }

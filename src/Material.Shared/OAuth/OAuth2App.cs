@@ -58,7 +58,7 @@ namespace Material.Infrastructure.OAuth
 
             _app = new OAuth2AppBase<TResourceProvider>(
                 clientId, 
-                callbackUrl,
+                new Uri(callbackUrl),
 #if __FORMS__
                     DependencyService.Get<IOAuthAuthorizerUIFactory>(),
 #else
@@ -145,7 +145,6 @@ namespace Material.Infrastructure.OAuth
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2App<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {

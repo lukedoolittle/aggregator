@@ -29,6 +29,7 @@ namespace Material.OAuth
         /// <param name="consumerSecret">The application's consumer secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="securityStrategy">The security strategy to use for token and secret handling</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,
@@ -52,6 +53,7 @@ namespace Material.OAuth
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,

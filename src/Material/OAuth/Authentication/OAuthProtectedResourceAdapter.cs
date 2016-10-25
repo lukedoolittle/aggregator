@@ -50,8 +50,8 @@ namespace Material.OAuth.Authentication
             string path,
             string httpMethod,
             Dictionary<HttpRequestHeader, string> headers,
-            IDictionary<string, string> querystringParameters,
-            IDictionary<string, string> pathParameters,
+            IDictionary<string, string> additionalQuerystringParameters,
+            IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType)
         {
@@ -59,9 +59,9 @@ namespace Material.OAuth.Authentication
                 host, 
                 path, 
                 httpMethod,
-                headers, 
-                querystringParameters, 
-                pathParameters, 
+                headers,
+                additionalQuerystringParameters,
+                urlPathParameters, 
                 body, 
                 bodyType, 
                 HttpStatusCode.OK);
@@ -73,8 +73,8 @@ namespace Material.OAuth.Authentication
             string path,
             string httpMethod,
             Dictionary<HttpRequestHeader, string> headers,
-            IDictionary<string, string> querystringParameters,
-            IDictionary<string, string> pathParameters,
+            IDictionary<string, string> additionalQuerystringParameters,
+            IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
             HttpStatusCode expectedResponse)
@@ -98,8 +98,8 @@ namespace Material.OAuth.Authentication
                     .Request(httpMethod, path, _parameterHandling)
                     .ResponseMediaType(MediaType.Json)
                     .Headers(headers)
-                    .Parameters(querystringParameters)
-                    .Segments(pathParameters.ToHttpValueCollection())
+                    .Parameters(additionalQuerystringParameters)
+                    .Segments(urlPathParameters.ToHttpValueCollection())
                     .Authenticator(_authenticator)
                     .ThrowIfNotExpectedResponseCode(expectedResponse)
                     .Content(body, bodyType)

@@ -18,17 +18,18 @@ namespace Material.OAuth
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly IOAuthFacade<OAuth2Credentials> _oauthFacade;
         private readonly TResourceProvider _provider;
-        protected readonly AuthenticationInterface _browserType;
+        private readonly AuthenticationInterface _browserType;
+
 
         public OAuth2AppBase(
             string clientId,
-            string callbackUrl,
+            Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             IOAuthSecurityStrategy securityStrategy,
             TResourceProvider provider,
             AuthenticationInterface browserType)
         {
-            _callbackUri = new Uri(callbackUrl);
+            _callbackUri = callbackUri;
             _browserType = browserType;
             _provider = provider;
             _uiFactory = uiFactory;

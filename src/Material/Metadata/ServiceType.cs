@@ -3,13 +3,13 @@
 namespace Material.Metadata
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ServiceType : Attribute
+    public sealed class ServiceTypeAttribute : Attribute
     {
-        public Type Type { get; set; }
+        public Type TypeOfService { get; }
 
-        public ServiceType(Type type)
+        public ServiceTypeAttribute(Type typeOfService)
         {
-            Type = type;
+            TypeOfService = typeOfService;
         }
     }
 }

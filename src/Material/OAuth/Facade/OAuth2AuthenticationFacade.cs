@@ -15,7 +15,7 @@ namespace Material.OAuth.Facade
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuth2AuthenticationAdapter _oauth;
         private readonly Uri _callbackUri;
-        protected readonly IOAuthSecurityStrategy _strategy;
+        private readonly IOAuthSecurityStrategy _strategy;
 
         public OAuth2AuthenticationFacade(
             OAuth2ResourceProvider resourceProvider,
@@ -59,20 +59,20 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="clientSecret">The application's client secret</param>
+        /// <param name="secret">The application's client secret</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
             OAuth2Credentials intermediateResult,
-            string clientSecret)
+            string secret)
         {
             _resourceProvider.SetClientProperties(
                 _clientId,
-                clientSecret);
+                secret);
 
             var accessToken = await _oauth.GetAccessToken(
                 _resourceProvider.TokenUrl,
                 _clientId,
-                clientSecret,
+                secret,
                 _callbackUri,
                 intermediateResult.Code,
                 _resourceProvider.Scope,
@@ -83,7 +83,7 @@ namespace Material.OAuth.Facade
                 .SetTokenName(_resourceProvider.TokenName)
                 .SetClientProperties(
                     _clientId,
-                    clientSecret);
+                    secret);
         }
     }
 }

@@ -3,13 +3,13 @@
 namespace Material.Metadata
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class CredentialType : Attribute
+    public sealed class CredentialTypeAttribute : Attribute
     {
-        public Type Type { get; set; }
+        public Type TypeOfCredential { get; }
 
-        public CredentialType(Type type)
+        public CredentialTypeAttribute(Type typeOfCredential)
         {
-            Type = type;
+            TypeOfCredential = typeOfCredential;
         }
     }
 }

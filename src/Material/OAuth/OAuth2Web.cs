@@ -28,6 +28,7 @@ namespace Material.OAuth
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="strategy">The security strategy to use for "state" handling</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
             string clientSecret,
@@ -51,6 +52,7 @@ namespace Material.OAuth
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUri">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
             string clientSecret,

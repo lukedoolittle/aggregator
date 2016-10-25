@@ -112,8 +112,10 @@ namespace Material.Framework
         }
 
 #elif __IOS__
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public IAdapter BluetoothAdapter => Adapter.Current;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public UIViewController Context
         {
             get
@@ -134,11 +136,13 @@ namespace Material.Framework
         public Action<Action> RunOnMainThread { get; } = 
             UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Action<Uri> LaunchBrowser => 
             uri => UIApplication.SharedApplication.OpenUrl(
                 new NSUrl(
                     uri.ToString()));
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline => Reachability.IsReachable();
 
 #elif WINDOWS_UWP

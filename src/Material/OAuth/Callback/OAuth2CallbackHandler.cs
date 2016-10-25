@@ -21,6 +21,8 @@ namespace Material.OAuth.Callback
 
         protected override HttpValueCollection GetQuerystring(Uri uri)
         {
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+
             var query = base.GetQuerystring(uri);
 
             query.Add(HttpUtility.ParseQueryString(uri.Fragment));
@@ -30,6 +32,8 @@ namespace Material.OAuth.Callback
 
         protected override bool IsResponseError(HttpValueCollection query)
         {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
             return query.ContainsKey(
                 OAuth2Parameter.Error.EnumToString());
         }

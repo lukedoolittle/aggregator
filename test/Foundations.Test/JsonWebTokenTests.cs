@@ -41,7 +41,6 @@ namespace Foundations.Test
 
 
 
-        //TODO: create a decoder that actually works
 
         //[Fact]
         //public void CreateSignatureWithGivenBaseString()
