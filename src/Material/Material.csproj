@@ -53,6 +53,7 @@
     <Compile Include="Contracts\IOAuthCallbackListener.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
+    <Compile Include="Contracts\IParameterFormatter.cs" />
     <Compile Include="Contracts\IProtocolLauncher.cs" />
     <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterType.cs" />
@@ -193,6 +194,14 @@
     <Compile Include="Infrastructure\Static\GPSResponse.cs" />
     <Compile Include="Infrastructure\Static\SMSResponse.cs" />
     <Compile Include="Metadata\Format.cs" />
+    <Compile Include="Metadata\Formatters\BooleanFormatter.cs" />
+    <Compile Include="Metadata\Formatters\DateTimeFormatter.cs" />
+    <Compile Include="Metadata\Formatters\DateTimeOffsetFormatter.cs" />
+    <Compile Include="Metadata\Formatters\EnumFormatter.cs" />
+    <Compile Include="Metadata\Formatters\UnixTimeDaysDateTimeFormatter.cs" />
+    <Compile Include="Metadata\Formatters\UnixTimeDaysDateTimeOffsetFormatter.cs" />
+    <Compile Include="Metadata\Formatters\UnixTimeSecondsDateTimeFormatter.cs" />
+    <Compile Include="Metadata\Formatters\UnixTimeSecondsDateTimeOffsetFormatter.cs" />
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />
     <Compile Include="Metadata\Required.cs" />
@@ -347,6 +356,7 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

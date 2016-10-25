@@ -40,11 +40,12 @@ namespace Material.Infrastructure
             foreach (var parameterProperty in parameterProperties)
             {
                 var format = parameterProperty.GetCustomAttribute<FormatAttribute>();
-                var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
+                
                 var value = ToString(
                     parameterProperty.GetValue(this), 
                     format?.Formatter);
 
+                var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
                 if (value != null)
                 {
                     dictionary.Add(name, value);
