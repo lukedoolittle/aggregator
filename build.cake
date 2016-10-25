@@ -37,7 +37,6 @@ var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa
 
 var baseMergeList = new List<FilePath>
 {
-	File("Foundations.Cryptography.dll"),
 	File("Foundations.dll"),
 	File("Foundations.HttpClient.dll"),
 	File("Material.Portable.dll")
