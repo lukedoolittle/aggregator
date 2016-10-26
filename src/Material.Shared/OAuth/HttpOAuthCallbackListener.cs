@@ -60,11 +60,14 @@ namespace Material.Infrastructure.OAuth
 	                <head>
 		                <script>
 			                window.onload = function() {
-				                if (window.location.hash && !window.location.search.slice(1))
+				                if (window.location.hash)
 				                {
 					                var url = window.location;
-                                    var newQuerystring = url.hash.substr(1);
-                                    var newUrl = url.pathname + '?' + newQuerystring;
+                                    var fragmentQuerystring = url.hash.substr(1);
+                                    var currentQuerystring = url.search.substr(1);
+                                    var newUrl = url.pathname + '?' + fragmentQuerystring;
+                                    if (currentQuerystring)
+                                        newUrl = newUrl + '&' + currentQuerystring;
 					
 					                if(!parameterNullOrEmpty(""access_token"", newUrl) || 
 					                   !parameterNullOrEmpty(""accessToken"", newUrl)) {

@@ -59,8 +59,7 @@ namespace Material.OAuth.Callback
 
             if (token == null || !token.AreValidIntermediateCredentials)
             {
-                throw new FormatException(
-                    StringResources.InvalidIntermediateToken);
+                return null;
             }
 
             return token;
