@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -322,6 +323,38 @@ namespace Foundations.Test
         }
 
         #endregion Post Requests
+
+        [Fact]
+        public async void MakePostRequestWithStreamAsContent()
+        {
+            var stream = File.OpenRead("brian.wav");
+            var contentType = MediaType.Wave;
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .StreamingContent(stream, contentType)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response.Data);
+            Assert.Equal(contentType.EnumToString(), response.Headers["Content-Type"]);
+        }
+
+        [Fact]
+        public async void MakePostRequestWithRawBytesAsContent()
+        {
+            var rawBytes = System.IO.File.ReadAllBytes("brian.wav");
+            var contentType = MediaType.Wave;
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .RawContent(rawBytes, contentType)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response.Data);
+            Assert.Equal(contentType.EnumToString(), response.Headers["Content-Type"]);
+        }
 
         [Fact]
         public async void MakeRequestWithUrlSegments()

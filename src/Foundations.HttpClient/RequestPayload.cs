@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using Foundations.Collections;
-using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.ParameterHandlers;
 using Foundations.HttpClient.Request;
@@ -10,14 +9,14 @@ namespace Foundations.HttpClient
 {
     public class RequestPayload
     {
-        private Body _content;
+        private IRequestContent _content;
         private IParameterHandler _parameterHandler = 
             new QuerystringParameterHandler();
 
         public HttpValueCollection QueryParameters { get; } =
             new HttpValueCollection();
 
-        public void AddContent(Body content)
+        public void AddContent(IRequestContent content)
         {
             if (content == null)
             {
@@ -63,14 +62,7 @@ namespace Foundations.HttpClient
 
             if (_content != null)
             {
-                var serializedContent = HttpConfiguration
-                    .ContentSerializers[_content.MediaType]
-                    .Serialize(_content.Content);
-
-                message.Content = new StringContent(
-                    serializedContent,
-                    _content.Encoding,
-                    _content.MediaType.EnumToString());
+                message.Content = _content.GetContent();
             }
 
             _parameterHandler.AddParameters(

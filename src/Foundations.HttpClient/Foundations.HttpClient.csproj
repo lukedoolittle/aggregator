@@ -85,8 +85,11 @@
     <Compile Include="Authenticators\IAuthenticator.cs" />
     <Compile Include="ParameterHandlers\IParameterHandler.cs" />
     <Compile Include="RequestPayload.cs" />
-    <Compile Include="Request\Body.cs" />
+    <Compile Include="Request\RawContent.cs" />
+    <Compile Include="Request\IRequestContent.cs" />
     <Compile Include="Extensions\VerbExtensions.cs" />
+    <Compile Include="Request\SerializableContent.cs" />
+    <Compile Include="Request\StreamingContent.cs" />
     <Compile Include="Serialization\HtmlSerializer.cs" />
     <Compile Include="Serialization\JsonSerializer.cs" />
     <Compile Include="ParameterHandlers\BodyParameterHandler.cs" />

@@ -25,6 +25,25 @@ namespace Foundations.Extensions
                 .ToString();
         }
 
+        public static string FromBase64String(this string instance)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            while (instance.Length%4 != 0)
+            {
+                instance = instance + "=";
+            }
+
+            var bytes = Convert.FromBase64String(instance);
+            return Encoding.UTF8.GetString(
+                bytes, 
+                0, 
+                bytes.Length - 1);
+        }
+
         public static string ToBase64String(this string instance)
         {
             if (instance == null)

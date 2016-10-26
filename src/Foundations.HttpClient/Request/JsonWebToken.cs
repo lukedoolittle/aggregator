@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 
 namespace Foundations.HttpClient.Request
@@ -12,6 +13,16 @@ namespace Foundations.HttpClient.Request
 
         public JsonWebTokenClaims Claims { get; set; } = 
             new JsonWebTokenClaims();
+
+        public JsonWebToken() { }
+
+        public JsonWebToken(
+            JsonWebTokenHeader header, 
+            JsonWebTokenClaims claims)
+        {
+            Header = header;
+            Claims = claims;
+        }
     }
 
     [DataContract]
@@ -24,12 +35,11 @@ namespace Foundations.HttpClient.Request
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
         [DataMember(Name = "alg", Order = 1)]
         private string _algorithm
         {
-            get { return Algorithm.ToString(); }
-            set { throw new NotImplementedException(); }
+            get { return Algorithm.EnumToString(); }
+            set { Algorithm = value.StringToEnum<JsonWebTokenAlgorithm>(); }
         }
     }
 

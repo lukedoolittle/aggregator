@@ -23,6 +23,10 @@ namespace Foundations.Enums
         [Description("text/javascript")]
         Javascript,
         [Description("application/x-www-form-urlencoded")]
-        Form
+        Form,
+        [Description("application/jwt")]
+        JsonWebToken,
+        [Description("audio/wav")]
+        Wave
     }
 }

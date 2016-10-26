@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -118,6 +119,15 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Header(
+            string name, 
+            string value)
+        {
+            _message.Headers.Add(name, value);
+
+            return this;
+        }
+
+        public HttpRequestBuilder Header(
             HttpRequestHeader httpHeader, 
             string value)
         {
@@ -178,6 +188,34 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequestBuilder RawContent(
+            byte[] value,
+            MediaType mediaType)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            _payload.AddContent(
+                new RawContent(
+                    value,
+                    mediaType));
+
+            return this;
+        }
+
+        public HttpRequestBuilder StreamingContent(
+            Stream stream, 
+            MediaType mediaType)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            _payload.AddContent(
+                new StreamingContent(
+                    stream, 
+                    mediaType));
+
+            return this;
+        }
+
         public HttpRequestBuilder Content(
             object bodyContent,
             MediaType mediaType,
@@ -193,12 +231,11 @@ namespace Foundations.HttpClient
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            _payload.AddContent(new Body()
-            {
-                Content = bodyContent,
-                MediaType = mediaType,
-                Encoding = encoding
-            });
+            _payload.AddContent(
+                new SerializableContent(
+                    bodyContent, 
+                    encoding, 
+                    mediaType));
 
             return this;
         }
