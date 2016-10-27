@@ -161,6 +161,26 @@ namespace CodeGen
                         ConstructorParameters = new List<object> { typeof(OAuth1Credentials) }
                     });
                 }
+                else if (securityDefinition["type"]?.ToString() == "apiKey")
+                {
+                    @class.BaseType = new BaseTypeRepresentation(typeof(ApiKeyResourceProvider));
+
+                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-name"].ToString())
+                    });
+                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-location"].ToString().StringToEnum<HttpParameterType>())
+                    });
+
+                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
+                    {
+                        ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
+                    });
+                }
                 else
                 {
                     throw new Exception();

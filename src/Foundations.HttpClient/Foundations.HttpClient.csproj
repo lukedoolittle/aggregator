@@ -44,6 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authenticators\ApiKeyProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1AccessToken.cs" />
     <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1RequestToken.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Enums\HttpParameterType.cs" />
     <Compile Include="Enums\OAuth2ResponseType.cs" />
     <Compile Include="Extensions\HeaderExtensions.cs" />
+    <Compile Include="Extensions\HttpRequestApiKeyExtensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth2Extensions.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />

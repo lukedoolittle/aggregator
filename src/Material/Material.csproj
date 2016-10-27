@@ -44,6 +44,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeyResourceProvider.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
     <Compile Include="Contracts\IClientTokenFacade.cs" />
@@ -82,6 +83,7 @@
       <DependentUpon>Generator.tt</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Infrastructure\ApiKeyResourceProvider.cs" />
     <Compile Include="Infrastructure\BluetoothAppBase.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothCharacteristics.cs" />
     <Compile Include="Infrastructure\BluetoothRequest.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Infrastructure\Bluetooth\BluetoothConverters.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothServices.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothSpecification.cs" />
+    <Compile Include="Infrastructure\Credentials\ApiKeyCredentials.cs" />
     <Compile Include="Infrastructure\Credentials\BluetoothCredentials.cs" />
     <Compile Include="Infrastructure\Credentials\OAuth1Credentials.cs" />
     <Compile Include="Infrastructure\Credentials\OAuth2Credentials.cs" />
@@ -246,6 +249,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Swagger\microsoftLuis.json" />
     <None Include="Swagger\googleAnalytics.json" />
     <None Include="Swagger\tumblr.json" />
     <None Include="Swagger\omniture.json" />

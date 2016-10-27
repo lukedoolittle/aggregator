@@ -14,7 +14,11 @@ namespace CodeGen
             string additionalNamespace,
             string constructorArgument)
         {
-            TypeName = type.Name;
+            var typeName = type.Name;
+            TypeName = typeName.EndsWith("Attribute") ? 
+                typeName.Substring(0, typeName.LastIndexOf("Attribute")) :
+                typeName;
+            
             Namespace = new List<string> { type.Namespace, additionalNamespace };
             ConstructorArguments = "typeof(" + constructorArgument + ")";
         }

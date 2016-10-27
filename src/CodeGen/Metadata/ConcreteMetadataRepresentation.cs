@@ -7,7 +7,16 @@ namespace CodeGen.Metadata
 {
     public class ConcreteMetadataRepresentation : MetadataRepresentation
     {
-        public override string TypeName => Type.Name;
+        public override string TypeName
+        {
+            get
+            {
+                var typeName = Type.Name;
+                return typeName.EndsWith("Attribute") ?
+                    typeName.Substring(0, typeName.LastIndexOf("Attribute")) :
+                    typeName;
+            }
+        }
         public override List<string> Namespace => GetNamespaces();
         public override string ConstructorArguments => GetConstructorArguments();
 
