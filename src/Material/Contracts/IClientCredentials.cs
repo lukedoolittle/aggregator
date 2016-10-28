@@ -25,5 +25,9 @@ namespace Material.Contracts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         OAuth2Credentials GetJsonWebTokenCredentials<TService>()
             where TService : ResourceProvider;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        ApiKeyCredentials GetApiKeyCredentials<TService>()
+            where TService : ApiKeyResourceProvider;
     }
 }

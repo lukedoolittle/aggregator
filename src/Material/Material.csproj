@@ -44,7 +44,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiKeyResourceProvider.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
     <Compile Include="Contracts\IClientTokenFacade.cs" />
@@ -105,6 +104,7 @@
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
     <Compile Include="Infrastructure\ProtectedResources\GoogleAnalytics.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\MicrosoftLUIS.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Tumblr.cs" />
@@ -129,6 +129,7 @@
     <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
     <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
     <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
+    <Compile Include="Infrastructure\Requests\MicrosoftLUISPredict.cs" />
     <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
     <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
     <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Infrastructure\Responses\GoogleGmailResponse.cs" />
     <Compile Include="Infrastructure\Responses\GoogleProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\LinkedInPersonalResponse.cs" />
+    <Compile Include="Infrastructure\Responses\MicrosoftLuisPredictResponse.cs" />
     <Compile Include="Infrastructure\Responses\OmnitureGetResponse.cs" />
     <Compile Include="Infrastructure\Responses\OmnitureQueueResponse.cs" />
     <Compile Include="Infrastructure\Responses\RescuetimeAnalyticDataResponse.cs" />
@@ -281,6 +283,7 @@
 .\Infrastructure\ProtectedResources\GoogleAnalytics.cs
 .\Infrastructure\ProtectedResources\Instagram.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
+.\Infrastructure\ProtectedResources\MicrosoftLuis.cs
 .\Infrastructure\ProtectedResources\Omniture.cs
 .\Infrastructure\ProtectedResources\Pinterest.cs
 .\Infrastructure\ProtectedResources\Rescuetime.cs
@@ -311,6 +314,7 @@
 .\Infrastructure\Requests\GoogleProfile.cs
 .\Infrastructure\Requests\InstagramLikes.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
+.\Infrastructure\Requests\MicrosoftLuisPredict.cs
 .\Infrastructure\Requests\OmnitureReporting.cs
 .\Infrastructure\Requests\PinterestLikes.cs
 .\Infrastructure\Requests\RescuetimeAnalyticData.cs
