@@ -6,7 +6,7 @@ namespace Foundations.HttpClient.Extensions
 {
     public static class HttpRequestApiKeyExtensions
     {
-        public static HttpRequestBuilder ForApiKeyProtectedResource(
+        public static HttpRequestBuilder ForApiKey(
             this HttpRequestBuilder instance,
             string keyName,
             string keyValue,
@@ -14,7 +14,7 @@ namespace Foundations.HttpClient.Extensions
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
-            var authenticator = new ApiKeyProtectedResource(
+            var authenticator = new ApiKeyAuthenticator(
                 keyName,
                 keyValue,
                 keyType);

@@ -44,6 +44,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
+    <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
+    <Compile Include="Infrastructure\Static\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="OAuth\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
     <Compile Include="Contracts\IClientTokenFacade.cs" />
@@ -201,6 +207,7 @@
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />
     <Compile Include="Metadata\Required.cs" />
+    <Compile Include="OAuth\Authentication\ApiKeyJsonWebTokenExchangeAdapter.cs" />
     <Compile Include="OAuth\Authentication\OAuth1AuthenticationAdapter.cs" />
     <Compile Include="OAuth\Authentication\OAuth2AuthenticationAdapter.cs" />
     <Compile Include="OAuth\Authentication\OAuthProtectedResourceAdapter.cs" />
@@ -251,6 +258,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Swagger\microsoftBing.json" />
     <None Include="Swagger\microsoftLuis.json" />
     <None Include="Swagger\googleAnalytics.json" />
     <None Include="Swagger\tumblr.json" />
@@ -283,6 +291,7 @@
 .\Infrastructure\ProtectedResources\GoogleAnalytics.cs
 .\Infrastructure\ProtectedResources\Instagram.cs
 .\Infrastructure\ProtectedResources\LinkedIn.cs
+.\Infrastructure\ProtectedResources\MicrosoftBing.cs
 .\Infrastructure\ProtectedResources\MicrosoftLuis.cs
 .\Infrastructure\ProtectedResources\Omniture.cs
 .\Infrastructure\ProtectedResources\Pinterest.cs
@@ -314,6 +323,7 @@
 .\Infrastructure\Requests\GoogleProfile.cs
 .\Infrastructure\Requests\InstagramLikes.cs
 .\Infrastructure\Requests\LinkedinPersonal.cs
+.\Infrastructure\Requests\MicrosoftBingSpeechToText.cs
 .\Infrastructure\Requests\MicrosoftLuisPredict.cs
 .\Infrastructure\Requests\OmnitureReporting.cs
 .\Infrastructure\Requests\PinterestLikes.cs

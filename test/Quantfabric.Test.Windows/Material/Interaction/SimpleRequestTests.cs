@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Material.Contracts;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
@@ -23,7 +18,7 @@ namespace Quantfabric.Test.Material.Interaction
         public async void MakeRequestForLanguageUnderstandingServicePrediction()
         {
             var credentials = _appRepository.GetApiKeyCredentials<MicrosoftLuis>();
-            var actualText = "Set a timer for 5 minutes".ToLower();
+            var actualText = "set a timer for 5 minutes";
             var request = new MicrosoftLuisPredict
             {
                 AppId = "2650ce1d-c2f7-4ea4-afaa-ccbc0104adb1",
@@ -36,6 +31,30 @@ namespace Quantfabric.Test.Material.Interaction
             Assert.Equal(actualText, response.UtteranceText);
             Assert.NotNull(response.EntitiesResults);
             Assert.NotNull(response.IntentsResults);
+        }
+
+        [Fact]
+        public async void MakeRequestForSpeechToText()
+        {
+            MicrosoftBingSpeechToText.DeviceId = Guid.NewGuid();
+
+            var apiKeyCredentials = _appRepository.GetApiKeyCredentials<MicrosoftBing>();
+            var credentials = await new ApiKeyAssert<MicrosoftBing>(apiKeyCredentials.KeyValue)
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+
+            var actualText = "hi i'm brian";
+
+            var request = new MicrosoftBingSpeechToText
+            {
+                Body = System.IO.File.ReadAllBytes("brian.wav")
+            };
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<MicrosoftBingSpeechToText, MicrosoftBingSpeechResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.True(response.Results[0].Lexical.StartsWith(actualText));
         }
     }
 }

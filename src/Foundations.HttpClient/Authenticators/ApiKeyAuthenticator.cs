@@ -3,13 +3,13 @@ using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class ApiKeyProtectedResource : IAuthenticator
+    public class ApiKeyAuthenticator : IAuthenticator
     {
         private readonly string _keyName;
         private readonly string _keyValue;
         private readonly HttpParameterType _keyType;
 
-        public ApiKeyProtectedResource(
+        public ApiKeyAuthenticator(
             string keyName, 
             string keyValue, 
             HttpParameterType keyType)

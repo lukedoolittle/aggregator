@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient.Request
 {
@@ -14,14 +16,66 @@ namespace Foundations.HttpClient.Request
         public JsonWebTokenClaims Claims { get; set; } = 
             new JsonWebTokenClaims();
 
+        public string Signature { get; set; }
+
         public JsonWebToken() { }
 
         public JsonWebToken(
             JsonWebTokenHeader header, 
-            JsonWebTokenClaims claims)
+            JsonWebTokenClaims claims,
+            string signature)
         {
             Header = header;
             Claims = claims;
+            Signature = signature;
+        }
+
+        public static JsonWebToken FromString(string token)
+        {
+            if (token == null) throw new ArgumentNullException(nameof(token));
+
+            var splitEntity = token.Split('.');
+
+            var deserializer = new JsonSerializer();
+
+            var header = splitEntity[0].FromBase64String();
+            var claims = splitEntity[1].FromBase64String();
+
+            return new JsonWebToken(
+                deserializer.Deserialize<JsonWebTokenHeader>(header),
+                deserializer.Deserialize<JsonWebTokenClaims>(claims),
+                splitEntity[2]);
+        }
+
+        public override string ToString()
+        {
+            var serializer = new JsonSerializer();
+
+            var header = serializer.Serialize(Header);
+            var headerBytes = Encoding.UTF8.GetBytes(header);
+            var headerEncoded = Convert.ToBase64String(headerBytes);
+
+            //TODO: is there a more elegant way to remove escapes??
+            var claims = serializer.Serialize(Claims).Replace("\\", ""); ;
+            var claimsBytes = Encoding.UTF8.GetBytes(claims);
+            var claimsEncoded = Convert.ToBase64String(claimsBytes);
+
+            var signatureBase = StringExtensions.Concatenate(
+                headerEncoded,
+                claimsEncoded,
+                ".");
+
+            if (!string.IsNullOrEmpty(Signature))
+            {
+                return StringExtensions.Concatenate(
+                    signatureBase,
+                    Signature,
+                    ".");
+            }
+            else
+            {
+                return signatureBase;
+            }
         }
     }
 

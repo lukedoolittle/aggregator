@@ -47,8 +47,8 @@
         "subscriptionKey": {
             "type": "apiKey",
             "description": "Subscription Key Auth",
-            "x-token-name": "Ocp-Apim-Subscription-Key",
-            "x-token-location": "header" 
+            "x-key-name": "Ocp-Apim-Subscription-Key",
+            "x-key-location": "header"
         }
     },
     "definitions": []

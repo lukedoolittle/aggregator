@@ -44,7 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authenticators\ApiKeyProtectedResource.cs" />
+    <Compile Include="Authenticators\ApiKeyAuthenticator.cs" />
     <Compile Include="Authenticators\OAuth1AccessToken.cs" />
     <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1RequestToken.cs" />

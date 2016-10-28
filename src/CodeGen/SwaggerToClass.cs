@@ -168,14 +168,43 @@ namespace CodeGen
                     @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
                     {
                         IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-name"].ToString())
+                    });
+                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-location"].ToString().StringToEnum<HttpParameterType>())
+                    });
+
+                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
+                    {
+                        ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
+                    });
+                }
+                else if (securityDefinition["type"]?.ToString() == "keyJwtExchange")
+                {
+                    @class.BaseType = new BaseTypeRepresentation(typeof(ApiKeyExchangeResourceProvider));
+
+                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-name"].ToString())
+                    });
+                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "TokenName")
+                    {
+                        IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-name"].ToString())
                     });
                     @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-location"].ToString().StringToEnum<HttpParameterType>())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-location"].ToString().StringToEnum<HttpParameterType>())
                     });
-
+                    @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
+                    });
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
                     {
                         ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
@@ -477,6 +506,10 @@ namespace CodeGen
                     return false;
                 }
             }
+            else if (type == typeof(Guid) || type == typeof(Guid?))
+            {
+                return Guid.Parse(item);
+            }
             else
             {
                 throw new Exception("Unhandled object type: " + type.Name);
@@ -511,6 +544,10 @@ namespace CodeGen
                 if (format == "date-time-offset")
                 {
                     return isRequired ? typeof(DateTimeOffset) : typeof(DateTimeOffset?);
+                }
+                if (format == "uuid")
+                {
+                    return isRequired ? typeof(Guid) : typeof(Guid?);
                 }
             }
             else if (type == "number")
@@ -574,7 +611,7 @@ namespace CodeGen
                 return string.Empty;
             }
 
-            var result = jsonName.Split(new[] { "_", "-" }, StringSplitOptions.RemoveEmptyEntries)
+            var result = jsonName.Split(new[] { "_", "-", " " }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1, s.Length - 1))
                 .Aggregate(string.Empty, (s1, s2) => s1 + s2);
 

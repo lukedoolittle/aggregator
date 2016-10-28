@@ -617,7 +617,7 @@ namespace Foundations.Test
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
                 .JsonContent(expected)
-                .ForApiKeyProtectedResource(
+                .ForApiKey(
                     keyname,
                     keyvalue,
                     HttpParameterType.Header)

@@ -122,6 +122,10 @@ namespace CodeGen
             {
                 return value.ToString().ToLower();
             }
+            if (value is Guid)
+            {
+                return $"Guid.Parse(\"{value}\")";
+            }
             else
             {
                 throw new Exception("Unhandled type was " + value.GetType().Name);

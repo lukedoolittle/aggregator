@@ -9,6 +9,7 @@ namespace Foundations.HttpClient.Authenticators
     public class OAuth2JsonWebToken : IAuthenticator
     {
         private readonly OAuth2JsonWebTokenSigningTemplate _template;
+        private readonly JsonWebToken _token;
         private readonly string _privateKey;
         private readonly string _clientId;
 
@@ -23,10 +24,8 @@ namespace Foundations.HttpClient.Authenticators
 
             _clientId = clientId;
             _privateKey = privateKey;
-
-            _template = new OAuth2JsonWebTokenSigningTemplate(
-                token, 
-                signingFactory);
+            _token = token;
+            _template = new OAuth2JsonWebTokenSigningTemplate(signingFactory);
         }
 
         public OAuth2JsonWebToken(
@@ -43,20 +42,15 @@ namespace Foundations.HttpClient.Authenticators
         {
             if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
 
-            var signatureBase = _template.CreateSignatureBase();
-            var signature = _template.CreateSignature(
-                signatureBase,
+            _token.Signature = _template.CreateSignature(
+                _token.ToString(),
+                _token.Header.Algorithm,
                 _privateKey);
-
-            var assertion = StringExtensions.Concatenate(
-                signatureBase, 
-                signature, 
-                ".");
 
             requestBuilder
                 .Parameter(
                     OAuth2Parameter.Assertion.EnumToString(),
-                    assertion)
+                    _token.ToString())
                  .Parameter(
                     OAuth2Parameter.GrantType.EnumToString(),
                     GrantType.JsonWebToken.EnumToString());
