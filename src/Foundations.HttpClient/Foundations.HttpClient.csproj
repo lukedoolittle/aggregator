@@ -60,9 +60,11 @@
     <Compile Include="Cryptography\DigestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
     <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />
+    <Compile Include="Cryptography\ISignatureVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\ISigningAlgorithm.cs" />
     <Compile Include="Cryptography\JsonWebTokenAlgorithm.cs" />
     <Compile Include="Cryptography\JsonWebTokenSignerFactory.cs" />
+    <Compile Include="Cryptography\RSASignatureVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\SigningAlgorithm.cs" />
     <Compile Include="Enums\ContentTypeEncoding.cs" />
     <Compile Include="Enums\GrantType.cs" />

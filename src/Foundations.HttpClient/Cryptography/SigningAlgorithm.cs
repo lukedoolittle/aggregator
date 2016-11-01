@@ -1,6 +1,9 @@
 ﻿using System;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Foundations.HttpClient.Cryptography
 {
@@ -74,6 +77,16 @@ namespace Foundations.HttpClient.Cryptography
             var base64PrivateKey = publicKey.Replace(PublicKeyPrefix, "").Replace("\n", "").Replace(PublicKeySuffix, "");
             var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
             return PublicKeyFactory.CreateKey(privateKeyBytes);
+        }
+
+        private static ICipherParameters GetParametersFromModulusAndExponent(
+            string modulus, 
+            string publicExponent)
+        {
+            return new RsaKeyParameters(
+                false, 
+                new BigInteger(1, Base64.Decode(modulus)), 
+                new BigInteger(1, Base64.Decode(publicExponent)));
         }
     }
 }
