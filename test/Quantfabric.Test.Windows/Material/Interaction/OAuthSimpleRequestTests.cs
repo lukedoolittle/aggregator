@@ -116,6 +116,20 @@ namespace Quantfabric.Test.Material.Interaction
         #endregion Omniture
 
         [Fact]
+        public async void MakeRequestForAmazonProfile()
+        {
+            var credentials = _tokenRepository.GetToken<Amazon, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<AmazonProfile, AmazonProfileResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response.Email);
+        }
+
+        [Fact]
         public async void MakeRequestForTumblrLikes()
         {
             var credentials = _tokenRepository.GetToken<Tumblr, OAuth1Credentials>();

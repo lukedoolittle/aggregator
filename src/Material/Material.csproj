@@ -45,8 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
+    <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
     <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Static\MicrosoftBingSpeechToText.cs" />
     <Compile Include="OAuth\ApiKeyAssert.cs" />
@@ -258,6 +261,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Swagger\amazon.json" />
     <None Include="Swagger\microsoftBing.json" />
     <None Include="Swagger\microsoftLuis.json" />
     <None Include="Swagger\googleAnalytics.json" />
@@ -283,6 +287,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Generator.cs</LastGenOutput>
       <LastOutputs>
+.\Infrastructure\ProtectedResources\Amazon.cs
 .\Infrastructure\ProtectedResources\Facebook.cs
 .\Infrastructure\ProtectedResources\Fatsecret.cs
 .\Infrastructure\ProtectedResources\Fitbit.cs
@@ -302,6 +307,7 @@
 .\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
 .\Infrastructure\ProtectedResources\Twitter.cs
 .\Infrastructure\ProtectedResources\Withings.cs
+.\Infrastructure\Requests\AmazonProfile.cs
 .\Infrastructure\Requests\FacebookEvent.cs
 .\Infrastructure\Requests\FacebookFeed.cs
 .\Infrastructure\Requests\FacebookFriend.cs

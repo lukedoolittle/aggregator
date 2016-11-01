@@ -78,15 +78,5 @@ namespace Foundations.HttpClient.Cryptography
             var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
             return PublicKeyFactory.CreateKey(privateKeyBytes);
         }
-
-        private static ICipherParameters GetParametersFromModulusAndExponent(
-            string modulus, 
-            string publicExponent)
-        {
-            return new RsaKeyParameters(
-                false, 
-                new BigInteger(1, Base64.Decode(modulus)), 
-                new BigInteger(1, Base64.Decode(publicExponent)));
-        }
     }
 }

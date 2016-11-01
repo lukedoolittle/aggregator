@@ -30,10 +30,11 @@ namespace Foundations.HttpClient.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            if (newContent is byte[])
+            var bytes = newContent as byte[];
+            if (bytes != null)
             {
                 return instance.RawContent(
-                    (byte[]) newContent, 
+                    bytes, 
                     mediaType);
             }
             else

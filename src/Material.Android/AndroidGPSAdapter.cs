@@ -166,6 +166,9 @@ namespace Material
                 case Availability.OutOfService:
                     OnProviderDisabled(provider);
                     break;
+                case Availability.TemporarilyUnavailable:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(status), status, null);
             }
         }
     }
