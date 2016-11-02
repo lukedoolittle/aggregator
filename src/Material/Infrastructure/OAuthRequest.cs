@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Net;
 using System.Reflection;
 using Foundations.Enums;
 using Foundations.Extensions;
+using Material.Contracts;
 using Material.Enums;
 using Material.Metadata;
 
@@ -19,8 +19,10 @@ namespace Material.Infrastructure
 
         public virtual List<string> RequiredScopes { get; } = 
             new List<string>();
+
         public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
+
         public virtual IDictionary<string, string> QuerystringParameters => 
             GetParameters(RequestParameterType.Query);
         public virtual IDictionary<string, string> PathParameters => 
@@ -39,11 +41,14 @@ namespace Material.Infrastructure
             var dictionary = new Dictionary<string, string>();
             foreach (var parameterProperty in parameterProperties)
             {
-                var format = parameterProperty.GetCustomAttribute<FormatAttribute>();
-                
-                var value = ToString(
-                    parameterProperty.GetValue(this), 
-                    format?.Formatter);
+                var format = parameterProperty.GetInterfaceAttribute<IParameterFormatter>();
+
+                if (format == null)
+                {
+                    throw new NotSupportedException(StringResources.FormatMetadataMissing);
+                }
+
+                var value = format.FormatAsString(parameterProperty.GetValue(this));
 
                 var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
                 if (value != null)
@@ -53,54 +58,6 @@ namespace Material.Infrastructure
             }
 
             return new ReadOnlyDictionary<string, string>(dictionary);
-        }
-
-        //TODO: Format attribute should do its own conversion polymorphically then we can get rid of this
-        private static string ToString(
-            object instance, 
-            string formatter)
-        {
-            if (instance == null)
-            {
-                return null;
-            }
-
-            if (instance is DateTimeOffset)
-            {
-                switch (formatter)
-                {
-                    case "ddd":
-                        return ((DateTimeOffset) instance).ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture);
-                    case "d":
-                        return ((DateTimeOffset)instance).ToUnixTimeDays().ToString(CultureInfo.InvariantCulture);
-                    default:
-                        return ((DateTimeOffset)instance).ToString(formatter, CultureInfo.InvariantCulture);
-                }
-            }
-            else if (instance is DateTime)
-            {
-                switch (formatter)
-                {
-                    case "ddd":
-                        return ((DateTime)instance).ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture);
-                    case "d":
-                        return ((DateTime)instance).ToUnixTimeDays().ToString(CultureInfo.InvariantCulture);
-                    default:
-                        return ((DateTime)instance).ToString(formatter, CultureInfo.InvariantCulture);
-                }
-            }
-            else if (instance.GetType().GetTypeInfo().IsEnum)
-            {
-                return (instance as Enum).EnumToString();
-            }
-            else if (instance is bool)
-            {
-                return instance.ToString().ToLower();
-            }
-            else
-            {
-                return instance.ToString();
-            }
         }
     }
 }

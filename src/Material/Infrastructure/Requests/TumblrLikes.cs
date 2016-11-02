@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,26 +28,28 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; } = 20;
         /// <summary>
         /// Liked post number to start at
         /// </summary>
         [Name("offset")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Offset { get; set; }
         /// <summary>
         /// Retrieve posts liked before the specified timestamp
         /// </summary>
         [Name("before")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("ddd")]
+        [UnixTimeSecondsDateTimeFormatter()]
         public  Nullable<DateTime> Before { get; set; }
         /// <summary>
         /// Retrieve posts liked after the specified timestamp
         /// </summary>
         [Name("after")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("ddd")]
+        [UnixTimeSecondsDateTimeFormatter()]
         public  Nullable<DateTime> After { get; set; }
 	}
 }

@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,18 +28,21 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("skip_status")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> SkipStatus { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_entities")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> IncludeEntities { get; set; }
         /// <summary>
         /// When set to true email will be returned in the user objects as a string
         /// </summary>
         [Name("include_email")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> IncludeEmail { get; set; } = true;
 	}
 }

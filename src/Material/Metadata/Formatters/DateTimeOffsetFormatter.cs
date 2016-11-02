@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Material.Contracts;
 
 namespace Material.Metadata.Formatters
@@ -20,9 +16,10 @@ namespace Material.Metadata.Formatters
 
         public string FormatAsString(object parameter)
         {
-            return ((DateTimeOffset)parameter).ToString(
-                _formatString, 
-                CultureInfo.InvariantCulture);
+            return ((DateTimeOffset?)parameter)
+                ?.ToString(
+                    _formatString, 
+                    CultureInfo.InvariantCulture);
         }
     }
 }

@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,12 +28,14 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("appId")]
         [ParameterType(RequestParameterType.Path)]
+        [DefaultFormatter()]
         public  String AppId { get; set; }
         /// <summary>
         /// The example text
         /// </summary>
         [Name("example")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Example { get; set; }
 	}
 }

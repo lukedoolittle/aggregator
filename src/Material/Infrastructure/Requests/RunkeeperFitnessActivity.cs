@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -31,33 +32,35 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("noEarlierThan")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("yyyy-MM-dd")]
+        [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> NoEarlierThan { get; set; }
         /// <summary>
         /// Ending time scope for the request
         /// </summary>
         [Name("noLaterThan")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("yyyy-MM-dd")]
+        [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> NoLaterThan { get; set; }
         /// <summary>
         /// The pageSize query parameter controls how many entries are returned per page.
         /// </summary>
         [Name("pageSize")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> PageSize { get; set; }
         /// <summary>
         /// The page number to request
         /// </summary>
         [Name("page")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Page { get; set; }
         /// <summary>
         /// 
         /// </summary>
         [Name("If-Modified-Since")]
         [ParameterType(RequestParameterType.Header)]
-        [Format("yyyy-MM-ddTHH:mm:ss")]
+        [DateTimeFormatter("yyyy-MM-ddTHH:mm:ss")]
         public  Nullable<DateTime> IfModifiedSince { get; set; }
 	}
 }

@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,7 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("date")]
         [ParameterType(RequestParameterType.Path)]
-        [Format("yyyy-MM-dd")]
+        [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Date { get; set; }
 	}
 }

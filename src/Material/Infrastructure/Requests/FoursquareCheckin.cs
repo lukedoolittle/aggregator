@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
@@ -31,44 +32,49 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("v")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String V { get; set; } = "20140806";
         /// <summary>
         /// platform context for the request
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
         public  FoursquareCheckinM M { get; set; } = FoursquareCheckinM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// The number of results to skip
         /// </summary>
         [Name("offset")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Offset { get; set; }
         /// <summary>
         /// How to sort the returned checkins
         /// </summary>
         [Name("sort")]
         [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
         public  FoursquareCheckinSort Sort { get; set; } = FoursquareCheckinSort.Newestfirst;
         /// <summary>
         /// Retrieve the first results to follow these seconds since epoch
         /// </summary>
         [Name("afterTimestamp")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("ddd")]
+        [UnixTimeSecondsDateTimeFormatter()]
         public  Nullable<DateTime> AfterTimestamp { get; set; }
         /// <summary>
         /// Retrieve the first results prior to these seconds since epoch
         /// </summary>
         [Name("beforeTimestamp")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("ddd")]
+        [UnixTimeSecondsDateTimeFormatter()]
         public  Nullable<DateTime> BeforeTimestamp { get; set; }
 	}
     public enum FoursquareCheckinM

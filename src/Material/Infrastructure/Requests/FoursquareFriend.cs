@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
@@ -31,24 +32,28 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("v")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String V { get; set; } = "20140806";
         /// <summary>
         /// platform context for the request
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
         public  FoursquareFriendM M { get; set; } = FoursquareFriendM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// The number of results to skip
         /// </summary>
         [Name("offset")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Offset { get; set; }
 	}
     public enum FoursquareFriendM

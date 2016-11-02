@@ -20,12 +20,18 @@ namespace CodeGen.Metadata
         public override List<string> Namespace => GetNamespaces();
         public override string ConstructorArguments => GetConstructorArguments();
 
-        public Type Type { get; set; }
+        public Type Type { get; }
 
-        public List<object> ConstructorParameters { get; set; }
+        public List<object> ConstructorParameters { get; set; } = 
+            new List<object>();
 
         public ConcreteMetadataRepresentation(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             Type = type;
         }
 

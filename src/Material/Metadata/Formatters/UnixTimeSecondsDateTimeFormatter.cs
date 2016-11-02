@@ -10,8 +10,7 @@ namespace Material.Metadata.Formatters
     {
         public string FormatAsString(object parameter)
         {
-            return ((DateTime)parameter)
-                .ToUnixTimeSeconds()
+            return ((DateTime?) parameter)?.ToUnixTimeSeconds()
                 .ToString(CultureInfo.InvariantCulture);
         }
     }

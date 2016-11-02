@@ -198,6 +198,22 @@ namespace Foundations.Extensions
             }
         }
 
+        public static T GetInterfaceAttribute<T>(this MemberInfo instance)
+            where T : class
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            var attribute = instance
+                .GetCustomAttributes()
+                .FirstOrDefault(a => a
+                    .GetType()
+                    .GetTypeInfo()
+                    .ImplementedInterfaces
+                    .Contains(typeof(T)));
+
+            return attribute as T;
+        }
+
         /// <summary>
         /// Gets all the attributes for a type of the given type T
         /// </summary>

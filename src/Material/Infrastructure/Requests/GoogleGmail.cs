@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("messageId")]
         [ParameterType(RequestParameterType.Path)]
+        [DefaultFormatter()]
         public  String MessageId { get; set; }
 	}
 }

@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,24 +28,28 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("cursor")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int64> Cursor { get; set; }
         /// <summary>
         /// Specifies the number of records to retrieve. Must be less than or equal to 100
         /// </summary>
         [Name("count")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_user_entities")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> IncludeUserEntities { get; set; }
         /// <summary>
         /// When set to either true, t or 1 statuses will not be included in the returned user objects
         /// </summary>
         [Name("skip_status")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> SkipStatus { get; set; }
 	}
 }

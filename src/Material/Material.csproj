@@ -52,6 +52,7 @@
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Static\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
     <Compile Include="OAuth\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
@@ -208,7 +209,7 @@
     <Compile Include="Infrastructure\Static\GPSResponse.cs" />
     <Compile Include="Infrastructure\Static\SMSResponse.cs" />
     <Compile Include="Metadata\Format.cs" />
-    <Compile Include="Metadata\Formatters\BooleanFormatter.cs" />
+    <Compile Include="Metadata\Formatters\BooleanFormatterAttribute.cs" />
     <Compile Include="Metadata\Formatters\DateTimeFormatter.cs" />
     <Compile Include="Metadata\Formatters\DateTimeOffsetFormatter.cs" />
     <Compile Include="Metadata\Formatters\EnumFormatter.cs" />

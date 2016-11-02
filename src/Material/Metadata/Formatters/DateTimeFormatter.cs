@@ -16,9 +16,10 @@ namespace Material.Metadata.Formatters
 
         public string FormatAsString(object parameter)
         {
-            return ((DateTime)parameter).ToString(
-                _formatString,
-                CultureInfo.InvariantCulture);
+            return ((DateTime?)parameter)
+                ?.ToString(
+                    _formatString,
+                    CultureInfo.InvariantCulture);
         }
     }
 }

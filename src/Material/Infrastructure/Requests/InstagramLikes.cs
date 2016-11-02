@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,12 +30,14 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("count")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// Return media liked before this id
         /// </summary>
         [Name("max_like_id")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String MaxLikeId { get; set; }
 	}
 }

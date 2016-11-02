@@ -12,6 +12,7 @@ using Material.Enums;
 using Material.Metadata;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.Metadata.Formatters;
 using Newtonsoft.Json.Linq;
 
 namespace CodeGen
@@ -400,7 +401,6 @@ namespace CodeGen
 
                             if (parameter["in"].ToString() == "query")
                             {
-                                //querystringParameters.Add(parameter["name"].ToString(), name);
                                 var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterTypeAttribute));
                                 propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Query };
                                 property.Metadatas.Add(propertyTypeMetadata);
@@ -408,7 +408,6 @@ namespace CodeGen
                             }
                             else if (parameter["in"].ToString() == "path")
                             {
-                                //urlsegmentParameters.Add(parameter["name"].ToString(), name);
                                 var propertyTypeMetadata = new ConcreteMetadataRepresentation(typeof(ParameterTypeAttribute));
                                 propertyTypeMetadata.ConstructorParameters = new List<object> { RequestParameterType.Path };
                                 property.Metadatas.Add(propertyTypeMetadata);
@@ -430,12 +429,12 @@ namespace CodeGen
                                 property.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(RequiredAttribute)));
                             }
 
-                            if (parameter["pattern"]?.ToString() != null)
-                            {
-                                var formatMetadata = new ConcreteMetadataRepresentation(typeof(FormatAttribute));
-                                formatMetadata.ConstructorParameters = new List<object> { parameter["pattern"]?.ToString()};
-                                property.Metadatas.Add(formatMetadata);
-                            }
+                            var formatMetadata = GetParameterMetadata(
+                                parameter["type"]?.ToString(),
+                                parameter["format"]?.ToString(),
+                                parameter["pattern"]?.ToString(),
+                                parameter["enum"] != null);
+                            property.Metadatas.Add(formatMetadata);
 
                             @class.Properties.Add(property);
                         }
@@ -451,6 +450,79 @@ namespace CodeGen
             }
 
             return classes;
+        }
+
+        private ConcreteMetadataRepresentation GetParameterMetadata(
+            string type,
+            string format, 
+            string pattern,
+            bool isEnum)
+        {
+            if (isEnum)
+            {
+                return new ConcreteMetadataRepresentation(typeof(EnumFormatterAttribute));
+            }
+            else if (pattern == null)
+            {
+                return new ConcreteMetadataRepresentation(typeof(DefaultFormatterAttribute));
+            }
+            else if (format == "byte" ||
+                     format == "binary" ||
+                     format == "uuid" ||
+                     format == "double" ||
+                     format == "float" ||
+                     format == "int32" ||
+                     format == "int64")
+            {
+                return new ConcreteMetadataRepresentation(typeof(DefaultFormatterAttribute));
+            }
+            else if (type == "boolean")
+            {
+                return new ConcreteMetadataRepresentation(typeof(BooleanFormatterAttribute));
+            }
+            else if (pattern == "ddd")
+            {
+                if (format == "date-time-offset")
+                {
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeOffsetFormatter));
+                }
+                else
+                {
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeFormatter));
+                }
+            }
+            else if (pattern == "d")
+            {
+                if (format == "date-time-offset")
+                {
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeOffsetFormatter));
+                }
+                else
+                {
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeFormatter));
+                }
+            }
+            else if (format == "date" || format == "date-time" || format == "date-time-offset")
+            {
+                if (format == "date-time-offset")
+                {
+                    return new ConcreteMetadataRepresentation(typeof(DateTimeOffsetFormatter))
+                    {
+                        ConstructorParameters = new List<object> {pattern}
+                    };
+                }
+                else
+                {
+                    return new ConcreteMetadataRepresentation(typeof(DateTimeFormatter))
+                    {
+                        ConstructorParameters = new List<object> { pattern }
+                    };
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private object ConvertType(

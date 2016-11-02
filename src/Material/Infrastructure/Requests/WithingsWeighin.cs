@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,31 +28,35 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("action")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Action { get; set; } = "getmeas";
         /// <summary>
         /// the user id of the requester
         /// </summary>
         [Name("userid")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Userid { get; set; }
         /// <summary>
         /// Returns measures updated or created after a certain date
         /// </summary>
         [Name("lastupdate")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("ddd")]
+        [UnixTimeSecondsDateTimeFormatter()]
         public  Nullable<DateTime> Lastupdate { get; set; }
         /// <summary>
         /// maximum number of measure groups to return
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; }
         /// <summary>
         /// skip the offset most recent measure groups
         /// </summary>
         [Name("offset")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Offset { get; set; }
 	}
 }

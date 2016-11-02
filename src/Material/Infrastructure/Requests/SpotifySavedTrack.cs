@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,12 +30,14 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; } = 50;
         /// <summary>
         /// The index of the first object to return
         /// </summary>
         [Name("offset")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Offset { get; set; }
 	}
 }

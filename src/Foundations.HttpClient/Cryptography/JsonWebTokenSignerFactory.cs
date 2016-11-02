@@ -39,6 +39,7 @@ namespace Foundations.HttpClient.Cryptography
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public ISignatureVerificationAlgorithm GetSignatureVerificationAlgorithm(JsonWebTokenAlgorithm algorithm)
         {
             switch (algorithm)

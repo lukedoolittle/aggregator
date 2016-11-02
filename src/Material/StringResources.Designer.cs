@@ -125,6 +125,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All request parameters must have format metadata.
+        /// </summary>
+        public static string FormatMetadataMissing {
+            get {
+                return ResourceManager.GetString("FormatMetadataMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given type is not a subclass of Event.
         /// </summary>
         public static string GenericTypeException {

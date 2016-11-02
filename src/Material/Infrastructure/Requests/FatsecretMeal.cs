@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
@@ -29,19 +30,21 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("method")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Method { get; set; } = "food_entries.get";
         /// <summary>
         /// The number of days since January 1, 1970 (default value is the current day)
         /// </summary>
         [Name("date")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("d")]
+        [UnixTimeDaysDateTimeFormatter()]
         public  Nullable<DateTime> Date { get; set; }
         /// <summary>
         /// The desired response format.
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
         public  FatsecretMealFormat Format { get; set; } = FatsecretMealFormat.Json;
 	}
     public enum FatsecretMealFormat

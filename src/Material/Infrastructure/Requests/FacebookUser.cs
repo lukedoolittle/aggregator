@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using Material.Infrastructure.Requests;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 using Foundations.Attributes;
 
@@ -31,6 +32,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("fields")]
         [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
         public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
 	}
     public enum FacebookUserFields

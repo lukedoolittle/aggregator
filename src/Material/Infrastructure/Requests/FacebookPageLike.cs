@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,20 +30,21 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("since")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("yyyy-MM-ddTHH:mm:sszzz")]
+        [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
         public  Nullable<DateTime> Since { get; set; }
         /// <summary>
         ///  A Unix timestamp or strtotime data value that points to the end of the range of time-based data
         /// </summary>
         [Name("until")]
         [ParameterType(RequestParameterType.Query)]
-        [Format("yyyy-MM-ddTHH:mm:sszzz")]
+        [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
         public  Nullable<DateTime> Until { get; set; }
         /// <summary>
         /// This is the number of individual objects that are returned in each page
         /// </summary>
         [Name("limit")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Limit { get; set; }
 	}
 }

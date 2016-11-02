@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,30 +30,35 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("q")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String Q { get; set; }
         /// <summary>
         /// Maximum number of messages to return
         /// </summary>
         [Name("maxResults")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> MaxResults { get; set; }
         /// <summary>
         /// Page token to retrieve a specific page of results in the list
         /// </summary>
         [Name("pageToken")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String PageToken { get; set; }
         /// <summary>
         /// Include messages from SPAM and TRASH in the results
         /// </summary>
         [Name("includeSpamTrash")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> IncludeSpamTrash { get; set; }
         /// <summary>
         /// Only return messages with labels that match all of the specified label IDs
         /// </summary>
         [Name("labelIds")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String LabelIds { get; set; }
 	}
 }

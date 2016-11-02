@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,28 +30,28 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("startdate")]
         [ParameterType(RequestParameterType.Path)]
-        [Format("yyyy-MM-dd")]
+        [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Startdate { get; set; }
         /// <summary>
         /// The end date, in the format yyyy-MM-dd or today
         /// </summary>
         [Name("enddate")]
         [ParameterType(RequestParameterType.Path)]
-        [Format("yyyy-MM-dd")]
+        [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Enddate { get; set; }
         /// <summary>
         /// The start of the period, in the format HH:mm
         /// </summary>
         [Name("starttime")]
         [ParameterType(RequestParameterType.Path)]
-        [Format("HH:mm")]
+        [DateTimeFormatter("HH:mm")]
         public  Nullable<DateTime> Starttime { get; set; }
         /// <summary>
         /// The end of the period, in the format HH:mm
         /// </summary>
         [Name("endtime")]
         [ParameterType(RequestParameterType.Path)]
-        [Format("HH:mm")]
+        [DateTimeFormatter("HH:mm")]
         public  Nullable<DateTime> Endtime { get; set; }
 	}
 }

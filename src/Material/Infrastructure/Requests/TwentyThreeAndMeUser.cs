@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -29,12 +30,14 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("services")]
         [ParameterType(RequestParameterType.Path)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> Services { get; set; }
         /// <summary>
         /// request the email for this account
         /// </summary>
         [Name("email")]
         [ParameterType(RequestParameterType.Path)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> Email { get; set; }
 	}
 }

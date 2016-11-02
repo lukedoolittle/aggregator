@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using Material.Enums;
+using Material.Metadata.Formatters;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -27,24 +28,28 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("since_id")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String SinceId { get; set; }
         /// <summary>
         /// Returns results with an ID less than (that is, older than) or equal to the specified ID
         /// </summary>
         [Name("max_id")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  String MaxId { get; set; }
         /// <summary>
         /// Specifies the number of records to retrieve. Must be less than or equal to 100
         /// </summary>
         [Name("count")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Int32> Count { get; set; }
         /// <summary>
         /// The tweet entities node will not be included when set to false
         /// </summary>
         [Name("include_entities")]
         [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
         public  Nullable<Boolean> IncludeEntities { get; set; }
 	}
 }

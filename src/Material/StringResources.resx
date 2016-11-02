@@ -165,4 +165,7 @@
   <data name="FlowTypeNotSupportedException" xml:space="preserve">
     <value>Must provide a Client Secret; token flow is not supported with the service {0}</value>
   </data>
+  <data name="FormatMetadataMissing" xml:space="preserve">
+    <value>All request parameters must have format metadata</value>
+  </data>
 </root>
