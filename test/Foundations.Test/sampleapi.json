@@ -17,6 +17,7 @@
                 "summary": "A sample get request",
                 "description": "https://www.example.com/api/documents/asamplegetrequest",
                 "operationId": "SampleApiSampleGet",
+                "consumes": [ "application/xml" ],
                 "parameters": [
                     {
                         "in": "path",

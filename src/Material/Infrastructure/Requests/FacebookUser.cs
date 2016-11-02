@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Infrastructure.Requests;
 using Material.Enums;
 using Material.Metadata.Formatters;
@@ -26,6 +27,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://graph.facebook.com";
         public override String Path => "/v2.7/me";
         public override String HttpMethod => "GET";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<String> RequiredScopes => new List<String> { "email" };
         /// <summary>
         /// Optional fields to request

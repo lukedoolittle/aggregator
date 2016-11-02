@@ -6,6 +6,7 @@ using System.Net;
 using CodeGen.Class;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
+using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.Enums;
@@ -230,7 +231,12 @@ namespace CodeGen
             var domain = _swagger["host"].ToString();
             var pathRoot = _swagger["basePath"].ToString();
 
-            //TODO: need to get the "produces" and "consumes" from here
+            var produces = _swagger["produces"]
+                .Select(item => item.ToString().StringToEnum<MediaType>())
+                .ToList();
+            var consumes = _swagger["consumes"]
+                .Select(item => item.ToString().StringToEnum<MediaType>())
+                .ToList();
 
             var paths = _swagger["paths"];
 
@@ -268,6 +274,28 @@ namespace CodeGen
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(request.Name.ToUpper())
                     });
+                    @class.Properties.Add(new PropertyRepresentation(typeof(List<MediaType>), "Produces")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(produces)
+                    });
+
+                    var requestConsumes = consumes;
+
+                    if (details["consumes"] != null)
+                    {
+                        requestConsumes = details["consumes"]
+                            .ToObject<JArray>()
+                            .Select(t => t.ToString().StringToEnum<MediaType>())
+                            .ToList();
+                    }
+
+                    @class.Properties.Add(new PropertyRepresentation(typeof(List<MediaType>), "Consumes")
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(requestConsumes)
+                    });
+
                     if (details["x-request-filter-property"] != null)
                     {
                         @class.Properties.Add(new PropertyRepresentation(typeof(string), "RequestFilterKey")
@@ -276,29 +304,7 @@ namespace CodeGen
                             PropertyValue = new ConcreteValueRepresentation(details["x-request-filter-property"].ToString())
                         });
                     }
-                    if (details["consumes"] != null)
-                    {
-                        var headers = details["consumes"].ToObject<JArray>().Select(t => t.ToString());
-                        var header = string.Join(",", headers);
 
-                        var currentHeaderProperty = @class.Properties.SingleOrDefault(p => p.Name == "Headers");
-
-                        if (currentHeaderProperty == null)
-                        {
-                            @class.Properties.Add(
-                                new PropertyRepresentation(typeof(Dictionary<HttpRequestHeader, string>), "Headers")
-                                {
-                                    IsOverride = true,
-                                    PropertyValue = new ConcreteValueRepresentation(new Dictionary<HttpRequestHeader, string> {{HttpRequestHeader.Accept, header}})
-                                });
-                        }
-                        else
-                        {
-                            //TODO: this will error out if there is already an accept header. should we be using something other than a dictionary,
-                            //like NameValueCollection or HttpCollection???
-                            ((Dictionary<HttpRequestHeader,string>)((ConcreteValueRepresentation)currentHeaderProperty.PropertyValue).PropertyValue).Add(HttpRequestHeader.Accept, header);
-                        }
-                    }
                     //TODO: this is pretty ridgid and makes assumptions about the structure that may not be true
                     if (details["security"]?.ToObject<JArray>()?.Count > 0 &&
                         details["security"]?.ToObject<JArray>()[0]?.ToObject<JObject>()?["oauth2"] != null)

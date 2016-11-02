@@ -29,7 +29,8 @@ namespace Material.OAuth.Authentication
             string host,
             string path,
             string httpMethod,
-            Dictionary<HttpRequestHeader, string> headers,
+            IEnumerable<MediaType> responseTypes,
+            IDictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> additionalQuerystringParameters,
             IDictionary<string, string> urlPathParameters,
             object body,
@@ -39,6 +40,7 @@ namespace Material.OAuth.Authentication
                 host, 
                 path, 
                 httpMethod,
+                responseTypes,
                 headers,
                 additionalQuerystringParameters,
                 urlPathParameters, 
@@ -47,12 +49,12 @@ namespace Material.OAuth.Authentication
                 HttpStatusCode.OK);
         }
 
-        //TODO: parameters shouldn't be dictionaries because there can be duplicates
         public async Task<TResponse> ForProtectedResource<TResponse>(
             string host,
             string path,
             string httpMethod,
-            Dictionary<HttpRequestHeader, string> headers,
+            IEnumerable<MediaType> responseTypes,
+            IDictionary<HttpRequestHeader, string> headers,
             IDictionary<string, string> additionalQuerystringParameters,
             IDictionary<string, string> urlPathParameters,
             object body,

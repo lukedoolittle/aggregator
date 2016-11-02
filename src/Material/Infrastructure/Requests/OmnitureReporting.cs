@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Infrastructure.Requests;
 using Material.Enums;
 using Material.Metadata.Formatters;
@@ -26,6 +27,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://api2.omniture.com";
         public override String Path => "/admin/1.4/rest/";
         public override String HttpMethod => "POST";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<String> RequiredScopes => new List<String>();
         /// <summary>
         /// The name of the method to call

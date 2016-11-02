@@ -30,7 +30,7 @@ namespace Foundations.HttpClient
 
         private string _path;
         private IAuthenticator _authenticator;
-        private MediaType _responseType = MediaType.Undefined;
+
         private HttpStatusCode? _expectedResponseCode;
         private bool _hasDefaultAccepts;
 
@@ -243,9 +243,7 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder ResponseMediaType(
             MediaType mediaType)
         {
-            _responseType = mediaType;
-
-            return this;
+            return Accepts(mediaType);
         }
 
         public HttpRequestBuilder ThrowIfNotExpectedResponseCode(
@@ -325,8 +323,7 @@ namespace Foundations.HttpClient
 
                 return new HttpResponse(
                     response,
-                    _messageHandler.CookieContainer.GetCookies(_baseAddress),
-                    _responseType);
+                    _messageHandler.CookieContainer.GetCookies(_baseAddress));
             }
         }
 

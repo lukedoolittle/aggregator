@@ -8,6 +8,8 @@
 using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
+using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
@@ -23,6 +25,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://api.twitter.com";
         public override String Path => "/1.1/statuses/retweets_of_me.json";
         public override String HttpMethod => "GET";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         /// <summary>
         /// Returns results with an ID greater than (that is, more recent than) the specified ID
         /// </summary>

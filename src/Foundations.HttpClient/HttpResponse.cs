@@ -36,8 +36,7 @@ namespace Foundations.HttpClient
 
         public HttpResponse(
             HttpResponseMessage response,
-            IEnumerable cookies,
-            MediaType expectedResponseType)
+            IEnumerable cookies)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
@@ -46,9 +45,7 @@ namespace Foundations.HttpClient
             StatusCode = response.StatusCode;
             Reason = response.ReasonPhrase;
             Cookies = cookies?.Cast<Cookie>();
-            _responseContentType = expectedResponseType != MediaType.Undefined
-                ? expectedResponseType
-                : response
+            _responseContentType = response
                         .Content
                         .Headers
                         .ContentType

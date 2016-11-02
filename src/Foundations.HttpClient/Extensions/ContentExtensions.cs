@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Foundations.Enums;
 
@@ -44,6 +45,21 @@ namespace Foundations.HttpClient.Extensions
                     mediaType,
                     Encoding.UTF8);
             }
+        }
+
+        public static HttpRequestBuilder ResponseMediaTypes(
+            this HttpRequestBuilder instance,
+            IEnumerable<MediaType> mediaTypes)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (mediaTypes == null) throw new ArgumentNullException(nameof(mediaTypes));
+
+            foreach (var mediaType in mediaTypes)
+            {
+                instance.ResponseMediaType(mediaType);
+            }
+
+            return instance;
         }
     }
 }

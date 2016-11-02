@@ -27,6 +27,8 @@ namespace Foundations.Enums
         [Description("application/jwt")]
         JsonWebToken,
         [Description("audio/wav")]
-        Wave
+        Wave,
+        [Description("application/vnd.com.runkeeper.FitnessActivityFeed+json")]
+        RunkeeperFitnessActivity
     }
 }

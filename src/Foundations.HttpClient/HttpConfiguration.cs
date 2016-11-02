@@ -47,7 +47,8 @@ namespace Foundations.HttpClient
                 {MediaType.Html, new HtmlSerializer()},
                 {MediaType.Text, new HtmlSerializer()},
                 {MediaType.Form, new HtmlSerializer()},
-                {MediaType.Javascript, new JsonSerializer()}
+                {MediaType.Javascript, new JsonSerializer()},
+                {MediaType.RunkeeperFitnessActivity, new JsonSerializer()}
             };
     }
 }

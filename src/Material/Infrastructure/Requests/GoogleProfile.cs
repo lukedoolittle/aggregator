@@ -9,6 +9,7 @@ using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -22,6 +23,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://www.googleapis.com";
         public override String Path => "/plus/v1/people/me";
         public override String HttpMethod => "GET";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<String> RequiredScopes => new List<String> { "https://www.googleapis.com/auth/userinfo.email" };
 	}
 }

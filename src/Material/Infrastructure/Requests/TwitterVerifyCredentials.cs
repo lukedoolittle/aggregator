@@ -8,6 +8,8 @@
 using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
+using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
@@ -23,6 +25,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://api.twitter.com";
         public override String Path => "/1.1/account/verify_credentials.json";
         public override String HttpMethod => "GET";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         /// <summary>
         /// When set to true statuses will not be included in the returned user object
         /// </summary>

@@ -8,6 +8,8 @@
 using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
+using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
@@ -25,6 +27,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://speech.platform.bing.com";
         public override String Path => "/recognize";
         public override String HttpMethod => "POST";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Wave, MediaType.Json };
         /// <summary>
         /// The API version being used by the client
         /// </summary>

@@ -16,6 +16,9 @@ namespace Material.Infrastructure
         public abstract string Host { get; }
         public abstract string Path { get; }
         public abstract string HttpMethod { get; }
+        public abstract List<MediaType> Produces { get; }
+        public abstract List<MediaType> Consumes { get; }
+
 
         public virtual List<string> RequiredScopes { get; } = 
             new List<string>();

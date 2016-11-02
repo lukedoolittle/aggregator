@@ -89,6 +89,7 @@ namespace Material.OAuth
                         request.Host,
                         request.Path,
                         request.HttpMethod,
+                        request.Consumes,
                         request.Headers,
                         request.QuerystringParameters,
                         request.PathParameters,

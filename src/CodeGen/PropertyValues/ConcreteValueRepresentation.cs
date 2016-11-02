@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using Foundations.Enums;
 using Foundations.HttpClient.Enums;
 
 namespace CodeGen
@@ -113,6 +114,10 @@ namespace CodeGen
             if (value is List<GrantType>)
             {
                 return PrettyPrintList((List<GrantType>)value);
+            }
+            if (value is List<MediaType>)
+            {
+                return PrettyPrintList((List<MediaType>)value);
             }
             if (value is Dictionary<HttpRequestHeader, string>)
             {

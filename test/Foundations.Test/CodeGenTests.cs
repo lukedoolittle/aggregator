@@ -1,4 +1,5 @@
-﻿using CodeGen;
+﻿using System.Linq;
+using CodeGen;
 using Xunit;
 
 namespace Foundations.Test
@@ -6,7 +7,7 @@ namespace Foundations.Test
     public class CodeGenTests
     {
         [Fact]
-        public void CreateServiceAndRequestClasses()
+        public void CreateServiceAndRequestClassesHaveProducesAndConsumes()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
@@ -19,6 +20,21 @@ namespace Foundations.Test
                 requestNamespace, 
                 serviceClass.Name, 
                 serviceNamespace);
+
+            foreach (var requestClass in requestClasses)
+            {
+                var produces = requestClass
+                    .Properties
+                    .FirstOrDefault(p => p.Name == "Produces");
+
+                Assert.NotNull(produces);
+
+                var consumes = requestClass
+                    .Properties
+                    .FirstOrDefault(p => p.Name == "Consumes");
+
+                Assert.NotNull(consumes);
+            }
         }
     }
 }

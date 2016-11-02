@@ -8,6 +8,8 @@
 using Material.Metadata;
 using Material.Infrastructure.ProtectedResources;
 using System;
+using System.Collections.Generic;
+using Foundations.Enums;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
@@ -23,6 +25,8 @@ namespace Material.Infrastructure.Requests
         public override String Host => "https://wbsapi.withings.net";
         public override String Path => "/measure";
         public override String HttpMethod => "GET";
+        public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         /// <summary>
         /// the action to take (must be getmeas for this query)
         /// </summary>
