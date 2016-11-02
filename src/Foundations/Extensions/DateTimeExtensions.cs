@@ -66,6 +66,12 @@ namespace Foundations.Extensions
             return new DateTimeOffset(epoch.AddMilliseconds(instance));
         }
 
+        public static DateTimeOffset FromUnixTimeSeconds(this double instance)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return new DateTimeOffset(epoch.AddSeconds(instance));
+        }
+
         /// <summary>
         /// Converts a string into a datetime offset struct. If the string does not contain offset
         /// information that information should be provided through the offset parameter

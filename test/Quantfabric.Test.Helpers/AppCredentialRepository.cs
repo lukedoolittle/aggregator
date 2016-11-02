@@ -109,5 +109,11 @@ namespace Quantfabric.Test.Helpers
                 .GetJsonWebTokenCredentials<TService>()
                 .ClientEmail;
         }
+
+        public ApiKeyCredentials GetApiKeyCredentials<TService>()
+            where TService : ApiKeyResourceProvider
+        {
+            return _clientCredentials.GetApiKeyCredentials<TService>();
+        }
     }
 }

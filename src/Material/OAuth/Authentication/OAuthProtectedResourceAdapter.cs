@@ -18,30 +18,10 @@ namespace Material.OAuth.Authentication
         private readonly HttpParameterType _parameterHandling;
 
         public OAuthProtectedResourceAdapter(
-            string accessToken,
-            string accessTokenName,
+            IAuthenticator authenticator, 
             HttpParameterType parameterHandling)
         {
-            _authenticator = new OAuth2ProtectedResource(
-                accessToken,
-                accessTokenName);
-
-            _parameterHandling = parameterHandling;
-        }
-
-        public OAuthProtectedResourceAdapter(
-            string consumerKey,
-            string consumerSecret,
-            string oauthToken,
-            string oauthSecret,
-            HttpParameterType parameterHandling)
-        {
-            _authenticator = new OAuth1ProtectedResource(
-                consumerKey, 
-                consumerSecret, 
-                oauthToken,
-                oauthSecret);
-
+            _authenticator = authenticator;
             _parameterHandling = parameterHandling;
         }
 

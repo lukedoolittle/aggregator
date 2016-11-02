@@ -145,5 +145,12 @@
             android:gravity="center"
             android:id="@+id/tumblr"
             android:text="Tumblr" />
+      <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/amazon"
+            android:text="Amazon" />
     </GridLayout>
 </LinearLayout>

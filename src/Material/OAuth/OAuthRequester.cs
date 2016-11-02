@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
@@ -14,6 +15,22 @@ namespace Material.OAuth
         private readonly string _userId;
 
         /// <summary>
+        /// Request for a NoAuth (api key) endpoint
+        /// </summary>
+        /// <param name="credentials">Api key credentials used for authentication</param>
+        public OAuthRequester(ApiKeyCredentials credentials)
+        {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
+            _requester = new OAuthProtectedResourceAdapter(
+                new ApiKeyAuthenticator(
+                    credentials.KeyName, 
+                    credentials.KeyValue, 
+                    credentials.KeyType),
+                HttpParameterType.Querystring);
+        }
+
+        /// <summary>
         /// OAuth requests for an OAuth1 endpoint
         /// </summary>
         /// <param name="credentials">OAuth1 credentials used for authentication</param>
@@ -22,11 +39,13 @@ namespace Material.OAuth
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                credentials.ConsumerKey,
-                credentials.ConsumerSecret,
-                credentials.OAuthToken,
-                credentials.OAuthSecret,
+                new OAuth1ProtectedResource(
+                    credentials.ConsumerKey,
+                    credentials.ConsumerSecret,
+                    credentials.OAuthToken,
+                    credentials.OAuthSecret),
                 HttpParameterType.Querystring);
+
             _userId = credentials.UserId;
         }
 
@@ -39,9 +58,11 @@ namespace Material.OAuth
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                credentials.AccessToken,
-                credentials.TokenName,
+                new OAuth2ProtectedResource(
+                    credentials.AccessToken,
+                    credentials.TokenName),
                 HttpParameterType.Querystring);
+
             _userId = credentials.UserId;
         }
 

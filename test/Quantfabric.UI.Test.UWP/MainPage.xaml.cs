@@ -362,6 +362,24 @@ namespace Quantfabric.UI.Test.UWP
             WriteToTextbox($"AccessToken:{token.AccessToken}");
         }
 
+        private async void OnAmazonClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Amazon>();
+            var clientSecret = settings.GetClientSecret<Amazon>();
+            var redirectUri = settings.GetRedirectUri<Amazon>();
+
+            var token = await new OAuth2App<Amazon>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<AmazonProfile>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"AccessToken:{token.AccessToken}");
+        }
+
         private void WriteToTextbox(string text)
         {
             Platform.Current.RunOnMainThread(() =>

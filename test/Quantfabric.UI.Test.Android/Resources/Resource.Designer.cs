@@ -64,6 +64,9 @@ namespace Quantfabric.UI.Test
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050015
+			public const int amazon = 2131034133;
+			
 			// aapt resource value: 0x7f050001
 			public const int browserToggleButton = 2131034113;
 			

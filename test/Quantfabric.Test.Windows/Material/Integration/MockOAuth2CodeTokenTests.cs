@@ -138,6 +138,16 @@ namespace Quantfabric.Test.Material.Integration
                 .ConfigureAwait(false);
         }
 
+        [Fact]
+        public async void CanGetValidAccessTokenFromAmazon()
+        {
+            await RunServer<Amazon, AmazonMock>(
+                    app => app
+                            .AddScope<AmazonProfile>(),
+                    true)
+                .ConfigureAwait(false);
+        }
+
         private async Task RunServer<TRealProvider, TMockProvider>(
             Action<OAuth2App<TMockProvider>> scopes,
             bool requiresScope)

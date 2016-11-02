@@ -102,6 +102,22 @@ namespace Quantfabric.Test.Material.Interaction
         }
 
         [Fact]
+        public async void CanGetValidAccessTokenFromAmazonImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Amazon>();
+            var redirectUri = _appRepository.GetRedirectUri<Amazon>();
+
+            var token = await new OAuth2App<Amazon>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<AmazonProfile>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidToken(token));
+        }
+
+        [Fact]
         public async void CanGetValidAccessTokenFromInstagramImplicitFlow()
         {
             var clientId = _appRepository.GetClientId<Instagram>();

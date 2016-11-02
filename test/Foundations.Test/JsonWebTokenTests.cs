@@ -32,15 +32,10 @@ namespace Foundations.Test
                 }
             };
 
-            var template = new OAuth2JsonWebTokenSigningTemplate(token, new JsonWebTokenSignerFactory());
-
-            var actual = template.CreateSignatureBase();
+            var actual = token.ToString();
 
             Assert.Equal(expected, actual);
         }
-
-
-
 
         //[Fact]
         //public void CreateSignatureWithGivenBaseString()

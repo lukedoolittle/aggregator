@@ -180,7 +180,13 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> TwentyThreeAndMe()
         {
-            var uri = await GetOAuth2AuthorizationUri<TwentyThreeAndMe>()
+            var oauth = new OAuth2Web<TwentyThreeAndMe>(
+                _appRepository.GetClientId<TwentyThreeAndMe>(),
+                _appRepository.GetClientSecret<TwentyThreeAndMe>(),
+                _appRepository.GetRedirectUri<TwentyThreeAndMe>())
+                .AddScope<TwentyThreeAndMeUser>();
+
+            var uri = await GetOAuth2AuthorizationUri(oauth)
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());

@@ -38,5 +38,20 @@ namespace Foundations.HttpClient.Cryptography
                     throw new NotImplementedException();
             }
         }
+
+        public ISignatureVerificationAlgorithm GetSignatureVerificationAlgorithm(JsonWebTokenAlgorithm algorithm)
+        {
+            switch (algorithm)
+            {
+                case JsonWebTokenAlgorithm.RS256:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-256withRSA"));
+                case JsonWebTokenAlgorithm.RS384:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
+                case JsonWebTokenAlgorithm.RS512:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

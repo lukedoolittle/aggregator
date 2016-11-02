@@ -310,6 +310,24 @@ namespace Quantfabric.UI.Test
                 WriteCredentials(token);
             };
 
+            FindViewById<Button>(Resource.Id.amazon).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Amazon>();
+                var clientSecret = settings.GetClientSecret<Amazon>();
+                var redirectUri = settings.GetRedirectUri<Amazon>();
+
+                var token = await new OAuth2App<Amazon>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<AmazonProfile>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
             FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
             {
                 var credentials = await new BluetoothApp<Mioalpha>()

@@ -150,6 +150,7 @@
     <Compile Include="Material\Interaction\OAuth2RefreshTokenTests.cs" />
     <Compile Include="Material\Interaction\OAuthSimpleRequestTests.cs" />
     <Compile Include="Material\Interaction\OnboardRequestTests.cs" />
+    <Compile Include="Material\Interaction\SimpleRequestTests.cs" />
     <Compile Include="Material\Mocks\OAuth2ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\ResourceProviderMocks.cs" />
     <Compile Include="Material\OAuthServer\Builders\ICredentialBuilder.cs" />
@@ -197,6 +198,11 @@
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
       <Name>Foundations</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="brian.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

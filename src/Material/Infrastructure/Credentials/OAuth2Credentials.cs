@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Foundations.Extensions;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -53,6 +54,21 @@ namespace Material.Infrastructure.Credentials
         public string Scope { get; private set; }
 
         public override bool HasValidPublicKey => !string.IsNullOrEmpty(ClientId);
+
+        public OAuth2Credentials SetAccessToken(string accessToken)
+        {
+            _accessToken = accessToken;
+            return this;
+        }
+
+        public OAuth2Credentials SetExpiresIn(double expiryTime)
+        {
+            var expiryDateTime = expiryTime.FromUnixTimeSeconds();
+            _expiresIn = ((int)expiryDateTime.Subtract(DateTime.UtcNow).TotalSeconds).ToString();
+
+            return this;
+        }
+
 
         public OAuth2Credentials SetTokenName(string tokenName)
 	    {

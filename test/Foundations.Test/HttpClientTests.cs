@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
@@ -324,6 +326,38 @@ namespace Foundations.Test
         #endregion Post Requests
 
         [Fact]
+        public async void MakePostRequestWithStreamAsContent()
+        {
+            var stream = File.OpenRead("brian.wav");
+            var contentType = MediaType.Wave;
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .StreamingContent(stream, contentType)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response.Data);
+            Assert.Equal(contentType.EnumToString(), response.Headers["Content-Type"]);
+        }
+
+        [Fact]
+        public async void MakePostRequestWithRawBytesAsContent()
+        {
+            var rawBytes = System.IO.File.ReadAllBytes("brian.wav");
+            var contentType = MediaType.Wave;
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .RawContent(rawBytes, contentType)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response.Data);
+            Assert.Equal(contentType.EnumToString(), response.Headers["Content-Type"]);
+        }
+
+        [Fact]
         public async void MakeRequestWithUrlSegments()
         {
             var response = await new HttpRequestBuilder(_endpoint)
@@ -566,6 +600,32 @@ namespace Foundations.Test
             Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.Equal(GrantType.ClientCredentials.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
             Assert.True(response.Headers[HttpRequestHeader.Authorization.ToString()].StartsWith("Basic"));
+            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
+        }
+
+        [Fact]
+        public async void AddApiKeyCredentialsAuthentication()
+        {
+            var expectedArgsCount = 0;
+            var expected = new SampleBody
+            {
+                SomeKey = Guid.NewGuid().ToString()
+            };
+            var keyname = "Some-Key-Name";
+            var keyvalue = Guid.NewGuid().ToString();
+
+            var response = await new HttpRequestBuilder(_endpoint)
+                .PostTo(_postPath)
+                .JsonContent(expected)
+                .ForApiKey(
+                    keyname,
+                    keyvalue,
+                    HttpParameterType.Header)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
+            Assert.Equal(response.Headers[keyname], keyvalue);
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
 

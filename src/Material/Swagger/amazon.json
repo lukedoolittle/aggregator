@@ -1,0 +1,66 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Amazon",
+        "description": "Login with Amazon",
+        "termsOfService": "https://login.amazon.com/services-agreement",
+        "version": "v1.0"
+    },
+    "host": "api.amazon.com",
+    "basePath": "/",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/user/profile": {
+            "get": {
+                "summary": "Returns a user's profile",
+                "description": "",
+                "operationId": "AmazonProfile",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "profile" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://www.amazon.com/ap/oa",
+            "tokenUrl": "https://api.amazon.com/auth/o2/token",
+            "x-token-name": "access_token",
+            "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "scopes": {
+                "profile": "Includes a user's name and email address",
+                "profile:user_id": "Only includes the user_id field of the users profile",
+                "postal_code": "Includes the users profile and the users postal code",
+                "alexa:all": "Access the alexa functionality" 
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://www.amazon.com/ap/oa",
+            "x-token-name": "access_token",
+            "scopes": {
+                "profile": "Includes a user's name and email address",
+                "profile:user_id": "Only includes the user_id field of the users profile",
+                "postal_code": "Includes the users profile and the users postal code",
+                "alexa:all": "Access the alexa functionality"
+            }
+        }
+    },
+    "definitions": [ ]
+}

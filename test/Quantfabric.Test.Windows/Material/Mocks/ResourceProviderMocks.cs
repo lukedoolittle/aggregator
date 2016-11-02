@@ -56,4 +56,9 @@ namespace Quantfabric.Test.Integration
     {
         public SpotifyMock() : base(new Spotify()) { }
     }
+
+    public class AmazonMock : OAuth2ResourceProviderMock
+    {
+        public AmazonMock() : base(new Amazon()) { }
+    }
 }

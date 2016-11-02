@@ -1,0 +1,55 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "MicrosoftLuis",
+        "description": "Microsoft Project Oxford LUIS API",
+        "termsOfService": "http://research.microsoft.com/en-us/um/legal/CognitiveServicesTerms20160804.htm",
+        "version": "v1.0"
+    },
+    "host": "api.projectoxford.ai",
+    "basePath": "/luis/v1.0/prog",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/apps/{appId}/predict": {
+            "get": {
+                "summary": "gets the trained model predictions for the input example",
+                "description": "https://dev.projectoxford.ai/docs/services/56d95961e597ed0f04b76e58/operations/56f8a55119845511c81de478",
+                "operationId": "MicrosoftLuisPredict",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "appId",
+                        "description": "The ID for the application",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "example",
+                        "description": "The example text",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": []
+            }
+        }
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "apiKey",
+            "description": "Subscription Key Auth",
+            "x-key-name": "Ocp-Apim-Subscription-Key",
+            "x-key-location": "header"
+        }
+    },
+    "definitions": []
+}

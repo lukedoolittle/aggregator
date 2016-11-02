@@ -103,6 +103,16 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         [Fact]
+        public async void GetAccessTokenFromAmazonImplicitFlow()
+        {
+            await RunServer<Amazon, AmazonMock>(
+                    app => app
+                            .AddScope<AmazonProfile>(),
+                    true)
+                .ConfigureAwait(false);
+        }
+
+        [Fact]
         public async void CanGetValidAccessTokenFromFitbit()
         {
             await RunServer<Fitbit, FitbitMock>(

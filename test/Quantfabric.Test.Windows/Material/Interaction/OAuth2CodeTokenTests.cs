@@ -230,6 +230,25 @@ namespace Quantfabric.Test.Material.Interaction
         }
 
         [Fact]
+        public async void CanGetValidAccessTokenFromAmazon()
+        {
+            var clientId = _appRepository.GetClientId<Amazon>();
+            var clientSecret = _appRepository.GetClientSecret<Amazon>();
+            var redirectUri = _appRepository.GetRedirectUri<Amazon>();
+
+            var token = await new OAuth2App<Amazon>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<AmazonProfile>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            Assert.True(IsValidToken(token));
+
+            _tokenRepository.PutToken<Amazon, OAuth2Credentials>(token);
+        }
+
+        [Fact]
         public async void CanGetValidAccessTokenFromPinterest()
         {
             var clientId = _appRepository.GetClientId<Pinterest>();
