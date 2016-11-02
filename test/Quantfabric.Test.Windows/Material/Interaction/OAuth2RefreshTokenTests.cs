@@ -71,6 +71,21 @@ namespace Quantfabric.Test.Material.Interaction
             _tokenRepository.PutToken<TwentyThreeAndMe, OAuth2Credentials>(newToken);
         }
 
+        [Fact]
+        public async void RefreshTokenTaskForAmazonGivesANewToken()
+        {
+            var expiredToken = _tokenRepository.GetToken<Amazon, OAuth2Credentials>();
+
+            var newToken = await new OAuth2Refresh<Amazon>()
+                .RefreshCredentialsAsync(
+                    expiredToken)
+                .ConfigureAwait(false);
+
+            AssertTokenDifferences(newToken, expiredToken, true);
+
+            _tokenRepository.PutToken<Amazon, OAuth2Credentials>(newToken);
+        }
+
         private void AssertTokenDifferences(
             OAuth2Credentials newToken, 
             OAuth2Credentials expiredToken,
