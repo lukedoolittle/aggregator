@@ -32,6 +32,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  RescuetimeAnalyticDataFormat Format { get; set; } = RescuetimeAnalyticDataFormat.Json;
         /// <summary>

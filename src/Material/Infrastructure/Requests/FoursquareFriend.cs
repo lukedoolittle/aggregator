@@ -32,6 +32,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("v")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String V { get; set; } = "20140806";
         /// <summary>
@@ -39,6 +40,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("m")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  FoursquareFriendM M { get; set; } = FoursquareFriendM.Foursquare;
         /// <summary>

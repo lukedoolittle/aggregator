@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("date")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Date { get; set; }
 	}

@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("messageId")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DefaultFormatter()]
         public  String MessageId { get; set; }
 	}

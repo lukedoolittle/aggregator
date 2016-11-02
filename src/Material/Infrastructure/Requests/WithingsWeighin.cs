@@ -28,6 +28,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("action")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Action { get; set; } = "getmeas";
         /// <summary>
@@ -35,6 +36,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("userid")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Userid { get; set; }
         /// <summary>

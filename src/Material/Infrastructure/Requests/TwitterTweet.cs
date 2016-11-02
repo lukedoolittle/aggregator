@@ -28,6 +28,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("user_id")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String UserId { get; set; }
         /// <summary>

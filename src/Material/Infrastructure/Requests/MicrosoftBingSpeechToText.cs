@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("version")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Version { get; set; } = "3.0";
         /// <summary>
@@ -37,6 +38,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("requestid")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  Nullable<Guid> Requestid { get; set; }
         /// <summary>
@@ -44,6 +46,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("appID")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  Nullable<Guid> AppID { get; set; } = Guid.Parse("d4d52672-91d7-4c74-8ad8-42b1d98141a5");
         /// <summary>
@@ -51,6 +54,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Format { get; set; } = "json";
         /// <summary>
@@ -58,6 +62,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("locale")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  MicrosoftBingSpeechToTextLocale Locale { get; set; } = MicrosoftBingSpeechToTextLocale.EnUS;
         /// <summary>
@@ -65,6 +70,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("device.os")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  MicrosoftBingSpeechToTextDeviceos Deviceos { get; set; } = MicrosoftBingSpeechToTextDeviceos.Unknown;
         /// <summary>
@@ -72,6 +78,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("scenarios")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  MicrosoftBingSpeechToTextScenarios Scenarios { get; set; } = MicrosoftBingSpeechToTextScenarios.Ulm;
         /// <summary>
@@ -79,6 +86,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("instanceid")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  Nullable<Guid> Instanceid { get; set; }
 	}

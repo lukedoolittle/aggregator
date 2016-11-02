@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("profile_id")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DefaultFormatter()]
         public  String ProfileId { get; set; }
 	}

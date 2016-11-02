@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("startdate")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Startdate { get; set; }
         /// <summary>
@@ -37,6 +38,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("enddate")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> Enddate { get; set; }
         /// <summary>
@@ -44,6 +46,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("starttime")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DateTimeFormatter("HH:mm")]
         public  Nullable<DateTime> Starttime { get; set; }
         /// <summary>
@@ -51,6 +54,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("endtime")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DateTimeFormatter("HH:mm")]
         public  Nullable<DateTime> Endtime { get; set; }
 	}

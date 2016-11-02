@@ -30,6 +30,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("method")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Method { get; set; } = "food_entries.get";
         /// <summary>
@@ -37,6 +38,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("date")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [UnixTimeDaysDateTimeFormatter()]
         public  Nullable<DateTime> Date { get; set; }
         /// <summary>

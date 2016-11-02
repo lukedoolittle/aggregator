@@ -28,6 +28,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("appId")]
         [ParameterType(RequestParameterType.Path)]
+        [Required()]
         [DefaultFormatter()]
         public  String AppId { get; set; }
         /// <summary>
@@ -35,6 +36,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("example")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [DefaultFormatter()]
         public  String Example { get; set; }
 	}

@@ -32,6 +32,7 @@ namespace Material.Infrastructure.Requests
         /// </summary>
         [Name("method")]
         [ParameterType(RequestParameterType.Query)]
+        [Required()]
         [EnumFormatter()]
         public  OmnitureReportingMethod Method { get; set; }
 	}

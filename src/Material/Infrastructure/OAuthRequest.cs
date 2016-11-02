@@ -41,6 +41,9 @@ namespace Material.Infrastructure
             var dictionary = new Dictionary<string, string>();
             foreach (var parameterProperty in parameterProperties)
             {
+                var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
+                var rawValue = parameterProperty.GetValue(this);
+
                 var format = parameterProperty.GetInterfaceAttribute<IParameterFormatter>();
 
                 if (format == null)
@@ -48,9 +51,14 @@ namespace Material.Infrastructure
                     throw new NotSupportedException(StringResources.FormatMetadataMissing);
                 }
 
-                var value = format.FormatAsString(parameterProperty.GetValue(this));
+                var value = format.FormatAsString(rawValue);
 
-                var name = parameterProperty.GetCustomAttribute<NameAttribute>().Value;
+                if (parameterProperty.GetCustomAttribute<RequiredAttribute>() != null && 
+                    value == null)
+                {
+                    throw new ArgumentNullException(name);
+                }
+
                 if (value != null)
                 {
                     dictionary.Add(name, value);
