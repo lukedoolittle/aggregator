@@ -73,6 +73,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="CodeGenTests.cs" />
     <Compile Include="CryptographyTests.cs" />
     <Compile Include="DateTimeExtensionsTests.cs" />
     <Compile Include="EnumExtensionTests.cs" />
@@ -85,6 +86,10 @@
     <Compile Include="TypeExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\codegen\CodeGen.csproj">
+      <Project>{c193f9c3-ab71-4eba-8850-8ffaa7d2fd2b}</Project>
+      <Name>CodeGen</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>
@@ -97,6 +102,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="sampleapi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Quantfabric.Test.Windows\brian.wav">

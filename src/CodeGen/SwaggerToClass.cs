@@ -43,7 +43,6 @@ namespace CodeGen
 
                     if (@class.Properties.Count == 0)
                     {
-
                         @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), "AvailableScopes")
                         {
                             IsOverride = true,
@@ -424,7 +423,7 @@ namespace CodeGen
                                 throw new NotImplementedException();
                             }
 
-                            if (parameter["required"]?.ToString() == "true")
+                            if (parameter["required"]?.ToString().ToLower() == "true")
                             {
                                 property.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(RequiredAttribute)));
                             }

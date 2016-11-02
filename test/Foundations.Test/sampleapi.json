@@ -1,0 +1,114 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "SampleApi",
+        "description": "A Sample API",
+        "termsOfService": "http://www.example.com/termsofservice",
+        "version": "1"
+    },
+    "host": "www.example.com/",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/data/{dataname}": {
+            "get": {
+                "summary": "A sample get request",
+                "description": "https://www.example.com/api/documents/asamplegetrequest",
+                "operationId": "SampleApiSampleGet",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "dataname",
+                        "description": "the name of the data",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "format",
+                        "description": "the format of the response",
+                        "type": "string",
+                        "enum": [ "json", "xml" ],
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "startdate",
+                        "description": "sets the start day for the request",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The maximum number of objects to return",
+                        "type": "integer",
+                        "default": 25,
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "sample_get" ]
+                    }
+                ]
+            }
+        },
+        "/data/put": {
+            "post": {
+                "summary": "A sample post request",
+                "description": "https://www.example.com/api/documents/asamplepostrequest",
+                "operationId": "SampleApiSamplePost",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "sample_post" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://www.example.com/oauth/authorize",
+            "tokenUrl": "https://www.example.com/oauth/token",
+            "x-token-name": "access_token",
+            "x-grant-types": [ "authorization_code" ],
+            "scopes": {
+                "sample_get": "",
+                "sample_post": ""
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://www.example.com/oauth/authorize",
+            "x-token-name": "access_token",
+            "scopes": {
+                "sample_get": "",
+                "sample_post": ""
+            }
+        }
+    },
+    "definitions": []
+}

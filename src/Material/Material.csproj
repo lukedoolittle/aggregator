@@ -208,7 +208,6 @@
     <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
     <Compile Include="Infrastructure\Static\GPSResponse.cs" />
     <Compile Include="Infrastructure\Static\SMSResponse.cs" />
-    <Compile Include="Metadata\Format.cs" />
     <Compile Include="Metadata\Formatters\BooleanFormatterAttribute.cs" />
     <Compile Include="Metadata\Formatters\DateTimeFormatter.cs" />
     <Compile Include="Metadata\Formatters\DateTimeOffsetFormatter.cs" />
