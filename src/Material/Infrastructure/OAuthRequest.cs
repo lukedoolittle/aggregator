@@ -19,7 +19,6 @@ namespace Material.Infrastructure
         public abstract List<MediaType> Produces { get; }
         public abstract List<MediaType> Consumes { get; }
 
-
         public virtual List<string> RequiredScopes { get; } = 
             new List<string>();
 
@@ -33,6 +32,9 @@ namespace Material.Infrastructure
 
         public object Body { get; set; }
         public MediaType BodyType { get; set; } = MediaType.Json;
+
+        public MediaType? OverridenResponseMediaType { get; set; }
+        public virtual HttpStatusCode ExpectedStatusCode { get; } = HttpStatusCode.OK;
 
         public virtual void AddUserIdParameter(string userId) {}
 

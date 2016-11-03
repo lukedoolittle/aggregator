@@ -32,6 +32,7 @@ namespace Foundations.HttpClient
         private IAuthenticator _authenticator;
 
         private HttpStatusCode? _expectedResponseCode;
+        private MediaType? _overridenMediaType;
         private bool _hasDefaultAccepts;
 
         public HttpMethod Method => _message.Method;
@@ -240,10 +241,12 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequestBuilder ResponseMediaType(
-            MediaType mediaType)
+        public HttpRequestBuilder OverrideResponseMediaType(
+            MediaType? mediaType)
         {
-            return Accepts(mediaType);
+            _overridenMediaType = mediaType;
+
+            return this;
         }
 
         public HttpRequestBuilder ThrowIfNotExpectedResponseCode(
@@ -321,9 +324,19 @@ namespace Foundations.HttpClient
                             content));
                 }
 
-                return new HttpResponse(
-                    response,
-                    _messageHandler.CookieContainer.GetCookies(_baseAddress));
+                if (_overridenMediaType != null)
+                {
+                    return new HttpResponse(
+                        response,
+                        _messageHandler.CookieContainer.GetCookies(_baseAddress),
+                        _overridenMediaType.Value);
+                }
+                else
+                {
+                    return new HttpResponse(
+                        response,
+                        _messageHandler.CookieContainer.GetCookies(_baseAddress));
+                }
             }
         }
 

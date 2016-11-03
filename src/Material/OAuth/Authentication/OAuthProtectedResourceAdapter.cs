@@ -25,30 +25,6 @@ namespace Material.OAuth.Authentication
             _parameterHandling = parameterHandling;
         }
 
-        public Task<TResponse> ForProtectedResource<TResponse>(
-            string host,
-            string path,
-            string httpMethod,
-            IEnumerable<MediaType> responseTypes,
-            IDictionary<HttpRequestHeader, string> headers,
-            IDictionary<string, string> additionalQuerystringParameters,
-            IDictionary<string, string> urlPathParameters,
-            object body,
-            MediaType bodyType)
-        {
-            return ForProtectedResource<TResponse>(
-                host, 
-                path, 
-                httpMethod,
-                responseTypes,
-                headers,
-                additionalQuerystringParameters,
-                urlPathParameters, 
-                body, 
-                bodyType, 
-                HttpStatusCode.OK);
-        }
-
         public async Task<TResponse> ForProtectedResource<TResponse>(
             string host,
             string path,
@@ -59,7 +35,8 @@ namespace Material.OAuth.Authentication
             IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
-            HttpStatusCode expectedResponse)
+            HttpStatusCode expectedResponse,
+            MediaType? overriddenMediaType)
         {
             if (string.IsNullOrEmpty(host))
             {
@@ -78,13 +55,14 @@ namespace Material.OAuth.Authentication
             {
                 return await requestBuilder
                     .Request(httpMethod, path, _parameterHandling)
-                    .ResponseMediaType(MediaType.Json)
+                    .ResponseMediaTypes(responseTypes)
                     .Headers(headers)
                     .Parameters(additionalQuerystringParameters)
                     .Segments(urlPathParameters.ToHttpValueCollection())
                     .Authenticator(_authenticator)
                     .ThrowIfNotExpectedResponseCode(expectedResponse)
                     .Content(body, bodyType)
+                    .OverrideResponseMediaType(overriddenMediaType)
                     .ResultAsync<TResponse>()
                     .ConfigureAwait(false);
             }

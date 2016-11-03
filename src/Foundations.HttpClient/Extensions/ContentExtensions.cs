@@ -56,7 +56,7 @@ namespace Foundations.HttpClient.Extensions
 
             foreach (var mediaType in mediaTypes)
             {
-                instance.ResponseMediaType(mediaType);
+                instance.Accepts(mediaType);
             }
 
             return instance;

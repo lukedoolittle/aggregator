@@ -17,17 +17,7 @@ namespace Material.Contracts
             IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
-            HttpStatusCode expectedResponse);
-
-        Task<TEntity> ForProtectedResource<TEntity>(
-            string host,
-            string path,
-            string httpMethod,
-            IEnumerable<MediaType> responseTypes,
-            IDictionary<HttpRequestHeader, string> headers,
-            IDictionary<string, string> additionalQuerystringParameters,
-            IDictionary<string, string> urlPathParameters,
-            object body,
-            MediaType bodyType);
+            HttpStatusCode expectedResponse,
+            MediaType? overriddenMediaType);
     }
 }

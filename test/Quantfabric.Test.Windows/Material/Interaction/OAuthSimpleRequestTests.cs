@@ -663,6 +663,20 @@ namespace Quantfabric.Test.Material.Interaction
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);
+        }
+
+        [Fact(Skip="Requires special twitter permissions")]
+        public async void MakeRequestForTwitterVerifyCredentialsWithEmail()
+        {
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new TwitterVerifyCredentials();
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<TwitterVerifyCredentials, TwitterVerifyCredentialsResponse>(request)
+                .ConfigureAwait(false);
+
             Assert.NotNull(response.Email);
         }
 

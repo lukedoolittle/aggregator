@@ -12,23 +12,25 @@ namespace Foundations.HttpClient
 {
     public static class HttpConfiguration
     {
+        /// <summary>
+        /// Creates the default HttpClientHandler for the HttpClient instance internal to HttpRequestBuilder
+        /// </summary>
         public static Func<HttpClientHandler> MessageHandlerFactory { get; set; } =
             () => new HttpClientHandler {CookieContainer = new CookieContainer()};
 
+        /// <summary>
+        /// Defines any default configurations applied to all HttpRequestBuilder instances
+        /// </summary>
         public static Action<HttpRequestBuilder> DefaultBuilderSetup { get; set; } = 
             builder =>
             {
                 builder.AcceptsDecompressionEncoding(DecompressionMethods.GZip);
                 builder.AcceptsDecompressionEncoding(DecompressionMethods.Deflate);
-
-                builder.Accepts(MediaType.Json);
-                builder.Accepts(MediaType.Xml);
-                builder.Accepts(MediaType.TextJson);
-                builder.Accepts(MediaType.TextXml);
-                builder.Accepts(MediaType.TextXJson);
-                builder.Accepts(MediaType.Javascript);
             };
 
+        /// <summary>
+        /// Maps all request and response media types to their corresponding serializers
+        /// </summary>
         public static IDictionary<MediaType, ISerializer> ContentSerializers { get; } =
             new DefaultingDictionary<MediaType, ISerializer>(type =>
             {
@@ -50,5 +52,10 @@ namespace Foundations.HttpClient
                 {MediaType.Javascript, new JsonSerializer()},
                 {MediaType.RunkeeperFitnessActivity, new JsonSerializer()}
             };
+
+        /// <summary>
+        /// Default media type if none is given and response does not contain a Content-Type header
+        /// </summary>
+        public static MediaType DefaultResponseMediaType { get; } = MediaType.Json;
     }
 }

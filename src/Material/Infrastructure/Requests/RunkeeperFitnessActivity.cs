@@ -10,7 +10,6 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Foundations.Enums;
-using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
@@ -27,8 +26,7 @@ namespace Material.Infrastructure.Requests
         public override String Path => "/fitnessActivities";
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
-        public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
-        public override Dictionary<HttpRequestHeader,String> Headers => new Dictionary<HttpRequestHeader,String> { {HttpRequestHeader.Accept, "application/vnd.com.runkeeper.FitnessActivityFeed+json" } };
+        public override List<MediaType> Consumes => new List<MediaType> { MediaType.RunkeeperFitnessActivity };
         public override List<String> RequiredScopes => new List<String>();
         /// <summary>
         /// Starting ime scope for the request

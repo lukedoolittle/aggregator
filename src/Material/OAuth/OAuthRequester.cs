@@ -77,10 +77,7 @@ namespace Material.OAuth
             TRequest request)
             where TRequest : OAuthRequest, new()
         {
-            if (request == null)
-            {
-                request = new TRequest();
-            }
+            if (request == null) { throw new ArgumentNullException(nameof(request));}
 
             request.AddUserIdParameter(_userId);
 
@@ -94,7 +91,9 @@ namespace Material.OAuth
                         request.QuerystringParameters,
                         request.PathParameters,
                         request.Body,
-                        request.BodyType);
+                        request.BodyType, 
+                        request.ExpectedStatusCode,
+                        request.OverridenResponseMediaType);
         }
 
         /// <summary>

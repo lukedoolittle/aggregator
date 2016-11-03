@@ -51,7 +51,7 @@
     <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
-    <Compile Include="Infrastructure\Static\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
     <Compile Include="OAuth\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
