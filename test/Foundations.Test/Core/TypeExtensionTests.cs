@@ -2,7 +2,7 @@
 using Foundations.Extensions;
 using Xunit;
 
-namespace Foundations.Test
+namespace Foundations.Test.Core
 {
     public class TypeExtensionTests
     {

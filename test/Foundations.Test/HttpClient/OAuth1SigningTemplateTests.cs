@@ -5,7 +5,7 @@ using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Xunit;
 
-namespace Foundations.Test
+namespace Foundations.Test.HttpClient
 {
     public class OAuth1SigningTemplateTests
     {

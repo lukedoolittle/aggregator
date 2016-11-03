@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Serialization;
 
-namespace Foundations.HttpClient.Request
+namespace Material.Infrastructure.Credentials
 {
+    //TODO: should override GetHashCode() for this value object
     [DataContract]
     public class JsonWebToken
     {
@@ -20,17 +20,7 @@ namespace Foundations.HttpClient.Request
 
         public JsonWebToken() { }
 
-        public JsonWebToken(
-            JsonWebTokenHeader header, 
-            JsonWebTokenClaims claims,
-            string signature)
-        {
-            Header = header;
-            Claims = claims;
-            Signature = signature;
-        }
-
-        public static JsonWebToken FromString(string token)
+        public JsonWebToken(string token)
         {
             if (token == null) throw new ArgumentNullException(nameof(token));
 
@@ -41,41 +31,19 @@ namespace Foundations.HttpClient.Request
             var header = splitEntity[0].FromBase64String();
             var claims = splitEntity[1].FromBase64String();
 
-            return new JsonWebToken(
-                deserializer.Deserialize<JsonWebTokenHeader>(header),
-                deserializer.Deserialize<JsonWebTokenClaims>(claims),
-                splitEntity[2]);
+            Header = deserializer.Deserialize<JsonWebTokenHeader>(header);
+            Claims = deserializer.Deserialize<JsonWebTokenClaims>(claims);
+            Signature = splitEntity[2];
         }
 
-        public override string ToString()
+        public JsonWebToken(
+            JsonWebTokenHeader header, 
+            JsonWebTokenClaims claims,
+            string signature)
         {
-            var serializer = new JsonSerializer();
-
-            var header = serializer.Serialize(Header);
-            var headerBytes = Encoding.UTF8.GetBytes(header);
-            var headerEncoded = Convert.ToBase64String(headerBytes);
-
-            //TODO: is there a more elegant way to remove escapes??
-            var claims = serializer.Serialize(Claims).Replace("\\", ""); ;
-            var claimsBytes = Encoding.UTF8.GetBytes(claims);
-            var claimsEncoded = Convert.ToBase64String(claimsBytes);
-
-            var signatureBase = StringExtensions.Concatenate(
-                headerEncoded,
-                claimsEncoded,
-                ".");
-
-            if (!string.IsNullOrEmpty(Signature))
-            {
-                return StringExtensions.Concatenate(
-                    signatureBase,
-                    Signature,
-                    ".");
-            }
-            else
-            {
-                return signatureBase;
-            }
+            Header = header;
+            Claims = claims;
+            Signature = signature;
         }
     }
 

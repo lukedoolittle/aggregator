@@ -171,6 +171,7 @@
     <Compile Include="Material\OAuthServer\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\Unit\JsonWebTokenTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="Material\Unit\OAuthSigningTests.cs" />
     <Compile Include="Material\Unit\TestUtilities.cs" />

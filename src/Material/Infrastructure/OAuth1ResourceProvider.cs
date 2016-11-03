@@ -3,6 +3,7 @@ using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure
 {
+    //TODO: should override GetHashCode() for this value object
     public abstract class OAuth1ResourceProvider : ResourceProvider
     {
         public abstract Uri RequestUrl { get; }

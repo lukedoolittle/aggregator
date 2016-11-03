@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Credentials
 {
+    //TODO: should override GetHashCode() for this value object
     [DataContract]
     public class BluetoothCredentials : TokenCredentials
     {

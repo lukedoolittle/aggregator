@@ -2,7 +2,7 @@
 using Foundations.Extensions;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Unit
+namespace Foundations.Test.Core
 {
     public class DateTimeExtensionsTests
     {

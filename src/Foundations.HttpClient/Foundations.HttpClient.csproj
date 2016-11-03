@@ -81,7 +81,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpConfiguration.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
-    <Compile Include="Request\JsonWebToken.cs" />
     <Compile Include="Metadata\DatetimeFormatterAttribute.cs" />
     <Compile Include="ParameterHandlers\QuerystringParameterHandler.cs" />
     <Compile Include="HttpRequestBuilder.cs" />

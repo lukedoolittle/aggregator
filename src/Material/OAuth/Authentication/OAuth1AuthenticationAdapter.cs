@@ -76,7 +76,6 @@ namespace Material.OAuth.Authentication
             return builder.Uri;
         }
 
-        //TODO: parameters shouldn't be dictionaries because there can be duplicates
         public async Task<OAuth1Credentials> GetAccessToken(
             Uri accessUri, 
             string consumerKey, 

@@ -1,13 +1,19 @@
-﻿using Foundations.HttpClient.Enums;
+﻿using System.Runtime.Serialization;
+using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure.Credentials
 {
+    //TODO: should override GetHashCode() for this value object
+    [DataContract]
     public class ApiKeyCredentials : TokenCredentials
     {
+        [DataMember(Name = "keyName")]
         public string KeyName { get; private set; }
 
+        [DataMember(Name = "keyValue")]
         public string KeyValue { get; private set; }
 
+        [DataMember(Name = "keyType")]
         public HttpParameterType KeyType { get; private set; }
 
         public override bool HasValidPublicKey => true;

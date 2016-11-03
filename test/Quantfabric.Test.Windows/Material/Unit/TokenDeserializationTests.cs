@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.HttpClient.Enums;
 using Newtonsoft.Json.Linq;
 using Material.Infrastructure.Credentials;
 using Xunit;
@@ -90,25 +91,48 @@ namespace Quantfabric.Test.Material.Unit
             Assert.Equal(code, actual.Code);
         }
 
-        //[Fact]
-        //public void DeserializeNoAuthToken()
-        //{
-        //    var apiKey = Guid.NewGuid().ToString();
-        //    var apiKeyName = Guid.NewGuid().ToString();
-        //    var serviceName = Guid.NewGuid().ToString();
+        [Fact]
+        public void CreateSignatureBaseCorrectlyCreatesSignature()
+        {
+            var expected = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhbmFseXRpY3MtYXBpQG11c2ljbm90ZXMtMTQ0MjE3LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic2NvcGUiOiJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9hdXRoL2FuYWx5dGljcy5yZWFkb25seSIsImF1ZCI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi90b2tlbiIsImlhdCI6MTAwLCJleHAiOjIwMH0=";
 
-        //    var token = new JObject
-        //    {
-        //        ["apiKey"] = apiKey,
-        //        ["apiKeyName"] = apiKeyName,
-        //        ["serviceName"] = serviceName
-        //    };
+            var token = new JsonWebToken
+            {
+                Claims =
+                {
+                    Issuer = "analytics-api@musicnotes-144217.iam.gserviceaccount.com",
+                    Scope = "https://www.googleapis.com/auth/analytics.readonly",
+                    Audience = "https://accounts.google.com/o/oauth2/token",
+                    ExpirationTime = 200,
+                    IssuedAt = 100
+                }
+            };
 
-        //    var actual = token.ToObject<NoAuthCredentials>();
+            var actual = token.ToString();
 
-        //    Assert.Equal(apiKey, actual.ApiKey);
-        //    Assert.Equal(apiKeyName, actual.ApiKeyName);
-        //    Assert.Equal(serviceName, actual.ServiceName);
-        //}
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void DeserializeApiKeyCredentials()
+        {
+            var apiKeyName = Guid.NewGuid().ToString();
+            var keyValue = Guid.NewGuid().ToString();
+            var keyType = HttpParameterType.Querystring;
+
+            var token = new JObject
+            {
+                ["keyName"] = apiKeyName,
+                ["keyValue"] = keyValue,
+                ["keyType"] = (int)keyType
+            };
+
+            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var actual = serializer.Deserialize<ApiKeyCredentials>(token.ToString());
+
+            Assert.Equal(apiKeyName, actual.KeyName);
+            Assert.Equal(keyValue, actual.KeyValue);
+            Assert.Equal(keyType, actual.KeyType);
+        }
     }
 }

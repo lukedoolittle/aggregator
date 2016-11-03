@@ -5,17 +5,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
-using Foundations.HttpClient.Request;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace Foundations.Test
+namespace Foundations.Test.HttpClient
 {
     public class HttpClientTests
     {
@@ -637,7 +636,7 @@ namespace Foundations.Test
             {
                 SomeKey = Guid.NewGuid().ToString()
             };
-            var jwt = new JsonWebToken();
+
             var clientId = Guid.NewGuid().ToString();
             var privateKey = @"-----BEGIN PRIVATE KEY-----
 MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDdIEipITNraQrf
@@ -672,7 +671,9 @@ e451rpYJcee/1EhNRpvn6Q==
                 .PostTo(_postPath)
                 .JsonContent(expected)
                 .ForOAuth2JsonWebToken(
-                    jwt,
+                    "{}",
+                    "{}",
+                    JsonWebTokenAlgorithm.RS256, 
                     privateKey,
                     clientId)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()

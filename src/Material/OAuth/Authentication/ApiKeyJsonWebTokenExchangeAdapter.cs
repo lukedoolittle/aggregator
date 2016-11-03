@@ -5,7 +5,6 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
-using Foundations.HttpClient.Request;
 using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Authentication
@@ -31,7 +30,7 @@ namespace Material.OAuth.Authentication
                     .ResultAsync()
                     .ConfigureAwait(false));
 
-                var token = JsonWebToken.FromString(result);
+                var token = new JsonWebToken(result);
 
                 //TODO: validate JWT with primary key
 

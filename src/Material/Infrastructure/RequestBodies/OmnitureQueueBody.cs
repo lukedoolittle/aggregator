@@ -67,7 +67,6 @@ namespace Material.Infrastructure.RequestBodies
             set { throw new NotImplementedException(); }
         }
 
-        //TODO: correct this with a custom serializer
         public OmnitureReportingDateGranularity DateGranularity { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
