@@ -11,7 +11,6 @@ namespace Material.Infrastructure.Requests
         {
             Requestid = Guid.NewGuid();
             Instanceid = DeviceId;
-            BodyType = MediaType.Wave;
         }
     }
 }

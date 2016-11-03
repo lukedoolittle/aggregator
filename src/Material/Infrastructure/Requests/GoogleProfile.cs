@@ -10,6 +10,7 @@ using Material.Infrastructure.ProtectedResources;
 using System;
 using System.Collections.Generic;
 using Foundations.Enums;
+using System.Net;
 using Material.Infrastructure;
 
 namespace Material.Infrastructure.Requests
@@ -25,6 +26,7 @@ namespace Material.Infrastructure.Requests
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
+        public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.OK };
         public override List<String> RequiredScopes => new List<String> { "https://www.googleapis.com/auth/userinfo.email" };
 	}
 }

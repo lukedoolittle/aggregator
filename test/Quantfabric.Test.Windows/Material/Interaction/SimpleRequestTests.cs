@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.Enums;
 using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
@@ -47,7 +48,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             var request = new MicrosoftBingSpeechToText
             {
-                Body = System.IO.File.ReadAllBytes("brian.wav")
+                Body = System.IO.File.ReadAllBytes("brian.wav"),
+                BodyType = MediaType.Wave
             };
 
             var response = await new OAuthRequester(credentials)

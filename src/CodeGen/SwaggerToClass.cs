@@ -274,10 +274,21 @@ namespace CodeGen
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(request.Name.ToUpper())
                     });
+
+                    var requestProduces = produces;
+
+                    if (details["produces"] != null)
+                    {
+                        requestProduces = details["produces"]
+                            .ToObject<JArray>()
+                            .Select(t => t.ToString().StringToEnum<MediaType>())
+                            .ToList();
+                    }
+
                     @class.Properties.Add(new PropertyRepresentation(typeof(List<MediaType>), "Produces")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(produces)
+                        PropertyValue = new ConcreteValueRepresentation(requestProduces)
                     });
 
                     var requestConsumes = consumes;
