@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Foundations.Enums;
 using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
@@ -48,7 +49,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             var request = new MicrosoftBingSpeechToText
             {
-                Body = System.IO.File.ReadAllBytes("brian.wav"),
+                Body = File.OpenRead("brian.wav"),
                 BodyType = MediaType.Wave
             };
 

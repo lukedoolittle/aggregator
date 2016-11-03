@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Foundations.Enums;
 
@@ -38,13 +39,19 @@ namespace Foundations.HttpClient.Extensions
                     bytes, 
                     mediaType);
             }
-            else
+
+            var stream = newContent as Stream;
+            if (stream != null)
             {
-                return instance.Content(
-                    newContent,
-                    mediaType,
-                    Encoding.UTF8);
+                return instance.StreamingContent(
+                    stream, 
+                    mediaType);
             }
+
+            return instance.Content(
+                newContent,
+                mediaType,
+                Encoding.UTF8);
         }
 
         public static HttpRequestBuilder ResponseMediaTypes(
