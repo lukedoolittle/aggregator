@@ -36,5 +36,30 @@ namespace Foundations.Test
                 Assert.NotNull(consumes);
             }
         }
+
+        [Fact]
+        public void CreateServiceAndRequestClassesHasResponseCode()
+        {
+            var serviceNamespace = "SampleApiNamespace.Services";
+            var requestNamespace = "SampleApiNamespace.Requests";
+
+            var codeGen = new SwaggerToClass("sampleapi.json");
+
+            var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
+
+            var requestClasses = codeGen.GenerateRequestClasses(
+                requestNamespace,
+                serviceClass.Name,
+                serviceNamespace);
+
+            foreach (var requestClass in requestClasses)
+            {
+                var expects = requestClass
+                    .Properties
+                    .FirstOrDefault(p => p.Name == "ExpectedStatusCodes");
+
+                Assert.NotNull(expects);
+            }
+        }
     }
 }

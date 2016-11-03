@@ -34,7 +34,8 @@ namespace Material.Infrastructure
         public MediaType BodyType { get; set; } = MediaType.Json;
 
         public MediaType? OverridenResponseMediaType { get; set; }
-        public virtual HttpStatusCode ExpectedStatusCode { get; } = HttpStatusCode.OK;
+        public virtual List<HttpStatusCode> ExpectedStatusCodes { get; } = 
+            new List<HttpStatusCode> { HttpStatusCode.OK };
 
         public virtual void AddUserIdParameter(string userId) {}
 

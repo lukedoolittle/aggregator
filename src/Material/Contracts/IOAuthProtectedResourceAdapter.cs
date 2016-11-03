@@ -17,7 +17,7 @@ namespace Material.Contracts
             IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
-            HttpStatusCode expectedResponse,
+            IEnumerable<HttpStatusCode> expectedResponse,
             MediaType? overriddenMediaType);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Foundations.HttpClient.Extensions
@@ -37,6 +39,21 @@ namespace Foundations.HttpClient.Extensions
             return await result
                 .ContentAsync<T>()
                 .ConfigureAwait(false);
+        }
+
+        public static HttpRequestBuilder ThrowIfNotExpectedResponseCode(
+            this HttpRequestBuilder instance,
+            IEnumerable<HttpStatusCode> statusCodes)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (statusCodes == null) throw new ArgumentNullException(nameof(statusCodes));
+
+            foreach (var code in statusCodes)
+            {
+                instance.ThrowIfNotExpectedResponseCode(code);
+            }
+
+            return instance;
         }
     }
 }

@@ -296,6 +296,22 @@ namespace CodeGen
                         PropertyValue = new ConcreteValueRepresentation(requestConsumes)
                     });
 
+                    if (details["responses"] != null)
+                    {
+                        var acceptableResponseCodes = new List<HttpStatusCode>();
+                        foreach (var response in details["responses"])
+                        {
+                            var statusCode = response.ToObject<JProperty>().Name;
+                            acceptableResponseCodes.Add((HttpStatusCode) Convert.ToInt32(statusCode));
+                        }
+
+                        @class.Properties.Add(new PropertyRepresentation(typeof(List<HttpStatusCode>), "ExpectedStatusCodes")
+                        {
+                            IsOverride = true,
+                            PropertyValue = new ConcreteValueRepresentation(acceptableResponseCodes)
+                        });
+                    }
+
                     if (details["x-request-filter-property"] != null)
                     {
                         @class.Properties.Add(new PropertyRepresentation(typeof(string), "RequestFilterKey")

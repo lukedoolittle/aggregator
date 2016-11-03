@@ -119,6 +119,10 @@ namespace CodeGen
             {
                 return PrettyPrintList((List<MediaType>)value);
             }
+            if (value is List<HttpStatusCode>)
+            {
+                return PrettyPrintList((List<HttpStatusCode>)value);
+            }
             if (value is Dictionary<HttpRequestHeader, string>)
             {
                 return PrettyPrintDictionary((Dictionary<HttpRequestHeader, string>)value);

@@ -74,7 +74,10 @@
                 "responses": {
                     "200": {
                         "description": "Successful request."
-                    }
+                    },
+                    "201": {
+                        "description":  "created." 
+                    } 
                 },
                 "tags": [],
                 "security": [

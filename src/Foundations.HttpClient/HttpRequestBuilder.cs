@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -31,9 +32,9 @@ namespace Foundations.HttpClient
         private string _path;
         private IAuthenticator _authenticator;
 
-        private HttpStatusCode? _expectedResponseCode;
+        private readonly List<HttpStatusCode> _expectedResponseCode = 
+            new List<HttpStatusCode>();
         private MediaType? _overridenMediaType;
-        private bool _hasDefaultAccepts;
 
         public HttpMethod Method => _message.Method;
 
@@ -52,7 +53,6 @@ namespace Foundations.HttpClient
             _baseAddress = baseAddress;
 
             HttpConfiguration.DefaultBuilderSetup(this);
-            _hasDefaultAccepts = true;
         }
 
         public HttpRequestBuilder(string baseAddress) : 
@@ -148,13 +148,6 @@ namespace Foundations.HttpClient
 
             foreach (var header in httpHeaders)
             {
-                if (header.Key == HttpRequestHeader.Accept && 
-                    _hasDefaultAccepts)
-                {
-                    _message.Headers.Accept.Clear();
-                    _hasDefaultAccepts = false;
-                }
-
                 _message.Headers.Add(
                     header.Key.ToString(), 
                     header.Value);
@@ -252,7 +245,7 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder ThrowIfNotExpectedResponseCode(
             HttpStatusCode expectedResponseCode)
         {
-            _expectedResponseCode = expectedResponseCode;
+            _expectedResponseCode.Add(expectedResponseCode);
 
             return this;
         }
@@ -307,8 +300,8 @@ namespace Foundations.HttpClient
                     .SendAsync(_message)
                     .ConfigureAwait(false);
 
-                if (_expectedResponseCode != null && 
-                    _expectedResponseCode.Value != response.StatusCode)
+                if (_expectedResponseCode.Count > 0 && 
+                    !_expectedResponseCode.Contains(response.StatusCode))
                 {
                     var content = await response
                         .Content
@@ -320,7 +313,7 @@ namespace Foundations.HttpClient
                             CultureInfo.InvariantCulture,
                             StringResource.BadHttpRequestException,
                             response.StatusCode,
-                            _expectedResponseCode.Value,
+                            _expectedResponseCode.First(),
                             content));
                 }
 

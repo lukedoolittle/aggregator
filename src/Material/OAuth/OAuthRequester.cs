@@ -92,7 +92,7 @@ namespace Material.OAuth
                         request.PathParameters,
                         request.Body,
                         request.BodyType, 
-                        request.ExpectedStatusCode,
+                        request.ExpectedStatusCodes,
                         request.OverridenResponseMediaType);
         }
 

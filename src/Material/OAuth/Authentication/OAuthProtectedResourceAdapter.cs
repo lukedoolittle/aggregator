@@ -35,7 +35,7 @@ namespace Material.OAuth.Authentication
             IDictionary<string, string> urlPathParameters,
             object body,
             MediaType bodyType,
-            HttpStatusCode expectedResponse,
+            IEnumerable<HttpStatusCode> expectedResponse,
             MediaType? overriddenMediaType)
         {
             if (string.IsNullOrEmpty(host))
