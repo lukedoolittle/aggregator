@@ -3,8 +3,10 @@ A cross platform framework for collecting personal data from various sources inc
 
 [![NuGet](https://img.shields.io/nuget/v/Quantfabric.Material.svg?maxAge=2592000)](https://www.nuget.org/packages/Quantfabric.Material/)
 
+## Documentation
+Documentation is available in the [gihub wiki](https://github.com/lukedoolittle/quantfabric/wiki). The documentation covers all scenarios for OAuth1/OAuth2 on Mobile/Desktop/Web, Bluetooth GATT, mobile device sensors, as well as some advanced topics.
 
-## Examples
+## Simple Examples
 Authenticate with Facebook on a Mobile/Desktop app:
 
     OAuth2Credentials credentials = await new OAuth2App<Facebook>(
@@ -18,8 +20,8 @@ Authenticate with Facebook on a Mobile/Desktop app:
         .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
         .ConfigureAwait(false);
 
-    string email = user.Email;
-    //Do something with users email address
+    string userEmail = user.Email;
+
 
 Authorize with Facebook in a web app (.NET MVC):
 
@@ -29,7 +31,7 @@ Authorize with Facebook in a web app (.NET MVC):
     	//Or get the userId from your application
         string userId = Guid.NewGuid().ToString();  
 
-        HttpCookie cookie = new HttpCookie("userId");
+        HttpCookie cookie = new HttpCookie("userCookie");
         cookie.Values["userId"] = userId;
         ControllerContext.HttpContext.Response.Cookies.Add(cookie);
 
@@ -52,13 +54,15 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
         [HttpGet]
         public async Task<ActionResult> FacebookCallback()
         {
+            HttpCookie cookie = Request.Cookies["userCookie"];
+
             OAuth2Credentials fullCredentials = await new OAuth2Web<Facebook>(
                     "YOUR CLIENT ID", 
                     "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
                     ControllerContext.HttpContext.Request.Url,
-                    Request.Cookies["userId"]?.Values["userId"],
+                    cookie.Values["userId"],
                     "YOUR CLIENT SECRET")
                 .ConfigureAwait(false);
 
@@ -66,8 +70,8 @@ Handle a Facebook OAuth callback in a web app (.NET MVC)
                 .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
                 .ConfigureAwait(false);
 
-            string email = user.Email;
-            //Do something with users email address
+            string userEmail = user.Email;
+            cookie.Values["userEmail"] = usersEmail;
             
             return RedirectToAction("Index", "Home");
         }
@@ -87,12 +91,8 @@ Authenticate with Google on a Mobile/Desktop app:
         .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
         .ConfigureAwait(false);
 
-    string email = profile.Emails.First().Value;
-    //Do something with users email address
+    string userEmail = profile.Emails.First().Value;
     
-## Documentation
-Documentation is available in the [gihub wiki](https://github.com/lukedoolittle/quantfabric/wiki). The documentation covers all scenarios for OAuth1/OAuth2 on Mobile/Desktop/Web, Bluetooth GATT, mobile device sensors, as well as some advanced topics.
-
 ## Building
 ### Developer Environment
 * [Visual Studio 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx) (Community Edition is free!)
