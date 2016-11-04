@@ -3,7 +3,7 @@
 namespace Quantfabric.Test.Material.OAuthServer.Requests
 {
     [DataContract]
-    public class OAuth1AuthorizationRequest
+    public class OAuth1Request
     {
         [DataMember(Name = "oauth_consumer_key")]
         public string ConsumerKey { get; set; }

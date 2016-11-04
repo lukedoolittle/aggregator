@@ -4,8 +4,10 @@ using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 using Quantfabric.Test.Integration;
+using Quantfabric.Test.OAuthServer;
+using Quantfabric.Test.OAuthServer.Builders;
 
-namespace Quantfabric.Test.OAuthServer.Builders
+namespace Quantfabric.Test.Material.OAuthServer.Builders
 {
     public class OAuth2CodeCredentialBuilder : 
         ICredentialBuilder<OAuth2Credentials, OAuth2AuthorizationRequest>

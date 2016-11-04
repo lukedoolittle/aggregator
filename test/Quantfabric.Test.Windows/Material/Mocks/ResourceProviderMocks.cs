@@ -1,6 +1,7 @@
-﻿using Material.Infrastructure.ProtectedResources;
+﻿using Material.Infrastructure;
+using Material.Infrastructure.ProtectedResources;
 
-namespace Quantfabric.Test.Integration
+namespace Quantfabric.Test.Material.Mocks
 {
     public class GoogleMock : OAuth2ResourceProviderMock
     {
@@ -60,5 +61,25 @@ namespace Quantfabric.Test.Integration
     public class AmazonMock : OAuth2ResourceProviderMock
     {
         public AmazonMock() : base(new Amazon()) { }
+    }
+
+    public class TwitterMock : OAuth1ResourceProviderMock
+    {
+        public TwitterMock() : base(new Twitter()) { }
+    }
+
+    public class WithingsMock : OAuth1ResourceProviderMock
+    {
+        public WithingsMock() : base(new Withings()) { }
+    }
+
+    public class FatsecretMock : OAuth1ResourceProviderMock
+    {
+        public FatsecretMock() : base(new Fatsecret()) { }
+    }
+
+    public class TumblrMock : OAuth1ResourceProviderMock
+    {
+        public TumblrMock() : base(new Tumblr()) { }
     }
 }

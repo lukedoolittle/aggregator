@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using Quantfabric.Test.Integration;
 
-namespace Quantfabric.Test.Integration
+namespace Quantfabric.Test.Material.Mocks
 {
     public class OAuth2ResourceProviderMock : OAuth2ResourceProvider
     {
