@@ -11,6 +11,7 @@ namespace Material
     public class GPSAuthorizationFacade
     {
 #if __IOS__
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Task<CLLocationManager> AuthorizeContinuousGPSUsage()
 #else
         public Task AuthorizeContinuousGPSUsage()

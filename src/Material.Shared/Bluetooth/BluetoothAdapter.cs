@@ -1,6 +1,7 @@
 #if __MOBILE__
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Material.Contracts;
@@ -26,9 +27,9 @@ namespace Material.Adapters
             return ConnectToDevice(default(Guid));
         }
 
-        public async Task<bool> ConnectToDevice(Guid deviceAddress)
+        public async Task<bool> ConnectToDevice(Guid address)
         {
-            var device = await Connect(deviceAddress)
+            var device = await Connect(address)
                 .ConfigureAwait(true);
             return device != null;
         }
@@ -161,7 +162,7 @@ namespace Material.Adapters
             return taskCompletionSource.Task;
         }
 
-        private Task<byte[]> GetCharacteristicValue(
+        private static Task<byte[]> GetCharacteristicValue(
             IDevice device,
             Guid serviceUuid,
             Guid characteristicUuid)
@@ -205,7 +206,7 @@ namespace Material.Adapters
             return taskCompletionSource.Task;
         }
 
-        private Task<byte[]> GetCharacteristicValue(
+        private static Task<byte[]> GetCharacteristicValue(
             ICharacteristic characteristic)
         {
             var taskCompletionSource = new TaskCompletionSource<byte[]>();
@@ -233,8 +234,7 @@ namespace Material.Adapters
 
         private static Guid UuidFromPartial(int partial)
         {
-            //var partial = Convert.ToInt32(partialString, 16);
-            string input = partial.ToString("X").PadRight(4, '0');
+            var input = partial.ToString("X", CultureInfo.InvariantCulture).PadRight(4, '0');
             if (input.Length == 4)
                 input = "0000" + input + "-0000-1000-8000-00805f9b34fb";
             var guid = Guid.ParseExact(input, "d");

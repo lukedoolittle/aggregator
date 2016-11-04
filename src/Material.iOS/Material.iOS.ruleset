@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for Material.iOS" Description="Code analysis rules for Material.iOS.csproj." ToolsVersion="14.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA2123" Action="None" />
+    <Rule Id="CA2134" Action="None" />
+    <Rule Id="CA2140" Action="None" />
+    <Rule Id="CA2146" Action="None" />
+    <Rule Id="CA2151" Action="None" />
+  </Rules>
+</RuleSet>

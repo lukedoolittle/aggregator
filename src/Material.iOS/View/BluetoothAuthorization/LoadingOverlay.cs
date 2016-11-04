@@ -4,16 +4,25 @@ using UIKit;
 
 namespace Material.View.BluetoothAuthorization
 {
+    //adapted from https://developer.xamarin.com/recipes/ios/standard_controls/popovers/display_a_loading_message/
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1010:CollectionsShouldImplementGenericInterface")]
     public class LoadingOverlay : UIView
     {
-        // control declarations
-        UIActivityIndicatorView activitySpinner;
-        UILabel loadingLabel;
+        private readonly string _overlayText;
+        private UIActivityIndicatorView _activitySpinner;
+        private UILabel _loadingLabel;
 
         public LoadingOverlay(
             CGRect frame, 
             string overlayText) : 
                 base(frame)
+        {
+            _overlayText = overlayText;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        public void Show()
         {
             BackgroundColor = UIColor.Black;
             Alpha = 0.75f;
@@ -26,19 +35,19 @@ namespace Material.View.BluetoothAuthorization
             nfloat centerY = Frame.Height / 2;
 
             // create the activity spinner, center it horizontall and put it 5 points above center x
-            activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
-            activitySpinner.Frame = new CGRect(
-                centerX - (activitySpinner.Frame.Width / 2),
-                centerY - activitySpinner.Frame.Height - 20,
-                activitySpinner.Frame.Width,
-                activitySpinner.Frame.Height);
-            activitySpinner.AutoresizingMask = UIViewAutoresizing.All;
-            AddSubview(activitySpinner);
-            activitySpinner.StartAnimating();
+            _activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+            _activitySpinner.Frame = new CGRect(
+                centerX - (_activitySpinner.Frame.Width / 2),
+                centerY - _activitySpinner.Frame.Height - 20,
+                _activitySpinner.Frame.Width,
+                _activitySpinner.Frame.Height);
+            _activitySpinner.AutoresizingMask = UIViewAutoresizing.All;
+            AddSubview(_activitySpinner);
+            _activitySpinner.StartAnimating();
 
             // create and configure the "Loading Data" label
-            loadingLabel = new UILabel(new CGRect(
-                centerX - (labelWidth/2),
+            _loadingLabel = new UILabel(new CGRect(
+                centerX - (labelWidth / 2),
                 centerY + 20,
                 labelWidth,
                 labelHeight
@@ -46,23 +55,38 @@ namespace Material.View.BluetoothAuthorization
             {
                 BackgroundColor = UIColor.Clear,
                 TextColor = UIColor.White,
-                Text = overlayText,
+                Text = _overlayText,
                 TextAlignment = UITextAlignment.Center,
                 AutoresizingMask = UIViewAutoresizing.All
             };
-            AddSubview(loadingLabel);
+            AddSubview(_loadingLabel);
         }
 
-        /// <summary>
-        /// Fades out the control and then removes it from the super view
-        /// </summary>
         public void Hide()
         {
-            UIView.Animate(
-                0.5, // duration
+            Animate(
+                0.5,
                 () => { Alpha = 0; },
-                () => { RemoveFromSuperview(); }
+                RemoveFromSuperview
             );
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                // free managed resources
+                if (_activitySpinner != null)
+                {
+                    _activitySpinner.Dispose();
+                }
+                if (_loadingLabel != null)
+                {
+                    _loadingLabel.Dispose();
+                }
+            }
         }
     }
 }

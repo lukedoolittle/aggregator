@@ -21,8 +21,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>Material.iOS.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <DocumentationFile>bin\Release\Material.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>Material.iOS.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
@@ -79,6 +80,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Material.iOS.ruleset" />
     <None Include="packages.config" />
     <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
     <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />

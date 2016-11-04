@@ -136,6 +136,7 @@ namespace Material.Framework
         public Action<Action> RunOnMainThread { get; } = 
             UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Action<Uri> LaunchBrowser => 
             uri => UIApplication.SharedApplication.OpenUrl(

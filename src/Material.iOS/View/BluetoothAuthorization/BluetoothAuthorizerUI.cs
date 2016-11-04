@@ -4,7 +4,6 @@ using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using Material.Framework;
-using UIKit;
 
 namespace Material.View.BluetoothAuthorization
 {
@@ -30,7 +29,7 @@ namespace Material.View.BluetoothAuthorization
                 null);
 
             _adapter.ListDevices(controller.OnDeviceFound);
-            controller.DeviceSelected = async device =>
+            controller.SetDeviceSelectedHandler(async device =>
             {
                 controller.DisplayLoading(device.Name);
 
@@ -55,7 +54,7 @@ namespace Material.View.BluetoothAuthorization
                         StringResources.BluetoothConnectivityException,
                         device.Address.ToString()));
                 }
-            };
+            });
 
             var uuid = await taskCompletionSource
                 .Task
