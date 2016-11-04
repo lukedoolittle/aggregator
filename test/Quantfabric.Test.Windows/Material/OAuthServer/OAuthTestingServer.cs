@@ -5,7 +5,7 @@ using Foundations.Extensions;
 using Foundations.Http;
 using Quantfabric.Test.Material.OAuth2Server;
 
-namespace Quantfabric.Test.Integration
+namespace Quantfabric.Test.Material.OAuthServer
 {
     public class OAuthTestingServer<TToken> : IDisposable
     {

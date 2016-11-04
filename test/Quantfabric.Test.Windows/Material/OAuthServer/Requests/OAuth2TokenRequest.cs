@@ -2,7 +2,7 @@
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 
-namespace Quantfabric.Test.OAuthServer
+namespace Quantfabric.Test.Material.OAuthServer.Requests
 {
     [DataContract]
     public class OAuth2TokenRequest

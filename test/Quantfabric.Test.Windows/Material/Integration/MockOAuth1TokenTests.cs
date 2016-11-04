@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -12,6 +13,8 @@ using Quantfabric.Test.Material.Mocks;
 using Quantfabric.Test.Material.OAuthServer;
 using Quantfabric.Test.Material.OAuthServer.Builders;
 using Quantfabric.Test.Material.OAuthServer.Handlers;
+using Quantfabric.Test.Material.OAuthServer.Serialization;
+using Quantfabric.Test.Material.OAuthServer.Tokens;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Integration
@@ -70,6 +73,16 @@ namespace Quantfabric.Test.Material.Integration
                 .GetMemberValue<OAuth1AppBase<TMockProvider>>("_app")
                 .GetMemberValue<TMockProvider>("_provider");
 
+            IIncommingMessageDeserializer deserializer;
+            if (mock.ParameterType == HttpParameterType.Querystring)
+            {
+                deserializer = new QuerystringMessageDeserializer();
+            }
+            else
+            {
+                deserializer = new HtmlBodyMessageDeserializer();
+            }
+
             using (var server = new OAuthTestingServer<OAuth1Token>())
             {
                 server
@@ -79,22 +92,27 @@ namespace Quantfabric.Test.Material.Integration
                         new OAuth1RequestTokenHandler(
                             consumerKey,
                             redirectUri,
+                            new OAuth1SignatureVerifier(consumerSecret), 
+                            deserializer,
                             new OAuth1RequestTokenCredentialBuilder(
                                 server.Tokens)))
                     .AddHandler(
                         mock.AuthorizationUrl,
                         new OAuth1AuthorizationHandler(
-                            consumerKey,
                             redirectUri,
-                            new OAuth1AuthorizationRedirectBuilder(
+                            new OAuth1AuthorizationRedirectBuilder(), 
+                            new OAuth1AuthenticationCredentialBuilder(
                                 server.Tokens)))
                     .AddHandler(
                         mock.TokenUrl,
                         new OAuth1AccessTokenHandler(
                             consumerKey,
-                            redirectUri,
+                            new OAuth1SignatureVerifier(consumerSecret),
+                            server.Tokens,
+                            deserializer,
                             new OAuth1AccessTokenCredentialBuilder(
-                                server.Tokens)));
+                                server.Tokens,
+                                shouldContainUserId)));
 
                 var serverTask = server.Start(mock.Port);
 

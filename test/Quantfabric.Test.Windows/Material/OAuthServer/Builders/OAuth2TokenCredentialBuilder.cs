@@ -4,8 +4,8 @@ using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 using Quantfabric.Test.Integration;
-using Quantfabric.Test.OAuthServer;
-using Quantfabric.Test.OAuthServer.Builders;
+using Quantfabric.Test.Material.OAuthServer.Requests;
+using Quantfabric.Test.Material.OAuthServer.Tokens;
 
 namespace Quantfabric.Test.Material.OAuthServer.Builders
 {

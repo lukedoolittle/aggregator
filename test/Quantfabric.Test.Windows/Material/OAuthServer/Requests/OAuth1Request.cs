@@ -14,7 +14,7 @@ namespace Quantfabric.Test.Material.OAuthServer.Requests
         [DataMember(Name = "oauth_callback")]
         public string RedirectUri { get; set; }
 
-        [DataMember(Name = "oauth_consumer_key")]
+        [DataMember(Name = "oauth_token")]
         public string OAuthToken { get; set; }
 
         [DataMember(Name = "oauth_version")]

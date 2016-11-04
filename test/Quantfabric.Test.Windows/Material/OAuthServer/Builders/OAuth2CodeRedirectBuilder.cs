@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundations.Collections;
+using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 
-namespace Quantfabric.Test.OAuthServer.Builders
+namespace Quantfabric.Test.Material.OAuthServer.Builders
 {
-    public class OAuth2CodeRedirectBuilder : IRedirectUriBuilder<OAuth2Credentials>
+    public class OAuth2CodeRedirectBuilder : 
+        IRedirectUriBuilder<OAuth2Credentials>
     {
         public Uri BuildRedirectUri(
             Uri redirectUri,
@@ -19,7 +22,9 @@ namespace Quantfabric.Test.OAuthServer.Builders
                 querystring.Add(parameter.Key, parameter.Value);
             }
 
-            querystring.Add("code", credentials.Code);
+            querystring.Add(
+                OAuth2ResponseType.Code.EnumToString(), 
+                credentials.Code);
 
             var builder = new UriBuilder(redirectUri);
 

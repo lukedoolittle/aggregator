@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
 using Quantfabric.Test.Integration;
 
@@ -27,5 +28,7 @@ namespace Quantfabric.Test.Material.Mocks
         public override Uri TokenUrl => _provider.TokenUrl != null ?
             new Uri($"http://localhost:{Port}{_provider.TokenUrl.AbsolutePath}") :
             null;
+
+        public override HttpParameterType ParameterType => _provider.ParameterType;
     }
 }

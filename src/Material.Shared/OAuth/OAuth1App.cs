@@ -5,6 +5,7 @@ using Material.Infrastructure.Credentials;
 using Material.OAuth;
 #if __FORMS__
 using Xamarin.Forms;
+using Material.Contracts;
 #endif
 
 namespace Material.Infrastructure.OAuth
@@ -72,6 +73,7 @@ namespace Material.Infrastructure.OAuth
         /// Authenticates a resource owner using the OAuth1a workflow
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public virtual Task<OAuth1Credentials> GetCredentialsAsync()
         {
             return _app.GetCredentialsAsync();

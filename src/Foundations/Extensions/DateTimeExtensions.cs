@@ -60,12 +60,42 @@ namespace Foundations.Extensions
             return timespanSinceEpoch.Days;
         }
 
+        /// <summary>
+        /// Converts a unix timestamp in milliseconds since epoch into a datetime
+        /// </summary>
+        /// <param name="instance">Milliseconds since epoch</param>
+        /// <returns></returns>
         public static DateTimeOffset FromUnixTimeMilliseconds(this long instance)
+        {
+            return FromUnixTimeMilliseconds((double)instance);
+        }
+
+        /// <summary>
+        /// Converts a unix timestamp in milliseconds since epoch into a datetime
+        /// </summary>
+        /// <param name="instance">Milliseconds since epoch</param>
+        /// <returns></returns>
+        public static DateTimeOffset FromUnixTimeMilliseconds(this double instance)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return new DateTimeOffset(epoch.AddMilliseconds(instance));
         }
 
+        /// <summary>
+        /// Converts a unix timestamp in seconds since epoch into a datetime
+        /// </summary>
+        /// <param name="instance">Seconds since epoch</param>
+        /// <returns></returns>
+        public static DateTimeOffset FromUnixTimeSeconds(this long instance)
+        {
+            return FromUnixTimeSeconds((double)instance);
+        }
+
+        /// <summary>
+        /// Converts a unix timestamp in seconds since epoch into a datetime
+        /// </summary>
+        /// <param name="instance">Seconds since epoch</param>
+        /// <returns></returns>
         public static DateTimeOffset FromUnixTimeSeconds(this double instance)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

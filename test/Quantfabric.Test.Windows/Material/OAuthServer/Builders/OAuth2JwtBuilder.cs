@@ -1,7 +1,8 @@
 ﻿using System;
 using Material.Infrastructure.Credentials;
+using Quantfabric.Test.Material.OAuthServer.Requests;
 
-namespace Quantfabric.Test.OAuthServer.Builders
+namespace Quantfabric.Test.Material.OAuthServer.Builders
 {
     public class OAuth2JwtBuilder
         : ICredentialBuilder<OAuth2Credentials, OAuth2TokenRequest>

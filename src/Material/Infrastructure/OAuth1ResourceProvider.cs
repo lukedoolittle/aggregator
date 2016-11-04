@@ -9,6 +9,6 @@ namespace Material.Infrastructure
         public abstract Uri RequestUrl { get; }
         public abstract Uri AuthorizationUrl { get; }
         public abstract Uri TokenUrl { get; }
-        public virtual HttpParameterType ParameterType => HttpParameterType.Header;
+        public abstract HttpParameterType ParameterType { get; }
     }
 }

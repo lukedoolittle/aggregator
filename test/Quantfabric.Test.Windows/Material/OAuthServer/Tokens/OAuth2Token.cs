@@ -1,4 +1,4 @@
-﻿namespace Quantfabric.Test.Material.OAuthServer
+﻿namespace Quantfabric.Test.Material.OAuthServer.Tokens
 {
     public class OAuth2Token
     {

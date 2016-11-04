@@ -13,7 +13,7 @@ using Quantfabric.Test.Material.Mocks;
 using Quantfabric.Test.Material.OAuthServer;
 using Quantfabric.Test.Material.OAuthServer.Builders;
 using Quantfabric.Test.Material.OAuthServer.Handlers;
-using Quantfabric.Test.OAuthServer.Builders;
+using Quantfabric.Test.Material.OAuthServer.Tokens;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Integration

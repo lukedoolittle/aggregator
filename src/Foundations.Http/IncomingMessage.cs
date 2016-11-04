@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 
 namespace Foundations.Http
 {
@@ -42,6 +43,8 @@ namespace Foundations.Http
         public ILookup<string, string> Headers => _request.Headers.ToLookup();
 
         public IList<Cookie> Cookies => _request.Cookies.ToList();
+
+        public HttpMethod Method => new HttpMethod(_request.HttpMethod);
 
         public IncomingMessage(HttpListenerRequest request)
         {

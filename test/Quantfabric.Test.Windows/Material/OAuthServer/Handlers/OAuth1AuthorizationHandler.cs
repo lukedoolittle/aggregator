@@ -1,34 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 using Foundations.Http;
+using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
-using Quantfabric.Test.OAuthServer.Builders;
+using Quantfabric.Test.Material.OAuth2Server;
+using Quantfabric.Test.Material.OAuthServer.Builders;
+using Quantfabric.Test.Material.OAuthServer.Requests;
 
 namespace Quantfabric.Test.Material.OAuthServer.Handlers
 {
-    public class OAuth1AuthorizationHandler : OAuth1RequestHandlerBase
+    public class OAuth1AuthorizationHandler : IOAuthHandler
     {
-        private readonly IRedirectUriBuilder<OAuth1Credentials> _builder;
+        private readonly IRedirectUriBuilder<OAuth1Credentials> _redirector;
+        private readonly ICredentialBuilder<OAuth1Credentials, OAuth1Request> _builder;
+        private readonly Uri _redirectUriBase;
 
         public OAuth1AuthorizationHandler(
-            string consumerKey,
             Uri redirectUriBase,
-            IRedirectUriBuilder<OAuth1Credentials> builder) : 
-                base(
-                    consumerKey, 
-                    redirectUriBase)
+            IRedirectUriBuilder<OAuth1Credentials> redirector,
+            ICredentialBuilder<OAuth1Credentials, OAuth1Request> builder)
         {
+            _redirectUriBase = redirectUriBase;
+            _redirector = redirector;
             _builder = builder;
         }
 
-        public override void HandleRequest(
+        public void HandleRequest(
             IncomingMessage request, 
             ServerResponse response)
         {
-            base.HandleRequest(request, response);
+            var message = new HtmlSerializer()
+                .Deserialize<OAuth1Request>(
+                    request.Uri.Query);
 
-            //TODO: a hybrid of the request token handler and the OAuth2AuthorizationHandler
+            var redirectUri = _redirector.BuildRedirectUri(
+                _redirectUriBase,
+                _builder.BuildCredentials(message),
+                new Dictionary<string, string>());
 
-            throw new NotImplementedException("Handle authorization request");
+            response.Redirect(redirectUri);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Material.Infrastructure.Credentials;
 
-namespace Quantfabric.Test.OAuthServer.Builders
+namespace Quantfabric.Test.Material.OAuthServer.Builders
 {
     public interface IRedirectUriBuilder<TCredentials>
         where TCredentials : TokenCredentials

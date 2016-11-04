@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Foundations.Collections;
 using Material.Infrastructure.Credentials;
 
-namespace Quantfabric.Test.OAuthServer.Builders
+namespace Quantfabric.Test.Material.OAuthServer.Builders
 {
     public class OAuth2TokenRedirectBuilder : IRedirectUriBuilder<OAuth2Credentials>
     {
