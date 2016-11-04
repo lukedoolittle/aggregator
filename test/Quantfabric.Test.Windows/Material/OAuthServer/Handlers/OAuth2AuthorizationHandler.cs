@@ -4,9 +4,10 @@ using Foundations.Http;
 using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
 using Quantfabric.Test.Material.OAuth2Server;
+using Quantfabric.Test.OAuthServer;
 using Quantfabric.Test.OAuthServer.Builders;
 
-namespace Quantfabric.Test.OAuthServer.Handlers
+namespace Quantfabric.Test.Material.OAuthServer.Handlers
 {
     public class OAuth2AuthorizationHandler : IOAuthHandler
     {

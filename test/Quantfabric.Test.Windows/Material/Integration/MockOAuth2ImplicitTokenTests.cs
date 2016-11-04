@@ -10,9 +10,9 @@ using Material.Infrastructure.Requests;
 using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
+using Quantfabric.Test.Material.OAuthServer.Handlers;
 using Quantfabric.Test.OAuthServer;
 using Quantfabric.Test.OAuthServer.Builders;
-using Quantfabric.Test.OAuthServer.Handlers;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Integration

@@ -81,7 +81,6 @@
     <Compile Include="HttpClient\OAuth1SigningTemplateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\QuerystringParsingTests.cs" />
-    <Compile Include="ServerTests.cs" />
     <Compile Include="Core\TypeExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
