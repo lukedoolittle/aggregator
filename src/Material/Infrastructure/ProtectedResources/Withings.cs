@@ -10,6 +10,7 @@ using System;
 using Material.Infrastructure.Credentials;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -17,6 +18,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Withings API 1.0.1
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Withings : OAuth1ResourceProvider              
 	{
         public override Uri RequestUrl => new Uri("https://oauth.withings.com/account/request_token");

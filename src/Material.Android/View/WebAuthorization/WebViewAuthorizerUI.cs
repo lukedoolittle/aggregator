@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Android.Webkit;
-using Foundations;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Material.Contracts;

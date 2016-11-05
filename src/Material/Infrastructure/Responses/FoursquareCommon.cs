@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareMeta
     {
@@ -12,6 +14,7 @@ namespace Material.Infrastructure.Responses
         public string RequestId { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareStats
     {
@@ -22,6 +25,8 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "tipCount")]
         public int TipCount { get; set; }
     }
+
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareNotificationItem
     {
@@ -29,6 +34,7 @@ namespace Material.Infrastructure.Responses
         public int UnreadCount { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareNotification
     {
@@ -38,6 +44,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareNotificationItem Item { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareIcon
     {
@@ -47,6 +54,7 @@ namespace Material.Infrastructure.Responses
         public string Suffix { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareSaves
     {
@@ -56,6 +64,7 @@ namespace Material.Infrastructure.Responses
         public IList<object> Groups { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquarePhotos
     {
@@ -67,6 +76,7 @@ namespace Material.Infrastructure.Responses
         public IList<object> Items { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareGroup
     {
@@ -80,6 +90,7 @@ namespace Material.Infrastructure.Responses
         public IList<object> Items { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareVenuePage
     {
@@ -87,6 +98,7 @@ namespace Material.Infrastructure.Responses
         public string Id { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquarePrice
     {
@@ -98,6 +110,7 @@ namespace Material.Infrastructure.Responses
         public string Currency { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareVenue
     {
@@ -134,6 +147,7 @@ namespace Material.Infrastructure.Responses
         public bool? ok { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareLikes
     {

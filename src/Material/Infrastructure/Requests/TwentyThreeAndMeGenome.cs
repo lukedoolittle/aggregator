@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Returns the entire profile's genome as a packed string of base pairs
     /// </summary>
     [ServiceType(typeof(TwentyThreeAndMe))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TwentyThreeAndMeGenome : OAuthRequest              
 	{
         public override String Host => "https://api.23andme.com";

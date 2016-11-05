@@ -15,6 +15,7 @@ namespace Material.OAuth
             _apiKey = apiKey;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var provider = new TResourceProvider();

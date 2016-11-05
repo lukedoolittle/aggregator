@@ -1,9 +1,11 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitActivitiesStep
     {
@@ -13,6 +15,7 @@ namespace Material.Infrastructure.Responses
         public string Value { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitStepsDataset
     {
@@ -22,6 +25,7 @@ namespace Material.Infrastructure.Responses
         public int Value { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class ActivitiesStepsIntraday
     {
@@ -33,6 +37,7 @@ namespace Material.Infrastructure.Responses
         public string DatasetType { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitIntradayStepsResponse
     {
@@ -40,5 +45,4 @@ namespace Material.Infrastructure.Responses
 
         public ActivitiesStepsIntraday ActivitiesStepsIntraday { get; set; }
     }
-
 }

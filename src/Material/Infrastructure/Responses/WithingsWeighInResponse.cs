@@ -1,9 +1,11 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class WithingsMeasure
     {
@@ -47,6 +49,7 @@ namespace Material.Infrastructure.Responses
         }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class WithingsMeasureGroup
     {
@@ -62,6 +65,7 @@ namespace Material.Infrastructure.Responses
         public IList<WithingsMeasure> Measures { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class WithingsBody
     {
@@ -73,6 +77,7 @@ namespace Material.Infrastructure.Responses
         public string Timezone { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class WithingsWeighInResponse
     {
@@ -81,6 +86,4 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "body")]
         public WithingsBody Body { get; set; }
     }
-
-
 }

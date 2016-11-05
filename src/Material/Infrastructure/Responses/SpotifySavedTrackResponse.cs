@@ -1,10 +1,12 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using Foundations.HttpClient.Metadata;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DateTimeFormatter("yyyy-MM-ddTHH:mm:ssZ")]
     [DataContract]
     public class SpotifySavedTrackResponse
@@ -25,6 +27,7 @@ namespace Material.Infrastructure.Responses
         public int Total { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class SpotifyTrack
     {
@@ -59,6 +62,7 @@ namespace Material.Infrastructure.Responses
         public string Uri { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class SpotifyTrackItem
     {
@@ -68,6 +72,7 @@ namespace Material.Infrastructure.Responses
         public SpotifyTrack Track { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class SpotifyImage
     {
@@ -79,6 +84,7 @@ namespace Material.Infrastructure.Responses
         public int Width { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class SpotifyAlbum
     {
@@ -101,6 +107,7 @@ namespace Material.Infrastructure.Responses
         public string Uri { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class SpotifyArtist
     {

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Meta
     {
@@ -14,6 +16,7 @@ namespace Material.Infrastructure.Responses
         public string Msg { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Response
     {
@@ -25,6 +28,7 @@ namespace Material.Infrastructure.Responses
         public int LikedCount { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TumblrLikeResponse
     {
@@ -35,6 +39,4 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "response")]
         public Response Response { get; set; }
     }
-
-
 }

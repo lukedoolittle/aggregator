@@ -53,6 +53,19 @@ namespace Material.View.BluetoothAuthorization
         {
             DeviceSelected?.Invoke(_adapter[position]);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                if (_adapter != null)
+                {
+                    _adapter.Dispose();
+                }
+            }
+        }
     }
 
     public class DeviceListAdapter : BaseAdapter<BluetoothDevice>

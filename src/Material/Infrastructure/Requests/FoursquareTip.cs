@@ -16,6 +16,7 @@ using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Returns tips from a user
     /// </summary>
     [ServiceType(typeof(Foursquare))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FoursquareTip : OAuthRequest              
 	{
         public override String Host => "https://api.foursquare.com";
@@ -63,6 +65,8 @@ namespace Material.Infrastructure.Requests
         [DefaultFormatter()]
         public  Nullable<Int32> Offset { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum FoursquareTipM
     {
         [Description("foursquare")] Foursquare,

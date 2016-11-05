@@ -1,6 +1,9 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
+
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class LinkedInSiteStandardProfileRequest
     {
@@ -8,6 +11,7 @@ namespace Material.Infrastructure.Responses
         public string Url { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class LinkedInPersonalResponse
     {

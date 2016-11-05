@@ -16,6 +16,7 @@ using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Returns saved food diary entries for the user according to the filter specified
     /// </summary>
     [ServiceType(typeof(Fatsecret))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FatsecretMeal : OAuthRequest              
 	{
         public override String Host => "http://platform.fatsecret.com";
@@ -55,6 +57,8 @@ namespace Material.Infrastructure.Requests
         [EnumFormatter()]
         public  FatsecretMealFormat Format { get; set; } = FatsecretMealFormat.Json;
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum FatsecretMealFormat
     {
         [Description("xml")] Xml,

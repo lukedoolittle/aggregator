@@ -1,10 +1,12 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using Foundations.HttpClient.Metadata;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FacebookFeedDatum
     {
@@ -18,6 +20,7 @@ namespace Material.Infrastructure.Responses
         public string Story { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FacebookFeedPaging
     {
@@ -27,6 +30,7 @@ namespace Material.Infrastructure.Responses
         public string Next { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
     [DataContract]
     public class FacebookFeedResponse
@@ -36,6 +40,4 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "paging")]
         public FacebookFeedPaging Paging { get; set; }
     }
-
-
 }

@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Lists the messages in the user's mailbox
     /// </summary>
     [ServiceType(typeof(Google))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class GoogleGmailMetadata : OAuthRequest              
 	{
         public override String Host => "https://www.googleapis.com";

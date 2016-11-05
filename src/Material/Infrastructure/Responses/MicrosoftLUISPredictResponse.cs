@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class MicrosoftLuisIntentsResult
     {
@@ -17,6 +19,7 @@ namespace Material.Infrastructure.Responses
         public double Score { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Indeces
     {
@@ -28,6 +31,7 @@ namespace Material.Infrastructure.Responses
         public int EndToken { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class MicrosoftLuisEntitiesResult
     {
@@ -48,6 +52,7 @@ namespace Material.Infrastructure.Responses
         public bool IsBuiltInExtractor { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class MicrosoftLuisPredictResponse
     {

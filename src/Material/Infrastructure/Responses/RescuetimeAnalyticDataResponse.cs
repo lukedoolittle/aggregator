@@ -1,9 +1,11 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class RescuetimeAnalyticDataResponse
     {
@@ -15,6 +17,7 @@ namespace Material.Infrastructure.Responses
         public IList<HourBlock> Rows { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     public class HourBlock : List<string>
     {
         public DateTimeOffset Date => DateTimeOffset.ParseExact(this[0], "yyyy-MM-ddTHH:mm:ss", null);

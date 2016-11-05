@@ -14,6 +14,9 @@ using Material.Infrastructure.Requests;
 
 namespace Material
 {
+    //TODO: either implement IDisposable or find some other method than a timer
+    //possibly an async delay???
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class AndroidGPSAdapter : 
         Java.Lang.Object, 
         IGPSAdapter,
@@ -30,9 +33,15 @@ namespace Material
         private bool _isListening = false;
         private Timer _timer;
 
+        public AndroidGPSAdapter()
+            : this(
+                  30000,
+                  50)
+        { }
+
         public AndroidGPSAdapter(
-            int gpsTimeoutInMs = 30000,
-            float desiredAccuracyInMeters = 50)
+            int gpsTimeoutInMs,
+            float desiredAccuracyInMeters)
         {
             _timeoutInMs = gpsTimeoutInMs;
             _desiredAccuracyInM = desiredAccuracyInMeters;
@@ -98,6 +107,7 @@ namespace Material
         private void Cleanup()
         {
             _timer.Stop();
+            _timer.Dispose();
             _timer = null;
             _completionSource = null;
             _locationManager.RemoveUpdates(this);

@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// The feed of posts (including status updates) and links published by this person, or by others on this person's profile
     /// </summary>
     [ServiceType(typeof(Facebook))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FacebookFeed : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";

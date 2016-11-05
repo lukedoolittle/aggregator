@@ -10,6 +10,7 @@ using System;
 using Material.Infrastructure.Credentials;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -17,6 +18,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Tumblr API 2
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Tumblr : OAuth1ResourceProvider              
 	{
         public override Uri RequestUrl => new Uri("https://www.tumblr.com/oauth/request_token");

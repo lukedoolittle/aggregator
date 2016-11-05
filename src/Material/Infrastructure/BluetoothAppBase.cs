@@ -19,6 +19,7 @@ namespace Material
         /// Allows user to select bluetooth device
         /// </summary>
         /// <returns>Bluetooth credentials</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public Task<BluetoothCredentials> GetBluetoothCredentialsAsync()
         {
             var authenticationUI = _factory.GetAuthorizer();

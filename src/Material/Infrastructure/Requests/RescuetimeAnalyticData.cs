@@ -16,6 +16,7 @@ using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Rescuetime analytic data for the user
     /// </summary>
     [ServiceType(typeof(Rescuetime))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class RescuetimeAnalyticData : OAuthRequest              
 	{
         public override String Host => "https://www.rescuetime.com/";
@@ -76,11 +78,15 @@ namespace Material.Infrastructure.Requests
         [DateTimeFormatter("yyyy-MM-dd")]
         public  Nullable<DateTime> RestrictEnd { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum RescuetimeAnalyticDataFormat
     {
         [Description("json")] Json,
         [Description("csv")] Csv,
     }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum RescuetimeAnalyticDataResolutionTime
     {
         [Description("month")] Month,
@@ -89,12 +95,16 @@ namespace Material.Infrastructure.Requests
         [Description("hour")] Hour,
         [Description("minute")] Minute,
     }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum RescuetimeAnalyticDataPerspective
     {
         [Description("interval")] Interval,
         [Description("rank")] Rank,
         [Description("member")] Member,
     }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum RescuetimeAnalyticDataRestrictKind
     {
         [Description("category")] Category,

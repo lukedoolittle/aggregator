@@ -1,10 +1,12 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using Foundations.HttpClient.Metadata;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FacebookPlace
     {
@@ -12,6 +14,7 @@ namespace Material.Infrastructure.Responses
         public string Name { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FacebookEventDatum
     {
@@ -29,6 +32,7 @@ namespace Material.Infrastructure.Responses
         public FacebookPlace Place { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DateTimeFormatter("yyyy-MM-ddTHH:mm:sszzz")]
     [DataContract]
     public class FacebookEventResponse

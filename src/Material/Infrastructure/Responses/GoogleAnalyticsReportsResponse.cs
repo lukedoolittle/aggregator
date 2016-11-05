@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsMetricHeaderEntry
     {
@@ -14,6 +16,7 @@ namespace Material.Infrastructure.Responses
         public string Type { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsMetricHeader
     {
@@ -22,6 +25,7 @@ namespace Material.Infrastructure.Responses
         public IList<GoogleAnalyticsReportsMetricHeaderEntry> MetricHeaderEntries { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsColumnHeader
     {
@@ -30,6 +34,7 @@ namespace Material.Infrastructure.Responses
         public GoogleAnalyticsReportsMetricHeader MetricHeader { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsMetric
     {
@@ -38,6 +43,7 @@ namespace Material.Infrastructure.Responses
         public IList<string> Values { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsRow
     {
@@ -48,6 +54,7 @@ namespace Material.Infrastructure.Responses
         public IList<GoogleAnalyticsReportsMetric> Metrics { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsTotal
     {
@@ -55,6 +62,7 @@ namespace Material.Infrastructure.Responses
         public IList<string> Values { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsMinimum
     {
@@ -63,6 +71,7 @@ namespace Material.Infrastructure.Responses
         public IList<string> Values { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsMaximum
     {
@@ -71,6 +80,7 @@ namespace Material.Infrastructure.Responses
         public IList<string> Values { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsData
     {
@@ -101,6 +111,7 @@ namespace Material.Infrastructure.Responses
 
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReport
     {
@@ -112,6 +123,7 @@ namespace Material.Infrastructure.Responses
         public GoogleAnalyticsReportsData Data { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportsResponse
     {

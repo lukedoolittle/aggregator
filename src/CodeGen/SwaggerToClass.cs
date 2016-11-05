@@ -516,36 +516,36 @@ namespace CodeGen
             {
                 if (format == "date-time-offset")
                 {
-                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeOffsetFormatter));
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeOffsetFormatterAttribute));
                 }
                 else
                 {
-                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeFormatter));
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeSecondsDateTimeFormatterAttribute));
                 }
             }
             else if (pattern == "d")
             {
                 if (format == "date-time-offset")
                 {
-                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeOffsetFormatter));
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeOffsetFormatterAttribute));
                 }
                 else
                 {
-                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeFormatter));
+                    return new ConcreteMetadataRepresentation(typeof(UnixTimeDaysDateTimeFormatterAttribute));
                 }
             }
             else if (format == "date" || format == "date-time" || format == "date-time-offset")
             {
                 if (format == "date-time-offset")
                 {
-                    return new ConcreteMetadataRepresentation(typeof(DateTimeOffsetFormatter))
+                    return new ConcreteMetadataRepresentation(typeof(DateTimeOffsetFormatterAttribute))
                     {
                         ConstructorParameters = new List<object> {pattern}
                     };
                 }
                 else
                 {
-                    return new ConcreteMetadataRepresentation(typeof(DateTimeFormatter))
+                    return new ConcreteMetadataRepresentation(typeof(DateTimeFormatterAttribute))
                     {
                         ConstructorParameters = new List<object> { pattern }
                     };

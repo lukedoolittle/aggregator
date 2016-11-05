@@ -61,6 +61,7 @@ namespace Material.OAuth
         /// Authenticates a resource owner using the OAuth2 Json Web Token workflow
         /// </summary>
         /// <returns>OAuth2Credentials with access token</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             var time = DateTime.Now.ToUniversalTime();
@@ -89,6 +90,7 @@ namespace Material.OAuth
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2Assert<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {

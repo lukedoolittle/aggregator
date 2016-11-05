@@ -11,6 +11,7 @@ using Material.Infrastructure.Credentials;
 using System.Collections.Generic;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -18,6 +19,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Foursquare and Swarm API 2
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Foursquare : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String>();

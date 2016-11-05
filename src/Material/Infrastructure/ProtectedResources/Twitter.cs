@@ -10,6 +10,7 @@ using System;
 using Material.Infrastructure.Credentials;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -17,6 +18,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Twitter API 1.1
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Twitter : OAuth1ResourceProvider              
 	{
         public override Uri RequestUrl => new Uri("https://api.twitter.com/oauth/request_token");

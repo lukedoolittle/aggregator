@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Returns the 20 most recent direct messages sent by the authenticating user
     /// </summary>
     [ServiceType(typeof(Twitter))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TwitterSentDirectMessage : OAuthRequest              
 	{
         public override String Host => "https://api.twitter.com";

@@ -10,6 +10,7 @@ using System;
 using Material.Infrastructure.Credentials;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -17,6 +18,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Fatsecret Platform API 
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Fatsecret : OAuth1ResourceProvider              
 	{
         public override Uri RequestUrl => new Uri("http://www.fatsecret.com/oauth/request_token");

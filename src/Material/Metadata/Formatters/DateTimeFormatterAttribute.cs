@@ -5,20 +5,20 @@ using Material.Contracts;
 namespace Material.Metadata.Formatters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class DateTimeOffsetFormatter : Attribute, IParameterFormatter
+    public sealed class DateTimeFormatterAttribute : Attribute, IParameterFormatter
     {
-        private readonly string _formatString;
+        public string Value { get; }
 
-        public DateTimeOffsetFormatter(string formatString)
+        public DateTimeFormatterAttribute(string value)
         {
-            _formatString = formatString;
+            Value = value;
         }
 
         public string FormatAsString(object parameter)
         {
-            return ((DateTimeOffset?)parameter)
+            return ((DateTime?)parameter)
                 ?.ToString(
-                    _formatString, 
+                    Value,
                     CultureInfo.InvariantCulture);
         }
     }

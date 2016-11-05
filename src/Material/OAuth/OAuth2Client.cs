@@ -42,6 +42,7 @@ namespace Material.OAuth
         /// Authenticates a resource owner using the OAuth2 Client Credentials workflow
         /// </summary>
         /// <returns>OAuth2Credentials with access token</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             return _facade

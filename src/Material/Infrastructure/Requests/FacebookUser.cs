@@ -16,6 +16,7 @@ using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// A user represents a person on Facebook
     /// </summary>
     [ServiceType(typeof(Facebook))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FacebookUser : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";
@@ -40,6 +42,8 @@ namespace Material.Infrastructure.Requests
         [EnumFormatter()]
         public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum FacebookUserFields
     {
         [Description("email")] Email,

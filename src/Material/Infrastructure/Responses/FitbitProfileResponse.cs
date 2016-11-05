@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitFeatures
     {
@@ -10,6 +12,7 @@ namespace Material.Infrastructure.Responses
         public bool ExerciseGoal { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitTopBadge
     {
@@ -63,6 +66,7 @@ namespace Material.Infrastructure.Responses
         public string Unit { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitUser
     {
@@ -126,6 +130,7 @@ namespace Material.Infrastructure.Responses
         public string WeightUnit { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitProfileResponse
     {

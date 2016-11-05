@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Returns a cursored collection of user objects for users following the specified user
     /// </summary>
     [ServiceType(typeof(Twitter))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TwitterFollower : OAuthRequest              
 	{
         public override String Host => "https://api.twitter.com";

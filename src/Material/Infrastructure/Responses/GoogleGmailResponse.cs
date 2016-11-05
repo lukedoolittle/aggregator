@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class EmailBody
     {
@@ -12,6 +14,7 @@ namespace Material.Infrastructure.Responses
         public string Data { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class EmailHeader
     {
@@ -21,6 +24,7 @@ namespace Material.Infrastructure.Responses
         public string Value { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class EmailPart
     {
@@ -36,6 +40,7 @@ namespace Material.Infrastructure.Responses
         public EmailBody Body { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class EmailPayload
     {
@@ -51,6 +56,7 @@ namespace Material.Infrastructure.Responses
         public IList<EmailPart> Parts { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleGmailResponse
     {

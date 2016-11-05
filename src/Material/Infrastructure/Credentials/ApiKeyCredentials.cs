@@ -20,6 +20,7 @@ namespace Material.Infrastructure.Credentials
         public override string ExpiresIn => "0";
         public override bool AreValidIntermediateCredentials => true;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public static ApiKeyCredentials FromProvider<TResourceProvider>(
             string apiKey)
             where TResourceProvider : ApiKeyResourceProvider, new()

@@ -17,6 +17,7 @@ namespace Material
         /// <typeparam name="TRequest">Request type for provider</typeparam>
         /// <param name="credentials">Credentials for provider</param>
         /// <returns>Resource from provider</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public async Task<BluetoothResponse> MakeBluetoothRequestAsync<TRequest>(
             BluetoothCredentials credentials)
             where TRequest : BluetoothRequest, new()

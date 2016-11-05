@@ -11,6 +11,7 @@ using Material.Infrastructure.Credentials;
 using System.Collections.Generic;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -18,6 +19,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Linkedin API 1
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class LinkedIn : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "r_basicprofile", "w_share", "r_emailaddress", "rw_company_admin" };

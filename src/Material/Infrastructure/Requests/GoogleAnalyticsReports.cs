@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Foundations.Enums;
 using System.Net;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -19,6 +20,7 @@ namespace Material.Infrastructure.Requests
     /// Returns the Analytics data
     /// </summary>
     [ServiceType(typeof(GoogleAnalytics))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class GoogleAnalyticsReports : OAuthRequest              
 	{
         public override String Host => "https://analyticsreporting.googleapis.com";

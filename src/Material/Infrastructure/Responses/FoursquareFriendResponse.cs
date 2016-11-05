@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquarePhoto
     {
@@ -13,6 +15,7 @@ namespace Material.Infrastructure.Responses
         public bool @default { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareLists
     {
@@ -20,6 +23,7 @@ namespace Material.Infrastructure.Responses
         public IList<FoursquareGroup> Groups { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareContact
     {
@@ -31,6 +35,7 @@ namespace Material.Infrastructure.Responses
         public string Twitter { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareFriendItem
     {
@@ -58,6 +63,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareContact Contact { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareFriends
     {
@@ -67,6 +73,7 @@ namespace Material.Infrastructure.Responses
         public IList<FoursquareFriendItem> Items { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareFriendIntermediateResponse
     {
@@ -76,6 +83,7 @@ namespace Material.Infrastructure.Responses
         public string Checksum { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareFriendResponse
     {

@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareLocation
     {
@@ -27,6 +29,7 @@ namespace Material.Infrastructure.Responses
         public bool? isFuzzed { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareCategory
     {
@@ -44,7 +47,7 @@ namespace Material.Infrastructure.Responses
         public bool Primary { get; set; }
     }
 
-
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquarePosts
     {
@@ -54,6 +57,7 @@ namespace Material.Infrastructure.Responses
         public int TextCount { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareComments
     {
@@ -61,6 +65,7 @@ namespace Material.Infrastructure.Responses
         public int Count { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareSource
     {
@@ -70,6 +75,7 @@ namespace Material.Infrastructure.Responses
         public string Url { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareCheckinItem
     {
@@ -99,6 +105,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareSource Source { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareCheckins
     {
@@ -108,6 +115,7 @@ namespace Material.Infrastructure.Responses
         public IList<FoursquareCheckinItem> Items { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareResponse
     {
@@ -115,6 +123,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareCheckins Checkins { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareCheckinResponse
     {
@@ -125,6 +134,4 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "response")]
         public FoursquareResponse Response { get; set; }
     }
-
-
 }

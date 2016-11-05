@@ -1,11 +1,14 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     public class TwitterTweetResponse : List<TwitterTweetItem> { }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterTweetItem
     {

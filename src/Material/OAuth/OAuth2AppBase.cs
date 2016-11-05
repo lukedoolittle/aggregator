@@ -102,6 +102,7 @@ namespace Material.OAuth
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2AppBase<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {

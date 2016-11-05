@@ -7,7 +7,7 @@ namespace Material.Infrastructure.Requests
         public override void AddUserIdParameter(string userId)
         {
             Userid = userId;
-            OverridenResponseMediaType = MediaType.Json;
+            OverriddenResponseMediaType = MediaType.Json;
         }
     }
 }

@@ -7,9 +7,6 @@
 			      <Word>Jwt</Word>
             <Word>Auth</Word>
             <Word>Uuid</Word>
-           <Word>CGM</Word>
-           <Word>CSC</Word>
-           <Word>Oximeter</Word>
            <Word>Instagram</Word>
            <Word>Fatsecret</Word>
            <Word>Pinterest</Word>
@@ -17,10 +14,14 @@
            <Word>Runkeeper</Word>
            <Word>Tumblr</Word>
            <Word>Withings</Word>
+           <Word>Fitbit</Word>
            <Word>Api</Word>
+           <Word>Mioalpha</Word>
+           <Word>GPS</Word>
+           <Word>Ms</Word>
          </Recognized>
          <Compound>
-            <Term CompoundAlternate=""></Term>
+            <Term CompoundAlternate="IOs">ios</Term>
          </Compound>
          <DiscreteExceptions>
             <Term>Querystring</Term>
@@ -34,21 +35,8 @@
             <Acronym>UTF</Acronym>
             <Acronym>SMS</Acronym>
             <Acronym>GPS</Acronym>
-            <Acronym>iOS</Acronym>
-           <Acronym>CSC</Acronym>
-           <Acronym>CGM</Acronym>
-             <Acronum>DST</Acronum>
-             <Acronum>HID</Acronum>
-             <Acronum>HTTP</Acronum>
-             <Acronum>OTS</Acronum>
-             <Acronum>PLX</Acronum>
-             <Acronum>PID</Acronum>
-             <Acronum>RSC</Acronum>
-             <Acronum>SCC</Acronum>
-             <Acronum>TDS</Acronum>
-             <Acronum>UV</Acronum>
-             <Acronum>VO2</Acronum>
-           <Acronum>OTS</Acronum>
+            <Acronym>RSA</Acronym>
+            <Acronym>Ms</Acronym>
          </CasingExceptions>
       </Acronyms>
    </Dictionary>

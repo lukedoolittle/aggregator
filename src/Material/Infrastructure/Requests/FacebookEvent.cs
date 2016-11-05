@@ -16,6 +16,7 @@ using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Events for this person. By default this does not include events the person has declined or not replied to.
     /// </summary>
     [ServiceType(typeof(Facebook))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FacebookEvent : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";
@@ -61,6 +63,8 @@ namespace Material.Infrastructure.Requests
         [EnumFormatter()]
         public  FacebookEventType Type { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum FacebookEventType
     {
         [Description("attending")] Attending,

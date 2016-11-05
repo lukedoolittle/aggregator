@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Get the list of recent media liked by the owner of the access_token
     /// </summary>
     [ServiceType(typeof(Instagram))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class InstagramLikes : OAuthRequest              
 	{
         public override String Host => "https://api.instagram.com";

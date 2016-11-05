@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Get the body measures for a user
     /// </summary>
     [ServiceType(typeof(Withings))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class WithingsWeighIn : OAuthRequest              
 	{
         public override String Host => "https://wbsapi.withings.net";

@@ -16,6 +16,7 @@ using Material.Metadata.Formatters;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Converts speech into text
     /// </summary>
     [ServiceType(typeof(MicrosoftBing))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class MicrosoftBingSpeechToText : OAuthRequest              
 	{
         public override String Host => "https://speech.platform.bing.com";
@@ -96,6 +98,8 @@ namespace Material.Infrastructure.Requests
         [DefaultFormatter()]
         public  Nullable<Guid> Instanceid { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum MicrosoftBingSpeechToTextLocale
     {
         [Description("ar-EG")] ArEG,
@@ -127,6 +131,8 @@ namespace Material.Infrastructure.Requests
         [Description("pl-PL")] PlPL,
         [Description("zh-TW")] ZhTW,
     }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum MicrosoftBingSpeechToTextDeviceos
     {
         [Description("Unknown")] Unknown,
@@ -136,6 +142,8 @@ namespace Material.Infrastructure.Requests
         [Description("Android")] Android,
         [Description("iPhone OS")] IPhoneOS,
     }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum MicrosoftBingSpeechToTextScenarios
     {
         [Description("ulm")] Ulm,

@@ -1,7 +1,10 @@
-﻿namespace Material.Infrastructure.Bluetooth
+﻿using System.CodeDom.Compiler;
+
+namespace Material.Infrastructure.Bluetooth
 {
     //Reference
     //https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u{ get; } ={SpecificationType}.xml
+    [GeneratedCode("T4Toolbox", "14.0")]
     public static class BluetoothCharacteristics
     {
         public static BluetoothSpecification AerobicHeartRateLowerLimit { get; } =
@@ -112,7 +115,6 @@
            new BluetoothSpecification("Dew Point", "org.bluetooth.characteristic.dew_point", 0x2A7B);
         public static BluetoothSpecification Digital { get; } =
            new BluetoothSpecification("Digital", "org.bluetooth.characteristic.digital", 0x2A56);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DST")]
         public static BluetoothSpecification DSTOffset { get; } =
            new BluetoothSpecification("DST Offset", "org.bluetooth.characteristic.dst_offset", 0x2A0D);
         public static BluetoothSpecification Elevation { get; } =
@@ -155,27 +157,20 @@
            new BluetoothSpecification("Heat Index", "org.bluetooth.characteristic.heat_index", 0x2A7A);
         public static BluetoothSpecification Height { get; } =
            new BluetoothSpecification("Height", "org.bluetooth.characteristic.height", 0x2A8E);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HID")]
         public static BluetoothSpecification HIDControlPoint { get; } =
            new BluetoothSpecification("HID Control Point", "org.bluetooth.characteristic.hid_control_point", 0x2A4C);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HID")]
         public static BluetoothSpecification HIDInformation { get; } =
            new BluetoothSpecification("HID Information", "org.bluetooth.characteristic.hid_information", 0x2A4A);
         public static BluetoothSpecification HipCircumference { get; } =
            new BluetoothSpecification("Hip Circumference", "org.bluetooth.characteristic.hip_circumference", 0x2A8F);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTP")]
         public static BluetoothSpecification HTTPControlPoint { get; } =
            new BluetoothSpecification("HTTP Control Point", "org.bluetooth.characteristic.http_control_point", 0x2ABA);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTP")]
         public static BluetoothSpecification HTTPEntityBody { get; } =
            new BluetoothSpecification("HTTP Entity Body", "org.bluetooth.characteristic.http_entity_body", 0x2AB9);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTP")]
         public static BluetoothSpecification HTTPHeaders { get; } =
            new BluetoothSpecification("HTTP Headers", "org.bluetooth.characteristic.http_headers", 0x2AB7);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTP")]
         public static BluetoothSpecification HTTPStatusCode { get; } =
            new BluetoothSpecification("HTTP Status Code", "org.bluetooth.characteristic.http_status_code", 0x2AB8);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTPS")]
         public static BluetoothSpecification HTTPSSecurity { get; } =
            new BluetoothSpecification("HTTPS Security", "org.bluetooth.characteristic.https_security", 0x2ABB);
         public static BluetoothSpecification Humidity { get; } =
@@ -252,26 +247,18 @@
            new BluetoothSpecification("Object Size", "org.bluetooth.characteristic.object_size", 0x2AC0);
         public static BluetoothSpecification ObjectType { get; } =
            new BluetoothSpecification("Object Type", "org.bluetooth.characteristic.object_type", 0x2ABF);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "OTS")]
         public static BluetoothSpecification OTSFeature { get; } =
            new BluetoothSpecification("OTS Feature", "org.bluetooth.characteristic.ots_feature", 0x2ABD);
         public static BluetoothSpecification PeripheralPreferredConnectionParameters { get; } =
            new BluetoothSpecification("Peripheral Preferred Connection Parameters", "org.bluetooth.characteristic.gap.peripheral_preferred_connection_parameters", 0x2A04);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
         public static BluetoothSpecification PeripheralPrivacyFlag { get; } =
            new BluetoothSpecification("Peripheral Privacy Flag", "org.bluetooth.characteristic.gap.peripheral_privacy_flag", 0x2A02);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "PLX")]
         public static BluetoothSpecification PLXContinuousMeasurement { get; } =
            new BluetoothSpecification("PLX Continuous Measurement", "org.bluetooth.characteristic.plx_continuous_measurement", 0x2A5F);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "PLX")]
         public static BluetoothSpecification PLXFeatures { get; } =
            new BluetoothSpecification("PLX Features", "org.bluetooth.characteristic.plx_features", 0x2A60);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "PLX")]
         public static BluetoothSpecification PLXSpotCheckMeasurement { get; } =
            new BluetoothSpecification("PLX Spot-Check Measurement", "org.bluetooth.characteristic.plx_spot_check_measurement", 0x2A5E);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Pn")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Pn")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "PID")]
         public static BluetoothSpecification PnPID { get; } =
            new BluetoothSpecification("PnP ID", "org.bluetooth.characteristic.pnp_id", 0x2A50);
         public static BluetoothSpecification PollenConcentration { get; } =
@@ -300,10 +287,8 @@
            new BluetoothSpecification("Ringer Control Point", "org.bluetooth.characteristic.ringer_control_point", 0x2A40);
         public static BluetoothSpecification RingerSetting { get; } =
            new BluetoothSpecification("Ringer Setting", "org.bluetooth.characteristic.ringer_setting", 0x2A41);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "RSC")]
         public static BluetoothSpecification RSCFeature { get; } =
            new BluetoothSpecification("RSC Feature", "org.bluetooth.characteristic.rsc_feature", 0x2A54);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "RSC")]
         public static BluetoothSpecification RSCMeasurement { get; } =
            new BluetoothSpecification("RSC Measurement", "org.bluetooth.characteristic.rsc_measurement", 0x2A53);
         public static BluetoothSpecification SCControlPoint { get; } =
@@ -328,7 +313,6 @@
            new BluetoothSpecification("Supported Unread Alert Category", "org.bluetooth.characteristic.supported_unread_alert_category", 0x2A48);
         public static BluetoothSpecification SystemId { get; } =
            new BluetoothSpecification("System ID", "org.bluetooth.characteristic.system_id", 0x2A23);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "TDS")]
         public static BluetoothSpecification TDSControlPoint { get; } =
            new BluetoothSpecification("TDS Control Point", "org.bluetooth.characteristic.tds_control_point", 0x2ABC);
         public static BluetoothSpecification Temperature { get; } =
@@ -347,7 +331,6 @@
            new BluetoothSpecification("Time Update Control Point", "org.bluetooth.characteristic.time_update_control_point", 0x2A16);
         public static BluetoothSpecification TimeUpdateState { get; } =
            new BluetoothSpecification("Time Update State", "org.bluetooth.characteristic.time_update_state", 0x2A17);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DST")]
         public static BluetoothSpecification TimeWithDST { get; } =
            new BluetoothSpecification("Time with DST", "org.bluetooth.characteristic.time_with_dst", 0x2A11);
         public static BluetoothSpecification TimeZone { get; } =
@@ -358,8 +341,6 @@
            new BluetoothSpecification("True Wind Speed", "org.bluetooth.characteristic.true_wind_speed", 0x2A70);
         public static BluetoothSpecification TwoZoneHeartRateLimit { get; } =
            new BluetoothSpecification("Two Zone Heart Rate Limit", "org.bluetooth.characteristic.two_zone_heart_rate_limit", 0x2A95);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Tx")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Tx")]
         public static BluetoothSpecification TxPowerLevel { get; } =
            new BluetoothSpecification("Tx Power Level", "org.bluetooth.characteristic.tx_power_level", 0x2A07);
         public static BluetoothSpecification Uncertainty { get; } =
@@ -386,6 +367,5 @@
            new BluetoothSpecification("Weight Scale Feature", "org.bluetooth.characteristic.weight_scale_feature", 0x2A9E);
         public static BluetoothSpecification WindChill { get; } =
            new BluetoothSpecification("Wind Chill", "org.bluetooth.characteristic.wind_chill", 0x2A79);
-
     }
 }

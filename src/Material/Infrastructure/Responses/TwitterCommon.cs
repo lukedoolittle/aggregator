@@ -1,9 +1,11 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterHashtag
     {
@@ -13,6 +15,7 @@ namespace Material.Infrastructure.Responses
         public IList<int> Indices { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterUserMention
     {
@@ -28,6 +31,7 @@ namespace Material.Infrastructure.Responses
         public IList<int> Indices { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterUrl
     {
@@ -41,6 +45,7 @@ namespace Material.Infrastructure.Responses
         public IList<int> Indices { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterDescription
     {
@@ -48,6 +53,7 @@ namespace Material.Infrastructure.Responses
         public IList<TwitterUrl> Urls { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterEntities
     {
@@ -67,6 +73,7 @@ namespace Material.Infrastructure.Responses
         public TwitterDescription Description { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterUser
     {
@@ -160,6 +167,7 @@ namespace Material.Infrastructure.Responses
         public bool BlockedBy { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterStatus
     {
@@ -213,6 +221,7 @@ namespace Material.Infrastructure.Responses
         public string Lang { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterBoundingBox
     {
@@ -221,6 +230,7 @@ namespace Material.Infrastructure.Responses
         public IList<IList<IList<double>>> coordinates { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterPlace
     {
@@ -246,6 +256,7 @@ namespace Material.Infrastructure.Responses
         public object Attributes { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterGeo
     {
@@ -255,6 +266,7 @@ namespace Material.Infrastructure.Responses
         public IList<double> Coordinates { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterCoordinates
     {
@@ -264,6 +276,7 @@ namespace Material.Infrastructure.Responses
         public IList<double> Coordinates { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterSize
     {
@@ -275,6 +288,7 @@ namespace Material.Infrastructure.Responses
         public string Resize { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterMedium
     {
@@ -309,6 +323,7 @@ namespace Material.Infrastructure.Responses
         public TwitterVideoInfo VideoInfo { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterVariant
     {
@@ -320,6 +335,7 @@ namespace Material.Infrastructure.Responses
         public string Url { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterVideoInfo
     {
@@ -329,6 +345,7 @@ namespace Material.Infrastructure.Responses
         public IList<TwitterVariant> Variants { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterExtendedEntities
     {
@@ -336,6 +353,7 @@ namespace Material.Infrastructure.Responses
         public IList<TwitterMedium> Media { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class TwitterRetweetedStatus
     {

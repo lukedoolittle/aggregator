@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -7,6 +8,7 @@ using Foundations.Extensions;
 
 namespace Material.Infrastructure.RequestBodies
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class OmnitureMetric
     {
@@ -14,16 +16,17 @@ namespace Material.Infrastructure.RequestBodies
         public string Id { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class OmnitureElement
     {
         [DataMember(Name = "id")]
         public string Id { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "selected", EmitDefaultValue = false)]
         public IList<string> Selected { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class OmnitureReportDescription
     {
@@ -31,8 +34,6 @@ namespace Material.Infrastructure.RequestBodies
         public string ReportSuiteId { get; set; }
 
         public DateTime? Date { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "date", EmitDefaultValue = false)]
         private string _date
         {
@@ -43,8 +44,6 @@ namespace Material.Infrastructure.RequestBodies
         }
 
         public DateTime? StartDate { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "dateFrom", EmitDefaultValue = false)]
         private string _startDate
         {
@@ -55,9 +54,7 @@ namespace Material.Infrastructure.RequestBodies
         }
 
         public DateTime? EndDate { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+
         [DataMember(Name = "dateTo", EmitDefaultValue = false)]
         private string _endDate
         {
@@ -69,23 +66,21 @@ namespace Material.Infrastructure.RequestBodies
 
         public OmnitureReportingDateGranularity DateGranularity { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "dateGranularity")]
         private string _dateGranularity
         {
             get { return DateGranularity.EnumToString(); }
             set { throw new NotImplementedException(); }
         }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
         [DataMember(Name = "metrics")]
         public IList<OmnitureMetric> Metrics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
         [DataMember(Name = "elements", EmitDefaultValue = false)]
         public IList<OmnitureElement> Elements { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class OmnitureQueueBody
     {
@@ -93,6 +88,7 @@ namespace Material.Infrastructure.RequestBodies
         public OmnitureReportDescription ReportDescription { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract(Name = "OmnitureReportingDateGranularity")]
     public enum OmnitureReportingDateGranularity
     {

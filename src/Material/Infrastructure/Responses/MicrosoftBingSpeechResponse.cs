@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class BingSpeechProperties
     {
@@ -29,6 +31,7 @@ namespace Material.Infrastructure.Responses
 
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class BingSpeechHeader
     {
@@ -49,6 +52,7 @@ namespace Material.Infrastructure.Responses
         public BingSpeechProperties Properties { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class BingSpeechToken
     {
@@ -63,6 +67,7 @@ namespace Material.Infrastructure.Responses
         public string Pronunciation { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class BingSpeechResult
     {
@@ -86,6 +91,7 @@ namespace Material.Infrastructure.Responses
         public BingSpeechProperties SpeechProperties { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class MicrosoftBingSpeechResponse
     {

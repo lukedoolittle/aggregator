@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleEmail
     {
@@ -14,6 +16,7 @@ namespace Material.Infrastructure.Responses
         public string Type { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleUrl
     {
@@ -28,6 +31,7 @@ namespace Material.Infrastructure.Responses
         public string Label { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleName
     {
@@ -39,6 +43,7 @@ namespace Material.Infrastructure.Responses
         public string GivenName { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleImage
     {
@@ -50,6 +55,7 @@ namespace Material.Infrastructure.Responses
         public bool IsDefault { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleProfileResponse
     {
@@ -102,6 +108,4 @@ namespace Material.Infrastructure.Responses
         [DataMember(Name = "verified")]
         public bool Verified { get; set; }
     }
-
-
 }

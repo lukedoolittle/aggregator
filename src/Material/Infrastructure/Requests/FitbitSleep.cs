@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// The Get Sleep Logs endpoint returns a summary and list of a user's sleep log entries as well as minute by minute sleep entry data for a given day in the format requested
     /// </summary>
     [ServiceType(typeof(Fitbit))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FitbitSleep : OAuthRequest              
 	{
         public override String Host => "https://api.fitbit.com";

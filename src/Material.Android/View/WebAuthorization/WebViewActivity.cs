@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
@@ -35,6 +36,19 @@ namespace Material.View.WebAuthorization
             var stateKey = Intent.GetStringExtra(Authorizer);
             var authorizer = StateRepo.Remove(stateKey);
             authorizer.SetResult(this);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                if (View != null)
+                {
+                    View.Dispose();
+                }
+            }
         }
     }
 }

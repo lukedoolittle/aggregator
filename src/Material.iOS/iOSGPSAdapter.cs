@@ -10,6 +10,11 @@ using UIKit;
 
 namespace Material
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "i")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "OSGPS")]
+    //TODO: either implement IDisposable or find some other method than a timer
+    //possibly an async delay???
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class iOSGPSAdapter : IGPSAdapter
     {
         private readonly object _syncLock = new object();
@@ -21,10 +26,17 @@ namespace Material
         private readonly int _timeoutInMs;
         private readonly float _desiredAccuracyInMeters;
 
+        public iOSGPSAdapter(CLLocationManager locationManager)
+            : this(
+                  locationManager,
+                  30000,
+                  50)
+        { }
+
         public iOSGPSAdapter(
             CLLocationManager locationManager,
-            int gpsTimeoutInMs = 30000,
-            float desiredAccuracyInMeters = 50)
+            int gpsTimeoutInMs,
+            float desiredAccuracyInMeters)
         {
             if (locationManager == null) throw new ArgumentNullException(nameof(locationManager));
 
@@ -60,6 +72,7 @@ namespace Material
                 }
                 else
                 {
+                    //TODO: handle lack of permissions
                     //fails silently!!!
                 }
 
@@ -82,6 +95,7 @@ namespace Material
         private void StopTimer()
         {
             _timer.Stop();
+            _timer.Dispose();
             _timer = null;
         }
 

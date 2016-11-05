@@ -1,8 +1,10 @@
+using System.CodeDom.Compiler;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareTipItem
     {
@@ -36,6 +38,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareVenue Venue { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareTips
     {
@@ -45,6 +48,7 @@ namespace Material.Infrastructure.Responses
         public IList<FoursquareTipItem> Items { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareTipIntermediateResponse
     {
@@ -52,6 +56,7 @@ namespace Material.Infrastructure.Responses
         public FoursquareTips Tips { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FoursquareTipResponse
     {

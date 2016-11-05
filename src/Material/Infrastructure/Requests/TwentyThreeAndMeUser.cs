@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Gets the user id, and a list of profiles (an account can have multiple genotyped people) with ids
     /// </summary>
     [ServiceType(typeof(TwentyThreeAndMe))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TwentyThreeAndMeUser : OAuthRequest              
 	{
         public override String Host => "https://api.23andme.com";

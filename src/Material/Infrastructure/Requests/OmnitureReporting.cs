@@ -16,6 +16,7 @@ using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// https://marketing.adobe.com/developer/documentation/analytics-reporting-1-4/get-started
     /// </summary>
     [ServiceType(typeof(Omniture))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class OmnitureReporting : OAuthRequest              
 	{
         public override String Host => "https://api2.omniture.com";
@@ -41,6 +43,8 @@ namespace Material.Infrastructure.Requests
         [EnumFormatter()]
         public  OmnitureReportingMethod Method { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum OmnitureReportingMethod
     {
         [Description("Report.Cancel")] ReportCancel,

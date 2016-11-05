@@ -93,7 +93,7 @@ namespace Material.OAuth
                         request.Body,
                         request.BodyType, 
                         request.ExpectedStatusCodes,
-                        request.OverridenResponseMediaType);
+                        request.OverriddenResponseMediaType);
         }
 
         /// <summary>
@@ -102,6 +102,7 @@ namespace Material.OAuth
         /// <typeparam name="TRequest">Request to make to provider</typeparam>
         /// <typeparam name="TResponse">Protected resource</typeparam>
         /// <returns>Protected resource from provider</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public Task<TResponse> MakeOAuthRequestAsync<TRequest, TResponse>()
             where TRequest : OAuthRequest, new()
         {

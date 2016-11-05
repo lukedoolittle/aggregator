@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// The default response returns the ID, link, URL and description of the Pins the authenticated user has liked.
     /// </summary>
     [ServiceType(typeof(Pinterest))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class PinterestLikes : OAuthRequest              
 	{
         public override String Host => "https://api.pinterest.com";

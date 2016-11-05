@@ -91,6 +91,7 @@ using <#= myNamespace #>;
                 }
             }
 #>
+using System.CodeDom.Compiler;
 
 namespace <#= _classRep.Namespace #>
 {     
@@ -110,6 +111,7 @@ namespace <#= _classRep.Namespace #>
                 }
             }
 #>
+	[GeneratedCode("T4Toolbox", "14.0")]
 	<#= _classRep.AccessModifier #> partial class <#= _classRep.Name #><#+
             if (_classRep.GetBase() != null)
             {
@@ -145,6 +147,8 @@ namespace <#= _classRep.Namespace #>
             foreach(var myEnum in _classRep.Enums)
             {
 #>
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum <#= myEnum.Name #>
     {
 <#+

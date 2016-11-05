@@ -1,7 +1,10 @@
-﻿namespace Material.Infrastructure.Bluetooth
+﻿using System.CodeDom.Compiler;
+
+namespace Material.Infrastructure.Bluetooth
 {
     //Reference
     //https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u={SpecificationType}.xml
+    [GeneratedCode("T4Toolbox", "14.0")]
     public static class BluetoothServices
     {
         public static BluetoothSpecification AlertNotificationService { get; } = 
@@ -38,7 +41,6 @@
             new BluetoothSpecification("Health Thermometer", "org.bluetooth.service.health_thermometer", 0x1809);
         public static BluetoothSpecification HeartRate { get; } = 
             new BluetoothSpecification("Heart Rate", "org.bluetooth.service.heart_rate", 0x180D);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "HTTP")]
         public static BluetoothSpecification HTTPProxy { get; } = 
             new BluetoothSpecification("HTTP Proxy", "org.bluetooth.service.http_proxy", 0x1823);
         public static BluetoothSpecification HumanInterfaceDevice { get; } = 
@@ -53,7 +55,6 @@
             new BluetoothSpecification("Link Loss", "org.bluetooth.service.link_loss", 0x1803);
         public static BluetoothSpecification LocationAndNavigation { get; } = 
             new BluetoothSpecification("Location and Navigation", "org.bluetooth.service.location_and_navigation", 0x1819);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DST")]
         public static BluetoothSpecification NextDSTChangeService { get; } = 
             new BluetoothSpecification("Next DST Change Service", "org.bluetooth.service.next_dst_change", 0x1807);
         public static BluetoothSpecification ObjectTransfer { get; } = 
@@ -70,14 +71,11 @@
             new BluetoothSpecification("Scan Parameters", "org.bluetooth.service.scan_parameters", 0x1813);
         public static BluetoothSpecification TransportDiscovery { get; } = 
             new BluetoothSpecification("Transport Discovery", "org.bluetooth.service.transport_discovery", 0x1824);
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Tx")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Tx")]
         public static BluetoothSpecification TxPower { get; } = 
             new BluetoothSpecification("Tx Power", "org.bluetooth.service.tx_power", 0x1804);
         public static BluetoothSpecification UserData { get; } = 
             new BluetoothSpecification("User Data", "org.bluetooth.service.user_data", 0x181C);
         public static BluetoothSpecification WeightScale { get; } = 
             new BluetoothSpecification("Weight Scale", "org.bluetooth.service.weight_scale", 0x181D);
-
     }
 }

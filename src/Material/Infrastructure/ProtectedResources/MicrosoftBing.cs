@@ -10,6 +10,7 @@ using System;
 using Material.Infrastructure.Credentials;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.ProtectedResources
 {     
@@ -17,6 +18,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// Bing API 
     /// </summary>
     [CredentialType(typeof(ApiKeyCredentials))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class MicrosoftBing : ApiKeyExchangeResourceProvider              
 	{
         public override String KeyName => "Ocp-Apim-Subscription-Key";

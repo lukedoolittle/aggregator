@@ -6,7 +6,7 @@ using Material.Contracts;
 namespace Material.Metadata.Formatters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class UnixTimeSecondsDateTimeFormatter : Attribute, IParameterFormatter
+    public sealed class UnixTimeSecondsDateTimeFormatterAttribute : Attribute, IParameterFormatter
     {
         public string FormatAsString(object parameter)
         {

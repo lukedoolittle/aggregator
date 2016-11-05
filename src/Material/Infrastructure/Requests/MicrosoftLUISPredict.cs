@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// gets the trained model predictions for the input example
     /// </summary>
     [ServiceType(typeof(MicrosoftLuis))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class MicrosoftLuisPredict : OAuthRequest              
 	{
         public override String Host => "https://api.projectoxford.ai";

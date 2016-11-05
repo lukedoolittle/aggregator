@@ -6,12 +6,11 @@ using Material.Contracts;
 namespace Material.Metadata.Formatters
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class UnixTimeDaysDateTimeFormatter : Attribute, IParameterFormatter
+    public sealed class UnixTimeSecondsDateTimeOffsetFormatterAttribute : Attribute, IParameterFormatter
     {
         public string FormatAsString(object parameter)
         {
-            return ((DateTime?)parameter)
-                ?.ToUnixTimeDays()
+            return ((DateTimeOffset?) parameter)?.ToUnixTimeSeconds()
                 .ToString(CultureInfo.InvariantCulture);
         }
     }

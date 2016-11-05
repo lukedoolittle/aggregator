@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using Foundations.Extensions;
 
@@ -65,7 +66,10 @@ namespace Material.Infrastructure.Credentials
         public OAuth2Credentials SetExpiresIn(double expiryTime)
         {
             var expiryDateTime = expiryTime.FromUnixTimeSeconds();
-            _expiresIn = ((int)expiryDateTime.Subtract(DateTime.UtcNow).TotalSeconds).ToString();
+            _expiresIn = ((int)expiryDateTime
+                .Subtract(DateTime.UtcNow)
+                .TotalSeconds)
+                .ToString(CultureInfo.InvariantCulture);
 
             return this;
         }

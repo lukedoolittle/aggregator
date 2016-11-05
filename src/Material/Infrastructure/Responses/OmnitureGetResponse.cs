@@ -1,85 +1,10 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
-//namespace Material.Infrastructure.Responses
-//{
-//    public class Element
-//    {
-//        public string id { get; set; }
-//        public string name { get; set; }
-//    }
-
-//    public class ReportSuite
-//    {
-//        public string id { get; set; }
-//        public string name { get; set; }
-//    }
-
-//    public class Metric
-//    {
-//        public string id { get; set; }
-//        public string name { get; set; }
-//        public string type { get; set; }
-//        public int decimals { get; set; }
-//        public int latency { get; set; }
-//        public bool current { get; set; }
-//    }
-
-//    public class Breakdown
-//    {
-//        public string name { get; set; }
-//        public string url { get; set; }
-//        public IList<string> counts { get; set; }
-//    }
-
-//    public class Breakdown
-//    {
-//        public string name { get; set; }
-//        public string url { get; set; }
-//        public IList<string> counts { get; set; }
-//        public IList<Breakdown> breakdown { get; set; }
-//        public IList<string> breakdownTotal { get; set; }
-//    }
-
-//    public class Datum
-//    {
-//        public string name { get; set; }
-//        public int year { get; set; }
-//        public int month { get; set; }
-//        public int day { get; set; }
-//        public int hour { get; set; }
-//        public IList<Breakdown> breakdown { get; set; }
-//        public IList<string> breakdownTotal { get; set; }
-//    }
-
-//    public class Report
-//    {
-//        public string type { get; set; }
-//        public IList<Element> elements { get; set; }
-//        public ReportSuite reportSuite { get; set; }
-//        public string period { get; set; }
-//        public IList<Metric> metrics { get; set; }
-//        public IList<Datum> data { get; set; }
-//        public IList<string> totals { get; set; }
-//        public string version { get; set; }
-//    }
-
-//    public class OmnitureGetResponse
-//    {
-//        public Report report { get; set; }
-//        public int waitSeconds { get; set; }
-//        public int runSeconds { get; set; }
-//    }
-//}
-
+﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Element
     {
@@ -89,6 +14,7 @@ namespace Material.Infrastructure.Responses
         public string Name { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class ReportSuite
     {
@@ -98,6 +24,7 @@ namespace Material.Infrastructure.Responses
         public string Name { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Metric
     {
@@ -115,6 +42,7 @@ namespace Material.Infrastructure.Responses
         public bool Current { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Datum
     {
@@ -132,6 +60,7 @@ namespace Material.Infrastructure.Responses
         public IList<string> Counts { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class Report
     {
@@ -153,6 +82,7 @@ namespace Material.Infrastructure.Responses
         public string Version { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class OmnitureGetResponse
     {

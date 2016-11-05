@@ -33,7 +33,7 @@ namespace Material.Infrastructure
         public object Body { get; set; }
         public MediaType BodyType { get; set; } = MediaType.Json;
 
-        public MediaType? OverridenResponseMediaType { get; set; }
+        public MediaType? OverriddenResponseMediaType { get; set; }
         public virtual List<HttpStatusCode> ExpectedStatusCodes { get; } = 
             new List<HttpStatusCode> { HttpStatusCode.OK };
 

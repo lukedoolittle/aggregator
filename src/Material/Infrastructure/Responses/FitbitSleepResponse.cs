@@ -1,10 +1,12 @@
 using System.Runtime.Serialization;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using Foundations.HttpClient.Metadata;
 
 namespace Material.Infrastructure.Responses
 {
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitMinuteData
     {
@@ -14,6 +16,7 @@ namespace Material.Infrastructure.Responses
         public string Value { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitSleepData
     {
@@ -53,6 +56,7 @@ namespace Material.Infrastructure.Responses
         public int TimeInBed { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class FitbitSleepSummary
     {
@@ -64,6 +68,7 @@ namespace Material.Infrastructure.Responses
         public int TotalTimeInBed { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DateTimeFormatter("yyyy-MM-ddTHH:mm:ss.fff")]
     [DataContract]
     public class FitbitSleepResponse

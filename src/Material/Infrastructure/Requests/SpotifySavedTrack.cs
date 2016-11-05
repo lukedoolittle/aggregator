@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Get a list of the songs saved in the current Spotify user’s Your Music library.
     /// </summary>
     [ServiceType(typeof(Spotify))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class SpotifySavedTrack : OAuthRequest              
 	{
         public override String Host => "https://api.spotify.com";

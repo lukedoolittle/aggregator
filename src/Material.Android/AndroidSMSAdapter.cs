@@ -1,23 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.Content;
-using Android.Provider;
-using Android.Runtime;
-using Android.Telephony;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Database;
+using Android.Provider;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Framework;
 using Material.Infrastructure.Requests;
-using Org.BouncyCastle.Asn1;
 using Uri = Android.Net.Uri;
 
-namespace Material.Adapters
+namespace Material
 {
-    using System.Threading.Tasks;
-
     //[BroadcastReceiver(Enabled = true)]
     //[Android.App.IntentFilter(new[] {"android.provider.Telephony.SMS_RECEIVED"})]
     public class AndroidSMSAdapter : ISMSAdapter //BroadcastReceiver,

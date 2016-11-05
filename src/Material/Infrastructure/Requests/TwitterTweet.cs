@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Returns a collection of the most recent Tweets posted by the user
     /// </summary>
     [ServiceType(typeof(Twitter))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TwitterTweet : OAuthRequest              
 	{
         public override String Host => "https://api.twitter.com";

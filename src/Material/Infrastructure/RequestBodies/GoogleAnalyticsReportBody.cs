@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -8,28 +9,26 @@ namespace Material.Infrastructure.RequestBodies
     //https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
     //https://developers.google.com/analytics/devguides/reporting/core/v4/
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportBody
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "reportRequests")]
         public List<GoogleAnalyticsReportRequest> ReportRequests { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsReportRequest
     {
         [DataMember(Name = "viewId", Order = 1)]
         public string ViewId { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "dateRanges", Order = 2, EmitDefaultValue = false)]
         public List<GoogleAnalyticsDateRange> DateRanges { get; set; }
 
         public SamplingLevel? SamplingLevel { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+
         [DataMember(Name = "samplingLevel", EmitDefaultValue = false)]
         private string _samplingLevel
         {
@@ -37,11 +36,9 @@ namespace Material.Infrastructure.RequestBodies
             set { throw new NotImplementedException(); }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "dimensions", Order = 3, EmitDefaultValue = false)]
         public List<GoogleAnalyticsDimension> Dimensions { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "metrics", Order = 4, EmitDefaultValue = false)]
         public List<GoogleAnalyticsMetric> Metrics { get; set; }
 
@@ -71,28 +68,22 @@ namespace Material.Infrastructure.RequestBodies
         public bool? HideValueRanges { get; set; }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     public enum SamplingLevel
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "SAMPLING")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "UNSPECIFIED")]
         SAMPLING_UNSPECIFIED,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DEFAULT")]
         DEFAULT,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "SMALL")]
         SMALL,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "LARGE")]
         LARGE
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsDateRange
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "startDate", Order = 1)]
         private string _startDate
         {
@@ -102,9 +93,6 @@ namespace Material.Infrastructure.RequestBodies
             set { throw new NotImplementedException(); }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "endDate", Order = 2)]
         private string _endDate
         {
@@ -115,6 +103,7 @@ namespace Material.Infrastructure.RequestBodies
         }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsMetric
     {
@@ -126,9 +115,6 @@ namespace Material.Infrastructure.RequestBodies
 
         public MetricType? FormattingType { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "value")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "formattingType", EmitDefaultValue = false)]
         private string _formattingType
         {
@@ -137,32 +123,24 @@ namespace Material.Infrastructure.RequestBodies
         }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     public enum MetricType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "UNSPECIFIED")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "TYPE")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "METRIC")]
         METRIC_TYPE_UNSPECIFIED,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "INTEGER")]
         INTEGER,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "FLOAT")]
         FLOAT,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "CURRENCY")]
         CURRENCY,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "PERCENT")]
         PERCENT,
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "TIME")]
         TIME
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
     public class GoogleAnalyticsDimension
     {
         [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [DataMember(Name = "expression", EmitDefaultValue = false)]
         public List<string> HistogramBuckets { get; set; }
     }

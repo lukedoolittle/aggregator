@@ -16,6 +16,7 @@ using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
 using Foundations.Attributes;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -23,6 +24,7 @@ namespace Material.Infrastructure.Requests
     /// Basic profile data
     /// </summary>
     [ServiceType(typeof(LinkedIn))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class LinkedinPersonal : OAuthRequest              
 	{
         public override String Host => "https://api.linkedin.com";
@@ -40,6 +42,8 @@ namespace Material.Infrastructure.Requests
         [EnumFormatter()]
         public  LinkedinPersonalFormat Format { get; set; } = LinkedinPersonalFormat.Json;
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
     public enum LinkedinPersonalFormat
     {
         [Description("json")] Json,

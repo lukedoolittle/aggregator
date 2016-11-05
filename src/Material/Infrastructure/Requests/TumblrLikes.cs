@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// Use this method to retrieve the liked posts that match the OAuth credentials submitted with the request.
     /// </summary>
     [ServiceType(typeof(Tumblr))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class TumblrLikes : OAuthRequest              
 	{
         public override String Host => "https://api.tumblr.com";

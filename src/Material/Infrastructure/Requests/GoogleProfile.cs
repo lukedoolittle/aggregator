@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Foundations.Enums;
 using System.Net;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -19,6 +20,7 @@ namespace Material.Infrastructure.Requests
     /// Get a person's profile
     /// </summary>
     [ServiceType(typeof(Google))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class GoogleProfile : OAuthRequest              
 	{
         public override String Host => "https://www.googleapis.com";

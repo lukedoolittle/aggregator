@@ -14,6 +14,7 @@ using System.Net;
 using Material.Enums;
 using Material.Metadata.Formatters;
 using Material.Infrastructure;
+using System.CodeDom.Compiler;
 
 namespace Material.Infrastructure.Requests
 {     
@@ -21,6 +22,7 @@ namespace Material.Infrastructure.Requests
     /// The Get Activity Time Series endpoint returns time series data for a specific date
     /// </summary>
     [ServiceType(typeof(Fitbit))]
+	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class FitbitIntradayStepsBulk : OAuthRequest              
 	{
         public override String Host => "https://api.fitbit.com";
