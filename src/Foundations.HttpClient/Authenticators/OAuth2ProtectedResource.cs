@@ -5,7 +5,7 @@ using Foundations.HttpClient.Extensions;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2ProtectedResource : IAuthenticator
+    public class OAuth2ProtectedResource : IAuthorizer
     {
         private readonly string _accessToken;
         private readonly string _accessTokenName;

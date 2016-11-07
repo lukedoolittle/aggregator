@@ -22,17 +22,14 @@ namespace Foundations.HttpClient.Request
 
         public MediaType? OverriddenMediaType { get; set; }
 
-        public DecompressionMethods AutomaticDecompression { get; set; } = 
-            DecompressionMethods.None;
-
-        public IAuthenticator Authenticator { get; set; }
-
-        public bool AllowAutoRedirects { get; set; } = false;
+        public IAuthorizer Authorizer { get; set; }
 
         public void AddPath(string path)
         {
+            if (path == null) throw new ArgumentNullException(nameof(path));
+
             var uriBuilder = new UriBuilder(Address);
-            uriBuilder.Path += path;
+            uriBuilder.Path += path.TrimStart('/');
             Address = uriBuilder.Uri;
         }
 

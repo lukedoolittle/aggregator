@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
@@ -768,6 +769,72 @@ e451rpYJcee/1EhNRpvn6Q==
                 .ConfigureAwait(false);
 
             Assert.Equal(expectedUserAgent, response.Headers["User-Agent"]);
+        }
+
+        [Fact]
+        public async void MakeMultipleSynchronousRequestsToSameEndpoint()
+        {
+            var numberOfRequests = 5;
+            var baseUrl = _endpoint;
+            var path = _getPath;
+            var method = HttpMethod.Get;
+            var parameterType = HttpParameterType.Querystring;
+
+            var results = new List<TypedHttpBinResponse<SampleBody>>();
+            for (var i = 0; i < numberOfRequests; i++)
+            {
+                var result = await GenerateBasicRequest(
+                    baseUrl,
+                    path,
+                    method,
+                    parameterType).ConfigureAwait(false);
+                results.Add(result);
+            }
+
+            foreach (var result in results)
+            {
+                Assert.True(result.Args.Count == 0);
+            }
+        }
+
+        [Fact]
+        public async void MakeMultipleConcurrentRequestsToDifferentEndpoint()
+        {
+            var task1 = new HttpRequestBuilder("http://www.google.com")
+                .GetFrom("")
+                .ExecuteAsync();
+
+            var task2 = new HttpRequestBuilder("http://www.yahoo.com")
+                .GetFrom("")
+                .ExecuteAsync();
+
+            var task3 = GenerateBasicRequest(
+                _endpoint,
+                _getPath,
+                HttpMethod.Get,
+                HttpParameterType.Querystring);
+
+            var task4 = GenerateBasicRequest(
+                _endpoint,
+                _postPath,
+                HttpMethod.Post,
+                HttpParameterType.Body);
+
+            await Task.WhenAll(task1, task2, task3, task4).ConfigureAwait(false);
+
+            Assert.True(task3.Result.Args.Count == 0);
+            Assert.True(task4.Result.Args.Count == 0);
+        }
+
+        private static Task<TypedHttpBinResponse<SampleBody>> GenerateBasicRequest(
+            string baseUrl, 
+            string path,
+            HttpMethod method, 
+            HttpParameterType parameterType)
+        {
+            return new HttpRequestBuilder(baseUrl)
+                .Request(method, path, parameterType)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>();
         }
     }
 

@@ -23,7 +23,7 @@ namespace Material.OAuth
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                new ApiKeyAuthenticator(
+                new ApiKeyAuthorizer(
                     credentials.KeyName, 
                     credentials.KeyValue, 
                     credentials.KeyType),

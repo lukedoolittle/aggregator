@@ -5,7 +5,7 @@ using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2ClientAccessToken : IAuthenticator
+    public class OAuth2ClientAccessToken : IAuthorizer
     {
         private readonly string _clientId;
         private readonly string _clientSecret;

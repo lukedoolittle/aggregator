@@ -18,27 +18,24 @@ namespace Material.OAuth.Authentication
             HttpParameterType apiKeyType,
             string tokenName)
         {
-            using (var requestBuilder = new HttpRequestBuilder(requestUri.NonPath()))
-            {
-                var result = (await requestBuilder
-                    .PostTo(requestUri.AbsolutePath)
-                    .ForApiKey(
-                        apiKeyName,
-                        apiKeyValue,
-                        apiKeyType)
-                    .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
-                    .ResultAsync()
-                    .ConfigureAwait(false));
+            var result = (await new HttpRequestBuilder(requestUri.NonPath())
+                .PostTo(requestUri.AbsolutePath)
+                .ForApiKey(
+                    apiKeyName,
+                    apiKeyValue,
+                    apiKeyType)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
+                .ResultAsync()
+                .ConfigureAwait(false));
 
-                var token = new JsonWebToken(result);
+            var token = new JsonWebToken(result);
 
-                //TODO: validate JWT with primary key
+            //TODO: validate JWT with primary key
 
-                return new OAuth2Credentials()
-                    .SetAccessToken(result)
-                    .SetTokenName(tokenName)
-                    .SetExpiresIn(token.Claims.ExpirationTime);
-            }
+            return new OAuth2Credentials()
+                .SetAccessToken(result)
+                .SetTokenName(tokenName)
+                .SetExpiresIn(token.Claims.ExpirationTime);
         }
     }
 }

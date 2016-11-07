@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Runtime.Serialization;
 using Foundations.Collections;
 using Foundations.Enums;
+using Foundations.HttpClient.Request;
 using Foundations.HttpClient.Serialization;
 
 namespace Foundations.HttpClient
@@ -13,10 +14,20 @@ namespace Foundations.HttpClient
     public static class HttpConfiguration
     {
         /// <summary>
+        /// Pool of Uri-specific clients to pull HttpClients from
+        /// </summary>
+        public static IClientPool ClientPool { get; } = new ClientPool();
+
+        /// <summary>
         /// Creates the default HttpClientHandler for the HttpClient instance internal to HttpRequestBuilder
         /// </summary>
         public static Func<HttpClientHandler> MessageHandlerFactory { get; set; } =
-            () => new HttpClientHandler {CookieContainer = new CookieContainer()};
+            () => new HttpClientHandler
+            {
+                CookieContainer = new CookieContainer(),
+                AllowAutoRedirect = true,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            };
 
         /// <summary>
         /// Defines any default configurations applied to all HttpRequestBuilder instances

@@ -14,14 +14,14 @@ namespace Material.OAuth.Authentication
 {
     public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
     {
-        private readonly IAuthenticator _authenticator;
+        private readonly IAuthorizer _authorizer;
         private readonly HttpParameterType _parameterHandling;
 
         public OAuthProtectedResourceAdapter(
-            IAuthenticator authenticator, 
+            IAuthorizer authorizer, 
             HttpParameterType parameterHandling)
         {
-            _authenticator = authenticator;
+            _authorizer = authorizer;
             _parameterHandling = parameterHandling;
         }
 
@@ -51,21 +51,18 @@ namespace Material.OAuth.Authentication
                 throw new ArgumentNullException(nameof(httpMethod));
             }
 
-            using (var requestBuilder = new HttpRequestBuilder(host))
-            {
-                return await requestBuilder
+                return await new HttpRequestBuilder(host)
                     .Request(httpMethod, path, _parameterHandling)
                     .ResponseMediaTypes(responseTypes)
                     .Headers(headers)
                     .Parameters(additionalQuerystringParameters)
                     .Segments(urlPathParameters.ToHttpValueCollection())
-                    .Authenticator(_authenticator)
+                    .Authenticator(_authorizer)
                     .ThrowIfNotExpectedResponseCode(expectedResponse)
                     .Content(body, bodyType)
                     .OverrideResponseMediaType(overriddenMediaType)
                     .ResultAsync<TResponse>()
                     .ConfigureAwait(false);
-            }
         }
     }
 }

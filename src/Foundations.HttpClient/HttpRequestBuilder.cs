@@ -17,7 +17,7 @@ using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient
 {
-    public class HttpRequestBuilder : IDisposable
+    public class HttpRequestBuilder
     {
         private readonly RequestParameters _request = 
             new RequestParameters();
@@ -82,10 +82,6 @@ namespace Foundations.HttpClient
             _request.Headers.AddAcceptsEncoding(
                 new StringWithQualityHeaderValue(
                     decompressionMethod.ToString().ToLower()));
-
-            _request.AutomaticDecompression =
-                _request.AutomaticDecompression |
-                decompressionMethod;
 
             return this;
         }
@@ -231,9 +227,9 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Authenticator(
-            IAuthenticator requestAuthenticator)
+            IAuthorizer requestAuthorizer)
         {
-            _request.Authenticator = requestAuthenticator;
+            _request.Authorizer = requestAuthorizer;
 
             return this;
         }
@@ -250,16 +246,9 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequestBuilder PreventAutoRedirects()
-        {
-            _request.AllowAutoRedirects = false;
-
-            return this;
-        }
-
         public async Task<HttpResponse> ExecuteAsync()
         {
-            _request.Authenticator?.Authenticate(this);
+            _request.Authorizer?.Authenticate(this);
             _request.Payload.Attach(_request);
 
             if (_request.Method == HttpMethod.Get &&
@@ -269,11 +258,38 @@ namespace Foundations.HttpClient
                     StringResource.GetWithBodyNotSupported);
             }
 
-            var messageHandler = GetHandler(_request);
-            var message = GetMessage(_request);
-            var client = new System.Net.Http.HttpClient(messageHandler);
+            var client = HttpConfiguration.ClientPool.GetClient(_request.Address);
 
-            var response = await client
+            var message = new HttpRequestMessage
+            {
+                Method = _request.Method,
+                RequestUri = _request.Address,
+                Content = _request.Content
+            };
+            //TODO: do you actually have to do this???
+            foreach (var header in _request.Headers)
+            {
+                if (header.Key == HttpRequestHeader.Accept.ToString())
+                {
+                    message.Headers.Accept.Add((MediaTypeWithQualityHeaderValue)header.Value);
+                }
+                else if (header.Key == HttpRequestHeader.AcceptEncoding.ToString())
+                {
+                    message.Headers.AcceptEncoding.Add((StringWithQualityHeaderValue)header.Value);
+                }
+                else if (header.Key == HttpRequestHeader.UserAgent.ToString())
+                {
+                    message.Headers.UserAgent.Add((ProductInfoHeaderValue)header.Value);
+                }
+                else
+                {
+                    message.Headers.Add(
+                        header.Key,
+                        header.Value.ToString());
+                }
+            }
+            
+            var response = await client.Client
                 .SendAsync(message)
                 .ConfigureAwait(false);
 
@@ -298,63 +314,15 @@ namespace Foundations.HttpClient
             {
                 return new HttpResponse(
                     response,
-                    messageHandler.CookieContainer.GetCookies(_request.Address),
+                    client.Handler.CookieContainer.GetCookies(_request.Address),
                     _request.OverriddenMediaType.Value);
             }
             else
             {
                 return new HttpResponse(
                     response,
-                    messageHandler.CookieContainer.GetCookies(_request.Address));
+                    client.Handler.CookieContainer.GetCookies(_request.Address));
             }
-        }
-
-        private static HttpClientHandler GetHandler(RequestParameters request)
-        {
-            var handler = HttpConfiguration.MessageHandlerFactory();
-            handler.AllowAutoRedirect = request.AllowAutoRedirects;
-            handler.AutomaticDecompression = request.AutomaticDecompression;
-            return handler;
-        }
-
-        //TODO: do you actually have to do this???
-        private static HttpRequestMessage GetMessage(RequestParameters request)
-        {
-            var message = new HttpRequestMessage
-            {
-                Method = request.Method,
-                RequestUri = request.Address,
-                Content = request.Content
-            };
-
-            foreach (var header in request.Headers)
-            {
-                if (header.Key == HttpRequestHeader.Accept.ToString())
-                {
-                    message.Headers.Accept.Add((MediaTypeWithQualityHeaderValue) header.Value);
-                }
-                else if (header.Key == HttpRequestHeader.AcceptEncoding.ToString())
-                {
-                    message.Headers.AcceptEncoding.Add((StringWithQualityHeaderValue) header.Value);
-                }
-                else if (header.Key == HttpRequestHeader.UserAgent.ToString())
-                {
-                    message.Headers.UserAgent.Add((ProductInfoHeaderValue)header.Value);
-                }
-                else
-                {
-                    message.Headers.Add(
-                        header.Key, 
-                        header.Value.ToString());
-                }
-            }
-
-            return message;
-        }
-
-        public void Dispose()
-        {
-            //don't need to do anything here
         }
     }
 }

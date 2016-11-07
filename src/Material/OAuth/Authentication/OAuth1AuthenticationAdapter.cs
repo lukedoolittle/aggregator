@@ -30,23 +30,20 @@ namespace Material.OAuth.Authentication
                 throw new ArgumentNullException(nameof(callbackUrl));
             }
 
-            using (var requestBuilder = new HttpRequestBuilder(requestUrl.NonPath()))
-            {
-                return (await requestBuilder
-                            .PostTo(
-                                requestUrl.AbsolutePath,
-                                parameterHandling)
-                            .ForOAuth1RequestToken(
-                                consumerKey,
-                                consumerSecret,
-                                callbackUrl)
-                            .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
-                            .ResultAsync<OAuth1Credentials>()
-                            .ConfigureAwait(false))
-                            .SetConsumerProperties(
-                                consumerKey,
-                                consumerSecret);
-            }
+            return (await new HttpRequestBuilder(requestUrl.NonPath())
+                .PostTo(
+                    requestUrl.AbsolutePath,
+                    parameterHandling)
+                .ForOAuth1RequestToken(
+                    consumerKey,
+                    consumerSecret,
+                    callbackUrl)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
+                .ResultAsync<OAuth1Credentials>()
+                .ConfigureAwait(false))
+                .SetConsumerProperties(
+                    consumerKey,
+                    consumerSecret);
         }
 
         public Uri GetAuthorizationUri(
@@ -91,26 +88,23 @@ namespace Material.OAuth.Authentication
                 throw new ArgumentNullException(nameof(accessUri));
             }
 
-            using (var requestBuilder = new HttpRequestBuilder(accessUri.NonPath()))
-            {
-                return (await requestBuilder
-                            .PostTo(
-                                accessUri.AbsolutePath,
-                                parameterHandling)
-                            .ForOAuth1AccessToken(
-                                consumerKey,
-                                consumerSecret,
-                                oauthToken,
-                                oauthSecret,
-                                verifier)
-                            .Parameters(queryParameters)
-                            .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
-                            .ResultAsync<OAuth1Credentials>()
-                            .ConfigureAwait(false))
-                            .SetConsumerProperties(
-                                consumerKey,
-                                consumerSecret);
-            }
+            return (await new HttpRequestBuilder(accessUri.NonPath())
+                .PostTo(
+                    accessUri.AbsolutePath,
+                    parameterHandling)
+                .ForOAuth1AccessToken(
+                    consumerKey,
+                    consumerSecret,
+                    oauthToken,
+                    oauthSecret,
+                    verifier)
+                .Parameters(queryParameters)
+                .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
+                .ResultAsync<OAuth1Credentials>()
+                .ConfigureAwait(false))
+                .SetConsumerProperties(
+                    consumerKey,
+                    consumerSecret);
         }
     }
 }

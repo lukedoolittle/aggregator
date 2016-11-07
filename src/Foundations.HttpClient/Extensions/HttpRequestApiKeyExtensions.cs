@@ -14,7 +14,7 @@ namespace Foundations.HttpClient.Extensions
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
-            var authenticator = new ApiKeyAuthenticator(
+            var authenticator = new ApiKeyAuthorizer(
                 keyName,
                 keyValue,
                 keyType);

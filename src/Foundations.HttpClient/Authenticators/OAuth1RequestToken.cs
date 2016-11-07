@@ -5,7 +5,7 @@ using Foundations.HttpClient.Extensions;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth1RequestToken : IAuthenticator
+    public class OAuth1RequestToken : IAuthorizer
     {
         private readonly OAuth1SigningTemplate _template;
         private readonly string _consumerKey;

@@ -4,7 +4,7 @@ using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2RefreshToken : IAuthenticator
+    public class OAuth2RefreshToken : IAuthorizer
     {
         private readonly string _clientId;
         private readonly string _clientSecret;

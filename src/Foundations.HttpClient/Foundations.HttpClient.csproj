@@ -44,7 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authenticators\ApiKeyAuthenticator.cs" />
+    <Compile Include="Authenticators\ApiKeyAuthorizer.cs" />
     <Compile Include="Authenticators\OAuth1AccessToken.cs" />
     <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1RequestToken.cs" />
@@ -85,9 +85,11 @@
     <Compile Include="ParameterHandlers\QuerystringParameterHandler.cs" />
     <Compile Include="HttpRequestBuilder.cs" />
     <Compile Include="HttpResponse.cs" />
-    <Compile Include="Authenticators\IAuthenticator.cs" />
+    <Compile Include="Authenticators\IAuthorizer.cs" />
     <Compile Include="ParameterHandlers\IParameterHandler.cs" />
+    <Compile Include="Request\ClientPool.cs" />
     <Compile Include="Request\HeaderCollection.cs" />
+    <Compile Include="Request\IClientPool.cs" />
     <Compile Include="Request\RequestParameters.cs" />
     <Compile Include="Request\RequestPayload.cs" />
     <Compile Include="Request\Content\RawContent.cs" />

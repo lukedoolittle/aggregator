@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Foundations.Collections;
 using Foundations.Extensions;
-using Foundations.Http;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
@@ -26,6 +27,17 @@ namespace Quantfabric.Test.Material.Integration
     {
         private readonly AppCredentialRepository _appRepository =
             new AppCredentialRepository(CallbackType.Localhost);
+
+        public MockOAuth2WebTests()
+        {
+            HttpConfiguration.MessageHandlerFactory = () =>
+            new HttpClientHandler
+            {
+                CookieContainer = new CookieContainer(),
+                AllowAutoRedirect = false,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            };
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogle()
@@ -214,8 +226,7 @@ namespace Quantfabric.Test.Material.Integration
 
                 var handler = new HttpRequestBuilder(authUri.NonPath())
                     .GetFrom(authUri.AbsolutePath)
-                    .Parameters(HttpUtility.ParseQueryString(authUri.Query))
-                    .PreventAutoRedirects();
+                    .Parameters(HttpUtility.ParseQueryString(authUri.Query));
                 var result = await handler.ExecuteAsync().ConfigureAwait(false);
 
                 if (serverTask.Status == TaskStatus.RanToCompletion)
