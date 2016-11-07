@@ -235,8 +235,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Material\Integration\MockOAuth1TokenTests.cs" />
+    <Compile Include="Material\Integration\MockOAuth1WebTests.cs" />
     <Compile Include="Material\Integration\MockOAuth2CodeTokenTests.cs" />
     <Compile Include="Material\Integration\MockOAuth2ImplicitTokenTests.cs" />
+    <Compile Include="Material\Integration\MockOAuth2WebTests.cs" />
     <Compile Include="Material\Interaction\OAuth1TokenTests.cs" />
     <Compile Include="Material\Interaction\OAuth2ClientCredentialsTokenTests.cs" />
     <Compile Include="Material\Interaction\OAuth2CodeTokenTests.cs" />
