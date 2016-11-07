@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Foundations.Collections;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
     public class BodyParameterHandler : IParameterHandler
     {
         public void AddParameters(
-            HttpRequestMessage message,
+            RequestParameters message,
             HttpValueCollection parameters)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));

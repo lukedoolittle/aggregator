@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Net.Http;
 using Foundations.Collections;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.ParameterHandlers;
-using Foundations.HttpClient.Request;
 
-namespace Foundations.HttpClient
+namespace Foundations.HttpClient.Request
 {
     public class RequestPayload
     {
@@ -56,7 +54,7 @@ namespace Foundations.HttpClient
             }
         }
 
-        public void Attach(HttpRequestMessage message)
+        public void Attach(RequestParameters message)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
 

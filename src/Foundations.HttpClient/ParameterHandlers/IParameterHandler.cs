@@ -1,12 +1,12 @@
-﻿using System.Net.Http;
-using Foundations.Collections;
+﻿using Foundations.Collections;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
     public interface IParameterHandler
     {
         void AddParameters(
-            HttpRequestMessage message,
+            RequestParameters message,
             HttpValueCollection parameters);
     }
 }

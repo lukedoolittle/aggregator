@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using Foundations.Collections;
 using Foundations.Extensions;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.ParameterHandlers
 {
     public class QuerystringParameterHandler : IParameterHandler
     {
         public void AddParameters(
-            HttpRequestMessage message, 
+            RequestParameters message, 
             HttpValueCollection parameters)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -19,8 +19,8 @@ namespace Foundations.HttpClient.ParameterHandlers
                 return;
             }
 
-            message.RequestUri = message
-                                    .RequestUri
+            message.Address = message
+                                    .Address
                                     .AddEncodedQuerystring(
                                         parameters);
         }

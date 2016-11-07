@@ -19,29 +19,12 @@ namespace Foundations.HttpClient
 {
     public class HttpRequestBuilder : IDisposable
     {
-        private readonly Uri _baseAddress;
-        private readonly HttpRequestMessage _message = 
-            new HttpRequestMessage();
-        private readonly HttpClientHandler _messageHandler =
-            HttpConfiguration.MessageHandlerFactory();
-        private readonly RequestPayload _payload = 
-            new RequestPayload();
-        private readonly HttpValueCollection _pathParameters =
-            new HttpValueCollection();
+        private readonly RequestParameters _request = 
+            new RequestParameters();
 
-        private string _path;
-        private IAuthenticator _authenticator;
-
-        private readonly List<HttpStatusCode> _expectedResponseCode = 
-            new List<HttpStatusCode>();
-        private MediaType? _overridenMediaType;
-
-        public HttpMethod Method => _message.Method;
-
-        public Uri Url => new Uri(_baseAddress + _path);
-
-        public HttpValueCollection QueryParameters => 
-            _payload.QueryParameters;
+        public HttpMethod Method => _request.Method;
+        public Uri Url => _request.Address;
+        public HttpValueCollection QueryParameters =>  _request.Payload.QueryParameters;
 
         public HttpRequestBuilder(Uri baseAddress) 
         {
@@ -50,7 +33,7 @@ namespace Foundations.HttpClient
                 throw new ArgumentNullException(nameof(baseAddress));
             }
 
-            _baseAddress = baseAddress;
+            _request.Address = baseAddress;
 
             HttpConfiguration.DefaultBuilderSetup(this);
         }
@@ -67,10 +50,10 @@ namespace Foundations.HttpClient
             if (method == null) throw new ArgumentNullException(nameof(method));
             if (path == null) throw new ArgumentNullException(nameof(path));
 
-            _path = path.TrimStart('/');
+            _request.AddPath(path);
 
-            _message.Method = method;
-            _payload.SetParameterHandling(parameterType);
+            _request.Method = method;
+            _request.Payload.SetParameterHandling(parameterType);
 
             return this;
         }
@@ -85,7 +68,9 @@ namespace Foundations.HttpClient
 
             foreach (var parameter in parameters)
             {
-                _pathParameters.Add(parameter);
+                _request.AddPathParameter(
+                    parameter.Key, 
+                    parameter.Value);
             }
 
             return this;
@@ -94,17 +79,12 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder AcceptsDecompressionEncoding(
             DecompressionMethods decompressionMethod)
         {
-            if (decompressionMethod == DecompressionMethods.None)
-            {
-                _message.Headers.AcceptEncoding.Clear();
-            }
-
-            _message.Headers.AcceptEncoding.Add(
+            _request.Headers.AddAcceptsEncoding(
                 new StringWithQualityHeaderValue(
                     decompressionMethod.ToString().ToLower()));
 
-            _messageHandler.AutomaticDecompression =
-                _messageHandler.AutomaticDecompression |
+            _request.AutomaticDecompression =
+                _request.AutomaticDecompression |
                 decompressionMethod;
 
             return this;
@@ -112,7 +92,7 @@ namespace Foundations.HttpClient
 
         public HttpRequestBuilder Accepts(MediaType contentType)
         {
-            _message.Headers.Accept.Add(
+            _request.Headers.AddAccepts(
                 new MediaTypeWithQualityHeaderValue(
                     contentType.EnumToString()));
 
@@ -123,7 +103,7 @@ namespace Foundations.HttpClient
             string name, 
             string value)
         {
-            _message.Headers.Add(name, value);
+            _request.Headers.Add(name, value);
 
             return this;
         }
@@ -148,7 +128,7 @@ namespace Foundations.HttpClient
 
             foreach (var header in httpHeaders)
             {
-                _message.Headers.Add(
+                _request.Headers.Add(
                     header.Key.ToString(), 
                     header.Value);
             }
@@ -174,7 +154,7 @@ namespace Foundations.HttpClient
 
             foreach (var parameter in requestParameters)
             {
-                _payload.AddParameter(
+                _request.Payload.AddParameter(
                     parameter.Key,
                     parameter.Value);
             }
@@ -188,7 +168,7 @@ namespace Foundations.HttpClient
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
 
-            _payload.AddContent(
+            _request.Payload.AddContent(
                 new RawContent(
                     value,
                     mediaType));
@@ -202,7 +182,7 @@ namespace Foundations.HttpClient
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            _payload.AddContent(
+            _request.Payload.AddContent(
                 new StreamingContent(
                     stream, 
                     mediaType));
@@ -225,7 +205,7 @@ namespace Foundations.HttpClient
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            _payload.AddContent(
+            _request.Payload.AddContent(
                 new SerializableContent(
                     bodyContent, 
                     encoding, 
@@ -237,7 +217,7 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder OverrideResponseMediaType(
             MediaType? mediaType)
         {
-            _overridenMediaType = mediaType;
+            _request.OverriddenMediaType = mediaType;
 
             return this;
         }
@@ -245,7 +225,7 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder ThrowIfNotExpectedResponseCode(
             HttpStatusCode expectedResponseCode)
         {
-            _expectedResponseCode.Add(expectedResponseCode);
+            _request.ExpectedResponseCodes.Add(expectedResponseCode);
 
             return this;
         }
@@ -253,7 +233,7 @@ namespace Foundations.HttpClient
         public HttpRequestBuilder Authenticator(
             IAuthenticator requestAuthenticator)
         {
-            _authenticator = requestAuthenticator;
+            _request.Authenticator = requestAuthenticator;
 
             return this;
         }
@@ -262,7 +242,7 @@ namespace Foundations.HttpClient
             string agent,
             string version)
         {
-            _message.Headers.UserAgent.Add(
+            _request.Headers.AddUserAgent(
                 new ProductInfoHeaderValue(
                     agent,
                     version));
@@ -272,97 +252,109 @@ namespace Foundations.HttpClient
 
         public HttpRequestBuilder PreventAutoRedirects()
         {
-            _messageHandler.AllowAutoRedirect = false;
+            _request.AllowAutoRedirects = false;
 
             return this;
         }
 
         public async Task<HttpResponse> ExecuteAsync()
         {
-            using (var client = new System.Net.Http.HttpClient(_messageHandler))
+            _request.Authenticator?.Authenticate(this);
+            _request.Payload.Attach(_request);
+
+            if (_request.Method == HttpMethod.Get &&
+                _request.Content != null)
             {
-                _message.RequestUri = _baseAddress.AddPathParameters(
-                    _path,
-                    _pathParameters);
-                
-                _authenticator?.Authenticate(this);
+                throw new NotSupportedException(
+                    StringResource.GetWithBodyNotSupported);
+            }
 
-                _payload.Attach(_message);
+            var messageHandler = GetHandler(_request);
+            var message = GetMessage(_request);
+            var client = new System.Net.Http.HttpClient(messageHandler);
 
-                if (_message.Method == HttpMethod.Get &&
-                    _message.Content != null)
-                {
-                    throw new NotSupportedException(
-                        StringResource.GetWithBodyNotSupported);
-                }
+            var response = await client
+                .SendAsync(message)
+                .ConfigureAwait(false);
 
-                var response = await client
-                    .SendAsync(_message)
+            if (_request.ExpectedResponseCodes.Count > 0 &&
+                !_request.ExpectedResponseCodes.Contains(response.StatusCode))
+            {
+                var content = await response
+                    .Content
+                    .ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                if (_expectedResponseCode.Count > 0 && 
-                    !_expectedResponseCode.Contains(response.StatusCode))
-                {
-                    var content = await response
-                        .Content
-                        .ReadAsStringAsync()
-                        .ConfigureAwait(false);
+                throw new HttpRequestException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        StringResource.BadHttpRequestException,
+                        response.StatusCode,
+                        _request.ExpectedResponseCodes.First(),
+                        content));
+            }
 
-                    throw new HttpRequestException(
-                        string.Format(
-                            CultureInfo.InvariantCulture,
-                            StringResource.BadHttpRequestException,
-                            response.StatusCode,
-                            _expectedResponseCode.First(),
-                            content));
+            if (_request.OverriddenMediaType != null)
+            {
+                return new HttpResponse(
+                    response,
+                    messageHandler.CookieContainer.GetCookies(_request.Address),
+                    _request.OverriddenMediaType.Value);
+            }
+            else
+            {
+                return new HttpResponse(
+                    response,
+                    messageHandler.CookieContainer.GetCookies(_request.Address));
+            }
+        }
+
+        private static HttpClientHandler GetHandler(RequestParameters request)
+        {
+            var handler = HttpConfiguration.MessageHandlerFactory();
+            handler.AllowAutoRedirect = request.AllowAutoRedirects;
+            handler.AutomaticDecompression = request.AutomaticDecompression;
+            return handler;
+        }
+
+        //TODO: do you actually have to do this???
+        private static HttpRequestMessage GetMessage(RequestParameters request)
+        {
+            var message = new HttpRequestMessage
+            {
+                Method = request.Method,
+                RequestUri = request.Address,
+                Content = request.Content
+            };
+
+            foreach (var header in request.Headers)
+            {
+                if (header.Key == HttpRequestHeader.Accept.ToString())
+                {
+                    message.Headers.Accept.Add((MediaTypeWithQualityHeaderValue) header.Value);
                 }
-
-                if (_overridenMediaType != null)
+                else if (header.Key == HttpRequestHeader.AcceptEncoding.ToString())
                 {
-                    return new HttpResponse(
-                        response,
-                        _messageHandler.CookieContainer.GetCookies(_baseAddress),
-                        _overridenMediaType.Value);
+                    message.Headers.AcceptEncoding.Add((StringWithQualityHeaderValue) header.Value);
+                }
+                else if (header.Key == HttpRequestHeader.UserAgent.ToString())
+                {
+                    message.Headers.UserAgent.Add((ProductInfoHeaderValue)header.Value);
                 }
                 else
                 {
-                    return new HttpResponse(
-                        response,
-                        _messageHandler.CookieContainer.GetCookies(_baseAddress));
+                    message.Headers.Add(
+                        header.Key, 
+                        header.Value.ToString());
                 }
             }
-        }
 
-        bool _disposed;
+            return message;
+        }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~HttpRequestBuilder()
-        {
-            // Finalizer calls Dispose(false)
-            Dispose(false);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                // free managed resources
-                (_message as IDisposable).Dispose();
-                (_messageHandler as IDisposable).Dispose();
-            }
-
-            // release any unmanaged objects
-            // set the object references to null
-
-            _disposed = true;
+            //don't need to do anything here
         }
     }
 }
