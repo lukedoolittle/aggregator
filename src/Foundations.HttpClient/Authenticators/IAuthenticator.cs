@@ -1,6 +1,6 @@
 ﻿namespace Foundations.HttpClient.Authenticators
 {
-    public interface IAuthorizer
+    public interface IAuthenticator
     {
         void Authenticate(HttpRequestBuilder requestBuilder);
     }

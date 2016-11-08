@@ -14,8 +14,8 @@ namespace Quantfabric.UI.Test.iOS
 
     public partial class MainViewController : UIViewController
     {
-        private AuthenticationInterface _browserType = 
-            AuthenticationInterface.Embedded;
+        private AuthorizationInterface _browserType = 
+            AuthorizationInterface.Embedded;
         private CallbackType _callbackType = 
             CallbackType.Localhost;
 
@@ -30,8 +30,8 @@ namespace Quantfabric.UI.Test.iOS
             BrowserToggle.TouchUpInside += (sender, args) =>
             {
                 _browserType = BrowserToggle.On
-                    ? AuthenticationInterface.Embedded
-                    : AuthenticationInterface.Dedicated;
+                    ? AuthorizationInterface.Embedded
+                    : AuthorizationInterface.Dedicated;
                 _callbackType = BrowserToggle.On
                     ? CallbackType.Localhost
                     : CallbackType.Protocol;

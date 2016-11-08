@@ -4,7 +4,7 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Request;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Facade;
 
 namespace Material.OAuth
@@ -53,7 +53,7 @@ namespace Material.OAuth
             _clientId = clientId;
             _resourceProvider = resourceProvider;
             _facade = new OAuthClientFacade<TResourceProvider>(
-                new OAuth2AuthenticationAdapter(),
+                new OAuth2AuthorizationAdapter(),
                 resourceProvider);
         }
 

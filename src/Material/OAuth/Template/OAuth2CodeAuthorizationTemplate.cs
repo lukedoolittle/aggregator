@@ -4,12 +4,12 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 {
-    public class OAuth2CodeAuthenticationTemplate : 
-        OAuthAuthenticationTemplateBase<OAuth2Credentials>
+    public class OAuth2CodeAuthorizationTemplate : 
+        OAuthAuthorizationTemplateBase<OAuth2Credentials>
     {
         private readonly string _clientSecret;
 
-        public OAuth2CodeAuthenticationTemplate(
+        public OAuth2CodeAuthorizationTemplate(
             IOAuthAuthorizerUI<OAuth2Credentials> authorizerUI, 
             IOAuthFacade<OAuth2Credentials> oauthFacade, 
             string clientSecret) : 

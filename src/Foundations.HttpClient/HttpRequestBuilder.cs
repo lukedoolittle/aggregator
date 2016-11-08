@@ -227,9 +227,9 @@ namespace Foundations.HttpClient
         }
 
         public HttpRequestBuilder Authenticator(
-            IAuthorizer requestAuthorizer)
+            IAuthenticator requestAuthenticator)
         {
-            _request.Authorizer = requestAuthorizer;
+            _request.Authenticator = requestAuthenticator;
 
             return this;
         }
@@ -248,7 +248,7 @@ namespace Foundations.HttpClient
 
         public async Task<HttpResponse> ExecuteAsync()
         {
-            _request.Authorizer?.Authenticate(this);
+            _request.Authenticator?.Authenticate(this);
             _request.Payload.Attach(_request);
 
             if (_request.Method == HttpMethod.Get &&

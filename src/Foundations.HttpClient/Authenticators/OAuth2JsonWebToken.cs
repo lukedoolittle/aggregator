@@ -5,7 +5,7 @@ using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2JsonWebToken : IAuthorizer
+    public class OAuth2JsonWebToken : IAuthenticator
     {
         private readonly OAuth2JsonWebTokenSigningTemplate _template;
         private readonly string _header;

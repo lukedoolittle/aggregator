@@ -6,13 +6,13 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 {
-    public class OAuth1AuthenticationTemplate :
-        OAuthAuthenticationTemplateBase<OAuth1Credentials>
+    public class OAuth1AuthorizationTemplate :
+        OAuthAuthorizationTemplateBase<OAuth1Credentials>
     {
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly string _userId;
 
-        public OAuth1AuthenticationTemplate(
+        public OAuth1AuthorizationTemplate(
             IOAuthAuthorizerUI<OAuth1Credentials> authorizerUI, 
             IOAuthFacade<OAuth1Credentials> oauthFacade, 
             IOAuthSecurityStrategy securityStrategy, 

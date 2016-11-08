@@ -46,8 +46,8 @@ namespace Quantfabric.UI.Test.UWP
 
     public sealed partial class MainPage : Page
     {
-        private AuthenticationInterface _browserType =
-            AuthenticationInterface.Embedded;
+        private AuthorizationInterface _browserType =
+            AuthorizationInterface.Embedded;
         private CallbackType _callbackType =
             CallbackType.Localhost;
 
@@ -391,8 +391,8 @@ namespace Quantfabric.UI.Test.UWP
         private void BrowserTypeToggled(object sender, RoutedEventArgs e)
         {
             _browserType = authTypeToggleSwitch.IsOn
-                ? AuthenticationInterface.Dedicated
-                : AuthenticationInterface.Embedded;
+                ? AuthorizationInterface.Dedicated
+                : AuthorizationInterface.Embedded;
             _callbackType = authTypeToggleSwitch.IsOn
                 ? CallbackType.Protocol 
                 : CallbackType.Localhost;

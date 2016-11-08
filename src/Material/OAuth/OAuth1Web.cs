@@ -5,7 +5,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
@@ -13,7 +13,7 @@ using Material.OAuth.Security;
 namespace Material.OAuth
 {
     /// <summary>
-    /// Authenticates a resource owner with the given resource provider using OAuth1a
+    /// Authorize a resource owner with the given resource provider using OAuth1a
     /// </summary>
     /// <typeparam name="TResourceProvider">Resource provider to authenticate with</typeparam>
     public class OAuth1Web<TResourceProvider>
@@ -23,7 +23,7 @@ namespace Material.OAuth
         private readonly IOAuthSecurityStrategy _securityStrategy;
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow
+        /// Authorize a resource owner using the OAuth1a workflow
         /// </summary>
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
@@ -38,17 +38,17 @@ namespace Material.OAuth
         {
             _securityStrategy = securityStrategy;
 
-            _authFacade = new OAuth1AuthenticationFacade(
+            _authFacade = new OAuth1AuthorizationFacade(
                 new TResourceProvider(), 
                 consumerKey, 
                 consumerSecret,
                 new Uri(callbackUrl),
-                new OAuth1AuthenticationAdapter(),
+                new OAuth1AuthorizationAdapter(),
                 securityStrategy);
         }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow with default security strategy
+        /// Authorize a resource owner using the OAuth1a workflow with default security strategy
         /// </summary>
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>

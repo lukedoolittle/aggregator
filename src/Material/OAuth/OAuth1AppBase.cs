@@ -6,7 +6,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
@@ -21,7 +21,7 @@ namespace Material.OAuth
         private readonly string _consumerSecret;
         private readonly Uri _callbackUri;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
-        private readonly AuthenticationInterface _browserType;
+        private readonly AuthorizationInterface _browserType;
         private readonly TResourceProvider _provider;
 
         public OAuth1AppBase(
@@ -30,7 +30,7 @@ namespace Material.OAuth
             Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthenticationInterface browserType)
+            AuthorizationInterface browserType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -57,12 +57,12 @@ namespace Material.OAuth
                 securityStrategy,
                 OAuth1Parameter.OAuthToken.EnumToString());
 
-            var facade = new OAuth1AuthenticationFacade(
+            var facade = new OAuth1AuthorizationFacade(
                 _provider,
                 _consumerKey,
                 _consumerSecret,
                 _callbackUri,
-                new OAuth1AuthenticationAdapter(),
+                new OAuth1AuthorizationAdapter(),
                 securityStrategy);
 
             var authenticationUI = _uiFactory
@@ -71,7 +71,7 @@ namespace Material.OAuth
                     handler,
                     _callbackUri);
 
-            var template = new OAuth1AuthenticationTemplate(
+            var template = new OAuth1AuthorizationTemplate(
                 authenticationUI,
                 facade,
                 securityStrategy,

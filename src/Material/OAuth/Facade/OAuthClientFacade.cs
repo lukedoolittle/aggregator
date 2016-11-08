@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Infrastructure;
@@ -11,11 +10,11 @@ namespace Material.OAuth.Facade
     public class OAuthClientFacade<TResourceProvider> 
         where TResourceProvider : OAuth2ResourceProvider
     {
-        private readonly IOAuth2AuthenticationAdapter _oauth;
+        private readonly IOAuth2AuthorizationAdapter _oauth;
         private readonly TResourceProvider _resourceProvider;
 
         public OAuthClientFacade(
-            IOAuth2AuthenticationAdapter oauth, 
+            IOAuth2AuthorizationAdapter oauth, 
             TResourceProvider resourceProvider)
         {
             _oauth = oauth;

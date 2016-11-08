@@ -11,9 +11,9 @@ using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Authentication
+namespace Material.OAuth.Authorization
 {
-    public class OAuth2AuthenticationAdapter : IOAuth2AuthenticationAdapter
+    public class OAuth2AuthorizationAdapter : IOAuth2AuthorizationAdapter
     {
         public Uri GetAuthorizationUri(
             Uri authorizeUrl, 

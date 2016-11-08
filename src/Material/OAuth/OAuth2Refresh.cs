@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Facade;
 
 namespace Material.OAuth
@@ -22,7 +22,7 @@ namespace Material.OAuth
         public OAuth2Refresh(TResourceProvider resourceProvider)
         {
             _facade = new OAuthClientFacade<TResourceProvider>(
-                new OAuth2AuthenticationAdapter(),
+                new OAuth2AuthorizationAdapter(),
                 resourceProvider);
         }
 

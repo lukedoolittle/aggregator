@@ -16,20 +16,20 @@ using Xamarin.Forms;
 namespace Material.Infrastructure.OAuth
 {
     /// <summary>
-    /// Authenticates a resource owner with the given resource provider using OAuth2
+    /// Authorizes a resource owner with the given resource provider using OAuth2
     /// </summary>
-    /// <typeparam name="TResourceProvider">Resource provider to authenticate with</typeparam>
+    /// <typeparam name="TResourceProvider">Resource provider to authorize with</typeparam>
     public class OAuth2App<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly OAuth2AppBase<TResourceProvider> _app;
         private readonly IOAuthSecurityStrategy _securityStrategy;
 #if !__WINDOWS__
-        private readonly AuthenticationInterface _browserType;
+        private readonly AuthorizationInterface _browserType;
 #endif
 
         /// <summary>
-        /// Authenticate a resource owner using the OAuth2 workflow
+        /// Authorize a resource owner using the OAuth2 workflow
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
@@ -42,9 +42,9 @@ namespace Material.Infrastructure.OAuth
             string callbackUrl,
             TResourceProvider provider,
 #if __WINDOWS__
-            AuthenticationInterface browserType = AuthenticationInterface.Dedicated
+            AuthorizationInterface browserType = AuthorizationInterface.Dedicated
 #else
-            AuthenticationInterface browserType = AuthenticationInterface.Embedded
+            AuthorizationInterface browserType = AuthorizationInterface.Embedded
 #endif
             )
         {
@@ -70,7 +70,7 @@ namespace Material.Infrastructure.OAuth
         }
 
         /// <summary>
-        /// Authenticate a resource owner using the OAuth2 workflow
+        /// Authorize a resource owner using the OAuth2 workflow
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
@@ -81,9 +81,9 @@ namespace Material.Infrastructure.OAuth
             string clientId,
             string callbackUrl,
 #if __WINDOWS__
-            AuthenticationInterface browserType = AuthenticationInterface.Dedicated
+            AuthorizationInterface browserType = AuthorizationInterface.Dedicated
 #else
-            AuthenticationInterface browserType = AuthenticationInterface.Embedded
+            AuthorizationInterface browserType = AuthorizationInterface.Embedded
 #endif
             ) :
             this(
@@ -94,7 +94,7 @@ namespace Material.Infrastructure.OAuth
         { }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth2 code workflow
+        /// Authorize a resource owner using the OAuth2 code workflow
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
         /// <returns>Valid OAuth2 credentials</returns>
@@ -112,7 +112,7 @@ namespace Material.Infrastructure.OAuth
         }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth2 token workflow
+        /// Authorize a resource owner using the OAuth2 token workflow
         /// </summary>
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
@@ -124,7 +124,7 @@ namespace Material.Infrastructure.OAuth
 #if !__WINDOWS__
             //This is sort of a bizarre hack: Google requires that you go through the
             //code workflow with a mobile device even if you don't have a client secret
-            if (_browserType == AuthenticationInterface.Dedicated &&
+            if (_browserType == AuthorizationInterface.Dedicated &&
                 typeof(TResourceProvider) == typeof(Google))
             {
                 return _app.GetCredentialsAsync(
@@ -141,7 +141,7 @@ namespace Material.Infrastructure.OAuth
 
 
         /// <summary>
-        /// Adds scope to be requested with OAuth2 authentication
+        /// Adds scope to be requested with OAuth2 authorization
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>

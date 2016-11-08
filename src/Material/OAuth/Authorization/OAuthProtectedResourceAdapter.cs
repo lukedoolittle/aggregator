@@ -10,18 +10,18 @@ using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 
-namespace Material.OAuth.Authentication
+namespace Material.OAuth.Authorization
 {
     public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
     {
-        private readonly IAuthorizer _authorizer;
+        private readonly IAuthenticator _authenticator;
         private readonly HttpParameterType _parameterHandling;
 
         public OAuthProtectedResourceAdapter(
-            IAuthorizer authorizer, 
+            IAuthenticator authenticator, 
             HttpParameterType parameterHandling)
         {
-            _authorizer = authorizer;
+            _authenticator = authenticator;
             _parameterHandling = parameterHandling;
         }
 
@@ -57,7 +57,7 @@ namespace Material.OAuth.Authentication
                     .Headers(headers)
                     .Parameters(additionalQuerystringParameters)
                     .Segments(urlPathParameters.ToHttpValueCollection())
-                    .Authenticator(_authorizer)
+                    .Authenticator(_authenticator)
                     .ThrowIfNotExpectedResponseCode(expectedResponse)
                     .Content(body, bodyType)
                     .OverrideResponseMediaType(overriddenMediaType)

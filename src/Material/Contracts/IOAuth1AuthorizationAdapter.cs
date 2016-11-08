@@ -6,7 +6,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuth1AuthenticationAdapter
+    public interface IOAuth1AuthorizationAdapter
     {
         Task<OAuth1Credentials> GetRequestToken(
             Uri requestUrl,

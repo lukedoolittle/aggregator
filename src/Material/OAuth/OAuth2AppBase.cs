@@ -5,7 +5,7 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Facade;
 using Material.OAuth.Template;
 
@@ -18,7 +18,7 @@ namespace Material.OAuth
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly IOAuthFacade<OAuth2Credentials> _oauthFacade;
         private readonly TResourceProvider _provider;
-        private readonly AuthenticationInterface _browserType;
+        private readonly AuthorizationInterface _browserType;
 
 
         public OAuth2AppBase(
@@ -27,18 +27,18 @@ namespace Material.OAuth
             IOAuthAuthorizerUIFactory uiFactory,
             IOAuthSecurityStrategy securityStrategy,
             TResourceProvider provider,
-            AuthenticationInterface browserType)
+            AuthorizationInterface browserType)
         {
             _callbackUri = callbackUri;
             _browserType = browserType;
             _provider = provider;
             _uiFactory = uiFactory;
 
-            _oauthFacade = new OAuth2AuthenticationFacade(
+            _oauthFacade = new OAuth2AuthorizationFacade(
                 _provider,
                 clientId,
                 _callbackUri,
-                new OAuth2AuthenticationAdapter(),
+                new OAuth2AuthorizationAdapter(),
                 securityStrategy);
         }
 
@@ -60,7 +60,7 @@ namespace Material.OAuth
                     callbackHandler,
                     _callbackUri);
 
-            var template = new OAuth2TokenAuthenticationTemplate(
+            var template = new OAuth2TokenAuthorizationTemplate(
                     authenticationUI,
                     _oauthFacade);
 
@@ -88,7 +88,7 @@ namespace Material.OAuth
                     callbackHandler,
                     _callbackUri);
 
-            var template = new OAuth2CodeAuthenticationTemplate(
+            var template = new OAuth2CodeAuthorizationTemplate(
                     authenticationUI,
                     _oauthFacade,
                     clientSecret);

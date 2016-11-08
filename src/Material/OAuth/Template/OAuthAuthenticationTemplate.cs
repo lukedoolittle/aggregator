@@ -5,15 +5,15 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 { 
-    public abstract class OAuthAuthenticationTemplateBase<TCredentials> : 
-        IOAuthAuthenticationTemplate<TCredentials>
+    public abstract class OAuthAuthorizationTemplateBase<TCredentials> : 
+        IOAuthAuthorizationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
         private readonly IOAuthFacade<TCredentials> _oauthFacade;
         protected IOAuthFacade<TCredentials> oauthFacade => _oauthFacade;
 
-        protected OAuthAuthenticationTemplateBase(
+        protected OAuthAuthorizationTemplateBase(
             IOAuthAuthorizerUI<TCredentials> authorizerUI, 
             IOAuthFacade<TCredentials> oauthFacade)
         {

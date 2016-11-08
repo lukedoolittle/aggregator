@@ -87,7 +87,7 @@ namespace Quantfabric.Test.Material.Integration
                 redirectUri.ToString());
 
             var mock = oauth1
-                .GetMemberValue<OAuth1AuthenticationFacade>("_authFacade")
+                .GetMemberValue<OAuth1AuthorizationFacade>("_authFacade")
                 .GetMemberValue<TMockProvider>("_resourceProvider");
 
             IIncommingMessageDeserializer deserializer;

@@ -8,20 +8,20 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Facade
 {
-    public class OAuth2AuthenticationFacade : 
+    public class OAuth2AuthorizationFacade : 
         IOAuthFacade<OAuth2Credentials>
     {
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
-        private readonly IOAuth2AuthenticationAdapter _oauth;
+        private readonly IOAuth2AuthorizationAdapter _oauth;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _strategy;
 
-        public OAuth2AuthenticationFacade(
+        public OAuth2AuthorizationFacade(
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             Uri callbackUri,
-            IOAuth2AuthenticationAdapter oauth,
+            IOAuth2AuthorizationAdapter oauth,
             IOAuthSecurityStrategy strategy)
         {
             _clientId = clientId;

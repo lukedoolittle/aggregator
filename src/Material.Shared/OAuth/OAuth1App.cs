@@ -11,16 +11,16 @@ using Material.Contracts;
 namespace Material.Infrastructure.OAuth
 {
     /// <summary>
-    /// Authenticates a resource owner with the given resource provider using OAuth1a
+    /// Authorizes a resource owner with the given resource provider using OAuth1a
     /// </summary>
-    /// <typeparam name="TResourceProvider">Resource provider to authenticate with</typeparam>
+    /// <typeparam name="TResourceProvider">Resource provider to authorize with</typeparam>
     public class OAuth1App<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()
     {
         private readonly OAuth1AppBase<TResourceProvider> _app;
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow
+        /// Authorizes a resource owner using the OAuth1a workflow
         /// </summary>
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
@@ -35,15 +35,15 @@ namespace Material.Infrastructure.OAuth
                     consumerSecret, 
                     callbackUrl,
 #if __WINDOWS__
-                    AuthenticationInterface.Dedicated
+                    AuthorizationInterface.Dedicated
 #else
-                    AuthenticationInterface.Embedded
+                    AuthorizationInterface.Embedded
 #endif
             )
         { }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow
+        /// Authorizes a resource owner using the OAuth1a workflow
         /// </summary>
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
@@ -54,7 +54,7 @@ namespace Material.Infrastructure.OAuth
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            AuthenticationInterface browserType)
+            AuthorizationInterface browserType)
         {
             _app = new OAuth1AppBase<TResourceProvider>(
                 consumerKey,
@@ -70,7 +70,7 @@ namespace Material.Infrastructure.OAuth
         }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth1a workflow
+        /// Authorizes a resource owner using the OAuth1a workflow
         /// </summary>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]

@@ -10,9 +10,9 @@ using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Authentication
+namespace Material.OAuth.Authorization
 {
-    public class OAuth1AuthenticationAdapter : IOAuth1AuthenticationAdapter
+    public class OAuth1AuthorizationAdapter : IOAuth1AuthorizationAdapter
     {
         public async Task<OAuth1Credentials> GetRequestToken(
             Uri requestUrl, 

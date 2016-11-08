@@ -18,8 +18,8 @@ namespace Quantfabric.UI.Test
     [Activity(Name = "quantfabric.ui.test.MainActivity")]
     public class MainActivity : Activity
     {
-        private AuthenticationInterface _browserType = 
-            AuthenticationInterface.Embedded;
+        private AuthorizationInterface _browserType = 
+            AuthorizationInterface.Embedded;
         private CallbackType _callbackType =
             CallbackType.Localhost;
 
@@ -33,8 +33,8 @@ namespace Quantfabric.UI.Test
             toggleButton.Click += (o, e) =>
             {
                 _browserType = toggleButton.Checked
-                    ? AuthenticationInterface.Dedicated
-                    : AuthenticationInterface.Embedded;
+                    ? AuthorizationInterface.Dedicated
+                    : AuthorizationInterface.Embedded;
                 _callbackType = toggleButton.Checked
                     ? CallbackType.Protocol
                     : CallbackType.Localhost;

@@ -3,7 +3,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuthAuthenticationTemplate<TCredentials>
+    public interface IOAuthAuthorizationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
         Task<TCredentials> GetAccessTokenCredentials(string userId);

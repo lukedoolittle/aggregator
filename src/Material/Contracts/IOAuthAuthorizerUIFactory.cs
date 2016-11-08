@@ -9,7 +9,7 @@ namespace Material.Contracts
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TService, TCredentials>(
-            AuthenticationInterface browserType,
+            AuthorizationInterface browserType,
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri)
             where TService : ResourceProvider

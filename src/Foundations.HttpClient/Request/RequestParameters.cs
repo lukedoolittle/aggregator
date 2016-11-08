@@ -22,7 +22,7 @@ namespace Foundations.HttpClient.Request
 
         public MediaType? OverriddenMediaType { get; set; }
 
-        public IAuthorizer Authorizer { get; set; }
+        public IAuthenticator Authenticator { get; set; }
 
         public void AddPath(string path)
         {

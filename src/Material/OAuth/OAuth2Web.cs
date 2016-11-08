@@ -5,7 +5,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
@@ -22,7 +22,7 @@ namespace Material.OAuth
             new TResourceProvider();
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
+        /// Authorize a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
@@ -38,16 +38,16 @@ namespace Material.OAuth
             _strategy = strategy;
             _clientSecret = clientSecret;
 
-            _authFacade = new OAuth2AuthenticationFacade(
+            _authFacade = new OAuth2AuthorizationFacade(
                 _resourceProvider,
                 clientId,
                 new Uri(callbackUrl),
-                new OAuth2AuthenticationAdapter(),
+                new OAuth2AuthorizationAdapter(),
                 strategy);
         }
 
         /// <summary>
-        /// Authenticates a resource owner using the OAuth2 workflow with default security strategy
+        /// Authorize a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
@@ -108,7 +108,7 @@ namespace Material.OAuth
         }
 
         /// <summary>
-        /// Adds scope to be requested with OAuth2 authentication
+        /// Adds scope to be requested with OAuth2 Authorize
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>

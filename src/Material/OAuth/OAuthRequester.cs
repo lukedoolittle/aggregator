@@ -5,7 +5,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
 
 namespace Material.OAuth
 {
@@ -23,7 +23,7 @@ namespace Material.OAuth
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                new ApiKeyAuthorizer(
+                new ApiKeyAuthenticator(
                     credentials.KeyName, 
                     credentials.KeyValue, 
                     credentials.KeyType),

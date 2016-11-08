@@ -4,10 +4,10 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 {
-    public class OAuth2TokenAuthenticationTemplate :
-        OAuthAuthenticationTemplateBase<OAuth2Credentials>
+    public class OAuth2TokenAuthorizationTemplate :
+        OAuthAuthorizationTemplateBase<OAuth2Credentials>
     {
-        public OAuth2TokenAuthenticationTemplate(
+        public OAuth2TokenAuthorizationTemplate(
             IOAuthAuthorizerUI<OAuth2Credentials> authorizerUI,
             IOAuthFacade<OAuth2Credentials> oauthFacade) :
                 base(
