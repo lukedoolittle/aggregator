@@ -87,7 +87,6 @@
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
     <Compile Include="Enums\AuthorizationInterface.cs" />
     <Compile Include="Exceptions\InvalidScopeException.cs" />
-    <Compile Include="Exceptions\OAuthCallbackErrorException.cs" />
     <Compile Include="Generator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

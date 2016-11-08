@@ -65,6 +65,13 @@ namespace Material.OAuth.Facade
             OAuth2Credentials intermediateResult,
             string secret)
         {
+            if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
+
+            if (intermediateResult.IsErrorResult)
+            {
+                return intermediateResult;
+            }
+
             _resourceProvider.SetClientProperties(
                 _clientId,
                 secret);

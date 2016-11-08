@@ -55,6 +55,12 @@ namespace Material.Infrastructure.Credentials
 
         public string Scope { get; private set; }
 
+        [DataMember(Name = "error", EmitDefaultValue = false)]
+        public string Error { get; private set; }
+
+        [DataMember(Name = "error_description", EmitDefaultValue = false)]
+        public string ErrorDescription { get; private set; }
+
         public override bool HasValidPublicKey => !string.IsNullOrEmpty(ClientId);
 
         public OAuth2Credentials SetAccessToken(string accessToken)

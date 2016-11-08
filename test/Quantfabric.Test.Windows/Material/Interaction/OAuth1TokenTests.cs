@@ -3,6 +3,7 @@ using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token, true));
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, true));
 
             _tokenRepository.PutToken<Twitter, OAuth1Credentials>(token);
         }
@@ -48,7 +49,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, false));
 
             _tokenRepository.PutToken<Fatsecret, OAuth1Credentials>(token);
         }
@@ -67,7 +68,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token, true));
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, true));
 
             _tokenRepository.PutToken<Withings, OAuth1Credentials>(token);
         }
@@ -86,25 +87,10 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token, false));
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, false));
 
             _tokenRepository.PutToken<Tumblr, OAuth1Credentials>(token);
         }
 
-        private bool IsValidToken(
-            OAuth1Credentials token,
-            bool shouldContainUserId = false)
-        {
-            if (shouldContainUserId)
-            {
-                Assert.NotNull(token.UserId);
-                Assert.NotEmpty(token.UserId);
-            }
-            return token != null &&
-                   token.ConsumerKey != string.Empty &&
-                   token.ConsumerSecret != string.Empty &&
-                   token.OAuthToken != string.Empty &&
-                   token.OAuthSecret != string.Empty;
-        }
     }
 }

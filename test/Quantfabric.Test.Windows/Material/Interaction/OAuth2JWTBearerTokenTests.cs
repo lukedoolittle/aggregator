@@ -4,6 +4,7 @@ using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
 using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Integration;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
@@ -26,14 +27,7 @@ namespace Quantfabric.Test.Material.Interaction
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
-        }
-
-        private bool IsValidToken(OAuth2Credentials token)
-        {
-            return token != null &&
-                   token.AccessToken != string.Empty &&
-                   token.TokenName != string.Empty;
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
         }
     }
 }

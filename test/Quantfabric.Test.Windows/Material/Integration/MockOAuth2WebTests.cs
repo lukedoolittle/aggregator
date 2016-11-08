@@ -8,7 +8,6 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
@@ -248,20 +247,13 @@ namespace Quantfabric.Test.Material.Integration
 
                 if (tokenTask.Status == TaskStatus.RanToCompletion)
                 {
-                    Assert.True(IsValidToken(tokenTask.Result));
+                    Assert.True(TestUtilities.IsValidOAuth2Token(tokenTask.Result));
                 }
                 else
                 {
                     throw new Exception();
                 }
             }
-        }
-
-        private bool IsValidToken(OAuth2Credentials token)
-        {
-            return token != null &&
-                   token.AccessToken != string.Empty &&
-                   token.TokenName != string.Empty;
         }
     }
 }

@@ -37,5 +37,12 @@ namespace Material.OAuth.Callback
             return query.ContainsKey(
                 OAuth2Parameter.Error.EnumToString());
         }
+
+        protected override bool IsDiscardableResponse(HttpValueCollection query)
+        {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
+            return query.Count == 0;
+        }
     }
 }

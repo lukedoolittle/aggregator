@@ -286,7 +286,7 @@
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="Material\Unit\OAuthSigningTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
-    <Compile Include="Material\Unit\TestUtilities.cs" />
+    <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\TokenDeserializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

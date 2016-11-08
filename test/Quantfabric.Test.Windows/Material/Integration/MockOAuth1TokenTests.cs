@@ -128,7 +128,7 @@ namespace Quantfabric.Test.Material.Integration
 
                 if (tokenTask.Status == TaskStatus.RanToCompletion)
                 {
-                    Assert.True(IsValidToken(
+                    Assert.True(TestUtilities.IsValidOAuth1Token(
                         tokenTask.Result, 
                         shouldContainUserId));
                 }
@@ -137,22 +137,6 @@ namespace Quantfabric.Test.Material.Integration
                     throw new Exception();
                 }
             }
-        }
-
-        private static bool IsValidToken(
-            OAuth1Credentials token,
-            bool shouldContainUserId)
-        {
-            if (shouldContainUserId)
-            {
-                Assert.NotNull(token.UserId);
-                Assert.NotEmpty(token.UserId);
-            }
-            return token != null &&
-                   token.ConsumerKey != string.Empty &&
-                   token.ConsumerSecret != string.Empty &&
-                   token.OAuthToken != string.Empty &&
-                   token.OAuthSecret != string.Empty;
         }
     }
 }

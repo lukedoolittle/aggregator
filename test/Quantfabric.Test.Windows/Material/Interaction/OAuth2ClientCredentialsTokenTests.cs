@@ -3,6 +3,7 @@ using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
 using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
@@ -28,16 +29,9 @@ namespace Quantfabric.Test.Material.Interaction
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Omniture, OAuth2Credentials>(token);
-        }
-
-        private bool IsValidToken(OAuth2Credentials token)
-        {
-            return token != null &&
-                   token.AccessToken != string.Empty &&
-                   token.TokenName != string.Empty;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Runtime.Serialization;
 using Foundations.Collections;
 using Foundations.Enums;
+using Foundations.Extensions;
 using Foundations.HttpClient.Request;
 using Foundations.HttpClient.Serialization;
 
@@ -19,7 +20,13 @@ namespace Foundations.HttpClient
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static Func<RequestParameters, Tuple<System.Net.Http.HttpClient, HttpClientHandler>> HttpClientFactory { get; set; } = //-V3070
-            (request) => ClientPool.GetClient(request.Address, MessageHandlerFactory);
+            (request) => ClientPool.GetClient(request, MessageHandlerFactory, ClientHashFactory);
+
+        /// <summary>
+        /// Determines the hash value for the HttpClient pooler
+        /// </summary>
+        public static Func<RequestParameters, string> ClientHashFactory { get; set; } =
+            parameters => parameters.Address.NonPath();
 
         /// <summary>
         /// Creates the default HttpClientHandler for the HttpClient instance internal to HttpRequestBuilder
@@ -84,13 +91,14 @@ namespace Foundations.HttpClient
         //with HttpClient
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static Tuple<System.Net.Http.HttpClient, HttpClientHandler> GetClient(
-            Uri uri,
-            Func<HttpClientHandler> clientHandlerFactory)
+            RequestParameters request,
+            Func<HttpClientHandler> clientHandlerFactory,
+            Func<RequestParameters, string> clientHashFactory)
         {
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
+            if (request == null) throw new ArgumentNullException(nameof(request));
             if (clientHandlerFactory == null) throw new ArgumentNullException(nameof(clientHandlerFactory));
 
-            var key = uri.ToString();
+            var key = clientHashFactory(request);
 
             lock (_syncLock)
             {

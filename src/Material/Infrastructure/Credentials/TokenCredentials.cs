@@ -30,6 +30,8 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "dateCreated", EmitDefaultValue = false)]
         public DateTimeOffset DateCreated { get; protected set; }
 
+        public bool IsErrorResult { get; set; }
+
         public bool IsTokenExpired
         {
             get

@@ -5,6 +5,7 @@ using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             //here we need to get any existing refresh token because Google only
             //passes that refresh token back with the first authentication
@@ -68,7 +69,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Facebook, OAuth2Credentials>(token);
         }
@@ -86,7 +87,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Foursquare, OAuth2Credentials>(token);
         }
@@ -104,7 +105,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<LinkedIn, OAuth2Credentials>(token);
         }
@@ -123,7 +124,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Spotify, OAuth2Credentials>(token);
         }
@@ -147,7 +148,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Fitbit, OAuth2Credentials>(token);
         }
@@ -166,7 +167,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Runkeeper, OAuth2Credentials>(token);
         }
@@ -185,7 +186,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Rescuetime, OAuth2Credentials>(token);
         }
@@ -205,7 +206,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<TwentyThreeAndMe, OAuth2Credentials>(token);
         }
@@ -224,7 +225,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Instagram, OAuth2Credentials>(token);
         }
@@ -243,7 +244,7 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Amazon, OAuth2Credentials>(token);
         }
@@ -262,16 +263,9 @@ namespace Quantfabric.Test.Material.Interaction
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            Assert.True(IsValidToken(token));
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Pinterest, OAuth2Credentials>(token);
-        }
-
-        private bool IsValidToken(OAuth2Credentials token)
-        {
-            return token != null &&
-                   token.AccessToken != string.Empty &&
-                   token.TokenName != string.Empty;
         }
     }
 }

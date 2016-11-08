@@ -3,7 +3,6 @@ using System.Security;
 using Foundations.Collections;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Callback
@@ -38,16 +37,17 @@ namespace Material.OAuth.Callback
         {
             var query = GetQuerystring(responseUri);
 
-            if (query == null || query.Count == 0)
+            if (IsDiscardableResponse(query))
             {
                 return null;
             }
-
             if (IsResponseError(query))
             {
-                throw new OAuthCallbackErrorException();
+                var errorToken = _serializer.Deserialize<TCredentials>(
+                    query.ToString(false));
+                errorToken.IsErrorResult = true;
+                return errorToken;
             }
-
             if (!IsResponseSecure(query, userId))
             {
                 throw new SecurityException(
@@ -91,6 +91,9 @@ namespace Material.OAuth.Callback
         }
 
         protected abstract bool IsResponseError(
+            HttpValueCollection query);
+
+        protected abstract bool IsDiscardableResponse(
             HttpValueCollection query);
     }
 }

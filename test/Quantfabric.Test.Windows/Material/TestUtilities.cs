@@ -4,11 +4,33 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using Material.Infrastructure.Credentials;
 
 namespace Quantfabric.Test.Integration
 {
     public static class TestUtilities
     {
+        public static bool IsValidOAuth1Token(
+            OAuth1Credentials token,
+            bool shouldContainUserId)
+        {
+            if (shouldContainUserId && string.IsNullOrEmpty(token.UserId))
+            {
+                return false;
+            }
+            return token != null &&
+                   token.ConsumerKey != string.Empty &&
+                   token.ConsumerSecret != string.Empty &&
+                   token.OAuthToken != string.Empty &&
+                   token.OAuthSecret != string.Empty;
+        }
+
+        public static bool IsValidOAuth2Token(OAuth2Credentials token)
+        {
+            return !string.IsNullOrEmpty(token?.AccessToken) && !string.IsNullOrEmpty(token.TokenName);
+        }
+
+
         private static readonly Random random = new Random();
 
         public static int RandomNumber(int start, int end)

@@ -206,20 +206,13 @@ namespace Quantfabric.Test.Material.Integration
 
                 if (tokenTask.Status == TaskStatus.RanToCompletion)
                 {
-                    Assert.True(IsValidToken(tokenTask.Result));
+                    Assert.True(TestUtilities.IsValidOAuth2Token(tokenTask.Result));
                 }
                 else
                 {
                     throw new Exception();
                 }
             }
-        }
-
-        private bool IsValidToken(OAuth2Credentials token)
-        {
-            return token != null &&
-                   token.AccessToken != string.Empty &&
-                   token.TokenName != string.Empty;
         }
     }
 }

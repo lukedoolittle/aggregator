@@ -8,7 +8,8 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Callback
 {
-    public class OAuth1CallbackHandler : OAuthCallbackHandlerBase<OAuth1Credentials>
+    public class OAuth1CallbackHandler : 
+        OAuthCallbackHandlerBase<OAuth1Credentials>
     {
         public OAuth1CallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
@@ -19,12 +20,20 @@ namespace Material.OAuth.Callback
                     new HtmlSerializer())
         { }
 
-        protected override bool IsResponseError(HttpValueCollection query)
+        protected override bool IsResponseError(
+            HttpValueCollection query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
             return query.ContainsKey(
-                OAuth1Parameter.Error.EnumToString());
+                    OAuth1Parameter.Error.EnumToString()) || 
+                query.Count == 0;
+        }
+
+        protected override bool IsDiscardableResponse(
+            HttpValueCollection query)
+        {
+            return false;
         }
     }
 }

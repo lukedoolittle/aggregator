@@ -83,6 +83,13 @@ namespace Material.OAuth.Facade
             OAuth1Credentials intermediateResult,
             string secret)
         {
+            if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
+
+            if (intermediateResult.IsErrorResult)
+            {
+                return intermediateResult;
+            }
+
             var token = await _oauth
                 .GetAccessToken(
                     _resourceProvider.TokenUrl,
