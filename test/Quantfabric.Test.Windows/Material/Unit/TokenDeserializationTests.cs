@@ -46,14 +46,12 @@ namespace Quantfabric.Test.Material.Unit
             var expiresIn = Guid.NewGuid().ToString();
             var tokenName = Guid.NewGuid().ToString();
             var code = Guid.NewGuid().ToString();
-            var date = "2016-06-30T12:42:42.4552308-05:00";
 
             var token = new JObject
             {
                 ["access_token"] = accessToken,
                 ["expires_in"] = expiresIn,
                 ["token_type"] = tokenName,
-                ["dateCreated"] = date,
                 ["code"] = code
             };
 
@@ -64,7 +62,6 @@ namespace Quantfabric.Test.Material.Unit
             Assert.Equal(expiresIn, actual.ExpiresIn);
             Assert.Equal(tokenName, actual.TokenName);
             Assert.Equal(code, actual.Code);
-            Assert.NotEqual(default(DateTimeOffset), actual.DateCreated);
         }
 
         [Fact]
@@ -90,28 +87,6 @@ namespace Quantfabric.Test.Material.Unit
             Assert.Equal(expiresIn, actual.ExpiresIn);
             Assert.Equal(tokenName, actual.TokenName);
             Assert.Equal(code, actual.Code);
-        }
-
-        [Fact]
-        public void CreateSignatureBaseCorrectlyCreatesSignature()
-        {
-            var expected = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJhbmFseXRpY3MtYXBpQG11c2ljbm90ZXMtMTQ0MjE3LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwic2NvcGUiOiJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9hdXRoL2FuYWx5dGljcy5yZWFkb25seSIsImF1ZCI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi90b2tlbiIsImlhdCI6MTAwLCJleHAiOjIwMH0=";
-
-            var token = new JsonWebToken
-            {
-                Claims =
-                {
-                    Issuer = "analytics-api@musicnotes-144217.iam.gserviceaccount.com",
-                    Scope = "https://www.googleapis.com/auth/analytics.readonly",
-                    Audience = "https://accounts.google.com/o/oauth2/token",
-                    ExpirationTime = 200,
-                    IssuedAt = 100
-                }
-            };
-
-            var actual = token.ToString();
-
-            Assert.Equal(expected, actual);
         }
 
         [Fact]

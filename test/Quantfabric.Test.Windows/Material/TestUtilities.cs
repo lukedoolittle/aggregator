@@ -14,20 +14,22 @@ namespace Quantfabric.Test.Integration
             OAuth1Credentials token,
             bool shouldContainUserId)
         {
-            if (shouldContainUserId && string.IsNullOrEmpty(token.UserId))
+            if (shouldContainUserId && string.IsNullOrEmpty(token?.UserId))
             {
                 return false;
             }
-            return token != null &&
-                   token.ConsumerKey != string.Empty &&
-                   token.ConsumerSecret != string.Empty &&
-                   token.OAuthToken != string.Empty &&
-                   token.OAuthSecret != string.Empty;
+            return !string.IsNullOrEmpty(token?.ConsumerKey) &&
+                   !string.IsNullOrEmpty(token?.ConsumerSecret) &&
+                   !string.IsNullOrEmpty(token?.OAuthToken) &&
+                   !string.IsNullOrEmpty(token?.OAuthSecret);
         }
 
         public static bool IsValidOAuth2Token(OAuth2Credentials token)
         {
-            return !string.IsNullOrEmpty(token?.AccessToken) && !string.IsNullOrEmpty(token.TokenName);
+            return !string.IsNullOrEmpty(token?.AccessToken) &&
+                   !string.IsNullOrEmpty(token.TokenName) &&
+                   !string.IsNullOrEmpty(token.ExpiresIn) &&
+                   !string.IsNullOrEmpty(token.ClientId);
         }
 
 

@@ -259,7 +259,7 @@
     <Compile Include="OAuth\Template\OAuth2CodeAuthorizationTemplate.cs" />
     <Compile Include="OAuth\Template\OAuth2TokenAuthorizationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OAuth\Template\OAuthAuthenticationTemplate.cs" />
+    <Compile Include="OAuth\Template\OAuthAuthorizationTemplateBase.cs" />
     <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />
     <Compile Include="Infrastructure\Request.cs" />
     <Compile Include="Infrastructure\ResourceProvider.cs" />

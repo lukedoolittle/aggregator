@@ -68,7 +68,7 @@ namespace Quantfabric.Test.Material.OAuthServer.Builders
                 credentials.SetMemberValue("_expiresIn", _msUntilExpiry.ToString());
             }
 
-            return new OAuth2Credentials();
+            return credentials;
         }
     }
 }

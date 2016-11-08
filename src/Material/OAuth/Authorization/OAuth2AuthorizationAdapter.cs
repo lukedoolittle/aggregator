@@ -101,8 +101,7 @@ namespace Material.OAuth.Authorization
                 .Headers(headers)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ResultAsync<OAuth2Credentials>()
-                .ConfigureAwait(false))
-                .TimestampToken();
+                .ConfigureAwait(false));
         }
 
         public async Task<OAuth2Credentials> GetClientAccessToken(
@@ -130,8 +129,7 @@ namespace Material.OAuth.Authorization
                     clientSecret)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ResultAsync<OAuth2Credentials>()
-                .ConfigureAwait(false))
-                .TimestampToken();
+                .ConfigureAwait(false));
         }
 
         public async Task<OAuth2Credentials> GetJsonWebToken(
@@ -165,8 +163,7 @@ namespace Material.OAuth.Authorization
                     clientId)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ResultAsync<OAuth2Credentials>()
-                .ConfigureAwait(false))
-                .TimestampToken();
+                .ConfigureAwait(false));
         }
 
         public async Task<OAuth2Credentials> GetAccessToken(
@@ -198,8 +195,7 @@ namespace Material.OAuth.Authorization
                 .Headers(headers)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ResultAsync<OAuth2Credentials>()
-                .ConfigureAwait(false))
-                .TimestampToken();
+                .ConfigureAwait(false));
         }
     }
 }

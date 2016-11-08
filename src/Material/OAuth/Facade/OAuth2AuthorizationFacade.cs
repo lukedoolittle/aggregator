@@ -87,6 +87,7 @@ namespace Material.OAuth.Facade
                 .ConfigureAwait(false);
 
             return accessToken
+                .TimestampToken()
                 .SetTokenName(_resourceProvider.TokenName)
                 .SetClientProperties(
                     _clientId,

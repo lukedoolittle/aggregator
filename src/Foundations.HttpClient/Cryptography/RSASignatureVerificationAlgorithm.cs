@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
-using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Foundations.HttpClient.Cryptography
 {
@@ -38,8 +38,8 @@ namespace Foundations.HttpClient.Cryptography
 
             var parameters = new RsaKeyParameters(
                 false,
-                new BigInteger(1, Base64.Decode(modulus)),
-                new BigInteger(1, Base64.Decode(publicExponent)));
+                new BigInteger(modulus),
+                new BigInteger(publicExponent));
 
             _signer.Init(false, parameters);
             _signer.BlockUpdate(text, 0, text.Length);

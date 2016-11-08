@@ -101,16 +101,13 @@ namespace Material.OAuth.Facade
                     _resourceProvider.Headers)
                 .ConfigureAwait(false);
 
-            token.TimestampToken();
-
             return token
+                .TimestampToken()
                 .SetTokenName(expiredCredentials.TokenName)
                 .SetClientProperties(
                     expiredCredentials.ClientId,
                     expiredCredentials.ClientSecret)
                 .TransferRefreshToken(expiredCredentials.RefreshToken);
         }
-
-
     }
 }
