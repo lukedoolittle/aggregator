@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using Foundations.Enums;
 using Foundations.Extensions;
@@ -790,6 +791,34 @@ e451rpYJcee/1EhNRpvn6Q==
                     parameterType).ConfigureAwait(false);
                 results.Add(result);
             }
+
+            foreach (var result in results)
+            {
+                Assert.True(result.Args.Count == 0);
+            }
+        }
+
+        [Fact]
+        public async void MakeMultipleAsynchronousRequestsToSameEndpoint()
+        {
+            var numberOfRequests = 5;
+            var baseUrl = _endpoint;
+            var path = _getPath;
+            var method = HttpMethod.Get;
+            var parameterType = HttpParameterType.Querystring;
+
+            var tasks = new List<Task<TypedHttpBinResponse<SampleBody>>>();
+            for (var i = 0; i < numberOfRequests; i++)
+            {
+                var result = GenerateBasicRequest(
+                    baseUrl,
+                    path,
+                    method,
+                    parameterType);
+                tasks.Add(result);
+            }
+
+            var results = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             foreach (var result in results)
             {

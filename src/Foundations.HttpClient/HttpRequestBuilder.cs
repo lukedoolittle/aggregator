@@ -19,6 +19,7 @@ namespace Foundations.HttpClient
 {
     public class HttpRequestBuilder
     {
+        private readonly Func<RequestParameters, Tuple<System.Net.Http.HttpClient, HttpClientHandler>> _clientFactory;
         private readonly RequestParameters _request = 
             new RequestParameters();
 
@@ -35,6 +36,7 @@ namespace Foundations.HttpClient
 
             _request.Address = baseAddress;
 
+            _clientFactory = HttpConfiguration.HttpClientFactory;
             HttpConfiguration.DefaultBuilderSetup(this);
         }
 
@@ -258,7 +260,7 @@ namespace Foundations.HttpClient
                     StringResource.GetWithBodyNotSupported);
             }
 
-            var client = HttpConfiguration.ClientPool.GetClient(_request.Address);
+            var client = _clientFactory(_request);
 
             var message = new HttpRequestMessage
             {
@@ -289,7 +291,7 @@ namespace Foundations.HttpClient
                 }
             }
             
-            var response = await client.Client
+            var response = await client.Item1
                 .SendAsync(message)
                 .ConfigureAwait(false);
 
@@ -314,14 +316,14 @@ namespace Foundations.HttpClient
             {
                 return new HttpResponse(
                     response,
-                    client.Handler.CookieContainer.GetCookies(_request.Address),
+                    client.Item2.CookieContainer.GetCookies(_request.Address),
                     _request.OverriddenMediaType.Value);
             }
             else
             {
                 return new HttpResponse(
                     response,
-                    client.Handler.CookieContainer.GetCookies(_request.Address));
+                    client.Item2.CookieContainer.GetCookies(_request.Address));
             }
         }
     }
