@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "Automated")]
     public class OAuth2ClientCredentialsTokenTests
     {
 

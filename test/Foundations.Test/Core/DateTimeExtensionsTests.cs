@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Foundations.Test.Core
 {
+    [Trait("Category", "Continuous")]
     public class DateTimeExtensionsTests
     {
         [Fact]

@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "RequiresToken")]
     public class OAuthSimpleRequestTests
     {
         private readonly TokenCredentialRepository _tokenRepository

@@ -18,6 +18,7 @@ using Xunit;
 
 namespace Foundations.Test.HttpClient
 {
+    [Trait("Category", "Continuous")]
     public class HttpClientTests
     {
         private const string _endpoint = "https://httpbin.org/";

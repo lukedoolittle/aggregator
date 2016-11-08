@@ -1,5 +1,4 @@
 ﻿using Material.Contracts;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
@@ -9,6 +8,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "Automated")]
     public class OAuth2JWTBearerTokenTests
     {
         private readonly AppCredentialRepository _appRepository = 

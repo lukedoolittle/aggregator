@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "Automated")]
     public class SimpleRequestTests
     {
         private readonly AppCredentialRepository _appRepository

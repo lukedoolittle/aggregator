@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
@@ -19,6 +18,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Integration
 {
+    [Trait("Category", "Automated")]
     public class MockOAuth1TokenTests
     {
         private readonly AppCredentialRepository _appRepository =

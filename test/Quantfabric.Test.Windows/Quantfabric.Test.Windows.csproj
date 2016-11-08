@@ -284,7 +284,6 @@
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
     <Compile Include="Material\Unit\JsonWebTokenTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
-    <Compile Include="Material\Unit\OAuthSigningTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
     <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\TokenDeserializationTests.cs" />

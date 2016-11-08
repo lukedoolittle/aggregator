@@ -9,7 +9,6 @@ using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
 using Material.OAuth.Facade;
@@ -25,6 +24,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Integration
 {
+    [Trait("Category", "Automated")]
     public class MockOAuth1WebTests
     {
         private readonly AppCredentialRepository _appRepository =

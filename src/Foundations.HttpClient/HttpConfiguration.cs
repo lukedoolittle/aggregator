@@ -97,6 +97,7 @@ namespace Foundations.HttpClient
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
             if (clientHandlerFactory == null) throw new ArgumentNullException(nameof(clientHandlerFactory));
+            if (clientHashFactory == null) throw new ArgumentNullException(nameof(clientHashFactory));
 
             var key = clientHashFactory(request);
 

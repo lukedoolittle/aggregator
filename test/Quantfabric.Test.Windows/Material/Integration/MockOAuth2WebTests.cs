@@ -22,6 +22,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Integration
 {
+    [Trait("Category", "Automated")]
     public class MockOAuth2WebTests
     {
         private readonly AppCredentialRepository _appRepository =

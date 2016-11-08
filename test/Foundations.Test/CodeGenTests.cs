@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Foundations.Test
 {
+    [Trait("Category", "Continuous")]
     public class CodeGenTests
     {
         [Fact]

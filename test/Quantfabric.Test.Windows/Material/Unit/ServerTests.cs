@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Foundations.Test
 {
+    [Trait("Category", "Automated")]
     public class ServerTests
     {
         [Fact]

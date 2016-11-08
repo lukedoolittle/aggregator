@@ -6,7 +6,8 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
 {
-    
+    [Trait("Category", "Continuous")]
+
     public class TokenDeserializationTests
     {
         [Fact]

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Material.Infrastructure.OAuth;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
 using Material.OAuth.Security;
@@ -8,6 +7,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
 {
+    [Trait("Category", "Continuous")]
     public class OAuthSecurityManagerTests
     {
         [Fact]

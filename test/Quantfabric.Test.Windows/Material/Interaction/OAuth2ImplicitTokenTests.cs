@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "Manual")]
     public class OAuth2ImplicitTokenTests
     {
         private readonly AppCredentialRepository _appRepository = 
