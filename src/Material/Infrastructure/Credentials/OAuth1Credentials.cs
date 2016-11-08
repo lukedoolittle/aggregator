@@ -19,6 +19,9 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "oauth_token_secret")]
         public string OAuthSecret { get; private set; }
 
+        [DataMember(Name = "oauth_callback_confirmed")]
+        public bool CallbackConfirmed { get; private set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string CallbackUrl { get; private set; }
 

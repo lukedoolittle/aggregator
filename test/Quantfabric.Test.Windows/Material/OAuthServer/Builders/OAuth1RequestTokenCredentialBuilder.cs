@@ -46,6 +46,9 @@ namespace Quantfabric.Test.Material.OAuthServer.Builders
             credentials.SetPropertyValue(
                 nameof(credentials.OAuthSecret),
                 oauthSecret);
+            credentials.SetPropertyValue(
+                nameof(credentials.CallbackConfirmed),
+                true);
 
             return credentials;
         }

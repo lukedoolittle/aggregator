@@ -51,6 +51,11 @@ namespace Material.OAuth.Facade
                         _callbackUri)
                     .ConfigureAwait(false);
 
+            if (!credentials.CallbackConfirmed)
+            {
+                //Warning this violates the spec https://tools.ietf.org/html/rfc5849
+            }
+
             var authorizationPath =
                 _oauth.GetAuthorizationUri(
                     credentials.OAuthToken,
