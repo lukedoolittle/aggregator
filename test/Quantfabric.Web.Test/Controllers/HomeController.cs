@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Material;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
@@ -200,6 +199,21 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<Instagram>(),
                 _appRepository.GetRedirectUri<Instagram>())
                 .AddScope<InstagramLikes>();
+
+            var uri = await GetOAuth2AuthorizationUri(oauth)
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Amazon()
+        {
+            var oauth = new OAuth2Web<Amazon>(
+                _appRepository.GetClientId<Amazon>(),
+                _appRepository.GetClientSecret<Amazon>(),
+                _appRepository.GetRedirectUri<Amazon>())
+                .AddScope<AmazonProfile>();
 
             var uri = await GetOAuth2AuthorizationUri(oauth)
                 .ConfigureAwait(false);

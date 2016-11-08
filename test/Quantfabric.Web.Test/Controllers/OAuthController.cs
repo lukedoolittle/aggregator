@@ -209,6 +209,17 @@ namespace Quantfabric.Web.Test.Controllers
                 new { accessToken = credentials.AccessToken });
         }
 
+        // GET: oauth/amazon
+        [HttpGet]
+        public async Task<ActionResult> Amazon()
+        {
+            var credentials = await GetOAuth2Credentials<Amazon>()
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { accessToken = credentials.AccessToken });
+        }
+
         public Task<OAuth1Credentials> GetOAuth1Credentials<TResourceProvider>()
             where TResourceProvider : OAuth1ResourceProvider, new()
         {

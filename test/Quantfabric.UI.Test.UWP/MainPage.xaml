@@ -32,8 +32,8 @@
             <Button x:Name="googleAuth" Content="Google"  Grid.Row="0" Grid.Column ="2" Click="OnGoogleClick" Margin="0,10,5,10"/>
 
             <Button x:Name="fitbitAuth" Content="Fitbit" Grid.Row="1" Grid.Column ="0" Click="OnFitbitClick" Margin="0,10,5,10"/>
-            <Button x:Name="pinterestAuth" Content="Pinterest" Grid.Row="1" Grid.Column ="1" Click="OnPinterestClick" Margin="0,10,5,10"/>
-            <Button x:Name="runkeeperAuth" Content="Runkeeper" Grid.Row="1" Grid.Column ="2" Click="OnRunkeeperClick" Margin="0,10,5,10"/>
+            <Button x:Name="pinterestAuth" Content="Pinterest" Grid.Row="1" Grid.Column ="1" Click="OnPinterestClick" Margin="0,10,5,10" IsEnabled="false"/>
+            <Button x:Name="runkeeperAuth" Content="Runkeeper" Grid.Row="1" Grid.Column ="2" Click="OnRunkeeperClick" Margin="0,10,5,10" IsEnabled="false"/>
             
             <Button x:Name="instagramAuth" Content="Instagram" Grid.Row="2" Grid.Column ="0"  Click="OnInstagramClick" Margin="0,10,5,10"/>
             <Button x:Name="twentyThreeAndMeAuth" Content="23AndMe" Grid.Row="2" Grid.Column ="1" Click="OnTwentyThreeAndMeClick" Margin="0,10,5,10"/>

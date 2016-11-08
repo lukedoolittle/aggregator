@@ -27,9 +27,7 @@ namespace Quantfabric.Test.Integration
         public static bool IsValidOAuth2Token(OAuth2Credentials token)
         {
             return !string.IsNullOrEmpty(token?.AccessToken) &&
-                   !string.IsNullOrEmpty(token.TokenName) &&
-                   !string.IsNullOrEmpty(token.ExpiresIn) &&
-                   !string.IsNullOrEmpty(token.ClientId);
+                   !string.IsNullOrEmpty(token.TokenName);
         }
 
 

@@ -13,7 +13,8 @@ namespace Foundations.Collections
     {
         public static HttpValueCollection ParseQueryString(string query)
         {
-            if (query == null || query == "#_=_")
+            //TODO: handle these degenerate conditions differently
+            if (query == null || query == "#_=_" || query == "#!")
             {
                 return new HttpValueCollection();
             }
