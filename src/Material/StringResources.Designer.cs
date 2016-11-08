@@ -62,15 +62,6 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Received code {0} instead of 200. Body content : {1}.
-        /// </summary>
-        public static string BadHttpRequestException {
-            get {
-                return ResourceManager.GetString("BadHttpRequestException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not connect to bluetooth device at address {0}.
         /// </summary>
         public static string BluetoothConnectivityException {
@@ -107,15 +98,6 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Embedded browser type is not supported in a Windows Desktop application.
-        /// </summary>
-        public static string EmbeddedDesktopUINotSupportedException {
-            get {
-                return ResourceManager.GetString("EmbeddedDesktopUINotSupportedException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Must provide a Client Secret; token flow is not supported with the service {0}.
         /// </summary>
         public static string FlowTypeNotSupportedException {
@@ -130,15 +112,6 @@ namespace Material {
         public static string FormatMetadataMissing {
             get {
                 return ResourceManager.GetString("FormatMetadataMissing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The given type is not a subclass of Event.
-        /// </summary>
-        public static string GenericTypeException {
-            get {
-                return ResourceManager.GetString("GenericTypeException", resourceCulture);
             }
         }
         
@@ -179,15 +152,6 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The token is not a valid intermediate OAuth token.
-        /// </summary>
-        public static string InvalidIntermediateToken {
-            get {
-                return ResourceManager.GetString("InvalidIntermediateToken", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Thanks for sharing!.
         /// </summary>
         public static string OAuthCallbackResponse {
@@ -211,6 +175,15 @@ namespace Material {
         public static string ScopeException {
             get {
                 return ResourceManager.GetString("ScopeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot exchange client access token for long lived access token.
+        /// </summary>
+        public static string ShortTermAccessTokenExchangeException {
+            get {
+                return ResourceManager.GetString("ShortTermAccessTokenExchangeException", resourceCulture);
             }
         }
     }

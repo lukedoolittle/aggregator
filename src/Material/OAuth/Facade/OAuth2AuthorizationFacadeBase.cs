@@ -8,26 +8,26 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Facade
 {
-    public class OAuth2AuthorizationFacade : 
+    public abstract class OAuth2AuthorizationFacadeBase :
         IOAuthFacade<OAuth2Credentials>
     {
-        private readonly string _clientId;
-        private readonly OAuth2ResourceProvider _resourceProvider;
-        private readonly IOAuth2AuthorizationAdapter _oauth;
-        private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _strategy;
+        protected string ClientId { get; }
+        protected OAuth2ResourceProvider ResourceProvider { get; }
+        protected IOAuth2AuthorizationAdapter OAuth { get; }
+        protected Uri CallbackUri { get; }
 
-        public OAuth2AuthorizationFacade(
+        protected OAuth2AuthorizationFacadeBase(
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             Uri callbackUri,
             IOAuth2AuthorizationAdapter oauth,
             IOAuthSecurityStrategy strategy)
         {
-            _clientId = clientId;
-            _resourceProvider = resourceProvider;
-            _callbackUri = callbackUri;
-            _oauth = oauth;
+            ClientId = clientId;
+            ResourceProvider = resourceProvider;
+            CallbackUri = callbackUri;
+            this.OAuth = oauth;
             _strategy = strategy;
         }
 
@@ -43,14 +43,14 @@ namespace Material.OAuth.Facade
                 OAuth2Parameter.State.EnumToString());
 
             var authorizationPath =
-                _oauth.GetAuthorizationUri(
-                    _resourceProvider.AuthorizationUrl,
-                    _clientId,
-                    _resourceProvider.Scope,
-                    _callbackUri, 
+                OAuth.GetAuthorizationUri(
+                    ResourceProvider.AuthorizationUrl,
+                    ClientId,
+                    ResourceProvider.Scope,
+                    CallbackUri,
                     state,
-                    _resourceProvider.Flow,
-                    _resourceProvider.Parameters);
+                    ResourceProvider.Flow,
+                    ResourceProvider.Parameters);
 
             return Task.FromResult(authorizationPath);
         }
@@ -72,26 +72,21 @@ namespace Material.OAuth.Facade
                 return intermediateResult;
             }
 
-            _resourceProvider.SetClientProperties(
-                _clientId,
-                secret);
-
-            var accessToken = await _oauth.GetAccessToken(
-                _resourceProvider.TokenUrl,
-                _clientId,
-                secret,
-                _callbackUri,
-                intermediateResult.Code,
-                _resourceProvider.Scope,
-                _resourceProvider.Headers)
+            var accessToken = await GetRawAccessToken(
+                    intermediateResult, 
+                    secret)
                 .ConfigureAwait(false);
 
             return accessToken
                 .TimestampToken()
-                .SetTokenName(_resourceProvider.TokenName)
+                .SetTokenName(ResourceProvider.TokenName)
                 .SetClientProperties(
-                    _clientId,
+                    ClientId,
                     secret);
         }
+
+        protected abstract Task<OAuth2Credentials> GetRawAccessToken(
+            OAuth2Credentials intermediateCredentials,
+            string secret);
     }
 }

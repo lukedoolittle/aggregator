@@ -117,14 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BadHttpRequestException" xml:space="preserve">
-    <value>Received code {0} instead of 200. Body content : {1}</value>
-  </data>
   <data name="BluetoothConnectivityException" xml:space="preserve">
     <value>Could not connect to bluetooth device at address {0}</value>
-  </data>
-  <data name="GenericTypeException" xml:space="preserve">
-    <value>The given type is not a subclass of Event</value>
   </data>
   <data name="GPSDisabledConnectivityException" xml:space="preserve">
     <value>GPS device is not enabled</value>
@@ -153,19 +147,16 @@
   <data name="BluetoothDialogTitle" xml:space="preserve">
     <value>Please Wait</value>
   </data>
-  <data name="InvalidIntermediateToken" xml:space="preserve">
-    <value>The token is not a valid intermediate OAuth token</value>
-  </data>
   <data name="GPSAuthorizationException" xml:space="preserve">
     <value>Access to GPS was not granted</value>
-  </data>
-  <data name="EmbeddedDesktopUINotSupportedException" xml:space="preserve">
-    <value>Embedded browser type is not supported in a Windows Desktop application</value>
   </data>
   <data name="FlowTypeNotSupportedException" xml:space="preserve">
     <value>Must provide a Client Secret; token flow is not supported with the service {0}</value>
   </data>
   <data name="FormatMetadataMissing" xml:space="preserve">
     <value>All request parameters must have format metadata</value>
+  </data>
+  <data name="ShortTermAccessTokenExchangeException" xml:space="preserve">
+    <value>Cannot exchange client access token for long lived access token</value>
   </data>
 </root>

@@ -225,6 +225,9 @@
     <Compile Include="OAuth\Authorization\OAuthProtectedResourceAdapter.cs" />
     <Compile Include="OAuth\BrowserAuthorizerUI.cs" />
     <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
+    <Compile Include="OAuth\Facade\OAuth2AuthorizationFacadeBase.cs" />
+    <Compile Include="OAuth\Facade\OAuth2CodeAuthorizationFacade.cs" />
+    <Compile Include="OAuth\Facade\OAuth2TokenAuthorizationFacade.cs" />
     <Compile Include="OAuth\OAuth1AppBase.cs" />
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />
@@ -252,12 +255,10 @@
     <Compile Include="Metadata\CredentialType.cs" />
     <Compile Include="Metadata\ServiceType.cs" />
     <Compile Include="OAuth\Facade\OAuth1AuthorizationFacade.cs" />
-    <Compile Include="OAuth\Facade\OAuth2AuthorizationFacade.cs" />
     <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
     <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
     <Compile Include="OAuth\Template\OAuth1AuthorizationTemplate.cs" />
-    <Compile Include="OAuth\Template\OAuth2CodeAuthorizationTemplate.cs" />
-    <Compile Include="OAuth\Template\OAuth2TokenAuthorizationTemplate.cs" />
+    <Compile Include="OAuth\Template\OAuth2AuthorizationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OAuth\Template\OAuthAuthorizationTemplateBase.cs" />
     <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />

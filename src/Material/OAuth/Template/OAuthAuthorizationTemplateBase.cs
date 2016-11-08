@@ -11,6 +11,7 @@ namespace Material.OAuth.Template
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
         private readonly IOAuthFacade<TCredentials> _oauthFacade;
+        protected IOAuthFacade<TCredentials> oauthFacade => _oauthFacade;
 
         protected OAuthAuthorizationTemplateBase(
             IOAuthAuthorizerUI<TCredentials> authorizerUI, 

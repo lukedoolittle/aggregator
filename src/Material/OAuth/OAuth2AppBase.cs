@@ -16,10 +16,10 @@ namespace Material.OAuth
     {
         private readonly Uri _callbackUri;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
-        private readonly IOAuthFacade<OAuth2Credentials> _oauthFacade;
         private readonly TResourceProvider _provider;
         private readonly AuthorizationInterface _browserType;
-
+        private readonly string _clientId;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         public OAuth2AppBase(
             string clientId,
@@ -33,13 +33,8 @@ namespace Material.OAuth
             _browserType = browserType;
             _provider = provider;
             _uiFactory = uiFactory;
-
-            _oauthFacade = new OAuth2AuthorizationFacade(
-                _provider,
-                clientId,
-                _callbackUri,
-                new OAuth2AuthorizationAdapter(),
-                securityStrategy);
+            _clientId = clientId;
+            _securityStrategy = securityStrategy;
         }
 
         /// <summary>
@@ -52,20 +47,18 @@ namespace Material.OAuth
             OAuth2ResponseType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
-            _provider.SetFlow(flowType);
+            var facade = new OAuth2TokenAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
 
-            var authenticationUI = _uiFactory
-                .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
-                    _browserType,
-                    callbackHandler,
-                    _callbackUri);
-
-            var template = new OAuth2TokenAuthorizationTemplate(
-                    authenticationUI,
-                    _oauthFacade);
-
-            return template.GetAccessTokenCredentials(
-                Guid.NewGuid().ToString());
+            return GetCredentialsAsync(
+                null,
+                flowType,
+                callbackHandler,
+                facade);
         }
 
         /// <summary>
@@ -80,6 +73,28 @@ namespace Material.OAuth
             OAuth2ResponseType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
+            var facade = new OAuth2CodeAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
+
+            return GetCredentialsAsync(
+                clientSecret, 
+                flowType, 
+                callbackHandler, 
+                facade);
+        }
+
+        private Task<OAuth2Credentials> GetCredentialsAsync(
+            string clientSecret,
+            OAuth2ResponseType flowType,
+            IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
+            IOAuthFacade<OAuth2Credentials> facade)
+        {
+            if (facade == null) throw new ArgumentNullException(nameof(facade));
+
             _provider.SetFlow(flowType);
 
             var authenticationUI = _uiFactory
@@ -88,9 +103,9 @@ namespace Material.OAuth
                     callbackHandler,
                     _callbackUri);
 
-            var template = new OAuth2CodeAuthorizationTemplate(
+            var template = new OAuth2AuthorizationTemplate(
                     authenticationUI,
-                    _oauthFacade,
+                    facade,
                     clientSecret);
 
             return template.GetAccessTokenCredentials(

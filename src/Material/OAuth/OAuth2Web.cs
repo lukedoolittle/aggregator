@@ -17,7 +17,7 @@ namespace Material.OAuth
     {
         private readonly string _clientSecret;
         private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
-        private readonly IOAuthSecurityStrategy _strategy;
+        private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
         private readonly TResourceProvider _resourceProvider = 
             new TResourceProvider();
 
@@ -35,15 +35,34 @@ namespace Material.OAuth
             string callbackUrl,
             IOAuthSecurityStrategy strategy)
         {
-            _strategy = strategy;
             _clientSecret = clientSecret;
 
-            _authFacade = new OAuth2AuthorizationFacade(
+
+            _callbackHandler = new OAuth2CallbackHandler(
+                strategy,
+                OAuth2Parameter.State.EnumToString());
+
+            _authFacade = new OAuth2CodeAuthorizationFacade(
                 _resourceProvider,
                 clientId,
                 new Uri(callbackUrl),
                 new OAuth2AuthorizationAdapter(),
                 strategy);
+
+            //NOTE: you could create a token workflow version of this
+            //but why???
+            //
+            //var handler = new OAuth2QueryCallbackHandler(
+            //  _strategy,
+            //  OAuth2Parameter.State.EnumToString(),
+            //  userId);
+            //
+            //_authFacade = new OAuth2TokenAuthorizationFacade(
+            //    _resourceProvider,
+            //    clientId,
+            //    new Uri(callbackUrl),
+            //    new OAuth2AuthorizationAdapter(),
+            //    strategy);
         }
 
         /// <summary>
@@ -87,17 +106,7 @@ namespace Material.OAuth
             Uri responseUri,
             string userId)
         {
-            //NOTE: you could create a token workflow version of this
-            //but why???
-            //
-            //var handler = new OAuth2QueryCallbackHandler(
-            //_strategy,
-            //OAuth2Parameter.State.EnumToString(),
-            //userId);
-
-            var result = new OAuth2CallbackHandler(
-                            _strategy,
-                            OAuth2Parameter.State.EnumToString())
+            var result = _callbackHandler
                         .ParseAndValidateCallback(
                             responseUri, 
                             userId);
