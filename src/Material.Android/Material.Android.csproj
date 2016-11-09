@@ -56,8 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="View\Permissions\DeviceAuthorizationFacade.cs" />
     <Compile Include="AndroidGPSAdapter.cs" />
+    <Compile Include="View\Permissions\DeviceAuthorizationFacadeExtensions.cs" />
     <Compile Include="AndroidSMSAdapter.cs" />
+    <Compile Include="View\Permissions\PermissionsActivity.cs" />
     <Compile Include="View\ActivityStateRepository.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

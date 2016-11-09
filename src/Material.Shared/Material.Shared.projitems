@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAuthorizerUIFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GPSAuthorizationFacade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\HttpOAuthCallbackListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2App.cs" />

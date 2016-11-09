@@ -1,5 +1,6 @@
 ﻿#if __MOBILE__
 using Material.Infrastructure.Requests;
+using Material.Permissions;
 
 namespace Material
 {
@@ -20,13 +21,15 @@ namespace Material
                 .GetPositionAsync()
                 .ConfigureAwait(false);
 #elif __ANDROID__
+            var authorizationResult = await new DeviceAuthorizationFacade()
+                .AuthorizeGPS()
+                .ConfigureAwait(false);
             return await new AndroidGPSAdapter()
                 .GetPositionAsync()
                 .ConfigureAwait(false);
 #else
             throw new NotSupportedException();
 #endif
-
         }
     }
 }

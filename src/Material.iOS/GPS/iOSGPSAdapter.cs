@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Timers;
 using CoreLocation;
 using Foundation;
 using Material.Contracts;
-using System.Timers;
 using Material.Exceptions;
 using Material.Infrastructure.Requests;
 using UIKit;
 
-namespace Material
+namespace Material.GPS
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "i")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "OSGPS")]

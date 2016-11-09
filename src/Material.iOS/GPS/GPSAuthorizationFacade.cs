@@ -1,26 +1,15 @@
-﻿#if __MOBILE__
-using System.Threading.Tasks;
-using Material.Exceptions;
-#if __IOS__
+﻿using System.Threading.Tasks;
 using CoreLocation;
+using Material.Exceptions;
 using UIKit;
-#endif
 
-namespace Material
+namespace Material.GPS
 {
     public class GPSAuthorizationFacade
     {
-#if __IOS__
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Task<CLLocationManager> AuthorizeContinuousGPSUsage()
-#else
-        public Task AuthorizeContinuousGPSUsage()
-#endif
-
         {
-#if __ANDROID__
-            return Task.FromResult(new object());
-#elif __IOS__
             var taskCompletionSource = new TaskCompletionSource<CLLocationManager>();
             var locationManager = new CLLocationManager();
             locationManager.AuthorizationChanged += (sender, args) =>
@@ -47,10 +36,6 @@ namespace Material
                 locationManager.AllowsBackgroundLocationUpdates = true;
             }
             return taskCompletionSource.Task;
-#else
-            throw new Exception();
-#endif
         }
     }
 }
-#endif
