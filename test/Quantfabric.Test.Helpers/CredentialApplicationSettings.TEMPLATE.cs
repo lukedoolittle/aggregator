@@ -14,6 +14,15 @@ namespace Application.Configuration
         private const string REDIRECT_URI_FORMAT = 
             "http://localhost:33533/oauth/{0}";
 
+        public readonly Dictionary<Type, ApiKeyCredentials> _apiKeyCredentials = 
+            new Dictionary<Type, ApiKeyCredentials>
+        {
+                { typeof(MicrosoftLuis), ApiKeyCredentials.FromProvider<MicrosoftLuis>(
+                    "") },
+                {typeof(MicrosoftBing), ApiKeyCredentials.FromProvider<MicrosoftBing>(
+                    "") }
+        };
+
         private readonly Dictionary<Type, OAuth2Credentials> _jwtCredentials =
             new Dictionary<Type, OAuth2Credentials>
         {
@@ -30,19 +39,21 @@ namespace Application.Configuration
         private readonly Dictionary<Type, TokenCredentials> _protocolCredentials = 
             new Dictionary<Type, TokenCredentials>
         {
-#if __ANDROID__
                 { typeof(Google), new OAuth2Credentials()
                 .SetClientProperties("", null)
                 .SetCallbackUrl("quantfabric.material:/google")},
-#else
-                { typeof(Google), new OAuth2Credentials()
-                .SetClientProperties("", null)
-                .SetCallbackUrl("quantfabric.material:/google")},
-#endif
 
                 { typeof(Fitbit), new OAuth2Credentials()
                 .SetClientProperties("", "")
-                .SetCallbackUrl("quantfabric.material://fitbit")}
+                .SetCallbackUrl("quantfabric.material://fitbit")},
+
+                { typeof(Amazon), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl("quantfabric.material://amazon")},
+
+                { typeof(Foursquare), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl("quantfabric.material://foursquare")}
         };
 
         private readonly Dictionary<Type, TokenCredentials> _localhostCredentials = 
@@ -111,14 +122,18 @@ namespace Application.Configuration
              { typeof(Tumblr), new OAuth1Credentials()
                 .SetConsumerProperties("", "")
                 .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Tumblr).Name.ToLower()))},
+
+            { typeof(Amazon), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Amazon).Name.ToLower()))},
         };
 
         public TCredentials GetClientCredentials<TService, TCredentials>(
-            CallbackTypeEnum callbackType = CallbackTypeEnum.Localhost)
+            CallbackType callbackType)
             where TService : ResourceProvider
             where TCredentials : TokenCredentials
         {
-            var credentialDictionary = callbackType == CallbackTypeEnum.Localhost
+            var credentialDictionary = callbackType == CallbackType.Localhost
                 ? _localhostCredentials
                 : _protocolCredentials;
 
@@ -138,11 +153,32 @@ namespace Application.Configuration
             }
         }
 
-        public OAuth2Credentials GetJWTCredentials<TService>()
+        public TCredentials GetClientCredentials<TService, TCredentials>()
+            where TService : ResourceProvider
+            where TCredentials : TokenCredentials
+        {
+            return GetClientCredentials<TService, TCredentials>(CallbackType.Localhost);
+        }
+
+        public OAuth2Credentials GetJsonWebTokenCredentials<TService>()
             where TService : ResourceProvider
         {
             OAuth2Credentials credentials = null;
             if (_jwtCredentials.TryGetValue(typeof(TService), out credentials))
+            {
+                return credentials;
+            }
+            else
+            {
+                throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+            }
+        }
+
+        public ApiKeyCredentials GetApiKeyCredentials<TService>()
+            where TService : ApiKeyResourceProvider
+        {
+            ApiKeyCredentials credentials = null;
+            if (_apiKeyCredentials.TryGetValue(typeof(TService), out credentials))
             {
                 return credentials;
             }
