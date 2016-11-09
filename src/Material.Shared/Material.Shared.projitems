@@ -12,10 +12,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAuthorizerUIFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\HttpOAuthCallbackListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthorizerUIFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\ProtocolAuthorizerUI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\BluetoothRequester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\GPSRequester.cs" />

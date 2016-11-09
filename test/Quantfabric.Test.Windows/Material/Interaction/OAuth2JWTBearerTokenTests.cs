@@ -1,7 +1,7 @@
 ﻿using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Xunit;

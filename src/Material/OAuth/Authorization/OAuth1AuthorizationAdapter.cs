@@ -10,7 +10,7 @@ using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Authorization
+namespace Material.Infrastructure.OAuth.Authorization
 {
     public class OAuth1AuthorizationAdapter : IOAuth1AuthorizationAdapter
     {

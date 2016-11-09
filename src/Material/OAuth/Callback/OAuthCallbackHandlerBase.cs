@@ -5,7 +5,7 @@ using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Callback
+namespace Material.Infrastructure.OAuth.Callback
 {
     public abstract class OAuthCallbackHandlerBase<TCredentials> : 
         IOAuthCallbackHandler<TCredentials>

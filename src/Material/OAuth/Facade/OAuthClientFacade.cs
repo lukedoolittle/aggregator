@@ -5,7 +5,7 @@ using Material.Exceptions;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Facade
+namespace Material.Infrastructure.OAuth.Facade
 {
     public class OAuthClientFacade<TResourceProvider> 
         where TResourceProvider : OAuth2ResourceProvider

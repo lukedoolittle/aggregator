@@ -63,7 +63,6 @@
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
-    <Compile Include="Contracts\IOAuthCallbackListener.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\IParameterFormatter.cs" />
@@ -225,7 +224,6 @@
     <Compile Include="OAuth\Authorization\OAuth1AuthorizationAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuth2AuthorizationAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuthProtectedResourceAdapter.cs" />
-    <Compile Include="OAuth\BrowserAuthorizerUI.cs" />
     <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
     <Compile Include="OAuth\Facade\OAuth2AuthorizationFacadeBase.cs" />
     <Compile Include="OAuth\Facade\OAuth2CodeAuthorizationFacade.cs" />
@@ -238,7 +236,6 @@
     <Compile Include="OAuth\OAuth2Refresh.cs" />
     <Compile Include="OAuth\OAuth2Web.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />
-    <Compile Include="OAuth\ProtocolOAuthCallbackListener.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />

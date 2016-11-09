@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 #if __FORMS__
 using Xamarin.Forms;
 using Material.Contracts;

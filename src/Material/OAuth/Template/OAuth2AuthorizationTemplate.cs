@@ -2,7 +2,7 @@
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Template
+namespace Material.Infrastructure.OAuth.Template
 {
     public class OAuth2AuthorizationTemplate : 
         OAuthAuthorizationTemplateBase<OAuth2Credentials>

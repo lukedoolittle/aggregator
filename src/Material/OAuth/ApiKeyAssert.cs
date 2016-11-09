@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
+using Material.Infrastructure.OAuth.Authorization;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class ApiKeyAssert<TResourceProvider>
         where TResourceProvider : ApiKeyExchangeResourceProvider, new()

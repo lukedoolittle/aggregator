@@ -4,7 +4,7 @@ using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Facade
+namespace Material.Infrastructure.OAuth.Facade
 {
     public class OAuth2CodeAuthorizationFacade : OAuth2AuthorizationFacadeBase
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Material.Contracts;
 
-namespace Material.OAuth.Security
+namespace Material.Infrastructure.OAuth.Security
 {
     public class InMemoryCryptographicParameterRepository : ICryptographicParameterRepository
     {

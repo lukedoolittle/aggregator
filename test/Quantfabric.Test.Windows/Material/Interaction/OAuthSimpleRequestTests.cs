@@ -7,7 +7,7 @@ using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
-using Material.OAuth;
+using Material.Infrastructure.OAuth;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;

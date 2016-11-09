@@ -6,13 +6,13 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
-using Material.OAuth.Callback;
-using Material.OAuth.Facade;
-using Material.OAuth.Security;
-using Material.OAuth.Template;
+using Material.Infrastructure.OAuth.Authorization;
+using Material.Infrastructure.OAuth.Callback;
+using Material.Infrastructure.OAuth.Facade;
+using Material.Infrastructure.OAuth.Security;
+using Material.Infrastructure.OAuth.Template;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     public class OAuth1AppBase<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()

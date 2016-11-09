@@ -6,9 +6,9 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
-using Material.OAuth.Callback;
-using Material.OAuth.Security;
+using Material.Infrastructure.OAuth;
+using Material.Infrastructure.OAuth.Callback;
+using Material.Infrastructure.OAuth.Security;
 #if __FORMS__
 using Xamarin.Forms;
 #endif

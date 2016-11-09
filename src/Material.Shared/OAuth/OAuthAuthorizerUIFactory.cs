@@ -1,13 +1,8 @@
 ﻿using System;
 using Material.Contracts;
 using Material.Enums;
-using Material.Framework;
 using Material.Infrastructure.Credentials;
-using Material.OAuth;
-#if !__WINDOWS__
-using Material.View;
 using Material.View.WebAuthorization;
-#endif
 #if __WINDOWS__
 using Foundations.Http;
 #endif
@@ -28,16 +23,17 @@ namespace Material.Infrastructure.OAuth
             switch (browserType)
             {
                 case AuthorizationInterface.Dedicated:
-                    return new BrowserAuthorizerUI<TCredentials>(
-                        new ProtocolOAuthCallbackListener<TCredentials>(
-                            handler,
-                            Platform.Current),
-                        Platform.Current,
-                        callbackUri);
+                    return new ProtocolAuthorizerUI<TCredentials>(
+                        handler,
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 case AuthorizationInterface.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
                         handler,
-                        callbackUri);
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 default:
                     throw new NotSupportedException();
             }
@@ -45,16 +41,17 @@ namespace Material.Infrastructure.OAuth
             switch (browserType)
             {
                 case AuthorizationInterface.Dedicated:
-                    return new BrowserAuthorizerUI<TCredentials>(
-                        new ProtocolOAuthCallbackListener<TCredentials>(
-                            handler,
-                            Platform.Current),
-                        Platform.Current,
-                        callbackUri);
+                    return new ProtocolAuthorizerUI<TCredentials>(
+                        handler,
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 case AuthorizationInterface.Embedded:
                     return new UIWebViewAuthorizerUI<TCredentials>(
                         handler,
-                        callbackUri);
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 default:
                     throw new NotSupportedException();
             }
@@ -62,26 +59,27 @@ namespace Material.Infrastructure.OAuth
             switch (browserType)
             {
                 case AuthorizationInterface.Dedicated:
-                    return new BrowserAuthorizerUI<TCredentials>(
-                        new ProtocolOAuthCallbackListener<TCredentials>(
-                            handler,
-                            Platform.Current),
-                        Platform.Current,
-                        callbackUri);
+                    return new ProtocolAuthorizerUI<TCredentials>(
+                        handler, 
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 case AuthorizationInterface.Embedded:
                     return new WebViewAuthorizerUI<TCredentials>(
                         handler,
-                        callbackUri);
+                        callbackUri,
+                        browserType,
+                        Framework.Platform.Current.RunOnMainThread);
                 default:
                     throw new NotSupportedException();
             }
 #elif __WINDOWS__
             return new BrowserAuthorizerUI<TCredentials>(
-                new HttpOAuthCallbackListener<TCredentials>(
-                    new HttpServer(),
-                    handler), 
-                Platform.Current,
-                callbackUri);
+                new HttpServer(),
+                handler, 
+                callbackUri,
+                AuthorizationInterface.Dedicated,
+                action => { });
 #else
             throw new NotSupportedException();
 #endif

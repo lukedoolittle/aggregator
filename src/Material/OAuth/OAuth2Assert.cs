@@ -4,10 +4,10 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Request;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
-using Material.OAuth.Facade;
+using Material.Infrastructure.OAuth.Authorization;
+using Material.Infrastructure.OAuth.Facade;
 
-namespace Material.OAuth
+namespace Material.Infrastructure.OAuth
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2

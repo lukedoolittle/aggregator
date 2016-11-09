@@ -6,7 +6,7 @@ using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
-namespace Material.OAuth.Facade
+namespace Material.Infrastructure.OAuth.Facade
 {
     public class OAuth1AuthorizationFacade : 
         IOAuthFacade<OAuth1Credentials>
