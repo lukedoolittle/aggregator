@@ -10,23 +10,25 @@ using Material.Enums;
 using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using Material.Framework;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
-    public class WebViewAuthorizerUI<TCredentials> : IOAuthAuthorizerUI<TCredentials>
+    public class WebViewAuthorizerUI<TCredentials> :
+        AuthorizerUITemplate<TCredentials>,
+        IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly Uri _callbackUri;
-        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthorizationInterface BrowserType => 
             AuthorizationInterface.Embedded;
 
         public WebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler,
-            Uri callbackUri)
+            Uri callbackUri) : 
+                base(handler)
         {
-            _handler = handler;
             _callbackUri = callbackUri;
         }
 
@@ -34,7 +36,7 @@ namespace Material.View.WebAuthorization
             Uri authorizationUri,
             string userId)
         {
-            var taskCompletion = new TaskCompletionSource<TCredentials>();
+            var completionSource = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
             var context = Platform.Current.Context;
 
@@ -58,12 +60,11 @@ namespace Material.View.WebAuthorization
                                 MediaType.Text.EnumToString(),
                                 string.Empty);
 
-                            var result = _handler
-                                .ParseAndValidateCallback(
-                                    new Uri(url),
-                                    userId);
-                            activity.Finish();
-                            taskCompletion.SetResult(result);
+                            RespondToUri(
+                                new Uri(url),
+                                userId,
+                                completionSource, 
+                                () => activity.Finish());
                         }
                     }));
 
@@ -76,7 +77,7 @@ namespace Material.View.WebAuthorization
                 activity.View.LoadUrl(authorizationUri.ToString());
             });
 
-            return await taskCompletion.Task.ConfigureAwait(false);
+            return await completionSource.Task.ConfigureAwait(false);
         }
 
         private class AuthorizingWebViewClient : WebViewClient

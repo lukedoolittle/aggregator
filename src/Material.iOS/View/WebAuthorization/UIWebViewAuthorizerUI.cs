@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Foundation;
 using Material.Contracts;
@@ -8,24 +7,25 @@ using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using UIKit;
 using Material.Framework;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
-    public class UIWebViewAuthorizerUI<TCredentials> : 
+    public class UIWebViewAuthorizerUI<TCredentials> :
+        AuthorizerUITemplate<TCredentials>,
         IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly Uri _callbackUri;
-        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public AuthorizationInterface BrowserType => 
             AuthorizationInterface.Embedded;
 
         public UIWebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler, 
-            Uri callbackUri)
+            Uri callbackUri) :
+                base(handler)
         {
-            _handler = handler;
             _callbackUri = callbackUri;
         }
 
@@ -33,7 +33,7 @@ namespace Material.View.WebAuthorization
             Uri authorizationUri,
             string userId)
         {
-            var taskCompletionSource = new TaskCompletionSource<TCredentials>();
+            var completionSource = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
 
             Platform.Current.RunOnMainThread(async () =>
@@ -67,13 +67,12 @@ namespace Material.View.WebAuthorization
                             StringResources.OAuthCallbackResponse,
                             new NSUrl("/"));
 
-                        var result = _handler
-                            .ParseAndValidateCallback(
-                                new Uri(request.Url.ToString()),
-                                userId);
-                        taskCompletionSource.SetResult(result);
+                        RespondToUri(
+                            new Uri(request.Url.ToString()), 
+                            userId, 
+                            completionSource, 
+                            () => controller.DismissViewController(false, null));
 
-                        controller.DismissViewController(false, null);
                         return false;
                     }
 
@@ -81,7 +80,7 @@ namespace Material.View.WebAuthorization
                 };
             });
 
-            return await taskCompletionSource.Task.ConfigureAwait(false);
+            return await completionSource.Task.ConfigureAwait(false);
         }
     }
 }

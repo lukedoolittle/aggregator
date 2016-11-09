@@ -257,6 +257,7 @@
     <Compile Include="OAuth\Facade\OAuth1AuthorizationFacade.cs" />
     <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
     <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
+    <Compile Include="OAuth\Template\AuthorizerUITemplate.cs" />
     <Compile Include="OAuth\Template\OAuth1AuthorizationTemplate.cs" />
     <Compile Include="OAuth\Template\OAuth2AuthorizationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

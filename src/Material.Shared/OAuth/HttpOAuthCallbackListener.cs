@@ -4,22 +4,23 @@ using System.Threading.Tasks;
 using Foundations.Http;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Template;
 
 namespace Material.Infrastructure.OAuth
 {
-    public class HttpOAuthCallbackListener<TCredentials> : 
+    public class HttpOAuthCallbackListener<TCredentials> :
+        AuthorizerUITemplate<TCredentials>,
         IOAuthCallbackListener<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly HttpServer _httpServer;
-        private readonly IOAuthCallbackHandler<TCredentials> _handler;
 
         public HttpOAuthCallbackListener(
             HttpServer httpServer, 
-            IOAuthCallbackHandler<TCredentials> handler)
+            IOAuthCallbackHandler<TCredentials> handler) : 
+                base(handler)
         {
             _httpServer = httpServer;
-            _handler = handler;
         }
 
         public void Listen(
@@ -32,22 +33,12 @@ namespace Material.Infrastructure.OAuth
                 (request, response) =>
                 {
                     response.WriteHtmlString(FRAGMENT_HTML);
-                    try
-                    {
-                        var result = _handler
-                            .ParseAndValidateCallback(
-                                request.Uri,
-                                userId);
-                        if (result != null)
-                        {
-                            completionSource.SetResult(result);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        completionSource.SetException(e);
-                        throw;
-                    }
+
+                    RespondToUri(
+                        request.Uri,
+                        userId,
+                        completionSource,
+                        () => { });
                 })
                 .Listen(callbackUri);
 #pragma warning restore 4014

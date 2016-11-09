@@ -2,21 +2,22 @@
 using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Template;
 
 namespace Material.OAuth
 {
-    public class ProtocolOAuthCallbackListener<TCredentials> : 
+    public class ProtocolOAuthCallbackListener<TCredentials> :
+        AuthorizerUITemplate<TCredentials>,
         IOAuthCallbackListener<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly IOAuthCallbackHandler<TCredentials> _handler;
         private readonly IProtocolLauncher _launcher;
 
         public ProtocolOAuthCallbackListener(
             IOAuthCallbackHandler<TCredentials> handler, 
-            IProtocolLauncher launcher)
+            IProtocolLauncher launcher) : 
+                base(handler)
         {
-            _handler = handler;
             _launcher = launcher;
         }
 
@@ -29,22 +30,11 @@ namespace Material.OAuth
             {
                 if (e.Uri.ToString().Contains(callbackUri.ToString()))
                 {
-                    try
-                    {
-                        var result = _handler
-                            .ParseAndValidateCallback(
-                                e.Uri,
-                                userId);
-                        if (result != null)
-                        {
-                            completionSource.SetResult(result);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        completionSource.SetException(ex);
-                        throw;
-                    }
+                    RespondToUri(
+                        e.Uri,
+                        userId,
+                        completionSource,
+                        () => { });
                 }
             };
         }
