@@ -159,6 +159,7 @@ namespace Quantfabric.UI.Test
                             redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
+                        .AddScope<GoogleProfile>()
                         .GetCredentialsAsync()
                         .ConfigureAwait(false);
 

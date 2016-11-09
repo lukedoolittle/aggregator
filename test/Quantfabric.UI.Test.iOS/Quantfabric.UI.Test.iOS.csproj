@@ -23,12 +23,20 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>i386</MtouchArch>
     <MtouchLink>None</MtouchLink>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchFastDev>true</MtouchFastDev>
-    <MtouchDebug>true</MtouchDebug>
+    <MtouchUseRefCounting>True</MtouchUseRefCounting>
+    <MtouchUseSGen>True</MtouchUseSGen>
+    <MtouchFastDev>True</MtouchFastDev>
+    <MtouchDebug>True</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchProfiling>true</MtouchProfiling>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchSdkVersion>10.0</MtouchSdkVersion>
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchEnableBitcode>False</MtouchEnableBitcode>
+    <OptimizePNGs>True</OptimizePNGs>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchFloat32>False</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>

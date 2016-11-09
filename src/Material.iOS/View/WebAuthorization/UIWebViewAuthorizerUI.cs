@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Foundation;
 using Material.Contracts;
@@ -51,7 +52,12 @@ namespace Material.View.WebAuthorization
                     throw new NoConnectivityException(
                         StringResources.OfflineConnectivityException);
                 }
-                webView.LoadRequest(new NSUrlRequest(new NSUrl(authorizationUri.ToString())));
+
+                //NSUrlRequest will not handle spaces so ensure URL encoding
+                var endpoint = new NSUrl(authorizationUri
+                    .ToString()
+                    .Replace(" ", "%20"));
+                webView.LoadRequest(new NSUrlRequest(endpoint));
                 webView.ShouldStartLoad = (view, request, type) =>
                 {
                     if (request.Url.ToString().StartsWith(

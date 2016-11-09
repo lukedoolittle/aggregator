@@ -139,6 +139,8 @@ namespace Quantfabric.UI.Test.iOS
                             redirectUri,
                             browserType: _browserType)
                         .AddScope<GoogleGmailMetadata>()
+                        .AddScope<GoogleGmail>()
+                        .AddScope<GoogleProfile>()
                         .GetCredentialsAsync()
                         .ConfigureAwait(false);
 
@@ -157,6 +159,8 @@ namespace Quantfabric.UI.Test.iOS
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FitbitProfile>()
+                    .AddScope<FitbitIntradaySteps>()
+                    .AddScope<FitbitIntradayStepsBulk>()
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
