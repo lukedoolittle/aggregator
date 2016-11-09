@@ -6,7 +6,9 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Requests;
 using Material.Framework;
+#if __ANDROID__
 using Material.Permissions;
+#endif
 
 namespace Material
 {
@@ -25,9 +27,11 @@ namespace Material
         {
             var request = new TRequest();
 
+#if __ANDROID__
             var authorizationResult = await new DeviceAuthorizationFacade()
                 .AuthorizeBluetooth()
                 .ConfigureAwait(false);
+#endif
 
             var result = await new BluetoothAdapter(Platform.Current.BluetoothAdapter)
                 .GetCharacteristicValue(

@@ -557,6 +557,26 @@ namespace Quantfabric.Test.Material.Interaction
         #region Facebook
 
         [Fact]
+        public async void MakeRequestForFacebookTokenInfo()
+        {
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new FacebookTokenInfo
+            {
+                InputToken = credentials.AccessToken,
+            };
+
+            var response = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<FacebookTokenInfo, FacebookTokenInfoResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.Data.UserId);
+        }
+
+        [Fact]
         public async void MakeRequestForFacebookUser()
         {
             var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();

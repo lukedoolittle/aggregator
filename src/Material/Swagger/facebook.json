@@ -238,6 +238,29 @@
                 "tags": [],
                 "security": [ { "oauth2": [ "user_friends" ] } ]
             }
+        },
+        "/debug_token": {
+            "get": {
+                "summary": "This endpoint returns metadata about a given access token",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/debug_token",
+                "operationId": "FacebookTokenInfo",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "input_token",
+                        "description": "The Access Token that is being inspected",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [ { "oauth2": [] } ]
+            }
         }
     },
     "securityDefinitions": {

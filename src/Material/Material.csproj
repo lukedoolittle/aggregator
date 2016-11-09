@@ -49,8 +49,10 @@
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookTokenInfo.cs" />
     <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
+    <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
@@ -323,6 +325,7 @@
 .\Infrastructure\Requests\FacebookFeed.cs
 .\Infrastructure\Requests\FacebookFriend.cs
 .\Infrastructure\Requests\FacebookPageLike.cs
+.\Infrastructure\Requests\FacebookTokenInfo.cs
 .\Infrastructure\Requests\FacebookUser.cs
 .\Infrastructure\Requests\FatsecretMeal.cs
 .\Infrastructure\Requests\FitbitIntradayHeartRate.cs

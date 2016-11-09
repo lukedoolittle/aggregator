@@ -25,6 +25,8 @@ namespace Material.OAuth.Template
             TaskCompletionSource<TCredentials> completionSource,
             Action success)
         {
+            if (completionSource == null) throw new ArgumentNullException(nameof(completionSource));
+
             try
             {
                 var result = _handler
@@ -34,7 +36,7 @@ namespace Material.OAuth.Template
                 if (result != null)
                 {
                     completionSource.SetResult(result);
-                    success();
+                    success?.Invoke();
                 }
             }
             catch (Exception ex)

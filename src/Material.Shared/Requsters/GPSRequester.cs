@@ -1,6 +1,11 @@
 ﻿#if __MOBILE__
 using Material.Infrastructure.Requests;
+#if __IOS__
+using Material.GPS;
+#endif
+#if __ANDROID__
 using Material.Permissions;
+#endif
 
 namespace Material
 {
