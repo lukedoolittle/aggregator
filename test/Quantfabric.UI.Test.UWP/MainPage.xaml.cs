@@ -302,7 +302,7 @@ namespace Quantfabric.UI.Test.UWP
                         redirectUri,
                         browserType: _browserType)
                     .AddScope<FoursquareCheckin>()
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
             WriteToTextbox($"AccessToken:{token.AccessToken}");

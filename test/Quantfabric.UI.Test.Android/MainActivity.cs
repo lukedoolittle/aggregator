@@ -141,7 +141,7 @@ namespace Quantfabric.UI.Test
                         clientId,
                         redirectUri,
                         browserType: _browserType)
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteCredentials(token);
