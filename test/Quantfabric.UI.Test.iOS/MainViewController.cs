@@ -311,6 +311,25 @@ namespace Quantfabric.UI.Test.iOS
                 WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
             };
 
+            AmazonAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Amazon>();
+                var clientSecret = settings.GetClientSecret<Amazon>();
+                var redirectUri = settings.GetRedirectUri<Amazon>();
+
+                var token = await new OAuth2App<Amazon>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .AddScope<AmazonProfile>()
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Access Token:" + token.AccessToken);
+            };
+
+
             MioAuth.TouchUpInside += async (sender, args) =>
             {
                 var auth = new BluetoothApp<Mioalpha>();

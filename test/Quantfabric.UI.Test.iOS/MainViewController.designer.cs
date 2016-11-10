@@ -16,6 +16,10 @@ namespace Quantfabric.UI.Test.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton AmazonAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISwitch BrowserToggle { get; set; }
 
         [Outlet]
@@ -92,6 +96,11 @@ namespace Quantfabric.UI.Test.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (AmazonAuth != null) {
+                AmazonAuth.Dispose ();
+                AmazonAuth = null;
+            }
+
             if (BrowserToggle != null) {
                 BrowserToggle.Dispose ();
                 BrowserToggle = null;
