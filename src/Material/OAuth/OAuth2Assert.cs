@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
-using Foundations.HttpClient.Request;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Authorization;
-using Material.Infrastructure.OAuth.Facade;
+using Material.OAuth.Authorization;
+using Material.OAuth.Facade;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2

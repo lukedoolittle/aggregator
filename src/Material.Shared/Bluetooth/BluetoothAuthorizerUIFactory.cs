@@ -1,5 +1,4 @@
 ﻿#if __MOBILE__
-using Material.Adapters;
 using Material.Contracts;
 using Material.Framework;
 using Material.View.BluetoothAuthorization;

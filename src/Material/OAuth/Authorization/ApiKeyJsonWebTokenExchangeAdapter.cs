@@ -7,7 +7,7 @@ using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Infrastructure.Credentials;
 
-namespace Material.Infrastructure.OAuth.Authorization
+namespace Material.OAuth.Authorization
 {
     public class ApiKeyJsonWebTokenExchangeAdapter
     {

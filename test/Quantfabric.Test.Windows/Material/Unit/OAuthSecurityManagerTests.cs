@@ -2,7 +2,7 @@
 using System.Threading;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
-using Material.Infrastructure.OAuth.Security;
+using Material.OAuth.Security;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

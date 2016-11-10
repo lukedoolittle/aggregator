@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Material.Enums;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
+
 #if __FORMS__
 using Xamarin.Forms;
 using Material.Contracts;
 #endif
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     /// <summary>
     /// Authorizes a resource owner with the given resource provider using OAuth1a

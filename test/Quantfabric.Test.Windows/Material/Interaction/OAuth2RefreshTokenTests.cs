@@ -1,6 +1,6 @@
 ﻿using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.OAuth;
+using Material.OAuth;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 

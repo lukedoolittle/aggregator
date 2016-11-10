@@ -1,10 +1,11 @@
 using System;
 using Material;
+using Material.Bluetooth;
 using Material.Contracts;
 using Material.Enums;
-using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
+using Material.OAuth;
 using Quantfabric.Test.Helpers;
 using UIKit;
 

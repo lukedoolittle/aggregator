@@ -5,12 +5,12 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class BrowserAuthorizerUI<TCredentials> :
-        AuthorizerUITemplate<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly HttpServer _httpServer;
@@ -21,45 +21,46 @@ namespace Material.View.WebAuthorization
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri,
             AuthorizationInterface @interface,
-            Action<Action> runOnMainThread) : 
+            Action<Action> runOnMainThread,
+            Func<bool> isOnline) : 
                 base(
                     handler,
                     callbackUri,
                     @interface, 
-                    runOnMainThread)
+                    runOnMainThread,
+                    isOnline)
         {
             _httpServer = httpServer;
             _callbackUri = callbackUri;
         }
 
-        //TODO: fix this to properly inherit from AuthorizerUITemplate
-        public override Task<TCredentials> Authorize(
-            Uri authorizationUri,
-            string userId)
+        protected override Task MakeAuthorizationRequest(
+            Uri authorizationUri, 
+            Func<Uri, object, bool> callbackHandler)
         {
-            var completionSource = new TaskCompletionSource<TCredentials>();
-
 #pragma warning disable 4014
             _httpServer.CreateServer(
                 (request, response) =>
                 {
                     response.WriteHtmlString(FRAGMENT_HTML);
 
-                    RespondToUri(
-                        request.Uri,
-                        userId,
-                        completionSource,
-                        () => { });
+                    var success = callbackHandler(request.Uri, null);
+
+                    if (success)
+                    {
+                        _httpServer.Close();
+                    }
                 })
                 .Listen(_callbackUri);
 #pragma warning restore 4014
 
-            completionSource.Task.ContinueWith(t => _httpServer.Close());
-
             Platform.Current.Launch(authorizationUri);
 
-            return completionSource.Task;
+            return Task.FromResult(true);
         }
+
+        protected override void CleanupView(object view)
+        { }
 
 
         private const string FRAGMENT_HTML =

@@ -4,52 +4,43 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Template;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.View.WebAuthorization
 {
     public class ProtocolAuthorizerUI<TCredentials> :
-        AuthorizerUITemplate<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly Uri _callbackUri;
-
         public ProtocolAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> callbackHandler,
             Uri callbackUri,
             AuthorizationInterface @interface,
-            Action<Action> runOnMainThread) : 
+            Action<Action> runOnMainThread,
+            Func<bool> isOnline) : 
                 base(
                     callbackHandler, 
                     callbackUri,
                     @interface, 
-                    runOnMainThread)
-        {
-            _callbackUri = callbackUri;
-        }
+                    runOnMainThread,
+                    isOnline)
+        { }
 
-        //TODO: fix this to properly inherit from AuthorizerUITemplate
-        public override Task<TCredentials> Authorize(
-            Uri authorizationUri,
-            string userId)
+        protected override Task MakeAuthorizationRequest(
+            Uri authorizationUri, 
+            Func<Uri, object, bool> callbackHandler)
         {
-            var completionSource = new TaskCompletionSource<TCredentials>();
-
             Platform.Current.ProtocolLaunch += (s, e) =>
             {
-                if (e.Uri.ToString().Contains(_callbackUri.ToString()))
-                {
-                    RespondToUri(
-                        e.Uri,
-                        userId,
-                        completionSource,
-                        () => { });
-                }
+                callbackHandler(e.Uri, null);
             };
 
             Platform.Current.Launch(authorizationUri);
 
-            return completionSource.Task;
+            return Task.FromResult(true);
         }
+
+        protected override void CleanupView(object view)
+        { }
     }
 }

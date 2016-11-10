@@ -3,87 +3,75 @@ using System.Threading.Tasks;
 using Foundation;
 using Material.Contracts;
 using Material.Enums;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using UIKit;
 using Material.Framework;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class UIWebViewAuthorizerUI<TCredentials> :
-        AuthorizerUITemplate<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly Uri _callbackUri;
-
         public UIWebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler, 
             Uri callbackUri,
             AuthorizationInterface @interface,
-            Action<Action> runOnMainThread) : 
+            Action<Action> runOnMainThread,
+            Func<bool> isOnline) : 
                 base(
                     handler, 
                     callbackUri,
                     @interface,
-                    runOnMainThread)
+                    runOnMainThread,
+                    isOnline)
+        { }
+
+        protected override void CleanupView(object view)
         {
-            _callbackUri = callbackUri;
+            var webView = (UIWebView)view;
+            using (var url = new NSUrl("/"))
+            {
+                webView.LoadHtmlString(
+                    StringResources.OAuthCallbackResponse, 
+                    url);
+            }
+
+            Platform.Current.Context.DismissViewController(false, null);
         }
 
-        //TODO: fix this to properly inherit from AuthorizerUITemplate
-        public override async Task<TCredentials> Authorize(
+        protected override async Task MakeAuthorizationRequest(
             Uri authorizationUri,
-            string userId)
+            Func<Uri, object, bool> callbackHandler)
         {
-            var completionSource = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
+            var context = Platform.Current.Context;
 
-            Platform.Current.RunOnMainThread(async () =>
+            var controller = new WebViewController(
+                context.View.Bounds,
+                webViewCompletionSource);
+            context.PresentViewController(controller, false, null);
+
+            var webView = await webViewCompletionSource
+                .Task
+                .ConfigureAwait(true);
+
+            webView.ShouldStartLoad = (view, request, type) =>
             {
-                var context = Platform.Current.Context;
+                var success = callbackHandler(
+                    new Uri(request.Url.ToString()), 
+                    webView);
 
-                var controller = new WebViewController(
-                    context.View.Bounds,
-                    webViewCompletionSource);
-                context.PresentViewController(controller, false, null);
+                return !success;
+            };
 
-                var webView = await webViewCompletionSource.Task.ConfigureAwait(false);
-
-                if (!Platform.Current.IsOnline)
-                {
-                    throw new NoConnectivityException(
-                        StringResources.OfflineConnectivityException);
-                }
-
-                //NSUrlRequest will not handle spaces so ensure URL encoding
-                var endpoint = new NSUrl(authorizationUri
-                    .ToString()
-                    .Replace(" ", "%20"));
-                webView.LoadRequest(new NSUrlRequest(endpoint));
-                webView.ShouldStartLoad = (view, request, type) =>
-                {
-                    if (request.Url.ToString().StartsWith(
-                        _callbackUri.ToString()))
-                    {
-                        webView.LoadHtmlString(
-                            StringResources.OAuthCallbackResponse,
-                            new NSUrl("/"));
-
-                        RespondToUri(
-                            new Uri(request.Url.ToString()), 
-                            userId, 
-                            completionSource, 
-                            () => controller.DismissViewController(false, null));
-
-                        return false;
-                    }
-
-                    return true;
-                };
-            });
-
-            return await completionSource.Task.ConfigureAwait(false);
+            //NSUrlRequest will not handle spaces so ensure URL encoding of spaces
+            webView.LoadRequest(
+                new NSUrlRequest(
+                    new NSUrl(authorizationUri
+                        .ToString()
+                        .Replace(" ", "%20"))));
         }
     }
 }

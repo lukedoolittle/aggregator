@@ -1,16 +1,15 @@
 ﻿#if __MOBILE__
 using System;
 using System.Threading.Tasks;
-using Material.Adapters;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.Requests;
 using Material.Framework;
+using Material.Infrastructure.Responses;
 #if __ANDROID__
 using Material.Permissions;
 #endif
 
-namespace Material
+namespace Material.Bluetooth
 {
     public class BluetoothRequester
     {

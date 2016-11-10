@@ -2,7 +2,7 @@
 using Foundations.HttpClient.Cryptography;
 using Material.Contracts;
 
-namespace Material.Infrastructure.OAuth.Security
+namespace Material.OAuth.Security
 {
     public class OAuthSecurityStrategy : IOAuthSecurityStrategy
     {

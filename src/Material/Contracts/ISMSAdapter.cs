@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 
 namespace Material.Contracts
 {

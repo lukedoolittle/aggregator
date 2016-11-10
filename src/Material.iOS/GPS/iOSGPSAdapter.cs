@@ -5,7 +5,7 @@ using CoreLocation;
 using Foundation;
 using Material.Contracts;
 using Material.Exceptions;
-using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using UIKit;
 
 namespace Material.GPS

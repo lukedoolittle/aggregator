@@ -4,14 +4,15 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Material;
+using Material.Bluetooth;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
 using Material.Framework;
+using Material.OAuth;
 
 namespace Quantfabric.UI.Test
 {

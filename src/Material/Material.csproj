@@ -59,15 +59,12 @@
     <Compile Include="OAuth\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
-    <Compile Include="Contracts\IClientTokenFacade.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
-    <Compile Include="Contracts\IFilterable.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
     <Compile Include="Contracts\IOAuthSecurityStrategy.cs" />
     <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\IParameterFormatter.cs" />
     <Compile Include="Contracts\IProtocolLauncher.cs" />
-    <Compile Include="Contracts\ITimeseries.cs" />
     <Compile Include="Enums\RequestParameterType.cs" />
     <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidFlowTypeException.cs" />
@@ -256,7 +253,7 @@
     <Compile Include="OAuth\Facade\OAuth1AuthorizationFacade.cs" />
     <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
     <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
-    <Compile Include="OAuth\Template\AuthorizerUITemplate.cs" />
+    <Compile Include="OAuth\Template\OAuthAuthorizationUITemplateBase.cs" />
     <Compile Include="OAuth\Template\OAuth1AuthorizationTemplate.cs" />
     <Compile Include="OAuth\Template\OAuth2AuthorizationTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Contracts;
+using Material.Infrastructure.Credentials;
 
-namespace Material
+namespace Material.Infrastructure
 {
     public class BluetoothAppBase<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()

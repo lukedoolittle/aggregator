@@ -10,7 +10,7 @@ using Android.OS;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Exceptions;
-using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 
 namespace Material
 {

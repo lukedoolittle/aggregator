@@ -5,12 +5,12 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Authorization;
-using Material.Infrastructure.OAuth.Callback;
-using Material.Infrastructure.OAuth.Facade;
-using Material.Infrastructure.OAuth.Security;
+using Material.OAuth.Authorization;
+using Material.OAuth.Callback;
+using Material.OAuth.Facade;
+using Material.OAuth.Security;
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     public class OAuth2Web<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()

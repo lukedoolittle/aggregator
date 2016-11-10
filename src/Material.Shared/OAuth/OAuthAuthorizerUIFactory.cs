@@ -1,13 +1,14 @@
 ﻿using System;
 using Material.Contracts;
 using Material.Enums;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.View.WebAuthorization;
 #if __WINDOWS__
 using Foundations.Http;
 #endif
 
-namespace Material.Infrastructure.OAuth
+namespace Material.OAuth
 {
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {
@@ -19,69 +20,53 @@ namespace Material.Infrastructure.OAuth
             where TResourceProvider : ResourceProvider
             where TCredentials : TokenCredentials
         {
-#if __ANDROID__
-            switch (browserType)
-            {
-                case AuthorizationInterface.Dedicated:
-                    return new ProtocolAuthorizerUI<TCredentials>(
-                        handler,
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                case AuthorizationInterface.Embedded:
-                    return new WebViewAuthorizerUI<TCredentials>(
-                        handler,
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                default:
-                    throw new NotSupportedException();
-            }
-#elif __IOS__
-            switch (browserType)
-            {
-                case AuthorizationInterface.Dedicated:
-                    return new ProtocolAuthorizerUI<TCredentials>(
-                        handler,
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                case AuthorizationInterface.Embedded:
-                    return new UIWebViewAuthorizerUI<TCredentials>(
-                        handler,
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                default:
-                    throw new NotSupportedException();
-            }
-#elif WINDOWS_UWP
-            switch (browserType)
-            {
-                case AuthorizationInterface.Dedicated:
-                    return new ProtocolAuthorizerUI<TCredentials>(
-                        handler, 
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                case AuthorizationInterface.Embedded:
-                    return new WebViewAuthorizerUI<TCredentials>(
-                        handler,
-                        callbackUri,
-                        browserType,
-                        Framework.Platform.Current.RunOnMainThread);
-                default:
-                    throw new NotSupportedException();
-            }
-#elif __WINDOWS__
+#if __WINDOWS__
             return new BrowserAuthorizerUI<TCredentials>(
                 new HttpServer(),
                 handler, 
                 callbackUri,
                 AuthorizationInterface.Dedicated,
-                action => { });
+                null,
+                () => true);
 #else
-            throw new NotSupportedException();
+            if (browserType == AuthorizationInterface.Dedicated)
+            {
+                return new ProtocolAuthorizerUI<TCredentials>(
+                    handler,
+                    callbackUri,
+                    browserType,
+                    Framework.Platform.Current.RunOnMainThread,
+                    () => Framework.Platform.Current.IsOnline);
+            }
+            else if (browserType == AuthorizationInterface.Embedded)
+            {
+#if __ANDROID__
+                return new WebViewAuthorizerUI<TCredentials>(
+                    handler,
+                    callbackUri,
+                    browserType,
+                    Framework.Platform.Current.RunOnMainThread,
+                    () => Framework.Platform.Current.IsOnline);
+#elif __IOS__
+                return new UIWebViewAuthorizerUI<TCredentials>(
+                    handler,
+                    callbackUri,
+                    browserType,
+                    Framework.Platform.Current.RunOnMainThread,
+                    () => Framework.Platform.Current.IsOnline);
+#elif WINDOWS_UWP
+                return new WebViewAuthorizerUI<TCredentials>(
+                    handler,
+                    callbackUri,
+                    browserType,
+                    Framework.Platform.Current.RunOnMainThread,
+                    () => Framework.Platform.Current.IsOnline);
+#endif
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
 #endif
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Material.Infrastructure.Requests
+namespace Material.Infrastructure.Responses
 {
     public class GPSResponse
     {

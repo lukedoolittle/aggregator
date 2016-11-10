@@ -7,80 +7,66 @@ using Foundations.Enums;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Enums;
-using Material.Exceptions;
 using Material.Infrastructure.Credentials;
 using Material.Framework;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI<TCredentials> :
-        AuthorizerUITemplate<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly Uri _callbackUri;
-
         public WebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri,
             AuthorizationInterface @interface,
-            Action<Action> runOnMainThread) : 
+            Action<Action> runOnMainThread,
+            Func<bool> isOnline) : 
                 base(
                     handler, 
                     callbackUri,
                     @interface,
-                    runOnMainThread)
+                    runOnMainThread,
+                    isOnline)
+        { }
+
+        protected override void CleanupView(object view)
         {
-            _callbackUri = callbackUri;
+            var webView = (WebView)view;
+            webView.StopLoading();
+            webView.LoadData(
+                StringResources.OAuthCallbackResponse,
+                MediaType.Text.EnumToString(),
+                string.Empty);
+
+            Platform.Current.Context.Finish();
         }
 
-        //TODO: fix this to properly inherit from AuthorizerUITemplate
-        public override async Task<TCredentials> Authorize(
+        protected override async Task MakeAuthorizationRequest(
             Uri authorizationUri,
-            string userId)
+            Func<Uri, object, bool> callbackHandler)
         {
-            var completionSource = new TaskCompletionSource<TCredentials>();
             var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
             var context = Platform.Current.Context;
 
             var intent = new Intent(context, typeof(WebViewActivity));
             intent.PutExtra(
-                WebViewActivity.Authorizer, 
+                WebViewActivity.Authorizer,
                 WebViewActivity.StateRepo.Add(webViewCompletionSource));
             context.StartActivity(intent);
-            
-            var activity = await webViewCompletionSource.Task.ConfigureAwait(false);
-            Platform.Current.RunOnMainThread(() =>
-            {
-                activity.View.SetWebViewClient(
-                    new AuthorizingWebViewClient((view, url, favicon) =>
-                    {
-                        if (url.StartsWith(_callbackUri.AbsoluteUri))
-                        {
-                            view.StopLoading();
-                            view.LoadData(
-                                StringResources.OAuthCallbackResponse,
-                                MediaType.Text.EnumToString(),
-                                string.Empty);
 
-                            RespondToUri(
-                                new Uri(url),
-                                userId,
-                                completionSource, 
-                                () => activity.Finish());
-                        }
-                    }));
+            var activity = await webViewCompletionSource
+                .Task
+                .ConfigureAwait(true);
 
-                if (!Platform.Current.IsOnline)
+            activity.View.SetWebViewClient(
+                new AuthorizingWebViewClient((view, url, favicon) =>
                 {
-                    throw new NoConnectivityException(
-                        StringResources.OfflineConnectivityException);
-                }
+                    callbackHandler(new Uri(url), activity.View);
+                }));
 
-                activity.View.LoadUrl(authorizationUri.ToString());
-            });
-
-            return await completionSource.Task.ConfigureAwait(false);
+            activity.View.LoadUrl(authorizationUri.ToString());
         }
 
         private class AuthorizingWebViewClient : WebViewClient

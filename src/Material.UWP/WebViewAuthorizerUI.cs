@@ -3,77 +3,57 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Material.Contracts;
 using Material.Enums;
-using Material.Exceptions;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.OAuth.Template;
+using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI<TCredentials> : 
-        AuthorizerUITemplate<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly Uri _callbackUri;
-
         public WebViewAuthorizerUI(
             IOAuthCallbackHandler<TCredentials> handler, 
             Uri callbackUri,
             AuthorizationInterface @interface,
-            Action<Action> runOnMainThread) : 
+            Action<Action> runOnMainThread,
+            Func<bool> isOnline) : 
                 base(
                     handler, 
                     callbackUri,
                     @interface,
-                    runOnMainThread)
+                    runOnMainThread,
+                    isOnline)
+        {}
+
+        protected override void CleanupView(object view)
         {
-            _callbackUri = callbackUri;
+            var webView = (WebView)view;
+            webView.NavigateToString(StringResources.OAuthCallbackResponse);
+
+            Platform.Current.Context.GoBack();
         }
 
-        //TODO: fix this to properly inherit from AuthorizerUITemplate
-        public override async Task<TCredentials> Authorize(
+        protected override async Task MakeAuthorizationRequest(
             Uri authorizationUri,
-            string userId)
+            Func<Uri, object, bool> callbackHandler)
         {
             var viewCompletionSource = new TaskCompletionSource<WebView>();
-            var completionSource = new TaskCompletionSource<TCredentials>();
+            Platform.Current.Context.Navigate(
+                typeof(WebViewPage),
+                viewCompletionSource);
 
-            Platform.Current.RunOnMainThread(async () =>
+            var webView = await viewCompletionSource
+                .Task
+                .ConfigureAwait(false);
+
+            webView.NavigationStarting += (sender, args) =>
             {
-                Platform.Current.Context.Navigate(
-                    typeof(WebViewPage),
-                    viewCompletionSource);
+                callbackHandler(args.Uri, webView);
+            };
 
-                var webView = await viewCompletionSource
-                    .Task
-                    .ConfigureAwait(false);
-
-                webView.NavigationStarting += (sender, args) =>
-                {
-                    if (args.Uri != null &&
-                        args.Uri.ToString().StartsWith(
-                            _callbackUri.ToString()))
-                    {
-                        webView.NavigateToString(StringResources.OAuthCallbackResponse);
-
-                        RespondToUri(
-                            args.Uri, 
-                            userId, 
-                            completionSource, 
-                            () => Platform.Current.Context.GoBack());
-                    }
-                };
-
-                if (!Platform.Current.IsOnline)
-                {
-                    throw new NoConnectivityException(
-                        StringResources.OfflineConnectivityException);
-                }
-
-                webView.Navigate(authorizationUri);
-            });
-
-            return await completionSource.Task.ConfigureAwait(false);
+            webView.Navigate(authorizationUri);
         }
     }
 }

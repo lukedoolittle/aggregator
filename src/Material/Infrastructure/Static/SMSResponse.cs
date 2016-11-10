@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Material.Infrastructure.Requests
+namespace Material.Infrastructure.Responses
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class SMSResponse : List<SMSMessage>

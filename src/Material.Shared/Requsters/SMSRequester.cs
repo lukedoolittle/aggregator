@@ -1,6 +1,6 @@
 ﻿#if __ANDROID__
 using System;
-using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using Material.Permissions;
 
 namespace Material

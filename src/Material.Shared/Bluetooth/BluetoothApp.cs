@@ -2,7 +2,7 @@
 using Material.Bluetooth;
 using Material.Infrastructure;
 
-namespace Material
+namespace Material.Bluetooth
 {
     public class BluetoothApp<TResourceProvider> : BluetoothAppBase<TResourceProvider>
         where TResourceProvider : BluetoothResourceProvider, new()

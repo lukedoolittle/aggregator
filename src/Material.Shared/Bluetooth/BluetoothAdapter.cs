@@ -9,7 +9,7 @@ using Material.Exceptions;
 using Material.Framework;
 using Robotics.Mobile.Core.Bluetooth.LE;
 
-namespace Material.Adapters
+namespace Material.Bluetooth
 {
     public class BluetoothAdapter : IBluetoothAdapter
     {

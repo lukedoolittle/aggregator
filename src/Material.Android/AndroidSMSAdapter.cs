@@ -8,7 +8,7 @@ using Android.Provider;
 using Foundations.Extensions;
 using Material.Contracts;
 using Material.Framework;
-using Material.Infrastructure.Requests;
+using Material.Infrastructure.Responses;
 using Uri = Android.Net.Uri;
 
 namespace Material
