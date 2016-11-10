@@ -10,25 +10,41 @@ using Material.Permissions;
 namespace Material
 {
     using System.Threading.Tasks;
+
     public class GPSRequester
-    { 
+    {
+        /// <summary>
+        /// Get a single GPS data point from the current platform
+        /// </summary>
+        /// <returns>GPS data point</returns>
+        public Task<GPSResponse> MakeGPSRequestAsync()
+        {
+            return MakeGPSRequestAsync(false);
+        }
+
         /// <summary>
         /// Get a single GPS data point from the current platform
         /// </summary>
         /// <returns>GPS information</returns>
-        public async Task<GPSResponse> MakeGPSRequestAsync()
+        public async Task<GPSResponse> MakeGPSRequestAsync(bool skipGPSAuthorization)
         {
 #if __IOS__
-            var locationManager = await new GPSAuthorizationFacade()
-                .AuthorizeContinuousGPSUsage()
-                .ConfigureAwait(false);
-            return await new iOSGPSAdapter(locationManager)
+            if (!skipGPSAuthorization)
+            {
+                var locationManager = await new GPSAuthorizationFacade()
+                    .AuthorizeContinuousGPSUsage()
+                    .ConfigureAwait(false);
+            }
+            return await new iOSGPSAdapter()
                 .GetPositionAsync()
                 .ConfigureAwait(false);
 #elif __ANDROID__
-            var authorizationResult = await new DeviceAuthorizationFacade()
-                .AuthorizeGPS()
-                .ConfigureAwait(false);
+            if (!skipGPSAuthorization)
+            {
+                var authorizationResult = await new DeviceAuthorizationFacade()
+                    .AuthorizeGPS()
+                    .ConfigureAwait(false);
+            }
             return await new AndroidGPSAdapter()
                 .GetPositionAsync()
                 .ConfigureAwait(false);

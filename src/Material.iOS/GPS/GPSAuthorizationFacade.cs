@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
 using CoreLocation;
-using Material.Exceptions;
 using UIKit;
 
 namespace Material.GPS
 {
     public class GPSAuthorizationFacade
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public Task<CLLocationManager> AuthorizeContinuousGPSUsage()
+        public Task<bool> AuthorizeContinuousGPSUsage()
         {
-            var taskCompletionSource = new TaskCompletionSource<CLLocationManager>();
+            var taskCompletionSource = new TaskCompletionSource<bool>();
             var locationManager = new CLLocationManager();
             locationManager.AuthorizationChanged += (sender, args) =>
             {
@@ -19,11 +19,20 @@ namespace Material.GPS
                     case CLAuthorizationStatus.NotDetermined:
                         break;
                     case CLAuthorizationStatus.AuthorizedAlways:
-                        taskCompletionSource.SetResult(locationManager);
+                        taskCompletionSource.SetResult(true);
+                        break;
+                    case CLAuthorizationStatus.Restricted:
+                        taskCompletionSource.SetResult(true);
+                        break;
+                    case CLAuthorizationStatus.Denied:
+                        taskCompletionSource.SetResult(false);
+                        break;
+                    case CLAuthorizationStatus.AuthorizedWhenInUse:
+                        taskCompletionSource.SetResult(true);
                         break;
                     default:
-                        throw new AuthorizationException(
-                            StringResources.GPSAuthorizationException);
+                        taskCompletionSource.SetResult(false);
+                        break;
                 }
             };
 

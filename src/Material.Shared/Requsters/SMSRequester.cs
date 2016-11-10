@@ -12,14 +12,56 @@ namespace Material
         /// <summary>
         /// Get all SMS from sent and inbox
         /// </summary>
+        /// <returns>List of SMS items</returns>
+        public Task<SMSResponse> MakeSMSRequestAsync()
+        {
+            return MakeSMSRequestAsync(
+                default(DateTime),
+                false);
+        }
+
+        /// <summary>
+        /// Get all SMS from sent and inbox
+        /// </summary>
+        /// <param name="skipSMSAuthorization">If true skips device authorization for SMS</param>
+        /// <returns>List of SMS items</returns>
+        public Task<SMSResponse> MakeSMSRequestAsync(
+            bool skipSMSAuthorization)
+        {
+            return MakeSMSRequestAsync(
+                default(DateTime), 
+                skipSMSAuthorization);
+        }
+
+        /// <summary>
+        /// Get all SMS from sent and inbox
+        /// </summary>
         /// <param name="startTimeFilter">Oldest SMS to get from device</param>
         /// <returns>List of SMS items</returns>
-        public async Task<SMSResponse> MakeSMSRequestAsync(
-            DateTime startTimeFilter = default(DateTime))
+        public Task<SMSResponse> MakeSMSRequestAsync(
+            DateTime startTimeFilter)
         {
-            var authorizationResult = await new DeviceAuthorizationFacade()
-                .AuthorizeSMS()
-                .ConfigureAwait(false);
+            return MakeSMSRequestAsync(
+                startTimeFilter, 
+                false);
+        }
+
+        /// <summary>
+        /// Get all SMS from sent and inbox
+        /// </summary>
+        /// <param name="startTimeFilter">Oldest SMS to get from device</param>
+        /// <param name="skipSMSAuthorization">If true skips device authorization for SMS</param>
+        /// <returns>List of SMS items</returns>
+        public async Task<SMSResponse> MakeSMSRequestAsync(
+            DateTime startTimeFilter,
+            bool skipSMSAuthorization)
+        {
+            if (!skipSMSAuthorization)
+            {
+                var authorizationResult = await new DeviceAuthorizationFacade()
+                    .AuthorizeSMS()
+                    .ConfigureAwait(false);
+            }
 
             var result = await new AndroidSMSAdapter()
                 .GetAllSMS(startTimeFilter)

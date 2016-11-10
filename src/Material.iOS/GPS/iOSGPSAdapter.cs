@@ -26,26 +26,22 @@ namespace Material.GPS
         private readonly int _timeoutInMs;
         private readonly float _desiredAccuracyInMeters;
 
-        public iOSGPSAdapter(CLLocationManager locationManager)
-            : this(
-                  locationManager,
-                  30000,
-                  50)
+        public iOSGPSAdapter()
+            : this(30000, 50)
         { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public iOSGPSAdapter(
-            CLLocationManager locationManager,
             int gpsTimeoutInMs,
             float desiredAccuracyInMeters)
         {
-            if (locationManager == null) throw new ArgumentNullException(nameof(locationManager));
-
-            _locationManager = locationManager;
-
-            _locationManager.PausesLocationUpdatesAutomatically = false;
-            _locationManager.DesiredAccuracy = CLLocation.AccuracyBest;
-            _locationManager.ActivityType = CLActivityType.Other;
-            _locationManager.DistanceFilter = CLLocationDistance.FilterNone;
+            _locationManager = new CLLocationManager
+            {
+                PausesLocationUpdatesAutomatically = false,
+                DesiredAccuracy = CLLocation.AccuracyBest,
+                ActivityType = CLActivityType.Other,
+                DistanceFilter = CLLocationDistance.FilterNone
+            };
 
             _locationManager.DisallowDeferredLocationUpdates();
 
@@ -72,8 +68,8 @@ namespace Material.GPS
                 }
                 else
                 {
-                    //TODO: handle lack of permissions
-                    //fails silently!!!
+                    throw new LocationException(
+                        StringResources.GPSAuthorizationException);
                 }
 
                 return _completionSource.Task;
