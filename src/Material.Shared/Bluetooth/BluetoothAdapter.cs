@@ -1,12 +1,12 @@
 #if __MOBILE__
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Exceptions;
 using Material.Framework;
+using Material.Infrastructure.Bluetooth;
 using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Bluetooth
@@ -21,6 +21,8 @@ namespace Material.Bluetooth
         {
             _adapter = adapter;
         }
+
+        #region Connection
 
         public Task<bool> ConnectToDevice()
         {
@@ -105,41 +107,29 @@ namespace Material.Bluetooth
             return taskCompletionSource.Task;
         }
 
-        public Task<byte[]> GetCharacteristicValue(
-            Guid deviceAddress,
-            int serviceUuid,
-            int characteristicUuid)
-        {
-            return GetCharacteristicValue(
-                deviceAddress, 
-                UuidFromPartial(serviceUuid), 
-                UuidFromPartial(characteristicUuid));
-        }
+        #endregion Connection
 
-        public Task<byte[]> GetCharacteristicValue(
-            Guid deviceAddress,
-            Guid serviceUuid,
-            Guid characteristicUuid)
+        public Task<byte[]> GetCharacteristicValue(GattDefinition gatt)
         {
             var taskCompletionSource = new TaskCompletionSource<byte[]>();
 
             Platform.Current.RunOnMainThread(async () =>
             {
-                var device = await Connect(deviceAddress)
+                var device = await Connect(gatt.DeviceAddress)
                     .ConfigureAwait(true);
 
                 if (device == null)
                 {
                     throw new NoConnectivityException(string.Format(
                         StringResources.BluetoothConnectivityException,
-                        deviceAddress.ToString()));
+                        gatt.DeviceAddress.ToString()));
                 }
 
                 var desiredCharacteristic = device
                     .Services
-                    ?.FirstOrDefault(s => s.ID == serviceUuid)
+                    ?.FirstOrDefault(s => s.ID == gatt.ServiceUuid)
                     ?.Characteristics
-                    ?.FirstOrDefault(c => c.ID == characteristicUuid);
+                    ?.FirstOrDefault(c => c.ID == gatt.CharacteristicUuid);
 
                 if (desiredCharacteristic != null)
                 {
@@ -152,8 +142,8 @@ namespace Material.Bluetooth
                 {
                     var result = await GetCharacteristicValue(
                             device,
-                            serviceUuid,
-                            characteristicUuid)
+                            gatt.ServiceUuid,
+                            gatt.CharacteristicUuid)
                         .ConfigureAwait(false);
                     taskCompletionSource.SetResult(result);
                 }
@@ -230,15 +220,6 @@ namespace Material.Bluetooth
             characteristic.StartUpdates();
 
             return taskCompletionSource.Task;
-        }
-
-        private static Guid UuidFromPartial(int partial)
-        {
-            var input = partial.ToString("X", CultureInfo.InvariantCulture).PadRight(4, '0');
-            if (input.Length == 4)
-                input = "0000" + input + "-0000-1000-8000-00805f9b34fb";
-            var guid = Guid.ParseExact(input, "d");
-            return guid;
         }
     }
 }

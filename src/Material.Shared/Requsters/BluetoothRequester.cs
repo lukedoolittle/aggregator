@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Framework;
+using Material.Infrastructure.Bluetooth;
 using Material.Infrastructure.Responses;
 #if __ANDROID__
 using Material.Permissions;
@@ -53,10 +54,8 @@ namespace Material.Bluetooth
 #endif
 
             var result = await new BluetoothAdapter(Platform.Current.BluetoothAdapter)
-                .GetCharacteristicValue(
-                    credentials.DeviceAddress,
-                    request.Service.AssignedNumber,
-                    request.Characteristic.AssignedNumber)
+                .GetCharacteristicValue(new GattDefinition(credentials.DeviceAddress, request.Service.AssignedNumber, request.Characteristic.AssignedNumber)
+                    )
                 .ConfigureAwait(false);
 
             var value = new TRequest().CharacteristicConverter(result);

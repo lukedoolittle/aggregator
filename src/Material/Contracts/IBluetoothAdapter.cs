@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Material.Infrastructure.Bluetooth;
 
 namespace Material.Contracts
 {
@@ -11,10 +12,7 @@ namespace Material.Contracts
 
         Task<bool> ConnectToDevice();
 
-        Task<byte[]> GetCharacteristicValue(
-            Guid deviceAddress,
-            int serviceUuid,
-            int characteristicUuid);
+        Task<byte[]> GetCharacteristicValue(GattDefinition gatt);
     }
 
     public class BluetoothDevice

@@ -19,6 +19,7 @@
            <Word>Mioalpha</Word>
            <Word>GPS</Word>
            <Word>Ms</Word>
+           <Word>Gatt</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>
