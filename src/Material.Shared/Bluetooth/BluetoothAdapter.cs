@@ -1,6 +1,6 @@
 #if __MOBILE__
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Material.Contracts;
@@ -8,19 +8,61 @@ using Material.Exceptions;
 using Material.Framework;
 using Material.Infrastructure.Bluetooth;
 using Robotics.Mobile.Core.Bluetooth.LE;
+using Material.Bluetooth.SubscriptionManagers;
 
 namespace Material.Bluetooth
 {
+    /// <summary>
+    /// Interaction with Bluetooth devices
+    /// Note that this class is NOT threadsafe, but neither is IAdapter, at least on iOS
+    /// </summary>
     public class BluetoothAdapter : IBluetoothAdapter
     {
         private readonly IAdapter _adapter;
-        private readonly List<Guid> _connectingAddresses = 
-            new List<Guid>();
+        private readonly ConcurrentBag<Guid> _connectingAddresses = new ConcurrentBag<Guid>();
+        private readonly AdapterSubscriptionManager _subscriptionManager;
 
         public BluetoothAdapter(IAdapter adapter)
         {
             _adapter = adapter;
+            _subscriptionManager = new AdapterSubscriptionManager(adapter);
         }
+
+        #region Listing
+
+        public void ListDevices(Action<BluetoothDevice> newDeviceFound)
+        {
+            foreach (var device in _adapter.ConnectedDevices)
+            {
+                newDeviceFound(
+                    new BluetoothDevice(
+                        device.Name,
+                        device.ID));
+            }
+
+            _subscriptionManager.AddDiscoveredHandler((sender, args) => {
+                Platform.Current.RunOnMainThread(() => {
+                    newDeviceFound(
+                        new BluetoothDevice(
+                            args.Device.Name,
+                            args.Device.ID));
+                });
+            });
+
+            _subscriptionManager.AddTimeoutHandler((sender, args) =>
+            {
+                _subscriptionManager.Unsubscribe();
+                Platform.Current.RunOnMainThread(() => {
+                    _adapter.StopScanningForDevices();
+                });
+            });
+            
+            _subscriptionManager.Subscribe();
+
+            _adapter.StartScanningForDevices(Guid.Empty);
+        }
+
+        #endregion Listing
 
         #region Connection
 
@@ -32,33 +74,15 @@ namespace Material.Bluetooth
         public async Task<bool> ConnectToDevice(Guid address)
         {
             var device = await Connect(address)
-                .ConfigureAwait(true);
+                .ConfigureAwait(false);
             return device != null;
-        }
-
-        public void ListDevices(Action<BluetoothDevice> newDeviceFound)
-        {
-            _adapter.DeviceDiscovered += (sender, args) => {
-                Platform.Current.RunOnMainThread(() => {
-                    newDeviceFound(
-                        new BluetoothDevice(
-                            args.Device.
-                            Name,args.Device.ID));
-                });
-            };
-
-            _adapter.ScanTimeoutElapsed += (sender, args) =>
-            {
-                Platform.Current.RunOnMainThread(() => {
-                    _adapter.StopScanningForDevices();
-                });
-            };
-
-            _adapter.StartScanningForDevices(Guid.Empty);
         }
 
         private Task<IDevice> Connect(Guid deviceAddress)
         {
+            _subscriptionManager.Unsubscribe();
+            _adapter.StopScanningForDevices();
+
             var device = _adapter
                 .ConnectedDevices
                 .FirstOrDefault(d => d.ID == deviceAddress);
@@ -68,50 +92,65 @@ namespace Material.Bluetooth
                 return Task.FromResult(device);
             }
 
-            var taskCompletionSource = new TaskCompletionSource<IDevice>();
-
-            _adapter.DeviceDiscovered += (sender, args) => {
+            _subscriptionManager.AddDiscoveredHandler((sender, args) => 
+            {
                 if (args.Device.ID == deviceAddress && 
                     !_connectingAddresses.Contains(deviceAddress))
                 {
-                    _adapter.StopScanningForDevices();
                     _connectingAddresses.Add(deviceAddress);
+
                     Platform.Current.RunOnMainThread(() => {
+                        _adapter.StopScanningForDevices();
                         _adapter.ConnectToDevice(args.Device);
                     });
                 }
-            };
+            });
 
-            _adapter.ScanTimeoutElapsed += (sender, args) =>
-            {
-                Platform.Current.RunOnMainThread(() => {
-                    _adapter.StopScanningForDevices();
-                    if (_connectingAddresses.Count == 0)
-                    {
-                        taskCompletionSource.SetResult(null);                    
-                    }
-                });
-            };
+            var completionSource = new TaskCompletionSource<IDevice>();
 
-            _adapter.DeviceConnected += (sender, args) =>
+            _subscriptionManager.AddConnectedHandler((sender, args) =>
             {
                 Platform.Current.RunOnMainThread(() =>
                 {
-                    _connectingAddresses.Remove(deviceAddress);
-                    taskCompletionSource.SetResult(args.Device);
+                    _connectingAddresses.TryTake(out deviceAddress);
+
+                    if (!completionSource.Task.IsCompleted)
+                    {
+                        _subscriptionManager.Unsubscribe();
+                        _adapter.StopScanningForDevices();
+                        completionSource.SetResult(args.Device);
+                    }
                 });
-            };
+            });
+
+            _subscriptionManager.AddTimeoutHandler((sender, args) =>
+            {
+                Platform.Current.RunOnMainThread(() => {
+                    if (!completionSource.Task.IsCompleted &&
+                        _connectingAddresses.Count == 0)
+                    {
+                        _subscriptionManager.Unsubscribe();
+                        _adapter.StopScanningForDevices();
+
+                        completionSource.SetResult(null);                    
+                    }
+                });
+            });
+
+            _subscriptionManager.Subscribe();
 
             _adapter.StartScanningForDevices(Guid.Empty);
 
-            return taskCompletionSource.Task;
+            return completionSource.Task;
         }
 
         #endregion Connection
 
-        public Task<byte[]> GetCharacteristicValue(GattDefinition gatt)
+        public async Task<ISubscriptionManager> SubscribeToCharacteristicValue(
+            GattDefinition gatt,
+            Action<byte[]> callback)
         {
-            var taskCompletionSource = new TaskCompletionSource<byte[]>();
+            var completionSource = new TaskCompletionSource<ISubscriptionManager>();
 
             Platform.Current.RunOnMainThread(async () =>
             {
@@ -133,33 +172,48 @@ namespace Material.Bluetooth
 
                 if (desiredCharacteristic != null)
                 {
-                    var result = await GetCharacteristicValue(
-                            desiredCharacteristic)
-                        .ConfigureAwait(false);
-                    taskCompletionSource.SetResult(result);
+                    var subscriptionManager = new DeviceSubscriptionManager();
+                    subscriptionManager.AddCharacteristicsValueHandler(
+                        (sender, args) =>
+                        {
+                            Platform.Current.RunOnMainThread(() =>
+                            {
+                                callback(args.Characteristic.Value);
+                            });
+                        });
+                    subscriptionManager.SubscribeToCharacteristicsRead(
+                        desiredCharacteristic);
+
+                    completionSource.SetResult(subscriptionManager);
                 }
                 else
                 {
-                    var result = await GetCharacteristicValue(
+                    var result = await SubscribeToCharacteristicValue(
                             device,
                             gatt.ServiceUuid,
-                            gatt.CharacteristicUuid)
+                            gatt.CharacteristicUuid,
+                            callback)
                         .ConfigureAwait(false);
-                    taskCompletionSource.SetResult(result);
+                    completionSource.SetResult(result);
                 }
             });
 
-            return taskCompletionSource.Task;
+            return await completionSource
+                .Task
+                .ConfigureAwait(false);
         }
 
-        private static Task<byte[]> GetCharacteristicValue(
+        private static Task<ISubscriptionManager> SubscribeToCharacteristicValue(
             IDevice device,
             Guid serviceUuid,
-            Guid characteristicUuid)
+            Guid characteristicUuid,
+            Action<byte[]> callback)
         {
-            var taskCompletionSource = new TaskCompletionSource<byte[]>();
+            var taskCompletionSource = new TaskCompletionSource<ISubscriptionManager>();
 
-            device.ServicesDiscovered +=
+            var subscriptionManager = new DeviceSubscriptionManager();
+
+            subscriptionManager.AddServicesDiscoveredHandler(
                 (servicesSender, servicesEventArgs) =>
                 {
                     Platform.Current.RunOnMainThread(() =>
@@ -168,59 +222,43 @@ namespace Material.Bluetooth
                         {
                             if (service.ID == serviceUuid)
                             {
-                                service.CharacteristicsDiscovered +=
+                                subscriptionManager.AddCharacteristicsDiscoveredHandler(
                                     (characteristicsSender, characteristicsEventArgs) =>
                                     {
-                                        Platform.Current.RunOnMainThread(async () =>
+                                        Platform.Current.RunOnMainThread(() =>
                                         {
                                             foreach (var characteristic in service.Characteristics)
                                             {
                                                 if (characteristic.ID == characteristicUuid)
                                                 {
-                                                    var result = await GetCharacteristicValue(
-                                                            characteristic)
-                                                        .ConfigureAwait(false);
-                                                    taskCompletionSource.SetResult(result);
+                                                    subscriptionManager.AddCharacteristicsValueHandler(
+                                                        (sender, args) =>
+                                                        {
+                                                            Platform.Current.RunOnMainThread(() =>
+                                                            {
+                                                                callback(args.Characteristic.Value);
+                                                            });
+                                                        });
+                                                    subscriptionManager.SubscribeToCharacteristicsRead(
+                                                        characteristic);
+                                                    taskCompletionSource.SetResult(subscriptionManager);
                                                 }
                                             }
                                         });
-                                    };
-                                service.DiscoverCharacteristics();
+                                    });
+                                subscriptionManager
+                                    .SubscribeToCharacteristicDiscovered(service);
                             }
                         }
                     });
-                };
+                });
 
-            device.DiscoverServices();
-
-            return taskCompletionSource.Task;
-        }
-
-        private static Task<byte[]> GetCharacteristicValue(
-            ICharacteristic characteristic)
-        {
-            var taskCompletionSource = new TaskCompletionSource<byte[]>();
-
-            EventHandler<CharacteristicReadEventArgs> handler = null;
-            handler = (sender, args) =>
-                {
-                    Platform.Current.RunOnMainThread(() =>
-                    {
-                        characteristic.ValueUpdated -= handler;
-                        characteristic.StopUpdates();
-                        if (!taskCompletionSource.Task.IsCompleted)
-                        {
-                            taskCompletionSource.SetResult(
-                                    args.Characteristic.Value);
-                        }
-                    });
-                };
-
-            characteristic.ValueUpdated += handler;
-            characteristic.StartUpdates();
+            subscriptionManager
+                .SubscribeToServiceDiscovered(device);
 
             return taskCompletionSource.Task;
         }
+
     }
 }
 #endif

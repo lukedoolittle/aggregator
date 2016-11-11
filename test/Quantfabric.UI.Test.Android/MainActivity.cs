@@ -330,21 +330,6 @@ namespace Quantfabric.UI.Test
                 WriteCredentials(token);
             };
 
-            FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
-            {
-                var credentials = await new BluetoothApp<Mioalpha>()
-                    .GetBluetoothCredentialsAsync()
-                    .ConfigureAwait(false);
-
-                WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
-
-                var result = await new BluetoothRequester()
-                    .MakeBluetoothRequestAsync<MioHeartRate>(credentials)
-                    .ConfigureAwait(false);
-
-                WriteResultToTextView("Heart rate: " + result.Reading);
-            };
-
             FindViewById<Button>(Resource.Id.gps).Click += async (sender, args) =>
             {
                 var result = await new GPSRequester()
@@ -369,6 +354,55 @@ namespace Quantfabric.UI.Test
                         $"Address: {result.Address}, Header: {result.Subject}, Body: {result.Body}\n";
                 }
                 WriteResultToTextView(resultsString);
+            };
+
+            FindViewById<Button>(Resource.Id.mioalphaAuth).Click += async (sender, args) =>
+            {
+                var credentials = await new BluetoothApp<Mioalpha>()
+                    .GetBluetoothCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
+
+                var result = await new BluetoothRequester()
+                    .MakeBluetoothRequestAsync<MioHeartRate>(credentials)
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Heart rate: " + result.Reading);
+            };
+
+            ISubscriptionManager subscription = null;
+
+            FindViewById<Button>(Resource.Id.mioalphaContinuousAuth).Click += async (sender, args) =>
+            {
+                if (subscription != null)
+                {
+                    subscription.Unsubscribe();
+                    WriteResultToTextView("Unsubscribed!!!");
+                    subscription = null;
+                }
+                else
+                {
+                    var credentials = await new BluetoothApp<Mioalpha>()
+                        .GetBluetoothCredentialsAsync()
+                        .ConfigureAwait(false);
+
+                    WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
+
+                    subscription = await new BluetoothRequester()
+                        .SubscribeToBluetoothRequest<MioHeartRate>(
+                            credentials,
+                            response =>
+                            {
+                                WriteResultToTextView("Heart rate: " + response.Reading);
+                            })
+                        .ConfigureAwait(false);
+
+                    if (subscription == null)
+                    {
+                        WriteResultToTextView("Couldn't subscribe!!!");
+                    }
+                }
             };
         }
 

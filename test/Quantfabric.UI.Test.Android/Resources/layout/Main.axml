@@ -94,27 +94,6 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
             android:gravity="center"
-            android:id="@+id/mioalphaAuth"
-            android:text="Mio Alpha" />
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center"
-            android:id="@+id/gps"
-            android:text="GPS" />
-        <Button
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill_horizontal"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="SMS"
-            android:id="@+id/sms" />
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill_horizontal"
-            android:gravity="center"
             android:id="@+id/withings"
             android:text="Withings" />
         <Button
@@ -145,12 +124,40 @@
             android:gravity="center"
             android:id="@+id/tumblr"
             android:text="Tumblr" />
-      <Button
+        <Button
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
             android:gravity="center"
             android:id="@+id/amazon"
             android:text="Amazon" />
+      <Button
+          android:layout_height="wrap_content"
+          android:layout_columnWeight="1"
+          android:layout_gravity="fill_horizontal"
+          android:gravity="center"
+          android:id="@+id/gps"
+          android:text="GPS" />
+      <Button
+          android:layout_columnWeight="1"
+          android:layout_gravity="fill_horizontal"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="SMS"
+          android:id="@+id/sms" />
+      <Button
+          android:layout_height="wrap_content"
+          android:layout_columnWeight="1"
+          android:layout_gravity="fill_horizontal"
+          android:gravity="center"
+          android:id="@+id/mioalphaAuth"
+          android:text="Mio Alpha" />
+      <Button
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill_horizontal"
+        android:gravity="center"
+        android:id="@+id/mioalphaContinuousAuth"
+        android:text="Mio Alpha Cont'" />
     </GridLayout>
 </LinearLayout>

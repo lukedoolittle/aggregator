@@ -12,7 +12,9 @@ namespace Material.Contracts
 
         Task<bool> ConnectToDevice();
 
-        Task<byte[]> GetCharacteristicValue(GattDefinition gatt);
+        Task<ISubscriptionManager> SubscribeToCharacteristicValue(
+            GattDefinition gatt,
+            Action<byte[]> callback);
     }
 
     public class BluetoothDevice
