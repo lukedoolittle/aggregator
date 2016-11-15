@@ -1,15 +1,14 @@
-﻿using System.IO;
+﻿using System;
 using System.Text;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
-using Quantfabric.Test.Integration;
+using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Helpers.Cryptography;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
@@ -17,6 +16,9 @@ namespace Quantfabric.Test.Material.Unit
     [Trait("Category", "Continuous")]
     public class JsonWebTokenTests
     {
+        private readonly Randomizer _randomizer = new Randomizer();
+        private readonly IJsonWebTokenSigningFactory _factory = new JsonWebTokenSignerFactory();
+
         [Fact]
         public void CreateJsonWebTokenThenVerifySignatureWithPublicKey()
         {
@@ -24,14 +26,16 @@ namespace Quantfabric.Test.Material.Unit
             {
                 Claims =
                 {
-                    Issuer = TestUtilities.RandomString(0, 70),
-                    Scope = TestUtilities.RandomString(0, 50),
-                    Audience = TestUtilities.RandomString(0, 50),
-                    ExpirationTime = TestUtilities.RandomNumber(0, int.MaxValue),
-                    IssuedAt = TestUtilities.RandomNumber(0, int.MaxValue)
+                    Issuer = _randomizer.RandomString(0, 70),
+                    Scope = _randomizer.RandomString(0, 50),
+                    Audience = _randomizer.RandomString(0, 50),
+                    ExpirationTime = _randomizer.RandomNumber(0, int.MaxValue),
+                    IssuedAt = _randomizer.RandomNumber(0, int.MaxValue)
                 }
             };
-            var signer = new JsonWebTokenSignerFactory().GetAlgorithm(token.Header.Algorithm);
+
+            var signer = _factory.GetSigningAlgorithm(token.Header.Algorithm);
+            var verifier = _factory.GetVerificationAlgorithm(token.Header.Algorithm);
 
             var serializer = new JsonSerializer();
             var header = serializer.Serialize(token.Header);
@@ -43,16 +47,16 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = CreateKey();
-            var privateKey = ConvertPrivateKeyToString(keyPair.Private);
-            var publicKey = ConvertPublicKeyToString(keyPair.Public);
+            var keyPair = RsaCryptoKey.Create();
+            var privateKey = keyPair.Private.KeyToString();
+            var publicKey = keyPair.Public.KeyToString();
 
             var cipherText = signer.SignText(
                 encodedSignatureBase,
                 privateKey);
 
             Assert.True(
-                signer.VerifyText(
+                verifier.VerifyText(
                     publicKey,
                     cipherText,
                     encodedSignatureBase));
@@ -65,11 +69,11 @@ namespace Quantfabric.Test.Material.Unit
             {
                 Claims =
                 {
-                    Issuer = TestUtilities.RandomString(0, 70),
-                    Scope = TestUtilities.RandomString(0, 50),
-                    Audience = TestUtilities.RandomString(0, 50),
-                    ExpirationTime = TestUtilities.RandomNumber(0, int.MaxValue),
-                    IssuedAt = TestUtilities.RandomNumber(0, int.MaxValue)
+                    Issuer = _randomizer.RandomString(0, 70),
+                    Scope = _randomizer.RandomString(0, 50),
+                    Audience = _randomizer.RandomString(0, 50),
+                    ExpirationTime = _randomizer.RandomNumber(0, int.MaxValue),
+                    IssuedAt = _randomizer.RandomNumber(0, int.MaxValue)
                 }
             };
             
@@ -83,14 +87,14 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = CreateKey();
-            var privateKey = ConvertPrivateKeyToString(keyPair.Private);
-            var modulus = GetModulusFromRsaKey(keyPair.Public);
-            var exponent = GetExponentFromRsaKey(keyPair.Public);
+            var keyPair = RsaCryptoKey.Create();
+            var privateKey = keyPair.Private.KeyToString();
+            var modulus = keyPair.Modulus;
+            var exponent = keyPair.Exponent;
 
             var factory = new JsonWebTokenSignerFactory();
-            var verifier = factory.GetSignatureVerificationAlgorithm(token.Header.Algorithm);
-            var signer = factory.GetAlgorithm(token.Header.Algorithm);
+            var verifier = GetSignatureVerificationAlgorithm(token.Header.Algorithm);
+            var signer = factory.GetSigningAlgorithm(token.Header.Algorithm);
 
             var cipherText = signer.SignText(
                 encodedSignatureBase,
@@ -103,46 +107,20 @@ namespace Quantfabric.Test.Material.Unit
                 encodedSignatureBase));
         }
 
-        private string ConvertPublicKeyToString(AsymmetricKeyParameter key)
+        private static ISignatureVerificationAlgorithm GetSignatureVerificationAlgorithm(
+            JsonWebTokenAlgorithm algorithm)
         {
-            TextWriter textWriter = new StringWriter();
-            PemWriter pemWriter = new PemWriter(textWriter);
-            pemWriter.WriteObject(key);
-            pemWriter.Writer.Flush();
-
-            return textWriter.ToString();
-        }
-
-        private string ConvertPrivateKeyToString(AsymmetricKeyParameter key)
-        {
-            var pkcs8Gen = new Pkcs8Generator(key);
-            var pemObj = pkcs8Gen.Generate();
-
-            TextWriter textWriter = new StringWriter();
-            PemWriter pemWriter = new PemWriter(textWriter);
-            pemWriter.WriteObject(pemObj);
-            pemWriter.Writer.Flush();
-
-            return textWriter.ToString();
-        }
-
-        private string GetModulusFromRsaKey(AsymmetricKeyParameter key)
-        {
-            var rsaKey = (RsaKeyParameters) key;
-            return rsaKey.Modulus.ToString();
-        }
-
-        private string GetExponentFromRsaKey(AsymmetricKeyParameter key)
-        {
-            var rsaKey = (RsaKeyParameters)key;
-            return rsaKey.Exponent.ToString();
-        }
-
-        private AsymmetricCipherKeyPair CreateKey()
-        {
-            RsaKeyPairGenerator r = new RsaKeyPairGenerator();
-            r.Init(new KeyGenerationParameters(new SecureRandom(), 1024));
-            return r.GenerateKeyPair();
+            switch (algorithm)
+            {
+                case JsonWebTokenAlgorithm.RS256:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-256withRSA"));
+                case JsonWebTokenAlgorithm.RS384:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
+                case JsonWebTokenAlgorithm.RS512:
+                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

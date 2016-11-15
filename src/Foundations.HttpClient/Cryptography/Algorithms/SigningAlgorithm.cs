@@ -2,9 +2,11 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 
-namespace Foundations.HttpClient.Cryptography
+namespace Foundations.HttpClient.Cryptography.Algorithms
 {
-    public class SigningAlgorithm : ISigningAlgorithm
+    public class SigningAlgorithm : 
+        ISigningAlgorithm, 
+        IVerificationAlgorithm
     {
         private readonly ISigner _signer;
 
@@ -19,7 +21,9 @@ namespace Foundations.HttpClient.Cryptography
 
         public string SignatureMethod => _signer.AlgorithmName.ToUpper();
 
-        public byte[] SignText(byte[] text, string privateKey)
+        public byte[] SignText(
+            byte[] text, 
+            string privateKey)
         {
             if (text == null)
             {
@@ -35,7 +39,7 @@ namespace Foundations.HttpClient.Cryptography
         }
 
         public bool VerifyText(
-            string publicKey, 
+            string key, 
             byte[] signature, 
             byte[] text)
         {
@@ -50,7 +54,7 @@ namespace Foundations.HttpClient.Cryptography
 
             _signer.Reset();
 
-            _signer.Init(false, GetParametersFromPublicKey(publicKey));
+            _signer.Init(false, GetParametersFromPublicKey(key));
             _signer.BlockUpdate(text, 0, text.Length);
 
             return _signer.VerifySignature(signature);
@@ -59,9 +63,13 @@ namespace Foundations.HttpClient.Cryptography
         private const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
         private const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
 
-        private static ICipherParameters GetParametersFromPrivateKey(string privateKey)
+        private static ICipherParameters GetParametersFromPrivateKey(
+            string privateKey)
         {
-            var base64PrivateKey = privateKey.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
+            var base64PrivateKey = privateKey
+                .Replace(PrivateKeyPrefix, "")
+                .Replace("\n", "")
+                .Replace(PrivateKeySuffix, "");
             var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
             return PrivateKeyFactory.CreateKey(privateKeyBytes);
         }
@@ -69,9 +77,13 @@ namespace Foundations.HttpClient.Cryptography
         private const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";
         private const string PublicKeySuffix = "-----END PUBLIC KEY-----";
 
-        private static ICipherParameters GetParametersFromPublicKey(string publicKey)
+        private static ICipherParameters GetParametersFromPublicKey(
+            string publicKey)
         {
-            var base64PrivateKey = publicKey.Replace(PublicKeyPrefix, "").Replace("\n", "").Replace(PublicKeySuffix, "");
+            var base64PrivateKey = publicKey
+                .Replace(PublicKeyPrefix, "")
+                .Replace("\n", "")
+                .Replace(PublicKeySuffix, "");
             var privateKeyBytes = Convert.FromBase64String(base64PrivateKey);
             return PublicKeyFactory.CreateKey(privateKeyBytes);
         }

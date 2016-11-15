@@ -3,6 +3,7 @@ using System.Net.Http;
 using Foundations.Collections;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Xunit;
 
 namespace Foundations.Test.HttpClient

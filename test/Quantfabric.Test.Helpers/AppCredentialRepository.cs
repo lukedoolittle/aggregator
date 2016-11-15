@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !__FOUNDATIONS__
+using System;
 using Application.Configuration;
 using Foundations.Extensions;
 using Material.Contracts;
@@ -117,3 +118,4 @@ namespace Quantfabric.Test.Helpers
         }
     }
 }
+#endif

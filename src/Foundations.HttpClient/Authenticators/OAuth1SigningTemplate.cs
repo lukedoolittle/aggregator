@@ -6,6 +6,8 @@ using System.Text;
 using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators

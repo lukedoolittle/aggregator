@@ -1,7 +1,11 @@
-﻿namespace Foundations.HttpClient.Cryptography
+﻿using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Enums;
+
+namespace Foundations.HttpClient.Cryptography
 {
     public interface IJsonWebTokenSigningFactory
     {
-        ISigningAlgorithm GetAlgorithm(JsonWebTokenAlgorithm algorithm);
+        ISigningAlgorithm GetSigningAlgorithm(JsonWebTokenAlgorithm algorithm);
+        IVerificationAlgorithm GetVerificationAlgorithm(JsonWebTokenAlgorithm algorithm);
     }
 }

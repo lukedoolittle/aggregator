@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 

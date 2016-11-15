@@ -58,6 +58,7 @@ Global
 		src\Material.Shared\Material.Shared.projitems*{35e4822b-853b-4cb2-aae1-7d40d76c1e84}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{6084ced8-dbfa-4043-9dac-3dd880d0e533}*SharedItemsImports = 4
 		src\Foundations.Http\Foundations.Http.projitems*{9ccba100-072a-4f30-b3c6-aa688f01be07}*SharedItemsImports = 4
+		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{9ccba100-072a-4f30-b3c6-aa688f01be07}*SharedItemsImports = 4
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{a3aafeef-513a-4296-a9df-4f7be657aa45}*SharedItemsImports = 4
 		src\Foundations.Http\Foundations.Http.projitems*{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}*SharedItemsImports = 4

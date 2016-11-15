@@ -1,4 +1,4 @@
-﻿namespace Foundations.HttpClient.Cryptography
+﻿namespace Foundations.HttpClient.Cryptography.Enums
 {
     public enum CryptoStringType
     {

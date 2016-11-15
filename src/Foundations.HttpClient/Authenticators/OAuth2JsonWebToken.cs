@@ -1,6 +1,7 @@
 ﻿using System;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators

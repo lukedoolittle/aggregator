@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !__FOUNDATIONS__
+using System;
 using System.IO;
 using System.Reflection;
 using Material.Infrastructure;
@@ -79,3 +80,4 @@ namespace Quantfabric.Test.TestHelpers
         }
     }
 }
+#endif

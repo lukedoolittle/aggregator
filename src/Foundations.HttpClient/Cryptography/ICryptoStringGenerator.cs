@@ -1,4 +1,6 @@
-﻿namespace Foundations.HttpClient.Cryptography
+﻿using Foundations.HttpClient.Cryptography.Enums;
+
+namespace Foundations.HttpClient.Cryptography
 {
     public interface ICryptoStringGenerator
     {

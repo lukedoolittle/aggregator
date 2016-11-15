@@ -11,6 +11,7 @@ using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Newtonsoft.Json.Linq;

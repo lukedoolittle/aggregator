@@ -1,22 +1,28 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
 
-namespace Foundations.HttpClient.Cryptography
+namespace Foundations.HttpClient.Cryptography.Algorithms
 {
-    public class DigestSigningAlgorithm : ISigningAlgorithm
+    public class DigestSigningAlgorithm : 
+        ISigningAlgorithm, 
+        IVerificationAlgorithm
     {
         private readonly IDigest _digest;
 
         public string SignatureMethod { get; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
+        public DigestSigningAlgorithm(IDigest digest) : 
+            this(digest, null)
+        { }
+
         public DigestSigningAlgorithm(
             IDigest digest,
-            string signatureMethod = null)
+            string signatureMethod)
         {
             if (digest == null)
             {
@@ -27,7 +33,9 @@ namespace Foundations.HttpClient.Cryptography
             SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
         }
 
-        public byte[] SignText(byte[] text, string privateKey)
+        public byte[] SignText(
+            byte[] text, 
+            string privateKey)
         {
             if (text == null)
             {
@@ -45,11 +53,14 @@ namespace Foundations.HttpClient.Cryptography
         }
 
         public bool VerifyText(
-            string publicKey, 
-            byte[] signature, 
+            string key,
+            byte[] signature,
             byte[] text)
         {
-            throw new NotImplementedException("Cannot verify Hash");
+            return signature.SequenceEqual(
+                SignText(
+                    text, 
+                    key));
         }
 
         public static ISigningAlgorithm Sha1Algorithm()

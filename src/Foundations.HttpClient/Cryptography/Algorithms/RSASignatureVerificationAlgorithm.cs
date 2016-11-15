@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 
-namespace Foundations.HttpClient.Cryptography
+namespace Foundations.HttpClient.Cryptography.Algorithms
 {
     public class RSASignatureVerificationAlgorithm : ISignatureVerificationAlgorithm
     {

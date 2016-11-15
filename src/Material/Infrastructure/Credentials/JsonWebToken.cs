@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Serialization;
 
 namespace Material.Infrastructure.Credentials

@@ -1,5 +1,6 @@
 ﻿using System;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Enums;
 using Material.Contracts;
 
 namespace Material.OAuth.Security

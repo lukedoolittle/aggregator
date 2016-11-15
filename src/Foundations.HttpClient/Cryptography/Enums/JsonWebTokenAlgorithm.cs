@@ -1,6 +1,6 @@
 ﻿using Foundations.Attributes;
 
-namespace Foundations.HttpClient.Cryptography
+namespace Foundations.HttpClient.Cryptography.Enums
 {
     public enum JsonWebTokenAlgorithm
     {

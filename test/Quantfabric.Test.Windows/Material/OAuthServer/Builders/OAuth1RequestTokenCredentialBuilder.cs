@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Enums;
 using Material.Infrastructure.Credentials;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.Material.OAuthServer.Requests;

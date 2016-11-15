@@ -30,26 +30,6 @@ namespace Quantfabric.Test.Integration
                    !string.IsNullOrEmpty(token.TokenName);
         }
 
-
-        private static readonly Random random = new Random();
-
-        public static int RandomNumber(int start, int end)
-        {
-            return random.Next(start, end);
-        }
-
-        public static string RandomString(int minimum, int maximum)
-        {
-            return RandomString(RandomNumber(minimum, maximum));
-        }
-
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.@/";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
         public static T GetMemberValue<T>(this object instance, string memberName)
         {
             try
