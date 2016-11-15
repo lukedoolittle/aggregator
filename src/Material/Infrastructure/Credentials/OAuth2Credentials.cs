@@ -69,10 +69,9 @@ namespace Material.Infrastructure.Credentials
             return this;
         }
 
-        public OAuth2Credentials SetExpiresIn(double expiryTime)
+        public OAuth2Credentials SetExpiresIn(DateTime expiryTime)
         {
-            var expiryDateTime = expiryTime.FromUnixTimeSeconds();
-            _expiresIn = ((int)expiryDateTime
+            _expiresIn = ((int)expiryTime
                 .Subtract(DateTime.UtcNow)
                 .TotalSeconds)
                 .ToString(CultureInfo.InvariantCulture);

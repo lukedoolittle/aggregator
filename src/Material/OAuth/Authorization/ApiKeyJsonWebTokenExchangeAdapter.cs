@@ -30,7 +30,7 @@ namespace Material.OAuth.Authorization
 
             var token = new JsonWebToken(result);
 
-            //TODO: validate JWT with primary key
+            //TODO: validate JWT with primary key after adding discovery endpoint logic
 
             return new OAuth2Credentials()
                 .SetAccessToken(result)

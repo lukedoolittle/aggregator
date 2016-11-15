@@ -72,8 +72,8 @@ namespace Material.OAuth
                     Issuer = _issuer,
                     Scope = _resourceProvider.Scope,
                     Audience = _resourceProvider.TokenUrl.ToString(),
-                    ExpirationTime = Math.Floor(time.Add(TimeSpan.FromMinutes(59)).ToUnixTimeSeconds()),
-                    IssuedAt = Math.Floor(time.ToUnixTimeSeconds())
+                    ExpirationTime = time.Add(TimeSpan.FromMinutes(59)),
+                    IssuedAt = time
                 }
             };
 

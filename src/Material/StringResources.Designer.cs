@@ -152,6 +152,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given JWT algorithm has not been whitelisted.
+        /// </summary>
+        public static string InvalidJsonWebTokenAlgorithm {
+            get {
+                return ResourceManager.GetString("InvalidJsonWebTokenAlgorithm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks for sharing!.
         /// </summary>
         public static string OAuthCallbackResponse {

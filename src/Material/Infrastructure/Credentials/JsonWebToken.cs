@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Foundations.Extensions;
-using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Serialization;
 
@@ -78,11 +77,27 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "aud", Order = 2, EmitDefaultValue = false)]
         public string Audience { get; set; }
 
-        [DataMember(Name = "exp", Order = 4, EmitDefaultValue = false)]
-        public double ExpirationTime { get; set; }
+        public DateTime ExpirationTime { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DataMember(Name = "exp", Order = 4, EmitDefaultValue = false)]
+        private double _expirationTime
+        {
+            get { return Math.Floor(ExpirationTime.ToUnixTimeSeconds()); }
+            set { ExpirationTime = value.FromUnixTimeSeconds().DateTime; }
+        }
+
+        public DateTime IssuedAt { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DataMember(Name = "iat", Order = 3, EmitDefaultValue = false)]
-        public double IssuedAt { get; set; }
+        private double _issuedAt
+        {
+            get { return Math.Floor(IssuedAt.ToUnixTimeSeconds()); }
+            set { IssuedAt = value.FromUnixTimeSeconds().DateTime; }
+        }
 
         [DataMember(Name = "sub", Order = 5, EmitDefaultValue = false)]
         public string Subject { get; set; }

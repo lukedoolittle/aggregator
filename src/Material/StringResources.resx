@@ -159,4 +159,7 @@
   <data name="ShortTermAccessTokenExchangeException" xml:space="preserve">
     <value>Cannot exchange client access token for long lived access token</value>
   </data>
+  <data name="InvalidJsonWebTokenAlgorithm" xml:space="preserve">
+    <value>The given JWT algorithm has not been whitelisted</value>
+  </data>
 </root>

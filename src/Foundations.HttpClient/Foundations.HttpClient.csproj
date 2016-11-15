@@ -52,7 +52,7 @@
     <Compile Include="Authenticators\OAuth2AccessToken.cs" />
     <Compile Include="Authenticators\OAuth2ClientAccessToken.cs" />
     <Compile Include="Authenticators\OAuth2JsonWebToken.cs" />
-    <Compile Include="Authenticators\OAuth2JsonWebTokenSigningTemplate.cs" />
+    <Compile Include="Authenticators\JsonWebTokenSigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />

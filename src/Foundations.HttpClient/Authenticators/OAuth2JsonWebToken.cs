@@ -8,7 +8,7 @@ namespace Foundations.HttpClient.Authenticators
 {
     public class OAuth2JsonWebToken : IAuthenticator
     {
-        private readonly OAuth2JsonWebTokenSigningTemplate _template;
+        private readonly JsonWebTokenSigningTemplate _template;
         private readonly string _header;
         private readonly string _claims;
         private readonly JsonWebTokenAlgorithm _algorithm;
@@ -32,7 +32,7 @@ namespace Foundations.HttpClient.Authenticators
             _clientId = clientId;
             _privateKey = privateKey;
 
-            _template = new OAuth2JsonWebTokenSigningTemplate(signingFactory);
+            _template = new JsonWebTokenSigningTemplate(signingFactory);
         }
 
         public OAuth2JsonWebToken(

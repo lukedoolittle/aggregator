@@ -6,11 +6,11 @@ using Foundations.HttpClient.Cryptography.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class OAuth2JsonWebTokenSigningTemplate
+    public class JsonWebTokenSigningTemplate
     {
         private readonly IJsonWebTokenSigningFactory _factory;
 
-        public OAuth2JsonWebTokenSigningTemplate(
+        public JsonWebTokenSigningTemplate(
             IJsonWebTokenSigningFactory factory)
         {
             if (factory == null)

@@ -29,8 +29,8 @@ namespace Quantfabric.Test.Material.Unit
                     Issuer = _randomizer.RandomString(0, 70),
                     Scope = _randomizer.RandomString(0, 50),
                     Audience = _randomizer.RandomString(0, 50),
-                    ExpirationTime = _randomizer.RandomNumber(0, int.MaxValue),
-                    IssuedAt = _randomizer.RandomNumber(0, int.MaxValue)
+                    ExpirationTime = DateTime.Now.AddHours(1),
+                    IssuedAt = DateTime.Now
                 }
             };
 
@@ -41,7 +41,7 @@ namespace Quantfabric.Test.Material.Unit
             var header = serializer.Serialize(token.Header);
             var claims = serializer.Serialize(token.Claims);
 
-            var signingTemplate = new OAuth2JsonWebTokenSigningTemplate(
+            var signingTemplate = new JsonWebTokenSigningTemplate(
                 new JsonWebTokenSignerFactory());
             var signatureBase = signingTemplate.CreateSignatureBase(header, claims);
 
@@ -72,8 +72,8 @@ namespace Quantfabric.Test.Material.Unit
                     Issuer = _randomizer.RandomString(0, 70),
                     Scope = _randomizer.RandomString(0, 50),
                     Audience = _randomizer.RandomString(0, 50),
-                    ExpirationTime = _randomizer.RandomNumber(0, int.MaxValue),
-                    IssuedAt = _randomizer.RandomNumber(0, int.MaxValue)
+                    ExpirationTime = DateTime.Now.AddHours(1),
+                    IssuedAt = DateTime.Now
                 }
             };
             
@@ -81,7 +81,7 @@ namespace Quantfabric.Test.Material.Unit
             var header = serializer.Serialize(token.Header);
             var claims = serializer.Serialize(token.Claims);
 
-            var signingTemplate = new OAuth2JsonWebTokenSigningTemplate(
+            var signingTemplate = new JsonWebTokenSigningTemplate(
                 new JsonWebTokenSignerFactory());
             var signatureBase = signingTemplate.CreateSignatureBase(header, claims);
 

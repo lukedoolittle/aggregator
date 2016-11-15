@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿#if __WINDOWS__
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Security;
 
@@ -26,3 +27,4 @@ namespace Quantfabric.Test.Helpers.Cryptography
         }
     }
 }
+#endif

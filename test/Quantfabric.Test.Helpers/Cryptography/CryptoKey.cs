@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿#if __WINDOWS__
+using System.IO;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 
@@ -33,3 +34,4 @@ namespace Quantfabric.Test.Helpers.Cryptography
         }
     }
 }
+#endif
