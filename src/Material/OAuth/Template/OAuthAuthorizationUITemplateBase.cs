@@ -62,7 +62,8 @@ namespace Material.OAuth.Template
                     (uri, view) =>
                     {
                         if (uri != null &&
-                            uri.ToString().StartsWith(callbackUri.ToString()))
+                            uri.AbsolutePath.ToString().StartsWith(
+                                callbackUri.AbsolutePath.ToString()))
                         {
                             try
                             {

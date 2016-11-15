@@ -66,12 +66,11 @@ namespace Material.View.WebAuthorization
                 return !success;
             };
 
-            //NSUrlRequest will not handle spaces so ensure URL encoding of spaces
+            //TODO: determine why spaces are not properly Url encoded
             webView.LoadRequest(
                 new NSUrlRequest(
                     new NSUrl(authorizationUri
-                        .ToString()
-                        .Replace(" ", "%20"))));
+                        .ToString().Replace(" ", "%20"))));
         }
     }
 }

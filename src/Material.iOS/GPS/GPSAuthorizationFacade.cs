@@ -22,13 +22,11 @@ namespace Material.GPS
                         taskCompletionSource.SetResult(true);
                         break;
                     case CLAuthorizationStatus.Restricted:
-                        taskCompletionSource.SetResult(true);
                         break;
                     case CLAuthorizationStatus.Denied:
                         taskCompletionSource.SetResult(false);
                         break;
                     case CLAuthorizationStatus.AuthorizedWhenInUse:
-                        taskCompletionSource.SetResult(true);
                         break;
                     default:
                         taskCompletionSource.SetResult(false);

@@ -5,7 +5,7 @@ using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Bluetooth.SubscriptionManagers
 {
-    public class DeviceSubscriptionManager : ISubscriptionManager
+    public sealed class DeviceSubscriptionManager : ISubscriptionManager
     {
         private IDevice _device;
         private IService _service;
