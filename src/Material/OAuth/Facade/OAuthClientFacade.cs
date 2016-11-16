@@ -2,7 +2,6 @@
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
-using Material.Exceptions;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 
@@ -26,14 +25,7 @@ namespace Material.OAuth.Facade
             string clientId,
             string clientSecret)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantType.ClientCredentials))
-            {
-                throw new InvalidGrantTypeException(
-                    string.Format(
-                        StringResources.GrantTypeNotSupportedException,
-                        GrantType.ClientCredentials,
-                        _resourceProvider.GetType().Name));
-            }
+            _resourceProvider.SetGrant(GrantType.ClientCredentials);
 
             var token = await _oauth.GetClientAccessToken(
                     _resourceProvider.TokenUrl, 
@@ -41,12 +33,10 @@ namespace Material.OAuth.Facade
                     clientSecret)
                 .ConfigureAwait(false);
 
-            token.SetClientProperties(
+            return token.SetClientProperties(
                     clientId, 
                     clientSecret)
                 .TimestampToken();
-
-            return token;
         }
 
         public async Task<OAuth2Credentials> GetJsonWebTokenTokenCredentials(
@@ -54,14 +44,7 @@ namespace Material.OAuth.Facade
             CryptoKey privateKey,
             string clientId)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantType.JsonWebToken))
-            {
-                throw new InvalidGrantTypeException(
-                    string.Format(
-                        StringResources.GrantTypeNotSupportedException,
-                        GrantType.JsonWebToken,
-                        _resourceProvider.GetType().Name));
-            }
+            _resourceProvider.SetGrant(GrantType.JsonWebToken);
 
             var token = await _oauth.GetJsonWebToken(
                 _resourceProvider.TokenUrl,
@@ -70,25 +53,16 @@ namespace Material.OAuth.Facade
                 clientId)
                 .ConfigureAwait(false);
 
-            token.SetClientProperties(
+            return token.SetClientProperties(
                     clientId,
                     null)
                 .TimestampToken();
-
-            return token;
         }
 
         public async Task<OAuth2Credentials> GetRefreshedAccessTokenCredentials(
             OAuth2Credentials expiredCredentials)
         {
-            if (!_resourceProvider.GrantTypes.Contains(GrantType.RefreshToken))
-            {
-                throw new InvalidGrantTypeException(
-                    string.Format(
-                        StringResources.GrantTypeNotSupportedException, 
-                        GrantType.RefreshToken,
-                        _resourceProvider.GetType().Name));
-            }
+            _resourceProvider.SetGrant(GrantType.RefreshToken);
 
             _resourceProvider.SetClientProperties(
                 expiredCredentials.ClientId, 
@@ -102,12 +76,11 @@ namespace Material.OAuth.Facade
                     _resourceProvider.Headers)
                 .ConfigureAwait(false);
 
-            return token
-                .TimestampToken()
-                .SetTokenName(expiredCredentials.TokenName)
-                .SetClientProperties(
+            return token.SetClientProperties(
                     expiredCredentials.ClientId,
                     expiredCredentials.ClientSecret)
+                .TimestampToken()
+                .SetTokenName(expiredCredentials.TokenName)
                 .TransferRefreshToken(expiredCredentials.RefreshToken);
         }
     }

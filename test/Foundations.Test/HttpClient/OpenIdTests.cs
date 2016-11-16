@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Foundations.Test.HttpClient
 {
+    [Trait("Category", "Continuous")]
     public class OpenIdTests
     {
         [Fact]

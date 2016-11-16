@@ -61,14 +61,14 @@ namespace CodeGen
                         });
                         @class.Properties.Add(new PropertyRepresentation(
                             typeof(List<OAuth2FlowType>), 
-                            nameof(_oauth2Provider.Flows))
+                            nameof(_oauth2Provider.AllowedFlows))
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new List<OAuth2FlowType>())
                         });
                         @class.Properties.Add(new PropertyRepresentation(
                             typeof(List<GrantType>),
-                            nameof(_oauth2Provider.GrantTypes))
+                            nameof(_oauth2Provider.AllowedGrantTypes))
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new List<GrantType>())
@@ -111,7 +111,7 @@ namespace CodeGen
                     var flow = securityDefinition["flow"]?.ToString();
                     if (flow != null)
                     {
-                        var flows = @class.Properties.Single(p => p.Name == nameof(_oauth2Provider.Flows));
+                        var flows = @class.Properties.Single(p => p.Name == nameof(_oauth2Provider.AllowedFlows));
                         ((List<OAuth2FlowType>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
                             .Add(flow.StringToEnum<OAuth2FlowType>());
                     }
@@ -119,7 +119,7 @@ namespace CodeGen
                     var grants = securityDefinition["x-grant-types"]?.ToObject<List<string>>();
                     if (grants != null)
                     {
-                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.GrantTypes));
+                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.AllowedGrantTypes));
                         foreach (var grantType in grants)
                         {
                             ((List<GrantType>)

@@ -47,6 +47,7 @@
     <Compile Include="Contracts\IOAuth1Identity.cs" />
     <Compile Include="Contracts\IOAuth2Identity.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
+    <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebToken.cs" />

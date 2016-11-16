@@ -116,7 +116,6 @@ namespace Foundations.Test
         public void CreateServiceAndRequestClassesHasMultipleFlows()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
-            var requestNamespace = "SampleApiNamespace.Requests";
 
             var codeGen = new SwaggerToClass("sampleapi.json");
 
@@ -138,7 +137,6 @@ namespace Foundations.Test
         public void CreateServiceAndRequestClassesHasMultipleResponseTypes()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
-            var requestNamespace = "SampleApiNamespace.Requests";
 
             var codeGen = new SwaggerToClass("sampleapi.json");
 

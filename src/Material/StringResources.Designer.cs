@@ -98,11 +98,11 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Must provide a Client Secret; token flow is not supported with the service {0}.
+        ///   Looks up a localized string similar to {0} flow is not supported with the service {1} (did you forget to provide a client secret?).
         /// </summary>
-        public static string FlowTypeNotSupportedException {
+        public static string FlowTypeNotSupported {
             get {
-                return ResourceManager.GetString("FlowTypeNotSupportedException", resourceCulture);
+                return ResourceManager.GetString("FlowTypeNotSupported", resourceCulture);
             }
         }
         
@@ -175,6 +175,15 @@ namespace Material {
         public static string OfflineConnectivityException {
             get {
                 return ResourceManager.GetString("OfflineConnectivityException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A {0} response is not supported with the service {1}.
+        /// </summary>
+        public static string ResponseTypeNotSupported {
+            get {
+                return ResourceManager.GetString("ResponseTypeNotSupported", resourceCulture);
             }
         }
         

@@ -104,6 +104,7 @@ namespace Material.OAuth
             return _app.GetCredentialsAsync(
                 clientSecret, 
                 OAuth2FlowType.AccessCode, 
+                OAuth2ResponseType.Code, 
                 handler);
         }
 
@@ -126,12 +127,14 @@ namespace Material.OAuth
                 return _app.GetCredentialsAsync(
                         null,
                         OAuth2FlowType.AccessCode, 
+                        OAuth2ResponseType.Code, 
                         handler);
             }
 #endif
 
             return _app.GetCredentialsAsync(
                 OAuth2FlowType.Implicit, 
+                OAuth2ResponseType.Token, 
                 handler);
         }
 

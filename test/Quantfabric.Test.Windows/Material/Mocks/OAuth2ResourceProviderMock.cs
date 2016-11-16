@@ -19,8 +19,9 @@ namespace Quantfabric.Test.Material.Mocks
         }
 
         public override List<string> AvailableScopes => _provider.AvailableScopes;
-        public override List<OAuth2FlowType> Flows => _provider.Flows;
-        public override List<GrantType> GrantTypes => _provider.GrantTypes;
+        public override List<OAuth2FlowType> AllowedFlows => _provider.AllowedFlows;
+        public override List<GrantType> AllowedGrantTypes => _provider.AllowedGrantTypes;
+        public override List<OAuth2ResponseType> AllowedResponseTypes => _provider.AllowedResponseTypes;
 
         public override Uri AuthorizationUrl => _provider.AuthorizationUrl != null ? 
             new Uri($"http://localhost:{Port}{_provider.AuthorizationUrl.AbsolutePath}") : 

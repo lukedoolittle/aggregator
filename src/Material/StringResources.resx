@@ -150,8 +150,8 @@
   <data name="GPSAuthorizationException" xml:space="preserve">
     <value>Access to GPS was not granted</value>
   </data>
-  <data name="FlowTypeNotSupportedException" xml:space="preserve">
-    <value>Must provide a Client Secret; token flow is not supported with the service {0}</value>
+  <data name="FlowTypeNotSupported" xml:space="preserve">
+    <value>{0} flow is not supported with the service {1} (did you forget to provide a client secret?)</value>
   </data>
   <data name="FormatMetadataMissing" xml:space="preserve">
     <value>All request parameters must have format metadata</value>
@@ -161,5 +161,8 @@
   </data>
   <data name="InvalidJsonWebTokenAlgorithm" xml:space="preserve">
     <value>The given JWT algorithm has not been whitelisted</value>
+  </data>
+  <data name="ResponseTypeNotSupported" xml:space="preserve">
+    <value>A {0} response is not supported with the service {1}</value>
   </data>
 </root>

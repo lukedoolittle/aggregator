@@ -9,8 +9,8 @@ namespace CodeGen
     {
         public override Uri TokenUrl { get; }
         public override List<string> AvailableScopes { get; }
-        public override List<OAuth2FlowType> Flows { get; }
-        public override List<GrantType> GrantTypes { get; }
+        public override List<OAuth2FlowType> AllowedFlows { get; }
+        public override List<GrantType> AllowedGrantTypes { get; }
     }
 
     public class DummyOAuth1ResourceProvider : OAuth1ResourceProvider

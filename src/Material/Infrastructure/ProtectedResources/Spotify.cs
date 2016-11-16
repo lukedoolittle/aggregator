@@ -23,8 +23,8 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Spotify : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "playlist-read-private", "user-follow-read", "user-library-read" };
-        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
-        public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
+        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
+        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
         public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://accounts.spotify.com/authorize");

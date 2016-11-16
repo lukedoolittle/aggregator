@@ -22,25 +22,59 @@ namespace Material.Infrastructure
             new Dictionary<string, string>();
         public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
-        public abstract List<OAuth2FlowType> Flows { get; }
-        public virtual OAuth2FlowType Flow { get; private set; }
-        public abstract List<GrantType> GrantTypes { get; }
+
+        public abstract List<OAuth2FlowType> AllowedFlows { get; }
+        public OAuth2FlowType Flow { get; protected set; }
+
+        public abstract List<GrantType> AllowedGrantTypes { get; }
+        public GrantType Grant { get; protected set; }
+
         public virtual List<OAuth2ResponseType> AllowedResponseTypes { get; } = 
             new List<OAuth2ResponseType>();
+        public OAuth2ResponseType ResponseType { get; protected set; }
 
-        public virtual OAuth2ResponseType ResponseType
+        public virtual OAuth2ResourceProvider SetGrant(GrantType grantType)
         {
-            get { throw new NotImplementedException(); }
+            if (!AllowedGrantTypes.Contains(grantType))
+            {
+                throw new InvalidGrantTypeException(
+                    string.Format(
+                        StringResources.GrantTypeNotSupportedException,
+                        grantType.EnumToString(),
+                        GetType().Name));
+            }
+
+            Grant = grantType;
+
+            return this;
+        }
+
+        public virtual OAuth2ResourceProvider SetResponse(OAuth2ResponseType response)
+        {
+            if (!AllowedResponseTypes.Contains(response))
+            {
+                throw new InvalidResponseTypeException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        StringResources.ResponseTypeNotSupported,
+                        response.EnumToString(),
+                        GetType().Name));
+            }
+
+            ResponseType = response;
+
+            return this;
         }
 
         public virtual OAuth2ResourceProvider SetFlow(OAuth2FlowType flow)
         {
-            if (!Flows.Contains(flow))
+            if (!AllowedFlows.Contains(flow))
             {
                 throw new InvalidFlowTypeException(
                     string.Format(
                         CultureInfo.InvariantCulture,
-                        StringResources.FlowTypeNotSupportedException,
+                        StringResources.FlowTypeNotSupported,
+                        flow.EnumToString(),
                         GetType().Name));
             }
 

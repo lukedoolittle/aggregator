@@ -40,11 +40,13 @@ namespace Material.OAuth
         /// <summary>
         /// Authenticates a resource owner using the OAuth2 token workflow
         /// </summary>
-        /// <param name="flowType"></param>
-        /// <param name="callbackHandler"></param>
+        /// <param name="flowType">OAuth2 workflow type</param>
+        /// <param name="responseType">OAuth2 response type to request</param>
+        /// <param name="callbackHandler">Handles the callback request</param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             OAuth2FlowType flowType,
+            OAuth2ResponseType responseType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             var facade = new OAuth2TokenAuthorizationFacade(
@@ -57,6 +59,7 @@ namespace Material.OAuth
             return GetCredentialsAsync(
                 null,
                 flowType,
+                responseType,
                 callbackHandler,
                 facade);
         }
@@ -65,12 +68,14 @@ namespace Material.OAuth
         /// Authenticates a resource owner using the OAuth2 code workflow
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
-        /// <param name="flowType"></param>
-        /// <param name="callbackHandler"></param>
+        /// <param name="flowType">OAuth2 workflow type</param>
+        /// <param name="responseType">OAuth2 response type to request</param>
+        /// <param name="callbackHandler">Handles the callback request</param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
             OAuth2FlowType flowType,
+            OAuth2ResponseType responseType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             var facade = new OAuth2CodeAuthorizationFacade(
@@ -83,6 +88,7 @@ namespace Material.OAuth
             return GetCredentialsAsync(
                 clientSecret, 
                 flowType, 
+                responseType,
                 callbackHandler, 
                 facade);
         }
@@ -90,12 +96,14 @@ namespace Material.OAuth
         private Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
             OAuth2FlowType flowType,
+            OAuth2ResponseType responseType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthFacade<OAuth2Credentials> facade)
         {
             if (facade == null) throw new ArgumentNullException(nameof(facade));
 
             _provider.SetFlow(flowType);
+            _provider.SetResponse(responseType);
 
             var authenticationUI = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(

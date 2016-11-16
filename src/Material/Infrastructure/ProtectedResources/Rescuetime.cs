@@ -23,8 +23,8 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Rescuetime : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "time_data" };
-        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
-        public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode };
         public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
         public override String TokenName => "access_token";
         public override Uri AuthorizationUrl => new Uri("https://www.rescuetime.com/oauth/authorize");

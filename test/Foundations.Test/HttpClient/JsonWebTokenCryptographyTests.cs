@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Foundations.Test.HttpClient
 {
+    [Trait("Category", "Continuous")]
     public class JsonWebTokenCryptographyTests
     {
         private readonly IJsonWebTokenSigningFactory _factory =
