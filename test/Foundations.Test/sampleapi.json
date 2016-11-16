@@ -110,6 +110,7 @@
             "authorizationUrl": "https://www.example.com/oauth/authorize",
             "x-token-name": "access_token",
             "x-response-types": [ "token", "id_token", "id_token token" ],
+            "x-openid-discovery-url": "https://login.example.com/.well-known/openid-configuration",
             "scopes": {
                 "sample_get": "",
                 "sample_post": ""

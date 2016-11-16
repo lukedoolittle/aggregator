@@ -152,5 +152,18 @@ namespace Material.OAuth
 
             return this;
         }
+
+        /// <summary>
+        /// Adds scope to be requested with OAuth2 authorization
+        /// </summary>
+        /// <param name="scope">The scope to request</param>
+        /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        public OAuth2App<TResourceProvider> AddScope(string scope)
+        {
+            _app.AddScope(scope);
+
+            return this;
+        }
     }
 }

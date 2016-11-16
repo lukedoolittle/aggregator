@@ -123,7 +123,7 @@ namespace Foundations.Test
 
             var flowProperty = serviceClass.
                 Properties
-                .FirstOrDefault(p => p.Name == "Flows");
+                .FirstOrDefault(p => p.Name == "AllowedFlows");
 
             Assert.NotNull(flowProperty);
 

@@ -165,6 +165,19 @@ namespace CodeGen
                             });
                         }
                     }
+
+                    var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
+                    if (openIdDiscoveryUrl != null)
+                    {
+                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.OpenIdDiscoveryUrl)))
+                        {
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.OpenIdDiscoveryUrl))
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))
+                            });
+                        }
+                    }
                 }
                 else if (securityDefinition["type"]?.ToString() == "oauth1")
                 {

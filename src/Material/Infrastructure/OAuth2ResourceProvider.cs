@@ -13,6 +13,7 @@ namespace Material.Infrastructure
     {
         public virtual Uri AuthorizationUrl { get; }
         public abstract Uri TokenUrl { get; }
+        public virtual Uri OpenIdDiscoveryUrl { get; }
         public abstract List<string> AvailableScopes { get; }
         public List<string> Scopes { get; } = new List<string>();
         public virtual string Scope => string.Join(ScopeDelimiter.ToString(), Scopes);
@@ -39,6 +40,7 @@ namespace Material.Infrastructure
             {
                 throw new InvalidGrantTypeException(
                     string.Format(
+                        CultureInfo.InvariantCulture,
                         StringResources.GrantTypeNotSupportedException,
                         grantType.EnumToString(),
                         GetType().Name));
@@ -96,18 +98,25 @@ namespace Material.Infrastructure
 
             foreach (var scope in request.RequiredScopes)
             {
-                if (!AvailableScopes.Contains(scope))
-                {
-                    throw new InvalidScopeException(string.Format(
-                        CultureInfo.InvariantCulture,
-                        StringResources.ScopeException, 
-                        scope, 
-                        this.GetType().Name));
-                }
-                if (!Scopes.Contains(scope))
-                {
-                    Scopes.Add(scope);
-                }
+                AddRequestScope(scope);
+            }
+
+            return this;
+        }
+
+        public OAuth2ResourceProvider AddRequestScope(string scope)
+        {
+            if (!AvailableScopes.Contains(scope))
+            {
+                throw new InvalidScopeException(string.Format(
+                    CultureInfo.InvariantCulture,
+                    StringResources.ScopeException,
+                    scope,
+                    this.GetType().Name));
+            }
+            if (!Scopes.Contains(scope))
+            {
+                Scopes.Add(scope);
             }
 
             return this;

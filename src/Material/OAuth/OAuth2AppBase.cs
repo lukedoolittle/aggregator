@@ -121,7 +121,7 @@ namespace Material.OAuth
         }
 
         /// <summary>
-        /// Adds scope to be requested with OAuth2 authentication
+        /// Adds scope to be requested with OAuth2 authorization
         /// </summary>
         /// <typeparam name="TRequest">The request type scope is needed for</typeparam>
         /// <returns>The current instance</returns>
@@ -130,6 +130,18 @@ namespace Material.OAuth
             where TRequest : OAuthRequest, new()
         {
             _provider.AddRequestScope<TRequest>();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds scope to be requested with OAuth2 authorization
+        /// </summary>
+        /// <param name="scope">The scope to request</param>
+        /// <returns>The current instance</returns>
+        public OAuth2AppBase<TResourceProvider> AddScope(string scope)
+        {
+            _provider.AddRequestScope(scope);
 
             return this;
         }
