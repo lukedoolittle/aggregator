@@ -47,7 +47,7 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = RsaCryptoKeyPair.Create();
+            var keyPair = RsaCryptoKeyPair.Create(1024);
 
             var cipherText = signer.SignText(
                 encodedSignatureBase,
@@ -85,7 +85,7 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = RsaCryptoKeyPair.Create();
+            var keyPair = RsaCryptoKeyPair.Create(1024);
 
             var factory = new JsonWebTokenSignerFactory();
             var verifier = GetSignatureVerificationAlgorithm(token.Header.Algorithm);

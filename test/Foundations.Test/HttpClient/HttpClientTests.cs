@@ -643,7 +643,7 @@ namespace Foundations.Test.HttpClient
             };
 
             var clientId = Guid.NewGuid().ToString();
-            var privateKey = RsaCryptoKeyPair.Create().Private;
+            var privateKey = RsaCryptoKeyPair.Create(1024).Private;
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)

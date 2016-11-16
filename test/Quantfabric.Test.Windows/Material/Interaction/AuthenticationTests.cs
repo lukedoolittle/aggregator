@@ -1,4 +1,5 @@
-﻿using Foundations.HttpClient.Cryptography.Enums;
+﻿using System;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Identities;
@@ -42,10 +43,13 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var parameters = GenerateRandomParameters();
             var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
+            var recipient = Guid.NewGuid().ToString();
+            var applicationName = Guid.NewGuid().ToString();
 
             var authenticator = new AuthenticationGenerator(
                 parameters.PrivateKey, 
-                parameters.PublicKey);
+                recipient, 
+                applicationName);
 
             var token = await authenticator
                 .ConvertToJsonWebToken<FacebookIdentity>(
@@ -66,10 +70,13 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var parameters = GenerateRandomParameters();
             var credentials = _tokenRepository.GetToken<Google, OAuth2Credentials>();
+            var recipient = Guid.NewGuid().ToString();
+            var applicationName = Guid.NewGuid().ToString();
 
             var authenticator = new AuthenticationGenerator(
                 parameters.PrivateKey,
-                parameters.PublicKey);
+                recipient,
+                applicationName);
 
             var token = await authenticator
                 .ConvertToJsonWebToken<GoogleIdentity>(
@@ -90,10 +97,13 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var parameters = GenerateRandomParameters();
             var credentials = _tokenRepository.GetToken<Fitbit, OAuth2Credentials>();
+            var recipient = Guid.NewGuid().ToString();
+            var applicationName = Guid.NewGuid().ToString();
 
             var authenticator = new AuthenticationGenerator(
                 parameters.PrivateKey,
-                parameters.PublicKey);
+                recipient,
+                applicationName);
 
             var token = await authenticator
                 .ConvertToJsonWebToken<FitbitIdentity>(
@@ -114,10 +124,13 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var parameters = GenerateRandomParameters();
             var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
+            var recipient = Guid.NewGuid().ToString();
+            var applicationName = Guid.NewGuid().ToString();
 
             var authenticator = new AuthenticationGenerator(
                 parameters.PrivateKey,
-                parameters.PublicKey);
+                recipient,
+                applicationName);
 
             var token = await authenticator
                 .ConvertToJsonWebToken<TwitterIdentity>(
@@ -151,7 +164,8 @@ namespace Quantfabric.Test.Material.Interaction
                      algorithm == JsonWebTokenAlgorithm.ES384 ||
                      algorithm == JsonWebTokenAlgorithm.ES512)
             {
-                var keyPair = EcdsaCryptoKeyPair.Create();
+                var curveName = "P-256";
+                var keyPair = EcdsaCryptoKeyPair.Create(curveName);
                 return new JsonWebTokenParameters(
                     keyPair.Private,
                     keyPair.Public,
@@ -159,7 +173,7 @@ namespace Quantfabric.Test.Material.Interaction
             }
             else
             {
-                var keyPair = RsaCryptoKeyPair.Create();
+                var keyPair = RsaCryptoKeyPair.Create(1024);
                 return new JsonWebTokenParameters(
                     keyPair.Private,
                     keyPair.Public,

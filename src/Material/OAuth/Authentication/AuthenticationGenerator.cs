@@ -23,13 +23,14 @@ namespace Material.OAuth.Authentication
 
         public AuthenticationGenerator(
             CryptoKey privateKey, 
-            string recipient) : 
+            string recipient,
+            string applicationName) : 
                 this(
                     privateKey,
                     new JsonWebTokenSigningTemplate(
                         new JsonWebTokenSignerFactory()),
                     AuthenticationConfiguration.WhitelistedAlgorithms,
-                    AuthenticationConfiguration.ApplicationName,
+                    applicationName,
                     recipient,
                     AuthenticationConfiguration.AuthenticationTokenTimeoutInMinutes)
         { }

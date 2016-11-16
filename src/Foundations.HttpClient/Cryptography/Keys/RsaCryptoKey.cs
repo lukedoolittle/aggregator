@@ -1,19 +1,31 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using System;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 
 namespace Foundations.HttpClient.Cryptography.Keys
 {
     public class RsaCryptoKey : CryptoKey
     {
-        private readonly AsymmetricKeyParameter _parameter;
+        public string Modulus { get; }
+        public string Exponent { get; }
 
-        public string Modulus => ((RsaKeyParameters)_parameter).Modulus.ToString();
-        public string Exponent => ((RsaKeyParameters)_parameter).Exponent.ToString();
-
-        public RsaCryptoKey(AsymmetricKeyParameter key) :
+        public RsaCryptoKey(RsaKeyParameters key) :
             base(key)
         {
-            _parameter = key;
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
+            Modulus = key.Modulus.ToString();
+            Exponent = key.Exponent.ToString();
+        }
+
+        public RsaCryptoKey(string modulus, string publicExponent) :
+            base(new RsaKeyParameters(
+                false,
+                new BigInteger(modulus),
+                new BigInteger(publicExponent)))
+        {
+            Modulus = modulus;
+            Exponent = publicExponent;
         }
 
         public RsaCryptoKey(string key, bool isPrivate) : 

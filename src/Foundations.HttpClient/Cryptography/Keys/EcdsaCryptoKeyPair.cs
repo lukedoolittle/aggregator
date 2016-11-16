@@ -1,5 +1,6 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Org.BouncyCastle.Asn1.Nist;
 using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
 namespace Foundations.HttpClient.Cryptography.Keys
@@ -15,24 +16,22 @@ namespace Foundations.HttpClient.Cryptography.Keys
             Private = @private;
         }
 
-
-        public static EcdsaCryptoKeyPair Create()
-        {
-            return Create(521);
-        }
-
-        public static EcdsaCryptoKeyPair Create(int strength)
+        public static EcdsaCryptoKeyPair Create(string name)
         {
             var generator = new ECKeyPairGenerator();
-            var keyGenParam = new KeyGenerationParameters(
-                new SecureRandom(), 
-                strength);
+            var keyGenParam = new ECKeyGenerationParameters(
+                NistNamedCurves.GetOid(name),
+                new SecureRandom());
             generator.Init(keyGenParam);
             var keyPair = generator.GenerateKeyPair();
 
             return new EcdsaCryptoKeyPair(
-                new EcdsaCryptoKey(keyPair.Public),
-                new EcdsaCryptoKey(keyPair.Private));
+                new EcdsaCryptoKey(
+                    (ECPublicKeyParameters)keyPair.Public,
+                    name),
+                new EcdsaCryptoKey(
+                    (ECPrivateKeyParameters)keyPair.Private,
+                    name));
         }
     }
 }

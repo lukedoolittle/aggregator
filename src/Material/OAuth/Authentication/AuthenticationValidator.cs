@@ -14,8 +14,6 @@ namespace Material.OAuth.Authentication
     public class AuthenticationValidator
     {
         private readonly CryptoKey _key;
-        private readonly string _applicationName;
-        private readonly string _recipient;
         private readonly IJsonWebTokenSigningFactory _factory;
         private readonly JsonWebTokenSigningTemplate _signingTemplate;
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
@@ -23,40 +21,23 @@ namespace Material.OAuth.Authentication
         public AuthenticationValidator(CryptoKey key) : 
                 this(
                     key, 
-                    AuthenticationConfiguration.ApplicationName,
-                    null,
                     new JsonWebTokenSignerFactory(), 
                     AuthenticationConfiguration.WhitelistedAlgorithms)
         { }
 
         public AuthenticationValidator(
             CryptoKey key, 
-            string recipient) :
-                this(
-                key,
-                AuthenticationConfiguration.ApplicationName,
-                recipient,
-                new JsonWebTokenSignerFactory(),
-                AuthenticationConfiguration.WhitelistedAlgorithms)
-        { }
-
-        public AuthenticationValidator(
-            CryptoKey key, 
-            string applicationName,
-            string recipient,
             IJsonWebTokenSigningFactory factory,
             List<JsonWebTokenAlgorithm> whitelistedAlgorithms)
         {
             _key = key;
-            _applicationName = applicationName;
-            _recipient = recipient;
             _factory = factory;
             _whitelistedAlgorithms = whitelistedAlgorithms;
 
             _signingTemplate = new JsonWebTokenSigningTemplate(factory);
         }
 
-        public bool IsTokenValid(JsonWebToken token)
+        public virtual bool IsTokenValid(JsonWebToken token)
         {
             if (token == null) throw new ArgumentNullException(nameof(token));
 
@@ -66,14 +47,6 @@ namespace Material.OAuth.Authentication
                     StringResources.InvalidJsonWebTokenAlgorithm);
             }
             if (DateTime.Now > token.Claims.ExpirationTime)
-            {
-                return false;
-            }
-            if (token.Claims.Issuer != _applicationName)
-            {
-                return false;
-            }
-            if (_recipient != null && token.Claims.Audience != _recipient)
             {
                 return false;
             }

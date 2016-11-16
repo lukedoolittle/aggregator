@@ -1,5 +1,6 @@
 ﻿using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 
 namespace Foundations.HttpClient.Cryptography.Keys
@@ -17,11 +18,6 @@ namespace Foundations.HttpClient.Cryptography.Keys
             Private = privateKey;
         }
 
-        public static RsaCryptoKeyPair Create()
-        {
-            return Create(1024);
-        }
-
         public static RsaCryptoKeyPair Create(int strength)
         {
             var generator = new RsaKeyPairGenerator();
@@ -30,8 +26,8 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 strength));
             var keyPair = generator.GenerateKeyPair();
             return new RsaCryptoKeyPair(
-                new RsaCryptoKey(keyPair.Public),
-                new RsaCryptoKey(keyPair.Private));
+                new RsaCryptoKey((RsaKeyParameters)keyPair.Public),
+                new RsaCryptoKey((RsaKeyParameters)keyPair.Private));
         }
     }
 }

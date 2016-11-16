@@ -57,8 +57,11 @@
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\CryptoStringGenerator.cs" />
+    <Compile Include="Cryptography\Discovery\OpenIDConnectDiscoveryDocument.cs" />
+    <Compile Include="Cryptography\Discovery\PublicKeyDiscoveryDocument.cs" />
     <Compile Include="Cryptography\Enums\CryptoStringType.cs" />
     <Compile Include="Cryptography\Algorithms\DigestSigningAlgorithm.cs" />
+    <Compile Include="Cryptography\Enums\EncryptionAlgorithm.cs" />
     <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
     <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />
     <Compile Include="Cryptography\Algorithms\ISignatureVerificationAlgorithm.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="Enums\OAuth2Parameter.cs" />
     <Compile Include="Enums\HttpParameterType.cs" />
     <Compile Include="Enums\OAuth2ResponseType.cs" />
+    <Compile Include="Extensions\CryptoKeyExtensions.cs" />
     <Compile Include="Extensions\HeaderExtensions.cs" />
     <Compile Include="Extensions\HttpRequestApiKeyExtensions.cs" />
     <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />

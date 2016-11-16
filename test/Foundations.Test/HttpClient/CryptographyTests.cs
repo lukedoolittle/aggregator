@@ -10,10 +10,11 @@ namespace Foundations.Test.HttpClient
     [Trait("Category", "Continuous")]
     public class CryptographyTests
     {
+        private readonly Randomizer _randomizer =
+            new Randomizer();
         private readonly IJsonWebTokenSigningFactory _factory = 
             new JsonWebTokenSignerFactory();
-        private readonly Randomizer _randomizer = 
-            new Randomizer();
+
         [Fact]
         public void CallingCreateCrypto16SeveralTimesProducesRandomString()
         {
@@ -51,277 +52,63 @@ namespace Foundations.Test.HttpClient
         }
 
         [Fact]
-        public void CreateAndVerifyRs256JsonWebToken()
+        public void DecomposingGeneratedRsaKeyIntoModulusAndExponent()
         {
-            var keyPair = RsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
+            var plainText = _randomizer.RandomString(100);
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+
+            var keyPair = RsaCryptoKeyPair.Create(1024);
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes, 
+            var cipherTextBytes = signer.SignText(
+                plainTextBytes, 
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
-                keyPair.Public, 
-                signature, 
-                bytes);
+            var key = new RsaCryptoKey(
+                keyPair.Public.Modulus, 
+                keyPair.Public.Exponent);
 
-            Assert.True(isVerified);
+            var isValid = verifier.VerifyText(
+                key, 
+                cipherTextBytes, 
+                plainTextBytes);
+
+            Assert.True(isValid);
         }
 
         [Fact]
-        public void CreateAndVerifyRs384JsonWebToken()
+        public void DecomposingGeneratedEcKeyIntoCurveNameAndCoordinates()
         {
-            var keyPair = RsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.RS384;
+            var curveName = "P-256";
+            var plainText = _randomizer.RandomString(100);
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyRs512JsonWebToken()
-        {
-            var keyPair = RsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.RS384;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyPs256JsonWebToken()
-        {
-            var keyPair = RsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.PS256;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyPs384JsonWebToken()
-        {
-            var keyPair = RsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.PS384;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyPs512JsonWebToken()
-        {
-            var keyPair = RsaCryptoKeyPair.Create(2048);
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.PS512;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyEs256JsonWebToken()
-        {
-            var keyPair = EcdsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
+            var keyPair = EcdsaCryptoKeyPair.Create(curveName);
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var cipherTextBytes = signer.SignText(
+                plainTextBytes,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
+            var key = new EcdsaCryptoKey(
+                keyPair.Public.AlgorithmName,
+                keyPair.Public.CurveName,
+                keyPair.Public.XCoordinate,
+                keyPair.Public.Coordinate);
 
-            Assert.True(isVerified);
+            var isValid = verifier.VerifyText(
+                key,
+                cipherTextBytes,
+                plainTextBytes);
+
+            Assert.True(isValid);
         }
 
-        [Fact]
-        public void CreateAndVerifyEs384JsonWebToken()
-        {
-            var keyPair = EcdsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.ES384;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyEs512JsonWebToken()
-        {
-            var keyPair = EcdsaCryptoKeyPair.Create();
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.ES512;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                keyPair.Private);
-
-            var isVerified = verifier.VerifyText(
-                keyPair.Public,
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        [Fact]
-        public void CreateAndVerifyHs256JsonWebToken()
-        {
-            var key = _randomizer.RandomString(200);
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.HS256;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                new HashKey(key));
-
-            var isVerified = verifier.VerifyText(
-                new HashKey(key),
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        public void CreateAndVerifyHs384JsonWebToken()
-        {
-            var key = _randomizer.RandomString(200);
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.HS384;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                new HashKey(key));
-
-            var isVerified = verifier.VerifyText(
-                new HashKey(key),
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
-
-        public void CreateAndVerifyHs512JsonWebToken()
-        {
-            var key = _randomizer.RandomString(200);
-            var plaintext = _randomizer.RandomString(20, 40);
-            var algorithm = JsonWebTokenAlgorithm.HS512;
-
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
-            var signer = _factory.GetSigningAlgorithm(algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(algorithm);
-
-            var signature = signer.SignText(
-                bytes,
-                new HashKey(key));
-
-            var isVerified = verifier.VerifyText(
-                new HashKey(key),
-                signature,
-                bytes);
-
-            Assert.True(isVerified);
-        }
     }
 }
