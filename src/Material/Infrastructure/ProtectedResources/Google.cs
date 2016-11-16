@@ -22,9 +22,10 @@ namespace Material.Infrastructure.ProtectedResources
 	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Google : OAuth2ResourceProvider              
 	{
-        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/analytics.readonly" };
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
+        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/analytics.readonly", "openid", "openid email", "openid profile", "openid email profile" };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token, OAuth2ResponseType.IdToken, OAuth2ResponseType.IdTokenToken };
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://accounts.google.com/o/oauth2/auth");
         public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");

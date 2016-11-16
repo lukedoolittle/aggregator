@@ -7,6 +7,12 @@ namespace Foundations.HttpClient.Enums
         [Description("code")]
         Code,
         [Description("token")]
-        Token
+        Token,
+        [Description("id_token")]
+        IdToken,
+        [Description("id_token token")]
+        IdTokenToken,
+        [Description("id_token code")]
+        IdTokenCode
     }
 }

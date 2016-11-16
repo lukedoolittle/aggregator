@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class GoogleAnalytics : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/analytics.readonly" };
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType>();
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType>();
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.JsonWebToken };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType>();
         public override String TokenName => "Bearer";
         public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");
 	}

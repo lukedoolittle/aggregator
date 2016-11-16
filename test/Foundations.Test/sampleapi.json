@@ -97,6 +97,7 @@
             "tokenUrl": "https://www.example.com/oauth/token",
             "x-token-name": "access_token",
             "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
             "scopes": {
                 "sample_get": "",
                 "sample_post": ""
@@ -108,6 +109,7 @@
             "flow": "implicit",
             "authorizationUrl": "https://www.example.com/oauth/authorize",
             "x-token-name": "access_token",
+            "x-response-types": [ "token", "id_token", "id_token token" ],
             "scopes": {
                 "sample_get": "",
                 "sample_post": ""

@@ -21,6 +21,10 @@ namespace CodeGen
     public class SwaggerToClass
     {
         private readonly JObject _swagger;
+        private readonly DummyOAuth2ResourceProvider _oauth2Provider = 
+            new DummyOAuth2ResourceProvider();
+        private readonly DummyOAuth1ResourceProvider _oauth1Provider = 
+            new DummyOAuth1ResourceProvider();
 
         public SwaggerToClass(string pathToSwaggerFile)
         {
@@ -44,7 +48,9 @@ namespace CodeGen
 
                     if (@class.Properties.Count == 0)
                     {
-                        @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), "AvailableScopes")
+                        @class.Properties.Add(
+                            new PropertyRepresentation(typeof(List<string>), 
+                            nameof(_oauth2Provider.AvailableScopes))
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(securityDefinition["scopes"]
@@ -53,19 +59,32 @@ namespace CodeGen
                                 .Select(p => p.Name)
                                 .ToList())
                         });
-                        @class.Properties.Add(new PropertyRepresentation(typeof(List<OAuth2ResponseType>), "Flows")
+                        @class.Properties.Add(new PropertyRepresentation(
+                            typeof(List<OAuth2FlowType>), 
+                            nameof(_oauth2Provider.Flows))
                         {
                             IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2ResponseType>())
+                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2FlowType>())
                         });
-                        @class.Properties.Add(new PropertyRepresentation(typeof(List<GrantType>), "GrantTypes")
+                        @class.Properties.Add(new PropertyRepresentation(
+                            typeof(List<GrantType>),
+                            nameof(_oauth2Provider.GrantTypes))
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new List<GrantType>())
                         });
+                        @class.Properties.Add(new PropertyRepresentation(
+                            typeof(List<OAuth2ResponseType>),
+                            nameof(_oauth2Provider.AllowedResponseTypes))
+                        {
+                            IsOverride = true,
+                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2ResponseType>())
+                        });
                         if (securityDefinition["x-token-name"] != null)
                         {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(string), "TokenName")
+                            @class.Properties.Add(new PropertyRepresentation(
+                                typeof(string), 
+                                nameof(_oauth2Provider.TokenName))
                             {
                                 IsOverride = true,
                                 PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-name"].ToString())
@@ -73,7 +92,9 @@ namespace CodeGen
                         }
                         if (securityDefinition["x-scope-delimiter"] != null)
                         {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(char), "ScopeDelimiter")
+                            @class.Properties.Add(new PropertyRepresentation(
+                                typeof(char), 
+                                nameof(_oauth2Provider.ScopeDelimiter))
                             {
                                 IsOverride = true,
                                 PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-scope-delimiter"].ToString().ToCharArray()[0])
@@ -90,15 +111,15 @@ namespace CodeGen
                     var flow = securityDefinition["flow"]?.ToString();
                     if (flow != null)
                     {
-                        var flows = @class.Properties.Single(p => p.Name == "Flows");
-                        ((List<OAuth2ResponseType>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
-                            .Add(ResponseTypeStringToEnum(flow));
+                        var flows = @class.Properties.Single(p => p.Name == nameof(_oauth2Provider.Flows));
+                        ((List<OAuth2FlowType>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
+                            .Add(flow.StringToEnum<OAuth2FlowType>());
                     }
 
                     var grants = securityDefinition["x-grant-types"]?.ToObject<List<string>>();
                     if (grants != null)
                     {
-                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == "GrantTypes");
+                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.GrantTypes));
                         foreach (var grantType in grants)
                         {
                             ((List<GrantType>)
@@ -107,12 +128,24 @@ namespace CodeGen
                         }
                     }
 
+                    var responses = securityDefinition["x-response-types"]?.ToObject<List<string>>();
+                    if (responses != null)
+                    {
+                        var responseTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.AllowedResponseTypes));
+                        foreach (var responseType in responses)
+                        {
+                            ((List<OAuth2ResponseType>)
+                                ((ConcreteValueRepresentation)responseTypes.PropertyValue).PropertyValue).Add(
+                                    responseType.StringToEnum<OAuth2ResponseType>());
+                        }
+                    }
+
                     var authorizationUrl = securityDefinition["authorizationUrl"]?.ToString();
                     if (authorizationUrl != null)
                     {
-                        if (@class.Properties.All(p => p.Name != "AuthorizationUrl"))
+                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.AuthorizationUrl)))
                         {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "AuthorizationUrl")
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.AuthorizationUrl))
                             {
                                 IsOverride = true,
                                 PropertyValue = new ConcreteValueRepresentation(new Uri(authorizationUrl))
@@ -123,9 +156,9 @@ namespace CodeGen
                     var tokenUrl = securityDefinition["tokenUrl"]?.ToString();
                     if (tokenUrl != null)
                     {
-                        if (@class.Properties.All(p => p.Name != "TokenUrl"))
+                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.TokenUrl)))
                         {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.TokenUrl))
                             {
                                 IsOverride = true,
                                 PropertyValue = new ConcreteValueRepresentation(new Uri(tokenUrl))
@@ -137,22 +170,30 @@ namespace CodeGen
                 {
                     @class.BaseType = new BaseTypeRepresentation(typeof(OAuth1ResourceProvider));
 
-                    @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "RequestUrl")
+                    @class.Properties.Add(new PropertyRepresentation(
+                        typeof(Uri), 
+                        nameof(_oauth1Provider.RequestUrl))
                     {
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["requestUrl"].ToString()))
                     });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "AuthorizationUrl")
+                    @class.Properties.Add(new PropertyRepresentation(
+                        typeof(Uri), 
+                        nameof(_oauth1Provider.AuthorizationUrl))
                     {
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["authorizationUrl"].ToString()))
                     });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
+                    @class.Properties.Add(new PropertyRepresentation(
+                        typeof(Uri), 
+                        nameof(_oauth1Provider.TokenUrl))
                     {
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
                     });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "ParameterType")
+                    @class.Properties.Add(
+                        new PropertyRepresentation(typeof(HttpParameterType), 
+                        nameof(_oauth1Provider.ParameterType))
                     {
                         IsOverride = true,
                         PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<HttpParameterType>())
@@ -690,22 +731,6 @@ namespace CodeGen
             }
 
             throw new Exception();
-        }
-
-        private OAuth2ResponseType ResponseTypeStringToEnum(string responseType)
-        {
-            if (responseType == "implicit")
-            {
-                return OAuth2ResponseType.Token;
-            }
-            else if (responseType == "accessCode")
-            {
-                return OAuth2ResponseType.Code;
-            }
-            else
-            {
-                throw new Exception($"ResponseType was {responseType}");
-            }
         }
 
         private string CreateCSharpPropertyName(string jsonName)

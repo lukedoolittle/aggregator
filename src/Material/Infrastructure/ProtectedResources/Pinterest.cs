@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Pinterest : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "read_public", "write_public", "read_relationships", "write_relationships" };
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
         public override String TokenName => "access_token";
         public override Char ScopeDelimiter => ',';
         public override Uri AuthorizationUrl => new Uri("https://api.pinterest.com/oauth/");

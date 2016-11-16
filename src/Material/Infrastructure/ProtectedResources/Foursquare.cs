@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Foursquare : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String>();
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
         public override String TokenName => "oauth_token";
         public override Uri AuthorizationUrl => new Uri("https://foursquare.com/oauth2/authorize");
         public override Uri TokenUrl => new Uri("https://foursquare.com/oauth2/access_token");

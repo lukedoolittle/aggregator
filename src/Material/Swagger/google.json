@@ -113,33 +113,6 @@
                     }
                 ]
             }
-        },
-        "/gmail/v1/users/me/messages/{messageId}": {
-            "get": {
-                "summary": "Gets the specified message",
-                "description": "https://developers.google.com/gmail/api/v1/reference/users/messages/get",
-                "operationId": "GoogleGmail",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "messageId",
-                        "description": "The ID of the message to retrieve",
-                        "type": "string",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request."
-                    }
-                },
-                "tags": [],
-                "security": [
-                    {
-                        "oauth2": [ "https://www.googleapis.com/auth/gmail.readonly" ]
-                    }
-                ]
-            }
         }
     },
     "securityDefinitions": {
@@ -151,10 +124,15 @@
             "tokenUrl": "https://accounts.google.com/o/oauth2/token",
             "x-token-name": "Bearer",
             "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "x-response-types": [ "code" ],
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address",
-                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics"
+                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics",
+                "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID",
+                "openid email": "OpenID plus the user's Google account email address",
+                "openid profile": "OpenID plus the basic login scope and the name of the Google Apps domain, if any, that the user belongs to",
+                "openid email profile": "OpenID plus the email and profile scope"
             }
         },
         "oauth2Token": {
@@ -163,10 +141,15 @@
             "flow": "implicit",
             "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
             "x-token-name": "Bearer",
+            "x-response-types": [ "token", "id_token", "id_token token" ],
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address",
-                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics" 
+                "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics",
+                "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID",
+                "openid email": "OpenID plus the user's Google account email address",
+                "openid profile": "OpenID plus the basic login scope and the name of the Google Apps domain, if any, that the user belongs to",
+                "openid email profile": "OpenID plus the email and profile scope"
             }
         }
     },

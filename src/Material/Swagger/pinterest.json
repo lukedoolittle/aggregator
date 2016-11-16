@@ -56,6 +56,7 @@
             "tokenUrl": "https://api.pinterest.com/v1/oauth/token",
             "x-token-name": "access_token",
             "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
             "x-scope-delimiter": ",",
             "scopes": {
                 "read_public": "Use GET method on a user’s Pins, boards and likes",

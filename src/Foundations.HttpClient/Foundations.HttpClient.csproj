@@ -79,6 +79,7 @@
     <Compile Include="Enums\ContentTypeEncoding.cs" />
     <Compile Include="Enums\GrantType.cs" />
     <Compile Include="Enums\OAuth1Parameter.cs" />
+    <Compile Include="Enums\OAuth2FlowType.cs" />
     <Compile Include="Enums\OAuth2Parameter.cs" />
     <Compile Include="Enums\HttpParameterType.cs" />
     <Compile Include="Enums\OAuth2ResponseType.cs" />

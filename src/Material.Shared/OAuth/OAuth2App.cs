@@ -6,13 +6,8 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
 using Material.OAuth.Callback;
 using Material.OAuth.Security;
-
-#if __FORMS__
-using Xamarin.Forms;
-#endif
 
 namespace Material.OAuth
 {
@@ -61,7 +56,7 @@ namespace Material.OAuth
                 clientId, 
                 new Uri(callbackUrl),
 #if __FORMS__
-                    DependencyService.Get<IOAuthAuthorizerUIFactory>(),
+                    Xamarin.Forms.DependencyService.Get<IOAuthAuthorizerUIFactory>(),
 #else
                     new OAuthAuthorizerUIFactory(),
 #endif
@@ -108,7 +103,7 @@ namespace Material.OAuth
 
             return _app.GetCredentialsAsync(
                 clientSecret, 
-                OAuth2ResponseType.Code, 
+                OAuth2FlowType.AccessCode, 
                 handler);
         }
 
@@ -126,17 +121,17 @@ namespace Material.OAuth
             //This is sort of a bizarre hack: Google requires that you go through the
             //code workflow with a mobile device even if you don't have a client secret
             if (_browserType == AuthorizationInterface.Dedicated &&
-                typeof(TResourceProvider) == typeof(Google))
+                typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
             {
                 return _app.GetCredentialsAsync(
                         null,
-                        OAuth2ResponseType.Code,
+                        OAuth2FlowType.AccessCode, 
                         handler);
             }
 #endif
 
             return _app.GetCredentialsAsync(
-                OAuth2ResponseType.Token,
+                OAuth2FlowType.Implicit, 
                 handler);
         }
 

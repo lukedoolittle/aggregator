@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Runkeeper : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String>();
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://runkeeper.com/apps/authorize");
         public override Uri TokenUrl => new Uri("https://runkeeper.com/apps/token");

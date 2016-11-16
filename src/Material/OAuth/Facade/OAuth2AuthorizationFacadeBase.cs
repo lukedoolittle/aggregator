@@ -49,7 +49,7 @@ namespace Material.OAuth.Facade
                     ResourceProvider.Scope,
                     CallbackUri,
                     state,
-                    ResourceProvider.Flow,
+                    ResourceProvider.ResponseType,
                     ResourceProvider.Parameters);
 
             return Task.FromResult(authorizationPath);

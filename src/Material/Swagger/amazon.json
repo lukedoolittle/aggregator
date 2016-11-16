@@ -41,11 +41,12 @@
             "tokenUrl": "https://api.amazon.com/auth/o2/token",
             "x-token-name": "access_token",
             "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "x-response-types": [ "code" ],
             "scopes": {
                 "profile": "Includes a user's name and email address",
                 "profile:user_id": "Only includes the user_id field of the users profile",
                 "postal_code": "Includes the users profile and the users postal code",
-                "alexa:all": "Access the alexa functionality" 
+                "alexa:all": "Access the alexa functionality"
             }
         },
         "oauth2Token": {
@@ -54,6 +55,7 @@
             "flow": "implicit",
             "authorizationUrl": "https://www.amazon.com/ap/oa",
             "x-token-name": "access_token",
+            "x-response-types": [ "token" ],
             "scopes": {
                 "profile": "Includes a user's name and email address",
                 "profile:user_id": "Only includes the user_id field of the users profile",

@@ -88,12 +88,12 @@
                 "Livestream" : ""
             }
         },
-         "oauth2Client": {
+        "oauth2Client": {
             "type": "oauth2",
             "description": "OAuth2 Client Credentials Grant",
             "authorizationUrl": "https://marketing.adobe.com/authorize",
             "x-token-name": "Bearer",
-            "x-grant-types":  ["client_credentials"],
+            "x-grant-types": [ "client_credentials" ],
             "scopes": {
             }
         }

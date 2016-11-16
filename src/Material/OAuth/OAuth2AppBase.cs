@@ -44,7 +44,7 @@ namespace Material.OAuth
         /// <param name="callbackHandler"></param>
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
-            OAuth2ResponseType flowType,
+            OAuth2FlowType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             var facade = new OAuth2TokenAuthorizationFacade(
@@ -70,7 +70,7 @@ namespace Material.OAuth
         /// <returns></returns>
         public virtual Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
-            OAuth2ResponseType flowType,
+            OAuth2FlowType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler)
         {
             var facade = new OAuth2CodeAuthorizationFacade(
@@ -89,7 +89,7 @@ namespace Material.OAuth
 
         private Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret,
-            OAuth2ResponseType flowType,
+            OAuth2FlowType flowType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthFacade<OAuth2Credentials> facade)
         {

@@ -194,7 +194,8 @@
             "authorizationUrl": "https://foursquare.com/oauth2/authorize",
             "tokenUrl": "https://foursquare.com/oauth2/access_token",
             "x-token-name": "oauth_token",
-            "x-grant-types":  ["authorization_code"],
+            "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
             "scopes": {}
         },
         "oauth2Token": {
@@ -203,6 +204,7 @@
             "flow": "implicit",
             "authorizationUrl": "https://foursquare.com/oauth2/authorize",
             "x-token-name": "oauth_token",
+            "x-response-types": [ "token" ],
             "scopes": {}
         }
     },

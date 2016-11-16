@@ -49,6 +49,7 @@
     <Compile Include="Class\ClassRepresentation.cs" />
     <Compile Include="Class\BaseTypeRepresentation.cs" />
     <Compile Include="Class\EnumRepresentation.cs" />
+    <Compile Include="DummyTypes.cs" />
     <Compile Include="Metadata\AbstractMetadataRepresentation.cs" />
     <Compile Include="Metadata\ConcreteMetadataRepresentation.cs" />
     <Compile Include="Metadata\MetadataRepresentation.cs" />

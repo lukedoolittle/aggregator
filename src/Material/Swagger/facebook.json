@@ -272,7 +272,8 @@
             "tokenUrl": "https://graph.facebook.com/oauth/access_token",
             "x-token-name": "access_token",
             "x-scope-delimiter": ",",
-            "x-grant-types":  ["authorization_code"],
+            "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
             "scopes": {
                 "email": "Provides access to the person's primary email address via the email property on the user object",
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
@@ -287,6 +288,7 @@
             "flow": "implicit",
             "authorizationUrl": "https://www.facebook.com/dialog/oauth",
             "x-token-name": "access_token",
+            "x-response-types": [ "token" ],
             "scopes": {
                 "email": "Provides access to the person's primary email address via the email property on the user object",
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",

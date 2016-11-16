@@ -111,6 +111,10 @@ namespace CodeGen
             {
                 return PrettyPrintList((List<OAuth2ResponseType>)value);
             }
+            if (value is List<OAuth2FlowType>)
+            {
+                return PrettyPrintList((List<OAuth2FlowType>)value);
+            }
             if (value is List<GrantType>)
             {
                 return PrettyPrintList((List<GrantType>)value);

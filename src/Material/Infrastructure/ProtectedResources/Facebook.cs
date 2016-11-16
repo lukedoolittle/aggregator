@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class Facebook : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "email", "user_events", "user_likes", "user_friends", "user_posts" };
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
         public override String TokenName => "access_token";
         public override Char ScopeDelimiter => ',';
         public override Uri AuthorizationUrl => new Uri("https://www.facebook.com/dialog/oauth");

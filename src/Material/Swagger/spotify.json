@@ -55,11 +55,12 @@
             "authorizationUrl": "https://accounts.spotify.com/authorize",
             "tokenUrl": "https://accounts.spotify.com/api/token",
             "x-token-name": "Bearer",
-            "x-grant-types":  ["authorization_code", "refresh_token"],
+            "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "x-response-types": [ "code" ],
             "scopes": {
                 "playlist-read-private": "Read access to user's private playlists",
                 "user-follow-read": "Read access to the list of artists and other users that the user follows",
-                "user-library-read" : "Read access to a user's Your Music library" 
+                "user-library-read": "Read access to a user's Your Music library"
             }
         },
         "oauth2Token": {
@@ -68,10 +69,11 @@
             "flow": "implicit",
             "authorizationUrl": "https://accounts.spotify.com/authorize",
             "x-token-name": "Bearer",
+            "x-response-types": [ "token" ],
             "scopes": {
                 "playlist-read-private": "Read access to user's private playlists",
                 "user-follow-read": "Read access to the list of artists and other users that the user follows",
-                "user-library-read" : "Read access to a user's Your Music library" 
+                "user-library-read": "Read access to a user's Your Music library"
             }
         }
     },

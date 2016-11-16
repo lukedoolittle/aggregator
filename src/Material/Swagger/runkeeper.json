@@ -83,7 +83,8 @@
             "authorizationUrl": "https://runkeeper.com/apps/authorize",
             "tokenUrl": "https://runkeeper.com/apps/token",
             "x-token-name": "Bearer",
-            "x-grant-types":  ["authorization_code"],
+            "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
             "scopes": {}
         }
     },

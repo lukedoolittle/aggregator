@@ -23,8 +23,9 @@ namespace Material.Infrastructure.ProtectedResources
 	public partial class LinkedIn : OAuth2ResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "r_basicprofile", "w_share", "r_emailaddress", "rw_company_admin" };
-        public override List<OAuth2ResponseType> Flows => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
+        public override List<OAuth2FlowType> Flows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
         public override List<GrantType> GrantTypes => new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
         public override String TokenName => "Bearer";
         public override Char ScopeDelimiter => ' ';
         public override Uri AuthorizationUrl => new Uri("https://www.linkedin.com/uas/oauth2/authorization");
