@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
@@ -35,7 +36,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
         public byte[] SignText(
             byte[] text, 
-            string privateKey)
+            CryptoKey privateKey)
         {
             if (text == null)
             {
@@ -53,7 +54,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
         }
 
         public bool VerifyText(
-            string key,
+            CryptoKey key,
             byte[] signature,
             byte[] text)
         {

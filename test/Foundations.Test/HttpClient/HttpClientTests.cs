@@ -12,6 +12,7 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Newtonsoft.Json.Linq;
@@ -642,34 +643,7 @@ namespace Foundations.Test.HttpClient
             };
 
             var clientId = Guid.NewGuid().ToString();
-            var privateKey = @"-----BEGIN PRIVATE KEY-----
-MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDdIEipITNraQrf
-bVwmwOayuLSPMlIlPAgddt3pmLSdxymfF1VzqYljNCpv+ryPIoOsZcGm4/+TmNXu
-+j/vTWNv9TMUpD8aJUM70GA1d5sRDuNRn2AiDRLVfbaF2fYk/zpOsKGDxbH3Wqe2
-5zOleCxJTH/pKTDCF7/fQ+c2Gp06wtQB553YNrtQlIxmjkCuleZxSokAVecCSYKX
-tnNSISS9c7G0ogXYXr/QAg3L1BAgXH8oOYaq1utCsNvT7hX42svJdJwnCjBZ9AUv
-6MWFvLjwbBidxoWfXmM1KiHv8ZfN3I/z8bQgfj01qHEpWqv9C9jL3w2hPnP6GHrW
-ai8Tl3gxAgMBAAECggEAIbhsnC4N81E/cTbyGI7OH27/Sd74m+j9q9CWoqrA0Faw
-yCv8wfiWlOQ9nHn2CzXOMpoJ3/Ng5BcoeJr86Pc6NLaFpZ4uaURJbnOmWED3CrDk
-hWvycv7fYmMbVGoamSW6tIlG+BtLula+wKudOpyK1FqwHtRDNTX98oQeXCfO1kjb
-C4iz9LrGqLbXByDwgBI93/hCptznLcIuuO5tryKEMCZodiZbHtpu9XTJw5XeSbhf
-24kW+ZYkbINo/Q3tOPGc2iTwIYPlA8/8fCjs13tkldqxYsh3AIwAmxrG0haJOCJK
-KUf/HWQ2Ypk4EV0jDJlcxxYBTBtPSvXjw7OCWy7OiQKBgQDyjaLLkIdw9CKtZDLR
-pASqL+RPij1XHDxScPpzx3qaN0/iin77AsV0LXuhJIDHxIVP816leHQ50bqCeRrF
-OKOIuFG1QHZKnOw9fgycCxwuCqhiUHym6H72xr4p5TV0P6ApJN4UJbFa1VzCDM7F
-vq/zenhxPsxo+fR1Lb0zxi/H+wKBgQDpYoyo84uMDU5f9TETT/dJ04GDt5SKF7Xg
-64iL+esoCpt39KGMuXwMKa2iy4DutysCOmo10AuMpAspVvWvJZSB1LB/JZdD21VV
-9XLOVD/RNJNrxkykViyzguDuPBYrRjfVocjefzKiXkGtTbJ3Lp7ezNjLXDsjlZoK
-BiOhbQkswwKBgEldfANUuRL6VU7bAuAUW3DawZUpfDpQCRLqp2bDzJq+5kPgnl3w
-TadBZqasMuO51pUDSPqF/6nJfT+fv/AtnJFrJxPK5rzU0EQdT1UXqzNl996c98dI
-hbbBEJ39fXinEhu/0giICiguZzsuwpBfiDr+LVYbp5qNGFslNZhmdudnAoGAOyvp
-TcyxzMhy3pFj5+mWYPlnFOYumvR4AJa3AAZVQMmvsTIs42kDsnG+vE+sWNnH5cC5
-vPsKcpYE3m5VzBpTFLfAJ/x35ZRuhmS8vuNNatVRqzmTpPbUTo8YSE6jsEUVUuy5
-6O+G/vO24yGX5e/EB+kX7jdsJxF/BJuZ3QuwD9ECgYB0bhOrVjpbfhxDfsvHbkb5
-p7Onpp9JrxXevcdAhOgw/OmNxSgqE5TZjCXknPT4tPsOR1F/THMbtWMkADayua2i
-2txxrlEB+I7tLEb3E8T6cF7aJn03Des8p9fcAM6yS6Sbsa0NHpjNf1DRzeeXf204
-e451rpYJcee/1EhNRpvn6Q==
------END PRIVATE KEY-----";
+            var privateKey = RsaCryptoKeyPair.Create().Private;
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)

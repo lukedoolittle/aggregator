@@ -2,6 +2,7 @@
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 
 namespace Foundations.HttpClient.Extensions
 {
@@ -62,7 +63,7 @@ namespace Foundations.HttpClient.Extensions
             string header,
             string claims,
             JsonWebTokenAlgorithm algorithm,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));

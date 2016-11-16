@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Foundations.HttpClient.Serialization;
@@ -135,7 +136,7 @@ namespace Material.OAuth.Authorization
         public async Task<OAuth2Credentials> GetJsonWebToken(
             Uri accessUrl,
             JsonWebToken jsonWebToken,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId)
         {
             if (accessUrl == null)

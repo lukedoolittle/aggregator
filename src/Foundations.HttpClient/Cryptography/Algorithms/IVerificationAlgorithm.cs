@@ -1,4 +1,5 @@
-﻿
+﻿using Foundations.HttpClient.Cryptography.Keys;
+
 namespace Foundations.HttpClient.Cryptography.Algorithms
 {
     public interface IVerificationAlgorithm
@@ -6,7 +7,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
         string SignatureMethod { get; }
 
         bool VerifyText(
-            string key, 
+            CryptoKey key, 
             byte[] signature, 
             byte[] text);
     }

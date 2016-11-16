@@ -20,6 +20,7 @@
            <Word>GPS</Word>
            <Word>Ms</Word>
            <Word>Gatt</Word>
+           <Word>Ecdsa</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>

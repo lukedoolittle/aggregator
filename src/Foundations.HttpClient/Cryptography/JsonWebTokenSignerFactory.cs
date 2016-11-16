@@ -8,17 +8,20 @@ namespace Foundations.HttpClient.Cryptography
 {
     public class JsonWebTokenSignerFactory : IJsonWebTokenSigningFactory
     {
-        public ISigningAlgorithm GetSigningAlgorithm(JsonWebTokenAlgorithm algorithm)
+        public ISigningAlgorithm GetSigningAlgorithm(
+            JsonWebTokenAlgorithm algorithm)
         {
             return GetAlgorithm<ISigningAlgorithm>(algorithm);
         }
 
-        public IVerificationAlgorithm GetVerificationAlgorithm(JsonWebTokenAlgorithm algorithm)
+        public IVerificationAlgorithm GetVerificationAlgorithm(
+            JsonWebTokenAlgorithm algorithm)
         {
             return GetAlgorithm<IVerificationAlgorithm>(algorithm);
         }
 
-        private static TAlgorithm GetAlgorithm<TAlgorithm>(JsonWebTokenAlgorithm algorithm)
+        private static TAlgorithm GetAlgorithm<TAlgorithm>(
+            JsonWebTokenAlgorithm algorithm)
             where TAlgorithm : class
         {
             switch (algorithm)
@@ -48,7 +51,7 @@ namespace Foundations.HttpClient.Cryptography
                 case JsonWebTokenAlgorithm.HS512:
                     return new DigestSigningAlgorithm(new Sha512Digest()) as TAlgorithm;
                 default:
-                    throw new NotImplementedException();
+                    throw new NotSupportedException();
             }
         }
     }

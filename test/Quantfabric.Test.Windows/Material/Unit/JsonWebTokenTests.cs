@@ -4,11 +4,11 @@ using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
 using Org.BouncyCastle.Security;
 using Quantfabric.Test.Helpers;
-using Quantfabric.Test.Helpers.Cryptography;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
@@ -47,17 +47,15 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = RsaCryptoKey.Create();
-            var privateKey = keyPair.Private.KeyToString();
-            var publicKey = keyPair.Public.KeyToString();
+            var keyPair = RsaCryptoKeyPair.Create();
 
             var cipherText = signer.SignText(
                 encodedSignatureBase,
-                privateKey);
+                keyPair.Private);
 
             Assert.True(
                 verifier.VerifyText(
-                    publicKey,
+                    keyPair.Public, 
                     cipherText,
                     encodedSignatureBase));
         }
@@ -87,10 +85,7 @@ namespace Quantfabric.Test.Material.Unit
 
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = RsaCryptoKey.Create();
-            var privateKey = keyPair.Private.KeyToString();
-            var modulus = keyPair.Modulus;
-            var exponent = keyPair.Exponent;
+            var keyPair = RsaCryptoKeyPair.Create();
 
             var factory = new JsonWebTokenSignerFactory();
             var verifier = GetSignatureVerificationAlgorithm(token.Header.Algorithm);
@@ -98,11 +93,11 @@ namespace Quantfabric.Test.Material.Unit
 
             var cipherText = signer.SignText(
                 encodedSignatureBase,
-                privateKey);
+                keyPair.Private);
 
             Assert.True(verifier.VerifyText(
-                modulus, 
-                exponent, 
+                keyPair.Public.Modulus,
+                keyPair.Public.Exponent, 
                 cipherText, 
                 encodedSignatureBase));
         }

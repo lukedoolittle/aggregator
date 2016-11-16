@@ -1,4 +1,5 @@
-﻿using Material.Contracts;
+﻿using Foundations.HttpClient.Cryptography.Keys;
+using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
@@ -21,7 +22,7 @@ namespace Quantfabric.Test.Material.Interaction
             var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
 
             var token = await new OAuth2Assert<GoogleAnalytics>(
-                privateKey,
+                    new RsaCryptoKey(privateKey, true),
                     clientEmail)
                 .AddScope<GoogleAnalyticsReports>()
                 .GetCredentialsAsync()

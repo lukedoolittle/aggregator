@@ -11,11 +11,11 @@ namespace Foundations.HttpClient.Cryptography.Enums
         [Description("HS512")]
         HS512, //HMAC with SHA-512
         [Description("ES256")]
-        ES256, //ECDSA with SHA-256
+        ES256, //Elliptic Curve DSA with SHA-256
         [Description("ES384")]
-        ES384,
+        ES384, //Elliptic Curve DSA with SHA-384
         [Description("ES512")]
-        ES512,
+        ES512, //Elliptic Curve with SHA-512
         [Description("RS256")]
         RS256, //RSA PKCS#1 signature with SHA-256
         [Description("RS384")]
@@ -23,10 +23,10 @@ namespace Foundations.HttpClient.Cryptography.Enums
         [Description("RS512")]
         RS512, //RSA PKCS#1 signature with SHA-512
         [Description("PS256")]
-        PS256, //RSA PSS signature with SHA-256
+        PS256, //RSA Probabilistic Signature Scheme with SHA-256
         [Description("PS384")]
-        PS384, //RSA PSS signature with SHA-384
+        PS384, //RSA Probabilistic Signature Scheme signature with SHA-384
         [Description("PS512")]
-        PS512 //RSA PSS signature with SHA-512
+        PS512 //RSA Probabilistic Signature Scheme signature with SHA-512
     }
 }

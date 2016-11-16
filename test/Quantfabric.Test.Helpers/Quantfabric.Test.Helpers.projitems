@@ -11,9 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentialRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialApplicationSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\CryptoKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\EcdsaCryptoKey.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cryptography\RsaCryptoKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TokenCredentialRepository.cs" />
   </ItemGroup>

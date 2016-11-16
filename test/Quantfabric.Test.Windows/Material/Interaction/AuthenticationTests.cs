@@ -1,4 +1,5 @@
 ﻿using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Identities;
 using Material.Infrastructure.ProtectedResources;
@@ -6,10 +7,10 @@ using Material.OAuth.Authentication;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
-using Quantfabric.Test.Helpers.Cryptography;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "RequiresToken")]
     public class AuthenticationTests
     {
         private readonly TokenCredentialRepository _tokenRepository
@@ -142,26 +143,26 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 var key = _randomizer.RandomString(100);
                 return new JsonWebTokenParameters(
-                    key,
-                    key,
+                    new HashKey(key),
+                    new HashKey(key),
                     algorithm);
             }
             else if (algorithm == JsonWebTokenAlgorithm.ES256 ||
                      algorithm == JsonWebTokenAlgorithm.ES384 ||
                      algorithm == JsonWebTokenAlgorithm.ES512)
             {
-                var keyPair = EcdsaCryptoKey.Create();
+                var keyPair = EcdsaCryptoKeyPair.Create();
                 return new JsonWebTokenParameters(
-                    keyPair.Private.KeyToString(),
-                    keyPair.Public.KeyToString(),
+                    keyPair.Private,
+                    keyPair.Public,
                     algorithm);
             }
             else
             {
-                var keyPair = RsaCryptoKey.Create();
+                var keyPair = RsaCryptoKeyPair.Create();
                 return new JsonWebTokenParameters(
-                    keyPair.Private.KeyToString(),
-                    keyPair.Public.KeyToString(),
+                    keyPair.Private,
+                    keyPair.Public,
                     algorithm);
             }
         }
@@ -179,13 +180,13 @@ namespace Quantfabric.Test.Material.Interaction
 
     public class JsonWebTokenParameters
     {
-        public string PrivateKey { get; }
-        public string PublicKey { get; }
+        public CryptoKey PrivateKey { get; }
+        public CryptoKey PublicKey { get; }
         public JsonWebTokenAlgorithm Algorithm { get; }
 
         public JsonWebTokenParameters(
-            string privateKey,
-            string publicKey,
+            CryptoKey privateKey,
+            CryptoKey publicKey,
             JsonWebTokenAlgorithm algorithm)
         {
             PrivateKey = privateKey;

@@ -8,6 +8,7 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
@@ -229,7 +230,7 @@ namespace Foundations.HttpClient.Authenticators
 
             var signature = _signingAlgorithm.SignText(
                 Encoding.UTF8.GetBytes(signatureBase), 
-                key);
+                new HashKey(key));
 
             return Convert.ToBase64String(signature);
         }

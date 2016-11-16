@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Quantfabric.Test.Helpers;
-using Quantfabric.Test.Helpers.Cryptography;
 using Xunit;
 
 namespace Foundations.Test.HttpClient
@@ -53,7 +53,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyRs256JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
@@ -63,10 +63,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes, 
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(), 
+                keyPair.Public, 
                 signature, 
                 bytes);
 
@@ -76,7 +76,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyRs384JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS384;
 
@@ -86,10 +86,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -99,7 +99,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyRs512JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS384;
 
@@ -109,10 +109,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -122,7 +122,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyPs256JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.PS256;
 
@@ -132,10 +132,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -145,7 +145,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyPs384JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.PS384;
 
@@ -155,10 +155,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -168,7 +168,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyPs512JsonWebToken()
         {
-            var keyPair = RsaCryptoKey.Create();
+            var keyPair = RsaCryptoKeyPair.Create(2048);
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.PS512;
 
@@ -178,10 +178,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -191,7 +191,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyEs256JsonWebToken()
         {
-            var keyPair = EcdsaCryptoKey.Create();
+            var keyPair = EcdsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
@@ -201,10 +201,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -214,7 +214,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyEs384JsonWebToken()
         {
-            var keyPair = EcdsaCryptoKey.Create();
+            var keyPair = EcdsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES384;
 
@@ -224,10 +224,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -237,7 +237,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void CreateAndVerifyEs512JsonWebToken()
         {
-            var keyPair = EcdsaCryptoKey.Create();
+            var keyPair = EcdsaCryptoKeyPair.Create();
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES512;
 
@@ -247,10 +247,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                keyPair.Private.KeyToString());
+                keyPair.Private);
 
             var isVerified = verifier.VerifyText(
-                keyPair.Public.KeyToString(),
+                keyPair.Public,
                 signature,
                 bytes);
 
@@ -270,10 +270,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                key);
+                new HashKey(key));
 
             var isVerified = verifier.VerifyText(
-                key,
+                new HashKey(key),
                 signature,
                 bytes);
 
@@ -292,10 +292,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                key);
+                new HashKey(key));
 
             var isVerified = verifier.VerifyText(
-                key,
+                new HashKey(key),
                 signature,
                 bytes);
 
@@ -314,10 +314,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                key);
+                new HashKey(key));
 
             var isVerified = verifier.VerifyText(
-                key,
+                new HashKey(key),
                 signature,
                 bytes);
 

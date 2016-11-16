@@ -2,6 +2,7 @@
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
@@ -12,14 +13,14 @@ namespace Foundations.HttpClient.Authenticators
         private readonly string _header;
         private readonly string _claims;
         private readonly JsonWebTokenAlgorithm _algorithm;
-        private readonly string _privateKey;
+        private readonly CryptoKey _privateKey;
         private readonly string _clientId;
 
         public OAuth2JsonWebToken(
             string header,
             string claims,
             JsonWebTokenAlgorithm algorithm,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId,
             IJsonWebTokenSigningFactory signingFactory)
         {
@@ -39,7 +40,7 @@ namespace Foundations.HttpClient.Authenticators
             string header,
             string claims,
             JsonWebTokenAlgorithm algorithm,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId) : this(
                 header,
                 claims,

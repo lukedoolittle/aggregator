@@ -3,6 +3,7 @@ using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 
 namespace Foundations.HttpClient.Authenticators
 {
@@ -43,7 +44,7 @@ namespace Foundations.HttpClient.Authenticators
         public string CreateSignature(
             string signatureBase, 
             JsonWebTokenAlgorithm algorithm,
-            string privateKey)
+            CryptoKey privateKey)
         {
             var signingAlgorithm = _factory.GetSigningAlgorithm(algorithm);
 

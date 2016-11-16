@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography.Keys;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authorization;
@@ -17,12 +17,12 @@ namespace Material.OAuth
     {
         private readonly TResourceProvider _resourceProvider;
         private readonly OAuthClientFacade<TResourceProvider> _facade;
-        private readonly string _privateKey;
+        private readonly CryptoKey _privateKey;
         private readonly string _issuer;
         private readonly string _clientId;
 
         public OAuth2Assert(
-            string privateKey,
+            CryptoKey privateKey,
             string issuer,
             string clientId) : 
                 this(
@@ -33,7 +33,7 @@ namespace Material.OAuth
         { }
 
         public OAuth2Assert(
-            string privateKey,
+            CryptoKey privateKey,
             string issuer) :
                 this(
                     privateKey,
@@ -42,7 +42,7 @@ namespace Material.OAuth
         { }
 
         public OAuth2Assert(
-            string privateKey,
+            CryptoKey privateKey,
             string issuer,
             string clientId,
             TResourceProvider resourceProvider)

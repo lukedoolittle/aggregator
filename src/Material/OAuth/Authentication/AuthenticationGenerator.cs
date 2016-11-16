@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
@@ -13,7 +14,7 @@ namespace Material.OAuth.Authentication
 {
     public class AuthenticationGenerator
     {
-        private readonly string _privateKey;
+        private readonly CryptoKey _privateKey;
         private readonly string _applicationName;
         private readonly string _intendedRecipient;
         private readonly int _expirationTimeInMinutes;
@@ -21,7 +22,7 @@ namespace Material.OAuth.Authentication
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
 
         public AuthenticationGenerator(
-            string privateKey, 
+            CryptoKey privateKey, 
             string recipient) : 
                 this(
                     privateKey,
@@ -34,7 +35,7 @@ namespace Material.OAuth.Authentication
         { }
 
         public AuthenticationGenerator(
-            string privateKey, 
+            CryptoKey privateKey, 
             JsonWebTokenSigningTemplate signingTemplate,
             List<JsonWebTokenAlgorithm> whitelistedAlgorithms,
             string applicationName,

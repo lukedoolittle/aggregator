@@ -5,6 +5,7 @@ using System.Text;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
 
@@ -12,14 +13,14 @@ namespace Material.OAuth.Authentication
 {
     public class AuthenticationValidator
     {
-        private readonly string _key;
+        private readonly CryptoKey _key;
         private readonly string _applicationName;
         private readonly string _recipient;
         private readonly IJsonWebTokenSigningFactory _factory;
         private readonly JsonWebTokenSigningTemplate _signingTemplate;
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
 
-        public AuthenticationValidator(string key) : 
+        public AuthenticationValidator(CryptoKey key) : 
                 this(
                     key, 
                     AuthenticationConfiguration.ApplicationName,
@@ -29,7 +30,7 @@ namespace Material.OAuth.Authentication
         { }
 
         public AuthenticationValidator(
-            string key, 
+            CryptoKey key, 
             string recipient) :
                 this(
                 key,
@@ -40,7 +41,7 @@ namespace Material.OAuth.Authentication
         { }
 
         public AuthenticationValidator(
-            string key, 
+            CryptoKey key, 
             string applicationName,
             string recipient,
             IJsonWebTokenSigningFactory factory,

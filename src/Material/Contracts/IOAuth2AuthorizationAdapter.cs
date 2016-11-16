@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Material.Infrastructure.Credentials;
 
@@ -33,7 +34,7 @@ namespace Material.Contracts
         Task<OAuth2Credentials> GetJsonWebToken(
             Uri accessUrl,
             JsonWebToken jsonWebToken,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId);
 
         Task<OAuth2Credentials> GetAccessToken(

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Exceptions;
@@ -50,7 +51,7 @@ namespace Material.OAuth.Facade
 
         public async Task<OAuth2Credentials> GetJsonWebTokenTokenCredentials(
             JsonWebToken jwt,
-            string privateKey,
+            CryptoKey privateKey,
             string clientId)
         {
             if (!_resourceProvider.GrantTypes.Contains(GrantType.JsonWebToken))
