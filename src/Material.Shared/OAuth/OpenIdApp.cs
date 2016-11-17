@@ -79,8 +79,7 @@ namespace Material.OAuth
                 .GetCredentialsAsync(clientSecret)
                 .ConfigureAwait(false);
 
-            return await ExtractAndValidateAuthenticationToken(credentials)
-                .ConfigureAwait(false);
+            return ExtractAndValidateAuthenticationToken(credentials);
         }
 
         /// <summary>
@@ -93,25 +92,28 @@ namespace Material.OAuth
                     OAuth2ResponseType.IdTokenToken)
                 .ConfigureAwait(false);
 
-            return await ExtractAndValidateAuthenticationToken(credentials)
-                .ConfigureAwait(false);
+            return ExtractAndValidateAuthenticationToken(credentials);
         }
 
-        private async Task<JsonWebToken> ExtractAndValidateAuthenticationToken(
+        private JsonWebToken ExtractAndValidateAuthenticationToken(
             OAuth2Credentials credentials)
         {
-            var validator = new OpenIdAuthenticationValidator(
-                new AuthenticationValidator());
+            //TODO: potentially add more validators here
+
+            var validator = new CompositeJsonWebTokenAuthenticationValidator(
+                new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl),
+                new JsonWebTokenAlgorithmValidator(),
+                new JsonWebTokenExpirationValidator());
 
             var token = credentials.IdToken;
 
-            var tokenValidation = await validator
-                .IsTokenValid(token, _provider.OpenIdDiscoveryUrl)
-                .ConfigureAwait(false);
+            var tokenValidation = validator
+                .IsTokenValid(token);
 
             if (!tokenValidation.IsTokenValid)
             {
-                throw new SecurityException(tokenValidation.Reason);
+                throw new SecurityException(
+                    tokenValidation.Reason);
             }
 
             return token;

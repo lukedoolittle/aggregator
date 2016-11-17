@@ -170,6 +170,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find public key at discovery endpoint.
+        /// </summary>
+        public static string MissingPublicKey {
+            get {
+                return ResourceManager.GetString("MissingPublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks for sharing!.
         /// </summary>
         public static string OAuthCallbackResponse {

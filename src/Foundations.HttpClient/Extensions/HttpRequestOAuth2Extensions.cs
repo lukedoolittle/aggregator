@@ -1,6 +1,5 @@
 ﻿using System;
 using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 
@@ -60,8 +59,7 @@ namespace Foundations.HttpClient.Extensions
 
         public static HttpRequestBuilder ForOAuth2JsonWebToken(
             this HttpRequestBuilder instance,
-            string header,
-            string claims,
+            string signatureBase,
             JsonWebTokenAlgorithm algorithm,
             CryptoKey privateKey,
             string clientId)
@@ -69,8 +67,7 @@ namespace Foundations.HttpClient.Extensions
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var authenticator = new OAuth2JsonWebToken(
-                header,
-                claims,
+                signatureBase,
                 algorithm,
                 privateKey,
                 clientId);

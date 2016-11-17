@@ -641,7 +641,7 @@ namespace Foundations.Test.HttpClient
             {
                 SomeKey = Guid.NewGuid().ToString()
             };
-
+            var token = "iowuflkjax9820375q4.kalsjdflk0923jkl";
             var clientId = Guid.NewGuid().ToString();
             var privateKey = RsaCryptoKeyPair.Create(1024).Private;
 
@@ -649,8 +649,7 @@ namespace Foundations.Test.HttpClient
                 .PostTo(_postPath)
                 .JsonContent(expected)
                 .ForOAuth2JsonWebToken(
-                    "{}",
-                    "{}",
+                    token,
                     JsonWebTokenAlgorithm.RS256, 
                     privateKey,
                     clientId)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
@@ -19,27 +18,6 @@ namespace Foundations.HttpClient.Authenticators
                 throw new ArgumentNullException(nameof(factory));
             }
             _factory = factory;
-        }
-
-        //TODO: this is duplicate code from JsonWebTokenExtensions
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public string CreateSignatureBase(
-            string header, 
-            string claims)
-        {
-            if (header == null) throw new ArgumentNullException(nameof(header));
-            if (claims == null) throw new ArgumentNullException(nameof(claims));
-
-            var headerBytes = Encoding.UTF8.GetBytes(header);
-            var headerEncoded = Convert.ToBase64String(headerBytes);
-
-            var claimsBytes = Encoding.UTF8.GetBytes(claims.Replace("\\", ""));
-            var claimsEncoded = Convert.ToBase64String(claimsBytes);
-
-            return StringExtensions.Concatenate(
-                headerEncoded,
-                claimsEncoded,
-                ".");
         }
 
         public string CreateSignature(

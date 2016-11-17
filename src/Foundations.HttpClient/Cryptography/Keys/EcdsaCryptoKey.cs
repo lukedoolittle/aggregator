@@ -1,6 +1,5 @@
 ﻿using System;
 using Org.BouncyCastle.Asn1.Nist;
-using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -40,8 +39,6 @@ namespace Foundations.HttpClient.Cryptography.Keys
             CurveName = curveName;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
         public EcdsaCryptoKey(
             string algorithmName,
             string curveName, 
@@ -55,16 +52,55 @@ namespace Foundations.HttpClient.Cryptography.Keys
                         yCoordinate))
         { }
 
+        public EcdsaCryptoKey(
+            string algorithmName,
+            string curveName,
+            byte[] xCoordinate,
+            byte[] yCoordinate) :
+        base(
+            FromParameters(
+                algorithmName,
+                curveName,
+                xCoordinate,
+                yCoordinate))
+        { }
+
+        private static AsymmetricKeyParameter FromParameters(
+            string algorithmName,
+            string curveName,
+            byte[] xCoordinate,
+            byte[] yCoordinate)
+        {
+            return FromParameters(
+                algorithmName,
+                curveName,
+                new BigInteger(xCoordinate),
+                new BigInteger(yCoordinate));
+        }
+
+        private static AsymmetricKeyParameter FromParameters(
+            string algorithmName,
+            string curveName,
+            string xCoordinate,
+            string yCoordinate)
+        {
+            return FromParameters(
+                algorithmName, 
+                curveName, 
+                new BigInteger(xCoordinate), 
+                new BigInteger(yCoordinate));
+        }
+
         private static AsymmetricKeyParameter FromParameters(
             string algorithmName,
             string curveName, 
-            string xCoordinate, 
-            string yCoordinate)
+            BigInteger xCoordinate, 
+            BigInteger yCoordinate)
         {
             X9ECParameters ecP = NistNamedCurves.GetByName(curveName);
             FpCurve c = (FpCurve)ecP.Curve;
-            ECFieldElement x = c.FromBigInteger(new BigInteger(xCoordinate));
-            ECFieldElement y = c.FromBigInteger(new BigInteger(yCoordinate));
+            ECFieldElement x = c.FromBigInteger(xCoordinate);
+            ECFieldElement y = c.FromBigInteger(yCoordinate);
             ECPoint q = new FpPoint(c, x, y);
             ECPublicKeyParameters publicKeyParameters = 
                 new ECPublicKeyParameters(algorithmName, q, NistNamedCurves.GetOid(curveName));

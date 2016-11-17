@@ -33,10 +33,11 @@ namespace Material.OAuth.Authorization
 
             var token = result.ToWebToken();
 
-            var tokenValidation = await new OpenIdAuthenticationValidator(
-                    new AuthenticationValidator())
-                .IsTokenValid(token, discoveryUri)
-                .ConfigureAwait(false);
+            //Right now there is no given endpoint for these tokens from Microsoft
+            //so exclude the signature validation
+            var tokenValidation = new CompositeJsonWebTokenAuthenticationValidator(
+                        new JsonWebTokenExpirationValidator())
+                    .IsTokenValid(token);
 
             if (!tokenValidation.IsTokenValid)
             {

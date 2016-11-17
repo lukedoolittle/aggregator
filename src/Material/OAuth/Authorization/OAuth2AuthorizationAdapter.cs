@@ -8,7 +8,6 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
-using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -152,13 +151,10 @@ namespace Material.OAuth.Authorization
                 throw new ArgumentNullException(nameof(privateKey));
             }
 
-                var serializer = new JsonSerializer();
-
             return (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
-                    serializer.Serialize(jsonWebToken.Header),
-                    serializer.Serialize(jsonWebToken.Claims),
+                    jsonWebToken.ToEncodedWebToken(false),
                     jsonWebToken.Header.Algorithm,
                     privateKey,
                     clientId)

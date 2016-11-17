@@ -21,6 +21,8 @@
            <Word>Ms</Word>
            <Word>Gatt</Word>
            <Word>Ecdsa</Word>
+           <Word>x</Word>
+           <Word>y</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>

@@ -171,4 +171,7 @@
   <data name="WebTokenExpired" xml:space="preserve">
     <value>The Json Web Token is expired</value>
   </data>
+  <data name="MissingPublicKey" xml:space="preserve">
+    <value>Could not find public key at discovery endpoint</value>
+  </data>
 </root>

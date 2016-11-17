@@ -44,6 +44,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="Contracts\IOAuth1Identity.cs" />
     <Compile Include="Contracts\IOAuth2Identity.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
@@ -229,8 +230,11 @@
     <Compile Include="Metadata\Required.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationConfiguration.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationGenerator.cs" />
-    <Compile Include="OAuth\Authentication\AuthenticationValidator.cs" />
-    <Compile Include="OAuth\Authentication\OpenIdAuthenticationValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenAlgorithmValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenExpirationValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenSignatureValidator.cs" />
+    <Compile Include="OAuth\Authentication\CompositeJsonWebTokenAuthenticationValidator.cs" />
+    <Compile Include="OAuth\Authentication\DiscoveryJsonWebTokenSignatureValidator.cs" />
     <Compile Include="OAuth\Authentication\TokenValidationResult.cs" />
     <Compile Include="OAuth\Authorization\ApiKeyJsonWebTokenExchangeAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuth1AuthorizationAdapter.cs" />

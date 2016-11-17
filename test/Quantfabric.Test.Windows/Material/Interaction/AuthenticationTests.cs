@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Infrastructure.Credentials;
@@ -57,11 +58,11 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator();
+            var validator = new JsonWebTokenSignatureValidator(
+                parameters.PublicKey, 
+                new JsonWebTokenSignerFactory());
 
-            var tokenValidity = validator.IsTokenValid(
-                token, 
-                parameters.PublicKey);
+            var tokenValidity = validator.IsTokenValid(token);
 
             Assert.True(tokenValidity.IsTokenValid);
         }
@@ -85,11 +86,11 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator();
+            var validator = new JsonWebTokenSignatureValidator(
+                parameters.PublicKey,
+                new JsonWebTokenSignerFactory());
 
-            var tokenValidity = validator.IsTokenValid(
-                token,
-                parameters.PublicKey);
+            var tokenValidity = validator.IsTokenValid(token);
 
             Assert.True(tokenValidity.IsTokenValid);
         }
@@ -113,11 +114,11 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator();
+            var validator = new JsonWebTokenSignatureValidator(
+                parameters.PublicKey,
+                new JsonWebTokenSignerFactory());
 
-            var tokenValidity = validator.IsTokenValid(
-                token,
-                parameters.PublicKey);
+            var tokenValidity = validator.IsTokenValid(token);
 
             Assert.True(tokenValidity.IsTokenValid);
         }
@@ -141,11 +142,11 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator();
+            var validator = new JsonWebTokenSignatureValidator(
+                parameters.PublicKey,
+                new JsonWebTokenSignerFactory());
 
-            var tokenValidity = validator.IsTokenValid(
-                token,
-                parameters.PublicKey);
+            var tokenValidity = validator.IsTokenValid(token);
 
             Assert.True(tokenValidity.IsTokenValid);
             Assert.Equal(credentials.UserId, token.Claims.Subject);

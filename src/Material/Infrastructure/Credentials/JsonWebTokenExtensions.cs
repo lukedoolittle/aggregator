@@ -26,17 +26,28 @@ namespace Material.Infrastructure.Credentials
             };
         }
 
-        public static string ToEncodedWebToken(this JsonWebToken instance)
+        public static string ToEncodedWebToken(
+            this JsonWebToken instance)
+        {
+            return ToEncodedWebToken(instance, true);
+        }
+
+        public static string ToEncodedWebToken(
+            this JsonWebToken instance,
+            bool includeSignature)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             return ToEncodedWebToken(
                 instance.Header,
                 instance.Claims, 
-                instance.Signature);
+                includeSignature ? instance.Signature : string.Empty);
         }
 
-        private static string ToEncodedWebToken(JsonWebTokenHeader header, JsonWebTokenClaims claims, string signature)
+        private static string ToEncodedWebToken(
+            JsonWebTokenHeader header, 
+            JsonWebTokenClaims claims, 
+            string signature)
         {
             if (header == null) throw new ArgumentNullException(nameof(header));
             if (claims == null) throw new ArgumentNullException(nameof(claims));

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Text;
-using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
-using Foundations.HttpClient.Serialization;
 using Material.Infrastructure.Credentials;
 using Org.BouncyCastle.Security;
 using Quantfabric.Test.Helpers;
@@ -37,14 +35,7 @@ namespace Quantfabric.Test.Material.Unit
             var signer = _factory.GetSigningAlgorithm(token.Header.Algorithm);
             var verifier = _factory.GetVerificationAlgorithm(token.Header.Algorithm);
 
-            var serializer = new JsonSerializer();
-            var header = serializer.Serialize(token.Header);
-            var claims = serializer.Serialize(token.Claims);
-
-            var signingTemplate = new JsonWebTokenSigningTemplate(
-                new JsonWebTokenSignerFactory());
-            var signatureBase = signingTemplate.CreateSignatureBase(header, claims);
-
+            var signatureBase = token.ToEncodedWebToken();
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
             var keyPair = RsaCryptoKeyPair.Create(1024);
@@ -74,15 +65,8 @@ namespace Quantfabric.Test.Material.Unit
                     IssuedAt = DateTime.Now
                 }
             };
-            
-            var serializer = new JsonSerializer();
-            var header = serializer.Serialize(token.Header);
-            var claims = serializer.Serialize(token.Claims);
 
-            var signingTemplate = new JsonWebTokenSigningTemplate(
-                new JsonWebTokenSignerFactory());
-            var signatureBase = signingTemplate.CreateSignatureBase(header, claims);
-
+            var signatureBase = token.ToEncodedWebToken();
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
             var keyPair = RsaCryptoKeyPair.Create(1024);

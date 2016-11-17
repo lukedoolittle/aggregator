@@ -44,6 +44,21 @@ namespace Foundations.Extensions
                 bytes.Length - 1);
         }
 
+        public static string ToProperBase64String(this string instance)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            while (instance.Length % 4 != 0)
+            {
+                instance = instance + "=";
+            }
+
+            return instance.Replace('-', '+').Replace('_', '/');
+        }
+
         public static string ToBase64String(this string instance)
         {
             if (instance == null)

@@ -18,14 +18,33 @@ namespace Foundations.HttpClient.Cryptography.Keys
             Exponent = key.Exponent.ToString();
         }
 
+        public RsaCryptoKey(byte[] modulus, byte[] publicExponent) :
+            base(new RsaKeyParameters(
+                false,
+                new BigInteger(1, modulus),
+                new BigInteger(1, publicExponent)))
+        { }
+
         public RsaCryptoKey(string modulus, string publicExponent) :
             base(new RsaKeyParameters(
                 false,
                 new BigInteger(modulus),
                 new BigInteger(publicExponent)))
+        { }
+
+        public RsaCryptoKey(
+            BigInteger modulus, 
+            BigInteger publicExponent) :
+                base(new RsaKeyParameters(
+                    false,
+                    modulus,
+                    publicExponent))
         {
-            Modulus = modulus;
-            Exponent = publicExponent;
+            if (modulus == null) throw new ArgumentNullException(nameof(modulus));
+            if (publicExponent == null) throw new ArgumentNullException(nameof(publicExponent));
+
+            Modulus = modulus.ToString();
+            Exponent = publicExponent.ToString();
         }
 
         public RsaCryptoKey(string key, bool isPrivate) : 

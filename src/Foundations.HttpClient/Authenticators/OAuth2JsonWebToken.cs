@@ -10,15 +10,13 @@ namespace Foundations.HttpClient.Authenticators
     public class OAuth2JsonWebToken : IAuthenticator
     {
         private readonly JsonWebTokenSigningTemplate _template;
-        private readonly string _header;
-        private readonly string _claims;
+        private readonly string _signatureBase;
         private readonly JsonWebTokenAlgorithm _algorithm;
         private readonly CryptoKey _privateKey;
         private readonly string _clientId;
 
         public OAuth2JsonWebToken(
-            string header,
-            string claims,
+            string signatureBase,
             JsonWebTokenAlgorithm algorithm,
             CryptoKey privateKey,
             string clientId,
@@ -27,8 +25,7 @@ namespace Foundations.HttpClient.Authenticators
             if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
             if (signingFactory == null) throw new ArgumentNullException(nameof(signingFactory));
 
-            _header = header;
-            _claims = claims;
+            _signatureBase = signatureBase;
             _algorithm = algorithm;
             _clientId = clientId;
             _privateKey = privateKey;
@@ -37,13 +34,11 @@ namespace Foundations.HttpClient.Authenticators
         }
 
         public OAuth2JsonWebToken(
-            string header,
-            string claims,
+            string signatureBase,
             JsonWebTokenAlgorithm algorithm,
             CryptoKey privateKey,
             string clientId) : this(
-                header,
-                claims,
+                signatureBase,
                 algorithm, 
                 privateKey, 
                 clientId, 
@@ -54,17 +49,13 @@ namespace Foundations.HttpClient.Authenticators
         {
             if (requestBuilder == null) throw new ArgumentNullException(nameof(requestBuilder));
 
-            var signatureBase = _template.CreateSignatureBase(
-                _header, 
-                _claims);
-
             var signature = _template.CreateSignature(
-                signatureBase,
+                _signatureBase,
                 _algorithm,
                 _privateKey);
 
             var token = StringExtensions.Concatenate(
-                signatureBase, 
+                _signatureBase, 
                 signature,
                 ".");
 
