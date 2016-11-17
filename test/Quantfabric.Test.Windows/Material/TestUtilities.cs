@@ -37,8 +37,7 @@ namespace Quantfabric.Test.Integration
                    token.Signature != null &&
                    !string.IsNullOrEmpty(token.Claims.Audience) &&
                    !string.IsNullOrEmpty(token.Claims.Issuer) &&
-                   !string.IsNullOrEmpty(token.Claims.Subject) &&
-                   !string.IsNullOrEmpty(token.Claims.Id);
+                   !string.IsNullOrEmpty(token.Claims.Subject);
         }
 
         public static T GetMemberValue<T>(this object instance, string memberName)

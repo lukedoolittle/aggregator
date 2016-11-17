@@ -221,6 +221,26 @@ namespace Quantfabric.Web.Test.Controllers
             return Redirect(uri.ToString());
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GoogleOpenId()
+        {
+            var oauth = new OpenIdWeb<Google>(
+                _appRepository.GetClientId<Google>(),
+                _appRepository.GetClientSecret<Google>(),
+                "http://localhost:33533/openid/google");
+
+            var userId = Guid.NewGuid().ToString();
+            var cookie = new HttpCookie("userId");
+            cookie.Values["userId"] = userId;
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+
+            var uri = await oauth
+                .GetAuthorizationUriAsync(userId)
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
         private Task<Uri> GetOAuth1AuthorizationUri<TProtectedResource>()
             where TProtectedResource : OAuth1ResourceProvider, new()
         {

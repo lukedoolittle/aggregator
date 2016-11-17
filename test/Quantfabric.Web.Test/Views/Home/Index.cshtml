@@ -54,7 +54,10 @@
         <p>@Html.ActionLink("Tumblr", "Tumblr", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
     </div>
     <div class="col-md-2">
-        <p>@Html.ActionLink("Amazon", "Amazon", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
+        <p>@Html.ActionLink("Amazon", "Amazon", "Home", new {area = ""}, new {@class = "btn btn-default"})</p>
+    </div>
+    <div class="col-md-2">
+        <p>@Html.ActionLink("Google OpenId", "GoogleOpenId", "Home", new { area = "" }, new { @class = "btn btn-default" })</p>
     </div>
 </div>
 <div class="row">
@@ -62,5 +65,6 @@
         <p>AccessToken: @(Request.QueryString["accesstoken"])</p>
         <p>OAuthToken: @(Request.QueryString["oauthtoken"])</p>
         <p>OAuthSecret: @(Request.QueryString["oauthsecret"])</p>
+        <p>JsonWebToken: @(Request.QueryString["idtoken"])</p>
     </div>
 </div>

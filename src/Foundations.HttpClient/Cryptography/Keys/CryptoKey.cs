@@ -37,10 +37,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 key.IsPrivate)
         { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator string(CryptoKey key)
+        public override string ToString()
         {
-            return key == null ? string.Empty : key.Value;
+            return Value;
         }
 
         protected const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";

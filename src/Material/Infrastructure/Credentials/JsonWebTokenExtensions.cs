@@ -63,8 +63,8 @@ namespace Material.Infrastructure.Credentials
             var claimsEncoded = Convert.ToBase64String(claimsBytes);
 
             var result = StringExtensions.Concatenate(
-                headerEncoded,
-                claimsEncoded,
+                headerEncoded.TrimEnd('='),
+                claimsEncoded.TrimEnd('='),
                 ".");
 
             if (!string.IsNullOrEmpty(signature))

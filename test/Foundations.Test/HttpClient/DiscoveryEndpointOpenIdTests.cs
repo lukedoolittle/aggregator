@@ -10,12 +10,12 @@ using Xunit;
 namespace Foundations.Test.HttpClient
 {
     [Trait("Category", "Continuous")]
-    public class OpenIdTests
+    public class DiscoveryEndpointOpenIdTests
     {
         [Fact]
-        public async void PublicKeysFromMicrosoftOpenIdDiscoveryEndpoint()
+        public async void PublicKeysFromGoogleOpenIdDiscoveryEndpoint()
         {
-            var keyCount = 3;
+            var minKeyCount = 2;
             var algorithms = new List<JsonWebTokenAlgorithm>
             {
                 JsonWebTokenAlgorithm.RS256
@@ -35,7 +35,7 @@ namespace Foundations.Test.HttpClient
                 .ResultAsync<PublicKeyDiscoveryDocument>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(keyCount, keys.Keys.Count);
+            Assert.True(keys.Keys.Count >= minKeyCount);
 
             foreach (var key in keys.Keys)
             {
@@ -45,9 +45,9 @@ namespace Foundations.Test.HttpClient
         }
 
         [Fact]
-        public async void PublicKeysFromGoogleOpenIdDiscoveryEndpoint()
+        public async void PublicKeysFromMicrosoftOpenIdDiscoveryEndpoint()
         {
-            var keyCount = 3;
+            var minKeyCount = 2;
             var algorithm = "RSA";
 
             var discoveryUrl = new Uri("https://login.microsoftonline.com/common/.well-known/openid-configuration");
@@ -64,7 +64,7 @@ namespace Foundations.Test.HttpClient
                 .ResultAsync<PublicKeyDiscoveryDocument>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(keyCount, keys.Keys.Count);
+            Assert.True(keys.Keys.Count >= minKeyCount);
 
             foreach (var key in keys.Keys)
             {
@@ -75,7 +75,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public async void PublicKeysFromYahooOpenIdDiscoveryEndpoint()
         {
-            var keyCount = 2;
+            var minKeyCount = 2;
             var algorithms = new List<JsonWebTokenAlgorithm>
             {
                 JsonWebTokenAlgorithm.RS256,
@@ -96,7 +96,7 @@ namespace Foundations.Test.HttpClient
                 .ResultAsync<PublicKeyDiscoveryDocument>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(keyCount, keys.Keys.Count);
+            Assert.True(keys.Keys.Count >= minKeyCount);
 
             foreach (var key in keys.Keys)
             {

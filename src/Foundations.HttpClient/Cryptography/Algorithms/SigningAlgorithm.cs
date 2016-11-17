@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
@@ -26,14 +27,12 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             byte[] text, 
             CryptoKey privateKey)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             _signer.Reset();
 
-            var privateKeyBytes = Convert.FromBase64String(privateKey);
+            var privateKeyBytes = privateKey.ToString().BytesFromBase64String();
             var privateKeyParameters = 
                 PrivateKeyFactory.CreateKey(privateKeyBytes);
 
@@ -48,18 +47,13 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             byte[] signature, 
             byte[] text)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
-            if (signature == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+            if (key == null) throw new ArgumentNullException(nameof(key));
+            if (signature == null) throw new ArgumentNullException(nameof(signature));
+            if (text == null) throw new ArgumentNullException(nameof(text));
 
             _signer.Reset();
 
-            var publicKeyBytes = Convert.FromBase64String(key);
+            var publicKeyBytes = key.ToString().BytesFromBase64String();
             var publicKeyParameters = 
                 PublicKeyFactory.CreateKey(publicKeyBytes);
 

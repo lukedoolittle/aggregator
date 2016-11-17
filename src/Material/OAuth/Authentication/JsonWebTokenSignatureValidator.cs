@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Contracts;
@@ -32,7 +33,7 @@ namespace Material.OAuth.Authentication
 
             var isSignatureValid = verifier.VerifyText(
                 _key,
-                Convert.FromBase64String(token.Signature),
+                token.Signature.BytesFromBase64String(),
                 Encoding.UTF8.GetBytes(signatureBase));
 
             if (!isSignatureValid)

@@ -99,6 +99,14 @@ namespace Material.OAuth
             OAuth2Credentials credentials)
         {
             //TODO: potentially add more validators here
+            //This is mirrored in OpenIdWeb; possibly extract this logic
+            //Per google
+            //Verify that the value of iss in the ID token is equal to https://accounts.google.com or accounts.google.com.
+            //Verify that the value of aud in the ID token is equal to your app’s client ID.
+            //Per Microsoft
+            //??
+            //Per Yahoo
+            //??
 
             var validator = new CompositeJsonWebTokenAuthenticationValidator(
                 new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl),

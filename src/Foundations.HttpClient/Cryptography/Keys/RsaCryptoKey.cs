@@ -19,14 +19,14 @@ namespace Foundations.HttpClient.Cryptography.Keys
         }
 
         public RsaCryptoKey(byte[] modulus, byte[] publicExponent) :
-            base(new RsaKeyParameters(
+            this(new RsaKeyParameters(
                 false,
                 new BigInteger(1, modulus),
                 new BigInteger(1, publicExponent)))
         { }
 
         public RsaCryptoKey(string modulus, string publicExponent) :
-            base(new RsaKeyParameters(
+            this(new RsaKeyParameters(
                 false,
                 new BigInteger(modulus),
                 new BigInteger(publicExponent)))

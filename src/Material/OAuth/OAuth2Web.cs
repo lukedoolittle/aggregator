@@ -18,8 +18,7 @@ namespace Material.OAuth
         private readonly string _clientSecret;
         private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
-        private readonly TResourceProvider _resourceProvider = 
-            new TResourceProvider();
+        private readonly TResourceProvider _resourceProvider;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
@@ -28,15 +27,17 @@ namespace Material.OAuth
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="strategy">The security strategy to use for "state" handling</param>
+        /// <param name="resourceProvider">Endpoint information for the resource provider</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
             string clientSecret,
             string callbackUrl,
-            IOAuthSecurityStrategy strategy)
+            IOAuthSecurityStrategy strategy,
+            TResourceProvider resourceProvider)
         {
             _clientSecret = clientSecret;
-
+            _resourceProvider = resourceProvider;
 
             _callbackHandler = new OAuth2CallbackHandler(
                 strategy,
@@ -71,19 +72,66 @@ namespace Material.OAuth
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="resourceProvider">Endpoint information for the resource provider</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
             string clientSecret,
-            string callbackUri) : 
+            string callbackUri,
+            TResourceProvider resourceProvider) : 
                 this(
                     clientId, 
                     clientSecret,
                     callbackUri,
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(2)))
+                        TimeSpan.FromMinutes(2)), 
+                    resourceProvider)
         {}
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 workflow with default security strategy
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="clientSecret">The application's client secret</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        /// <param name="strategy">The security strategy to use for "state" handling</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OAuth2Web(
+            string clientId,
+            string clientSecret,
+            string callbackUrl,
+            IOAuthSecurityStrategy strategy) :
+                this(
+                    clientId,
+                    clientSecret, 
+                    callbackUrl, 
+                    strategy, 
+                    new TResourceProvider())
+        {}
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 workflow with default security strategy
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="clientSecret">The application's client secret</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OAuth2Web(
+            string clientId,
+            string clientSecret,
+            string callbackUri) :
+                this(
+                    clientId,
+                    clientSecret,
+                    callbackUri,
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        TimeSpan.FromMinutes(2)),
+                    new TResourceProvider())
+        {}
+
+
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
@@ -99,7 +147,6 @@ namespace Material.OAuth
         /// Exchanges callback uri for access token credentials
         /// </summary>
         /// <param name="userId">Resource owner's Id</param>
-        /// <param name="secret">The application's client secret</param>
         /// <param name="responseUri">The received callback uri</param>
         /// <returns>Access token credentials</returns>
         public Task<OAuth2Credentials> GetAccessTokenAsync(
@@ -126,6 +173,19 @@ namespace Material.OAuth
             where TRequest : OAuthRequest, new()
         {
             _resourceProvider.AddRequestScope<TRequest>();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds scope to be requested with OAuth2 authorization
+        /// </summary>
+        /// <param name="scope">The scope to request</param>
+        /// <returns>The current instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        public OAuth2Web<TResourceProvider> AddScope(string scope)
+        {
+            _resourceProvider.AddRequestScope(scope);
 
             return this;
         }

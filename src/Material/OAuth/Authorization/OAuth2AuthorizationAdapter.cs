@@ -138,18 +138,9 @@ namespace Material.OAuth.Authorization
             CryptoKey privateKey,
             string clientId)
         {
-            if (accessUrl == null)
-            {
-                throw new ArgumentNullException(nameof(accessUrl));
-            }
-            if (jsonWebToken == null)
-            {
-                throw new ArgumentNullException(nameof(jsonWebToken));
-            }
-            if (string.IsNullOrEmpty(privateKey))
-            {
-                throw new ArgumentNullException(nameof(privateKey));
-            }
+            if (accessUrl == null) throw new ArgumentNullException(nameof(accessUrl));
+            if (jsonWebToken == null) throw new ArgumentNullException(nameof(jsonWebToken));
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             return (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)

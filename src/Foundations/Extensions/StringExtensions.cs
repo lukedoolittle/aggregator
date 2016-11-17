@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -25,19 +24,23 @@ namespace Foundations.Extensions
                 .ToString();
         }
 
-        public static string FromBase64String(this string instance)
+        public static byte[] BytesFromBase64String(this string instance)
         {
             if (instance == null)
             {
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            while (instance.Length%4 != 0)
-            {
-                instance = instance + "=";
-            }
+            return Convert.FromBase64String(
+                instance.ToProperBase64String());
+        }
 
-            var bytes = Convert.FromBase64String(instance);
+        public static string FromBase64String(this string instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            var bytes = instance.BytesFromBase64String();
+
             return Encoding.UTF8.GetString(
                 bytes, 
                 0, 
@@ -51,12 +54,14 @@ namespace Foundations.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
+            instance = instance.Replace('-', '+').Replace('_', '/').Replace("\r", "");
+
             while (instance.Length % 4 != 0)
             {
                 instance = instance + "=";
             }
 
-            return instance.Replace('-', '+').Replace('_', '/');
+            return instance;
         }
 
         public static string ToBase64String(this string instance)

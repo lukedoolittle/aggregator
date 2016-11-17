@@ -25,10 +25,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             IDigest digest,
             string signatureMethod)
         {
-            if (digest == null)
-            {
-                throw new ArgumentNullException(nameof(digest));
-            }
+            if (digest == null) throw new ArgumentNullException(nameof(digest));
 
             _digest = digest;
             SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
@@ -38,13 +35,11 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             byte[] text, 
             CryptoKey privateKey)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             var hmac = new HMac(_digest);
-            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey)));
+            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey.ToString())));
             var result = new byte[hmac.GetMacSize()];
             
             hmac.BlockUpdate(text, 0, text.Length);
