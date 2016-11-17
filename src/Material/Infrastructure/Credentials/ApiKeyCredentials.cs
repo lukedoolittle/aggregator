@@ -3,7 +3,6 @@ using Foundations.HttpClient.Enums;
 
 namespace Material.Infrastructure.Credentials
 {
-    //TODO: should override GetHashCode() for this value object
     [DataContract]
     public class ApiKeyCredentials : TokenCredentials
     {

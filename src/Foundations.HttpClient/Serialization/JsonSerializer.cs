@@ -9,8 +9,8 @@ namespace Foundations.HttpClient.Serialization
 {
     public class JsonSerializer : ISerializer
     {
-        //TODO: customize this serializer
-        //http://stackoverflow.com/questions/794838/datacontractjsonserializer-and-enums
+        //This serializer could be customized and it would solve a lot of the 
+        //problems with the serializable hacks in some of the classes
         public string Serialize(object entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

@@ -152,11 +152,20 @@ namespace Material {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given JWT algorithm has not been whitelisted.
+        ///   Looks up a localized string similar to The given Json Web Token algorithm has not been whitelisted.
         /// </summary>
         public static string InvalidJsonWebTokenAlgorithm {
             get {
                 return ResourceManager.GetString("InvalidJsonWebTokenAlgorithm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Json Web Token signature could not be validated.
+        /// </summary>
+        public static string InvalidJsonWebTokenSignature {
+            get {
+                return ResourceManager.GetString("InvalidJsonWebTokenSignature", resourceCulture);
             }
         }
         
@@ -202,6 +211,15 @@ namespace Material {
         public static string ShortTermAccessTokenExchangeException {
             get {
                 return ResourceManager.GetString("ShortTermAccessTokenExchangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Json Web Token is expired.
+        /// </summary>
+        public static string WebTokenExpired {
+            get {
+                return ResourceManager.GetString("WebTokenExpired", resourceCulture);
             }
         }
     }

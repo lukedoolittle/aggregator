@@ -46,7 +46,7 @@ namespace Foundations.HttpClient.Request
                 _parameterHandler = new BodyParameterHandler();
             }
 
-            //TODO: either support header or remove header from enum
+            //either support header or remove header from enum
             if (parameterType == HttpParameterType.Header)
             {
                 throw new NotSupportedException(

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
 using System.Text;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
@@ -13,42 +12,40 @@ namespace Material.OAuth.Authentication
 {
     public class AuthenticationValidator
     {
-        private readonly CryptoKey _key;
         private readonly IJsonWebTokenSigningFactory _factory;
         private readonly JsonWebTokenSigningTemplate _signingTemplate;
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
 
-        public AuthenticationValidator(CryptoKey key) : 
-                this(
-                    key, 
-                    new JsonWebTokenSignerFactory(), 
-                    AuthenticationConfiguration.WhitelistedAlgorithms)
+        public AuthenticationValidator() : 
+                this(new JsonWebTokenSignerFactory())
         { }
 
         public AuthenticationValidator(
-            CryptoKey key, 
-            IJsonWebTokenSigningFactory factory,
-            List<JsonWebTokenAlgorithm> whitelistedAlgorithms)
+            IJsonWebTokenSigningFactory factory)
         {
-            _key = key;
             _factory = factory;
-            _whitelistedAlgorithms = whitelistedAlgorithms;
+            _whitelistedAlgorithms = AuthenticationConfiguration.WhitelistedAlgorithms;
 
             _signingTemplate = new JsonWebTokenSigningTemplate(factory);
         }
 
-        public virtual bool IsTokenValid(JsonWebToken token)
+        public virtual TokenValidationResult IsTokenValid(
+            JsonWebToken token, 
+            CryptoKey key)
         {
             if (token == null) throw new ArgumentNullException(nameof(token));
 
             if (!_whitelistedAlgorithms.Contains(token.Header.Algorithm))
             {
-                throw new SecurityException(
+                return new TokenValidationResult(
+                    false, 
                     StringResources.InvalidJsonWebTokenAlgorithm);
             }
             if (DateTime.Now > token.Claims.ExpirationTime)
             {
-                return false;
+                return new TokenValidationResult(
+                    false, 
+                    StringResources.WebTokenExpired);
             }
 
             var verifier = _factory.GetVerificationAlgorithm(
@@ -62,10 +59,21 @@ namespace Material.OAuth.Authentication
                 header,
                 claims);
 
-            return verifier.VerifyText(
-                _key,
+            var isSignatureValid = verifier.VerifyText(
+                key,
                 Convert.FromBase64String(token.Signature),
                 Encoding.UTF8.GetBytes(signatureBase));
+
+            if (!isSignatureValid)
+            {
+                return new TokenValidationResult(
+                    false, 
+                    StringResources.InvalidJsonWebTokenSignature);
+            }
+            else
+            {
+                return new TokenValidationResult(true);
+            }
         }
     }
 }

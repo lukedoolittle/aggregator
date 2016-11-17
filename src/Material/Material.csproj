@@ -55,6 +55,7 @@
     <Compile Include="Infrastructure\Identities\FitbitIdentity.cs" />
     <Compile Include="Infrastructure\Identities\GoogleIdentity.cs" />
     <Compile Include="Infrastructure\Identities\TwitterIdentity.cs" />
+    <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
@@ -229,6 +230,8 @@
     <Compile Include="OAuth\Authentication\AuthenticationConfiguration.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationGenerator.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationValidator.cs" />
+    <Compile Include="OAuth\Authentication\OpenIdAuthenticationValidator.cs" />
+    <Compile Include="OAuth\Authentication\TokenValidationResult.cs" />
     <Compile Include="OAuth\Authorization\ApiKeyJsonWebTokenExchangeAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuth1AuthorizationAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuth2AuthorizationAdapter.cs" />

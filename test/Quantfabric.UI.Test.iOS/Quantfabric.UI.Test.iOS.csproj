@@ -206,6 +206,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
+      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
+      <Name>Foundations.HttpClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Material.iOS\Material.iOS.csproj">
       <Project>{35e4822b-853b-4cb2-aae1-7d40d76c1e84}</Project>
       <Name>Accumulator.iOS</Name>

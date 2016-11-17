@@ -6,12 +6,11 @@ using CodeGen.Class;
 
 namespace CodeGen
 {
-//TODO: handle generic type constraints
+//handle generic type constraints
     public class ClassRepresentation
     {
         public string Comments { get; set; }
 
-        //TODO: change to property
         public List<string> GetNamespaces()
         {
             var namespaces = new List<string>();
@@ -36,7 +35,7 @@ namespace CodeGen
             return namespaces.Distinct().ToList();
         }
 
-        //TODO: change to property
+        //change to property
         public string GetBase()
         {
             if (BaseType == null && InterfaceTypes.Count == 0)

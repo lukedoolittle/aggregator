@@ -30,6 +30,17 @@ namespace Quantfabric.Test.Integration
                    !string.IsNullOrEmpty(token.TokenName);
         }
 
+        public static bool IsValidJsonWebToken(JsonWebToken token)
+        {
+            return token.Header != null &&
+                   token.Claims != null &&
+                   token.Signature != null &&
+                   !string.IsNullOrEmpty(token.Claims.Audience) &&
+                   !string.IsNullOrEmpty(token.Claims.Issuer) &&
+                   !string.IsNullOrEmpty(token.Claims.Subject) &&
+                   !string.IsNullOrEmpty(token.Claims.Id);
+        }
+
         public static T GetMemberValue<T>(this object instance, string memberName)
         {
             try

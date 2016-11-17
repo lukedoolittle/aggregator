@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net;
+using System.Security;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Authentication;
 
 namespace Material.OAuth.Authorization
 {
@@ -16,7 +18,8 @@ namespace Material.OAuth.Authorization
             string apiKeyName,
             string apiKeyValue,
             HttpParameterType apiKeyType,
-            string tokenName)
+            string tokenName,
+            Uri discoveryUri)
         {
             var result = (await new HttpRequestBuilder(requestUri.NonPath())
                 .PostTo(requestUri.AbsolutePath)
@@ -28,9 +31,17 @@ namespace Material.OAuth.Authorization
                 .ResultAsync()
                 .ConfigureAwait(false));
 
-            var token = new JsonWebToken(result);
+            var token = result.ToWebToken();
 
-            //TODO: validate JWT with primary key after adding discovery endpoint logic
+            var tokenValidation = await new OpenIdAuthenticationValidator(
+                    new AuthenticationValidator())
+                .IsTokenValid(token, discoveryUri)
+                .ConfigureAwait(false);
+
+            if (!tokenValidation.IsTokenValid)
+            {
+                throw new SecurityException(tokenValidation.Reason);
+            }
 
             return new OAuth2Credentials()
                 .SetAccessToken(result)

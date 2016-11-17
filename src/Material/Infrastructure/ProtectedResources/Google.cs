@@ -29,5 +29,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://accounts.google.com/o/oauth2/auth");
         public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");
+        public override Uri OpenIdDiscoveryUrl => new Uri("https://accounts.google.com/.well-known/openid-configuration");
 	}
 }

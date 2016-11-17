@@ -2,11 +2,9 @@
 using System.Runtime.Serialization;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Serialization;
 
 namespace Material.Infrastructure.Credentials
 {
-    //TODO: should override GetHashCode() for this value object
     [DataContract]
     public class JsonWebToken
     {
@@ -19,22 +17,6 @@ namespace Material.Infrastructure.Credentials
         public string Signature { get; set; }
 
         public JsonWebToken() { }
-
-        public JsonWebToken(string token)
-        {
-            if (token == null) throw new ArgumentNullException(nameof(token));
-
-            var splitEntity = token.Split('.');
-
-            var deserializer = new JsonSerializer();
-
-            var header = splitEntity[0].FromBase64String();
-            var claims = splitEntity[1].FromBase64String();
-
-            Header = deserializer.Deserialize<JsonWebTokenHeader>(header);
-            Claims = deserializer.Deserialize<JsonWebTokenClaims>(claims);
-            Signature = splitEntity[2];
-        }
 
         public JsonWebToken(
             JsonWebTokenHeader header, 

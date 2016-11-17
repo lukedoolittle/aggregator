@@ -268,7 +268,7 @@ namespace Foundations.HttpClient
                 RequestUri = _request.Address,
                 Content = _request.Content
             };
-            //TODO: do you actually have to do this???
+            //This is very fragile; do you have to do this???
             foreach (var header in _request.Headers)
             {
                 if (header.Key == HttpRequestHeader.Accept.ToString())

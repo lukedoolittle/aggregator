@@ -21,6 +21,7 @@ namespace Foundations.HttpClient.Authenticators
             _factory = factory;
         }
 
+        //TODO: this is duplicate code from JsonWebTokenExtensions
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public string CreateSignatureBase(
             string header, 

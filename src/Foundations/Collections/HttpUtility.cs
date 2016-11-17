@@ -13,7 +13,7 @@ namespace Foundations.Collections
     {
         public static HttpValueCollection ParseQueryString(string query)
         {
-            //TODO: handle these degenerate conditions differently
+            //Handle these degenerate conditions differently
             if (query == null || query == "#_=_" || query == "#!")
             {
                 return new HttpValueCollection();
@@ -144,6 +144,7 @@ namespace Foundations.Collections
         }
 
         //TODO: this should match up with the other encoding functionality in Foundations
+        //This may match up with the Url encoding issues in iOS
         public virtual string ToString(bool urlEncoded, IDictionary excludeKeys)
         {
             if (this.Count == 0)

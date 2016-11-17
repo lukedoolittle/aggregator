@@ -264,6 +264,16 @@ namespace CodeGen
                     {
                         ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
                     });
+
+                    var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
+                    if (openIdDiscoveryUrl != null)
+                    {
+                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.OpenIdDiscoveryUrl))
+                        {
+                            IsOverride = true,
+                            PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))
+                        });
+                    }
                 }
                 else
                 {
@@ -386,7 +396,7 @@ namespace CodeGen
                         });
                     }
 
-                    //TODO: this is pretty ridgid and makes assumptions about the structure that may not be true
+                    //this is pretty ridgid and makes assumptions about the structure that may not be true
                     if (details["security"]?.ToObject<JArray>()?.Count > 0 &&
                         details["security"]?.ToObject<JArray>()[0]?.ToObject<JObject>()?["oauth2"] != null)
                     {

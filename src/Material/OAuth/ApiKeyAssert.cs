@@ -26,7 +26,8 @@ namespace Material.OAuth
                     provider.KeyName, 
                     _apiKey, 
                     provider.KeyType, 
-                    provider.TokenName);
+                    provider.TokenName,
+                    provider.OpenIdDiscoveryUrl);
         }
     }
 }

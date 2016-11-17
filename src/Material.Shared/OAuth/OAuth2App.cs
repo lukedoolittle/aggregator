@@ -111,8 +111,9 @@ namespace Material.OAuth
         /// <summary>
         /// Authorize a resource owner using the OAuth2 token workflow
         /// </summary>
+        /// <param name="response">The OAuth2 response type</param>
         /// <returns>Valid OAuth2 credentials</returns>
-        public Task<OAuth2Credentials> GetCredentialsAsync()
+        public Task<OAuth2Credentials> GetCredentialsAsync(OAuth2ResponseType response)
         {
             var handler = new OAuth2CallbackHandler(
                 _securityStrategy,
@@ -134,10 +135,18 @@ namespace Material.OAuth
 
             return _app.GetCredentialsAsync(
                 OAuth2FlowType.Implicit, 
-                OAuth2ResponseType.Token, 
+                response, 
                 handler);
         }
 
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 token workflow
+        /// </summary>
+        /// <returns>Valid OAuth2 credentials</returns>
+        public Task<OAuth2Credentials> GetCredentialsAsync()
+        {
+            return GetCredentialsAsync(OAuth2ResponseType.Token);
+        }
 
         /// <summary>
         /// Adds scope to be requested with OAuth2 authorization

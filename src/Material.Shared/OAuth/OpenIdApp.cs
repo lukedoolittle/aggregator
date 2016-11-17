@@ -1,8 +1,10 @@
-﻿using System;
+﻿using System.Security;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Authentication;
 
 namespace Material.OAuth
 {
@@ -10,6 +12,7 @@ namespace Material.OAuth
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly OAuth2App<TResourceProvider> _app;
+        private readonly TResourceProvider _provider;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow
@@ -31,11 +34,13 @@ namespace Material.OAuth
 #endif
             )
         {
+            _provider = provider;
              _app = new OAuth2App<TResourceProvider>(
                 clientId,
                 callbackUrl,
                 provider,
                 browserType);
+            _app.AddScope("openid");
         }
 
         /// <summary>
@@ -84,7 +89,8 @@ namespace Material.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public async Task<JsonWebToken> GetCredentialsAsync()
         {
-            var credentials = await _app.GetCredentialsAsync()
+            var credentials = await _app.GetCredentialsAsync(
+                    OAuth2ResponseType.IdTokenToken)
                 .ConfigureAwait(false);
 
             return await ExtractAndValidateAuthenticationToken(credentials)
@@ -94,10 +100,21 @@ namespace Material.OAuth
         private async Task<JsonWebToken> ExtractAndValidateAuthenticationToken(
             OAuth2Credentials credentials)
         {
-            //TODO: do we also need to pass the validation endpoint here???
-            //How do any clients know where to go to validate the response???
-            //TODO: pull the webtoken out of the credentials response, get the key from the discovery endpoint and validate
-            throw new NotImplementedException();
+            var validator = new OpenIdAuthenticationValidator(
+                new AuthenticationValidator());
+
+            var token = credentials.IdToken;
+
+            var tokenValidation = await validator
+                .IsTokenValid(token, _provider.OpenIdDiscoveryUrl)
+                .ConfigureAwait(false);
+
+            if (!tokenValidation.IsTokenValid)
+            {
+                throw new SecurityException(tokenValidation.Reason);
+            }
+
+            return token;
         }
     }
 }

@@ -57,12 +57,13 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator(
+            var validator = new AuthenticationValidator();
+
+            var tokenValidity = validator.IsTokenValid(
+                token, 
                 parameters.PublicKey);
 
-            var isValid = validator.IsTokenValid(token);
-
-            Assert.True(isValid);
+            Assert.True(tokenValidity.IsTokenValid);
         }
 
         [Fact]
@@ -84,12 +85,13 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator(
+            var validator = new AuthenticationValidator();
+
+            var tokenValidity = validator.IsTokenValid(
+                token,
                 parameters.PublicKey);
 
-            var isValid = validator.IsTokenValid(token);
-
-            Assert.True(isValid);
+            Assert.True(tokenValidity.IsTokenValid);
         }
 
         [Fact]
@@ -111,12 +113,13 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator(
+            var validator = new AuthenticationValidator();
+
+            var tokenValidity = validator.IsTokenValid(
+                token,
                 parameters.PublicKey);
 
-            var isValid = validator.IsTokenValid(token);
-
-            Assert.True(isValid);
+            Assert.True(tokenValidity.IsTokenValid);
         }
 
         [Fact]
@@ -138,12 +141,13 @@ namespace Quantfabric.Test.Material.Interaction
                     parameters.Algorithm)
                 .ConfigureAwait(false);
 
-            var validator = new AuthenticationValidator(
+            var validator = new AuthenticationValidator();
+
+            var tokenValidity = validator.IsTokenValid(
+                token,
                 parameters.PublicKey);
 
-            var isValid = validator.IsTokenValid(token);
-
-            Assert.True(isValid);
+            Assert.True(tokenValidity.IsTokenValid);
             Assert.Equal(credentials.UserId, token.Claims.Subject);
         }
 

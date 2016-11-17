@@ -160,9 +160,15 @@
     <value>Cannot exchange client access token for long lived access token</value>
   </data>
   <data name="InvalidJsonWebTokenAlgorithm" xml:space="preserve">
-    <value>The given JWT algorithm has not been whitelisted</value>
+    <value>The given Json Web Token algorithm has not been whitelisted</value>
   </data>
   <data name="ResponseTypeNotSupported" xml:space="preserve">
     <value>A {0} response is not supported with the service {1}</value>
+  </data>
+  <data name="InvalidJsonWebTokenSignature" xml:space="preserve">
+    <value>The Json Web Token signature could not be validated</value>
+  </data>
+  <data name="WebTokenExpired" xml:space="preserve">
+    <value>The Json Web Token is expired</value>
   </data>
 </root>

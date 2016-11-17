@@ -5,7 +5,6 @@ using Foundations.Extensions;
 
 namespace Material.Infrastructure.Credentials
 {
-    //TODO: should override GetHashCode() for this value object
     [DataContract]
     public class OAuth2Credentials : TokenCredentials
     {
@@ -60,6 +59,15 @@ namespace Material.Infrastructure.Credentials
 
         [DataMember(Name = "error_description", EmitDefaultValue = false)]
         public string ErrorDescription { get; private set; }
+
+        [DataMember(Name = "id_token", EmitDefaultValue = false)]
+        private string _idToken;
+
+        public JsonWebToken IdToken
+        {
+            get { return _idToken.ToWebToken(); }
+            set { _idToken = value.ToEncodedWebToken(); }
+        }
 
         public override bool HasValidPublicKey => !string.IsNullOrEmpty(ClientId);
 

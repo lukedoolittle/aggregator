@@ -6,7 +6,6 @@ using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
-using Foundations.HttpClient.Serialization;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -27,25 +26,21 @@ namespace Material.OAuth.Authentication
             string applicationName) : 
                 this(
                     privateKey,
-                    new JsonWebTokenSigningTemplate(
-                        new JsonWebTokenSignerFactory()),
-                    AuthenticationConfiguration.WhitelistedAlgorithms,
                     applicationName,
                     recipient,
-                    AuthenticationConfiguration.AuthenticationTokenTimeoutInMinutes)
+                    new JsonWebTokenSigningTemplate(
+                        new JsonWebTokenSignerFactory()))
         { }
 
         public AuthenticationGenerator(
             CryptoKey privateKey, 
-            JsonWebTokenSigningTemplate signingTemplate,
-            List<JsonWebTokenAlgorithm> whitelistedAlgorithms,
             string applicationName,
             string recipient,
-            int expirationTimeInMinutes)
+            JsonWebTokenSigningTemplate signingTemplate)
         {
             _privateKey = privateKey;
-            _whitelistedAlgorithms = whitelistedAlgorithms;
-            _expirationTimeInMinutes = expirationTimeInMinutes;
+            _whitelistedAlgorithms = AuthenticationConfiguration.WhitelistedAlgorithms;
+            _expirationTimeInMinutes = AuthenticationConfiguration.AuthenticationTokenTimeoutInMinutes;
             _applicationName = applicationName;
             _intendedRecipient = recipient;
             _signingTemplate = signingTemplate;
@@ -112,16 +107,8 @@ namespace Material.OAuth.Authentication
 
         private JsonWebToken SignToken(JsonWebToken token)
         {
-            var serializer = new JsonSerializer();
-            var header = serializer.Serialize(token.Header);
-            var claims = serializer.Serialize(token.Claims);
-
-            var signatureBase = _signingTemplate.CreateSignatureBase(
-                header,
-                claims);
-
             token.Signature = _signingTemplate.CreateSignature(
-                signatureBase,
+                token.ToEncodedWebToken(),
                 token.Header.Algorithm,
                 _privateKey);
 

@@ -25,5 +25,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "Bearer";
         public override HttpParameterType KeyType => HttpParameterType.Header;
         public override Uri TokenUrl => new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+        public override Uri OpenIdDiscoveryUrl => new Uri("https://login.microsoftonline.com/common/.well-known/openid-configuration");
 	}
 }

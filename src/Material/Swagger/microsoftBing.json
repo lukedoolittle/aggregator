@@ -105,7 +105,8 @@
             "tokenUrl": "https://api.cognitive.microsoft.com/sts/v1.0/issueToken",
             "x-key-name": "Ocp-Apim-Subscription-Key",
             "x-token-name": "Bearer",
-            "x-key-location": "header"
+            "x-key-location": "header",
+            "x-openid-discovery-url": "https://login.microsoftonline.com/common/.well-known/openid-configuration"
         }
     },
     "definitions": []

@@ -14,7 +14,7 @@ using Material.Infrastructure.Responses;
 
 namespace Material
 {
-    //TODO: either implement IDisposable or find some other method than a timer
+    //Either implement IDisposable or find some other method than a timer
     //possibly an async delay???
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class AndroidGPSAdapter : 

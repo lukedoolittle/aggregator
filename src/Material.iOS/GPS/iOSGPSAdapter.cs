@@ -12,7 +12,7 @@ namespace Material.GPS
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "i")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "OSGPS")]
-    //TODO: either implement IDisposable or find some other method than a timer
+    //Either implement IDisposable or find some other method than a timer
     //possibly an async delay???
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class iOSGPSAdapter : IGPSAdapter

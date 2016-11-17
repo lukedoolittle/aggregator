@@ -8,7 +8,6 @@ using Material.Exceptions;
 
 namespace Material.Infrastructure
 {
-    //TODO: should override GetHashCode() for this value object
     public abstract class OAuth2ResourceProvider : ResourceProvider
     {
         public virtual Uri AuthorizationUrl { get; }

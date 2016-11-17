@@ -105,7 +105,7 @@ namespace Material.OAuth.Template
                 .ConfigureAwait(false);
         }
 
-        //TODO: is there some way to make the object in the callback handler typesafe?
+        //is there some way to make the object in the callback handler typesafe?
         protected abstract Task MakeAuthorizationRequest(
             Uri authorizationUri,
             Func<Uri, object, bool> callbackHandler);
