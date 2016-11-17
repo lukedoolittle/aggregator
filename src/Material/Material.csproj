@@ -57,6 +57,7 @@
     <Compile Include="Infrastructure\Identities\GoogleIdentity.cs" />
     <Compile Include="Infrastructure\Identities\TwitterIdentity.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
+    <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />

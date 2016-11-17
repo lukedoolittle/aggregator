@@ -20,4 +20,13 @@ namespace CodeGen
         public override Uri TokenUrl { get; }
         public override HttpParameterType ParameterType { get; }
     }
+
+    public class DummyOpenIdResourceProvider : OpenIdResourceProvider
+    {
+        public override Uri TokenUrl { get; }
+        public override List<string> AvailableScopes { get; }
+        public override List<OAuth2FlowType> AllowedFlows { get; }
+        public override List<GrantType> AllowedGrantTypes { get; }
+        public override Uri OpenIdDiscoveryUrl { get; }
+    }
 }

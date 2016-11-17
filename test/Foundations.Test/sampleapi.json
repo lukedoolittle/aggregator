@@ -100,7 +100,8 @@
             "x-response-types": [ "code" ],
             "scopes": {
                 "sample_get": "",
-                "sample_post": ""
+                "sample_post": "",
+                "openid": ""
             }
         },
         "oauth2Token": {
@@ -113,7 +114,8 @@
             "x-openid-discovery-url": "https://login.example.com/.well-known/openid-configuration",
             "scopes": {
                 "sample_get": "",
-                "sample_post": ""
+                "sample_post": "",
+                "openid": "" 
             }
         }
     },

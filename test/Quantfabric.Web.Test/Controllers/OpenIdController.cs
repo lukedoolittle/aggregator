@@ -26,7 +26,7 @@ namespace Quantfabric.Web.Test.Controllers
         }
 
         public Task<JsonWebToken> GetIdToken<TResourceProvider>(string uri)
-            where TResourceProvider : OAuth2ResourceProvider, new()
+            where TResourceProvider : OpenIdResourceProvider, new()
         {
             var oauth = new OpenIdWeb<TResourceProvider>(
                 _appRepository.GetClientId<TResourceProvider>(),

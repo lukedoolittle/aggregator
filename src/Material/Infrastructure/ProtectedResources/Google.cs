@@ -20,7 +20,7 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Google : OAuth2ResourceProvider              
+	public partial class Google : OpenIdResourceProvider              
 	{
         public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/gmail.readonly", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/analytics.readonly", "openid", "openid email", "openid profile", "openid email profile" };
         public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };

@@ -12,7 +12,6 @@ namespace Material.Infrastructure
     {
         public virtual Uri AuthorizationUrl { get; }
         public abstract Uri TokenUrl { get; }
-        public virtual Uri OpenIdDiscoveryUrl { get; }
         public abstract List<string> AvailableScopes { get; }
         public List<string> Scopes { get; } = new List<string>();
         public virtual string Scope => string.Join(ScopeDelimiter.ToString(), Scopes);

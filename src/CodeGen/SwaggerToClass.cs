@@ -25,6 +25,8 @@ namespace CodeGen
             new DummyOAuth2ResourceProvider();
         private readonly DummyOAuth1ResourceProvider _oauth1Provider = 
             new DummyOAuth1ResourceProvider();
+        private readonly DummyOpenIdResourceProvider _openidProvider = 
+            new DummyOpenIdResourceProvider();
 
         public SwaggerToClass(string pathToSwaggerFile)
         {
@@ -44,8 +46,10 @@ namespace CodeGen
             {
                 if (securityDefinition["type"]?.ToString() == "oauth2")
                 {
-                    @class.BaseType = new BaseTypeRepresentation(typeof(OAuth2ResourceProvider));
-
+                    @class.BaseType = securityDefinition["scopes"]["openid"] != null ? 
+                        new BaseTypeRepresentation(typeof(OpenIdResourceProvider)) : 
+                        new BaseTypeRepresentation(typeof(OAuth2ResourceProvider));
+                    
                     if (@class.Properties.Count == 0)
                     {
                         @class.Properties.Add(
@@ -169,9 +173,9 @@ namespace CodeGen
                     var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
                     if (openIdDiscoveryUrl != null)
                     {
-                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.OpenIdDiscoveryUrl)))
+                        if (@class.Properties.All(p => p.Name != nameof(_openidProvider.OpenIdDiscoveryUrl)))
                         {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.OpenIdDiscoveryUrl))
+                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_openidProvider.OpenIdDiscoveryUrl))
                             {
                                 IsOverride = true,
                                 PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))
@@ -268,7 +272,7 @@ namespace CodeGen
                     var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
                     if (openIdDiscoveryUrl != null)
                     {
-                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.OpenIdDiscoveryUrl))
+                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_openidProvider.OpenIdDiscoveryUrl))
                         {
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))

@@ -113,7 +113,7 @@ namespace Foundations.Test
         }
 
         [Fact]
-        public void CreateServiceAndRequestClassesHasMultipleFlows()
+        public void CreateServiceClassHasMultipleFlows()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
@@ -134,7 +134,7 @@ namespace Foundations.Test
         }
 
         [Fact]
-        public void CreateServiceAndRequestClassesHasMultipleResponseTypes()
+        public void CreateServiceClassHasMultipleResponseTypes()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
@@ -153,6 +153,18 @@ namespace Foundations.Test
             Assert.True(value.Contains("OAuth2ResponseType.Code"));
             Assert.True(value.Contains("OAuth2ResponseType.Token"));
             Assert.True(value.Contains("OAuth2ResponseType.IdTokenToken"));
+        }
+
+        [Fact]
+        public void CreateServiceClassHasCorrectBaseType()
+        {
+            var serviceNamespace = "SampleApiNamespace.Services";
+
+            var codeGen = new SwaggerToClass("sampleapi.json");
+
+            var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
+
+            Assert.Equal("OpenIdResourceProvider", serviceClass.BaseType.TypeName);
         }
     }
 }

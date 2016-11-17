@@ -9,7 +9,7 @@ using Material.OAuth.Authentication;
 namespace Material.OAuth
 {
     public class OpenIdWeb<TResourceProvider>
-        where TResourceProvider : OAuth2ResourceProvider, new()
+        where TResourceProvider : OpenIdResourceProvider, new()
     {
         private readonly OAuth2Web<TResourceProvider> _web;
         private readonly TResourceProvider _provider;
