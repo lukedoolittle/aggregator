@@ -16,8 +16,6 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "deviceAddress")]
         public Guid DeviceAddress { get; }
 
-        public override bool HasValidPublicKey => true;
-
         public override string ExpiresIn => "0";
 
         public override bool AreValidIntermediateCredentials => true;

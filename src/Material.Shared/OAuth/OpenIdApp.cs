@@ -25,6 +25,7 @@ namespace Material.OAuth
         private readonly string _clientId;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
+        private readonly string _userId;
 #if !__WINDOWS__
         private readonly AuthorizationInterface _browserType;
 #endif
@@ -55,6 +56,7 @@ namespace Material.OAuth
             _clientId = clientId;
             _provider = provider;
             _callbackUri = new Uri(callbackUrl);
+            _userId = Guid.NewGuid().ToString();
 
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
@@ -73,7 +75,8 @@ namespace Material.OAuth
                     new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                browserType);
+                browserType,
+                _userId);
 
             _app.AddScope("openid");
         }
@@ -188,10 +191,17 @@ namespace Material.OAuth
 
         private JsonWebToken GetTokenFromCredentials(OAuth2Credentials credentials)
         {
-            var validator = new CompositeJsonWebTokenAuthenticationValidator(
-                new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl),
-                new JsonWebTokenAlgorithmValidator(),
-                new JsonWebTokenExpirationValidator());
+            var nonce = _securityStrategy.CreateOrGetSecureParameter(
+                _userId,
+                OAuth2Parameter.Nonce.EnumToString());
+
+            var validator = new CompositeJsonWebTokenAuthenticationValidator()
+                .AddValidator(new JsonWebTokenAlgorithmValidator())
+                .AddValidator(new JsonWebTokenExpirationValidator())
+                .AddValidator(new JsonWebTokenAudienceValidator(_clientId))
+                .AddValidator(new JsonWebTokenIssuerValidator(_provider.ValidIssuers))
+                .AddValidator(new JsonWebTokenNonceValidator(nonce))
+                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl));
 
             var token = credentials.IdToken;
 

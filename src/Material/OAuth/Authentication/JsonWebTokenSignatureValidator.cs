@@ -29,12 +29,10 @@ namespace Material.OAuth.Authentication
             var verifier = _factory.GetVerificationAlgorithm(
                 token.Header.Algorithm);
 
-            var signatureBase = token.ToEncodedWebToken(false);
-
             var isSignatureValid = verifier.VerifyText(
                 _key,
                 token.Signature.BytesFromBase64String(),
-                Encoding.UTF8.GetBytes(signatureBase));
+                Encoding.UTF8.GetBytes(token.SignatureBase));
 
             if (!isSignatureValid)
             {

@@ -35,9 +35,9 @@ namespace Material.OAuth.Authorization
 
             //Right now there is no given endpoint for these tokens from Microsoft
             //so exclude the signature validation
-            var tokenValidation = new CompositeJsonWebTokenAuthenticationValidator(
-                        new JsonWebTokenExpirationValidator())
-                    .IsTokenValid(token);
+            var tokenValidation = new CompositeJsonWebTokenAuthenticationValidator()
+                .AddValidator(new JsonWebTokenExpirationValidator())
+                .IsTokenValid(token);
 
             if (!tokenValidation.IsTokenValid)
             {

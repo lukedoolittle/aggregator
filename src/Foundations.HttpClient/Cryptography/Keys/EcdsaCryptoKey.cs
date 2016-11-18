@@ -13,7 +13,7 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public string AlgorithmName { get; }
         public string CurveName { get; }
         public string XCoordinate { get; }
-        public string Coordinate { get; }
+        public string YCoordinate { get; }
 
         public EcdsaCryptoKey(
             ECPublicKeyParameters key, 
@@ -25,7 +25,7 @@ namespace Foundations.HttpClient.Cryptography.Keys
             AlgorithmName = key.AlgorithmName;
             CurveName = curveName;
             XCoordinate = key.Q.AffineXCoord.ToBigInteger().ToString();
-            Coordinate = key.Q.AffineYCoord.ToBigInteger().ToString();
+            YCoordinate = key.Q.AffineYCoord.ToBigInteger().ToString();
         }
 
         public EcdsaCryptoKey(

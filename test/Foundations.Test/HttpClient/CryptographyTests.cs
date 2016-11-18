@@ -9,6 +9,8 @@ using Foundations.HttpClient.Cryptography.Discovery;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Extensions;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Utilities.Encoders;
 using Quantfabric.Test.Helpers;
 using Xunit;
 
@@ -107,7 +109,7 @@ namespace Foundations.Test.HttpClient
                 keyPair.Public.AlgorithmName,
                 keyPair.Public.CurveName,
                 keyPair.Public.XCoordinate,
-                keyPair.Public.Coordinate);
+                keyPair.Public.YCoordinate);
 
             var isValid = verifier.VerifyText(
                 key,

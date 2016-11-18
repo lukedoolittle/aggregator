@@ -56,7 +56,7 @@ namespace Material.OAuth.Authentication
 
             var token = await new TIdentity()
                 .AppendIdentity(
-                    InitializeToken(new JsonWebToken(), algorithm),
+                    InitializeToken(algorithm),
                     credentials)
                 .ConfigureAwait(false);
 
@@ -73,15 +73,14 @@ namespace Material.OAuth.Authentication
 
             var token = await new TIdentity()
                 .AppendIdentity(
-                    InitializeToken(new JsonWebToken(), algorithm),
+                    InitializeToken(algorithm),
                     credentials)
                 .ConfigureAwait(false);
 
             return SignToken(token);
         }
 
-        private JsonWebToken InitializeToken(
-            JsonWebToken token,
+        protected virtual JsonWebToken InitializeToken(
             JsonWebTokenAlgorithm algorithm)
         {
             if (!_whitelistedAlgorithms.Contains(algorithm))
@@ -90,27 +89,28 @@ namespace Material.OAuth.Authentication
                     StringResources.InvalidJsonWebTokenAlgorithm);
             }
 
-            token.Header = new JsonWebTokenHeader
-            {
-                Algorithm = algorithm
-            };
-            token.Claims = new JsonWebTokenClaims
-            {
-                IssuedAt = DateTime.Now,
-                ExpirationTime = DateTime.Now.Add(TimeSpan.FromMinutes(_expirationTimeInMinutes)),
-                Issuer = _applicationName,
-                Audience = _intendedRecipient
-            };
-
-            return token;
+            return new JsonWebToken(
+                new JsonWebTokenHeader
+                {
+                    Algorithm = algorithm
+                },
+                new JsonWebTokenClaims
+                {
+                    IssuedAt = DateTime.Now,
+                    ExpirationTime = DateTime.Now.Add(TimeSpan.FromMinutes(_expirationTimeInMinutes)),
+                    Issuer = _applicationName,
+                    Audience = _intendedRecipient,
+                });
         }
 
         private JsonWebToken SignToken(JsonWebToken token)
         {
-            token.Signature = _signingTemplate.CreateSignature(
-                token.ToEncodedWebToken(),
+            var signatureBase = token.SignatureBase;
+            var signature = _signingTemplate.CreateSignature(
+                signatureBase,
                 token.Header.Algorithm,
                 _privateKey);
+            token.Sign(signatureBase, signature);
 
             return token;
         }

@@ -15,7 +15,6 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "keyType")]
         public HttpParameterType KeyType { get; private set; }
 
-        public override bool HasValidPublicKey => true;
         public override string ExpiresIn => "0";
         public override bool AreValidIntermediateCredentials => true;
 

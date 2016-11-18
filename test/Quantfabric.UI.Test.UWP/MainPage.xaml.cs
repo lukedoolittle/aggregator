@@ -393,7 +393,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetWebTokenAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"JsonWebToken:{token.ToEncodedWebToken()}");
+            WriteToTextbox($"JsonWebToken:{token.EncodedToken}");
         }
 
         private async void OnYahooOpenIdClick(object sender, RoutedEventArgs e)
@@ -410,7 +410,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetWebTokenAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"JsonWebToken:{token.ToEncodedWebToken()}");
+            WriteToTextbox($"JsonWebToken:{token.EncodedToken}");
         }
 
         private void WriteToTextbox(string text)

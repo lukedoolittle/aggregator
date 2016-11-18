@@ -174,4 +174,19 @@
   <data name="MissingPublicKey" xml:space="preserve">
     <value>Could not find public key at discovery endpoint</value>
   </data>
+  <data name="WebTokenAlreadySigned" xml:space="preserve">
+    <value>Cannot resign web token that has already been signed</value>
+  </data>
+  <data name="WebTokenIsReadonly" xml:space="preserve">
+    <value>Cannot modify property {0} on a web token that has already been signed</value>
+  </data>
+  <data name="InvalidJsonWebTokenAudience" xml:space="preserve">
+    <value>The audience claim in the given Json Web Token did not match the clientId</value>
+  </data>
+  <data name="InvalidJsonWebTokenIssuer" xml:space="preserve">
+    <value>The Json Web Token issuer did not match one of the given valid issuers</value>
+  </data>
+  <data name="InvalidJsonWebTokenNonce" xml:space="preserve">
+    <value>The Json Web Token nonce does not match the nonce supplied by the application</value>
+  </data>
 </root>

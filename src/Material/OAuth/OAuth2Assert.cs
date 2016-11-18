@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -61,21 +62,24 @@ namespace Material.OAuth
         /// </summary>
         /// <returns>OAuth2Credentials with access token</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public Task<OAuth2Credentials> GetCredentialsAsync()
+        public Task<OAuth2Credentials> GetCredentialsAsync(
+            JsonWebTokenAlgorithm algorithm)
         {
             var time = DateTime.Now.ToUniversalTime();
-            
-            var token = new JsonWebToken
-            {
-                Claims =
+
+            var token = new JsonWebToken(
+                new JsonWebTokenHeader
+                {
+                    Algorithm = algorithm
+                },
+                new JsonWebTokenClaims
                 {
                     Issuer = _issuer,
                     Scope = _resourceProvider.Scope,
                     Audience = _resourceProvider.TokenUrl.ToString(),
                     ExpirationTime = time.Add(TimeSpan.FromMinutes(59)),
                     IssuedAt = time
-                }
-            };
+                });
 
             return _facade
                     .GetJsonWebTokenTokenCredentials(

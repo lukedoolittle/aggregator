@@ -16,17 +16,20 @@ namespace Material.OAuth
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly TResourceProvider _provider;
         private readonly AuthorizationInterface _browserType;
+        private readonly string _userId;
 
         public OAuth2AppBase(
             Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthorizationInterface browserType)
+            AuthorizationInterface browserType,
+            string userId)
         {
             _callbackUri = callbackUri;
             _browserType = browserType;
             _provider = provider;
             _uiFactory = uiFactory;
+            _userId = userId;
         }
 
         /// <summary>
@@ -99,7 +102,7 @@ namespace Material.OAuth
                     clientSecret);
 
             return template.GetAccessTokenCredentials(
-                Guid.NewGuid().ToString());
+                _userId);
         }
 
         /// <summary>

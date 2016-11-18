@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
@@ -175,7 +176,7 @@ namespace Quantfabric.Test.Material.Interaction
                     new RsaCryptoKey(privateKey, true),
                     clientEmail)
                 .AddScope<GoogleAnalyticsReports>()
-                .GetCredentialsAsync()
+                .GetCredentialsAsync(JsonWebTokenAlgorithm.RS256)
                 .ConfigureAwait(false);
 
             var body = new GoogleAnalyticsReportBody

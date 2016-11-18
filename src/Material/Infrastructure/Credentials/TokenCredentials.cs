@@ -10,7 +10,6 @@ namespace Material.Infrastructure.Credentials
     [DataContract]
     public abstract class TokenCredentials
     {
-        public abstract bool HasValidPublicKey { get; }
         public abstract string ExpiresIn { get; }
         public abstract bool AreValidIntermediateCredentials { get; }
 

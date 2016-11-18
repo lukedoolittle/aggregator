@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Foundations.Extensions;
 
 namespace Material.Infrastructure.Credentials
 {
@@ -52,24 +51,18 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; private set; }
 
-        public string Scope { get; private set; }
+        //[DataMember(Name = "error", EmitDefaultValue = false)]
+        //public string Error { get; private set; }
 
-        [DataMember(Name = "error", EmitDefaultValue = false)]
-        public string Error { get; private set; }
-
-        [DataMember(Name = "error_description", EmitDefaultValue = false)]
-        public string ErrorDescription { get; private set; }
+        //[DataMember(Name = "error_description", EmitDefaultValue = false)]
+        //public string ErrorDescription { get; private set; }
 
         [DataMember(Name = "id_token", EmitDefaultValue = false)]
+#pragma warning disable 649
         private string _idToken;
+#pragma warning restore 649
 
-        public JsonWebToken IdToken
-        {
-            get { return _idToken.ToWebToken(); }
-            set { _idToken = value.ToEncodedWebToken(); }
-        }
-
-        public override bool HasValidPublicKey => !string.IsNullOrEmpty(ClientId);
+        public JsonWebToken IdToken => _idToken.ToWebToken();
 
         public OAuth2Credentials SetAccessToken(string accessToken)
         {

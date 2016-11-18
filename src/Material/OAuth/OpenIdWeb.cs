@@ -19,6 +19,8 @@ namespace Material.OAuth
     {
         private readonly OAuth2Web<TResourceProvider> _web;
         private readonly TResourceProvider _provider;
+        private readonly string _clientId;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         /// <summary>
         /// Authenticate a resource owner using the OpenId Connect workflow with default security strategy
@@ -34,13 +36,15 @@ namespace Material.OAuth
             string callbackUrl,
             IOAuthSecurityStrategy strategy)
         {
+            _clientId = clientId;
+            _securityStrategy = strategy;
             _provider = new TResourceProvider();
 
             var callbackHandler = new OAuth2CallbackHandler(
                 strategy,
                 OAuth2Parameter.State.EnumToString());
 
-            var facade = new OAuth2CodeAuthorizationFacade(
+            var facade = new OpenIdCodeAuthorizationFacade(
                 _provider,
                 clientId,
                 new Uri(callbackUrl),
@@ -102,10 +106,17 @@ namespace Material.OAuth
                     userId)
                 .ConfigureAwait(false);
 
-            var validator = new CompositeJsonWebTokenAuthenticationValidator(
-                new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl),
-                new JsonWebTokenAlgorithmValidator(),
-                new JsonWebTokenExpirationValidator());
+            var nonce = _securityStrategy.CreateOrGetSecureParameter(
+                userId,
+                OAuth2Parameter.Nonce.EnumToString());
+
+            var validator = new CompositeJsonWebTokenAuthenticationValidator()
+                .AddValidator(new JsonWebTokenAlgorithmValidator())
+                .AddValidator(new JsonWebTokenExpirationValidator())
+                .AddValidator(new JsonWebTokenAudienceValidator(_clientId))
+                .AddValidator(new JsonWebTokenIssuerValidator(_provider.ValidIssuers))
+                .AddValidator(new JsonWebTokenNonceValidator(nonce))
+                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl));
 
             var token = credentials.IdToken;
 

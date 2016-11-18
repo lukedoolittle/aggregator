@@ -79,7 +79,6 @@
     <Compile Include="Contracts\IParameterFormatter.cs" />
     <Compile Include="Contracts\IProtocolLauncher.cs" />
     <Compile Include="Enums\RequestParameterType.cs" />
-    <Compile Include="Exceptions\AuthorizationException.cs" />
     <Compile Include="Exceptions\InvalidFlowTypeException.cs" />
     <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUI.cs" />
@@ -233,7 +232,10 @@
     <Compile Include="OAuth\Authentication\AuthenticationConfiguration.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationGenerator.cs" />
     <Compile Include="OAuth\Authentication\JsonWebTokenAlgorithmValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenAudienceValidator.cs" />
     <Compile Include="OAuth\Authentication\JsonWebTokenExpirationValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenIssuerValidator.cs" />
+    <Compile Include="OAuth\Authentication\JsonWebTokenNonceValidator.cs" />
     <Compile Include="OAuth\Authentication\JsonWebTokenSignatureValidator.cs" />
     <Compile Include="OAuth\Authentication\CompositeJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="OAuth\Authentication\DiscoveryJsonWebTokenSignatureValidator.cs" />

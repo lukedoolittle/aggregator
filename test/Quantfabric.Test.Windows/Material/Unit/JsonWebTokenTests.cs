@@ -20,22 +20,24 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void CreateJsonWebTokenThenVerifySignatureWithPublicKey()
         {
-            var token = new JsonWebToken
+            var header = new JsonWebTokenHeader
             {
-                Claims =
-                {
-                    Issuer = _randomizer.RandomString(0, 70),
-                    Scope = _randomizer.RandomString(0, 50),
-                    Audience = _randomizer.RandomString(0, 50),
-                    ExpirationTime = DateTime.Now.AddHours(1),
-                    IssuedAt = DateTime.Now
-                }
+                Algorithm = JsonWebTokenAlgorithm.RS256
             };
+            var claims = new JsonWebTokenClaims
+            {
+                Issuer = _randomizer.RandomString(0, 70),
+                Scope = _randomizer.RandomString(0, 50),
+                Audience = _randomizer.RandomString(0, 50),
+                ExpirationTime = DateTime.Now.AddHours(1),
+                IssuedAt = DateTime.Now
+            };
+            var token = new JsonWebToken(header, claims);
 
             var signer = _factory.GetSigningAlgorithm(token.Header.Algorithm);
             var verifier = _factory.GetVerificationAlgorithm(token.Header.Algorithm);
 
-            var signatureBase = token.ToEncodedWebToken();
+            var signatureBase = token.SignatureBase;
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
             var keyPair = RsaCryptoKeyPair.Create(1024);
@@ -54,19 +56,21 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void CreateJsonWebTokenThenVerifySignatureWithModulusAndPublicExponent()
         {
-            var token = new JsonWebToken
+            var header = new JsonWebTokenHeader
             {
-                Claims =
-                {
-                    Issuer = _randomizer.RandomString(0, 70),
-                    Scope = _randomizer.RandomString(0, 50),
-                    Audience = _randomizer.RandomString(0, 50),
-                    ExpirationTime = DateTime.Now.AddHours(1),
-                    IssuedAt = DateTime.Now
-                }
+                Algorithm = JsonWebTokenAlgorithm.RS256
             };
+            var claims = new JsonWebTokenClaims
+            {
+                Issuer = _randomizer.RandomString(0, 70),
+                Scope = _randomizer.RandomString(0, 50),
+                Audience = _randomizer.RandomString(0, 50),
+                ExpirationTime = DateTime.Now.AddHours(1),
+                IssuedAt = DateTime.Now
+            };
+            var token = new JsonWebToken(header, claims);
 
-            var signatureBase = token.ToEncodedWebToken();
+            var signatureBase = token.SignatureBase;
             var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
 
             var keyPair = RsaCryptoKeyPair.Create(1024);

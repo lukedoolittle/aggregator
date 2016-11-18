@@ -29,6 +29,7 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://api.login.yahoo.com/oauth2/request_auth");
         public override Uri TokenUrl => new Uri("https://api.login.yahoo.com/oauth2/get_token");
-        public override Uri OpenIdDiscoveryUrl => new Uri("https://accounts.google.com/.well-known/openid-configuration");
+        public override Uri OpenIdDiscoveryUrl => new Uri("https://login.yahoo.com/.well-known/openid-configuration");
+        public override List<String> ValidIssuers => new List<String> { "https://api.login.yahoo.com" };
 	}
 }

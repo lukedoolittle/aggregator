@@ -67,9 +67,5 @@ namespace Material.Infrastructure.Credentials
 
             return this;
         }
-
-        public override bool HasValidPublicKey => 
-            !(string.IsNullOrEmpty(ConsumerKey) || 
-              string.IsNullOrEmpty(ConsumerSecret));
     }
 }

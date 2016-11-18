@@ -28,5 +28,6 @@ namespace CodeGen
         public override List<OAuth2FlowType> AllowedFlows { get; }
         public override List<GrantType> AllowedGrantTypes { get; }
         public override Uri OpenIdDiscoveryUrl { get; }
+        public override List<string> ValidIssuers { get; }
     }
 }

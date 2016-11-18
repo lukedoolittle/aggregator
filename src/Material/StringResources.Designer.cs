@@ -161,6 +161,33 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The audience claim in the given Json Web Token did not match the clientId.
+        /// </summary>
+        public static string InvalidJsonWebTokenAudience {
+            get {
+                return ResourceManager.GetString("InvalidJsonWebTokenAudience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Json Web Token issuer did not match one of the given valid issuers.
+        /// </summary>
+        public static string InvalidJsonWebTokenIssuer {
+            get {
+                return ResourceManager.GetString("InvalidJsonWebTokenIssuer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Json Web Token nonce does not match the nonce supplied by the application.
+        /// </summary>
+        public static string InvalidJsonWebTokenNonce {
+            get {
+                return ResourceManager.GetString("InvalidJsonWebTokenNonce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Json Web Token signature could not be validated.
         /// </summary>
         public static string InvalidJsonWebTokenSignature {
@@ -224,11 +251,29 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot resign web token that has already been signed.
+        /// </summary>
+        public static string WebTokenAlreadySigned {
+            get {
+                return ResourceManager.GetString("WebTokenAlreadySigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Json Web Token is expired.
         /// </summary>
         public static string WebTokenExpired {
             get {
                 return ResourceManager.GetString("WebTokenExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot modify property {0} on a web token that has already been signed.
+        /// </summary>
+        public static string WebTokenIsReadonly {
+            get {
+                return ResourceManager.GetString("WebTokenIsReadonly", resourceCulture);
             }
         }
     }

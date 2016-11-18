@@ -46,7 +46,7 @@ namespace Material.OAuth.Facade
         {
             _resourceProvider.SetGrant(GrantType.JsonWebToken);
 
-            var token = await _oauth.GetJsonWebToken(
+            var token = await _oauth.GetAccessTokenUsingJsonWebToken(
                 _resourceProvider.TokenUrl,
                 jwt,
                 privateKey,

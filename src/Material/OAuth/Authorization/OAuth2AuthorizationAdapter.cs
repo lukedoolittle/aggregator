@@ -138,7 +138,7 @@ namespace Material.OAuth.Authorization
                 .ConfigureAwait(false));
         }
 
-        public async Task<OAuth2Credentials> GetJsonWebToken(
+        public async Task<OAuth2Credentials> GetAccessTokenUsingJsonWebToken(
             Uri accessUrl,
             JsonWebToken jsonWebToken,
             CryptoKey privateKey,
@@ -151,7 +151,7 @@ namespace Material.OAuth.Authorization
             return (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2JsonWebToken(
-                    jsonWebToken.ToEncodedWebToken(false),
+                    jsonWebToken.SignatureBase,
                     jsonWebToken.Header.Algorithm,
                     privateKey,
                     clientId)

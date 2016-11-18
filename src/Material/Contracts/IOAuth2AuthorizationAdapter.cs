@@ -31,7 +31,7 @@ namespace Material.Contracts
             string clientId,
             string clientSecret);
 
-        Task<OAuth2Credentials> GetJsonWebToken(
+        Task<OAuth2Credentials> GetAccessTokenUsingJsonWebToken(
             Uri accessUrl,
             JsonWebToken jsonWebToken,
             CryptoKey privateKey,

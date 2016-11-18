@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -8,14 +7,16 @@ namespace Material.OAuth.Authentication
     public class CompositeJsonWebTokenAuthenticationValidator : 
         IJsonWebTokenAuthenticationValidator
     {
-        private readonly List<IJsonWebTokenAuthenticationValidator> _validators;
+        private readonly List<IJsonWebTokenAuthenticationValidator> _validators = 
+            new List<IJsonWebTokenAuthenticationValidator>();
 
-        public CompositeJsonWebTokenAuthenticationValidator(
-            params IJsonWebTokenAuthenticationValidator[] validators)
+        public CompositeJsonWebTokenAuthenticationValidator AddValidator(
+            IJsonWebTokenAuthenticationValidator validator)
         {
-            _validators = validators.ToList();
-        }
+            _validators.Add(validator);
 
+            return this;
+        }
 
         public TokenValidationResult IsTokenValid(JsonWebToken token)
         {

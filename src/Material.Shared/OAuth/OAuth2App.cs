@@ -73,7 +73,8 @@ namespace Material.OAuth
                     new OAuthAuthorizerUIFactory(),
 #endif
                 provider, 
-                browserType);
+                browserType,
+                Guid.NewGuid().ToString());
         }
 
         /// <summary>

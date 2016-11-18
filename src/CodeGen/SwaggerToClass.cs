@@ -182,6 +182,19 @@ namespace CodeGen
                             });
                         }
                     }
+
+                    var openIdissuers = securityDefinition["x-openid-issuers"]?.ToObject<List<string>>();
+                    if (openIdissuers != null)
+                    {
+                        if (@class.Properties.All(p => p.Name != nameof(_openidProvider.ValidIssuers)))
+                        {
+                            @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), nameof(_openidProvider.ValidIssuers))
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(openIdissuers)
+                            });
+                        }
+                    }
                 }
                 else if (securityDefinition["type"]?.ToString() == "oauth1")
                 {
@@ -268,16 +281,6 @@ namespace CodeGen
                     {
                         ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
                     });
-
-                    var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
-                    if (openIdDiscoveryUrl != null)
-                    {
-                        @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_openidProvider.OpenIdDiscoveryUrl))
-                        {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))
-                        });
-                    }
                 }
                 else
                 {
