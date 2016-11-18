@@ -15,9 +15,9 @@ namespace Material.Contracts
             string clientId,
             string scope,
             Uri redirectUri,
-            string state,
             OAuth2ResponseType responseType,
-            Dictionary<string, string> queryParameters);
+            IDictionary<string, string> securityParameters,
+            IDictionary<string, string> queryParameters);
 
         Task<OAuth2Credentials> GetRefreshToken(
             Uri accessUrl,

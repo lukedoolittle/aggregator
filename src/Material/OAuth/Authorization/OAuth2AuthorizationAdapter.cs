@@ -20,9 +20,9 @@ namespace Material.OAuth.Authorization
             string clientId, 
             string scope,
             Uri redirectUri, 
-            string state,
-            OAuth2ResponseType responseType, 
-            Dictionary<string, string> queryParameters)
+            OAuth2ResponseType responseType,
+            IDictionary<string, string> securityParameters,
+            IDictionary<string, string> queryParameters)
         {
             if (authorizeUrl == null)
             {
@@ -36,9 +36,9 @@ namespace Material.OAuth.Authorization
             {
                 throw new ArgumentNullException(nameof(redirectUri));
             }
-            if (string.IsNullOrEmpty(state))
+            if (securityParameters == null)
             {
-                throw new ArgumentNullException(nameof(state));
+                throw new ArgumentNullException(nameof(securityParameters));
             }
 
             var builder = new UriBuilder(authorizeUrl.NonPath());
@@ -48,13 +48,19 @@ namespace Material.OAuth.Authorization
             {
                 {OAuth2Parameter.RedirectUri.EnumToString(), redirectUri.ToString()},
                 {OAuth2Parameter.ClientId.EnumToString(), clientId},
-                {OAuth2Parameter.State.EnumToString(), state},
                 {OAuth2Parameter.ResponseType.EnumToString(), responseType.EnumToString()}
             };
 
             if (!string.IsNullOrEmpty(scope))
             {
                 query.Add(OAuth2Parameter.Scope.EnumToString(), scope);
+            }
+
+            foreach (var parameter in securityParameters)
+            {
+                query.Add(
+                    parameter.Key,
+                    parameter.Value);
             }
 
             if (queryParameters != null)

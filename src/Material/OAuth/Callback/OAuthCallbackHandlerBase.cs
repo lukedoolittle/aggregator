@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security;
 using Foundations.Collections;
 using Foundations.HttpClient.Serialization;
@@ -11,16 +12,16 @@ namespace Material.OAuth.Callback
         IOAuthCallbackHandler<TCredentials>
         where TCredentials : TokenCredentials
     {
-        private readonly string _securityParameter;
+        private readonly IEnumerable<string> _securityParameters;
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly ISerializer _serializer;
 
         protected OAuthCallbackHandlerBase(
             IOAuthSecurityStrategy securityStrategy,
-            string securityParameter, 
+            IEnumerable<string> securityParameters, 
             ISerializer serializer)
         {
-            _securityParameter = securityParameter;
+            _securityParameters = securityParameters;
             _serializer = serializer;
             _securityStrategy = securityStrategy;
         }
@@ -78,16 +79,26 @@ namespace Material.OAuth.Callback
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            string securityValue = null;
-            if (query.ContainsKey(_securityParameter))
+            foreach (var securityParameter in _securityParameters)
             {
-                securityValue = query[_securityParameter];
+                string securityValue = null;
+                if (query.ContainsKey(securityParameter))
+                {
+                    securityValue = query[securityParameter];
+                }
+
+                var isParameterValid =_securityStrategy.IsSecureParameterValid(
+                    userId,
+                    securityParameter,
+                    securityValue);
+
+                if (!isParameterValid)
+                {
+                    return false;
+                }
             }
 
-            return _securityStrategy.IsSecureParameterValid(
-                userId,
-                _securityParameter,
-                securityValue);
+            return true;
         }
 
         protected abstract bool IsResponseError(

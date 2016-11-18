@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Security;
 using System.Threading.Tasks;
+using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
+using Material.OAuth.Callback;
+using Material.OAuth.Facade;
+using Material.OAuth.Security;
 
 namespace Material.OAuth
 {
@@ -29,12 +35,23 @@ namespace Material.OAuth
             IOAuthSecurityStrategy strategy)
         {
             _provider = new TResourceProvider();
-            _web = new OAuth2Web<TResourceProvider>(
-                clientId, 
-                clientSecret, 
-                callbackUrl, 
+
+            var callbackHandler = new OAuth2CallbackHandler(
                 strategy,
-                _provider);
+                OAuth2Parameter.State.EnumToString());
+
+            var facade = new OAuth2CodeAuthorizationFacade(
+                _provider,
+                clientId,
+                new Uri(callbackUrl),
+                new OAuth2AuthorizationAdapter(),
+                strategy);
+
+            _web = new OAuth2Web<TResourceProvider>(
+                clientSecret,
+                _provider,
+                callbackHandler,
+                facade);
         }
 
         /// <summary>
@@ -48,15 +65,15 @@ namespace Material.OAuth
         public OpenIdWeb(
             string clientId,
             string clientSecret,
-            string callbackUrl)
-        {
-            _provider = new TResourceProvider();
-            _web = new OAuth2Web<TResourceProvider>(
-                clientId,
-                clientSecret,
-                callbackUrl,
-                _provider);
-        }
+            string callbackUrl) : 
+                this(
+                    clientId,
+                    clientSecret, 
+                    callbackUrl, 
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        TimeSpan.FromMinutes(OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
+        { }
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials

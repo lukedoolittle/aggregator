@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
@@ -11,7 +12,7 @@ namespace Material.OAuth.Facade
     public abstract class OAuth2AuthorizationFacadeBase :
         IOAuthFacade<OAuth2Credentials>
     {
-        private readonly IOAuthSecurityStrategy _strategy;
+        protected IOAuthSecurityStrategy Strategy { get; }
         protected string ClientId { get; }
         protected OAuth2ResourceProvider ResourceProvider { get; }
         protected IOAuth2AuthorizationAdapter OAuth { get; }
@@ -27,8 +28,8 @@ namespace Material.OAuth.Facade
             ClientId = clientId;
             ResourceProvider = resourceProvider;
             CallbackUri = callbackUri;
-            this.OAuth = oauth;
-            _strategy = strategy;
+            OAuth = oauth;
+            Strategy = strategy;
         }
 
         /// <summary>
@@ -38,21 +39,30 @@ namespace Material.OAuth.Facade
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
-            var state = _strategy.CreateOrGetSecureParameter(
-                userId,
-                OAuth2Parameter.State.EnumToString());
-
             var authorizationPath =
                 OAuth.GetAuthorizationUri(
                     ResourceProvider.AuthorizationUrl,
                     ClientId,
                     ResourceProvider.Scope,
                     CallbackUri,
-                    state,
                     ResourceProvider.ResponseType,
+                    GetSecurityParameters(userId),
                     ResourceProvider.Parameters);
 
             return Task.FromResult(authorizationPath);
+        }
+
+        protected virtual IDictionary<string, string> GetSecurityParameters(
+            string userId)
+        {
+            var state = Strategy.CreateOrGetSecureParameter(
+                userId,
+                OAuth2Parameter.State.EnumToString());
+
+            return new Dictionary<string, string>
+            {
+                { OAuth2Parameter.State.EnumToString(), state }
+            };
         }
 
         /// <summary>

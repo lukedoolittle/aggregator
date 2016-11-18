@@ -1,18 +1,33 @@
-﻿using System.Security;
+﻿using System;
+using System.Security;
 using System.Threading.Tasks;
+using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.Infrastructure.ProtectedResources;
 using Material.OAuth.Authentication;
+using Material.OAuth.Authorization;
+using Material.OAuth.Callback;
+using Material.OAuth.Facade;
+using Material.OAuth.Security;
 
 namespace Material.OAuth
 {
     public class OpenIdApp<TResourceProvider>
         where TResourceProvider : OpenIdResourceProvider, new()
     {
-        private readonly OAuth2App<TResourceProvider> _app;
+        private readonly OAuth2AppBase<TResourceProvider> _app;
+        private readonly OAuth2CallbackHandler _callbackHandler;
         private readonly TResourceProvider _provider;
+        private readonly string _clientId;
+        private readonly Uri _callbackUri;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
+#if !__WINDOWS__
+        private readonly AuthorizationInterface _browserType;
+#endif
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow
@@ -34,17 +49,37 @@ namespace Material.OAuth
 #endif
             )
         {
+#if !__WINDOWS__
+            _browserType = browserType;
+#endif
+            _clientId = clientId;
             _provider = provider;
-             _app = new OAuth2App<TResourceProvider>(
-                clientId,
-                callbackUrl,
+            _callbackUri = new Uri(callbackUrl);
+
+            _securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            _callbackHandler = new OAuth2CallbackHandler(
+                _securityStrategy,
+                OAuth2Parameter.State.EnumToString());
+
+            _app = new OAuth2AppBase<TResourceProvider>(
+                new Uri(callbackUrl),
+#if __FORMS__
+                    Xamarin.Forms.DependencyService.Get<IOAuthAuthorizerUIFactory>(),
+#else
+                    new OAuthAuthorizerUIFactory(),
+#endif
                 provider,
                 browserType);
+
             _app.AddScope("openid");
         }
 
         /// <summary>
-        /// Authorize a resource owner using the OAuth2 OpenId Connect workflow
+        /// Authorize a resource owner using the OAuth2 workflow
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
@@ -72,42 +107,87 @@ namespace Material.OAuth
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
         /// <returns>Valid OAuth2 credentials</returns>
-        public async Task<JsonWebToken> GetCredentialsAsync(
+        public async Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
-            var credentials = await _app
-                .GetCredentialsAsync(clientSecret)
+            var facade = new OpenIdCodeAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
+
+            var credentials = await _app.GetCredentialsAsync(
+                    clientSecret,
+                    OAuth2FlowType.AccessCode,
+                    OAuth2ResponseType.Code,
+                    facade,
+                    _callbackHandler)
                 .ConfigureAwait(false);
 
-            return ExtractAndValidateAuthenticationToken(credentials);
+            return GetTokenFromCredentials(credentials);
+        }
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 token workflow
+        /// </summary>
+        /// <param name="response">The OAuth2 response type</param>
+        /// <returns>Valid OAuth2 credentials</returns>
+        public async Task<JsonWebToken> GetWebTokenAsync(
+            OAuth2ResponseType response)
+        {
+#if !__WINDOWS__
+            //This is sort of a bizarre hack: Google requires that you go through the
+            //code workflow with a mobile device even if you don't have a client secret
+            if (_browserType == AuthorizationInterface.Dedicated &&
+                typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
+            {
+                var codeFacade = new OpenIdCodeAuthorizationFacade(
+                    _provider,
+                    _clientId,
+                    _callbackUri,
+                    new OAuth2AuthorizationAdapter(),
+                    _securityStrategy);
+
+                var codeCredentials = await _app.GetCredentialsAsync(
+                        null,
+                        OAuth2FlowType.AccessCode, 
+                        OAuth2ResponseType.Code,
+                        codeFacade,
+                        _callbackHandler)
+                    .ConfigureAwait(false);
+
+                return GetTokenFromCredentials(codeCredentials);
+            }
+#endif
+            var tokenFacade = new OpenIdTokenAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
+
+            var credentials = await _app.GetCredentialsAsync(
+                    OAuth2FlowType.Implicit,
+                    response,
+                    tokenFacade,
+                    _callbackHandler)
+                .ConfigureAwait(false);
+
+            return GetTokenFromCredentials(credentials);
         }
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 token workflow
         /// </summary>
         /// <returns>Valid OAuth2 credentials</returns>
-        public async Task<JsonWebToken> GetCredentialsAsync()
+        public Task<JsonWebToken> GetWebTokenAsync()
         {
-            var credentials = await _app.GetCredentialsAsync(
-                    OAuth2ResponseType.IdTokenToken)
-                .ConfigureAwait(false);
-
-            return ExtractAndValidateAuthenticationToken(credentials);
+            return GetWebTokenAsync(OAuth2ResponseType.IdTokenToken);
         }
 
-        private JsonWebToken ExtractAndValidateAuthenticationToken(
-            OAuth2Credentials credentials)
+        private JsonWebToken GetTokenFromCredentials(OAuth2Credentials credentials)
         {
-            //TODO: potentially add more validators here
-            //This is mirrored in OpenIdWeb; possibly extract this logic
-            //Per google
-            //Verify that the value of iss in the ID token is equal to https://accounts.google.com or accounts.google.com.
-            //Verify that the value of aud in the ID token is equal to your app’s client ID.
-            //Per Microsoft
-            //??
-            //Per Yahoo
-            //??
-
             var validator = new CompositeJsonWebTokenAuthenticationValidator(
                 new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl),
                 new JsonWebTokenAlgorithmValidator(),

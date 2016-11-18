@@ -33,12 +33,12 @@ namespace Material.Infrastructure.Credentials
     public class JsonWebTokenHeader
     {
         //Type of the token provided; the only valid value is JWT
-        [DataMember(Name = "typ", Order = 0, EmitDefaultValue = false)]
+        [DataMember(Name = "typ", EmitDefaultValue = false)]
         public string MediaType { get; set; } = "JWT";
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DataMember(Name = "alg", Order = 1, EmitDefaultValue = false)]
+        [DataMember(Name = "alg", EmitDefaultValue = false)]
         private string _algorithm
         {
             get { return Algorithm.EnumToString(); }
@@ -48,7 +48,7 @@ namespace Material.Infrastructure.Credentials
         public JsonWebTokenAlgorithm Algorithm { get; set; } = JsonWebTokenAlgorithm.RS256;
 
         //The identifier of the key used to sign the token
-        [DataMember(Name = "kid", Order = 2, EmitDefaultValue = false)]
+        [DataMember(Name = "kid", EmitDefaultValue = false)]
         public string SignatureKeyId { get; set; }
     }
 
@@ -56,12 +56,12 @@ namespace Material.Infrastructure.Credentials
     public class JsonWebTokenClaims
     {
         //The Issuer Identifier for the Issuer of the response
-        [DataMember(Name = "iss", Order = 0, EmitDefaultValue = false)]
+        [DataMember(Name = "iss", EmitDefaultValue = false)]
         public string Issuer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DataMember(Name = "iat", EmitDefaultValue = false, Order = 1)]
+        [DataMember(Name = "iat", EmitDefaultValue = false)]
         private double _issuedAt
         {
             get { return Math.Floor(IssuedAt.ToUnixTimeSeconds()); }
@@ -72,7 +72,7 @@ namespace Material.Infrastructure.Credentials
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DataMember(Name = "exp", EmitDefaultValue = false, Order = 2)]
+        [DataMember(Name = "exp", EmitDefaultValue = false)]
         private double _expirationTime
         {
             get { return Math.Floor(ExpirationTime.ToUnixTimeSeconds()); }
@@ -81,23 +81,26 @@ namespace Material.Infrastructure.Credentials
         //The time the ID token expires, represented in Unix time (integer seconds)
         public DateTime ExpirationTime { get; set; }
 
-        [DataMember(Name = "at_hash", EmitDefaultValue = false, Order = 3)]
+        [DataMember(Name = "at_hash", EmitDefaultValue = false)]
         public string AccessTokenHash { get; set; }
 
         //Identifies the audience that this ID token is intended for. Typically one of the client IDs of your application
-        [DataMember(Name = "aud", EmitDefaultValue = false, Order = 4)]
+        [DataMember(Name = "aud", EmitDefaultValue = false)]
         public string Audience { get; set; }
 
         //An identifier for the user, unique among all accounts and never reused
-        [DataMember(Name = "sub", EmitDefaultValue = false, Order = 5)]
+        [DataMember(Name = "sub", EmitDefaultValue = false)]
         public string Subject { get; set; }
 
         //The client_id of the authorized presenter
-        [DataMember(Name = "azp", EmitDefaultValue = false, Order = 6)]
+        [DataMember(Name = "azp", EmitDefaultValue = false)]
         public string AuthorizedPresenter { get; set; }
 
-        [DataMember(Name = "scope", EmitDefaultValue = false, Order = 7)]
+        [DataMember(Name = "scope", EmitDefaultValue = false)]
         public string Scope { get; set; }
+
+        [DataMember(Name = "nonce", EmitDefaultValue = false)]
+        public string Nonce { get; set; }
 
         //[DataMember(Name = "nbf", EmitDefaultValue = false)]
         //public string NotBefore { get; set; }

@@ -48,6 +48,8 @@
             <Button x:Name="rescuetimeAuth" Content="Rescuetime" Grid.Row="4" Grid.Column ="2" Click="OnRescuetimeClick" Margin="0,10,5,10"/>
 
             <Button x:Name="amazonAuth" Content="Amazon" Grid.Row="5" Grid.Column ="0" Click="OnAmazonClick" Margin="0,10,5,10"/>
+            <Button x:Name="googleOpenIdAuth" Content="Google OID" Grid.Row="5" Grid.Column ="1" Click="OnGoogleOpenIdClick" Margin="0,10,5,10"/>
+            <Button x:Name="yahooOpenIdAuth" Content="Yahoo OID" Grid.Row="5" Grid.Column ="2" Click="OnYahooOpenIdClick" Margin="0,10,5,10"/>
         </Grid>
     </StackPanel>
 </Page>

@@ -13,7 +13,7 @@ namespace Material.OAuth.Callback
     {
         public OAuth1CallbackHandler(
             IOAuthSecurityStrategy securityStrategy, 
-            string securityParameter) :
+            params string[] securityParameter) :
                 base(
                     securityStrategy,
                     securityParameter, 

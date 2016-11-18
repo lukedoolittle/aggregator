@@ -1,0 +1,46 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Yahoo",
+        "description": "Yahoo Developer Network API",
+        "termsOfService": "https://developer.yahoo.com/terms/",
+        "version": "1"
+    },
+    "host": "social.yahooapis.com",
+    "basePath": "v1/",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://api.login.yahoo.com/oauth2/request_auth",
+            "tokenUrl": "https://api.login.yahoo.com/oauth2/get_token",
+            "x-token-name": "Bearer",
+            "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "x-response-types": [ "code" ],
+            "scopes": {
+                //https://developer.yahoo.com/oauth2/guide/yahoo_scopes/
+                "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID"
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://api.login.yahoo.com/oauth2/request_auth",
+            "x-token-name": "Bearer",
+            "x-response-types": [ "token", "id_token", "id_token token" ],
+            "x-openid-discovery-url": "https://accounts.google.com/.well-known/openid-configuration",
+            "scopes": {
+                //https://developer.yahoo.com/oauth2/guide/yahoo_scopes/
+                "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID"
+            }
+        }
+    },
+    "definitions": []
+}

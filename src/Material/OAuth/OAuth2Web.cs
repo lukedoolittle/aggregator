@@ -23,6 +23,26 @@ namespace Material.OAuth
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
+        /// <param name="clientSecret">The application's client secret</param>
+        /// <param name="resourceProvider">Endpoint information for the resource provider</param>
+        /// <param name="callbackHandler">Handles the authorization uris callback response</param>
+        /// <param name="facade">Creates the authorization uri and exchanges code for an access token</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OAuth2Web(
+            string clientSecret,
+            TResourceProvider resourceProvider,
+            IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
+            IOAuthFacade<OAuth2Credentials> facade)
+        {
+            _clientSecret = clientSecret;
+            _resourceProvider = resourceProvider;
+            _callbackHandler = callbackHandler;
+            _authFacade = facade;
+        }
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 workflow with default security strategy
+        /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
@@ -34,37 +54,20 @@ namespace Material.OAuth
             string clientSecret,
             string callbackUrl,
             IOAuthSecurityStrategy strategy,
-            TResourceProvider resourceProvider)
-        {
-            _clientSecret = clientSecret;
-            _resourceProvider = resourceProvider;
-
-            _callbackHandler = new OAuth2CallbackHandler(
-                strategy,
-                OAuth2Parameter.State.EnumToString());
-
-            _authFacade = new OAuth2CodeAuthorizationFacade(
-                _resourceProvider,
-                clientId,
-                new Uri(callbackUrl),
-                new OAuth2AuthorizationAdapter(),
-                strategy);
-
-            //NOTE: you could create a token workflow version of this
-            //but why???
-            //
-            //var handler = new OAuth2QueryCallbackHandler(
-            //  _strategy,
-            //  OAuth2Parameter.State.EnumToString(),
-            //  userId);
-            //
-            //_authFacade = new OAuth2TokenAuthorizationFacade(
-            //    _resourceProvider,
-            //    clientId,
-            //    new Uri(callbackUrl),
-            //    new OAuth2AuthorizationAdapter(),
-            //    strategy);
-        }
+            TResourceProvider resourceProvider) : 
+                this(
+                    clientSecret, 
+                    resourceProvider, 
+                    new OAuth2CallbackHandler(
+                        strategy,
+                        OAuth2Parameter.State.EnumToString()), 
+                    new OAuth2CodeAuthorizationFacade(
+                        resourceProvider,
+                        clientId,
+                        new Uri(callbackUrl),
+                        new OAuth2AuthorizationAdapter(),
+                        strategy))
+        { }
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
@@ -85,7 +88,7 @@ namespace Material.OAuth
                     callbackUri,
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(2)), 
+                        TimeSpan.FromMinutes(OAuthConfiguration.SecurityParameterTimeoutInMinutes)), 
                     resourceProvider)
         {}
 
@@ -127,7 +130,8 @@ namespace Material.OAuth
                     callbackUri,
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(2)),
+                        TimeSpan.FromMinutes(
+                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)),
                     new TResourceProvider())
         {}
 

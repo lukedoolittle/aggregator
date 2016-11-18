@@ -379,6 +379,40 @@ namespace Quantfabric.UI.Test.UWP
             WriteToTextbox($"AccessToken:{token.AccessToken}");
         }
 
+        private async void OnGoogleOpenIdClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Google>();
+            var clientSecret = settings.GetClientSecret<Google>();
+            var redirectUri = settings.GetRedirectUri<Google>();
+
+            var token = await new OpenIdApp<Google>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetWebTokenAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"JsonWebToken:{token.ToEncodedWebToken()}");
+        }
+
+        private async void OnYahooOpenIdClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new AppCredentialRepository(_callbackType);
+            var clientId = settings.GetClientId<Yahoo>();
+            var clientSecret = settings.GetClientSecret<Yahoo>();
+            var redirectUri = "http://quantfabric.com/oauth/yah";
+
+            var token = await new OpenIdApp<Yahoo>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetWebTokenAsync()
+                    .ConfigureAwait(false);
+
+            WriteToTextbox($"JsonWebToken:{token.ToEncodedWebToken()}");
+        }
+
         private void WriteToTextbox(string text)
         {
             Platform.Current.RunOnMainThread(() =>

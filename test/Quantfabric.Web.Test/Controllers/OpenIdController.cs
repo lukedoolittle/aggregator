@@ -25,6 +25,17 @@ namespace Quantfabric.Web.Test.Controllers
                 new { idToken = token.ToEncodedWebToken() });
         }
 
+        // GET: openid/yahoo
+        [HttpGet]
+        public async Task<ActionResult> Google()
+        {
+            var token = await GetIdToken<Yahoo>("http://quantfabric.com/openid/")
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { idToken = token.ToEncodedWebToken() });
+        }
+
         public Task<JsonWebToken> GetIdToken<TResourceProvider>(string uri)
             where TResourceProvider : OpenIdResourceProvider, new()
         {

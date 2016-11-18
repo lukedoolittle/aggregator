@@ -14,7 +14,7 @@ namespace Quantfabric.Test.Material.Interaction
             new AppCredentialRepository(CallbackType.Localhost);
 
         [Fact]
-        public async void CanGetValidAccessTokenFromGoogleCodeFlow()
+        public async void CanGetValidOpenIdTokenFromGoogleCodeFlow()
         {
             var clientId = _appRepository.GetClientId<Google>();
             var clientSecret = _appRepository.GetClientSecret<Google>();
@@ -23,14 +23,14 @@ namespace Quantfabric.Test.Material.Interaction
             var token = await new OpenIdApp<Google>(
                         clientId,
                         redirectUri)
-                    .GetCredentialsAsync(clientSecret)
+                    .GetWebTokenAsync(clientSecret)
                     .ConfigureAwait(false);
 
             Assert.True(TestUtilities.IsValidJsonWebToken(token));
         }
 
         [Fact]
-        public async void CanGetValidAccessTokenFromGoogleImplicitFlow()
+        public async void CanGetValidOpenIdTokenFromGoogleImplicitFlow()
         {
             var clientId = _appRepository.GetClientId<Google>();
             var redirectUri = _appRepository.GetRedirectUri<Google>();
@@ -38,7 +38,7 @@ namespace Quantfabric.Test.Material.Interaction
             var token = await new OpenIdApp<Google>(
                         clientId,
                         redirectUri)
-                    .GetCredentialsAsync()
+                    .GetWebTokenAsync()
                     .ConfigureAwait(false);
 
             Assert.True(TestUtilities.IsValidJsonWebToken(token));

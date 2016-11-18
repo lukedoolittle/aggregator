@@ -51,7 +51,8 @@ namespace Material.OAuth
 
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
 
             var handler = new OAuth1CallbackHandler(
                 securityStrategy,

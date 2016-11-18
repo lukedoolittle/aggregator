@@ -6,9 +6,10 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
+using Material.OAuth.Facade;
 using Material.OAuth.Security;
-
 namespace Material.OAuth
 {
     /// <summary>
@@ -19,6 +20,10 @@ namespace Material.OAuth
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly OAuth2AppBase<TResourceProvider> _app;
+        private readonly OAuth2CallbackHandler _callbackHandler;
+        private readonly TResourceProvider _provider;
+        private readonly string _clientId;
+        private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
 #if !__WINDOWS__
         private readonly AuthorizationInterface _browserType;
@@ -47,20 +52,26 @@ namespace Material.OAuth
 #if !__WINDOWS__
             _browserType = browserType;
 #endif
+            _clientId = clientId;
+            _provider = provider;
+            _callbackUri = new Uri(callbackUrl);
 
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(2));
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            _callbackHandler = new OAuth2CallbackHandler(
+                _securityStrategy,
+                OAuth2Parameter.State.EnumToString());
 
             _app = new OAuth2AppBase<TResourceProvider>(
-                clientId, 
                 new Uri(callbackUrl),
 #if __FORMS__
                     Xamarin.Forms.DependencyService.Get<IOAuthAuthorizerUIFactory>(),
 #else
                     new OAuthAuthorizerUIFactory(),
 #endif
-                _securityStrategy, 
                 provider, 
                 browserType);
         }
@@ -97,15 +108,19 @@ namespace Material.OAuth
         public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
-            var handler = new OAuth2CallbackHandler(
-                _securityStrategy,
-                OAuth2Parameter.State.EnumToString());
+            var facade = new OAuth2CodeAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
 
             return _app.GetCredentialsAsync(
                 clientSecret, 
                 OAuth2FlowType.AccessCode, 
-                OAuth2ResponseType.Code, 
-                handler);
+                OAuth2ResponseType.Code,
+                facade,
+                _callbackHandler);
         }
 
         /// <summary>
@@ -113,30 +128,42 @@ namespace Material.OAuth
         /// </summary>
         /// <param name="response">The OAuth2 response type</param>
         /// <returns>Valid OAuth2 credentials</returns>
-        public Task<OAuth2Credentials> GetCredentialsAsync(OAuth2ResponseType response)
+        public Task<OAuth2Credentials> GetCredentialsAsync(
+            OAuth2ResponseType response)
         {
-            var handler = new OAuth2CallbackHandler(
-                _securityStrategy,
-                OAuth2Parameter.State.EnumToString());
-
 #if !__WINDOWS__
             //This is sort of a bizarre hack: Google requires that you go through the
             //code workflow with a mobile device even if you don't have a client secret
             if (_browserType == AuthorizationInterface.Dedicated &&
                 typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
             {
+                var codeFacade = new OAuth2CodeAuthorizationFacade(
+                    _provider,
+                    _clientId,
+                    _callbackUri,
+                    new OAuth2AuthorizationAdapter(),
+                    _securityStrategy);
+
                 return _app.GetCredentialsAsync(
                         null,
                         OAuth2FlowType.AccessCode, 
-                        OAuth2ResponseType.Code, 
-                        handler);
+                        OAuth2ResponseType.Code,
+                        codeFacade,
+                        _callbackHandler);
             }
 #endif
+            var tokenFacade = new OAuth2TokenAuthorizationFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                new OAuth2AuthorizationAdapter(),
+                _securityStrategy);
 
             return _app.GetCredentialsAsync(
                 OAuth2FlowType.Implicit, 
-                response, 
-                handler);
+                response,
+                tokenFacade,
+                _callbackHandler);
         }
 
         /// <summary>

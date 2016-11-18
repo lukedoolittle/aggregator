@@ -60,6 +60,7 @@
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
     <Compile Include="Infrastructure\Requests\FacebookTokenInfo.cs" />
     <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
@@ -245,6 +246,8 @@
     <Compile Include="OAuth\Facade\OAuth2AuthorizationFacadeBase.cs" />
     <Compile Include="OAuth\Facade\OAuth2CodeAuthorizationFacade.cs" />
     <Compile Include="OAuth\Facade\OAuth2TokenAuthorizationFacade.cs" />
+    <Compile Include="OAuth\Facade\OpenIdCodeAuthorizationFacade.cs" />
+    <Compile Include="OAuth\Facade\OpenIdTokenAuthorizationFacade.cs" />
     <Compile Include="OAuth\OAuth1AppBase.cs" />
     <Compile Include="OAuth\OAuth1Web.cs" />
     <Compile Include="OAuth\OAuth2AppBase.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="OAuth\OAuth2Assert.cs" />
     <Compile Include="OAuth\OAuth2Refresh.cs" />
     <Compile Include="OAuth\OAuth2Web.cs" />
+    <Compile Include="OAuth\OAuthConfiguration.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />
     <Compile Include="OAuth\OpenIdWeb.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
@@ -290,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Swagger\amazon.json" />
+    <None Include="Swagger\yahoo.json" />
     <None Include="Swagger\microsoftBing.json" />
     <None Include="Swagger\microsoftLuis.json" />
     <None Include="Swagger\googleAnalytics.json" />
@@ -335,6 +340,7 @@
 .\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
 .\Infrastructure\ProtectedResources\Twitter.cs
 .\Infrastructure\ProtectedResources\Withings.cs
+.\Infrastructure\ProtectedResources\Yahoo.cs
 .\Infrastructure\Requests\AmazonProfile.cs
 .\Infrastructure\Requests\FacebookEvent.cs
 .\Infrastructure\Requests\FacebookFeed.cs

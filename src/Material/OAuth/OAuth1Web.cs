@@ -64,7 +64,8 @@ namespace Material.OAuth
                     callbackUrl, 
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(2)))
+                        TimeSpan.FromMinutes(
+                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
         { }
 
         /// <summary>
