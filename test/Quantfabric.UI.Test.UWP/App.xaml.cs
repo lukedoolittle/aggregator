@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Foundations.HttpClient.Cryptography.Enums;
+using Material.OAuth.Authentication;
 
 namespace Quantfabric.UI.Test.UWP
 {

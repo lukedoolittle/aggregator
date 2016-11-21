@@ -10,14 +10,14 @@ namespace Foundations.HttpClient.Extensions
     public static class CryptoKeyExtensions
     {
         public static CryptoKey ToCryptoKey(
-            this PublicKeyParameters instance)
+            this JsonWebKey instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             if (instance.KeyType == EncryptionAlgorithm.EllipticCurve.EnumToString())
             {
                 return new EcdsaCryptoKey(
-                    instance.KeyType,
+                    "ECDSA",
                     instance.CurveName,
                     Base64.Decode(instance.X.ToProperBase64String()),
                     Base64.Decode(instance.Y.ToProperBase64String()));

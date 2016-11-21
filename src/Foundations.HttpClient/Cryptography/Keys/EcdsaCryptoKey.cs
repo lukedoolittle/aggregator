@@ -13,7 +13,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public string AlgorithmName { get; }
         public string CurveName { get; }
         public string XCoordinate { get; }
+        public byte[] XCoordinateBytes { get; }
         public string YCoordinate { get; }
+        public byte[] YCoordinateBytes { get; }
 
         public EcdsaCryptoKey(
             ECPublicKeyParameters key, 
@@ -24,8 +26,13 @@ namespace Foundations.HttpClient.Cryptography.Keys
 
             AlgorithmName = key.AlgorithmName;
             CurveName = curveName;
-            XCoordinate = key.Q.AffineXCoord.ToBigInteger().ToString();
-            YCoordinate = key.Q.AffineYCoord.ToBigInteger().ToString();
+            var xCoordinate = key.Q.AffineXCoord.ToBigInteger();
+            XCoordinate = xCoordinate.ToString();
+            XCoordinateBytes = xCoordinate.ToByteArray();
+
+            var yCoordinate = key.Q.AffineYCoord.ToBigInteger();
+            YCoordinate = yCoordinate.ToString();
+            YCoordinateBytes = yCoordinate.ToByteArray();
         }
 
         public EcdsaCryptoKey(
@@ -97,13 +104,24 @@ namespace Foundations.HttpClient.Cryptography.Keys
             BigInteger xCoordinate, 
             BigInteger yCoordinate)
         {
-            X9ECParameters ecP = NistNamedCurves.GetByName(curveName);
-            FpCurve c = (FpCurve)ecP.Curve;
+            X9ECParameters curve = NistNamedCurves.GetByName(curveName);
+
+            FpCurve c = (FpCurve)curve.Curve;
             ECFieldElement x = c.FromBigInteger(xCoordinate);
             ECFieldElement y = c.FromBigInteger(yCoordinate);
             ECPoint q = new FpPoint(c, x, y);
+
+            ECDomainParameters curveSpec = new ECDomainParameters(
+                curve.Curve,
+                curve.G,
+                curve.N,
+                curve.H,
+                curve.GetSeed());
             ECPublicKeyParameters publicKeyParameters = 
-                new ECPublicKeyParameters(algorithmName, q, NistNamedCurves.GetOid(curveName));
+                new ECPublicKeyParameters(
+                    algorithmName, 
+                    q, 
+                    curveSpec);
             return publicKeyParameters;
         }
     }

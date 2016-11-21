@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Text;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Discovery;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
+using Foundations.HttpClient.Extensions;
 using Material.Infrastructure.Credentials;
-using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Utilities.Encoders;
 using Quantfabric.Test.Helpers;
 using Xunit;
 
@@ -14,11 +17,13 @@ namespace Quantfabric.Test.Material.Unit
     [Trait("Category", "Continuous")]
     public class JsonWebTokenTests
     {
-        private readonly Randomizer _randomizer = new Randomizer();
-        private readonly IJsonWebTokenSigningFactory _factory = new JsonWebTokenSignerFactory();
+        private readonly Randomizer _randomizer = 
+            new Randomizer();
+        private readonly IJsonWebTokenSigningFactory _factory = 
+            new JsonWebTokenSignerFactory();
 
         [Fact]
-        public void CreateJsonWebTokenThenVerifySignatureWithPublicKey()
+        public void VerifyJsonWebTokenSignatureWithPublicKey()
         {
             var header = new JsonWebTokenHeader
             {
@@ -34,28 +39,42 @@ namespace Quantfabric.Test.Material.Unit
             };
             var token = new JsonWebToken(header, claims);
 
-            var signer = _factory.GetSigningAlgorithm(token.Header.Algorithm);
-            var verifier = _factory.GetVerificationAlgorithm(token.Header.Algorithm);
+            var signer = _factory.GetSigningAlgorithm(
+                token.Header.
+                Algorithm);
+            var verifier = _factory.GetVerificationAlgorithm(
+                token.Header.Algorithm);
 
             var signatureBase = token.SignatureBase;
-            var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
             var keyPair = RsaCryptoKeyPair.Create(1024);
 
-            var cipherText = signer.SignText(
-                encodedSignatureBase,
+            var signature = signer.SignText(
+                signatureBaseBytes,
                 keyPair.Private);
 
             Assert.True(
                 verifier.VerifyText(
                     keyPair.Public, 
-                    cipherText,
-                    encodedSignatureBase));
+                    signature,
+                    signatureBaseBytes));
         }
 
         [Fact]
-        public void CreateJsonWebTokenThenVerifySignatureWithModulusAndPublicExponent()
+        public void VerifyJsonWebTokenRS256SignatureWithJsonWebKey()
         {
+            var keyPair = RsaCryptoKeyPair.Create(1024);
+
+            var key = new JsonWebKey()
+            {
+                Algorithm = "RS256",
+                KeyType = "RSA",
+                E = Convert.ToBase64String(keyPair.Public.ExponentBytes),
+                N = Convert.ToBase64String(keyPair.Public.ModulusBytes)
+            };
+            var cryptoKey = key.ToCryptoKey();
+
             var header = new JsonWebTokenHeader
             {
                 Algorithm = JsonWebTokenAlgorithm.RS256
@@ -71,39 +90,70 @@ namespace Quantfabric.Test.Material.Unit
             var token = new JsonWebToken(header, claims);
 
             var signatureBase = token.SignatureBase;
-            var encodedSignatureBase = Encoding.UTF8.GetBytes(signatureBase);
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
-            var keyPair = RsaCryptoKeyPair.Create(1024);
+            var signer = _factory.GetSigningAlgorithm(
+                token.Header.Algorithm);
 
-            var factory = new JsonWebTokenSignerFactory();
-            var verifier = GetSignatureVerificationAlgorithm(token.Header.Algorithm);
-            var signer = factory.GetSigningAlgorithm(token.Header.Algorithm);
+            var verifier = _factory.GetVerificationAlgorithm(
+                token.Header.Algorithm);
 
-            var cipherText = signer.SignText(
-                encodedSignatureBase,
+            var signature = signer.SignText(
+                signatureBaseBytes,
                 keyPair.Private);
 
             Assert.True(verifier.VerifyText(
-                keyPair.Public.Modulus,
-                keyPair.Public.Exponent, 
-                cipherText, 
-                encodedSignatureBase));
+                cryptoKey, 
+                signature, 
+                signatureBaseBytes));
         }
 
-        private static ISignatureVerificationAlgorithm GetSignatureVerificationAlgorithm(
-            JsonWebTokenAlgorithm algorithm)
+        [Fact]
+        public void VerifyJsonWebTokenES256SignatureWithJsonWebKey()
         {
-            switch (algorithm)
+            var keyPair = EcdsaCryptoKeyPair.Create("P-256");
+
+            var key = new JsonWebKey()
             {
-                case JsonWebTokenAlgorithm.RS256:
-                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-256withRSA"));
-                case JsonWebTokenAlgorithm.RS384:
-                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
-                case JsonWebTokenAlgorithm.RS512:
-                    return new RSASignatureVerificationAlgorithm(SignerUtilities.GetSigner("SHA-384withRSA"));
-                default:
-                    throw new NotImplementedException();
-            }
+                Algorithm = "ES256",
+                KeyType = "EC",
+                CurveName = "P-256",
+                X = Convert.ToBase64String(keyPair.Public.XCoordinateBytes),
+                Y = Convert.ToBase64String(keyPair.Public.YCoordinateBytes)
+            };
+            var cryptoKey = key.ToCryptoKey();
+
+            var header = new JsonWebTokenHeader
+            {
+                Algorithm = JsonWebTokenAlgorithm.ES256
+            };
+            var claims = new JsonWebTokenClaims
+            {
+                Issuer = _randomizer.RandomString(0, 70),
+                Scope = _randomizer.RandomString(0, 50),
+                Audience = _randomizer.RandomString(0, 50),
+                ExpirationTime = DateTime.Now.AddHours(1),
+                IssuedAt = DateTime.Now
+            };
+            var token = new JsonWebToken(header, claims);
+
+            var signatureBase = token.SignatureBase;
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
+
+            var signer = _factory.GetSigningAlgorithm(
+                token.Header.Algorithm);
+
+            var verifier = _factory.GetVerificationAlgorithm(
+                token.Header.Algorithm);
+
+            var signature = signer.SignText(
+                signatureBaseBytes,
+                keyPair.Private);
+
+            Assert.True(verifier.VerifyText(
+                cryptoKey,
+                signature,
+                signatureBaseBytes));
         }
     }
 }

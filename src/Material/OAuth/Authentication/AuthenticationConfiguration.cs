@@ -12,7 +12,8 @@ namespace Material.OAuth.Authentication
         public static List<JsonWebTokenAlgorithm> WhitelistedAlgorithms { get; } = 
             new List<JsonWebTokenAlgorithm>
             {
-                JsonWebTokenAlgorithm.RS256
+                JsonWebTokenAlgorithm.RS256,
+                JsonWebTokenAlgorithm.ES256
             };
 
         /// <summary>

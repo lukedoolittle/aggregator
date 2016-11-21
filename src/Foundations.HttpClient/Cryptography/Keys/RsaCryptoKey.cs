@@ -7,7 +7,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
     public class RsaCryptoKey : CryptoKey
     {
         public string Modulus { get; }
+        public byte[] ModulusBytes { get; }
         public string Exponent { get; }
+        public byte[] ExponentBytes { get; }
 
         public RsaCryptoKey(RsaKeyParameters key) :
             base(key)
@@ -15,7 +17,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
             if (key == null) throw new ArgumentNullException(nameof(key));
 
             Modulus = key.Modulus.ToString();
+            ModulusBytes = key.Modulus.ToByteArray();
             Exponent = key.Exponent.ToString();
+            ExponentBytes = key.Exponent.ToByteArray();
         }
 
         public RsaCryptoKey(byte[] modulus, byte[] publicExponent) :

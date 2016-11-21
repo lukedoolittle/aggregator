@@ -55,7 +55,9 @@
     <Compile Include="Authenticators\JsonWebTokenSigningTemplate.cs" />
     <Compile Include="Authenticators\OAuth2ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth2RefreshToken.cs" />
+    <Compile Include="Cryptography\Algorithms\EllipticCurveSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />
+    <Compile Include="Cryptography\CryptographyException.cs" />
     <Compile Include="Cryptography\CryptoStringGenerator.cs" />
     <Compile Include="Cryptography\Discovery\OpenIDConnectDiscoveryDocument.cs" />
     <Compile Include="Cryptography\Discovery\PublicKeyDiscoveryDocument.cs" />
@@ -64,11 +66,9 @@
     <Compile Include="Cryptography\Enums\EncryptionAlgorithm.cs" />
     <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
     <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />
-    <Compile Include="Cryptography\Algorithms\ISignatureVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\ISigningAlgorithm.cs" />
     <Compile Include="Cryptography\Enums\JsonWebTokenAlgorithm.cs" />
     <Compile Include="Cryptography\JsonWebTokenSignerFactory.cs" />
-    <Compile Include="Cryptography\Algorithms\RSASignatureVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\SigningAlgorithm.cs" />
     <Compile Include="Cryptography\Keys\CryptoKey.cs" />
     <Compile Include="Cryptography\Keys\EcdsaCryptoKey.cs" />

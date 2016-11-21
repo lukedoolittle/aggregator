@@ -62,6 +62,15 @@ namespace Foundations.HttpClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This key is not an asymmetric key.
+        /// </summary>
+        internal static string AsymmetricKeyException {
+            get {
+                return ResourceManager.GetString("AsymmetricKeyException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Received HTTP status code {0} but expected {1}. Body content : {2}.
         /// </summary>
         internal static string BadHttpRequestException {

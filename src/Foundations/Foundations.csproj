@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DescriptionAttribute.cs" />
     <Compile Include="Collections\DefaultingDictionary.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="CurrentAppDomain.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

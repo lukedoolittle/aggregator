@@ -6,7 +6,7 @@ namespace Foundations.HttpClient.Cryptography.Discovery
 {
     [GeneratedCode("JsonUtils", "1.0")]
     [DataContract]
-    public class PublicKeyParameters
+    public class JsonWebKey
     {
         [DataMember(Name = "kty")]
         public string KeyType { get; set; }
@@ -47,6 +47,6 @@ namespace Foundations.HttpClient.Cryptography.Discovery
     public class PublicKeyDiscoveryDocument
     {
         [DataMember(Name = "keys")]
-        public IList<PublicKeyParameters> Keys { get; set; }
+        public IList<JsonWebKey> Keys { get; set; }
     }
 }

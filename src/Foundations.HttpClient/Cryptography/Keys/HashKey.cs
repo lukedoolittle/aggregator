@@ -5,7 +5,7 @@ namespace Foundations.HttpClient.Cryptography.Keys
     public class HashKey : CryptoKey
     {
         public HashKey(string key) : 
-            base(key, true)
+            base(key, null)
         { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "length")]
