@@ -13,8 +13,10 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public string AlgorithmName { get; }
         public string CurveName { get; }
         public string XCoordinate { get; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] XCoordinateBytes { get; }
         public string YCoordinate { get; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] YCoordinateBytes { get; }
 
         public EcdsaCryptoKey(

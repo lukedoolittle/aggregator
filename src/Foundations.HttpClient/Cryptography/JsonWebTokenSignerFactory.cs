@@ -33,11 +33,11 @@ namespace Foundations.HttpClient.Cryptography
                 case JsonWebTokenAlgorithm.RS512:
                     return new SigningAlgorithm(SignerUtilities.GetSigner("SHA-512withRSA")) as TAlgorithm;
                 case JsonWebTokenAlgorithm.ES256:
-                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-256withECDSA")) as TAlgorithm;
+                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-256withECDSA"), "P-256") as TAlgorithm;
                 case JsonWebTokenAlgorithm.ES384:
-                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-384withECDSA")) as TAlgorithm;
+                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-384withECDSA"), "P-384") as TAlgorithm;
                 case JsonWebTokenAlgorithm.ES512:
-                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-512withECDSA")) as TAlgorithm;
+                    return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-512withECDSA"), "P-521") as TAlgorithm;
                 case JsonWebTokenAlgorithm.HS256:
                     return new DigestSigningAlgorithm(new Sha256Digest()) as TAlgorithm;
                 case JsonWebTokenAlgorithm.HS384:

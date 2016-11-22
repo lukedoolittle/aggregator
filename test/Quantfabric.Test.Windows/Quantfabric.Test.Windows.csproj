@@ -285,11 +285,10 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
-    <Compile Include="Material\Unit\JsonWebTokenTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
     <Compile Include="Material\TestUtilities.cs" />
-    <Compile Include="Material\Unit\TokenDeserializationTests.cs" />
+    <Compile Include="Material\Unit\TokenSerializationDeserializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

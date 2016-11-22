@@ -332,7 +332,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public async void MakePostRequestWithStreamAsContent()
         {
-            var stream = File.OpenRead("brian.wav");
+            var stream = File.OpenRead("TestData/brian.wav");
             var contentType = MediaType.Wave;
 
             var response = await new HttpRequestBuilder(_endpoint)
@@ -348,7 +348,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public async void MakePostRequestWithRawBytesAsContent()
         {
-            var rawBytes = System.IO.File.ReadAllBytes("brian.wav");
+            var rawBytes = System.IO.File.ReadAllBytes("TestData/brian.wav");
             var contentType = MediaType.Wave;
 
             var response = await new HttpRequestBuilder(_endpoint)

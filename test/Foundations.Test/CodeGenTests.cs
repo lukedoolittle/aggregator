@@ -14,7 +14,7 @@ namespace Foundations.Test
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -62,7 +62,7 @@ namespace Foundations.Test
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -93,7 +93,7 @@ namespace Foundations.Test
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -117,7 +117,7 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -138,7 +138,7 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -160,7 +160,7 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("sampleapi.json");
+            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 

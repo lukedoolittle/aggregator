@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography.Discovery;
-using Foundations.HttpClient.Cryptography.Keys;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Extensions;
 using Xunit;
 
@@ -16,12 +15,23 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void ConvertGoogleDiscoveryUrlKeysIntoCryptoKeys()
         {
+            var minKeyCount = 2;
+            var algorithms = new List<JsonWebTokenAlgorithm>
+            {
+                JsonWebTokenAlgorithm.RS256
+            };
+
             var discoveryUrl = new Uri("https://accounts.google.com/.well-known/openid-configuration");
 
             var keys = GetKeysFromDiscoveryEntpoint(discoveryUrl);
 
+            Assert.True(keys.Count >= minKeyCount);
+
             foreach (var key in keys)
             {
+                Assert.True(algorithms.Contains(
+                    key.Algorithm.StringToEnum<JsonWebTokenAlgorithm>()));
+
                 var cryptoKey = key.ToCryptoKey();
                 Assert.NotNull(cryptoKey);
             }
@@ -30,12 +40,23 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void ConvertMicrosoftDiscoveryUrlKeysIntoCryptoKeys()
         {
+            var minKeyCount = 2;
+            var keyTypes = new List<string>
+            {
+                "RSA"
+            };
+
             var discoveryUrl = new Uri("https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration");
 
             var keys = GetKeysFromDiscoveryEntpoint(discoveryUrl);
 
+            Assert.True(keys.Count >= minKeyCount);
+
             foreach (var key in keys)
             {
+                Assert.True(keyTypes.Contains(
+                    key.KeyType));
+
                 var cryptoKey = key.ToCryptoKey();
                 Assert.NotNull(cryptoKey);
             }
@@ -44,18 +65,27 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public void ConvertYahooDiscoveryUrlKeysIntoCryptoKeys()
         {
+            var minKeyCount = 2;
+            var algorithms = new List<JsonWebTokenAlgorithm>
+            {
+                JsonWebTokenAlgorithm.RS256,
+                JsonWebTokenAlgorithm.ES256
+            };
+
             var discoveryUrl = new Uri("https://login.yahoo.com/.well-known/openid-configuration");
 
             var keys = GetKeysFromDiscoveryEntpoint(discoveryUrl);
 
-            var cryptoKeys = keys.Select(k => k.ToCryptoKey()).ToList();
+            Assert.True(keys.Count >= minKeyCount);
 
-            foreach (var key in cryptoKeys)
+            foreach (var key in keys)
             {
-                Assert.NotNull(key);
-            }
+                Assert.True(algorithms.Contains(
+                    key.Algorithm.StringToEnum<JsonWebTokenAlgorithm>()));
 
-            Assert.True(cryptoKeys.Any(k => k is EcdsaCryptoKey));
+                var cryptoKey = key.ToCryptoKey();
+                Assert.NotNull(cryptoKey);
+            }
         }
 
         private IList<JsonWebKey> GetKeysFromDiscoveryEntpoint(Uri discoveryUrl)

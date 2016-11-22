@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Enums;
 using Newtonsoft.Json.Linq;
 using Material.Infrastructure.Credentials;
@@ -8,7 +9,7 @@ namespace Quantfabric.Test.Material.Unit
 {
     [Trait("Category", "Continuous")]
 
-    public class TokenDeserializationTests
+    public class TokenSerializationDeserializationTests
     {
         [Fact]
         public void DeserializeOAuth1Token()
@@ -109,6 +110,31 @@ namespace Quantfabric.Test.Material.Unit
             Assert.Equal(apiKeyName, actual.KeyName);
             Assert.Equal(keyValue, actual.KeyValue);
             Assert.Equal(keyType, actual.KeyType);
+        }
+
+        [Fact]
+        public void DeserializeJsonWebToken()
+        {
+            var audience = "exampleClientId";
+            var type = "JWT";
+            var algorithm = JsonWebTokenAlgorithm.RS256;
+            var issuer = "https://login.quantfabric.com";
+            var subject = "exampleUserId";
+            var issuedAt = new DateTime(2016, 11, 21, 22, 19, 34);
+            var expires = new DateTime(2016, 11, 21, 23, 19, 34);
+
+            var token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2xvZ2luLnF1YW50ZmFicmljLmNvbSIsInN1YiI6ImV4YW1wbGVVc2VySWQiLCJleHAiOjE0Nzk3NzAzNzQsImlhdCI6MTQ3OTc2Njc3NCwiYXVkIjoiZXhhbXBsZUNsaWVudElkIn0.bSGwmV_NOSsK_plB-YcuZSmwBHmBFsCBdascZItAx8s_teFSks6AknT74aM7wxatMZInEw85KrqIqyjNoDZtmMCZSt1gyeEKfQIDRemT_RJQ1zlHZqypUH1q3-azBWec_K9mkJnEF66IdTkmdWzMex2v3RPmOMcCzQskeQ4TsaWQ67GALlB8v3OrkH0hYa0h7e0sQiem208tTCcKkHuMYxhLwTNt7G_0Ujm2DQAIRmwIkiaeYmyJJQfbadlsaiFlZjRnI2XwTN0BROBpMrdgi9P3846do0XJpEVh0Y34G3Cru-epfVcpv7GKziGqToEk0M0k-O2c72vzsc5arfhf9g";
+
+            var actualToken = token.ToWebToken();
+
+            Assert.Equal(type, actualToken.Header.MediaType);
+            Assert.Equal(algorithm, actualToken.Header.Algorithm);
+
+            Assert.Equal(audience, actualToken.Claims.Audience);
+            Assert.Equal(issuer, actualToken.Claims.Issuer);
+            Assert.Equal(subject, actualToken.Claims.Subject);
+            Assert.Equal(issuedAt, actualToken.Claims.IssuedAt);
+            Assert.Equal(expires, actualToken.Claims.ExpirationTime);
         }
     }
 }

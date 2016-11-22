@@ -7,8 +7,10 @@ namespace Foundations.HttpClient.Cryptography.Keys
     public class RsaCryptoKey : CryptoKey
     {
         public string Modulus { get; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] ModulusBytes { get; }
         public string Exponent { get; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays")]
         public byte[] ExponentBytes { get; }
 
         public RsaCryptoKey(RsaKeyParameters key) :

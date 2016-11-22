@@ -8,35 +8,34 @@ using Org.BouncyCastle.Security;
 
 namespace Foundations.HttpClient.Cryptography.Keys
 {
-    public abstract class CryptoKey
+    public class CryptoKey
     {
         private readonly AsymmetricKeyParameter _parameter;
         private readonly string _value;
+        private bool? _isPrivateKey;
 
-        protected CryptoKey(
+        public CryptoKey(
             string key, 
             bool? isPrivate)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("Value cannot be null or empty.", nameof(key));
 
+            _isPrivateKey = isPrivate;
+            _value = key;
+
             if (isPrivate.HasValue)
             {
-                _value = StripKey(key, isPrivate.Value);
                 _parameter = StringToParameters(_value, isPrivate.Value);
-            }
-            else
-            {
-                _value = key;
-                _parameter = null;
             }
         }
 
-        protected CryptoKey(AsymmetricKeyParameter key)
+        public CryptoKey(AsymmetricKeyParameter key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
             _parameter = key;
-            _value = StripKey(ParametersToString(key), key.IsPrivate);
+            _isPrivateKey = key.IsPrivate;
+            _value = ParametersToString(key);
         }
 
         public T GetParameter<T>()
@@ -55,7 +54,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
 
         public override string ToString()
         {
-            return _value;
+            return !_isPrivateKey.HasValue ? 
+                _value : 
+                StripKey(_value, _isPrivateKey.Value);
         }
 
         protected const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";
@@ -69,15 +70,17 @@ namespace Foundations.HttpClient.Cryptography.Keys
         {
             if (isPrivate)
             {
+                var value = StripKey(key, true);
                 return PrivateKeyFactory.CreateKey(
                     Convert.FromBase64String(
-                        key.ToProperBase64String()));
+                        value.ToProperBase64String()));
             }
             else
             {
+                var value = StripKey(key, false);
                 return PublicKeyFactory.CreateKey(
                     Convert.FromBase64String(
-                        key.ToProperBase64String()));
+                        value.ToProperBase64String()));
             }
         }
 
