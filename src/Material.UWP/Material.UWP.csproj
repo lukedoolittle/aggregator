@@ -116,8 +116,8 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebViewAuthorizerUI.cs" />
-    <Compile Include="WebViewPage.xaml.cs">
+    <Compile Include="View\WebAuthorization\WebViewAuthorizerUI.cs" />
+    <Compile Include="View\WebAuthorization\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Material.UWP.rd.xml" />
@@ -137,7 +137,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="WebViewPage.xaml">
+    <Page Include="View\WebAuthorization\WebViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

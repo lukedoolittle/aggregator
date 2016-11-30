@@ -10,7 +10,7 @@ using Material.OAuth.Template;
 namespace Material.View.WebAuthorization
 {
     public class BrowserAuthorizerUI<TCredentials> :
-        OAuthAuthorizationUITemplateBase<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials, object>
         where TCredentials : TokenCredentials
     {
         private readonly HttpServer _httpServer;
@@ -34,8 +34,10 @@ namespace Material.View.WebAuthorization
             _callbackUri = callbackUri;
         }
 
-        protected override Task MakeAuthorizationRequest(
-            Uri authorizationUri, 
+        //TODO: how do we determine the user closed the browser? a timer?
+        protected override void MakeAuthorizationRequest(
+            Uri authorizationUri,
+            TaskCompletionSource<TCredentials> credentialsCompletion,
             Func<Uri, object, bool> callbackHandler)
         {
 #pragma warning disable 4014
@@ -55,8 +57,6 @@ namespace Material.View.WebAuthorization
 #pragma warning restore 4014
 
             Platform.Current.Launch(authorizationUri);
-
-            return Task.FromResult(true);
         }
 
         protected override void CleanupView(object view)

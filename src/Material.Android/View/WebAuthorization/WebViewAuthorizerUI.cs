@@ -1,8 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Android.Content;
-using Android.Graphics;
-using Android.Webkit;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Material.Contracts;
@@ -14,7 +11,7 @@ using Material.OAuth.Template;
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI<TCredentials> :
-        OAuthAuthorizationUITemplateBase<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials, WebViewDialog>
         where TCredentials : TokenCredentials
     {
         public WebViewAuthorizerUI(
@@ -31,68 +28,31 @@ namespace Material.View.WebAuthorization
                     isOnline)
         { }
 
-        protected override void CleanupView(object view)
+        protected override void CleanupView(WebViewDialog view)
         {
-            var webView = (WebView)view;
-            webView.StopLoading();
-            webView.LoadData(
+            view.WebView.StopLoading();
+            view.WebView.LoadData(
                 StringResources.OAuthCallbackResponse,
                 MediaType.Text.EnumToString(),
                 string.Empty);
 
-            Platform.Current.Context.Finish();
+            view.Hide();
         }
 
-        protected override async Task MakeAuthorizationRequest(
+        protected override void MakeAuthorizationRequest(
             Uri authorizationUri,
-            Func<Uri, object, bool> callbackHandler)
+            TaskCompletionSource<TCredentials> credentialsCompletion,
+            Func<Uri, WebViewDialog, bool> callbackHandler)
         {
-            var webViewCompletionSource = new TaskCompletionSource<WebViewActivity>();
-            var context = Platform.Current.Context;
-
-            var intent = new Intent(context, typeof(WebViewActivity));
-            intent.PutExtra(
-                WebViewActivity.Authorizer,
-                WebViewActivity.StateRepo.Add(webViewCompletionSource));
-            context.StartActivity(intent);
-
-            var activity = await webViewCompletionSource
-                .Task
-                .ConfigureAwait(true);
-
-            activity.View.SetWebViewClient(
-                new AuthorizingWebViewClient((view, url, favicon) =>
-                {
-                    callbackHandler(new Uri(url), activity.View);
-                }));
-
-            activity.View.LoadUrl(authorizationUri.ToString());
-        }
-
-        private class AuthorizingWebViewClient : WebViewClient
-        {
-            private readonly Action<WebView, string, Bitmap> _pageLoadAction;
-
-            public AuthorizingWebViewClient(
-                Action<WebView, string, Bitmap> pageLoadAction)
-            {
-                _pageLoadAction = pageLoadAction;
-            }
-
-            public override bool ShouldOverrideUrlLoading(
-                WebView view,
-                string url)
-            {
-                return false;
-            }
-
-            public override void OnPageStarted(
-                WebView view, 
-                string url, 
-                Bitmap favicon)
-            {
-                _pageLoadAction(view, url, favicon);
-            }
+            new WebViewDialog(
+                    Resource.Layout.WebViewDialog, 
+                    Resource.Id.dialogWebView, 
+                    Resource.Id.closeView, 
+                    Platform.Current.Context, 
+                    credentialsCompletion.SetCanceled)
+                .Show(
+                    authorizationUri, 
+                    callbackHandler);
         }
     }
 }

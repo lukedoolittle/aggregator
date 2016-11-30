@@ -408,7 +408,11 @@ namespace Quantfabric.UI.Test
 
         private void WriteCredentials(object credentials)
         {
-            if (credentials is OAuth1Credentials)
+            if (credentials == null)
+            {
+                WriteResultToTextView("WORKFLOW WAS CANCELLED");
+            }
+            else if (credentials is OAuth1Credentials)
             {
                 var token = credentials as OAuth1Credentials;
                 WriteResultToTextView($"OAuthToken: {token.OAuthToken}\nOAuthSecret: {token.OAuthSecret}");

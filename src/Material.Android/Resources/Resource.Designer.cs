@@ -37,17 +37,74 @@ namespace Material
 			}
 		}
 		
+		public partial class Drawable
+		{
+			
+			// aapt resource value: 0x7f020000
+			public static int close = 2130837504;
+			
+			static Drawable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Drawable()
+			{
+			}
+		}
+		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f050001
+			public static int closeView = 2131034113;
+			
+			// aapt resource value: 0x7f050000
+			public static int dialogWebView = 2131034112;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7f030000
+			public static int WebViewDialog = 2130903040;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f020002
-			public static int ApplicationName = 2130837506;
+			// aapt resource value: 0x7f040002
+			public static int ApplicationName = 2130968578;
 			
-			// aapt resource value: 0x7f020001
-			public static int Hello = 2130837505;
+			// aapt resource value: 0x7f040001
+			public static int Hello = 2130968577;
 			
-			// aapt resource value: 0x7f020000
-			public static int library_name = 2130837504;
+			// aapt resource value: 0x7f040003
+			public static int ProgressDialogTitle = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public static int WebProgressDialogText = 2130968580;
+			
+			// aapt resource value: 0x7f040000
+			public static int library_name = 2130968576;
 			
 			static String()
 			{

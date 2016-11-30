@@ -9,7 +9,7 @@ using Material.OAuth.Template;
 namespace Material.View.WebAuthorization
 {
     public class ProtocolAuthorizerUI<TCredentials> :
-        OAuthAuthorizationUITemplateBase<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials, object>
         where TCredentials : TokenCredentials
     {
         public ProtocolAuthorizerUI(
@@ -26,8 +26,10 @@ namespace Material.View.WebAuthorization
                     isOnline)
         { }
 
-        protected override Task MakeAuthorizationRequest(
-            Uri authorizationUri, 
+        //TODO: how do we determine the user closed the browser? a timer?
+        protected override void MakeAuthorizationRequest(
+            Uri authorizationUri,
+            TaskCompletionSource<TCredentials> credentialsCompletion,
             Func<Uri, object, bool> callbackHandler)
         {
             Platform.Current.ProtocolLaunch += (s, e) =>
@@ -36,8 +38,6 @@ namespace Material.View.WebAuthorization
             };
 
             Platform.Current.Launch(authorizationUri);
-
-            return Task.FromResult(true);
         }
 
         protected override void CleanupView(object view)

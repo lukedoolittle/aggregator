@@ -10,7 +10,7 @@ using Material.OAuth.Template;
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI<TCredentials> : 
-        OAuthAuthorizationUITemplateBase<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials, WebView>
         where TCredentials : TokenCredentials
     {
         public WebViewAuthorizerUI(
@@ -27,17 +27,19 @@ namespace Material.View.WebAuthorization
                     isOnline)
         {}
 
-        protected override void CleanupView(object view)
+        protected override void CleanupView(WebView view)
         {
-            var webView = (WebView)view;
-            webView.NavigateToString(StringResources.OAuthCallbackResponse);
+            if (view == null) throw new ArgumentNullException(nameof(view));
+
+            view.NavigateToString(StringResources.OAuthCallbackResponse);
 
             Platform.Current.Context.GoBack();
         }
 
-        protected override async Task MakeAuthorizationRequest(
+        protected override async void MakeAuthorizationRequest(
             Uri authorizationUri,
-            Func<Uri, object, bool> callbackHandler)
+            TaskCompletionSource<TCredentials> credentialsCompletion,
+            Func<Uri, WebView, bool> callbackHandler)
         {
             var viewCompletionSource = new TaskCompletionSource<WebView>();
             Platform.Current.Context.Navigate(

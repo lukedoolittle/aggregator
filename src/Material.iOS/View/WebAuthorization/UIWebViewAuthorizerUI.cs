@@ -11,7 +11,7 @@ using Material.OAuth.Template;
 namespace Material.View.WebAuthorization
 {
     public class UIWebViewAuthorizerUI<TCredentials> :
-        OAuthAuthorizationUITemplateBase<TCredentials>
+        OAuthAuthorizationUITemplateBase<TCredentials, UIWebView>
         where TCredentials : TokenCredentials
     {
         public UIWebViewAuthorizerUI(
@@ -28,12 +28,13 @@ namespace Material.View.WebAuthorization
                     isOnline)
         { }
 
-        protected override void CleanupView(object view)
+        protected override void CleanupView(UIWebView view)
         {
-            var webView = (UIWebView)view;
+            if (view == null) throw new ArgumentNullException(nameof(view));
+
             using (var url = new NSUrl("/"))
             {
-                webView.LoadHtmlString(
+                view.LoadHtmlString(
                     StringResources.OAuthCallbackResponse, 
                     url);
             }
@@ -41,9 +42,10 @@ namespace Material.View.WebAuthorization
             Platform.Current.Context.DismissViewController(false, null);
         }
 
-        protected override async Task MakeAuthorizationRequest(
+        protected override async void MakeAuthorizationRequest(
             Uri authorizationUri,
-            Func<Uri, object, bool> callbackHandler)
+            TaskCompletionSource<TCredentials> credentialsCompletion,
+            Func<Uri, UIWebView, bool> callbackHandler)
         {
             var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
             var context = Platform.Current.Context;
@@ -53,6 +55,8 @@ namespace Material.View.WebAuthorization
                 webViewCompletionSource);
             context.PresentViewController(controller, false, null);
 
+            //TODO: why do we need to wait here, cant we just pass values
+            //necessary to complete this into the constructor???
             var webView = await webViewCompletionSource
                 .Task
                 .ConfigureAwait(true);

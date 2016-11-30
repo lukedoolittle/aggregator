@@ -7,7 +7,7 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 {
-    public abstract class OAuthAuthorizationUITemplateBase<TCredentials> :
+    public abstract class OAuthAuthorizationUITemplateBase<TCredentials, TView> :
         IOAuthAuthorizerUI<TCredentials>
         where TCredentials : TokenCredentials
     {
@@ -27,7 +27,7 @@ namespace Material.OAuth.Template
         {
             _handler = handler;
             _callbackUri = callbackUri;
-            _runOnMainThread = runOnMainThread;
+            _runOnMainThread = runOnMainThread ?? (action => { });
             _isOnline = isOnline;
             BrowserType = browserType;
         }
@@ -36,20 +36,9 @@ namespace Material.OAuth.Template
             Uri authorizationUri, 
             string userId)
         {
-            return Authorize(
-                authorizationUri, 
-                _callbackUri, 
-                userId);
-        }
+            var credentialsCompletion = new TaskCompletionSource<TCredentials>();
 
-        protected async Task<TCredentials> Authorize(
-            Uri authorizationUri,
-            Uri callbackUri,
-            string userId)
-        {
-            var taskCompletion = new TaskCompletionSource<TCredentials>();
-
-            var action = new Action(async () =>
+            _runOnMainThread(() =>
             {
                 if (!_isOnline())
                 {
@@ -57,13 +46,15 @@ namespace Material.OAuth.Template
                         StringResources.OfflineConnectivityException);
                 }
 
-                await MakeAuthorizationRequest(
+                MakeAuthorizationRequest(
                     authorizationUri,
+                    credentialsCompletion,
                     (uri, view) =>
                     {
                         if (uri != null &&
                             uri.AbsolutePath.ToString().StartsWith(
-                                callbackUri.AbsolutePath.ToString()))
+                                _callbackUri.AbsolutePath.ToString(), 
+                                StringComparison.Ordinal))
                         {
                             try
                             {
@@ -76,40 +67,29 @@ namespace Material.OAuth.Template
                                 {
                                     return false;
                                 }
-                                taskCompletion.SetResult(result);
+                                credentialsCompletion.SetResult(result);
                                 CleanupView(view);
                                 return true;
                             }
                             catch (Exception ex)
                             {
-                                taskCompletion.SetException(ex);
+                                credentialsCompletion.SetException(ex);
                                 throw;
                             }
                         }
 
                         return false;
-                    }).ConfigureAwait(false);
+                    });
             });
 
-            if (_runOnMainThread != null)
-            {
-                _runOnMainThread(action);
-            }
-            else
-            {
-                action();
-            }
-
-            return await taskCompletion
-                .Task
-                .ConfigureAwait(false);
+            return credentialsCompletion.Task;
         }
 
-        //is there some way to make the object in the callback handler typesafe?
-        protected abstract Task MakeAuthorizationRequest(
+        protected abstract void MakeAuthorizationRequest(
             Uri authorizationUri,
-            Func<Uri, object, bool> callbackHandler);
+            TaskCompletionSource<TCredentials> credentialsCompletion,
+            Func<Uri, TView, bool> callbackHandler);
 
-        protected abstract void CleanupView(object view);
+        protected abstract void CleanupView(TView view);
     }
 }

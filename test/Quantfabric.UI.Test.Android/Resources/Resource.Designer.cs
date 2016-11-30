@@ -26,8 +26,14 @@ namespace Quantfabric.UI.Test
 		
 		public static void UpdateIdValues()
 		{
+			global::Material.Resource.Drawable.close = global::Quantfabric.UI.Test.Resource.Drawable.close;
+			global::Material.Resource.Id.closeView = global::Quantfabric.UI.Test.Resource.Id.closeView;
+			global::Material.Resource.Id.dialogWebView = global::Quantfabric.UI.Test.Resource.Id.dialogWebView;
+			global::Material.Resource.Layout.WebViewDialog = global::Quantfabric.UI.Test.Resource.Layout.WebViewDialog;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
+			global::Material.Resource.String.ProgressDialogTitle = global::Quantfabric.UI.Test.Resource.String.ProgressDialogTitle;
+			global::Material.Resource.String.WebProgressDialogText = global::Quantfabric.UI.Test.Resource.String.WebProgressDialogText;
 			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
 			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
 		}
@@ -49,7 +55,10 @@ namespace Quantfabric.UI.Test
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int close = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public const int Icon = 2130837505;
 			
 			static Drawable()
 			{
@@ -69,6 +78,12 @@ namespace Quantfabric.UI.Test
 			
 			// aapt resource value: 0x7f050001
 			public const int browserToggleButton = 2131034113;
+			
+			// aapt resource value: 0x7f050018
+			public const int closeView = 2131034136;
+			
+			// aapt resource value: 0x7f050017
+			public const int dialogWebView = 2131034135;
 			
 			// aapt resource value: 0x7f050003
 			public const int facebookAuth = 2131034115;
@@ -149,6 +164,9 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f030000
 			public const int Main = 2130903040;
 			
+			// aapt resource value: 0x7f030001
+			public const int WebViewDialog = 2130903041;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -167,6 +185,12 @@ namespace Quantfabric.UI.Test
 			
 			// aapt resource value: 0x7f040001
 			public const int Hello = 2130968577;
+			
+			// aapt resource value: 0x7f040003
+			public const int ProgressDialogTitle = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public const int WebProgressDialogText = 2130968580;
 			
 			// aapt resource value: 0x7f040000
 			public const int library_name = 2130968576;

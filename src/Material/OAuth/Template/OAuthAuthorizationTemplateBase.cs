@@ -10,35 +10,41 @@ namespace Material.OAuth.Template
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
-        private readonly IOAuthFacade<TCredentials> _oauthFacade;
-        protected IOAuthFacade<TCredentials> oauthFacade => _oauthFacade;
+        protected IOAuthFacade<TCredentials> OauthFacade { get; }
 
         protected OAuthAuthorizationTemplateBase(
             IOAuthAuthorizerUI<TCredentials> authorizerUI, 
             IOAuthFacade<TCredentials> oauthFacade)
         {
             _authorizerUI = authorizerUI;
-            _oauthFacade = oauthFacade;
+            OauthFacade = oauthFacade;
         }
 
         public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
         {
-            var authorizationPath = await GetAuthorizationPath(userId)
-                .ConfigureAwait(false);
+            try
+            {
+                var authorizationPath = await GetAuthorizationPath(userId)
+                    .ConfigureAwait(false);
 
-            var intermediateResult = await GetIntermediateResult(
-                    authorizationPath,
-                    userId)
-                .ConfigureAwait(false);
+                var intermediateResult = await GetIntermediateResult(
+                        authorizationPath,
+                        userId)
+                    .ConfigureAwait(false);
 
-            return await GetAccessTokenFromIntermediateResult(
-                    intermediateResult)
-                .ConfigureAwait(false);
+                return await GetAccessTokenFromIntermediateResult(
+                        intermediateResult)
+                    .ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                return null;
+            }
         }
 
         protected virtual Task<Uri> GetAuthorizationPath(string userId)
         {
-            return _oauthFacade.GetAuthorizationUriAsync(userId);
+            return OauthFacade.GetAuthorizationUriAsync(userId);
         }
 
         protected virtual Task<TCredentials> GetIntermediateResult(
