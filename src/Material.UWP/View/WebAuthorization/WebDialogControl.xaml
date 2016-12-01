@@ -1,0 +1,28 @@
+﻿<UserControl
+    x:Class="Material.View.WebAuthorization.WebDialogControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Popup x:Name="WebViewPopup" LayoutUpdated="OnLayoutUpdated">
+        <Grid x:Name="WebViewGrid" Background="#CC000000">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <WebView x:Name="RootWebView" Grid.Row="1" Grid.Column="1"
+                         NavigationCompleted="RootWebView_OnNavigationCompleted" Visibility="Collapsed" />
+            <Image x:Name="CloseButton" Grid.Row="0" Grid.Column="0" Source="/Assets/close.png"  
+                       Tapped="CancelButton_OnTapped" Visibility="Collapsed" />
+            <ProgressRing x:Name="WebViewProgressRing" Grid.Row="1" Grid.Column="1" 
+                          Visibility="Collapsed" IsActive="false"/>
+        </Grid>
+    </Popup>
+</UserControl>

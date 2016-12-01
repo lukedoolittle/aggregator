@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 using Material.Contracts;
 using Material.Enums;
-using Material.Framework;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class WebViewAuthorizerUI<TCredentials> : 
-        OAuthAuthorizationUITemplateBase<TCredentials, WebView>
+        OAuthAuthorizationUITemplateBase<TCredentials, WebDialogControl>
         where TCredentials : TokenCredentials
     {
         public WebViewAuthorizerUI(
@@ -27,35 +26,26 @@ namespace Material.View.WebAuthorization
                     isOnline)
         {}
 
-        protected override void CleanupView(WebView view)
+        protected override void CleanupView(WebDialogControl view)
         {
             if (view == null) throw new ArgumentNullException(nameof(view));
 
-            view.NavigateToString(StringResources.OAuthCallbackResponse);
+            view.WebView.NavigateToString(StringResources.OAuthCallbackResponse);
 
-            Platform.Current.Context.GoBack();
+            view.Hide();
         }
 
-        protected override async void MakeAuthorizationRequest(
+        protected override void MakeAuthorizationRequest(
             Uri authorizationUri,
             TaskCompletionSource<TCredentials> credentialsCompletion,
-            Func<Uri, WebView, bool> callbackHandler)
+            Func<Uri, WebDialogControl, bool> callbackHandler)
         {
-            var viewCompletionSource = new TaskCompletionSource<WebView>();
-            Platform.Current.Context.Navigate(
-                typeof(WebViewPage),
-                viewCompletionSource);
-
-            var webView = await viewCompletionSource
-                .Task
-                .ConfigureAwait(false);
-
-            webView.NavigationStarting += (sender, args) =>
-            {
-                callbackHandler(args.Uri, webView);
-            };
-
-            webView.Navigate(authorizationUri);
+            new WebDialogControl(
+                    Window.Current, 
+                    credentialsCompletion.SetCanceled)
+                .Show(
+                    authorizationUri, 
+                    callbackHandler);
         }
     }
 }

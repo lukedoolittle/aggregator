@@ -103,7 +103,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnTwitterClick(object sender, RoutedEventArgs e)
@@ -121,7 +121,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+            WriteCredentials(token);
         }
 
         private async void OnGoogleClick(object sender, RoutedEventArgs e)
@@ -140,7 +140,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnFitbitClick(object sender, RoutedEventArgs e)
@@ -159,7 +159,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnPinterestClick(object sender, RoutedEventArgs e)
@@ -177,7 +177,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnRunkeeperClick(object sender, RoutedEventArgs e)
@@ -195,7 +195,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnInstagramClick(object sender, RoutedEventArgs e)
@@ -213,7 +213,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnTwentyThreeAndMeClick(object sender, RoutedEventArgs e)
@@ -232,7 +232,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnWithingsClick(object sender, RoutedEventArgs e)
@@ -250,7 +250,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+            WriteCredentials(token);
         }
 
         private async void OnTumblrClick(object sender, RoutedEventArgs e)
@@ -268,7 +268,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+            WriteCredentials(token);
         }
 
         private async void OnFatsecretClick(object sender, RoutedEventArgs e)
@@ -286,7 +286,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"OAuthToken:{token.OAuthToken}, OAuthSecret:{token.OAuthSecret}");
+            WriteCredentials(token);
         }
 
         private async void OnFoursquareClick(object sender, RoutedEventArgs e)
@@ -304,7 +304,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnSpotifyClick(object sender, RoutedEventArgs e)
@@ -322,7 +322,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnLinkedInClick(object sender, RoutedEventArgs e)
@@ -340,7 +340,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnRescuetimeClick(object sender, RoutedEventArgs e)
@@ -358,7 +358,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnAmazonClick(object sender, RoutedEventArgs e)
@@ -376,7 +376,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"AccessToken:{token.AccessToken}");
+            WriteCredentials(token);
         }
 
         private async void OnGoogleOpenIdClick(object sender, RoutedEventArgs e)
@@ -393,7 +393,7 @@ namespace Quantfabric.UI.Test.UWP
                     .GetWebTokenAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"JsonWebToken:{token.EncodedToken}");
+            WriteCredentials(token);
         }
 
         private async void OnYahooOpenIdClick(object sender, RoutedEventArgs e)
@@ -410,7 +410,28 @@ namespace Quantfabric.UI.Test.UWP
                     .GetWebTokenAsync()
                     .ConfigureAwait(false);
 
-            WriteToTextbox($"JsonWebToken:{token.EncodedToken}");
+            WriteCredentials(token);
+        }
+
+        private void WriteCredentials(JsonWebToken credentials)
+        {
+            WriteToTextbox(credentials != null
+                ? $"Json Web Token: {credentials.Signature}"
+                : "OPENID OPERATION CANCELLED");
+        }
+
+        private void WriteCredentials(OAuth1Credentials credentials)
+        {
+            WriteToTextbox(credentials != null
+                ? $"OAuthToken:{credentials.OAuthToken}, OAuthSecret:{credentials.OAuthSecret}"
+                : "OAUTH1 OPERATION CANCELLED");
+        }
+
+        private void WriteCredentials(OAuth2Credentials credentials)
+        {
+            WriteToTextbox(credentials != null
+                ? $"AccessToken:{credentials.AccessToken}"
+                : "OAUTH2 OPERATION CANCELLED");
         }
 
         private void WriteToTextbox(string text)

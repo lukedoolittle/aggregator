@@ -55,6 +55,7 @@ namespace Material.View.WebAuthorization
 
             webView.SetWebViewClient(webViewClient);
 
+            //Close button overlap of the webview is half of its width
             var layoutParameters = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MatchParent,
                 FrameLayout.LayoutParams.MatchParent);
@@ -103,6 +104,10 @@ namespace Material.View.WebAuthorization
             Show();
         }
 
+        /// <summary>
+        /// Custom OnTouchListener allows the virtual keyboard to appear when a textbox
+        /// gains focus in a webview within a dialog control
+        /// </summary>
         private class MyTouchListener : 
             Java.Lang.Object, 
             Android.Views.View.IOnTouchListener
