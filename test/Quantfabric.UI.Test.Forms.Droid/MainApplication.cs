@@ -3,11 +3,11 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 
-namespace $rootnamespace$
+namespace Quantfabric.UI.Test.Forms.Droid
 {
 	//You can specify additional application information in this attribute
     [Application]
-    public class MainApplication : Application, Application.IActivityLifecycleCallbacks
+    public partial class MainApplication : Android.App.Application, Android.App.Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)
@@ -18,9 +18,6 @@ namespace $rootnamespace$
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
-            //Uncomment lines if using Xamarin.Forms
-            //Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
-            //Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
         }
 
         public override void OnTerminate()
@@ -32,11 +29,11 @@ namespace $rootnamespace$
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
             Material.Framework.Platform.Current.Context = activity;
-            
+
             var data = activity.Intent?.Data?.ToString();
+            //necessary for custom uri scheme OAuth callbacks to function
             if (data != null)
             {
-                //necessary for custom uri scheme OAuth callbacks to function
                 Material.Framework.Platform.Current.Protocol(new Uri(data));
             }
         }

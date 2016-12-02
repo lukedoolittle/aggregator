@@ -3,11 +3,11 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 
-namespace Quantfabric.UI.Test
+namespace $rootnamespace$
 {
 	//You can specify additional application information in this attribute
     [Application]
-    public class MainApplication : Android.App.Application, Android.App.Application.IActivityLifecycleCallbacks
+    public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)
@@ -29,11 +29,11 @@ namespace Quantfabric.UI.Test
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
             Material.Framework.Platform.Current.Context = activity;
-
+            
             var data = activity.Intent?.Data?.ToString();
-            //necessary for custom uri scheme OAuth callbacks to function
             if (data != null)
             {
+                //necessary for custom uri scheme OAuth callbacks to function
                 Material.Framework.Platform.Current.Protocol(new Uri(data));
             }
         }

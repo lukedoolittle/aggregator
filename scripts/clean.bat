@@ -33,8 +33,24 @@ rmdir /s /q Quantfabric.UI.Test.UWP\AppPackages
 rmdir /s /q Quantfabric.Web.Test\bin
 rmdir /s /q Quantfabric.Web.Test\obj
 
+rmdir /s /q Quantfabric.UI.Test.Forms\bin
+rmdir /s /q Quantfabric.UI.Test.Forms\obj
+rmdir /s /q Quantfabric.UI.Test.Forms.Droid\bin
+rmdir /s /q Quantfabric.UI.Test.Forms.Droid\obj
+rmdir /s /q Quantfabric.UI.Test.Forms.iOS\bin
+rmdir /s /q Quantfabric.UI.Test.Forms.iOS\obj
+rmdir /s /q Quantfabric.UI.Test.Forms.UWP\bin
+rmdir /s /q Quantfabric.UI.Test.Forms.UWP\obj
+rmdir /s /q Quantfabric.UI.Test.Forms.iOS\AppPackages
+
+popd
+
+Pushd %LocalAppData%\Xamarin\zips
+del *.zip
+
 popd
 
 rmdir /s /q ..\packages
+rmdir /s /q ..\.vs
 
 pause

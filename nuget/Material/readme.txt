@@ -94,18 +94,22 @@ If you intend to use an OAuth workflow with a dedicated browser insert the follo
 -------------------------------
      Xamarin.Forms (PCL)
 -------------------------------
-Add a dependency registration for the OAuthAuthorizerUIFactory to each platform project on launch
+Make platform specific additions above AND add a dependency registration for the OAuthAuthorizerUIFactory and BluetoothAuthorizer to each platform project on launch
 
-For Android (in MainApplication.OnCreate())
+For Android (in MainActivity.OnCreate())
 
-	public override void OnCreate()
+	protected override void OnCreate(Bundle bundle)
 	{
+		TabLayoutResource = Resource.Layout.Tabbar;
+		ToolbarResource = Resource.Layout.Toolbar;
+
 		base.OnCreate(bundle);
 
-		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
-		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
-
 		global::Xamarin.Forms.Forms.Init(this, bundle);
+
+		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+		Xamarin.Forms.DependencyService.Register<BluetoothAuthorizerUIFactory>();
+
 		LoadApplication(new App());
 	}
 
@@ -113,21 +117,25 @@ For iOS (in AppDelegate.FinishLaunching())
 
 	public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 	{
-		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
-		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
-
 		global::Xamarin.Forms.Forms.Init();
+
+		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
+		Xamarin.Forms.DependencyService.Register<BluetoothAuthorizerUIFactory>();
+
 		LoadApplication(new App());
 
 		return base.FinishedLaunching(app, options);
 	}
 
-For UWP (in the constructor of MainPage)
+For UWP (in App.OnLaunch())
 
-	public MainPage()
+	protected override void OnLaunched(LaunchActivatedEventArgs e)
 	{
+	    ...
+		
+		Xamarin.Forms.Forms.Init(e);
+		
 		Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
-		Xamarin.Forms.DependencyService.Register<IBluetoothAuthorizerUIFactory>();
-
-		LoadApplication(new App2.App());
+		
+		...
 	}
