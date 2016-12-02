@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
             <WebView x:Name="RootWebView" Grid.Row="1" Grid.Column="1"
                          NavigationCompleted="RootWebView_OnNavigationCompleted" Visibility="Collapsed" />
-            <Image x:Name="CloseButton" Grid.Row="0" Grid.Column="0" Source="/Assets/close.png"  
+            <Image x:Name="CloseButton" Grid.Row="0" Grid.Column="0" Source="ms-appx:///Material/Assets/close.png"  
                        Tapped="CancelButton_OnTapped" Visibility="Collapsed" />
             <ProgressRing x:Name="WebViewProgressRing" Grid.Row="1" Grid.Column="1" 
                           Visibility="Collapsed" IsActive="false"/>

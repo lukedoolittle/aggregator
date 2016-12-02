@@ -8,20 +8,20 @@ namespace Material.View.WebAuthorization
     public sealed partial class WebDialogControl : UserControl
     {
         private readonly Window _rootWindow;
-        private readonly Action _cancelledAction;
+        private readonly Action _canceled;
 
         public WebView WebView => RootWebView;
 
         public WebDialogControl(
             Window rootWindow, 
-            Action cancelledAction)
+            Action canceled)
         {
             if (rootWindow == null) throw new ArgumentNullException(nameof(rootWindow));
 
             this.InitializeComponent();
 
             _rootWindow = rootWindow;
-            _cancelledAction = cancelledAction;
+            _canceled = canceled;
         }
 
         public void Show(
@@ -54,7 +54,7 @@ namespace Material.View.WebAuthorization
             TappedRoutedEventArgs e)
         {
             Hide();
-            _cancelledAction?.Invoke();
+            _canceled?.Invoke();
         }
 
         private void RootWebView_OnNavigationCompleted(
