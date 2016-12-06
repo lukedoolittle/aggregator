@@ -263,3 +263,7 @@ tools/
 # Credential Files
 CredentialApplicationSettings.cs
 testCredentials.json
+
+# TempKeyfiles
+!test/Quantfabric.UI.Test.UWP/Quantfabric.UI.Test.UWP_TemporaryKey.pfx
+!test/Quantfabric.UI.Test.Forms.UWP/Windows_TemporaryKey.pfx
