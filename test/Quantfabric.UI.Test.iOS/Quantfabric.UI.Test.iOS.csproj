@@ -21,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <MtouchUseSGen>True</MtouchUseSGen>
@@ -29,7 +29,7 @@
     <MtouchDebug>True</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>False</MtouchProfiling>
-    <MtouchSdkVersion>10.0</MtouchSdkVersion>
+    <MtouchSdkVersion>10.1</MtouchSdkVersion>
     <MtouchUseLlvm>False</MtouchUseLlvm>
     <MtouchUseThumb>False</MtouchUseThumb>
     <MtouchEnableBitcode>False</MtouchEnableBitcode>
@@ -92,6 +92,7 @@
     <MtouchEnableBitcode>False</MtouchEnableBitcode>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <CodesignProvision>508a9d7d-d4a8-4cd3-9312-03cf6e859e42</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAndroid|iPhoneSimulator'">
     <DebugSymbols>true</DebugSymbols>
