@@ -189,4 +189,10 @@
   <data name="InvalidJsonWebTokenNonce" xml:space="preserve">
     <value>The Json Web Token nonce does not match the nonce supplied by the application</value>
   </data>
+  <data name="ProgressDialogTitle" xml:space="preserve">
+    <value>Please Wait</value>
+  </data>
+  <data name="WebProgressDialogText" xml:space="preserve">
+    <value>Loading login page</value>
+  </data>
 </root>

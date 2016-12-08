@@ -224,6 +224,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please Wait.
+        /// </summary>
+        public static string ProgressDialogTitle {
+            get {
+                return ResourceManager.GetString("ProgressDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A {0} response is not supported with the service {1}.
         /// </summary>
         public static string ResponseTypeNotSupported {
@@ -247,6 +256,15 @@ namespace Material {
         public static string ShortTermAccessTokenExchangeException {
             get {
                 return ResourceManager.GetString("ShortTermAccessTokenExchangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading login page.
+        /// </summary>
+        public static string WebProgressDialogText {
+            get {
+                return ResourceManager.GetString("WebProgressDialogText", resourceCulture);
             }
         }
         

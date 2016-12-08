@@ -2,7 +2,7 @@
 using CoreGraphics;
 using UIKit;
 
-namespace Material.View.BluetoothAuthorization
+namespace Material.View
 {
     //adapted from https://developer.xamarin.com/recipes/ios/standard_controls/popovers/display_a_loading_message/
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]

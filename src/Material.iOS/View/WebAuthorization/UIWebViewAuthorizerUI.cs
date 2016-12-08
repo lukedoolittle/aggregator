@@ -4,14 +4,13 @@ using Foundation;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
-using UIKit;
 using Material.Framework;
 using Material.OAuth.Template;
 
 namespace Material.View.WebAuthorization
 {
     public class UIWebViewAuthorizerUI<TCredentials> :
-        OAuthAuthorizationUITemplateBase<TCredentials, UIWebView>
+        OAuthAuthorizationUITemplateBase<TCredentials, WebDialogView>
         where TCredentials : TokenCredentials
     {
         public UIWebViewAuthorizerUI(
@@ -28,53 +27,32 @@ namespace Material.View.WebAuthorization
                     isOnline)
         { }
 
-        protected override void CleanupView(UIWebView view)
+        protected override void CleanupView(WebDialogView view)
         {
             if (view == null) throw new ArgumentNullException(nameof(view));
 
             using (var url = new NSUrl("/"))
             {
-                view.LoadHtmlString(
+                view.WebView.LoadHtmlString(
                     StringResources.OAuthCallbackResponse, 
                     url);
             }
 
-            Platform.Current.Context.DismissViewController(false, null);
+            view.Hide();
         }
 
-        protected override async void MakeAuthorizationRequest(
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        protected override void MakeAuthorizationRequest(
             Uri authorizationUri,
             TaskCompletionSource<TCredentials> credentialsCompletion,
-            Func<Uri, UIWebView, bool> callbackHandler)
+            Func<Uri, WebDialogView, bool> callbackHandler)
         {
-            var webViewCompletionSource = new TaskCompletionSource<UIWebView>();
-            var context = Platform.Current.Context;
-
-            var controller = new WebViewController(
-                context.View.Bounds,
-                webViewCompletionSource);
-            context.PresentViewController(controller, false, null);
-
-            //TODO: why do we need to wait here, cant we just pass values
-            //necessary to complete this into the constructor???
-            var webView = await webViewCompletionSource
-                .Task
-                .ConfigureAwait(true);
-
-            webView.ShouldStartLoad = (view, request, type) =>
-            {
-                var success = callbackHandler(
-                    new Uri(request.Url.ToString()), 
-                    webView);
-
-                return !success;
-            };
-
-            //TODO: determine why spaces are not properly Url encoded
-            webView.LoadRequest(
-                new NSUrlRequest(
-                    new NSUrl(authorizationUri
-                        .ToString().Replace(" ", "%20"))));
+            WebDialogView.Create(
+                    Platform.Current.Context, 
+                    credentialsCompletion.SetCanceled)
+                .Show(
+                    authorizationUri, 
+                    callbackHandler);
         }
     }
 }

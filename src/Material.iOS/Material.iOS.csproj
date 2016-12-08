@@ -63,8 +63,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\BluetoothAuthorization\BluetoothAuthorizerUI.cs" />
     <Compile Include="View\BluetoothAuthorization\DeviceTableViewController.cs" />
-    <Compile Include="View\BluetoothAuthorization\LoadingOverlay.cs" />
+    <Compile Include="View\LoadingOverlay.cs" />
     <Compile Include="View\WebAuthorization\UIWebViewAuthorizerUI.cs" />
+    <Compile Include="View\WebAuthorization\UriExtensions.cs" />
+    <Compile Include="View\WebAuthorization\WebDialogView.cs" />
+    <Compile Include="View\WebAuthorization\WebDialogView.designer.cs">
+      <DependentUpon>WebDialogView.cs</DependentUpon>
+    </Compile>
+    <InterfaceDefinition Include="View\WebAuthorization\WebDialogView.xib" />
     <Compile Include="View\WebAuthorization\WebViewController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +92,26 @@
     <None Include="packages.config" />
     <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
     <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\CloseButton.imageset\close1x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\CloseButton.imageset\close2x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\CloseButton.imageset\close3x.png">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\CloseButton.imageset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">

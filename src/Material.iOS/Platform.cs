@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using SystemConfiguration;
 using CoreFoundation;
-using Foundation;
+using Material.View.WebAuthorization;
 using Robotics.Mobile.Core.Bluetooth.LE;
 using UIKit;
 
@@ -34,13 +34,10 @@ namespace Material.Framework
         public Action<Action> RunOnMainThread { get; } =
             UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
 
-        //TODO: determine why spaces are not properly Url encoded
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public Action<Uri> LaunchBrowser =>
-            uri => UIApplication.SharedApplication.OpenUrl(
-                new NSUrl(
-                    uri.ToString().Replace(" ", "%20")));
+            uri => UIApplication.SharedApplication.OpenUrl(uri.ToNSUrl());
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline => Reachability.IsReachable();

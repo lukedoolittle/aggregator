@@ -77,10 +77,8 @@ namespace Material.View.WebAuthorization
 
             _progressDialog = ProgressDialog.Show(
                 Context,
-                Context.Resources.GetString(
-                    Resource.String.ProgressDialogTitle),
-                 Context.Resources.GetString(
-                    Resource.String.WebProgressDialogText),
+                StringResources.ProgressDialogTitle,
+                StringResources.WebProgressDialogText,
                 true);
 
             _webViewClient.PageStartedLoading += (sender, uri) =>

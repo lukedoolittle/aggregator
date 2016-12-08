@@ -149,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\close.png" />
+    <Content Include="Assets\close.scale-140.png" />
+    <Content Include="Assets\close.scale-180.png" />
   </ItemGroup>
   <Import Project="..\Material.Shared\Material.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

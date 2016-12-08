@@ -97,12 +97,6 @@ namespace Material
 			// aapt resource value: 0x7f040001
 			public static int Hello = 2130968577;
 			
-			// aapt resource value: 0x7f040003
-			public static int ProgressDialogTitle = 2130968579;
-			
-			// aapt resource value: 0x7f040004
-			public static int WebProgressDialogText = 2130968580;
-			
 			// aapt resource value: 0x7f040000
 			public static int library_name = 2130968576;
 			
