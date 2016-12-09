@@ -32,11 +32,15 @@ namespace Material.View.WebAuthorization
                         null,
                         null)
                     .ValueAt(0));
+
             view._context = context;
             view._canceled = canceled;
-            view.SetFrame();
-            view._closeButton.Hidden = true;
-            view._webView.Hidden = true;
+            var frame = context.View.Frame;
+            view.Frame = new CGRect(
+                frame.Width * BorderPaddingPercentageX,
+                frame.Height * BorderPaddingPercentageY,
+                frame.Width - 2 * BorderPaddingPercentageX * frame.Width,
+                frame.Height - 2 * BorderPaddingPercentageY * frame.Height);
 
             return view;
         }
@@ -48,15 +52,11 @@ namespace Material.View.WebAuthorization
         {
             if (url == null) throw new ArgumentNullException(nameof(url));
 
-            _activityIndicator.StartAnimating();
-
             _closeButton.TouchUpInside += (sender, args) =>
             {
                 Hide();
                 _canceled?.Invoke();
             };
-
-            ResizeWebView();
 
             _webView.ShouldStartLoad = (view, request, type) =>
             {
@@ -69,6 +69,8 @@ namespace Material.View.WebAuthorization
             _webView.LoadFinished += WebViewOnLoadFinished;
             _webView.LoadRequest(new NSUrlRequest(url.ToNSUrl()));
 
+            ResizeLayout();
+            _activityIndicator.StartAnimating();
             _context.View.AddSubview(this);
         }
 
@@ -80,6 +82,7 @@ namespace Material.View.WebAuthorization
 
             _closeButton.Hidden = false;
             _webView.Hidden = false;
+
             _activityIndicator.StopAnimating();
         }
 
@@ -92,31 +95,28 @@ namespace Material.View.WebAuthorization
         {
             base.LayoutSubviews();
 
-            ResizeWebView();
+            ResizeLayout();
         }
 
-        private void ResizeWebView()
+        private void ResizeLayout()
         {
             var padding =
-                _closeButton.CurrentImage.Size.Width *
-                _closeButton.CurrentImage.CurrentScale / 2;
+                _closeButton.CurrentImage.Size.Width / 2;
 
             _webView.Frame = new CGRect(
                 padding,
                 padding,
                 Frame.Width - 2 * padding,
                 Frame.Height - 2 * padding);
-        }
 
-        private void SetFrame()
-        {
-            var frame = _context.View.Frame;
+            var centerX = Frame.Width / 2;
+            var centerY = Frame.Height / 2;
 
-            Frame = new CGRect(
-                frame.Width * BorderPaddingPercentageX,
-                frame.Height * BorderPaddingPercentageY,
-                frame.Width - 2 * BorderPaddingPercentageX * frame.Width,
-                frame.Height - 2 * BorderPaddingPercentageY *  frame.Height);
+            _activityIndicator.Frame = new CGRect(
+                centerX - _activityIndicator.Frame.Width / 2,
+                centerY - _activityIndicator.Frame.Height / 2,
+                _activityIndicator.Frame.Width,
+                _activityIndicator.Frame.Height);
         }
     }
 }

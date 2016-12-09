@@ -139,7 +139,7 @@
                                 </variation>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="35" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                                <rect key="frame" x="193" y="526" width="75" height="30"/>
+                                <rect key="frame" x="294" y="526" width="75" height="30"/>
                                 <state key="normal" title="GPS">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -240,7 +240,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="241" y="404" width="93" height="30"/>
+                                    <rect key="frame" x="241" y="493" width="93" height="30"/>
+                                </variation>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="64" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="193" y="526" width="75" height="30"/>
+                                <state key="normal" title="Mio Con't">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="48" y="543" width="75" height="30"/>
                                 </variation>
                             </button>
                         </subviews>
@@ -282,6 +291,7 @@
                         <outlet property="TumblrAuth" destination="47" id="name-outlet-47"/>
                         <outlet property="TwentyThreeAndMeAuth" destination="48" id="name-outlet-48"/>
                         <outlet property="AmazonAuth" destination="60" id="name-outlet-60"/>
+                        <outlet property="MioContAuth" destination="64" id="name-outlet-64"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>

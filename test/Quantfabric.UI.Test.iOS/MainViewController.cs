@@ -346,6 +346,24 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView("Heart rate: " + result.Reading);
             };
+
+            MioContAuth.TouchUpInside += async (sender, args) =>
+            {
+                var auth = new BluetoothApp<Mioalpha>();
+                var credentials = await auth.GetBluetoothCredentialsAsync()
+                    .ConfigureAwait(false);
+
+                WriteResultToTextView("Device Address: " + credentials.DeviceAddress);
+
+                var requester = new BluetoothRequester();
+                await requester
+                    .SubscribeToBluetoothRequest<MioHeartRate>(credentials, response =>
+                    {
+                        WriteResultToTextView("Heart rate: " + response.Reading);
+                    })
+                    .ConfigureAwait(false);
+            };
+
             GPS.TouchUpInside += async (sender, args) =>
             {
                 var result = await new GPSRequester()

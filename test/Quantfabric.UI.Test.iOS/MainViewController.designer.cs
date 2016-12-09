@@ -60,6 +60,10 @@ namespace Quantfabric.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton MioContAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton PinterestAuth { get; set; }
 
         [Outlet]
@@ -149,6 +153,11 @@ namespace Quantfabric.UI.Test.iOS
             if (MioAuth != null) {
                 MioAuth.Dispose ();
                 MioAuth = null;
+            }
+
+            if (MioContAuth != null) {
+                MioContAuth.Dispose ();
+                MioContAuth = null;
             }
 
             if (PinterestAuth != null) {

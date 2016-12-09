@@ -10,15 +10,18 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" id="7" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
-                    <rect key="frame" x="26" y="26" width="536" height="554"/>
+                <webView contentMode="scaleToFill" id="7" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" hidden="YES">
+                    <rect key="frame" x="14" y="14" width="572" height="566"/>
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                    <variation key="widthClass=compact" fixedFrame="YES">
+                        <rect key="frame" x="26" y="26" width="536" height="554"/>
+                    </variation>
                 </webView>
-                <button contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="custom" lineBreakMode="middleTruncation" id="4" translatesAutoresizingMaskIntoConstraints="NO" adjustsImageWhenDisabled="NO" adjustsImageWhenHighlighted="NO" fixedFrame="YES">
-                    <rect key="frame" x="-3" y="-1" width="60" height="59"/>
+                <button contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="top" buttonType="custom" lineBreakMode="middleTruncation" id="4" translatesAutoresizingMaskIntoConstraints="NO" adjustsImageWhenDisabled="NO" adjustsImageWhenHighlighted="NO" fixedFrame="YES" hidden="YES">
+                    <rect key="frame" x="-3" y="-1" width="32" height="30"/>
                     <state key="normal" image="CloseButton"/>
                 </button>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="10" fixedFrame="YES">
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="10" fixedFrame="YES" hidesWhenStopped="YES" hidden="YES">
                     <rect key="frame" x="284" y="290" width="20" height="20"/>
                     <color key="color" colorSpace="calibratedWhite" white="1" alpha="1"/>
                 </activityIndicatorView>
