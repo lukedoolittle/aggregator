@@ -292,6 +292,10 @@
                         <outlet property="TwentyThreeAndMeAuth" destination="48" id="name-outlet-48"/>
                         <outlet property="AmazonAuth" destination="60" id="name-outlet-60"/>
                         <outlet property="MioContAuth" destination="64" id="name-outlet-64"/>
+                        <outlet property="InstagramAuth" destination="59" id="name-outlet-59"/>
+                        <outlet property="PinterestAuth" destination="57" id="name-outlet-57"/>
+                        <outlet property="TumblrAuth" destination="58" id="name-outlet-58"/>
+                        <outlet property="TwentyThreeAndMeAuth" destination="56" id="name-outlet-56"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>

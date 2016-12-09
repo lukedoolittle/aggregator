@@ -45,11 +45,6 @@ rmdir /s /q Quantfabric.UI.Test.Forms.iOS\AppPackages
 
 popd
 
-Pushd %LocalAppData%\Xamarin\zips
-del *.zip
-
-popd
-
 rmdir /s /q ..\packages
 rmdir /s /q ..\.vs
 

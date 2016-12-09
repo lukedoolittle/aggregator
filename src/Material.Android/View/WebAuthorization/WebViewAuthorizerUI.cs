@@ -1,7 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Foundations.Enums;
-using Foundations.Extensions;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure.Credentials;
@@ -30,12 +28,6 @@ namespace Material.View.WebAuthorization
 
         protected override void CleanupView(WebViewDialog view)
         {
-            view.WebView.StopLoading();
-            view.WebView.LoadData(
-                StringResources.OAuthCallbackResponse,
-                MediaType.Text.EnumToString(),
-                string.Empty);
-
             view.Hide();
         }
 
@@ -45,9 +37,6 @@ namespace Material.View.WebAuthorization
             Func<Uri, WebViewDialog, bool> callbackHandler)
         {
             new WebViewDialog(
-                    Resource.Layout.WebViewDialog, 
-                    Resource.Id.dialogWebView, 
-                    Resource.Id.closeView, 
                     Platform.Current.Context, 
                     credentialsCompletion.SetCanceled)
                 .Show(

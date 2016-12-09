@@ -16,10 +16,11 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>quantfabric.material</string>
+			<string>quantfabric</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>quantfabric.material</string>
+				<string>quantfabric</string>
 			</array>
 		</dict>
 	</array>

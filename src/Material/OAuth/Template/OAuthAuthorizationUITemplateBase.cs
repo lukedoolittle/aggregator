@@ -27,7 +27,7 @@ namespace Material.OAuth.Template
         {
             _handler = handler;
             _callbackUri = callbackUri;
-            _runOnMainThread = runOnMainThread ?? (action => { });
+            _runOnMainThread = runOnMainThread ?? (action => { action(); });
             _isOnline = isOnline;
             BrowserType = browserType;
         }
