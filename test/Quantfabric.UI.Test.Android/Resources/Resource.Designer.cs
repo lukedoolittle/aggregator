@@ -32,8 +32,6 @@ namespace Quantfabric.UI.Test
 			global::Material.Resource.Layout.WebViewDialog = global::Quantfabric.UI.Test.Resource.Layout.WebViewDialog;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Resource.String.Hello;
-			global::Material.Resource.String.ProgressDialogTitle = global::Quantfabric.UI.Test.Resource.String.ProgressDialogTitle;
-			global::Material.Resource.String.WebProgressDialogText = global::Quantfabric.UI.Test.Resource.String.WebProgressDialogText;
 			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
 			global::Robotics.Mobile.Core.Resource.String.library_name = global::Quantfabric.UI.Test.Resource.String.library_name;
 		}
@@ -185,12 +183,6 @@ namespace Quantfabric.UI.Test
 			
 			// aapt resource value: 0x7f040001
 			public const int Hello = 2130968577;
-			
-			// aapt resource value: 0x7f040003
-			public const int ProgressDialogTitle = 2130968579;
-			
-			// aapt resource value: 0x7f040004
-			public const int WebProgressDialogText = 2130968580;
 			
 			// aapt resource value: 0x7f040000
 			public const int library_name = 2130968576;

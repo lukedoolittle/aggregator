@@ -32,8 +32,6 @@ namespace Quantfabric.UI.Test.Forms.Droid
 			global::Material.Resource.Layout.WebViewDialog = global::Quantfabric.UI.Test.Forms.Droid.Resource.Layout.WebViewDialog;
 			global::Material.Resource.String.ApplicationName = global::Quantfabric.UI.Test.Forms.Droid.Resource.String.ApplicationName;
 			global::Material.Resource.String.Hello = global::Quantfabric.UI.Test.Forms.Droid.Resource.String.Hello;
-			global::Material.Resource.String.ProgressDialogTitle = global::Quantfabric.UI.Test.Forms.Droid.Resource.String.ProgressDialogTitle;
-			global::Material.Resource.String.WebProgressDialogText = global::Quantfabric.UI.Test.Forms.Droid.Resource.String.WebProgressDialogText;
 			global::Material.Resource.String.library_name = global::Quantfabric.UI.Test.Forms.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Quantfabric.UI.Test.Forms.Droid.Resource.Attribute.actionBarSize;
 		}
@@ -2963,12 +2961,6 @@ namespace Quantfabric.UI.Test.Forms.Droid
 			
 			// aapt resource value: 0x7f080027
 			public const int Hello = 2131230759;
-			
-			// aapt resource value: 0x7f080029
-			public const int ProgressDialogTitle = 2131230761;
-			
-			// aapt resource value: 0x7f08002a
-			public const int WebProgressDialogText = 2131230762;
 			
 			// aapt resource value: 0x7f08000f
 			public const int abc_action_bar_home_description = 2131230735;

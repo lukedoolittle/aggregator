@@ -13,7 +13,6 @@ namespace Material.View.WebAuthorization
 
         private UIViewController _context;
         private Action _canceled;
-        private LoadingOverlay _loadingOverlay;
 
         public UIWebView WebView => _webView;
 
@@ -35,16 +34,9 @@ namespace Material.View.WebAuthorization
                     .ValueAt(0));
             view._context = context;
             view._canceled = canceled;
-
-            view._loadingOverlay = new LoadingOverlay(
-                context.View.Frame,
-                StringResources.WebProgressDialogText);
-            view.AddSubview(view._loadingOverlay);
-
+            view.SetFrame();
             view._closeButton.Hidden = true;
             view._webView.Hidden = true;
-
-            view.SetFrame();
 
             return view;
         }
@@ -56,8 +48,8 @@ namespace Material.View.WebAuthorization
         {
             if (url == null) throw new ArgumentNullException(nameof(url));
 
-            _loadingOverlay.Show();
-            
+            _activityIndicator.StartAnimating();
+
             _closeButton.TouchUpInside += (sender, args) =>
             {
                 Hide();
@@ -85,10 +77,10 @@ namespace Material.View.WebAuthorization
             EventArgs eventArgs)
         {
             _webView.LoadFinished -= WebViewOnLoadFinished;
-            _loadingOverlay?.Hide();
 
             _closeButton.Hidden = false;
             _webView.Hidden = false;
+            _activityIndicator.StopAnimating();
         }
 
         public void Hide()

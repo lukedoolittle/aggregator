@@ -3,6 +3,7 @@ using Material;
 using Material.Bluetooth;
 using Material.Contracts;
 using Material.Enums;
+using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
@@ -53,7 +54,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+                WriteOAuth1CredentialsToTextView(token);
             };
 
             FatsecretAuth.TouchUpInside += async (sender, e) =>
@@ -71,7 +72,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+                WriteOAuth1CredentialsToTextView(token);
             };
 
             WithingsAuth.TouchUpInside += async (sender, args) =>
@@ -89,7 +90,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+                WriteOAuth1CredentialsToTextView(token);
             };
 
             FacebookAuth.TouchUpInside += async (sender, e) =>
@@ -107,7 +108,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             SpotifyAuth.TouchUpInside += async (sender, e) =>
@@ -125,7 +126,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             GoogleAuth.TouchUpInside += async (sender, e) =>
@@ -145,7 +146,7 @@ namespace Quantfabric.UI.Test.iOS
                         .GetCredentialsAsync()
                         .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             FitbitAuth.TouchUpInside += async (sender, e) =>
@@ -165,7 +166,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             RunkeeperAuth.TouchUpInside += async (sender, e) =>
@@ -183,7 +184,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             FoursquareAuth.TouchUpInside += async (sender, e) =>
@@ -200,7 +201,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             RescuetimeAuth.TouchUpInside += async (sender, e) =>
@@ -218,7 +219,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             LinkedinAuth.TouchUpInside += async (sender, e) =>
@@ -236,7 +237,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             InstagramAuth.TouchUpInside += async (sender, e) =>
@@ -254,7 +255,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             PinterestAuth.TouchUpInside += async (sender, e) =>
@@ -272,7 +273,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             TwentyThreeAndMeAuth.TouchUpInside += async (sender, e) =>
@@ -291,7 +292,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
 
             TumblrAuth.TouchUpInside += async (sender, args) =>
@@ -309,7 +310,7 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("OAuth Secret: " + token.OAuthSecret + "\nOAuth Token: " + token.OAuthToken);
+                WriteOAuth1CredentialsToTextView(token);
             };
 
             AmazonAuth.TouchUpInside += async (sender, e) =>
@@ -327,9 +328,8 @@ namespace Quantfabric.UI.Test.iOS
                     .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
-                WriteResultToTextView("Access Token:" + token.AccessToken);
+                WriteOAuth2CredentialsToTextView(token);
             };
-
 
             MioAuth.TouchUpInside += async (sender, args) =>
             {
@@ -354,6 +354,30 @@ namespace Quantfabric.UI.Test.iOS
 
                 WriteResultToTextView($"Latitude: {result.Latitude}, Longitude: {result.Longitude}, Speed: {result.Speed}");
             };
+        }
+
+        private void WriteOAuth1CredentialsToTextView(OAuth1Credentials credentials)
+        {
+            if (credentials == null)
+            {
+                WriteResultToTextView("OAUTH1 WORKFLOW CANCELLED");
+            }
+            else
+            {
+                WriteResultToTextView("OAuth Secret: " + credentials.OAuthSecret + "\nOAuth Token: " + credentials.OAuthToken);
+            }
+        }
+
+        private void WriteOAuth2CredentialsToTextView(OAuth2Credentials credentials)
+        {
+            if (credentials == null)
+            {
+                WriteResultToTextView("OAUTH2 WORKFLOW CANCELLED");
+            }
+            else
+            {
+                WriteResultToTextView("Access Token:" + credentials.AccessToken);
+            }
         }
 
         private void WriteResultToTextView(string text)

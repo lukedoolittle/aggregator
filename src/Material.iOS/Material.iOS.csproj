@@ -71,7 +71,6 @@
       <DependentUpon>WebDialogView.cs</DependentUpon>
     </Compile>
     <InterfaceDefinition Include="View\WebAuthorization\WebDialogView.xib" />
-    <Compile Include="View\WebAuthorization\WebViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
@@ -91,7 +90,6 @@
     <None Include="Material.iOS.ruleset" />
     <None Include="packages.config" />
     <InterfaceDefinition Include="View\BluetoothAuthorization\DeviceTableViewController.xib" />
-    <InterfaceDefinition Include="View\WebAuthorization\WebViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Media.xcassets\AppIcons.appiconset\Contents.json">

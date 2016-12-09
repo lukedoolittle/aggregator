@@ -18,15 +18,20 @@
                     <rect key="frame" x="-3" y="-1" width="60" height="59"/>
                     <state key="normal" image="CloseButton"/>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="10" fixedFrame="YES">
+                    <rect key="frame" x="284" y="290" width="20" height="20"/>
+                    <color key="color" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                </activityIndicatorView>
             </subviews>
             <connections>
                 <outlet property="_webView" destination="7" id="name-outlet-7"/>
                 <outlet property="_closeButton" destination="4" id="name-outlet-4"/>
+                <outlet property="_activityIndicator" destination="10" id="name-outlet-10"/>
             </connections>
-            <color key="backgroundColor" colorSpace="calibratedRGB" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1"/>
+            <color key="backgroundColor" colorSpace="calibratedWhite" white="0.666666666666667" alpha="1"/>
         </view>
     </objects>
     <resources>
-        <image name="CloseButton" width="58" height="59"/>
+        <image name="CloseButton" width="29" height="29"/>
     </resources>
 </document>

@@ -4,15 +4,20 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-
-using System.CodeDom.Compiler;
 using Foundation;
+using System;
+using System.CodeDom.Compiler;
+using UIKit;
 
 namespace Material.View.WebAuthorization
 {
     [Register ("WebDialogView")]
     partial class WebDialogView
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIActivityIndicatorView _activityIndicator { get; set; }
+
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton _closeButton { get; set; }
@@ -23,6 +28,11 @@ namespace Material.View.WebAuthorization
 
         void ReleaseDesignerOutlets ()
         {
+            if (_activityIndicator != null) {
+                _activityIndicator.Dispose ();
+                _activityIndicator = null;
+            }
+
             if (_closeButton != null) {
                 _closeButton.Dispose ();
                 _closeButton = null;
