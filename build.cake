@@ -72,7 +72,8 @@ var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
 
 var ilRepackFrameworkLocations = new List<FilePath> 
 {
-	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/MonoAndroid/v6.0")
+	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/MonoAndroid/v6.0"),
+	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/Xamarin.iOS/v1.0")
 };
 
 var nuspecFile = Directory(nugetLocation) + File(nuspec);
