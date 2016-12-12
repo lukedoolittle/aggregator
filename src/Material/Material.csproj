@@ -260,6 +260,7 @@
     <Compile Include="OAuth\OAuthConfiguration.cs" />
     <Compile Include="OAuth\OAuthRequester.cs" />
     <Compile Include="OAuth\OpenIdWeb.cs" />
+    <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />

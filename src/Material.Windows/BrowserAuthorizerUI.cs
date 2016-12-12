@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Foundations.Http;
 using Material.Contracts;
 using Material.Enums;
-using Material.Framework;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Template;
 
@@ -13,10 +12,12 @@ namespace Material.View.WebAuthorization
         OAuthAuthorizationUITemplateBase<TCredentials, object>
         where TCredentials : TokenCredentials
     {
+        private readonly IBrowser _browser;
         private readonly HttpServer _httpServer;
         private readonly Uri _callbackUri;
 
         public BrowserAuthorizerUI(
+            IBrowser browser,
             HttpServer httpServer,
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri,
@@ -30,6 +31,7 @@ namespace Material.View.WebAuthorization
                     runOnMainThread,
                     isOnline)
         {
+            _browser = browser;
             _httpServer = httpServer;
             _callbackUri = callbackUri;
         }
@@ -56,7 +58,7 @@ namespace Material.View.WebAuthorization
                 .Listen(_callbackUri);
 #pragma warning restore 4014
 
-            Platform.Current.Launch(authorizationUri);
+            _browser.Launch(authorizationUri);
         }
 
         protected override void CleanupView(object view)

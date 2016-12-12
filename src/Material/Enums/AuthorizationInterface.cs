@@ -5,6 +5,7 @@ namespace Material.Enums
     public enum AuthorizationInterface
     {
         [Description("embedded")] Embedded,
-        [Description("dedicated")] Dedicated
+        [Description("dedicated")] Dedicated,
+        [Description("secureEmbedded")] SecureEmbedded
     }
 }

@@ -1,12 +1,44 @@
 using System;
 using Android.App;
 using Android.Content;
+using Material.Contracts;
+using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Framework
 {
-    public partial class Platform
+    public class Platform : IBrowser, IProtocolLauncher
     {
-        public Robotics.Mobile.Core.Bluetooth.LE.IAdapter BluetoothAdapter { get; } = new Robotics.Mobile.Core.Bluetooth.LE.Adapter();
+        private static volatile Platform _instance;
+        private static readonly object _syncLock = new object();
+
+        private Platform() { }
+
+        public static Platform Current
+        {
+            get
+            {
+                if (_instance != null) return _instance;
+
+                lock (_syncLock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Platform();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        public Action<Uri> ProtocolLaunch { get; set; }
+
+        public void Protocol(Uri uri)
+        {
+            ProtocolLaunch?.Invoke(uri);
+        }
+
+        public IAdapter BluetoothAdapter { get; } = new Adapter();
 
         public Activity Context { get; set; }
 
@@ -32,17 +64,24 @@ namespace Material.Framework
             }
         }
 
-        public Action<System.Uri> LaunchBrowser
+        public void Launch(Uri uri)
         {
-            get
-            {
-                return uri =>
-                {
-                    var neturi = Android.Net.Uri.Parse(uri.ToString());
-                    var intent = new Intent(Intent.ActionView, neturi);
-                    Context.StartActivity(intent);
-                };
-            }
+            var neturi = Android.Net.Uri.Parse(uri.ToString());
+            var intent = new Intent(Intent.ActionView, neturi);
+            Context.StartActivity(intent);
         }
     }
+
+    //public class SecureBrowser : IBrowser
+    //{
+    //    public void Launch(Uri uri)
+    //    {
+    //        var hostedManager = new HostedActivityManager(this);
+
+    //        var uiBuilder = new HostedUIBuilder();
+    //        // Add any optional customizations here...
+
+    //        hostedManager.LoadUrl(uri.ToString(), uiBuilder);
+    //    }
+    //}
 }

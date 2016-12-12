@@ -2,16 +2,46 @@ using System;
 using System.Net;
 using SystemConfiguration;
 using CoreFoundation;
+using Material.Contracts;
 using Material.View.WebAuthorization;
 using Robotics.Mobile.Core.Bluetooth.LE;
 using UIKit;
 
 namespace Material.Framework
 {
-    public partial class Platform
+    public class Platform : IBrowser, IProtocolLauncher
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public IAdapter BluetoothAdapter => Adapter.Current;
+        private static volatile Platform _instance;
+        private static readonly object _syncLock = new object();
+
+        private Platform() { }
+
+        public static Platform Current
+        {
+            get
+            {
+                if (_instance != null) return _instance;
+
+                lock (_syncLock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Platform();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        public Action<Uri> ProtocolLaunch { get; set; }
+
+        public void Protocol(Uri uri)
+        {
+            ProtocolLaunch?.Invoke(uri);
+        }
+
+        public IAdapter BluetoothAdapter { get; } = Adapter.Current;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public UIViewController Context
@@ -32,16 +62,18 @@ namespace Material.Framework
         }
 
         public Action<Action> RunOnMainThread { get; } =
-            UIKit.UIApplication.SharedApplication.InvokeOnMainThread;
+            UIApplication.SharedApplication.InvokeOnMainThread;
 
-        
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public Action<Uri> LaunchBrowser =>
-            uri => UIApplication.SharedApplication.OpenUrl(uri.ToNSUrl());
+
+        public void Launch(Uri uri)
+        {
+            UIApplication.SharedApplication.OpenUrl(uri.ToNSUrl());
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline => Reachability.IsReachable();
     }
+
 
     //https://github.com/jamesmontemagno/ConnectivityPlugin/blob/master/src/Connectivity.Plugin.iOS/Reachability.cs
     public static class Reachability
