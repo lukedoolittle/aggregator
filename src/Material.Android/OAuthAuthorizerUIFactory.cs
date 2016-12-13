@@ -38,7 +38,14 @@ namespace Material.OAuth
             }
             else if (browserType == AuthorizationInterface.SecureEmbedded)
             {
-                throw new NotSupportedException();
+                return new ChromeTabsAuthorizerUI<TCredentials>(
+                    Framework.Platform.Current,
+                    Framework.Platform.Current.Context,
+                    handler,
+                    callbackUri,
+                    browserType,
+                    Framework.Platform.Current.RunOnMainThread,
+                    () => Framework.Platform.Current.IsOnline);
             }
             else
             {
