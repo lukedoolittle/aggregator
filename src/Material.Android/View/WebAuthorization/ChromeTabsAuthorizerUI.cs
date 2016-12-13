@@ -41,18 +41,25 @@ namespace Material.View.WebAuthorization
             Func<Uri, CustomTabsActivityManager, bool> callbackHandler)
         {
             var manager = new CustomTabsActivityManager(_context);
-            manager.CustomTabsServiceConnected += (name, client) => 
-            { 
-                manager.LaunchUrl(authorizationUri.ToString());
-            };
-            manager.CustomTabsServiceDisconnected += name =>
+
+            manager.CustomTabsServiceConnected += (name, client) =>
             {
-                object a = null;
-                credentialsCompletion.SetCanceled();
-            };
-            _launcher.ProtocolLaunch = (uri) =>
-            {
-                callbackHandler(uri, manager);
+                var session = client.NewSession((@event, extras) =>
+                {
+                    if (@event == CustomTabsCallbackEvents.TAB_HIDDEN)
+                    {
+                        //TODO: cancel the completion source when the browser
+                        //is closed via the close button
+                    }
+                });
+                _launcher.ProtocolLaunch = (uri) =>
+                {
+                    callbackHandler(uri, manager);
+                };
+
+                var intent = new CustomTabsIntent.Builder(session).Build();
+
+                manager.LaunchUrl(authorizationUri.ToString(), intent);
             };
 
             if (!manager.BindService())
@@ -63,14 +70,28 @@ namespace Material.View.WebAuthorization
 
         protected override void CleanupView(
             CustomTabsActivityManager view)
-        {
-            if (view == null) throw new ArgumentNullException(nameof(view));
+        {}
 
-            //TODO: how do you dismiss the view???
-            //view.DismissViewController(
-            //    true,
-            //    null,
-            //    false);
+        private static class CustomTabsCallbackEvents
+        {
+            //Sent when the tab has started loading a page.
+            public const int NAVIGATION_STARTED = 1;
+
+            //Sent when the tab has finished loading a page.
+            public const int NAVIGATION_FINISHED = 2;
+
+            //Sent when the tab couldn't finish loading due to a failure.
+            public const int NAVIGATION_FAILED = 3;
+
+            //Sent when loading was aborted by a user action before it finishes like clicking on a link
+            //or refreshing the page.
+            public const int NAVIGATION_ABORTED = 4;
+
+            //Sent when the tab becomes visible.
+            public const int TAB_SHOWN = 5;
+
+            //Sent when the tab becomes hidden.
+            public const int TAB_HIDDEN = 6;
         }
     }
 }

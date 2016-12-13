@@ -29,14 +29,23 @@ namespace Quantfabric.UI.Test.iOS
         {
             base.ViewDidLoad();
 
-            BrowserToggle.TouchUpInside += (sender, args) =>
+            BrowserTypeSelector.ValueChanged += (sender, args) =>
             {
-                _browserType = BrowserToggle.On
-                    ? AuthorizationInterface.Embedded
-                    : AuthorizationInterface.Dedicated;
-                _callbackType = BrowserToggle.On
-                    ? CallbackType.Localhost
-                    : CallbackType.Protocol;
+                switch (BrowserTypeSelector.SelectedSegment)
+                {
+                    case 0:
+                        _browserType = AuthorizationInterface.Embedded;
+                        _callbackType = CallbackType.Localhost;
+                        break;
+                    case 1:
+                        _browserType = AuthorizationInterface.SecureEmbedded;
+                        _callbackType = CallbackType.Protocol;
+                        break;
+                    case 2:
+                        _browserType = AuthorizationInterface.Dedicated;
+                        _callbackType = CallbackType.Protocol;
+                        break;
+                }
             };
 
             TwitterAuth.TouchUpInside += async (sender, e) =>

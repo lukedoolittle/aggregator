@@ -147,21 +147,6 @@
                                     <rect key="frame" x="142" y="543" width="75" height="30"/>
                                 </variation>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39" fixedFrame="YES">
-                                <rect key="frame" x="166" y="202" width="51" height="31"/>
-                            </switch>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="40" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" text="Dedicated">
-                                <rect key="frame" x="79" y="199" width="79" height="36"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="41" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" text="Embedded">
-                                <rect key="frame" x="235" y="199" width="90" height="36"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="45" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
                                 <rect key="frame" x="298" y="428" width="93" height="30"/>
                                 <state key="normal" title="Instagram">
@@ -252,6 +237,14 @@
                                     <rect key="frame" x="48" y="543" width="75" height="30"/>
                                 </variation>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="70" fixedFrame="YES">
+                                <rect key="frame" x="79" y="207" width="277" height="29"/>
+                                <segments>
+                                    <segment title="Embedded"/>
+                                    <segment title="Secure"/>
+                                    <segment title="Dedicated"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <variation key="default">
                             <mask key="subviews">
@@ -285,7 +278,6 @@
                         <outlet property="FitbitAuth" destination="30" id="name-outlet-30"/>
                         <outlet property="RunkeeperAuth" destination="31" id="name-outlet-31"/>
                         <outlet property="GPS" destination="35" id="name-outlet-35"/>
-                        <outlet property="BrowserToggle" destination="39" id="name-outlet-39"/>
                         <outlet property="InstagramAuth" destination="45" id="name-outlet-45"/>
                         <outlet property="PinterestAuth" destination="46" id="name-outlet-46"/>
                         <outlet property="TumblrAuth" destination="47" id="name-outlet-47"/>
@@ -296,6 +288,7 @@
                         <outlet property="PinterestAuth" destination="57" id="name-outlet-57"/>
                         <outlet property="TumblrAuth" destination="58" id="name-outlet-58"/>
                         <outlet property="TwentyThreeAndMeAuth" destination="56" id="name-outlet-56"/>
+                        <outlet property="BrowserTypeSelector" destination="70" id="name-outlet-70"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -30,15 +30,24 @@ namespace Quantfabric.UI.Test
 
             SetContentView(Resource.Layout.Main);
 
-            var toggleButton = FindViewById<ToggleButton>(Resource.Id.browserToggleButton);
-            toggleButton.Click += (o, e) =>
+            var toggleButton = FindViewById<RadioGroup>(Resource.Id.browserTypeRadioGroup);
+            toggleButton.CheckedChange += (sender, args) =>
             {
-                _browserType = toggleButton.Checked
-                    ? AuthorizationInterface.Dedicated
-                    : AuthorizationInterface.Embedded;
-                _callbackType = toggleButton.Checked
-                    ? CallbackType.Protocol
-                    : CallbackType.Localhost;
+                switch (toggleButton.CheckedRadioButtonId)
+                {
+                    case Resource.Id.embeddedRadioButton:
+                        _browserType = AuthorizationInterface.Embedded;
+                        _callbackType = CallbackType.Localhost;
+                        break;
+                    case Resource.Id.secureRadioButton:
+                        _browserType = AuthorizationInterface.SecureEmbedded;
+                        _callbackType = CallbackType.Protocol;
+                        break;
+                    case Resource.Id.dedicatedRadioButton:
+                        _browserType = AuthorizationInterface.Dedicated;
+                        _callbackType = CallbackType.Protocol;
+                        break;
+                }
             };
 
             FindViewById<Button>(Resource.Id.twitterAuth).Click += async (sender, args) =>

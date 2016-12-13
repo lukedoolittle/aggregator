@@ -8,12 +8,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resultView" />
-    <ToggleButton
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textOn="Dedicated"
-        android:textOff="Embedded"
-        android:id="@+id/browserToggleButton" />
+        android:id="@+id/browserTypeRadioGroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Embedded"
+            android:id="@+id/embeddedRadioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Secure"
+            android:id="@+id/secureRadioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dedicated System"
+            android:id="@+id/dedicatedRadioButton" />
+    </RadioGroup>
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,33 +148,33 @@
             android:gravity="center"
             android:id="@+id/amazon"
             android:text="Amazon" />
-      <Button
-          android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_gravity="fill_horizontal"
-          android:gravity="center"
-          android:id="@+id/gps"
-          android:text="GPS" />
-      <Button
-          android:layout_columnWeight="1"
-          android:layout_gravity="fill_horizontal"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:text="SMS"
-          android:id="@+id/sms" />
-      <Button
-          android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_gravity="fill_horizontal"
-          android:gravity="center"
-          android:id="@+id/mioalphaAuth"
-          android:text="Mio Alpha" />
-      <Button
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_gravity="fill_horizontal"
-        android:gravity="center"
-        android:id="@+id/mioalphaContinuousAuth"
-        android:text="Mio Alpha Cont'" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/gps"
+            android:text="GPS" />
+        <Button
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="SMS"
+            android:id="@+id/sms" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/mioalphaAuth"
+            android:text="Mio Alpha" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:id="@+id/mioalphaContinuousAuth"
+            android:text="Mio Alpha Cont'" />
     </GridLayout>
 </LinearLayout>

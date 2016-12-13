@@ -20,7 +20,7 @@ namespace Quantfabric.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UISwitch BrowserToggle { get; set; }
+        UIKit.UISegmentedControl BrowserTypeSelector { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -105,9 +105,9 @@ namespace Quantfabric.UI.Test.iOS
                 AmazonAuth = null;
             }
 
-            if (BrowserToggle != null) {
-                BrowserToggle.Dispose ();
-                BrowserToggle = null;
+            if (BrowserTypeSelector != null) {
+                BrowserTypeSelector.Dispose ();
+                BrowserTypeSelector = null;
             }
 
             if (FacebookAuth != null) {
