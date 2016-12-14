@@ -35,6 +35,10 @@ namespace Quantfabric.UI.Test
             {
                 switch (toggleButton.CheckedRadioButtonId)
                 {
+                    case Resource.Id.unspecifiedRadioButton:
+                        _browserType = AuthorizationInterface.NotSpecified;
+                        _callbackType = CallbackType.Protocol;
+                        break;
                     case Resource.Id.embeddedRadioButton:
                         _browserType = AuthorizationInterface.Embedded;
                         _callbackType = CallbackType.Localhost;
@@ -106,7 +110,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.facebookAuth).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Facebook>();
                 var clientSecret = settings.GetClientSecret<Facebook>();
                 var redirectUri = settings.GetRedirectUri<Facebook>();
@@ -178,7 +182,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.linkedinAuth).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<LinkedIn>();
                 var clientSecret = settings.GetClientSecret<LinkedIn>();
                 var redirectUri = settings.GetRedirectUri<LinkedIn>();
@@ -196,7 +200,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.rescuetimeAuth).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Rescuetime>();
                 var clientSecret = settings.GetClientSecret<Rescuetime>();
                 var redirectUri = settings.GetRedirectUri<Rescuetime>();
@@ -232,7 +236,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.runkeeperAuth).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Runkeeper>();
                 var clientSecret = settings.GetClientSecret<Runkeeper>();
                 var redirectUri = settings.GetRedirectUri<Runkeeper>();
@@ -250,7 +254,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.pinterest).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Pinterest>();
                 var clientSecret = settings.GetClientSecret<Pinterest>();
                 var redirectUri = settings.GetRedirectUri<Pinterest>();
@@ -268,7 +272,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.instagram).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Instagram>();
                 var clientSecret = settings.GetClientSecret<Instagram>();
                 var redirectUri = settings.GetRedirectUri<Instagram>();
@@ -304,7 +308,7 @@ namespace Quantfabric.UI.Test
 
             FindViewById<Button>(Resource.Id.twentythreeandme).Click += async (sender, args) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<TwentyThreeAndMe>();
                 var clientSecret = settings.GetClientSecret<TwentyThreeAndMe>();
                 var redirectUri = settings.GetRedirectUri<TwentyThreeAndMe>();

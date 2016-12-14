@@ -12,7 +12,7 @@ using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     public class OpenIdWeb<TResourceProvider>
         where TResourceProvider : OpenIdResourceProvider, new()

@@ -67,5 +67,8 @@ namespace Material.Framework
             Windows.System.Launcher.LaunchUriAsync(uri);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public bool CanProvideSecureBrowsing => false;
     }
 }

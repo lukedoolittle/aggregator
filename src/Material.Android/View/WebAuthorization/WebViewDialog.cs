@@ -93,6 +93,7 @@ namespace Material.View.WebAuthorization
             public Func<string, bool> ShouldStartLoad;
             public bool StoppedLoading { get; private set; }
 
+            [Obsolete("deprecated")]
             public override bool ShouldOverrideUrlLoading(
                 WebView view,
                 string url)

@@ -12,11 +12,11 @@ namespace Material.OAuth
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TService, TCredentials>(
+        public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TResourceProvider, TCredentials>(
             AuthorizationInterface browserType,
             IOAuthCallbackHandler<TCredentials> handler, 
             Uri callbackUri) 
-            where TService : ResourceProvider 
+            where TResourceProvider : ResourceProvider 
             where TCredentials : TokenCredentials
         {
             return new BrowserAuthorizerUI<TCredentials>(

@@ -7,7 +7,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authorization;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     public class OAuthRequester
     {

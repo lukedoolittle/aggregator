@@ -34,14 +34,18 @@ namespace Quantfabric.UI.Test.iOS
                 switch (BrowserTypeSelector.SelectedSegment)
                 {
                     case 0:
+                        _browserType = AuthorizationInterface.NotSpecified;
+                        _callbackType = CallbackType.Protocol;
+                        break;
+                    case 1:
                         _browserType = AuthorizationInterface.Embedded;
                         _callbackType = CallbackType.Localhost;
                         break;
-                    case 1:
+                    case 2:
                         _browserType = AuthorizationInterface.SecureEmbedded;
                         _callbackType = CallbackType.Protocol;
                         break;
-                    case 2:
+                    case 3:
                         _browserType = AuthorizationInterface.Dedicated;
                         _callbackType = CallbackType.Protocol;
                         break;
@@ -104,7 +108,7 @@ namespace Quantfabric.UI.Test.iOS
 
             FacebookAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Facebook>();
                 var clientSecret = settings.GetClientSecret<Facebook>();
                 var redirectUri = settings.GetRedirectUri<Facebook>();
@@ -180,7 +184,7 @@ namespace Quantfabric.UI.Test.iOS
 
             RunkeeperAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Runkeeper>();
                 var clientSecret = settings.GetClientSecret<Runkeeper>();
                 var redirectUri = settings.GetRedirectUri<Runkeeper>();
@@ -215,7 +219,7 @@ namespace Quantfabric.UI.Test.iOS
 
             RescuetimeAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Rescuetime>();
                 var clientSecret = settings.GetClientSecret<Rescuetime>();
                 var redirectUri = settings.GetRedirectUri<Rescuetime>();
@@ -233,7 +237,7 @@ namespace Quantfabric.UI.Test.iOS
 
             LinkedinAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<LinkedIn>();
                 var clientSecret = settings.GetClientSecret<LinkedIn>();
                 var redirectUri = settings.GetRedirectUri<LinkedIn>();
@@ -251,7 +255,7 @@ namespace Quantfabric.UI.Test.iOS
 
             InstagramAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Instagram>();
                 var clientSecret = settings.GetClientSecret<Instagram>();
                 var redirectUri = settings.GetRedirectUri<Instagram>();
@@ -269,7 +273,7 @@ namespace Quantfabric.UI.Test.iOS
 
             PinterestAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Pinterest>();
                 var clientSecret = settings.GetClientSecret<Pinterest>();
                 var redirectUri = settings.GetRedirectUri<Pinterest>();
@@ -287,7 +291,7 @@ namespace Quantfabric.UI.Test.iOS
 
             TwentyThreeAndMeAuth.TouchUpInside += async (sender, e) =>
             {
-                var settings = new AppCredentialRepository(_callbackType);
+                var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<TwentyThreeAndMe>();
                 var clientSecret = settings.GetClientSecret<TwentyThreeAndMe>();
                 var redirectUri = settings.GetRedirectUri<TwentyThreeAndMe>();

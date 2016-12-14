@@ -7,6 +7,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers

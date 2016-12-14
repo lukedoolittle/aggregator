@@ -10,7 +10,7 @@ using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     /// <summary>
     /// Authorize a resource owner with the given resource provider using OAuth1a

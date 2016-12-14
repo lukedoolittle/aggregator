@@ -72,6 +72,9 @@ namespace Material.Framework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline => Reachability.IsReachable();
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public bool CanProvideSecureBrowsing => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
     }
 
 

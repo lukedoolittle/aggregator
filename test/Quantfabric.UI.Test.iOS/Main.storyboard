@@ -238,8 +238,9 @@
                                 </variation>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="70" fixedFrame="YES">
-                                <rect key="frame" x="79" y="207" width="277" height="29"/>
+                                <rect key="frame" x="65" y="207" width="317" height="29"/>
                                 <segments>
+                                    <segment title="Unspecified"/>
                                     <segment title="Embedded"/>
                                     <segment title="Secure"/>
                                     <segment title="Dedicated"/>

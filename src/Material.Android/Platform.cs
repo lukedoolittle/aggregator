@@ -1,6 +1,7 @@
 using System;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Material.Contracts;
 using Robotics.Mobile.Core.Bluetooth.LE;
 
@@ -70,18 +71,22 @@ namespace Material.Framework
             var intent = new Intent(Intent.ActionView, neturi);
             Context.StartActivity(intent);
         }
+
+        public bool CanProvideSecureBrowsing
+        {
+            get
+            {
+                try
+                {
+                    var packageInfo = Context.PackageManager
+                        .GetApplicationInfo("com.android.chrome", 0);
+                    return true;
+                }
+                catch (PackageManager.NameNotFoundException)
+                {
+                    return false;
+                }
+            }
+        }
     }
-
-    //public class SecureBrowser : IBrowser
-    //{
-    //    public void Launch(Uri uri)
-    //    {
-    //        var hostedManager = new HostedActivityManager(this);
-
-    //        var uiBuilder = new HostedUIBuilder();
-    //        // Add any optional customizations here...
-
-    //        hostedManager.LoadUrl(uri.ToString(), uiBuilder);
-    //    }
-    //}
 }

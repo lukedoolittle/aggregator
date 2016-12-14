@@ -14,10 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/browserTypeRadioGroup">
-        <RadioButton
+      <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:text="Unspecified"
+            android:id="@+id/unspecifiedRadioButton" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Embedded"
             android:id="@+id/embeddedRadioButton" />
         <RadioButton

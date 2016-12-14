@@ -10,11 +10,11 @@ namespace Material.OAuth
 {
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {
-        public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TService, TCredentials>(
+        public IOAuthAuthorizerUI<TCredentials> GetAuthorizer<TResourceProvider, TCredentials>(
             AuthorizationInterface browserType,
             IOAuthCallbackHandler<TCredentials> handler,
             Uri callbackUri)
-            where TService : ResourceProvider
+            where TResourceProvider : ResourceProvider
             where TCredentials : TokenCredentials
         {
             if (browserType == AuthorizationInterface.Dedicated)

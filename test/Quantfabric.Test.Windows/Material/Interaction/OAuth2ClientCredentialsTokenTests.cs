@@ -2,6 +2,7 @@
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;

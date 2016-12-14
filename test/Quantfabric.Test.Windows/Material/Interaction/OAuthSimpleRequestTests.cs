@@ -10,6 +10,7 @@ using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;

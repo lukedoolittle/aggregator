@@ -1,10 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using Material.Contracts;
-
-namespace Material.Framework
+﻿namespace Material.Framework
 {
-    public class Platform : IBrowser, IProtocolLauncher
+    public class Platform
     {
         private static volatile Platform _instance;
         private static readonly object _syncLock = new object();
@@ -29,23 +25,6 @@ namespace Material.Framework
             }
         }
 
-        public Action<Uri> ProtocolLaunch { get; set; }
-
-        public void Protocol(Uri uri)
-        {
-            ProtocolLaunch?.Invoke(uri);
-        }
-
-        public static Action<Action> RunOnMainThread { get; } = null;
-
-        public void Launch(Uri uri)
-        {
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
-
-            Process.Start(uri.ToString());
-        }
-
-        public static bool IsOnline => true;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool CanProvideSecureBrowsing => false;
     }

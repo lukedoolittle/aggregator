@@ -10,6 +10,8 @@ using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
+using Material.OAuth.Workflow;
+
 namespace Material.OAuth
 {
     /// <summary>
@@ -25,9 +27,7 @@ namespace Material.OAuth
         private readonly string _clientId;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
-#if !__WINDOWS__
         private readonly AuthorizationInterface _browserType;
-#endif
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow
@@ -37,21 +37,18 @@ namespace Material.OAuth
         /// <param name="provider">The provider to authenticate with (CUSTOM IMPLEMENTAIONS ONLY)</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
             TResourceProvider provider,
-#if __WINDOWS__
-            AuthorizationInterface browserType = AuthorizationInterface.Dedicated
-#else
-            AuthorizationInterface browserType = AuthorizationInterface.Embedded
-#endif
+            AuthorizationInterface browserType
             )
         {
-#if !__WINDOWS__
-            _browserType = browserType;
-#endif
+            _browserType = new AuthenticationUISelector(
+                    Framework.Platform.Current.CanProvideSecureBrowsing)
+                .GetOptimalOAuth2Interface(
+                    provider, 
+                    browserType);
             _clientId = clientId;
             _provider = provider;
             _callbackUri = new Uri(callbackUrl);
@@ -82,23 +79,50 @@ namespace Material.OAuth
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
-        /// <param name="browserType">The type of browser interface used for the workflow</param>
+        /// <param name="provider">The provider to authenticate with (CUSTOM IMPLEMENTAIONS ONLY)</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public OAuth2App(
             string clientId,
             string callbackUrl,
-#if __WINDOWS__
-            AuthorizationInterface browserType = AuthorizationInterface.Dedicated
-#else
-            AuthorizationInterface browserType = AuthorizationInterface.Embedded
-#endif
-            ) :
+            TResourceProvider provider) :
+            this(
+                clientId, 
+                callbackUrl,
+                provider, 
+                AuthorizationInterface.NotSpecified)
+        {}
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        /// <param name="browserType">The type of browser interface used for the workflow</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OAuth2App(
+            string clientId,
+            string callbackUrl,
+            AuthorizationInterface browserType) :
             this(
                 clientId,
                 callbackUrl,
                 new TResourceProvider(),
                 browserType)
+        { }
+
+        /// <summary>
+        /// Authorize a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OAuth2App(
+            string clientId,
+            string callbackUrl) :
+            this(
+                clientId,
+                callbackUrl,
+                AuthorizationInterface.NotSpecified)
         { }
 
         /// <summary>

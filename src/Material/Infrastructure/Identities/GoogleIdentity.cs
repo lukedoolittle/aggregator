@@ -4,6 +4,7 @@ using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 
 namespace Material.Infrastructure.Identities
 {

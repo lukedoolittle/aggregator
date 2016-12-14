@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-
+using Material.OAuth.Workflow;
 #if __FORMS__
 using Xamarin.Forms;
 using Material.Contracts;
@@ -35,12 +35,7 @@ namespace Material.OAuth
                     consumerKey, 
                     consumerSecret, 
                     callbackUrl,
-#if __WINDOWS__
-                    AuthorizationInterface.Dedicated
-#else
-                    AuthorizationInterface.Embedded
-#endif
-            )
+                    AuthorizationInterface.NotSpecified)
         { }
 
         /// <summary>
@@ -57,6 +52,8 @@ namespace Material.OAuth
             string callbackUrl,
             AuthorizationInterface browserType)
         {
+            var provider = new TResourceProvider();
+            
             _app = new OAuth1AppBase<TResourceProvider>(
                 consumerKey,
                 consumerSecret,
@@ -66,8 +63,12 @@ namespace Material.OAuth
 #else
                 new OAuthAuthorizerUIFactory(),
 #endif
-                new TResourceProvider(),
-                browserType);
+                provider,
+                new AuthenticationUISelector(
+                        Framework.Platform.Current.CanProvideSecureBrowsing)
+                    .GetOptimalOAuth1Interface(
+                        provider, 
+                        browserType));
         }
 
         /// <summary>

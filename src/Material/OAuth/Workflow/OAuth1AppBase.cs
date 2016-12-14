@@ -12,7 +12,7 @@ using Material.OAuth.Facade;
 using Material.OAuth.Security;
 using Material.OAuth.Template;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     public class OAuth1AppBase<TResourceProvider>
         where TResourceProvider : OAuth1ResourceProvider, new()

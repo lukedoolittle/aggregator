@@ -23,6 +23,7 @@
            <Word>Ecdsa</Word>
            <Word>x</Word>
            <Word>y</Word>
+           <Word>Pkce</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>
@@ -41,6 +42,7 @@
             <Acronym>GPS</Acronym>
             <Acronym>RSA</Acronym>
             <Acronym>Ms</Acronym>
+            <Acronym>Pkce</Acronym>
          </CasingExceptions>
       </Acronyms>
    </Dictionary>

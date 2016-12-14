@@ -4,7 +4,7 @@ using Material.Infrastructure.Credentials;
 using Material.OAuth.Authorization;
 using Material.OAuth.Facade;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     /// <summary>
     /// Authenticates a resource owner with the given resource provider using OAuth2

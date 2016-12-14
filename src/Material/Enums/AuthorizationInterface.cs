@@ -6,6 +6,7 @@ namespace Material.Enums
     {
         [Description("embedded")] Embedded,
         [Description("dedicated")] Dedicated,
-        [Description("secureEmbedded")] SecureEmbedded
+        [Description("secureEmbedded")] SecureEmbedded,
+        [Description("notSpecified")] NotSpecified
     }
 }

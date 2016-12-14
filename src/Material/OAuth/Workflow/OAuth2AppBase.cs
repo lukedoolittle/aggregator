@@ -7,7 +7,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Template;
 
-namespace Material.OAuth
+namespace Material.OAuth.Workflow
 {
     public class OAuth2AppBase<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider
