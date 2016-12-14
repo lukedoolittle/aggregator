@@ -11,6 +11,8 @@ namespace CodeGen
         public override List<string> AvailableScopes { get; }
         public override List<OAuth2FlowType> AllowedFlows { get; }
         public override List<GrantType> AllowedGrantTypes { get; }
+        public override bool SupportsPkce { get; }
+        public override bool SupportsCustomUrlScheme { get; }
     }
 
     public class DummyOAuth1ResourceProvider : OAuth1ResourceProvider
@@ -19,6 +21,7 @@ namespace CodeGen
         public override Uri AuthorizationUrl { get; }
         public override Uri TokenUrl { get; }
         public override HttpParameterType ParameterType { get; }
+        public override bool SupportsCustomUrlScheme { get; }
     }
 
     public class DummyOpenIdResourceProvider : OpenIdResourceProvider

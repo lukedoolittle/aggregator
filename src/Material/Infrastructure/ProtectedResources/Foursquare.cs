@@ -29,5 +29,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "oauth_token";
         public override Uri AuthorizationUrl => new Uri("https://foursquare.com/oauth2/authorize");
         public override Uri TokenUrl => new Uri("https://foursquare.com/oauth2/access_token");
+        public override Boolean SupportsCustomUrlScheme => true;
 	}
 }

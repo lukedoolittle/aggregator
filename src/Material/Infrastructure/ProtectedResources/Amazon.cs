@@ -29,5 +29,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "access_token";
         public override Uri AuthorizationUrl => new Uri("https://www.amazon.com/ap/oa");
         public override Uri TokenUrl => new Uri("https://api.amazon.com/auth/o2/token");
+        public override Boolean SupportsCustomUrlScheme => true;
 	}
 }

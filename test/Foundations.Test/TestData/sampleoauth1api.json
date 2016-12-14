@@ -1,0 +1,28 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "SampleApi",
+        "description": "A Sample API",
+        "termsOfService": "http://www.example.com/termsofservice",
+        "version": "1"
+    },
+    "host": "www.example.com/",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+    },
+    "securityDefinitions": {
+        "oauth1": {
+            "type": "oauth1",
+            "description": "OAuth1a Flow",
+            "requestUrl": "https://www.example.com/oauth/request_token",
+            "authorizationUrl": "https://www.example.com/oauth/authorize",
+            "tokenUrl": "https://www.example.com/oauth/access_token",
+            "x-parameter-type": "body",
+            "x-custom-scheme-support": true
+        }
+    },
+    "definitions": []
+}

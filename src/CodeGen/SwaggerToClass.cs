@@ -170,6 +170,34 @@ namespace CodeGen
                         }
                     }
 
+                    var pkceSupport = securityDefinition["x-pkce-support"]?.ToString()?.ToLower();
+                    if (pkceSupport != null)
+                    {
+                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.SupportsPkce)))
+                        {
+                            @class.Properties.Add(new PropertyRepresentation(typeof(bool),
+                                nameof(_oauth2Provider.SupportsPkce))
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(pkceSupport == "true")
+                            });
+                        }
+                    }
+
+                    var customUrlSchemeSupport = securityDefinition["x-custom-scheme-support"]?.ToString()?.ToLower();
+                    if (customUrlSchemeSupport != null)
+                    {
+                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.SupportsCustomUrlScheme)))
+                        {
+                            @class.Properties.Add(new PropertyRepresentation(typeof(bool),
+                                nameof(_oauth2Provider.SupportsCustomUrlScheme))
+                            {
+                                IsOverride = true,
+                                PropertyValue = new ConcreteValueRepresentation(customUrlSchemeSupport == "true")
+                            });
+                        }
+                    }
+
                     var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
                     if (openIdDiscoveryUrl != null)
                     {
@@ -231,6 +259,12 @@ namespace CodeGen
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
                     {
                         ConstructorParameters = new List<object> { typeof(OAuth1Credentials) }
+                    });
+                    @class.Properties.Add(new PropertyRepresentation(typeof(bool),
+                        nameof(_oauth1Provider.SupportsCustomUrlScheme))
+                    {
+                        IsOverride = true,
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-custom-scheme-support"]?.ToString()?.ToLower() == "true")
                     });
                 }
                 else if (securityDefinition["type"]?.ToString() == "apiKey")

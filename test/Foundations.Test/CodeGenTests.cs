@@ -8,13 +8,16 @@ namespace Foundations.Test
     [Trait("Category", "Continuous")]
     public class CodeGenTests
     {
+        private const string SAMPLE_OAUTH2_SWAGGER_DOC = "TestData/sampleoauth2api.json";
+        private const string SAMPLE_OAUTH1_SWAGGER_DOC = "TestData/sampleoauth1api.json";
+
         [Fact]
         public void CreateServiceAndRequestClassesCanPrettyPrint()
         {
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -62,7 +65,7 @@ namespace Foundations.Test
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -93,7 +96,7 @@ namespace Foundations.Test
             var serviceNamespace = "SampleApiNamespace.Services";
             var requestNamespace = "SampleApiNamespace.Requests";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -117,7 +120,7 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -138,7 +141,7 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
@@ -160,11 +163,55 @@ namespace Foundations.Test
         {
             var serviceNamespace = "SampleApiNamespace.Services";
 
-            var codeGen = new SwaggerToClass("TestData/sampleapi.json");
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
 
             var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
 
             Assert.Equal("OpenIdResourceProvider", serviceClass.BaseType.TypeName);
+        }
+
+        [Fact]
+        public void CreateServiceHasValidValueForPkceSupport()
+        {
+            var serviceNamespace = "SampleApiNamespace.Services";
+
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
+
+            var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
+            var propertyValue =
+                serviceClass.Properties.Single(p => p.Name == "SupportsPkce").PropertyValue as
+                    ConcreteValueRepresentation;
+            Assert.Equal(true, (bool)propertyValue.PropertyValue);
+        }
+
+        [Fact]
+        public void CreateOAuth2ServiceHasValidValueForCustomUrlSupport()
+        {
+            var serviceNamespace = "SampleApiNamespace.Services";
+
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH2_SWAGGER_DOC);
+
+            var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
+
+            var propertyValue =
+                serviceClass.Properties.Single(p => p.Name == "SupportsCustomUrlScheme").PropertyValue as
+                    ConcreteValueRepresentation;
+            Assert.Equal(true, (bool)propertyValue.PropertyValue);
+        }
+
+        [Fact]
+        public void CreateOAuth1ServiceHasValidValueForCustomUrlSupport()
+        {
+            var serviceNamespace = "SampleApiNamespace.Services";
+
+            var codeGen = new SwaggerToClass(SAMPLE_OAUTH1_SWAGGER_DOC);
+
+            var serviceClass = codeGen.GenerateServiceClass(serviceNamespace);
+
+            var propertyValue =
+                serviceClass.Properties.Single(p => p.Name == "SupportsCustomUrlScheme").PropertyValue as
+                    ConcreteValueRepresentation;
+            Assert.Equal(true, (bool)propertyValue.PropertyValue);
         }
     }
 }

@@ -98,6 +98,7 @@
             "x-token-name": "access_token",
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
+            "x-pkce-support": true,
             "scopes": {
                 "sample_get": "",
                 "sample_post": "",
@@ -113,6 +114,7 @@
             "x-response-types": [ "token", "id_token", "id_token token" ],
             "x-openid-discovery-url": "https://login.example.com/.well-known/openid-configuration",
             "x-openid-issuers": [ "https://accounts.example.com", "accounts.example.com" ],
+            "x-custom-scheme-support": true,
             "scopes": {
                 "sample_get": "",
                 "sample_post": "",

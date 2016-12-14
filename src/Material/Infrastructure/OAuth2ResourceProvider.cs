@@ -22,6 +22,9 @@ namespace Material.Infrastructure
         public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
 
+        public virtual bool SupportsPkce { get; } = false;
+        public virtual bool SupportsCustomUrlScheme { get; } = false;
+
         public abstract List<OAuth2FlowType> AllowedFlows { get; }
         public OAuth2FlowType Flow { get; protected set; }
 

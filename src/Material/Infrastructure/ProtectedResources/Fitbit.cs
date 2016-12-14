@@ -29,5 +29,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://www.fitbit.com/oauth2/authorize");
         public override Uri TokenUrl => new Uri("https://api.fitbit.com/oauth2/token");
+        public override Boolean SupportsCustomUrlScheme => true;
 	}
 }

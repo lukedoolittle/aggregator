@@ -80,7 +80,8 @@
             "requestUrl": "https://oauth.withings.com/account/request_token",
             "authorizationUrl": "https://oauth.withings.com/account/authorize",
             "tokenUrl": "https://oauth.withings.com/account/access_token",
-            "x-parameter-type": "querystring"
+            "x-parameter-type": "querystring",
+            "x-custom-scheme-support": true
         }
     },
     "definitions": [ ]

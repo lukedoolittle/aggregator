@@ -125,6 +125,7 @@
             "x-token-name": "Bearer",
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
+            "x-pkce-support": true, 
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address",
@@ -143,7 +144,8 @@
             "x-token-name": "Bearer",
             "x-response-types": [ "token", "id_token", "id_token token" ],
             "x-openid-discovery-url": "https://accounts.google.com/.well-known/openid-configuration",
-            "x-openid-issuers": ["https://accounts.google.com", "accounts.google.com"],
+            "x-openid-issuers": [ "https://accounts.google.com", "accounts.google.com" ],
+            "x-custom-scheme-support": true, 
             "scopes": {
                 "https://www.googleapis.com/auth/gmail.readonly": "readonly access to gmail",
                 "https://www.googleapis.com/auth/userinfo.email": "users google account email address",

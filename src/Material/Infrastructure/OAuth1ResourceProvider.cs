@@ -9,5 +9,7 @@ namespace Material.Infrastructure
         public abstract Uri AuthorizationUrl { get; }
         public abstract Uri TokenUrl { get; }
         public abstract HttpParameterType ParameterType { get; }
+
+        public virtual bool SupportsCustomUrlScheme { get; } = false;
     }
 }

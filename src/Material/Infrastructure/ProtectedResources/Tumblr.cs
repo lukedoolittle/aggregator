@@ -25,5 +25,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override Uri AuthorizationUrl => new Uri("https://www.tumblr.com/oauth/authorize");
         public override Uri TokenUrl => new Uri("https://www.tumblr.com/oauth/access_token");
         public override HttpParameterType ParameterType => HttpParameterType.Body;
+        public override Boolean SupportsCustomUrlScheme => true;
 	}
 }

@@ -29,5 +29,6 @@ namespace Material.Infrastructure.ProtectedResources
         public override String TokenName => "Bearer";
         public override Uri AuthorizationUrl => new Uri("https://accounts.spotify.com/authorize");
         public override Uri TokenUrl => new Uri("https://accounts.spotify.com/api/token");
+        public override Boolean SupportsCustomUrlScheme => true;
 	}
 }

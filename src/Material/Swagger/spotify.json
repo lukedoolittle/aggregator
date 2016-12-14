@@ -70,6 +70,7 @@
             "authorizationUrl": "https://accounts.spotify.com/authorize",
             "x-token-name": "Bearer",
             "x-response-types": [ "token" ],
+            "x-custom-scheme-support": true,
             "scopes": {
                 "playlist-read-private": "Read access to user's private playlists",
                 "user-follow-read": "Read access to the list of artists and other users that the user follows",

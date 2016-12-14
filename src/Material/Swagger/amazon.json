@@ -56,6 +56,7 @@
             "authorizationUrl": "https://www.amazon.com/ap/oa",
             "x-token-name": "access_token",
             "x-response-types": [ "token" ],
+            "x-custom-scheme-support": true,
             "scopes": {
                 "profile": "Includes a user's name and email address",
                 "profile:user_id": "Only includes the user_id field of the users profile",

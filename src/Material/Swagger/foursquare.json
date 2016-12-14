@@ -205,6 +205,7 @@
             "authorizationUrl": "https://foursquare.com/oauth2/authorize",
             "x-token-name": "oauth_token",
             "x-response-types": [ "token" ],
+            "x-custom-scheme-support": true,
             "scopes": {}
         }
     },
