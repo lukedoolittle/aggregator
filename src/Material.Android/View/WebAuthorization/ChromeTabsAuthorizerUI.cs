@@ -15,6 +15,7 @@ namespace Material.View.WebAuthorization
     {
         private readonly IProtocolLauncher _launcher;
         private readonly Activity _context;
+        private ProgressDialog _progressDialog;
 
         public ChromeTabsAuthorizerUI(
             IProtocolLauncher launcher,
@@ -40,6 +41,12 @@ namespace Material.View.WebAuthorization
             TaskCompletionSource<TCredentials> credentialsCompletion,
             Func<Uri, CustomTabsActivityManager, bool> callbackHandler)
         {
+            _progressDialog = ProgressDialog.Show(
+                _context,
+                StringResources.ProgressDialogTitle,
+                StringResources.WebProgressDialogText,
+                true);
+
             var manager = new CustomTabsActivityManager(_context);
 
             manager.CustomTabsServiceConnected += (name, client) =>
@@ -51,6 +58,12 @@ namespace Material.View.WebAuthorization
                         //TODO: cancel the completion source when the browser
                         //is closed via the close button
                     }
+                    if (@event == CustomTabsCallbackEvents.TAB_SHOWN)
+                    {
+                        Framework.Platform.Current.RunOnMainThread(() => 
+                            _progressDialog.Hide());
+                    }
+
                 });
                 _launcher.ProtocolLaunch = (uri) =>
                 {
