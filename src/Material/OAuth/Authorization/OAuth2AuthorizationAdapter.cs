@@ -24,22 +24,10 @@ namespace Material.OAuth.Authorization
             IDictionary<string, string> securityParameters,
             IDictionary<string, string> queryParameters)
         {
-            if (authorizeUrl == null)
-            {
-                throw new ArgumentNullException(nameof(authorizeUrl));
-            }
-            if (string.IsNullOrEmpty(clientId))
-            {
-                throw new ArgumentNullException(nameof(clientId));
-            }
-            if (redirectUri == null)
-            {
-                throw new ArgumentNullException(nameof(redirectUri));
-            }
-            if (securityParameters == null)
-            {
-                throw new ArgumentNullException(nameof(securityParameters));
-            }
+            if (authorizeUrl == null) throw new ArgumentNullException(nameof(authorizeUrl));
+            if (string.IsNullOrEmpty(clientId)) throw new ArgumentNullException(nameof(clientId));
+            if (redirectUri == null) throw new ArgumentNullException(nameof(redirectUri));
+            if (securityParameters == null) throw new ArgumentNullException(nameof(securityParameters));
 
             var builder = new UriBuilder(authorizeUrl.NonPath());
             builder.Path += authorizeUrl.AbsolutePath.TrimStart('/');
@@ -164,25 +152,21 @@ namespace Material.OAuth.Authorization
             Uri accessUrl, 
             string clientId, 
             string clientSecret,
+            string codeVerifier,
             Uri callbackUrl,
             string code, 
             string scope,
             Dictionary<HttpRequestHeader, string> headers)
         {
-            if (accessUrl == null)
-            {
-                throw new ArgumentNullException(nameof(accessUrl));
-            }
-            if (callbackUrl == null)
-            {
-                throw new ArgumentNullException(nameof(callbackUrl));
-            }
+            if (accessUrl == null) throw new ArgumentNullException(nameof(accessUrl));
+            if (callbackUrl == null) throw new ArgumentNullException(nameof(callbackUrl));
 
             return (await new HttpRequestBuilder(accessUrl.NonPath())
                 .PostTo(accessUrl.AbsolutePath)
                 .ForOAuth2AccessToken(
                     clientId,
                     clientSecret,
+                    codeVerifier,
                     callbackUrl,
                     code,
                     scope)

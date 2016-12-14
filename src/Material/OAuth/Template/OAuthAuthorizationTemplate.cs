@@ -5,19 +5,19 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.OAuth.Template
 { 
-    public abstract class OAuthAuthorizationTemplateBase<TCredentials> : 
+    public class OAuthAuthorizationTemplate<TCredentials> : 
         IOAuthAuthorizationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
-        protected IOAuthFacade<TCredentials> OauthFacade { get; }
+        private readonly IOAuthFacade<TCredentials> _oauthFacade;
 
-        protected OAuthAuthorizationTemplateBase(
+        public OAuthAuthorizationTemplate(
             IOAuthAuthorizerUI<TCredentials> authorizerUI, 
             IOAuthFacade<TCredentials> oauthFacade)
         {
             _authorizerUI = authorizerUI;
-            OauthFacade = oauthFacade;
+            _oauthFacade = oauthFacade;
         }
 
         public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
@@ -33,7 +33,8 @@ namespace Material.OAuth.Template
                     .ConfigureAwait(false);
 
                 return await GetAccessTokenFromIntermediateResult(
-                        intermediateResult)
+                        intermediateResult,
+                        userId)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException)
@@ -44,7 +45,7 @@ namespace Material.OAuth.Template
 
         protected virtual Task<Uri> GetAuthorizationPath(string userId)
         {
-            return OauthFacade.GetAuthorizationUriAsync(userId);
+            return _oauthFacade.GetAuthorizationUriAsync(userId);
         }
 
         protected virtual Task<TCredentials> GetIntermediateResult(
@@ -56,7 +57,13 @@ namespace Material.OAuth.Template
                 userId);
         }
 
-        protected abstract Task<TCredentials> GetAccessTokenFromIntermediateResult(
-            TCredentials intermediateResult);
+        protected virtual Task<TCredentials> GetAccessTokenFromIntermediateResult(
+            TCredentials intermediateResult,
+            string userId)
+        {
+            return _oauthFacade.GetAccessTokenAsync(
+                intermediateResult, 
+                userId);
+        }
     }
 }

@@ -23,15 +23,9 @@ namespace Material.OAuth.Facade
         { }
 
         protected override Task<OAuth2Credentials> GetRawAccessToken(
-            OAuth2Credentials intermediateCredentials, 
-            string secret)
+            OAuth2Credentials intermediateCredentials,
+            string userId)
         {
-            if (secret != null)
-            {
-                throw new NotSupportedException(
-                    StringResources.ShortTermAccessTokenExchangeException);
-            }
-
             return Task.FromResult(intermediateCredentials);
         }
     }

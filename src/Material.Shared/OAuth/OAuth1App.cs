@@ -26,24 +26,6 @@ namespace Material.OAuth
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
-        public OAuth1App(
-            string consumerKey,
-            string consumerSecret,
-            string callbackUrl) : 
-                this (
-                    consumerKey, 
-                    consumerSecret, 
-                    callbackUrl,
-                    AuthorizationInterface.NotSpecified)
-        { }
-
-        /// <summary>
-        /// Authorizes a resource owner using the OAuth1a workflow
-        /// </summary>
-        /// <param name="consumerKey">The application's consumer key</param>
-        /// <param name="consumerSecret">The application's consumer secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="browserType">The type of browser interface used for the workflow</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1App(
@@ -53,7 +35,17 @@ namespace Material.OAuth
             AuthorizationInterface browserType)
         {
             var provider = new TResourceProvider();
-            
+
+#if __WINDOWS__
+            var @interface = AuthorizationInterface.NotSpecified;
+#else
+            var @interface = new AuthenticationUISelector(
+                    Framework.Platform.Current.CanProvideSecureBrowsing)
+                .GetOptimalOAuth1Interface(
+                    provider,
+                    browserType);
+#endif
+
             _app = new OAuth1AppBase<TResourceProvider>(
                 consumerKey,
                 consumerSecret,
@@ -64,12 +56,26 @@ namespace Material.OAuth
                 new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                new AuthenticationUISelector(
-                        Framework.Platform.Current.CanProvideSecureBrowsing)
-                    .GetOptimalOAuth1Interface(
-                        provider, 
-                        browserType));
+                @interface);
         }
+
+        /// <summary>
+        /// Authorizes a resource owner using the OAuth1a workflow
+        /// </summary>
+        /// <param name="consumerKey">The application's consumer key</param>
+        /// <param name="consumerSecret">The application's consumer secret</param>
+        /// <param name="callbackUrl">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OAuth1App(
+            string consumerKey,
+            string consumerSecret,
+            string callbackUrl) :
+                this(
+                    consumerKey,
+                    consumerSecret,
+                    callbackUrl,
+                    AuthorizationInterface.NotSpecified)
+        { }
 
         /// <summary>
         /// Authorizes a resource owner using the OAuth1a workflow

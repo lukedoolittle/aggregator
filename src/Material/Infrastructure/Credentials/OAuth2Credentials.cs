@@ -87,6 +87,20 @@ namespace Material.Infrastructure.Credentials
 	        return this;
 	    }
 
+        public OAuth2Credentials SetClientId(string clientId)
+        {
+            ClientId = clientId;
+
+            return this;
+        }
+
+        public OAuth2Credentials SetClientSecret(string clientSecret)
+        {
+            ClientSecret = clientSecret;
+
+            return this;
+        }
+
         public OAuth2Credentials SetClientProperties(
             string clientId,
             string clientSecret)

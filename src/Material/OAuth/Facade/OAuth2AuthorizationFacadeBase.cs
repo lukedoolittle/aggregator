@@ -69,11 +69,11 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="secret">The application's client secret</param>
+        /// <param name="userId">Resource owner's Id</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
             OAuth2Credentials intermediateResult,
-            string secret)
+            string userId)
         {
             if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
 
@@ -84,19 +84,17 @@ namespace Material.OAuth.Facade
 
             var accessToken = await GetRawAccessToken(
                     intermediateResult, 
-                    secret)
+                    userId)
                 .ConfigureAwait(false);
 
             return accessToken
                 .TimestampToken()
                 .SetTokenName(ResourceProvider.TokenName)
-                .SetClientProperties(
-                    ClientId,
-                    secret);
+                .SetClientId(ClientId);
         }
 
         protected abstract Task<OAuth2Credentials> GetRawAccessToken(
             OAuth2Credentials intermediateCredentials,
-            string secret);
+            string userId);
     }
 }

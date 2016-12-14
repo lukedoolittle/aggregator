@@ -11,6 +11,7 @@ namespace Foundations.HttpClient.Extensions
             this HttpRequestBuilder instance,
             string clientId,
             string clientSecret,
+            string codeVerifier,
             Uri redirectUrl,
             string code,
             string scope)
@@ -20,6 +21,7 @@ namespace Foundations.HttpClient.Extensions
             var authenticator = new OAuth2AccessToken(
                 clientId, 
                 clientSecret, 
+                codeVerifier,
                 redirectUrl, 
                 code, 
                 scope);

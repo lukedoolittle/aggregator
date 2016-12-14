@@ -31,6 +31,12 @@ namespace Foundations.HttpClient.Enums
         [Description("Basic")]
         BasicHeader,
         [Description("error")]
-        Error
+        Error,
+        [Description("code_challenge")]
+        Challenge,
+        [Description("code_challenge_method")]
+        ChallengeMethod,
+        [Description("code_verifier")]
+        Verifier
     }
 }

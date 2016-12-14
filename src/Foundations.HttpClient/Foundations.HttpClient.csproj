@@ -76,6 +76,7 @@
     <Compile Include="Cryptography\Keys\RsaCryptoKey.cs" />
     <Compile Include="Cryptography\Keys\HashKey.cs" />
     <Compile Include="Cryptography\Keys\RsaCryptoKeyPair.cs" />
+    <Compile Include="Enums\CodeChallengeMethod.cs" />
     <Compile Include="Enums\ContentTypeEncoding.cs" />
     <Compile Include="Enums\GrantType.cs" />
     <Compile Include="Enums\OAuth1Parameter.cs" />

@@ -8,6 +8,7 @@ namespace Foundations.HttpClient.Authenticators
     {
         private readonly string _clientId;
         private readonly string _clientSecret;
+        private readonly string _codeVerifier;
         private readonly Uri _redirectUrl;
         private readonly string _code;
         private readonly string _scope;
@@ -15,32 +16,19 @@ namespace Foundations.HttpClient.Authenticators
         public OAuth2AccessToken(
             string clientId,
             string clientSecret,
+            string codeVerifier,
             Uri redirectUrl,
             string code,
             string scope)
         {
-            if (string.IsNullOrEmpty(clientId))
-            {
-                throw new ArgumentNullException(nameof(clientId));
-            }
-
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
-
-            if (redirectUrl == null)
-            {
-                throw new ArgumentNullException(nameof(redirectUrl));
-            }
-
-            if (string.IsNullOrEmpty(code))
-            {
-                throw new ArgumentNullException(nameof(code));
-            }
+            if (string.IsNullOrEmpty(clientId)) throw new ArgumentNullException(nameof(clientId));
+            if (scope == null) throw new ArgumentNullException(nameof(scope));
+            if (redirectUrl == null) throw new ArgumentNullException(nameof(redirectUrl));
+            if (string.IsNullOrEmpty(code)) throw new ArgumentNullException(nameof(code));
 
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _codeVerifier = codeVerifier;
             _redirectUrl = redirectUrl;
             _code = code;
             _scope = scope;
@@ -73,6 +61,14 @@ namespace Foundations.HttpClient.Authenticators
                     .Parameter(
                         OAuth2Parameter.ClientSecret.EnumToString(),
                         _clientSecret);
+            }
+
+            if (_codeVerifier != null)
+            {
+                requestBuilder
+                    .Parameter(
+                        OAuth2Parameter.Verifier.EnumToString(),
+                        _codeVerifier);
             }
         }
     }

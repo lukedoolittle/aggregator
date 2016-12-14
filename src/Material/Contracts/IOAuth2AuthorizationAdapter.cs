@@ -41,6 +41,7 @@ namespace Material.Contracts
             Uri accessUrl,
             string clientId,
             string clientSecret,
+            string codeVerifier,
             Uri callbackUrl,
             string code,
             string scope,

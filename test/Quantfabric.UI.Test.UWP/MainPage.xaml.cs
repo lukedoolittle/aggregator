@@ -443,14 +443,23 @@ namespace Quantfabric.UI.Test.UWP
             });
         }
 
-        private void BrowserTypeToggled(object sender, RoutedEventArgs e)
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
-            _browserType = authTypeToggleSwitch.IsOn
-                ? AuthorizationInterface.Dedicated
-                : AuthorizationInterface.Embedded;
-            _callbackType = authTypeToggleSwitch.IsOn
-                ? CallbackType.Protocol 
-                : CallbackType.Localhost;
+            switch ((sender as RadioButton).Tag.ToString())
+            {
+                case "Unspecified":
+                    _browserType = AuthorizationInterface.NotSpecified;
+                    _callbackType = CallbackType.Protocol;
+                    break;
+                case "Embedded":
+                    _browserType = AuthorizationInterface.Embedded;
+                    _callbackType = CallbackType.Localhost;
+                    break;
+                case "Dedicated":
+                    _browserType = AuthorizationInterface.Dedicated;
+                    _callbackType = CallbackType.Protocol;
+                    break;
+            }
         }
     }
 }

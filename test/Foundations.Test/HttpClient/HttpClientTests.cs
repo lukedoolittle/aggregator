@@ -554,6 +554,7 @@ namespace Foundations.Test.HttpClient
             };
             var clientId = Guid.NewGuid().ToString();
             var clientSecret = Guid.NewGuid().ToString();
+            var codeVerifier = Guid.NewGuid().ToString();
             var redirectUri = new Uri("http://localhost:8080");
             var code = Guid.NewGuid().ToString();
             var scope = Guid.NewGuid().ToString();
@@ -564,6 +565,7 @@ namespace Foundations.Test.HttpClient
                 .ForOAuth2AccessToken(
                     clientId, 
                     clientSecret, 
+                    codeVerifier,
                     redirectUri, 
                     code, 
                     scope)
@@ -573,6 +575,7 @@ namespace Foundations.Test.HttpClient
             Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
             Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
+            Assert.Equal(codeVerifier, response.Args[OAuth2Parameter.Verifier.EnumToString()]);
             Assert.Equal(redirectUri.ToString(), response.Args[OAuth2Parameter.RedirectUri.EnumToString()]);
             Assert.Equal(code, response.Args[OAuth2ResponseType.Code.EnumToString()]);
             Assert.Equal(scope, response.Args[OAuth2Parameter.Scope.EnumToString()]);

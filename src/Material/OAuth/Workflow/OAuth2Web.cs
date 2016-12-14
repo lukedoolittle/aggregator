@@ -64,6 +64,7 @@ namespace Material.OAuth.Workflow
                     new OAuth2CodeAuthorizationFacade(
                         resourceProvider,
                         clientId,
+                        clientSecret,
                         new Uri(callbackUrl),
                         new OAuth2AuthorizationAdapter(),
                         strategy))

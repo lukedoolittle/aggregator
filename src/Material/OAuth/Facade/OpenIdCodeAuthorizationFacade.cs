@@ -12,12 +12,14 @@ namespace Material.OAuth.Facade
         public OpenIdCodeAuthorizationFacade(
             OAuth2ResourceProvider resourceProvider, 
             string clientId, 
+            string clientSecret,
             Uri callbackUri, 
             IOAuth2AuthorizationAdapter oauth, 
             IOAuthSecurityStrategy strategy) : 
                 base(
                     resourceProvider, 
                     clientId, 
+                    clientSecret,
                     callbackUri, 
                     oauth,
                     strategy)

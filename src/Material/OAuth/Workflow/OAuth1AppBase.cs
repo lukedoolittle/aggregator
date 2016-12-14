@@ -66,17 +66,15 @@ namespace Material.OAuth.Workflow
                 new OAuth1AuthorizationAdapter(),
                 securityStrategy);
 
-            var authenticationUI = _uiFactory
+            var authorizationUi = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth1Credentials>(
                     _browserType,
                     handler,
                     _callbackUri);
 
-            var template = new OAuth1AuthorizationTemplate(
-                authenticationUI,
-                facade,
-                securityStrategy,
-                userId);
+            var template = new OAuthAuthorizationTemplate<OAuth1Credentials>(
+                authorizationUi,
+                facade);
 
             return template.GetAccessTokenCredentials(userId);
         }

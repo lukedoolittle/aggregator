@@ -10,7 +10,7 @@ namespace Material.Contracts
         Task<Uri> GetAuthorizationUriAsync(string userId);
 
         Task<TCredentials> GetAccessTokenAsync(
-            TCredentials intermediateResult,
-            string secret);
+            TCredentials intermediateResult, 
+            string userId);
     }
 }

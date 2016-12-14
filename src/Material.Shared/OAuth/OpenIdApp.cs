@@ -62,6 +62,7 @@ namespace Material.OAuth
                 OAuth2Parameter.State.EnumToString());
 
             _app = new OAuth2AppBase<TResourceProvider>(
+                clientId,
                 new Uri(callbackUrl),
 #if __FORMS__
                     Xamarin.Forms.DependencyService.Get<IOAuthAuthorizerUIFactory>(),
@@ -135,22 +136,23 @@ namespace Material.OAuth
         public async Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
-            var facade = new OpenIdCodeAuthorizationFacade(
-                _provider,
-                _clientId,
-                _callbackUri,
-                new OAuth2AuthorizationAdapter(),
-                _securityStrategy);
+            throw new NotImplementedException();
+            //var facade = new OpenIdCodeAuthorizationFacade(
+            //    _provider,
+            //    _clientId,
+            //    _callbackUri,
+            //    new OAuth2AuthorizationAdapter(),
+            //    _securityStrategy);
 
-            var credentials = await _app.GetCredentialsAsync(
-                    clientSecret,
-                    OAuth2FlowType.AccessCode,
-                    OAuth2ResponseType.Code,
-                    facade,
-                    _callbackHandler)
-                .ConfigureAwait(false);
+            //var credentials = await _app.GetCredentialsAsync(
+            //        clientSecret,
+            //        OAuth2FlowType.AccessCode,
+            //        OAuth2ResponseType.Code,
+            //        facade,
+            //        _callbackHandler)
+            //    .ConfigureAwait(false);
 
-            return GetTokenFromCredentials(credentials);
+            //return GetTokenFromCredentials(credentials);
         }
 
         /// <summary>
@@ -161,45 +163,46 @@ namespace Material.OAuth
         public async Task<JsonWebToken> GetWebTokenAsync(
             OAuth2ResponseType response)
         {
-#if !__WINDOWS__
-            //This is sort of a bizarre hack: Google requires that you go through the
-            //code workflow with a mobile device even if you don't have a client secret
-            if (_browserType == AuthorizationInterface.Dedicated &&
-                typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
-            {
-                var codeFacade = new OpenIdCodeAuthorizationFacade(
-                    _provider,
-                    _clientId,
-                    _callbackUri,
-                    new OAuth2AuthorizationAdapter(),
-                    _securityStrategy);
+            throw new NotImplementedException();
+//#if !__WINDOWS__
+//            //This is sort of a bizarre hack: Google requires that you go through the
+//            //code workflow with a mobile device even if you don't have a client secret
+//            if (_browserType == AuthorizationInterface.Dedicated &&
+//                typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
+//            {
+//                var codeFacade = new OpenIdCodeAuthorizationFacade(
+//                    _provider,
+//                    _clientId,
+//                    _callbackUri,
+//                    new OAuth2AuthorizationAdapter(),
+//                    _securityStrategy);
 
-                var codeCredentials = await _app.GetCredentialsAsync(
-                        null,
-                        OAuth2FlowType.AccessCode, 
-                        OAuth2ResponseType.Code,
-                        codeFacade,
-                        _callbackHandler)
-                    .ConfigureAwait(false);
+//                var codeCredentials = await _app.GetCredentialsAsync(
+//                        null,
+//                        OAuth2FlowType.AccessCode, 
+//                        OAuth2ResponseType.Code,
+//                        codeFacade,
+//                        _callbackHandler)
+//                    .ConfigureAwait(false);
 
-                return GetTokenFromCredentials(codeCredentials);
-            }
-#endif
-            var tokenFacade = new OpenIdTokenAuthorizationFacade(
-                _provider,
-                _clientId,
-                _callbackUri,
-                new OAuth2AuthorizationAdapter(),
-                _securityStrategy);
+//                return GetTokenFromCredentials(codeCredentials);
+//            }
+//#endif
+//            var tokenFacade = new OpenIdTokenAuthorizationFacade(
+//                _provider,
+//                _clientId,
+//                _callbackUri,
+//                new OAuth2AuthorizationAdapter(),
+//                _securityStrategy);
 
-            var credentials = await _app.GetCredentialsAsync(
-                    OAuth2FlowType.Implicit,
-                    response,
-                    tokenFacade,
-                    _callbackHandler)
-                .ConfigureAwait(false);
+//            var credentials = await _app.GetCredentialsAsync(
+//                    OAuth2FlowType.Implicit,
+//                    response,
+//                    tokenFacade,
+//                    _callbackHandler)
+//                .ConfigureAwait(false);
 
-            return GetTokenFromCredentials(credentials);
+//            return GetTokenFromCredentials(credentials);
         }
 
         /// <summary>

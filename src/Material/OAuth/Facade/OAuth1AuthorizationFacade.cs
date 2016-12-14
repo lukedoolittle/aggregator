@@ -77,11 +77,11 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth1 callback</param>
-        /// <param name="secret">The oauth secret provided during the token request</param>
+        /// <param name="userId">Resource owner's Id</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials intermediateResult,
-            string secret)
+            string userId)
         {
             if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
 
@@ -90,13 +90,17 @@ namespace Material.OAuth.Facade
                 return intermediateResult;
             }
 
+            var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
+                userId,
+                OAuth1Parameter.OAuthTokenSecret.EnumToString());
+
             var token = await _oauth
                 .GetAccessToken(
                     _resourceProvider.TokenUrl,
                     _consumerKey,
                     _consumerSecret,
                     intermediateResult.OAuthToken,
-                    secret,
+                    oauthSecret,
                     intermediateResult.Verifier,
                     _resourceProvider.ParameterType,
                     intermediateResult.AdditionalParameters)

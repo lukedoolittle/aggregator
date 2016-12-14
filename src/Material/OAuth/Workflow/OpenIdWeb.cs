@@ -47,6 +47,7 @@ namespace Material.OAuth.Workflow
             var facade = new OpenIdCodeAuthorizationFacade(
                 _provider,
                 clientId,
+                clientSecret,
                 new Uri(callbackUrl),
                 new OAuth2AuthorizationAdapter(),
                 strategy);
