@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Authenticators;
 using Material.Contracts;
 using Material.Infrastructure;
+using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.OAuth.Facade
 {
@@ -23,19 +23,14 @@ namespace Material.OAuth.Facade
                     strategy)
         { }
 
-        protected override IDictionary<string, string> GetSecurityParameters(string userId)
+        protected override IList<IAuthenticatorParameter> GetSecurityParameters(
+            string userId)
         {
-            var baseSecurity = base.GetSecurityParameters(userId);
+            var securityParameters = base.GetSecurityParameters(userId);
 
-            var nonce = Strategy.CreateOrGetSecureParameter(
-                userId,
-                OAuth2Parameter.Nonce.EnumToString());
+            securityParameters.Add(new OAuth2Nonce(Strategy, userId));
 
-            baseSecurity.Add(
-                OAuth2Parameter.Nonce.EnumToString(), 
-                nonce);
-
-            return baseSecurity;
+            return securityParameters;
         }
     }
 }

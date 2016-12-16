@@ -4,10 +4,12 @@ using System.Security;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authentication;
+using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.OAuth.Authorization
 {
@@ -21,12 +23,15 @@ namespace Material.OAuth.Authorization
             string tokenName,
             Uri discoveryUri)
         {
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new ApiKey(
+                    apiKeyName, 
+                    apiKeyValue,
+                    apiKeyType));
+
             var result = (await new HttpRequestBuilder(requestUri.NonPath())
                 .PostTo(requestUri.AbsolutePath)
-                .ForApiKey(
-                    apiKeyName,
-                    apiKeyValue,
-                    apiKeyType)
+                .Authenticator(builder)
                 .ThrowIfNotExpectedResponseCode(HttpStatusCode.OK)
                 .ResultAsync()
                 .ConfigureAwait(false));

@@ -5,6 +5,7 @@ using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.AuthenticatorParameters;
 using Material.OAuth.Authorization;
 
 namespace Material.OAuth.Workflow
@@ -23,10 +24,12 @@ namespace Material.OAuth.Workflow
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                new ApiKeyAuthenticator(
-                    credentials.KeyName, 
-                    credentials.KeyValue, 
-                    credentials.KeyType),
+                new AuthenticatorBuilder()
+                    .AddParameter(
+                        new ApiKey(
+                            credentials.KeyName,
+                            credentials.KeyValue,
+                            credentials.KeyType)),
                 HttpParameterType.Querystring);
         }
 
@@ -58,9 +61,11 @@ namespace Material.OAuth.Workflow
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             _requester = new OAuthProtectedResourceAdapter(
-                new OAuth2ProtectedResource(
-                    credentials.AccessToken,
-                    credentials.TokenName),
+                new AuthenticatorBuilder()
+                    .AddParameter(
+                        new OAuth2AccessToken(
+                            credentials.AccessToken, 
+                            credentials.TokenName)), 
                 HttpParameterType.Querystring);
 
             _userId = credentials.UserId;

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Text;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Serialization;
 
 namespace Material.Infrastructure.Credentials
@@ -23,6 +26,32 @@ namespace Material.Infrastructure.Credentials
                 instance);
 
             return token;
+        }
+
+        public static JsonWebToken Sign(
+            this JsonWebToken instance, 
+            IJsonWebTokenSigningFactory signingFactory,
+            CryptoKey privateKey)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (signingFactory == null) throw new ArgumentNullException(nameof(signingFactory));
+
+            var signingAlgorithm = signingFactory
+                .GetSigningAlgorithm(
+                    instance.Header.Algorithm);
+
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(
+                instance.SignatureBase);
+
+            var signatureBytes = signingAlgorithm.SignText(
+                signatureBaseBytes,
+                privateKey);
+
+            var signature = Convert.ToBase64String(signatureBytes);
+
+            instance.Sign(instance.SignatureBase, signature);
+
+            return instance;
         }
     }
 }

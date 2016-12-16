@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Foundations.HttpClient.Authenticators;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.OAuth.Facade
 {
@@ -39,30 +40,34 @@ namespace Material.OAuth.Facade
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth2ClientId(ClientId))
+                .AddParameter(new OAuth2Scope(
+                    ResourceProvider.Scopes,
+                    ResourceProvider.ScopeDelimiter))
+                .AddParameter(new OAuth2CallbackUri(CallbackUri))
+                .AddParameter(new OAuth2ResponseType(
+                    ResourceProvider.ResponseType))
+                .AddParameters(GetSecurityParameters(userId))
+                .AddParameters(ResourceProvider.Parameters.Select(
+                    p => new GenericParameter(p.Key, p.Value)));
+
             var authorizationPath =
                 OAuth.GetAuthorizationUri(
                     ResourceProvider.AuthorizationUrl,
-                    ClientId,
-                    ResourceProvider.Scope,
-                    CallbackUri,
-                    ResourceProvider.ResponseType,
-                    GetSecurityParameters(userId),
-                    ResourceProvider.Parameters);
+                    builder);
 
             return Task.FromResult(authorizationPath);
         }
 
-        protected virtual IDictionary<string, string> GetSecurityParameters(
+        protected virtual IList<IAuthenticatorParameter> GetSecurityParameters(
             string userId)
         {
-            var state = Strategy.CreateOrGetSecureParameter(
-                userId,
-                OAuth2Parameter.State.EnumToString());
-
-            return new Dictionary<string, string>
+            return new List<IAuthenticatorParameter>
             {
-                { OAuth2Parameter.State.EnumToString(), state }
+                new OAuth2State(Strategy, userId)
             };
+
         }
 
         /// <summary>

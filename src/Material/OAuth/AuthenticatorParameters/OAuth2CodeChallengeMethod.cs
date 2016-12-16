@@ -9,6 +9,7 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth2Parameter.ChallengeMethod.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth2CodeChallengeMethod(string challengeMethod)
         {
@@ -16,5 +17,9 @@ namespace Material.OAuth.AuthenticatorParameters
 
             Value = challengeMethod;
         }
+
+        public OAuth2CodeChallengeMethod(CodeChallengeMethod method) : 
+            this(method.EnumToString())
+        { }
     }
 }

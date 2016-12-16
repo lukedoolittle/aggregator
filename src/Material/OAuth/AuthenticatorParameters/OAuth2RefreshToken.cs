@@ -9,6 +9,7 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth2Parameter.RefreshToken.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth2RefreshToken(string refreshToken)
         {

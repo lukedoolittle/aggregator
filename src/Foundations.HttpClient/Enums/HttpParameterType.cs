@@ -9,6 +9,8 @@ namespace Foundations.HttpClient.Enums
         [Description("querystring")]
         Querystring,
         [Description("body")]
-        Body
+        Body,
+        [Description("unspecified")]
+        Unspecified
     }
 }

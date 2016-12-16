@@ -10,6 +10,7 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth1Parameter.Timestamp.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth1Timestamp(int unixTimestamp)
         {

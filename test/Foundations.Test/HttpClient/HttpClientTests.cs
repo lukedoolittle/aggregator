@@ -5,14 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Newtonsoft.Json.Linq;
@@ -410,294 +406,6 @@ namespace Foundations.Test.HttpClient
         }
 
         [Fact]
-        public async void AddOAuth1ProtectedResource()
-        {
-            var expectedArgsCount = 7;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var consumerKey = Guid.NewGuid().ToString();
-            var consumerSecret = Guid.NewGuid().ToString();
-            var oauthToken = Guid.NewGuid().ToString();
-            var oauthSecret = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth1ProtectedResource(
-                    consumerKey,
-                    consumerSecret,
-                    oauthToken,
-                    oauthSecret)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1Parameter.OAuthToken.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth2ProtectedResource()
-        {
-            var expectedArgsCount = 1;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var accessToken = Guid.NewGuid().ToString();
-            var accessTokenName = "accessToken";
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth2ProtectedResource(
-                    accessToken, 
-                    accessTokenName)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(accessToken, response.Args[accessTokenName]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth1RequestTokenAuthentication()
-        {
-            var expectedArgsCount = 7;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var consumerKey = Guid.NewGuid().ToString();
-            var consumerSecret = Guid.NewGuid().ToString();
-            var callbackUrl = new Uri("http://localhost:8080");
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth1RequestToken(
-                    consumerKey, 
-                    consumerSecret, 
-                    callbackUrl)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Callback.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth1AccessTokenAuthentication()
-        {
-            var expectedArgsCount = 8;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var consumerKey = Guid.NewGuid().ToString();
-            var consumerSecret = Guid.NewGuid().ToString();
-            var oauthToken = Guid.NewGuid().ToString();
-            var oauthSecret = Guid.NewGuid().ToString();
-            var oauthVerifier = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth1AccessToken(
-                    consumerKey,
-                    consumerSecret,
-                    oauthToken, 
-                    oauthSecret, 
-                    oauthVerifier)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args[OAuth1Parameter.OAuthToken.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.ConsumerKey.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Timestamp.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Nonce.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Version.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.SignatureMethod.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Signature.EnumToString()]);
-            Assert.NotNull(response.Args[OAuth1Parameter.Verifier.EnumToString()]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth2AccessTokenAuthentication()
-        {
-            var expectedArgsCount = 6;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var clientId = Guid.NewGuid().ToString();
-            var clientSecret = Guid.NewGuid().ToString();
-            var codeVerifier = Guid.NewGuid().ToString();
-            var redirectUri = new Uri("http://localhost:8080");
-            var code = Guid.NewGuid().ToString();
-            var scope = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth2AccessToken(
-                    clientId, 
-                    clientSecret, 
-                    codeVerifier,
-                    redirectUri, 
-                    code, 
-                    scope)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
-            Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
-            Assert.Equal(codeVerifier, response.Args[OAuth2Parameter.Verifier.EnumToString()]);
-            Assert.Equal(redirectUri.ToString(), response.Args[OAuth2Parameter.RedirectUri.EnumToString()]);
-            Assert.Equal(code, response.Args[OAuth2ResponseType.Code.EnumToString()]);
-            Assert.Equal(scope, response.Args[OAuth2Parameter.Scope.EnumToString()]);
-            Assert.Equal(GrantType.AuthCode.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth2ClientCredentialsAuthentication()
-        {
-            var expectedArgsCount = 1;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var clientId = Guid.NewGuid().ToString();
-            var clientSecret = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth2ClientAccessToken(
-                    clientId,
-                    clientSecret)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(GrantType.ClientCredentials.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
-            Assert.True(response.Headers[HttpRequestHeader.Authorization.ToString()].StartsWith("Basic"));
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddApiKeyCredentialsAuthentication()
-        {
-            var expectedArgsCount = 0;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var keyname = "Some-Key-Name";
-            var keyvalue = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForApiKey(
-                    keyname,
-                    keyvalue,
-                    HttpParameterType.Header)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(response.Headers[keyname], keyvalue);
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth2JsonWebTokenAuthentication()
-        {
-            var expectedArgsCount = 3;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var token = "iowuflkjax9820375q4.kalsjdflk0923jkl";
-            var clientId = Guid.NewGuid().ToString();
-            var privateKey = RsaCryptoKeyPair.Create(1024).Private;
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth2JsonWebToken(
-                    token,
-                    JsonWebTokenAlgorithm.RS256, 
-                    privateKey,
-                    clientId)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.NotNull(response.Args["assertion"]);
-            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
-            Assert.Equal(GrantType.JsonWebToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
-        public async void AddOAuth2RefreshTokenAuthentication()
-        {
-            var expectedArgsCount = 4;
-            var expected = new SampleBody
-            {
-                SomeKey = Guid.NewGuid().ToString()
-            };
-            var clientId = Guid.NewGuid().ToString();
-            var clientSecret = Guid.NewGuid().ToString();
-            var refreshToken = Guid.NewGuid().ToString();
-
-            var response = await new HttpRequestBuilder(_endpoint)
-                .PostTo(_postPath)
-                .JsonContent(expected)
-                .ForOAuth2RefreshToken(
-                    clientId,
-                    clientSecret, 
-                    refreshToken)
-                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
-                .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
-            Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
-            Assert.Equal(refreshToken, response.Args[OAuth2Parameter.RefreshToken.EnumToString()]);
-            Assert.Equal(GrantType.RefreshToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
-
-            Assert.Equal(expected.SomeKey, response.Json.SomeKey);
-        }
-
-        [Fact]
         public async void AddBearerHeader()
         {
             var bearer = Guid.NewGuid().ToString();
@@ -749,6 +457,8 @@ namespace Foundations.Test.HttpClient
 
             Assert.Equal(expectedUserAgent, response.Headers["User-Agent"]);
         }
+
+        #region Multiple Requests
 
         [Fact]
         public async void MakeMultipleSynchronousRequestsToSameEndpoint()
@@ -834,15 +544,18 @@ namespace Foundations.Test.HttpClient
         }
 
         private static Task<TypedHttpBinResponse<SampleBody>> GenerateBasicRequest(
-            string baseUrl, 
+            string baseUrl,
             string path,
-            HttpMethod method, 
+            HttpMethod method,
             HttpParameterType parameterType)
         {
             return new HttpRequestBuilder(baseUrl)
                 .Request(method, path, parameterType)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>();
         }
+
+        #endregion Multiple Requests
+
     }
 
     [DataContract]

@@ -9,6 +9,7 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth2Parameter.GrantType.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth2GrantType(string grantType)
         {

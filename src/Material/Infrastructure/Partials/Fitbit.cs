@@ -1,6 +1,5 @@
-﻿using System.Net;
-using Foundations.HttpClient.Authenticators;
-using Material.Infrastructure.Requests;
+﻿using Material.Infrastructure.Requests;
+using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.Infrastructure.ProtectedResources
 {
@@ -14,22 +13,13 @@ namespace Material.Infrastructure.ProtectedResources
             //header even during an auth code workflow
             base.SetClientProperties(clientId, clientSecret);
 
-            var header = new OAuth2ClientAccessToken(
-                    clientId,
-                    clientSecret)
-                .CreateHeader();
+            var credentials = new OAuth2ClientCredentials(
+                clientId, 
+                clientSecret);
 
-            if (!Headers.ContainsKey(HttpRequestHeader.Authorization))
-            {
-                Headers.Add(
-                    HttpRequestHeader.Authorization,
-                    header);
-            }
-            else
-            {
-                Headers[HttpRequestHeader.Authorization] = 
-                    header;
-            }
+            Headers.Add(
+                credentials.HeaderName, 
+                credentials.Value);
         }
 
         public override string Scope

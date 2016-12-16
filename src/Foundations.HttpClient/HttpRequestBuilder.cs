@@ -248,6 +248,14 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public Uri GenerateRequestUri()
+        {
+            _request.Authenticator?.Authenticate(this);
+            _request.Payload.Attach(_request);
+
+            return _request.Address;
+        }
+
         public async Task<HttpResponse> ExecuteAsync()
         {
             _request.Authenticator?.Authenticate(this);

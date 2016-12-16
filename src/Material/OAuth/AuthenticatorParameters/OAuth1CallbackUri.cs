@@ -9,6 +9,7 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth1Parameter.Callback.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth1CallbackUri(string redirectUri)
         {

@@ -1,12 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
 {
-    public class AuthenticatorBuilder : IAuthenticator
+    public sealed class AuthenticatorBuilder : IAuthenticator
     {
         private readonly List<IAuthenticatorParameter> _parameters = 
             new List<IAuthenticatorParameter>();
+
+        public AuthenticatorBuilder AddParameters(
+            IEnumerable<IAuthenticatorParameter> parameters)
+        {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            foreach (var parameter in parameters)
+            {
+                AddParameter(parameter);
+            }
+
+            return this;
+        }
 
         public AuthenticatorBuilder AddParameter(
             IAuthenticatorParameter parameter)
@@ -25,9 +39,18 @@ namespace Foundations.HttpClient.Authenticators
 
             foreach (var parameter in _parameters)
             {
-                requestBuilder.Parameter(
-                    parameter.Name, 
-                    parameter.Value);
+                if (parameter.Type == HttpParameterType.Header)
+                {
+                    requestBuilder.Header(
+                        parameter.Name, 
+                        parameter.Value);
+                }
+                else
+                {
+                    requestBuilder.Parameter(
+                        parameter.Name,
+                        parameter.Value);
+                }
             }
         }
     }

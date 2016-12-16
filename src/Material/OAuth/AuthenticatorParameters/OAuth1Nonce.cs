@@ -1,4 +1,5 @@
-﻿using Foundations.Extensions;
+﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
@@ -10,9 +11,12 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         public string Name => OAuth1Parameter.Nonce.EnumToString();
         public string Value { get; }
+        public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth1Nonce(string nonce)
         {
+            if (nonce == null) throw new ArgumentNullException(nameof(nonce));
+
             Value = nonce;
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
-using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
@@ -17,7 +16,7 @@ namespace Material.OAuth.Authentication
         private readonly string _applicationName;
         private readonly string _intendedRecipient;
         private readonly int _expirationTimeInMinutes;
-        private readonly JsonWebTokenSigningTemplate _signingTemplate;
+        private readonly IJsonWebTokenSigningFactory _signingFactory;
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
 
         public AuthenticationGenerator(
@@ -28,22 +27,21 @@ namespace Material.OAuth.Authentication
                     privateKey,
                     applicationName,
                     recipient,
-                    new JsonWebTokenSigningTemplate(
-                        new JsonWebTokenSignerFactory()))
+                    new JsonWebTokenSignerFactory())
         { }
 
         public AuthenticationGenerator(
             CryptoKey privateKey, 
             string applicationName,
             string recipient,
-            JsonWebTokenSigningTemplate signingTemplate)
+            IJsonWebTokenSigningFactory signingFactory)
         {
             _privateKey = privateKey;
             _whitelistedAlgorithms = AuthenticationConfiguration.WhitelistedAlgorithms;
             _expirationTimeInMinutes = AuthenticationConfiguration.AuthenticationTokenTimeoutInMinutes;
             _applicationName = applicationName;
             _intendedRecipient = recipient;
-            _signingTemplate = signingTemplate;
+            _signingFactory = signingFactory;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
@@ -60,7 +58,7 @@ namespace Material.OAuth.Authentication
                     credentials)
                 .ConfigureAwait(false);
 
-            return SignToken(token);
+            return token.Sign(_signingFactory, _privateKey);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
@@ -77,7 +75,7 @@ namespace Material.OAuth.Authentication
                     credentials)
                 .ConfigureAwait(false);
 
-            return SignToken(token);
+            return token.Sign(_signingFactory, _privateKey);
         }
 
         protected virtual JsonWebToken InitializeToken(
@@ -101,18 +99,6 @@ namespace Material.OAuth.Authentication
                     Issuer = _applicationName,
                     Audience = _intendedRecipient,
                 });
-        }
-
-        private JsonWebToken SignToken(JsonWebToken token)
-        {
-            var signatureBase = token.SignatureBase;
-            var signature = _signingTemplate.CreateSignature(
-                signatureBase,
-                token.Header.Algorithm,
-                _privateKey);
-            token.Sign(signatureBase, signature);
-
-            return token;
         }
     }
 }
