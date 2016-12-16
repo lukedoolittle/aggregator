@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -24,15 +23,18 @@ namespace Material.OAuth.Template
         {
             try
             {
-                var authorizationPath = await GetAuthorizationPath(userId)
+                var authorizationPath = await _oauthFacade
+                    .GetAuthorizationUriAsync(userId)
                     .ConfigureAwait(false);
 
-                var intermediateResult = await GetIntermediateResult(
+                var intermediateResult = await _authorizerUI
+                    .Authorize(
                         authorizationPath,
                         userId)
                     .ConfigureAwait(false);
 
-                return await GetAccessTokenFromIntermediateResult(
+                return await _oauthFacade
+                    .GetAccessTokenAsync(
                         intermediateResult,
                         userId)
                     .ConfigureAwait(false);
@@ -41,29 +43,6 @@ namespace Material.OAuth.Template
             {
                 return null;
             }
-        }
-
-        protected virtual Task<Uri> GetAuthorizationPath(string userId)
-        {
-            return _oauthFacade.GetAuthorizationUriAsync(userId);
-        }
-
-        protected virtual Task<TCredentials> GetIntermediateResult(
-            Uri authorizationPath,
-            string userId)
-        {
-            return _authorizerUI.Authorize(
-                authorizationPath,
-                userId);
-        }
-
-        protected virtual Task<TCredentials> GetAccessTokenFromIntermediateResult(
-            TCredentials intermediateResult,
-            string userId)
-        {
-            return _oauthFacade.GetAccessTokenAsync(
-                intermediateResult, 
-                userId);
         }
     }
 }

@@ -47,6 +47,9 @@
     <Compile Include="Contracts\IJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="Contracts\IOAuth1Identity.cs" />
     <Compile Include="Contracts\IOAuth2Identity.cs" />
+    <Compile Include="Contracts\IOAuthAccessTokenFacade.cs" />
+    <Compile Include="Contracts\IOAuthAuthorizationUriFacade.cs" />
+    <Compile Include="Contracts\ISecurityParameterBundle.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
@@ -95,7 +98,11 @@
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2ResponseType.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2Scope.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2State.cs" />
+    <Compile Include="OAuth\Facade\OAuth2AuthorizationUriFacade.cs" />
     <Compile Include="OAuth\Facade\OAuth2CodeWithPkcsAuthorizationFacade.cs" />
+    <Compile Include="OAuth\Security\OAuth2NonceSecurityParameterBundle.cs" />
+    <Compile Include="OAuth\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
+    <Compile Include="OAuth\Security\OAuth2StateSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Workflow\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\IClientCredentials.cs" />
