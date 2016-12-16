@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticators\ApiKeyAuthenticator.cs" />
+    <Compile Include="Authenticators\AuthenticatorBuilder.cs" />
+    <Compile Include="Authenticators\IAuthenticatorParameter.cs" />
     <Compile Include="Authenticators\OAuth1AccessToken.cs" />
     <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
     <Compile Include="Authenticators\OAuth1RequestToken.cs" />
