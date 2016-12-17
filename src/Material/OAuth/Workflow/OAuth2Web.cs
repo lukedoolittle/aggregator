@@ -16,7 +16,8 @@ namespace Material.OAuth.Workflow
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly string _clientSecret;
-        private readonly IOAuthFacade<OAuth2Credentials> _authFacade;
+        private readonly IOAuthAuthorizationUriFacade _uriFacade;
+        private readonly IOAuthAccessTokenFacade<OAuth2Credentials> _accessTokenFacade;
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
         private readonly TResourceProvider _resourceProvider;
 
@@ -26,18 +27,21 @@ namespace Material.OAuth.Workflow
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="resourceProvider">Endpoint information for the resource provider</param>
         /// <param name="callbackHandler">Handles the authorization uris callback response</param>
-        /// <param name="facade">Creates the authorization uri and exchanges code for an access token</param>
+        /// <param name="uriFacade">Creates the authorization uri</param>
+        /// <param name="accessTokenFacade">Exchanges code for an access token</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientSecret,
             TResourceProvider resourceProvider,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
-            IOAuthFacade<OAuth2Credentials> facade)
+            IOAuthAuthorizationUriFacade uriFacade,
+            IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade)
         {
             _clientSecret = clientSecret;
             _resourceProvider = resourceProvider;
             _callbackHandler = callbackHandler;
-            _authFacade = facade;
+            _uriFacade = uriFacade;
+            _accessTokenFacade = accessTokenFacade;
         }
 
         /// <summary>
@@ -61,12 +65,19 @@ namespace Material.OAuth.Workflow
                     new OAuth2CallbackHandler(
                         strategy,
                         OAuth2Parameter.State.EnumToString()), 
-                    new OAuth2CodeAuthorizationFacade(
-                        resourceProvider,
-                        clientId,
-                        clientSecret,
-                        new Uri(callbackUrl),
-                        new OAuth2AuthorizationAdapter(),
+                    new OAuth2AuthorizationUriFacade(
+                            resourceProvider, 
+                            clientId, 
+                            new Uri(callbackUrl), 
+                            new OAuth2AuthorizationAdapter(), 
+                            strategy)
+                        .AddSecurityParameters(
+                            new OAuth2StateSecurityParameterBundle()),
+                    new OAuth2AccessCodeFacade(
+                        resourceProvider, 
+                        clientId, 
+                        new Uri(callbackUrl), 
+                        new OAuth2AuthorizationAdapter(), 
                         strategy))
         { }
 
@@ -145,7 +156,7 @@ namespace Material.OAuth.Workflow
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
-            return _authFacade.GetAuthorizationUriAsync(userId);
+            return _uriFacade.GetAuthorizationUriAsync(userId);
         }
 
         /// <summary>
@@ -163,7 +174,7 @@ namespace Material.OAuth.Workflow
                             responseUri, 
                             userId);
 
-            return _authFacade.GetAccessTokenAsync(
+            return _accessTokenFacade.GetAccessTokenAsync(
                 result, 
                 _clientSecret);
         }

@@ -44,10 +44,22 @@ namespace Material.OAuth.Workflow
                 strategy,
                 OAuth2Parameter.State.EnumToString());
 
-            var facade = new OpenIdCodeAuthorizationFacade(
+            var adapter = new OAuth2AuthorizationAdapter();
+
+            var uriFacade = new OAuth2AuthorizationUriFacade(
+                    _provider,
+                    clientId,
+                    new Uri(callbackUrl),
+                    adapter,
+                    strategy)
+                .AddSecurityParameters(
+                    new OAuth2StateSecurityParameterBundle())
+                .AddSecurityParameters(
+                    new OAuth2NonceSecurityParameterBundle());
+
+            var accessTokenFacade = new OAuth2AccessCodeFacade(
                 _provider,
                 clientId,
-                clientSecret,
                 new Uri(callbackUrl),
                 new OAuth2AuthorizationAdapter(),
                 strategy);
@@ -56,7 +68,8 @@ namespace Material.OAuth.Workflow
                 clientSecret,
                 _provider,
                 callbackHandler,
-                facade);
+                uriFacade,
+                accessTokenFacade);
         }
 
         /// <summary>
@@ -77,7 +90,8 @@ namespace Material.OAuth.Workflow
                     callbackUrl, 
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
+                        TimeSpan.FromMinutes(
+                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
         { }
 
         /// <summary>

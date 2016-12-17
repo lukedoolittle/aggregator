@@ -8,9 +8,6 @@ using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authentication;
-using Material.OAuth.Authorization;
-using Material.OAuth.Callback;
-using Material.OAuth.Facade;
 using Material.OAuth.Security;
 using Material.OAuth.Workflow;
 
@@ -20,10 +17,8 @@ namespace Material.OAuth
         where TResourceProvider : OpenIdResourceProvider, new()
     {
         private readonly OAuth2AppBase<TResourceProvider> _app;
-        private readonly OAuth2CallbackHandler _callbackHandler;
         private readonly TResourceProvider _provider;
         private readonly string _clientId;
-        private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly string _userId;
         private readonly AuthorizationInterface _browserType;
@@ -42,24 +37,23 @@ namespace Material.OAuth
             TResourceProvider provider,
             AuthorizationInterface browserType)
         {
+#if __WINDOWS__
+            _browserType = browserType;
+#else
             _browserType = new AuthenticationUISelector(
                     Framework.Platform.Current.CanProvideSecureBrowsing)
                 .GetOptimalOAuth2Interface(
                     provider,
                     browserType);
+#endif
             _clientId = clientId;
             _provider = provider;
-            _callbackUri = new Uri(callbackUrl);
             _userId = Guid.NewGuid().ToString();
 
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
                     OAuthConfiguration.SecurityParameterTimeoutInMinutes));
-
-            _callbackHandler = new OAuth2CallbackHandler(
-                _securityStrategy,
-                OAuth2Parameter.State.EnumToString());
 
             _app = new OAuth2AppBase<TResourceProvider>(
                 clientId,
@@ -70,7 +64,7 @@ namespace Material.OAuth
                     new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                browserType,
+                _browserType,
                 _userId);
 
             _app.AddScope("openid");
@@ -136,23 +130,11 @@ namespace Material.OAuth
         public async Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
-            throw new NotImplementedException();
-            //var facade = new OpenIdCodeAuthorizationFacade(
-            //    _provider,
-            //    _clientId,
-            //    _callbackUri,
-            //    new OAuth2AuthorizationAdapter(),
-            //    _securityStrategy);
+            var token = await _app
+                .GetIdTokenAsync(clientSecret)
+                .ConfigureAwait(false);
 
-            //var credentials = await _app.GetCredentialsAsync(
-            //        clientSecret,
-            //        OAuth2FlowType.AccessCode,
-            //        OAuth2ResponseType.Code,
-            //        facade,
-            //        _callbackHandler)
-            //    .ConfigureAwait(false);
-
-            //return GetTokenFromCredentials(credentials);
+            return ValidateToken(token);
         }
 
         /// <summary>
@@ -163,46 +145,11 @@ namespace Material.OAuth
         public async Task<JsonWebToken> GetWebTokenAsync(
             OAuth2ResponseType response)
         {
-            throw new NotImplementedException();
-//#if !__WINDOWS__
-//            //This is sort of a bizarre hack: Google requires that you go through the
-//            //code workflow with a mobile device even if you don't have a client secret
-//            if (_browserType == AuthorizationInterface.Dedicated &&
-//                typeof(TResourceProvider) == typeof(Infrastructure.ProtectedResources.Google))
-//            {
-//                var codeFacade = new OpenIdCodeAuthorizationFacade(
-//                    _provider,
-//                    _clientId,
-//                    _callbackUri,
-//                    new OAuth2AuthorizationAdapter(),
-//                    _securityStrategy);
+            var token = await _app
+                .GetIdTokenAsync()
+                .ConfigureAwait(false);
 
-//                var codeCredentials = await _app.GetCredentialsAsync(
-//                        null,
-//                        OAuth2FlowType.AccessCode, 
-//                        OAuth2ResponseType.Code,
-//                        codeFacade,
-//                        _callbackHandler)
-//                    .ConfigureAwait(false);
-
-//                return GetTokenFromCredentials(codeCredentials);
-//            }
-//#endif
-//            var tokenFacade = new OpenIdTokenAuthorizationFacade(
-//                _provider,
-//                _clientId,
-//                _callbackUri,
-//                new OAuth2AuthorizationAdapter(),
-//                _securityStrategy);
-
-//            var credentials = await _app.GetCredentialsAsync(
-//                    OAuth2FlowType.Implicit,
-//                    response,
-//                    tokenFacade,
-//                    _callbackHandler)
-//                .ConfigureAwait(false);
-
-//            return GetTokenFromCredentials(credentials);
+            return ValidateToken(token);
         }
 
         /// <summary>
@@ -214,8 +161,9 @@ namespace Material.OAuth
             return GetWebTokenAsync(OAuth2ResponseType.IdTokenToken);
         }
 
-        private JsonWebToken GetTokenFromCredentials(OAuth2Credentials credentials)
+        private JsonWebToken ValidateToken(JsonWebToken token)
         {
+            //TODO: break this out as it is duplicated logic with web
             var nonce = _securityStrategy.CreateOrGetSecureParameter(
                 _userId,
                 OAuth2Parameter.Nonce.EnumToString());
@@ -227,8 +175,6 @@ namespace Material.OAuth
                 .AddValidator(new JsonWebTokenIssuerValidator(_provider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(nonce))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl));
-
-            var token = credentials.IdToken;
 
             var tokenValidation = validator
                 .IsTokenValid(token);

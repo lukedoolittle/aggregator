@@ -9,21 +9,24 @@ namespace Material.OAuth.Template
         where TCredentials : TokenCredentials
     {
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
-        private readonly IOAuthFacade<TCredentials> _oauthFacade;
+        private readonly IOAuthAuthorizationUriFacade _uriFacade;
+        private readonly IOAuthAccessTokenFacade<TCredentials> _accessTokenFacade;
 
         public OAuthAuthorizationTemplate(
-            IOAuthAuthorizerUI<TCredentials> authorizerUI, 
-            IOAuthFacade<TCredentials> oauthFacade)
+            IOAuthAuthorizerUI<TCredentials> authorizerUI,
+            IOAuthAuthorizationUriFacade uriFacade, 
+            IOAuthAccessTokenFacade<TCredentials> accessTokenFacade)
         {
             _authorizerUI = authorizerUI;
-            _oauthFacade = oauthFacade;
+            _uriFacade = uriFacade;
+            _accessTokenFacade = accessTokenFacade;
         }
 
         public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
         {
             try
             {
-                var authorizationPath = await _oauthFacade
+                var authorizationPath = await _uriFacade
                     .GetAuthorizationUriAsync(userId)
                     .ConfigureAwait(false);
 
@@ -33,7 +36,7 @@ namespace Material.OAuth.Template
                         userId)
                     .ConfigureAwait(false);
 
-                return await _oauthFacade
+                return await _accessTokenFacade
                     .GetAccessTokenAsync(
                         intermediateResult,
                         userId)

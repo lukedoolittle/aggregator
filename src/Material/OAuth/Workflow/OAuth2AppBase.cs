@@ -6,11 +6,13 @@ using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Material.OAuth.AuthenticatorParameters;
 using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
 using Material.OAuth.Security;
 using Material.OAuth.Template;
+using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
 
 namespace Material.OAuth.Workflow
 {
@@ -56,84 +58,158 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
         /// <returns>Valid OAuth2 credentials</returns>
-        public virtual Task<OAuth2Credentials> GetCredentialsAsync(
+        public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
-            var facade = new OAuth2CodeAuthorizationFacade(
-                _provider,
-                _clientId,
-                clientSecret,
-                _callbackUri,
-                new OAuth2AuthorizationAdapter(),
-                _securityStrategy);
-
             return GetCredentialsAsync(
                 OAuth2FlowType.AccessCode,
                 OAuth2ResponseType.Code,
                 _callbackHandler,
-                facade);
+                CreateUriFacade(
+                    new OAuth2StateSecurityParameterBundle()),
+                CreateTokenFacade()
+                    .AddParameters(
+                        new OAuth2ClientSecret(clientSecret)));
         }
 
         /// <summary>
         /// Authorize a resource owner using a mobile workflow
         /// </summary>
         /// <returns>Valid OAuth2 credentials</returns>
-        public virtual Task<OAuth2Credentials> GetCredentialsAsync()
+        public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             if ((_browserType == AuthorizationInterface.Dedicated || 
-                _browserType == AuthorizationInterface.SecureEmbedded) &&
-                _provider.SupportsPkce)
+                 _browserType == AuthorizationInterface.SecureEmbedded) &&
+                 _provider.SupportsPkce)
             {
-                var codeFacade = new OAuth2CodeWithPkcsAuthorizationFacade(
-                    _provider,
-                    _clientId,
-                    _callbackUri,
-                    new OAuth2AuthorizationAdapter(),
-                    _securityStrategy);
-
                 return GetCredentialsAsync(
                         OAuth2FlowType.AccessCode,
                         OAuth2ResponseType.Code,
                         _callbackHandler,
-                        codeFacade);
+                        CreateUriFacade(
+                            new OAuth2StateSecurityParameterBundle(),
+                            new OAuth2PlainPkceSecurityParameterBundle()),
+                        CreateTokenFacade()
+                            .AddSecurityParameters(
+                                new OAuth2PkceVerifierSecurityParameterBundle()));
             }
             else
             {
-                var tokenFacade = new OAuth2TokenAuthorizationFacade(
-                    _provider,
-                    _clientId,
-                    _callbackUri,
-                    new OAuth2AuthorizationAdapter(),
-                    _securityStrategy);
-
                 return GetCredentialsAsync(
                     OAuth2FlowType.Implicit,
                     OAuth2ResponseType.Token,
                     _callbackHandler,
-                    tokenFacade);
+                    CreateUriFacade(
+                        new OAuth2StateSecurityParameterBundle()),
+                    new OAuth2ImplicitFacade());
             }
+        }
+
+        public async Task<JsonWebToken> GetIdTokenAsync()
+        {
+            if ((_browserType == AuthorizationInterface.Dedicated ||
+                 _browserType == AuthorizationInterface.SecureEmbedded) &&
+                 _provider.SupportsPkce)
+            {
+                var credentials = await GetCredentialsAsync(
+                    OAuth2FlowType.AccessCode,
+                    OAuth2ResponseType.Code,
+                    _callbackHandler,
+                    CreateUriFacade(
+                        new OAuth2StateSecurityParameterBundle(),
+                        new OAuth2NonceSecurityParameterBundle(),
+                        new OAuth2PlainPkceSecurityParameterBundle()),
+                    CreateTokenFacade()
+                        .AddSecurityParameters(
+                            new OAuth2PkceVerifierSecurityParameterBundle()))
+                    .ConfigureAwait(false);
+
+                return credentials?.IdToken;
+            }
+            else
+            {
+                var credentials = await GetCredentialsAsync(
+                        OAuth2FlowType.Implicit,
+                        OAuth2ResponseType.IdTokenToken,
+                        _callbackHandler,
+                        CreateUriFacade(
+                            new OAuth2StateSecurityParameterBundle(),
+                            new OAuth2NonceSecurityParameterBundle()),
+                        new OAuth2ImplicitFacade())
+                    .ConfigureAwait(false);
+
+                return credentials?.IdToken;
+            }
+        }
+
+        public async Task<JsonWebToken> GetIdTokenAsync(
+            string clientSecret)
+        {
+            var credentials = await GetCredentialsAsync(
+                    OAuth2FlowType.AccessCode,
+                    OAuth2ResponseType.Code,
+                    _callbackHandler,
+                    CreateUriFacade(
+                        new OAuth2StateSecurityParameterBundle(),
+                        new OAuth2NonceSecurityParameterBundle()),
+                    CreateTokenFacade()
+                        .AddParameters(
+                            new OAuth2ClientSecret(clientSecret)))
+                .ConfigureAwait(false);
+
+            return credentials?.IdToken;
+        }
+
+        private OAuth2AccessCodeFacade CreateTokenFacade()
+        {
+            var adapter = new OAuth2AuthorizationAdapter();
+
+            return new OAuth2AccessCodeFacade(
+                _provider,
+                _clientId,
+                _callbackUri,
+                adapter,
+                _securityStrategy);
+        }
+
+        private OAuth2AuthorizationUriFacade CreateUriFacade(
+            params ISecurityParameterBundle[] securityParameters)
+        {
+            var adapter = new OAuth2AuthorizationAdapter();
+
+            return new OAuth2AuthorizationUriFacade(
+                    _provider,
+                    _clientId,
+                    _callbackUri,
+                    adapter,
+                    _securityStrategy)
+                .AddSecurityParameters(securityParameters);
         }
 
         private Task<OAuth2Credentials> GetCredentialsAsync(
             OAuth2FlowType flowType,
             OAuth2ResponseType responseType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
-            IOAuthFacade<OAuth2Credentials> facade)
+            IOAuthAuthorizationUriFacade uriFacade,
+            IOAuthAccessTokenFacade<OAuth2Credentials> tokenFacade)
         {
-            if (facade == null) throw new ArgumentNullException(nameof(facade));
+            if (callbackHandler == null) throw new ArgumentNullException(nameof(callbackHandler));
+            if (uriFacade == null) throw new ArgumentNullException(nameof(uriFacade));
+            if (tokenFacade == null) throw new ArgumentNullException(nameof(tokenFacade));
 
             _provider.SetFlow(flowType);
             _provider.SetResponse(responseType);
 
-            var authenticationUI = _uiFactory
+            var authenticationUi = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
                     _browserType,
                     callbackHandler,
                     _callbackUri);
 
             var template = new OAuthAuthorizationTemplate<OAuth2Credentials>(
-                    authenticationUI,
-                    facade);
+                    authenticationUi,
+                    uriFacade,
+                    tokenFacade);
 
             return template.GetAccessTokenCredentials(
                 _userId);

@@ -32,7 +32,7 @@ namespace Material.OAuth
             )
         {
 #if __WINDOWS__
-            var @interface = AuthorizationInterface.NotSpecified;
+            var @interface = browserType;
 #else
             var @interface = new AuthenticationUISelector(
                 Framework.Platform.Current.CanProvideSecureBrowsing)

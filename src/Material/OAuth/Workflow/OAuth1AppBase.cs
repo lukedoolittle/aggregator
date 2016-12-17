@@ -74,6 +74,7 @@ namespace Material.OAuth.Workflow
 
             var template = new OAuthAuthorizationTemplate<OAuth1Credentials>(
                 authorizationUi,
+                facade,
                 facade);
 
             return template.GetAccessTokenCredentials(userId);

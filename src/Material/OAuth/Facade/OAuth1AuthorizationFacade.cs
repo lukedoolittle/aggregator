@@ -9,7 +9,8 @@ using Material.Infrastructure.Credentials;
 namespace Material.OAuth.Facade
 {
     public class OAuth1AuthorizationFacade : 
-        IOAuthFacade<OAuth1Credentials>
+        IOAuthAuthorizationUriFacade, 
+        IOAuthAccessTokenFacade<OAuth1Credentials>
     {
         private readonly OAuth1ResourceProvider _resourceProvider;
         private readonly string _consumerKey;

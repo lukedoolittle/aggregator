@@ -5,22 +5,25 @@ using System.Threading.Tasks;
 using Foundations.HttpClient.Authenticators;
 using Material.Contracts;
 using Material.Infrastructure;
+using Material.Infrastructure.Credentials;
 using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.OAuth.Facade
 {
-    public class OAuth2AuthorizationUriFacade : 
-        IOAuthAuthorizationUriFacade
+    public class OAuth2AccessCodeFacade : 
+        IOAuthAccessTokenFacade<OAuth2Credentials>
     {
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuth2AuthorizationAdapter _oauth;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly IList<ISecurityParameterBundle> _securityParameters = 
+        private readonly IList<ISecurityParameterBundle> _securityParameters =
             new List<ISecurityParameterBundle>();
+        private readonly IList<IAuthenticatorParameter> _parameters = 
+            new List<IAuthenticatorParameter>();
 
-        public OAuth2AuthorizationUriFacade(
+        public OAuth2AccessCodeFacade(
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             Uri callbackUri,
@@ -40,7 +43,20 @@ namespace Material.OAuth.Facade
             _securityStrategy = securityStrategy;
         }
 
-        public OAuth2AuthorizationUriFacade AddSecurityParameters(
+        public OAuth2AccessCodeFacade AddParameters(
+            params IAuthenticatorParameter[] authenticationParameters)
+        {
+            if (authenticationParameters == null) throw new ArgumentNullException(nameof(authenticationParameters));
+
+            foreach (var parameter in authenticationParameters)
+            {
+                _parameters.Add(parameter);
+            }
+
+            return this;
+        }
+
+        public OAuth2AccessCodeFacade AddSecurityParameters(
             params ISecurityParameterBundle[] securityParameters)
         {
             if (securityParameters == null) throw new ArgumentNullException(nameof(securityParameters));
@@ -54,32 +70,42 @@ namespace Material.OAuth.Facade
         }
 
         /// <summary>
-        /// Gets the authorization uri for the Resource Owner to enter his/her credentials
+        /// Exchanges intermediate credentials for access token credentials
         /// </summary>
+        /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
         /// <param name="userId">Resource owner's Id</param>
-        /// <returns>Authorization uri</returns>
-        public Task<Uri> GetAuthorizationUriAsync(string userId)
+        /// <returns>Access token credentials</returns>
+        public async Task<OAuth2Credentials> GetAccessTokenAsync(
+            OAuth2Credentials intermediateResult, 
+            string userId)
         {
+            if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
+
+            if (intermediateResult.IsErrorResult)
+            {
+                return intermediateResult;
+            }
+
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(_clientId))
-                .AddParameter(new OAuth2Scope(
-                    _resourceProvider.Scopes,
-                    _resourceProvider.ScopeDelimiter))
                 .AddParameter(new OAuth2CallbackUri(_callbackUri))
-                .AddParameter(new OAuth2ResponseType(
-                    _resourceProvider.ResponseType))
+                .AddParameter(new OAuth2Code(intermediateResult.Code))
+                .AddParameter(new OAuth2Scope(_resourceProvider.Scope))
                 .AddParameters(_securityParameters
                     .Select(s => s.GetBundle(_securityStrategy, userId))
                     .SelectMany(s => s))
-                .AddParameters(_resourceProvider.Parameters.Select(
-                    p => new GenericParameter(p.Key, p.Value)));
+                .AddParameters(_parameters);
 
-            var authorizationPath =
-                _oauth.GetAuthorizationUri(
-                    _resourceProvider.AuthorizationUrl,
-                    builder);
+            var result = await _oauth.GetAccessToken(
+                    _resourceProvider.TokenUrl,
+                    builder,
+                    _resourceProvider.Headers)
+                .ConfigureAwait(false);
 
-            return Task.FromResult(authorizationPath);
+            return result
+                .TimestampToken()
+                .SetTokenName(_resourceProvider.TokenName)
+                .SetClientId(_clientId);
         }
     }
 }

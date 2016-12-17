@@ -19,7 +19,8 @@ namespace Material.OAuth.Workflow
     public class OAuth1Web<TResourceProvider>
         where TResourceProvider: OAuth1ResourceProvider, new()
     {
-        private readonly IOAuthFacade<OAuth1Credentials> _authFacade;
+        private readonly IOAuthAuthorizationUriFacade _uriFacade;
+        private readonly IOAuthAccessTokenFacade<OAuth1Credentials> _authorizationFacade;
         private readonly IOAuthSecurityStrategy _securityStrategy;
 
         /// <summary>
@@ -38,13 +39,16 @@ namespace Material.OAuth.Workflow
         {
             _securityStrategy = securityStrategy;
 
-            _authFacade = new OAuth1AuthorizationFacade(
+            var facade = new OAuth1AuthorizationFacade(
                 new TResourceProvider(), 
                 consumerKey, 
                 consumerSecret,
                 new Uri(callbackUrl),
                 new OAuth1AuthorizationAdapter(),
                 securityStrategy);
+
+            _uriFacade = facade;
+            _authorizationFacade = facade;
         }
 
         /// <summary>
@@ -75,7 +79,7 @@ namespace Material.OAuth.Workflow
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
-            return _authFacade.GetAuthorizationUriAsync(userId);
+            return _uriFacade.GetAuthorizationUriAsync(userId);
         }
 
         /// <summary>
@@ -97,7 +101,7 @@ namespace Material.OAuth.Workflow
                 userId,
                 OAuth1Parameter.OAuthTokenSecret.EnumToString());
 
-            return _authFacade.GetAccessTokenAsync(result, oauthSecret);
+            return _authorizationFacade.GetAccessTokenAsync(result, oauthSecret);
         }
     }
 }
