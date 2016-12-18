@@ -96,18 +96,8 @@ namespace Material.OAuth.Workflow
             request.AddUserIdParameter(_userId);
 
             return _requester
-                    .ForProtectedResource<TResponse>(
-                        request.Host,
-                        request.Path,
-                        request.HttpMethod,
-                        request.Consumes,
-                        request.Headers,
-                        request.QuerystringParameters,
-                        request.PathParameters,
-                        request.Body,
-                        request.BodyType, 
-                        request.ExpectedStatusCodes,
-                        request.OverriddenResponseMediaType);
+                    .ForProtectedResource<TRequest, TResponse>(
+                        request);
         }
 
         /// <summary>
@@ -125,3 +115,4 @@ namespace Material.OAuth.Workflow
         }
     }
 }
+
