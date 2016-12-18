@@ -9,6 +9,18 @@ namespace Foundations.HttpClient.Authenticators
         private readonly List<IAuthenticatorParameter> _parameters = 
             new List<IAuthenticatorParameter>();
 
+        private IRequestSigningAlgorithm _signingAlgorithm;
+
+        public AuthenticatorBuilder AddSigner(
+            IRequestSigningAlgorithm signingAlgorithm)
+        {
+            if (signingAlgorithm == null) throw new ArgumentNullException(nameof(signingAlgorithm));
+
+            _signingAlgorithm = signingAlgorithm;
+
+            return this;
+        }
+
         public AuthenticatorBuilder AddParameters(
             IEnumerable<IAuthenticatorParameter> parameters)
         {
@@ -52,6 +64,8 @@ namespace Foundations.HttpClient.Authenticators
                         parameter.Value);
                 }
             }
+
+            _signingAlgorithm?.SignRequest(requestBuilder);
         }
     }
 }

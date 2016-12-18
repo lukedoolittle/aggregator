@@ -53,7 +53,7 @@ namespace Material.OAuth.Workflow
             _clientId = clientId;
             _resourceProvider = resourceProvider;
             _facade = new OAuthClientFacade<TResourceProvider>(
-                new OAuth2AuthorizationAdapter(),
+                new OAuthAuthorizationAdapter(),
                 resourceProvider);
         }
 

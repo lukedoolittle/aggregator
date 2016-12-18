@@ -14,7 +14,7 @@ namespace Material.OAuth.Facade
     {
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
-        private readonly IOAuth2AuthorizationAdapter _oauth;
+        private readonly IOAuthAuthorizationAdapter _oauth;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly IList<ISecurityParameterBundle> _securityParameters = 
@@ -24,7 +24,7 @@ namespace Material.OAuth.Facade
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             Uri callbackUri,
-            IOAuth2AuthorizationAdapter oauth,
+            IOAuthAuthorizationAdapter oauth,
             IOAuthSecurityStrategy securityStrategy)
         {
             if (resourceProvider == null) throw new ArgumentNullException(nameof(resourceProvider));

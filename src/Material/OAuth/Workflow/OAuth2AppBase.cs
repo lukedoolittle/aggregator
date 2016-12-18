@@ -162,7 +162,7 @@ namespace Material.OAuth.Workflow
 
         private OAuth2AccessCodeFacade CreateTokenFacade()
         {
-            var adapter = new OAuth2AuthorizationAdapter();
+            var adapter = new OAuthAuthorizationAdapter();
 
             return new OAuth2AccessCodeFacade(
                 _provider,
@@ -175,7 +175,7 @@ namespace Material.OAuth.Workflow
         private OAuth2AuthorizationUriFacade CreateUriFacade(
             params ISecurityParameterBundle[] securityParameters)
         {
-            var adapter = new OAuth2AuthorizationAdapter();
+            var adapter = new OAuthAuthorizationAdapter();
 
             return new OAuth2AuthorizationUriFacade(
                     _provider,

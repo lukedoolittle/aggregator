@@ -46,10 +46,8 @@
   <ItemGroup>
     <Compile Include="Authenticators\AuthenticatorBuilder.cs" />
     <Compile Include="Authenticators\IAuthenticatorParameter.cs" />
-    <Compile Include="Authenticators\OAuth1AccessToken.cs" />
-    <Compile Include="Authenticators\OAuth1ProtectedResource.cs" />
-    <Compile Include="Authenticators\OAuth1RequestToken.cs" />
-    <Compile Include="Authenticators\OAuth1SigningTemplate.cs" />
+    <Compile Include="Authenticators\IRequestSigningAlgorithm.cs" />
+    <Compile Include="Authenticators\OAuth1RequestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\EllipticCurveSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\CryptographyException.cs" />
@@ -81,7 +79,6 @@
     <Compile Include="Enums\OAuth2ResponseType.cs" />
     <Compile Include="Extensions\CryptoKeyExtensions.cs" />
     <Compile Include="Extensions\HeaderExtensions.cs" />
-    <Compile Include="Extensions\HttpRequestOAuth1Extensions.cs" />
     <Compile Include="Extensions\ParameterExtensions.cs" />
     <Compile Include="Extensions\ResultsExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />

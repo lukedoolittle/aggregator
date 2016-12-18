@@ -34,7 +34,7 @@ namespace Material.OAuth.Workflow
             _clientSecret = clientSecret;
             _clientId = clientId;
             _facade = new OAuthClientFacade<TResourceProvider>(
-                new OAuth2AuthorizationAdapter(), 
+                new OAuthAuthorizationAdapter(), 
                 resourceProvider);
         }
 

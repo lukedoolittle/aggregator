@@ -6,11 +6,13 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.AuthenticatorParameters;
+using Material.OAuth.Security;
 using Xunit;
 using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
 
@@ -225,15 +227,25 @@ namespace Quantfabric.Test.Material.Unit
             var consumerSecret = Guid.NewGuid().ToString();
             var oauthToken = Guid.NewGuid().ToString();
             var oauthSecret = Guid.NewGuid().ToString();
+            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var stringGenerator = new CryptoStringGenerator();
+
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth1ConsumerKey(consumerKey))
+                .AddParameter(new OAuth1Token(oauthToken))
+                .AddParameter(new OAuth1Timestamp())
+                .AddParameter(new OAuth1Nonce(stringGenerator))
+                .AddParameter(new OAuth1Version())
+                .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
+                .AddSigner(new OAuth1RequestSigningAlgorithm(
+                    consumerSecret,
+                    oauthSecret,
+                    signingAlgorithm));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
                 .JsonContent(expected)
-                .ForOAuth1ProtectedResource(
-                    consumerKey,
-                    consumerSecret,
-                    oauthToken,
-                    oauthSecret)
+                .Authenticator(builder)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
@@ -260,14 +272,24 @@ namespace Quantfabric.Test.Material.Unit
             var consumerKey = Guid.NewGuid().ToString();
             var consumerSecret = Guid.NewGuid().ToString();
             var callbackUrl = new Uri("http://localhost:8080");
+            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var stringGenerator = new CryptoStringGenerator();
+
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth1ConsumerKey(consumerKey))
+                .AddParameter(new OAuth1Timestamp())
+                .AddParameter(new OAuth1Nonce(stringGenerator))
+                .AddParameter(new OAuth1Version())
+                .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
+                .AddParameter(new OAuth1CallbackUri(callbackUrl))
+                .AddSigner(new OAuth1RequestSigningAlgorithm(
+                    consumerSecret,
+                    signingAlgorithm));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
                 .JsonContent(expected)
-                .ForOAuth1RequestToken(
-                    consumerKey,
-                    consumerSecret,
-                    callbackUrl)
+                .Authenticator(builder)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
@@ -291,21 +313,46 @@ namespace Quantfabric.Test.Material.Unit
             {
                 SomeKey = Guid.NewGuid().ToString()
             };
-            var consumerKey = Guid.NewGuid().ToString();
-            var consumerSecret = Guid.NewGuid().ToString();
-            var oauthToken = Guid.NewGuid().ToString();
-            var oauthSecret = Guid.NewGuid().ToString();
-            var oauthVerifier = Guid.NewGuid().ToString();
+            var consumerKey = "myConsumerKey";
+            var consumerSecret = "myConsumerSecret";
+            var oauthToken = "myOAuthToken";
+            var oauthSecret = "myOAuthSecret";
+            var verifier = "myVerifier";
+            var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
+            var nonce = "ndhlnce3jxghrf0v";
+            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+
+            var userId = Guid.NewGuid().ToString();
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+            securityStrategy.SetSecureParameter(
+                userId, 
+                OAuth1Parameter.Verifier.EnumToString(), 
+                verifier);
+            securityStrategy.SetSecureParameter(
+                userId,
+                OAuth1Parameter.OAuthToken.EnumToString(),
+                oauthToken);
+
+
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth1ConsumerKey(consumerKey))
+                .AddParameter(new OAuth1Token(securityStrategy, userId))
+                .AddParameter(new OAuth1Timestamp(timestamp))
+                .AddParameter(new OAuth1Nonce(nonce))
+                .AddParameter(new OAuth1Version())
+                .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
+                .AddParameter(new OAuth1Verifier(securityStrategy, userId))
+                .AddSigner(new OAuth1RequestSigningAlgorithm(
+                    consumerSecret,
+                    oauthSecret,
+                    signingAlgorithm));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
                 .JsonContent(expected)
-                .ForOAuth1AccessToken(
-                    consumerKey,
-                    consumerSecret,
-                    oauthToken,
-                    oauthSecret,
-                    oauthVerifier)
+                .Authenticator(builder)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 

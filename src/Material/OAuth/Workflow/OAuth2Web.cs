@@ -69,7 +69,7 @@ namespace Material.OAuth.Workflow
                             resourceProvider, 
                             clientId, 
                             new Uri(callbackUrl), 
-                            new OAuth2AuthorizationAdapter(), 
+                            new OAuthAuthorizationAdapter(), 
                             strategy)
                         .AddSecurityParameters(
                             new OAuth2StateSecurityParameterBundle()),
@@ -77,7 +77,7 @@ namespace Material.OAuth.Workflow
                         resourceProvider, 
                         clientId, 
                         new Uri(callbackUrl), 
-                        new OAuth2AuthorizationAdapter(), 
+                        new OAuthAuthorizationAdapter(), 
                         strategy))
         { }
 

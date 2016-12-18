@@ -25,5 +25,9 @@ namespace Material.OAuth.AuthenticatorParameters
                         16,
                         CryptoStringType.LowercaseAlphanumeric))
         { }
+
+        public OAuth1Nonce() : 
+            this(new CryptoStringGenerator())
+        { }
     }
 }

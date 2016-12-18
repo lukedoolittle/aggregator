@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -15,7 +16,7 @@ namespace Material.OAuth.Facade
     {
         private readonly string _clientId;
         private readonly OAuth2ResourceProvider _resourceProvider;
-        private readonly IOAuth2AuthorizationAdapter _oauth;
+        private readonly IOAuthAuthorizationAdapter _oauth;
         private readonly Uri _callbackUri;
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly IList<ISecurityParameterBundle> _securityParameters =
@@ -27,7 +28,7 @@ namespace Material.OAuth.Facade
             OAuth2ResourceProvider resourceProvider,
             string clientId,
             Uri callbackUri,
-            IOAuth2AuthorizationAdapter oauth,
+            IOAuthAuthorizationAdapter oauth,
             IOAuthSecurityStrategy securityStrategy)
         {
             if (resourceProvider == null) throw new ArgumentNullException(nameof(resourceProvider));
@@ -96,10 +97,11 @@ namespace Material.OAuth.Facade
                     .SelectMany(s => s))
                 .AddParameters(_parameters);
 
-            var result = await _oauth.GetAccessToken(
+            var result = await _oauth.GetToken<OAuth2Credentials>(
                     _resourceProvider.TokenUrl,
                     builder,
-                    _resourceProvider.Headers)
+                    _resourceProvider.Headers,
+                    HttpParameterType.Unspecified)
                 .ConfigureAwait(false);
 
             return result

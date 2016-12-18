@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DC7BC052-767D-4A5F-A94C-6B9DD4523396}</ProjectGuid>
     <OutputType>Library</OutputType>
+	<AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Material</RootNamespace>
     <AssemblyName>Material</AssemblyName>

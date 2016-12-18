@@ -13,11 +13,11 @@ namespace Material.OAuth.Facade
     public class OAuthClientFacade<TResourceProvider> 
         where TResourceProvider : OAuth2ResourceProvider
     {
-        private readonly IOAuth2AuthorizationAdapter _oauth;
+        private readonly IOAuthAuthorizationAdapter _oauth;
         private readonly TResourceProvider _resourceProvider;
 
         public OAuthClientFacade(
-            IOAuth2AuthorizationAdapter oauth, 
+            IOAuthAuthorizationAdapter oauth, 
             TResourceProvider resourceProvider)
         {
             _oauth = oauth;
@@ -97,10 +97,11 @@ namespace Material.OAuth.Facade
         {
             _resourceProvider.SetGrant(grantType);
 
-            var token = await _oauth.GetAccessToken(
+            var token = await _oauth.GetToken<OAuth2Credentials>(
                     _resourceProvider.TokenUrl,
                     builder,
-                    _resourceProvider.Headers)
+                    _resourceProvider.Headers,
+                    HttpParameterType.Unspecified)
                 .ConfigureAwait(false);
 
             return token.SetClientProperties(

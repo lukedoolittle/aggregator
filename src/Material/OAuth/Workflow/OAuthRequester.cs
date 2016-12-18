@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
@@ -41,12 +42,20 @@ namespace Material.OAuth.Workflow
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
+            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+
             _requester = new OAuthProtectedResourceAdapter(
-                new OAuth1ProtectedResource(
-                    credentials.ConsumerKey,
-                    credentials.ConsumerSecret,
-                    credentials.OAuthToken,
-                    credentials.OAuthSecret),
+                new AuthenticatorBuilder()
+                    .AddParameter(new OAuth1ConsumerKey(credentials.ConsumerKey))
+                    .AddParameter(new OAuth1Token(credentials.OAuthToken))
+                    .AddParameter(new OAuth1Timestamp())
+                    .AddParameter(new OAuth1Nonce())
+                    .AddParameter(new OAuth1Version())
+                    .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
+                    .AddSigner(new OAuth1RequestSigningAlgorithm(
+                        credentials.ConsumerSecret,
+                        credentials.OAuthSecret,
+                        signingAlgorithm)),
                 HttpParameterType.Querystring);
 
             _userId = credentials.UserId;

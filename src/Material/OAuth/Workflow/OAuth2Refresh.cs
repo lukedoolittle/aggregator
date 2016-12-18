@@ -22,7 +22,7 @@ namespace Material.OAuth.Workflow
         public OAuth2Refresh(TResourceProvider resourceProvider)
         {
             _facade = new OAuthClientFacade<TResourceProvider>(
-                new OAuth2AuthorizationAdapter(),
+                new OAuthAuthorizationAdapter(),
                 resourceProvider);
         }
 

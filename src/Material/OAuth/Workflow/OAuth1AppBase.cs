@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
@@ -63,8 +65,10 @@ namespace Material.OAuth.Workflow
                 _consumerKey,
                 _consumerSecret,
                 _callbackUri,
-                new OAuth1AuthorizationAdapter(),
-                securityStrategy);
+                new OAuthAuthorizationAdapter(),
+                securityStrategy,
+                DigestSigningAlgorithm.Sha1Algorithm(),
+                new CryptoStringGenerator());
 
             var authorizationUi = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth1Credentials>(

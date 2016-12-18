@@ -10,10 +10,16 @@ namespace Material.OAuth.AuthenticatorParameters
     {
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly string _userId;
+        private readonly string _oauthToken;
 
         public string Name => OAuth1Parameter.OAuthToken.EnumToString();
-        public string Value => _securityStrategy.CreateOrGetSecureParameter(_userId, Name);
+        public string Value => _securityStrategy?.CreateOrGetSecureParameter(_userId, Name) ?? _oauthToken;
         public HttpParameterType Type => HttpParameterType.Unspecified;
+
+        public OAuth1Token(string oauthToken)
+        {
+            _oauthToken = oauthToken;
+        }
 
         public OAuth1Token(
             IOAuthSecurityStrategy strategy, 

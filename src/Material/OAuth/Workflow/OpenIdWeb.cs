@@ -44,7 +44,7 @@ namespace Material.OAuth.Workflow
                 strategy,
                 OAuth2Parameter.State.EnumToString());
 
-            var adapter = new OAuth2AuthorizationAdapter();
+            var adapter = new OAuthAuthorizationAdapter();
 
             var uriFacade = new OAuth2AuthorizationUriFacade(
                     _provider,
@@ -61,7 +61,7 @@ namespace Material.OAuth.Workflow
                 _provider,
                 clientId,
                 new Uri(callbackUrl),
-                new OAuth2AuthorizationAdapter(),
+                new OAuthAuthorizationAdapter(),
                 strategy);
 
             _web = new OAuth2Web<TResourceProvider>(
