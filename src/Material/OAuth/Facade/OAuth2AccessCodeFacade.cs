@@ -27,6 +27,7 @@ namespace Material.OAuth.Facade
         public OAuth2AccessCodeFacade(
             OAuth2ResourceProvider resourceProvider,
             string clientId,
+            string clientSecret,
             Uri callbackUri,
             IOAuthAuthorizationAdapter oauth,
             IOAuthSecurityStrategy securityStrategy)
@@ -42,7 +43,28 @@ namespace Material.OAuth.Facade
             _callbackUri = callbackUri;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
+
+            _resourceProvider.SetGrant(GrantType.AuthCode);
+            if (clientSecret != null)
+            {
+                AddParameters(new OAuth2ClientSecret(clientSecret));
+            }
         }
+
+        public OAuth2AccessCodeFacade(
+            OAuth2ResourceProvider resourceProvider,
+            string clientId,
+            Uri callbackUri,
+            IOAuthAuthorizationAdapter oauth,
+            IOAuthSecurityStrategy securityStrategy) : 
+                this(
+                    resourceProvider, 
+                    clientId, 
+                    null, 
+                    callbackUri,
+                    oauth,
+                    securityStrategy)
+        { }
 
         public OAuth2AccessCodeFacade AddParameters(
             params IAuthenticatorParameter[] authenticationParameters)
@@ -92,6 +114,7 @@ namespace Material.OAuth.Facade
                 .AddParameter(new OAuth2CallbackUri(_callbackUri))
                 .AddParameter(new OAuth2Code(intermediateResult.Code))
                 .AddParameter(new OAuth2Scope(_resourceProvider.Scope))
+                .AddParameter(new OAuth2GrantType(_resourceProvider.Grant))
                 .AddParameters(_securityParameters
                     .Select(s => s.GetBundle(_securityStrategy, userId))
                     .SelectMany(s => s))

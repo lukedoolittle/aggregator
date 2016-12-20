@@ -128,8 +128,7 @@ namespace Material.OAuth.Facade
 
             var builder = CreateBuilder()
                 .AddParameter(new OAuth1Verifier(
-                    _securityStrategy,
-                    userId))
+                    intermediateResult.Verifier))
                 .AddParameter(new OAuth1Token(
                     _securityStrategy,
                     userId))
@@ -140,7 +139,7 @@ namespace Material.OAuth.Facade
 
             return (await _oauth
                 .GetToken<OAuth1Credentials>(
-                    _resourceProvider.RequestUrl,
+                    _resourceProvider.TokenUrl,
                     builder,
                     new Dictionary<HttpRequestHeader, string>(), 
                     _resourceProvider.ParameterType)

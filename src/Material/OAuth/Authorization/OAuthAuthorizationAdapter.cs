@@ -42,7 +42,7 @@ namespace Material.OAuth.Authorization
             if (authenticator == null) throw new ArgumentNullException(nameof(authenticator));
 
             return new HttpRequestBuilder(authorizeUri.NonPath())
-                .PostTo(authorizeUri.AbsolutePath)
+                .GetFrom(authorizeUri.AbsolutePath)
                 .Authenticator(authenticator)
                 .GenerateRequestUri();
         }

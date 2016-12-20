@@ -7,6 +7,7 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
@@ -18,6 +19,7 @@ using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
 
 namespace Quantfabric.Test.Material.Unit
 {
+    [Trait("Category", "Continuous")]
     public class HttpClientTests
     {
         private const string _endpoint = "https://httpbin.org/";
@@ -32,16 +34,22 @@ namespace Quantfabric.Test.Material.Unit
                 SomeKey = Guid.NewGuid().ToString()
             };
             var token = new JsonWebToken(
-                new JsonWebTokenHeader(), 
+                new JsonWebTokenHeader
+                {
+                    Algorithm = JsonWebTokenAlgorithm.RS256
+                }, 
                 new JsonWebTokenClaims());
             var clientId = Guid.NewGuid().ToString();
             var privateKey = RsaCryptoKeyPair.Create(1024).Private;
+            var grantType = GrantType.JsonWebToken;
 
             var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth2ClientId(clientId))
                 .AddParameter(new OAuth2Assertion(
                     token,
                     privateKey,
-                    new JsonWebTokenSignerFactory()));
+                    new JsonWebTokenSignerFactory()))
+                .AddParameter(new OAuth2GrantType(grantType));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -50,11 +58,12 @@ namespace Quantfabric.Test.Material.Unit
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.NotNull(response.Args["assertion"]);
             Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
-            Assert.Equal(GrantType.JsonWebToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+            Assert.Equal(grantType.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
         }
 
         [Fact]
@@ -70,13 +79,15 @@ namespace Quantfabric.Test.Material.Unit
             var redirectUri = new Uri("http://localhost:8080");
             var code = Guid.NewGuid().ToString();
             var scope = Guid.NewGuid().ToString();
+            var grantType = GrantType.AuthCode;
 
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(clientId))
                 .AddParameter(new OAuth2ClientSecret(clientSecret))
                 .AddParameter(new OAuth2CallbackUri(redirectUri))
                 .AddParameter(new OAuth2Code(code))
-                .AddParameter(new OAuth2Scope(scope));
+                .AddParameter(new OAuth2Scope(scope))
+                .AddParameter(new OAuth2GrantType(grantType));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -84,14 +95,15 @@ namespace Quantfabric.Test.Material.Unit
                 .Authenticator(builder)
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
-
-            Assert.Equal(expectedArgsCount, response.Args.Count);
+            
             Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
             Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
             Assert.Equal(redirectUri.ToString(), response.Args[OAuth2Parameter.RedirectUri.EnumToString()]);
             Assert.Equal(code, response.Args[OAuth2ResponseType.Code.EnumToString()]);
             Assert.Equal(scope, response.Args[OAuth2Parameter.Scope.EnumToString()]);
-            Assert.Equal(GrantType.AuthCode.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+            Assert.Equal(grantType.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -106,10 +118,13 @@ namespace Quantfabric.Test.Material.Unit
             };
             var clientId = Guid.NewGuid().ToString();
             var clientSecret = Guid.NewGuid().ToString();
+            var grantType = GrantType.ClientCredentials;
 
             var builder = new AuthenticatorBuilder()
-                .AddParameter(new OAuth2ClientId(clientId))
-                .AddParameter(new OAuth2ClientSecret(clientSecret));
+                .AddParameter(new OAuth2ClientCredentials(
+                    clientId, 
+                    clientSecret))
+                .AddParameter(new OAuth2GrantType(grantType));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -118,10 +133,11 @@ namespace Quantfabric.Test.Material.Unit
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(GrantType.ClientCredentials.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+            Assert.Equal(grantType.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
             Assert.True(response.Headers[HttpRequestHeader.Authorization.ToString()].StartsWith("Basic"));
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
         }
 
         [Fact]
@@ -135,11 +151,13 @@ namespace Quantfabric.Test.Material.Unit
             var clientId = Guid.NewGuid().ToString();
             var clientSecret = Guid.NewGuid().ToString();
             var refreshToken = Guid.NewGuid().ToString();
+            var grantType = GrantType.RefreshToken;
 
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(clientId))
                 .AddParameter(new OAuth2ClientSecret(clientSecret))
-                .AddParameter(new OAuth2RefreshToken(refreshToken));
+                .AddParameter(new OAuth2RefreshToken(refreshToken))
+                .AddParameter(new OAuth2GrantType(grantType));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -148,11 +166,12 @@ namespace Quantfabric.Test.Material.Unit
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.Equal(clientId, response.Args[OAuth2Parameter.ClientId.EnumToString()]);
             Assert.Equal(clientSecret, response.Args[OAuth2Parameter.ClientSecret.EnumToString()]);
             Assert.Equal(refreshToken, response.Args[OAuth2Parameter.RefreshToken.EnumToString()]);
-            Assert.Equal(GrantType.RefreshToken.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+            Assert.Equal(grantType.EnumToString(), response.Args[OAuth2Parameter.GrantType.EnumToString()]);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -180,8 +199,9 @@ namespace Quantfabric.Test.Material.Unit
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(expectedArgsCount, response.Args.Count);
             Assert.Equal(accessToken, response.Args[accessTokenName]);
+
+            Assert.Equal(expectedArgsCount, response.Args.Count);
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -189,7 +209,6 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public async void AddOAuth2ProtectedResourceWithBearer()
         {
-            var expectedArgsCount = 1;
             var expected = new SampleBody
             {
                 SomeKey = Guid.NewGuid().ToString()
@@ -209,8 +228,7 @@ namespace Quantfabric.Test.Material.Unit
                 .ResultAsync<TypedHttpBinResponse<SampleBody>>()
                 .ConfigureAwait(false);
 
-            Assert.Equal(expectedArgsCount, response.Args.Count);
-            Assert.Equal(accessToken, response.Args[accessTokenName]);
+            Assert.True(response.Headers[HttpRequestHeader.Authorization.ToString()].StartsWith("Bearer " + accessToken));
 
             Assert.Equal(expected.SomeKey, response.Json.SomeKey);
         }
@@ -326,10 +344,7 @@ namespace Quantfabric.Test.Material.Unit
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
-            securityStrategy.SetSecureParameter(
-                userId, 
-                OAuth1Parameter.Verifier.EnumToString(), 
-                verifier);
+
             securityStrategy.SetSecureParameter(
                 userId,
                 OAuth1Parameter.OAuthToken.EnumToString(),
@@ -343,7 +358,7 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1Nonce(nonce))
                 .AddParameter(new OAuth1Version())
                 .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
-                .AddParameter(new OAuth1Verifier(securityStrategy, userId))
+                .AddParameter(new OAuth1Verifier(verifier))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,

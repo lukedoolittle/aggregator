@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net.Http;
 using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
@@ -14,6 +12,7 @@ using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
 {
+    [Trait("Category", "Continuous")]
     public class OAuth1SignatureTests
     {
         [Fact]
@@ -71,10 +70,7 @@ namespace Quantfabric.Test.Material.Unit
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(2));
-            securityStrategy.SetSecureParameter(
-                userId,
-                OAuth1Parameter.Verifier.EnumToString(),
-                verifier);
+
             securityStrategy.SetSecureParameter(
                 userId, 
                 OAuth1Parameter.OAuthToken.EnumToString(), 
@@ -87,7 +83,7 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1Nonce(nonce))
                 .AddParameter(new OAuth1Version())
                 .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
-                .AddParameter(new OAuth1Verifier(securityStrategy, userId))
+                .AddParameter(new OAuth1Verifier(verifier))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,
@@ -108,18 +104,39 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void SignOAuth1ProtectedResourceRequest()
         {
-            //var signatureBase = "GET&https%3A%2F%2Fapi.twitter.com%2Foauth%2Fverify.json&oauth_consumer_key%3DmyConsumerKey%26oauth_nonce%3Dndhlnce3jxghrf0v%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1477075128%26oauth_token%3DmyOAuthToken%26oauth_version%3D1.0";
-            //var expected = "EBSM4vTvEvirRhu4Wv4jzoBE1Fo=";
+            var expected = "EBSM4vTvEvirRhu4Wv4jzoBE1Fo=";
 
-            //var consumerKey = "myConsumerKey";
-            //var consumerSecret = "myConsumerSecret";
-            //var oauthToken = "myOAuthToken";
-            //var oauthSecret = "myOAuthSecret";
-            //var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
-            //var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
-            //var nonce = "ndhlnce3jxghrf0v";
+            var consumerKey = "myConsumerKey";
+            var consumerSecret = "myConsumerSecret";
+            var oauthToken = "myOAuthToken";
+            var oauthSecret = "myOAuthSecret";
+            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
+            var nonce = "ndhlnce3jxghrf0v";
+            var targetUri = new Uri("https://api.twitter.com/oauth/verify.json");
 
-            throw new NotImplementedException();
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new OAuth1ConsumerKey(consumerKey))
+                .AddParameter(new OAuth1Token(oauthToken))
+                .AddParameter(new OAuth1Timestamp(timestamp))
+                .AddParameter(new OAuth1Nonce(nonce))
+                .AddParameter(new OAuth1Version())
+                .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
+                .AddSigner(new OAuth1RequestSigningAlgorithm(
+                    consumerSecret,
+                    oauthSecret,
+                    signingAlgorithm));
+
+            var result = new HttpRequestBuilder(targetUri.NonPath())
+                .GetFrom(
+                    targetUri.AbsolutePath,
+                    HttpParameterType.Querystring)
+                .Authenticator(builder)
+                .GenerateRequestUri();
+
+            var actual = HttpUtility.ParseQueryString(result.Query)[OAuth1Parameter.Signature.EnumToString()];
+
+            Assert.Equal(expected, actual);
         }
     }
 }

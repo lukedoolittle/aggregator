@@ -67,9 +67,7 @@ namespace Material.OAuth.Workflow
                 _callbackHandler,
                 CreateUriFacade(
                     new OAuth2StateSecurityParameterBundle()),
-                CreateTokenFacade()
-                    .AddParameters(
-                        new OAuth2ClientSecret(clientSecret)));
+                CreateTokenFacade(clientSecret));
         }
 
         /// <summary>
@@ -101,7 +99,9 @@ namespace Material.OAuth.Workflow
                     _callbackHandler,
                     CreateUriFacade(
                         new OAuth2StateSecurityParameterBundle()),
-                    new OAuth2ImplicitFacade());
+                    new OAuth2ImplicitFacade(
+                        _clientId,
+                        _provider));
             }
         }
 
@@ -135,7 +135,9 @@ namespace Material.OAuth.Workflow
                         CreateUriFacade(
                             new OAuth2StateSecurityParameterBundle(),
                             new OAuth2NonceSecurityParameterBundle()),
-                        new OAuth2ImplicitFacade())
+                        new OAuth2ImplicitFacade(
+                            _clientId,
+                            _provider))
                     .ConfigureAwait(false);
 
                 return credentials?.IdToken;
@@ -152,9 +154,7 @@ namespace Material.OAuth.Workflow
                     CreateUriFacade(
                         new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle()),
-                    CreateTokenFacade()
-                        .AddParameters(
-                            new OAuth2ClientSecret(clientSecret)))
+                    CreateTokenFacade(clientSecret))
                 .ConfigureAwait(false);
 
             return credentials?.IdToken;
@@ -167,6 +167,19 @@ namespace Material.OAuth.Workflow
             return new OAuth2AccessCodeFacade(
                 _provider,
                 _clientId,
+                _callbackUri,
+                adapter,
+                _securityStrategy);
+        }
+
+        private OAuth2AccessCodeFacade CreateTokenFacade(string clientSecret)
+        {
+            var adapter = new OAuthAuthorizationAdapter();
+
+            return new OAuth2AccessCodeFacade(
+                _provider,
+                _clientId,
+                clientSecret,
                 _callbackUri,
                 adapter,
                 _securityStrategy);

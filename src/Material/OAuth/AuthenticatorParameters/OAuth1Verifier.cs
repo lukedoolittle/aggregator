@@ -8,22 +8,13 @@ namespace Material.OAuth.AuthenticatorParameters
 {
     public class OAuth1Verifier : IAuthenticatorParameter
     {
-        private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly string _userId;
-
         public string Name => OAuth1Parameter.Verifier.EnumToString();
-        public string Value => _securityStrategy.CreateOrGetSecureParameter(_userId, Name);
+        public string Value { get; }
         public HttpParameterType Type => HttpParameterType.Unspecified;
 
-        public OAuth1Verifier(
-            IOAuthSecurityStrategy strategy, 
-            string userId)
+        public OAuth1Verifier(string verifier)
         {
-            if (strategy == null) throw new ArgumentNullException(nameof(strategy));
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
-
-            _securityStrategy = strategy;
-            _userId = userId;
+            Value = verifier;
         }
     }
 }

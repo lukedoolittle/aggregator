@@ -28,6 +28,8 @@ namespace Material.OAuth.Facade
             string clientId,
             string clientSecret)
         {
+            _resourceProvider.SetGrant(GrantType.ClientCredentials);
+
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientCredentials(
                     clientId, 
@@ -36,7 +38,6 @@ namespace Material.OAuth.Facade
             return GetAccessToken(
                 clientId, 
                 clientSecret, 
-                GrantType.ClientCredentials, 
                 builder);
         }
 
@@ -45,6 +46,8 @@ namespace Material.OAuth.Facade
             CryptoKey privateKey,
             string clientId)
         {
+            _resourceProvider.SetGrant(GrantType.JsonWebToken);
+
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2Assertion(
                     jwt,
@@ -59,7 +62,6 @@ namespace Material.OAuth.Facade
             return GetAccessToken(
                 clientId,
                 null, 
-                GrantType.JsonWebToken, 
                 builder);
         }
 
@@ -75,12 +77,11 @@ namespace Material.OAuth.Facade
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(expiredCredentials.ClientId))
                 .AddParameter(new OAuth2ClientSecret(expiredCredentials.ClientSecret))
-                .AddParameter(new AuthenticatorParameters.OAuth2RefreshToken(expiredCredentials.RefreshToken));
+                .AddParameter(new OAuth2RefreshToken(expiredCredentials.RefreshToken));
 
             var token = await GetAccessToken(
                     expiredCredentials.ClientId, 
                     expiredCredentials.ClientSecret,
-                    GrantType.RefreshToken,
                     builder)
                 .ConfigureAwait(false);
 
@@ -92,10 +93,9 @@ namespace Material.OAuth.Facade
         private async Task<OAuth2Credentials> GetAccessToken(
             string clientId,
             string clientSecret,
-            GrantType grantType,
-            IAuthenticator builder)
+            AuthenticatorBuilder builder)
         {
-            _resourceProvider.SetGrant(grantType);
+            builder.AddParameter(new OAuth2GrantType(_resourceProvider.Grant));
 
             var token = await _oauth.GetToken<OAuth2Credentials>(
                     _resourceProvider.TokenUrl,

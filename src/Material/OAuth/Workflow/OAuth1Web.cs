@@ -101,11 +101,9 @@ namespace Material.OAuth.Workflow
                             OAuth1Parameter.OAuthToken.EnumToString())
                         .ParseAndValidateCallback(responseUri, userId);
 
-            var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
-                userId,
-                OAuth1Parameter.OAuthTokenSecret.EnumToString());
-
-            return _authorizationFacade.GetAccessTokenAsync(result, oauthSecret);
+            return _authorizationFacade.GetAccessTokenAsync(
+                result, 
+                userId);
         }
     }
 }

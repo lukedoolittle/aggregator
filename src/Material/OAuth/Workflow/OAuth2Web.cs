@@ -76,6 +76,7 @@ namespace Material.OAuth.Workflow
                     new OAuth2AccessCodeFacade(
                         resourceProvider, 
                         clientId, 
+                        clientSecret,
                         new Uri(callbackUrl), 
                         new OAuthAuthorizationAdapter(), 
                         strategy))
@@ -140,14 +141,8 @@ namespace Material.OAuth.Workflow
                     clientId,
                     clientSecret,
                     callbackUri,
-                    new OAuthSecurityStrategy(
-                        new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(
-                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)),
                     new TResourceProvider())
         {}
-
-
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials

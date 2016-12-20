@@ -61,6 +61,11 @@ namespace Foundations.HttpClient.Extensions
                 throw new ArgumentNullException(nameof(instance));
             }
 
+            if (parameterType == HttpParameterType.Unspecified)
+            {
+                return PostTo(instance, path);
+            }
+
             return instance.Request(
                 HttpMethod.Post,
                 path,
@@ -89,6 +94,11 @@ namespace Foundations.HttpClient.Extensions
             if (instance == null)
             {
                 throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (parameterType == HttpParameterType.Unspecified)
+            {
+                return GetFrom(instance, path);
             }
 
             return instance.Request(
