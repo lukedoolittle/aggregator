@@ -12,7 +12,6 @@ namespace Material.OAuth
             _canProvideSecureBrowsing = canProvideSecureBrowsing;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public AuthorizationInterface GetOptimalOAuth1Interface<TResourceProvider>(
             TResourceProvider provider,
             AuthorizationInterface selectedInterface)
@@ -37,7 +36,6 @@ namespace Material.OAuth
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public AuthorizationInterface GetOptimalOAuth2Interface<TResourceProvider>(
             TResourceProvider provider,
             AuthorizationInterface selectedInterface)

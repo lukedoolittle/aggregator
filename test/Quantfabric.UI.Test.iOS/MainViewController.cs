@@ -17,9 +17,9 @@ namespace Quantfabric.UI.Test.iOS
     public partial class MainViewController : UIViewController
     {
         private AuthorizationInterface _browserType = 
-            AuthorizationInterface.Embedded;
+            AuthorizationInterface.NotSpecified;
         private CallbackType _callbackType = 
-            CallbackType.Localhost;
+            CallbackType.NotSpecified;
 
         public MainViewController (IntPtr handle) : base (handle)
         {
@@ -35,7 +35,7 @@ namespace Quantfabric.UI.Test.iOS
                 {
                     case 0:
                         _browserType = AuthorizationInterface.NotSpecified;
-                        _callbackType = CallbackType.Protocol;
+                        _callbackType = CallbackType.NotSpecified;
                         break;
                     case 1:
                         _browserType = AuthorizationInterface.Embedded;

@@ -5,6 +5,7 @@ namespace Material.Contracts
 {
     public enum CallbackType
     {
+        NotSpecified,
         Localhost,
         Protocol
     }

@@ -54,7 +54,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://accounts.spotify.com/authorize",
             "tokenUrl": "https://accounts.spotify.com/api/token",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header", 
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
             "scopes": {

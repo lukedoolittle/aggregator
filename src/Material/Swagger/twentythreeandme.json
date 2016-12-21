@@ -81,7 +81,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://api.23andme.com/authorize/",
             "tokenUrl": "https://api.23andme.com/token/",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header", 
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
             "scopes": {

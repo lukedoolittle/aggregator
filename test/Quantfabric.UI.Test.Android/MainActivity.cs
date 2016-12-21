@@ -20,9 +20,9 @@ namespace Quantfabric.UI.Test
     public class MainActivity : Activity
     {
         private AuthorizationInterface _browserType = 
-            AuthorizationInterface.Embedded;
+            AuthorizationInterface.NotSpecified;
         private CallbackType _callbackType =
-            CallbackType.Localhost;
+            CallbackType.NotSpecified;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -37,7 +37,7 @@ namespace Quantfabric.UI.Test
                 {
                     case Resource.Id.unspecifiedRadioButton:
                         _browserType = AuthorizationInterface.NotSpecified;
-                        _callbackType = CallbackType.Protocol;
+                        _callbackType = CallbackType.NotSpecified;
                         break;
                     case Resource.Id.embeddedRadioButton:
                         _browserType = AuthorizationInterface.Embedded;

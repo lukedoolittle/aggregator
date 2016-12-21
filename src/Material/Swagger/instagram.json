@@ -53,7 +53,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
             "tokenUrl": "https://api.instagram.com/oauth/access_token",
-            "x-token-name": "access_token",
+            "name": "access_token",
+            "in": "query", 
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
             "scopes": {
@@ -70,7 +71,8 @@
             "description": "OAuth2 Implicit Grant",
             "flow": "implicit",
             "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
-            "x-token-name": "access_token",
+            "name": "access_token",
+            "in": "query", 
             "x-response-types": [ "token" ],
             "scopes": {
                 "basic": "to read a user’s profile info and media",

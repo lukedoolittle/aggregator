@@ -193,7 +193,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://foursquare.com/oauth2/authorize",
             "tokenUrl": "https://foursquare.com/oauth2/access_token",
-            "x-token-name": "oauth_token",
+            "name": "oauth_token",
+            "in": "query", 
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
             "scopes": {}
@@ -203,7 +204,8 @@
             "description": "OAuth2 Implicit Grant",
             "flow": "implicit",
             "authorizationUrl": "https://foursquare.com/oauth2/authorize",
-            "x-token-name": "oauth_token",
+            "name": "oauth_token",
+            "in": "query",
             "x-response-types": [ "token" ],
             "x-custom-scheme-support": true,
             "scopes": {}

@@ -589,7 +589,7 @@
             "requestUrl": "https://api.twitter.com/oauth/request_token",
             "authorizationUrl": "https://api.twitter.com/oauth/authenticate",
             "tokenUrl": "https://api.twitter.com/oauth/access_token",
-            "x-parameter-type": "querystring",
+            "in": "querystring",
             "x-custom-scheme-support": true
         }
     },

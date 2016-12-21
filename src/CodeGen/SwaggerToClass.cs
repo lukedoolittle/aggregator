@@ -84,14 +84,14 @@ namespace CodeGen
                             IsOverride = true,
                             PropertyValue = new ConcreteValueRepresentation(new List<OAuth2ResponseType>())
                         });
-                        if (securityDefinition["x-token-name"] != null)
+                        if (securityDefinition["name"] != null)
                         {
                             @class.Properties.Add(new PropertyRepresentation(
                                 typeof(string), 
                                 nameof(_oauth2Provider.TokenName))
                             {
                                 IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-name"].ToString())
+                                PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
                             });
                         }
                         if (securityDefinition["x-scope-delimiter"] != null)
@@ -254,7 +254,7 @@ namespace CodeGen
                         nameof(_oauth1Provider.ParameterType))
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-parameter-type"].ToString().StringToEnum<HttpParameterType>())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
                     });
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
                     {
@@ -274,12 +274,12 @@ namespace CodeGen
                     @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-name"].ToString())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
                     });
                     @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-location"].ToString().StringToEnum<HttpParameterType>())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
                     });
 
                     @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
@@ -299,12 +299,12 @@ namespace CodeGen
                     @class.Properties.Add(new PropertyRepresentation(typeof(string), "TokenName")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-token-name"].ToString())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
                     });
                     @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
                     {
                         IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-location"].ToString().StringToEnum<HttpParameterType>())
+                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
                     });
                     @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
                     {

@@ -82,7 +82,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://runkeeper.com/apps/authorize",
             "tokenUrl": "https://runkeeper.com/apps/token",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header",
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
             "scopes": {}

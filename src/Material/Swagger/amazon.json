@@ -39,7 +39,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://www.amazon.com/ap/oa",
             "tokenUrl": "https://api.amazon.com/auth/o2/token",
-            "x-token-name": "access_token",
+            "name": "access_token",
+            "in": "query", 
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
             "scopes": {
@@ -54,7 +55,8 @@
             "description": "OAuth2 Implicit Grant",
             "flow": "implicit",
             "authorizationUrl": "https://www.amazon.com/ap/oa",
-            "x-token-name": "access_token",
+            "name": "access_token",
+            "in": "query", 
             "x-response-types": [ "token" ],
             "x-custom-scheme-support": true,
             "scopes": {

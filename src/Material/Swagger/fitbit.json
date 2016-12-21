@@ -238,7 +238,8 @@
             "flow": "accessCode",
             "authorizationUrl": "https://www.fitbit.com/oauth2/authorize",
             "tokenUrl": "https://api.fitbit.com/oauth2/token",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header", 
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
             "scopes": {
@@ -253,7 +254,8 @@
             "description": "OAuth2 Implicit Grant",
             "flow": "implicit",
             "authorizationUrl": "https://www.fitbit.com/oauth2/authorize",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header",
             "x-response-types": [ "token" ],
             "x-custom-scheme-support": true,
             "scopes": {

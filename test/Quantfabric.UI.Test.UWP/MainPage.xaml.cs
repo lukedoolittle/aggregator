@@ -47,9 +47,9 @@ namespace Quantfabric.UI.Test.UWP
     public sealed partial class MainPage : Page
     {
         private AuthorizationInterface _browserType =
-            AuthorizationInterface.Embedded;
+            AuthorizationInterface.NotSpecified;
         private CallbackType _callbackType =
-            CallbackType.Localhost;
+            CallbackType.NotSpecified;
 
         public MainPage()
         {
@@ -449,7 +449,7 @@ namespace Quantfabric.UI.Test.UWP
             {
                 case "Unspecified":
                     _browserType = AuthorizationInterface.NotSpecified;
-                    _callbackType = CallbackType.Protocol;
+                    _callbackType = CallbackType.NotSpecified;
                     break;
                 case "Embedded":
                     _browserType = AuthorizationInterface.Embedded;

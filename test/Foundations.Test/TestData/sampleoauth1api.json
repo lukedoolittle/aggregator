@@ -20,7 +20,7 @@
             "requestUrl": "https://www.example.com/oauth/request_token",
             "authorizationUrl": "https://www.example.com/oauth/authorize",
             "tokenUrl": "https://www.example.com/oauth/access_token",
-            "x-parameter-type": "body",
+            "in": "body",
             "x-custom-scheme-support": true
         }
     },

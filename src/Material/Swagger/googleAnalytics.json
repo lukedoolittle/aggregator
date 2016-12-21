@@ -37,7 +37,8 @@
             "type": "oauth2",
             "description": "OAuth2 Json Web Token Grant",
             "tokenUrl": "https://accounts.google.com/o/oauth2/token",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
+            "in": "header", 
             "x-grant-types": [ "urn:ietf:params:oauth:grant-type:jwt-bearer" ],
             "scopes": {
                 "https://www.googleapis.com/auth/analytics.readonly": "accounts analytics"
