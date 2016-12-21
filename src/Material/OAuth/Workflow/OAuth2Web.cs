@@ -15,6 +15,7 @@ namespace Material.OAuth.Workflow
     public class OAuth2Web<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
+        private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly IOAuthAuthorizationUriFacade _uriFacade;
         private readonly IOAuthAccessTokenFacade<OAuth2Credentials> _accessTokenFacade;
@@ -31,12 +32,14 @@ namespace Material.OAuth.Workflow
         /// <param name="accessTokenFacade">Exchanges code for an access token</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
+            string clientId,
             string clientSecret,
             TResourceProvider resourceProvider,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthAuthorizationUriFacade uriFacade,
             IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade)
         {
+            _clientId = clientId;
             _clientSecret = clientSecret;
             _resourceProvider = resourceProvider;
             _callbackHandler = callbackHandler;
@@ -60,6 +63,7 @@ namespace Material.OAuth.Workflow
             IOAuthSecurityStrategy strategy,
             TResourceProvider resourceProvider) : 
                 this(
+                    clientId,
                     clientSecret, 
                     resourceProvider, 
                     new OAuth2CallbackHandler(
@@ -164,6 +168,10 @@ namespace Material.OAuth.Workflow
             Uri responseUri,
             string userId)
         {
+            _resourceProvider.SetClientProperties(
+                _clientId, 
+                _clientSecret);
+
             var result = _callbackHandler
                         .ParseAndValidateCallback(
                             responseUri, 

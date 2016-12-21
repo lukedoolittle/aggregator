@@ -61,6 +61,10 @@ namespace Material.OAuth.Workflow
         public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
+            _provider.SetClientProperties(
+                _clientId, 
+                clientSecret);
+
             return GetCredentialsAsync(
                 OAuth2FlowType.AccessCode,
                 OAuth2ResponseType.Code,
