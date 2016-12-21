@@ -36,6 +36,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             CryptoKey privateKey)
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
+            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             var hmac = new HMac(_digest);
             hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey.ToString())));

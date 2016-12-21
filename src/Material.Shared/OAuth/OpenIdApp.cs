@@ -163,7 +163,7 @@ namespace Material.OAuth
 
         private JsonWebToken ValidateToken(JsonWebToken token)
         {
-            var isTokenValid = new CompositeJsonWebTokenAuthenticationValidator()
+            new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(

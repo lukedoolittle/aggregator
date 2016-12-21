@@ -129,7 +129,7 @@ namespace Material.OAuth.Workflow
             JsonWebToken token, 
             string userId)
         {
-            var isTokenValid = new CompositeJsonWebTokenAuthenticationValidator()
+            new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(

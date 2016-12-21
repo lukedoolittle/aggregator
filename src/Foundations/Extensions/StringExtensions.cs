@@ -42,6 +42,7 @@ namespace Foundations.Extensions
                 instance.UrlEncodedBase64ToBase64String());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
         public static string Base64ToUrlEncodedBase64String(this string instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
@@ -51,6 +52,7 @@ namespace Foundations.Extensions
             return instance;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
         public static string UrlEncodedBase64ToBase64String(this string instance)
         {
             if (instance == null)
