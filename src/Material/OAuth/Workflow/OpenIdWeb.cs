@@ -65,6 +65,7 @@ namespace Material.OAuth.Workflow
                 strategy);
 
             _web = new OAuth2Web<TResourceProvider>(
+                clientId,
                 clientSecret,
                 _provider,
                 callbackHandler,

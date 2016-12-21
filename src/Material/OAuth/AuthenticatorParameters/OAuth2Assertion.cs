@@ -36,7 +36,7 @@ namespace Material.OAuth.AuthenticatorParameters
         {
             _jsonWebToken.Sign(_signingFactory, _privateKey);
 
-            return _jsonWebToken.Signature;
+            return _jsonWebToken.EncodedToken;
         }
     }
 }
