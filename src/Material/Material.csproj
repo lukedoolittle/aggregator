@@ -104,6 +104,7 @@
     <Compile Include="OAuth\Security\OAuth2NonceSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2PkceVerifierSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
+    <Compile Include="OAuth\Security\OAuth2Sha256PkceSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2StateSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Workflow\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />

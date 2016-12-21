@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Macs;
-using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Foundations.HttpClient.Cryptography.Algorithms
 {
-    public class DigestSigningAlgorithm : 
-        ISigningAlgorithm, 
-        IVerificationAlgorithm
+    public class DigestSigningAlgorithm : ISigningAlgorithm
     {
         private readonly IDigest _digest;
 
         public string SignatureMethod { get; }
+
 
         public DigestSigningAlgorithm(IDigest digest) : 
             this(digest, null)
@@ -28,7 +24,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             if (digest == null) throw new ArgumentNullException(nameof(digest));
 
             _digest = digest;
-            SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
+            SignatureMethod = signatureMethod ?? digest.AlgorithmName.ToUpper();
         }
 
         public byte[] SignText(
@@ -36,32 +32,26 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             CryptoKey privateKey)
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
-            if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
-            var hmac = new HMac(_digest);
-            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey.ToString())));
-            var result = new byte[hmac.GetMacSize()];
-            
-            hmac.BlockUpdate(text, 0, text.Length);
-            hmac.DoFinal(result, 0);
+            _digest.Reset();
+
+            if (privateKey != null)
+            {
+                var keyBytes = Encoding.UTF8.GetBytes(privateKey.ToString());
+                _digest.BlockUpdate(keyBytes, 0, keyBytes.Length);
+            }
+            _digest.BlockUpdate(text, 0, text.Length);
+            var result = new byte[_digest.GetDigestSize()];
+            _digest.DoFinal(result, 0);
 
             return result;
         }
 
-        public bool VerifyText(
-            CryptoKey key,
-            byte[] signature,
-            byte[] text)
+        public static DigestSigningAlgorithm Sha256Algorithm()
         {
-            return signature.SequenceEqual(
-                SignText(
-                    text, 
-                    key));
-        }
-
-        public static ISigningAlgorithm Sha1Algorithm()
-        {
-            return new DigestSigningAlgorithm(new Sha1Digest(), "HMAC-SHA1");
+            return new DigestSigningAlgorithm(
+                new Sha256Digest(), 
+                "SHA256");
         }
     }
 }

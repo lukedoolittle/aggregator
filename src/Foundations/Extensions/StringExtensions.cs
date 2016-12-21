@@ -24,7 +24,14 @@ namespace Foundations.Extensions
                 .ToString();
         }
 
-        public static byte[] BytesFromBase64String(this string instance)
+        public static string ToBase64String(this byte[] instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            return Convert.ToBase64String(instance);
+        }
+
+        public static byte[] FromBase64String(this string instance)
         {
             if (instance == null)
             {
@@ -32,22 +39,19 @@ namespace Foundations.Extensions
             }
 
             return Convert.FromBase64String(
-                instance.ToProperBase64String());
+                instance.UrlEncodedBase64ToBase64String());
         }
 
-        public static string FromBase64String(this string instance)
+        public static string Base64ToUrlEncodedBase64String(this string instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
-            var bytes = instance.BytesFromBase64String();
+            instance = instance.Replace('+', '-').Replace('/', '_').Replace("=", "");
 
-            return Encoding.UTF8.GetString(
-                bytes, 
-                0, 
-                bytes.Length - 1);
+            return instance;
         }
 
-        public static string ToProperBase64String(this string instance)
+        public static string UrlEncodedBase64ToBase64String(this string instance)
         {
             if (instance == null)
             {
@@ -64,7 +68,19 @@ namespace Foundations.Extensions
             return instance;
         }
 
-        public static string ToBase64String(this string instance)
+        public static string Base64ToUtf8String(this string instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            var bytes = instance.FromBase64String();
+
+            return Encoding.UTF8.GetString(
+                bytes,
+                0,
+                bytes.Length - 1);
+        }
+
+        public static string Utf8ToBase64String(this string instance)
         {
             if (instance == null)
             {

@@ -32,7 +32,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
             _signer.Reset();
 
-            var privateKeyBytes = privateKey.ToString().BytesFromBase64String();
+            var privateKeyBytes = privateKey.ToString().FromBase64String();
             var privateKeyParameters = 
                 PrivateKeyFactory.CreateKey(privateKeyBytes);
 
@@ -53,7 +53,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
             _signer.Reset();
 
-            var publicKeyBytes = key.ToString().BytesFromBase64String();
+            var publicKeyBytes = key.ToString().FromBase64String();
             var publicKeyParameters = 
                 PublicKeyFactory.CreateKey(publicKeyBytes);
 

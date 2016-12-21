@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
@@ -6,7 +7,9 @@ using Foundations.HttpClient.Cryptography.Discovery;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Extensions;
+using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 using Xunit;
 
 namespace Foundations.Test.HttpClient
@@ -20,7 +23,49 @@ namespace Foundations.Test.HttpClient
         private readonly TestData.TestData _testData = new TestData.TestData();
 
         [Fact]
-        public void VerifyRs256JsonWebToken()
+        public void CreateSignatureForRs256JsonWebToken()
+        {
+            var signatureBase = _testData.Rs256.SignatureBase;
+            var expectedSignature = _testData.Rs256.Signature.UrlEncodedBase64ToBase64String();
+            var privateKey = _testData.Rs256.PrivateKey;
+            var algorithm = JsonWebTokenAlgorithm.RS256;
+
+            var key = new CryptoKey(privateKey, true);
+
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
+
+            var signer = _factory.GetSigningAlgorithm(algorithm);
+
+            var actualSignature = Convert.ToBase64String(signer.SignText(
+                signatureBaseBytes,
+                key));
+
+            Assert.Equal(expectedSignature, actualSignature);
+        }
+
+        [Fact]
+        public void CreateSignatureFoHs256JsonWebToken()
+        {
+            var signatureBase = _testData.Hs256.SignatureBase;
+            var expectedSignature = _testData.Hs256.Signature.UrlEncodedBase64ToBase64String();
+            var hashKey = _testData.Hs256.PrivateKey;
+            var algorithm = JsonWebTokenAlgorithm.HS256;
+
+            var key = new HashKey(hashKey);
+
+            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
+
+            var signer = _factory.GetSigningAlgorithm(algorithm);
+
+            var actualSignature = Convert.ToBase64String(signer.SignText(
+                signatureBaseBytes,
+                key));
+
+            Assert.Equal(expectedSignature, actualSignature);
+        }
+
+        [Fact]
+        public void VerifySignatureForRs256JsonWebToken()
         {
             var signatureBase = _testData.Rs256.SignatureBase;
             var signature = _testData.Rs256.Signature;
@@ -35,14 +80,14 @@ namespace Foundations.Test.HttpClient
 
             var isVerified = verifier.VerifyText(
                 key,
-                Convert.FromBase64String(signature.ToProperBase64String()),
+                Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
                 signatureBaseBytes);
 
             Assert.True(isVerified);
         }
 
         [Fact]
-        public void VerifyEs256JsonWebToken()
+        public void VerifySignatureForEs256JsonWebToken()
         {
             var signatureBase = _testData.Es256.SignatureBase;
             var signature = _testData.Es256.Signature;
@@ -57,14 +102,14 @@ namespace Foundations.Test.HttpClient
 
             var isVerified = verifier.VerifyText(
                 key,
-                Convert.FromBase64String(signature.ToProperBase64String()),
+                Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
                 signatureBaseBytes);
 
             Assert.True(isVerified);
         }
 
         [Fact]
-        public void VerifyHs256JsonWebToken()
+        public void VerifySignatureForHs256JsonWebToken()
         {
             var signatureBase = _testData.Hs256.SignatureBase;
             var signature = _testData.Hs256.Signature;
@@ -79,14 +124,14 @@ namespace Foundations.Test.HttpClient
 
             var isVerified = verifier.VerifyText(
                 key,
-                Convert.FromBase64String(signature.ToProperBase64String()),
+                Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
                 signatureBaseBytes);
 
             Assert.True(isVerified);
         }
 
         [Fact]
-        public void VerifyRs256JsonWebTokenWithJsonWebKey()
+        public void VerifySignatureForRs256JsonWebTokenWithJsonWebKey()
         {
             var signatureBase = _testData.Rs256.SignatureBase;
             var signature = _testData.Rs256.Signature;
@@ -110,14 +155,14 @@ namespace Foundations.Test.HttpClient
 
             var isVerified = verifier.VerifyText(
                 key.ToCryptoKey(),
-                Convert.FromBase64String(signature.ToProperBase64String()),
+                Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
                 signatureBaseBytes);
 
             Assert.True(isVerified);
         }
 
         [Fact]
-        public void VerifyEs256JsonWebTokenWithJsonWebKey()
+        public void VerifySignatureForEs256JsonWebTokenWithJsonWebKey()
         {
             var signatureBase = _testData.Es256.SignatureBase;
             var signature = _testData.Es256.Signature;
@@ -142,10 +187,32 @@ namespace Foundations.Test.HttpClient
 
             var isVerified = verifier.VerifyText(
                 key.ToCryptoKey(),
-                Convert.FromBase64String(signature.ToProperBase64String()),
+                Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
                 signatureBaseBytes);
 
             Assert.True(isVerified);
+        }
+
+        private static byte[] DerEncode(byte[] signature)
+        {
+            if (signature == null) throw new ArgumentNullException(nameof(signature));
+
+            var r = signature.RangeSubset(0, (signature.Length / 2));
+            var s = signature.RangeSubset((signature.Length / 2), (signature.Length / 2));
+
+            using (var stream = new MemoryStream())
+            {
+                var derStream = new DerOutputStream(stream);
+
+                var vector = new Asn1EncodableVector
+                {
+                    new DerInteger(new BigInteger(1, r)),
+                    new DerInteger(new BigInteger(1, s))
+                };
+                derStream.WriteObject(new DerSequence(vector));
+
+                return stream.ToArray();
+            }
         }
     }
 }

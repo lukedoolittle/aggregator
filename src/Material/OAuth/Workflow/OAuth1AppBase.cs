@@ -67,7 +67,7 @@ namespace Material.OAuth.Workflow
                 _callbackUri,
                 new OAuthAuthorizationAdapter(),
                 securityStrategy,
-                DigestSigningAlgorithm.Sha1Algorithm(),
+                HmacDigestSigningAlgorithm.Sha1Algorithm(),
                 new CryptoStringGenerator());
 
             var authorizationUi = _uiFactory

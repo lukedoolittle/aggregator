@@ -41,11 +41,11 @@ namespace Foundations.HttpClient.Cryptography
                 case JsonWebTokenAlgorithm.ES512:
                     return new EllipticCurveSigningAlgorithm(SignerUtilities.GetSigner("SHA-512withECDSA"), "P-521") as TAlgorithm;
                 case JsonWebTokenAlgorithm.HS256:
-                    return new DigestSigningAlgorithm(new Sha256Digest()) as TAlgorithm;
+                    return new HmacDigestSigningAlgorithm(new Sha256Digest()) as TAlgorithm;
                 case JsonWebTokenAlgorithm.HS384:
-                    return new DigestSigningAlgorithm(new Sha384Digest()) as TAlgorithm;
+                    return new HmacDigestSigningAlgorithm(new Sha384Digest()) as TAlgorithm;
                 case JsonWebTokenAlgorithm.HS512:
-                    return new DigestSigningAlgorithm(new Sha512Digest()) as TAlgorithm;
+                    return new HmacDigestSigningAlgorithm(new Sha512Digest()) as TAlgorithm;
                 //These have not been tested and I have no idea if they work
                 //case JsonWebTokenAlgorithm.PS256:
                 //    return new SigningAlgorithm(SignerUtilities.GetSigner("SHA-256withRSAandMGF1")) as TAlgorithm;

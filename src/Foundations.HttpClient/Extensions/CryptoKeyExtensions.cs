@@ -19,14 +19,14 @@ namespace Foundations.HttpClient.Extensions
                 return new EcdsaCryptoKey(
                     "ECDSA",
                     instance.CurveName,
-                    Base64.Decode(instance.X.ToProperBase64String()),
-                    Base64.Decode(instance.Y.ToProperBase64String()));
+                    Base64.Decode(instance.X.UrlEncodedBase64ToBase64String()),
+                    Base64.Decode(instance.Y.UrlEncodedBase64ToBase64String()));
             }
             else if (instance.KeyType == EncryptionAlgorithm.RSA.EnumToString())
             {
                 return new RsaCryptoKey(
-                    Base64.Decode(instance.N.ToProperBase64String()),
-                    Base64.Decode(instance.E.ToProperBase64String()));
+                    Base64.Decode(instance.N.UrlEncodedBase64ToBase64String()),
+                    Base64.Decode(instance.E.UrlEncodedBase64ToBase64String()));
             }
 
             return null;

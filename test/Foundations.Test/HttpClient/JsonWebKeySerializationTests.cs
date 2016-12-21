@@ -10,7 +10,7 @@ using Xunit;
 namespace Foundations.Test.HttpClient
 {
     [Trait("Category", "Continuous")]
-    public class JsonWebKeyTests
+    public class JsonWebKeySerializationTests
     {
         [Fact]
         public void ConvertGoogleDiscoveryUrlKeysIntoCryptoKeys()

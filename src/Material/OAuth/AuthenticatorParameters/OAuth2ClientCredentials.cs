@@ -24,7 +24,7 @@ namespace Material.OAuth.AuthenticatorParameters
             var key = StringExtensions.Concatenate(
                 clientId,
                 clientSecret,
-                ":").ToBase64String();
+                ":").Utf8ToBase64String();
 
             Value = StringExtensions.Concatenate(
                 OAuth2Parameter.BasicHeader.EnumToString(),

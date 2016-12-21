@@ -32,7 +32,7 @@ namespace Material.OAuth.Authentication
 
             var isSignatureValid = verifier.VerifyText(
                 _key,
-                token.Signature.BytesFromBase64String(),
+                token.Signature.FromBase64String(),
                 Encoding.UTF8.GetBytes(token.SignatureBase));
 
             if (!isSignatureValid)

@@ -245,7 +245,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerSecret = Guid.NewGuid().ToString();
             var oauthToken = Guid.NewGuid().ToString();
             var oauthSecret = Guid.NewGuid().ToString();
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
             var stringGenerator = new CryptoStringGenerator();
 
             var builder = new AuthenticatorBuilder()
@@ -290,7 +290,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerKey = Guid.NewGuid().ToString();
             var consumerSecret = Guid.NewGuid().ToString();
             var callbackUrl = new Uri("http://localhost:8080");
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
             var stringGenerator = new CryptoStringGenerator();
 
             var builder = new AuthenticatorBuilder()
@@ -338,7 +338,7 @@ namespace Quantfabric.Test.Material.Unit
             var verifier = "myVerifier";
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
 
             var userId = Guid.NewGuid().ToString();
             var securityStrategy = new OAuthSecurityStrategy(

@@ -77,9 +77,8 @@
     <Compile Include="Core\DateTimeExtensionsTests.cs" />
     <Compile Include="Core\EnumExtensionTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
-    <Compile Include="HttpClient\JsonWebKeyTests.cs" />
-    <Compile Include="HttpClient\SignatureGenerationTests.cs" />
-    <Compile Include="HttpClient\SignatureKeyGenerationTests.cs" />
+    <Compile Include="HttpClient\JsonWebKeySerializationTests.cs" />
+    <Compile Include="HttpClient\CryptoKeyGenerationTests.cs" />
     <Compile Include="HttpClient\SignatureVerificationTests.cs" />
     <Compile Include="HttpClient\RandomStringGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

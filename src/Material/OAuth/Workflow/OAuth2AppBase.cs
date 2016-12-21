@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
-using Material.OAuth.AuthenticatorParameters;
 using Material.OAuth.Authorization;
 using Material.OAuth.Callback;
 using Material.OAuth.Facade;
@@ -90,7 +90,8 @@ namespace Material.OAuth.Workflow
                         _callbackHandler,
                         CreateUriFacade(
                             new OAuth2StateSecurityParameterBundle(),
-                            new OAuth2PlainPkceSecurityParameterBundle()),
+                            new OAuth2Sha256PkceSecurityParameterBundle(
+                                DigestSigningAlgorithm.Sha256Algorithm())),
                         CreateTokenFacade()
                             .AddSecurityParameters(
                                 new OAuth2PkceVerifierSecurityParameterBundle()));
@@ -122,7 +123,8 @@ namespace Material.OAuth.Workflow
                     CreateUriFacade(
                         new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle(),
-                        new OAuth2PlainPkceSecurityParameterBundle()),
+                        new OAuth2Sha256PkceSecurityParameterBundle(
+                            DigestSigningAlgorithm.Sha256Algorithm())),
                     CreateTokenFacade()
                         .AddSecurityParameters(
                             new OAuth2PkceVerifierSecurityParameterBundle()))

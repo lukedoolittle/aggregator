@@ -42,7 +42,7 @@ namespace Material.OAuth.Workflow
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
 
             _requester = new OAuthProtectedResourceAdapter(
                 new AuthenticatorBuilder()

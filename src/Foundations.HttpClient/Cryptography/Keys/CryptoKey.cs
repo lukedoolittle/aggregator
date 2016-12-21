@@ -73,14 +73,14 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 var value = StripKey(key, true);
                 return PrivateKeyFactory.CreateKey(
                     Convert.FromBase64String(
-                        value.ToProperBase64String()));
+                        value.UrlEncodedBase64ToBase64String()));
             }
             else
             {
                 var value = StripKey(key, false);
                 return PublicKeyFactory.CreateKey(
                     Convert.FromBase64String(
-                        value.ToProperBase64String()));
+                        value.UrlEncodedBase64ToBase64String()));
             }
         }
 

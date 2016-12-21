@@ -48,6 +48,7 @@
     <Compile Include="Authenticators\IAuthenticatorParameter.cs" />
     <Compile Include="Authenticators\IRequestSigningAlgorithm.cs" />
     <Compile Include="Authenticators\OAuth1RequestSigningAlgorithm.cs" />
+    <Compile Include="Cryptography\Algorithms\DigestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\EllipticCurveSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />
     <Compile Include="Cryptography\CryptographyException.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="Cryptography\Discovery\OpenIDConnectDiscoveryDocument.cs" />
     <Compile Include="Cryptography\Discovery\PublicKeyDiscoveryDocument.cs" />
     <Compile Include="Cryptography\Enums\CryptoStringType.cs" />
-    <Compile Include="Cryptography\Algorithms\DigestSigningAlgorithm.cs" />
+    <Compile Include="Cryptography\Algorithms\HmacDigestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Enums\EncryptionAlgorithm.cs" />
     <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
     <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />

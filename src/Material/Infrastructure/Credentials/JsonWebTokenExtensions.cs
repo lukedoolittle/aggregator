@@ -17,8 +17,8 @@ namespace Material.Infrastructure.Credentials
 
             var deserializer = new JsonSerializer();
 
-            var header = splitEntity[0].FromBase64String();
-            var claims = splitEntity[1].FromBase64String();
+            var header = splitEntity[0].Base64ToUtf8String();
+            var claims = splitEntity[1].Base64ToUtf8String();
 
             var token = new JsonWebToken(
                 deserializer.Deserialize<JsonWebTokenHeader>(header),

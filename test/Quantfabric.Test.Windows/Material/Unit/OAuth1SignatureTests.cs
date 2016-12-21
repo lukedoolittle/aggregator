@@ -23,7 +23,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerKey = "myConsumerKey";
             var consumerSecret = "myConsumerSecret";
             var callbackUrl = new Uri("http://localhost:33533/oauth/twitter");
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/request_token");
@@ -61,7 +61,7 @@ namespace Quantfabric.Test.Material.Unit
             var oauthToken = "myOAuthToken";
             var oauthSecret = "myOAuthSecret";
             var verifier = "myVerifier";
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/request_token");
@@ -110,7 +110,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerSecret = "myConsumerSecret";
             var oauthToken = "myOAuthToken";
             var oauthSecret = "myOAuthSecret";
-            var signingAlgorithm = DigestSigningAlgorithm.Sha1Algorithm();
+            var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/verify.json");

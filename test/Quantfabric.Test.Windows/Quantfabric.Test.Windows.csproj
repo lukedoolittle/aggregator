@@ -288,6 +288,7 @@
     <Compile Include="Material\Unit\HttpClientTests.cs" />
     <Compile Include="Material\Unit\OAuth1SignatureTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
+    <Compile Include="Material\Unit\PkceTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
     <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\TokenSerializationDeserializationTests.cs" />

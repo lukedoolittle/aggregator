@@ -48,7 +48,7 @@ namespace Material.OAuth.Workflow
                 new Uri(callbackUrl),
                 new OAuthAuthorizationAdapter(),
                 securityStrategy,
-                DigestSigningAlgorithm.Sha1Algorithm(),
+                HmacDigestSigningAlgorithm.Sha1Algorithm(),
                 new CryptoStringGenerator());
 
             _uriFacade = facade;
