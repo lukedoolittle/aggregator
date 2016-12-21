@@ -1,4 +1,6 @@
 ﻿using System;
+using Foundations.Extensions;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -9,8 +11,22 @@ namespace Material.OAuth.Authentication
     {
         private readonly string _nonce;
 
+        public JsonWebTokenNonceValidator(
+            IOAuthSecurityStrategy securityStrategy,
+            string userId)
+        {
+            if (securityStrategy == null) throw new ArgumentNullException(nameof(securityStrategy));
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+
+            _nonce = securityStrategy.CreateOrGetSecureParameter(
+                userId,
+                OAuth2Parameter.Nonce.EnumToString());
+        }
+
         public JsonWebTokenNonceValidator(string nonce)
         {
+            if (nonce == null) throw new ArgumentNullException(nameof(nonce));
+
             _nonce = nonce;
         }
 

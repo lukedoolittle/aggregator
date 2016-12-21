@@ -36,7 +36,6 @@ namespace Material.View.WebAuthorization
             _callbackUri = callbackUri;
         }
 
-        //TODO: how do we determine the user closed the browser? a timer?
         protected override void MakeAuthorizationRequest(
             Uri authorizationUri,
             TaskCompletionSource<TCredentials> credentialsCompletion,

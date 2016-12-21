@@ -163,27 +163,20 @@ namespace Material.OAuth
 
         private JsonWebToken ValidateToken(JsonWebToken token)
         {
-            //TODO: break this out as it is duplicated logic with web
-            var nonce = _securityStrategy.CreateOrGetSecureParameter(
-                _userId,
-                OAuth2Parameter.Nonce.EnumToString());
-
-            var validator = new CompositeJsonWebTokenAuthenticationValidator()
+            var isTokenValid = new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
-                .AddValidator(new JsonWebTokenAudienceValidator(_clientId))
-                .AddValidator(new JsonWebTokenIssuerValidator(_provider.ValidIssuers))
-                .AddValidator(new JsonWebTokenNonceValidator(nonce))
-                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl));
-
-            var tokenValidation = validator
+                .AddValidator(new JsonWebTokenAudienceValidator(
+                    _clientId))
+                .AddValidator(new JsonWebTokenIssuerValidator(
+                    _provider.ValidIssuers))
+                .AddValidator(new JsonWebTokenNonceValidator(
+                    _securityStrategy, 
+                    _userId))
+                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
+                    _provider.OpenIdDiscoveryUrl))
+                .ThrowIfInvalid()
                 .IsTokenValid(token);
-
-            if (!tokenValidation.IsTokenValid)
-            {
-                throw new SecurityException(
-                    tokenValidation.Reason);
-            }
 
             return token;
         }

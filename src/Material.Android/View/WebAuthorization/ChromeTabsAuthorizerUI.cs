@@ -55,8 +55,6 @@ namespace Material.View.WebAuthorization
                 {
                     if (@event == CustomTabsCallbackEvents.TAB_HIDDEN)
                     {
-                        //TODO: cancel the completion source when the browser
-                        //is closed via the close button
                     }
                     if (@event == CustomTabsCallbackEvents.TAB_SHOWN)
                     {

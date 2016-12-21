@@ -22,8 +22,6 @@ namespace Material.OAuth.Authentication
 
         public TokenValidationResult IsTokenValid(JsonWebToken token)
         {
-            //TODO: cache discovery keys; expire cache whenever the keyid we are looking for is null
-
             var discoveryDocument = new HttpRequestBuilder(_discoveryUrl.NonPath())
                 .GetFrom(_discoveryUrl.AbsolutePath)
                 .ResultAsync<OpenIdConnectDiscoveryDocument>()

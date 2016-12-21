@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -7,6 +8,7 @@ namespace Material.OAuth.Authentication
     public class CompositeJsonWebTokenAuthenticationValidator : 
         IJsonWebTokenAuthenticationValidator
     {
+        private bool _throwIfInvalid;
         private readonly List<IJsonWebTokenAuthenticationValidator> _validators = 
             new List<IJsonWebTokenAuthenticationValidator>();
 
@@ -14,6 +16,13 @@ namespace Material.OAuth.Authentication
             IJsonWebTokenAuthenticationValidator validator)
         {
             _validators.Add(validator);
+
+            return this;
+        }
+
+        public CompositeJsonWebTokenAuthenticationValidator ThrowIfInvalid()
+        {
+            _throwIfInvalid = true;
 
             return this;
         }
@@ -26,7 +35,14 @@ namespace Material.OAuth.Authentication
 
                 if (!result.IsTokenValid)
                 {
-                    return result;
+                    if (_throwIfInvalid)
+                    {
+                        throw new SecurityException(result.Reason);
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
             }
 

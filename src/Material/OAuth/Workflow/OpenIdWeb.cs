@@ -122,28 +122,27 @@ namespace Material.OAuth.Workflow
                     userId)
                 .ConfigureAwait(false);
 
-            var nonce = _securityStrategy.CreateOrGetSecureParameter(
-                userId,
-                OAuth2Parameter.Nonce.EnumToString());
+            return ValidateToken(credentials.IdToken, userId);
+        }
 
-            var validator = new CompositeJsonWebTokenAuthenticationValidator()
+        private JsonWebToken ValidateToken(
+            JsonWebToken token, 
+            string userId)
+        {
+            var isTokenValid = new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
-                .AddValidator(new JsonWebTokenAudienceValidator(_clientId))
-                .AddValidator(new JsonWebTokenIssuerValidator(_provider.ValidIssuers))
-                .AddValidator(new JsonWebTokenNonceValidator(nonce))
-                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(_provider.OpenIdDiscoveryUrl));
-
-            var token = credentials.IdToken;
-
-            var tokenValidation = validator
+                .AddValidator(new JsonWebTokenAudienceValidator(
+                    _clientId))
+                .AddValidator(new JsonWebTokenIssuerValidator(
+                    _provider.ValidIssuers))
+                .AddValidator(new JsonWebTokenNonceValidator(
+                    _securityStrategy,
+                    userId))
+                .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
+                    _provider.OpenIdDiscoveryUrl))
+                .ThrowIfInvalid()
                 .IsTokenValid(token);
-
-            if (!tokenValidation.IsTokenValid)
-            {
-                throw new SecurityException(
-                    tokenValidation.Reason);
-            }
 
             return token;
         }

@@ -33,7 +33,6 @@ namespace Material.View.WebAuthorization
 
             WebViewPopup.IsOpen = true;
 
-            //TODO: convert to dependency parameters
             WebViewProgressRing.Visibility = Visibility.Visible;
             WebViewProgressRing.IsActive = true;
 
@@ -61,7 +60,6 @@ namespace Material.View.WebAuthorization
             WebView sender, 
             WebViewNavigationCompletedEventArgs args)
         {
-            //TODO: convert to dependency parameters
             if (RootWebView.Visibility == Visibility.Collapsed)
             {
                 RootWebView.Visibility = Visibility.Visible;
@@ -79,7 +77,6 @@ namespace Material.View.WebAuthorization
                 return;
             }
 
-            //TODO: convert to dependency parameters
             //Close button overlap of the webview is half of its width
             var closeButtonOverlap = CloseButton.ActualWidth / 2 + 1;
 
@@ -93,7 +90,6 @@ namespace Material.View.WebAuthorization
                 -1 * closeButtonOverlap);
             }
 
-            //TODO: convert to dependency parameters
             //The popup consumes a percentage of the total area of the apps window
             var newWindowHeight = 0.95 * _rootWindow.Bounds.Height;
             var newWindowWidth = 0.75 * _rootWindow.Bounds.Width;
@@ -105,7 +101,6 @@ namespace Material.View.WebAuthorization
                 WebViewGrid.Width = newWindowWidth;
             }
 
-            //TODO: convert to dependency parameters
             //The popup window is in the center of the apps window
             var newHorizontalOffset =
                 (_rootWindow.Bounds.Width - WebViewGrid.ActualWidth) / 2;
