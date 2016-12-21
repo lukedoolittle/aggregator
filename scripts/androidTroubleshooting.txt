@@ -1,0 +1,26 @@
+Problem: Android build fails with a number of package errors
+Solution: Clear out the Android zips directory (run cleanAndroidLibraries.bat) then redeploy. Note that compilation may take a long time.
+
+Problem: Deployment fails with INSTALL_FAILED_NO_MATCHING_ABIS error
+Solution: In the android .csproj properties, go to Android Options->Advanced and select all supported cpu architectures, then redeploy.
+
+Problem: Deployment fails with error AOT module 'System.Core.dll.so' not found: dlopen failed: library "/data/app/quantfabric.material-1/lib/x86/libaot-System.Core.dll.so" not found
+Solution: In the android .csproj properties, go to Android Options and unselect 'Use Fast Deployment', then rebuild.
+
+Problem: App deploys but crashes immediately on launch when built in Debug mode, but does not crash when build in Release mode
+Solution: Configure Hyper-V Manager properly then redeploy.
+* Close the Android simulator window to shut down the virtual machine.
+* Open application 'Hyper-V Manager'
+* Right-click the emulator you are trying to use, select Settings
+* Expand Processor
+* Click Compatibility
+* In the right pane set checkbox 'Migrate to a physical computer with a different processor version'
+* Start the debugging in Visual Studio to restart the simulator
+
+Problem: Failed to connect to debugger when launching
+Solution: Restart the adb server (run recycleAdbServer.bat) then restart debugging.
+
+
+
+
+
