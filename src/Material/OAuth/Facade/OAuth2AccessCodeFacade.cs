@@ -15,6 +15,7 @@ namespace Material.OAuth.Facade
         IOAuthAccessTokenFacade<OAuth2Credentials>
     {
         private readonly string _clientId;
+        private readonly string _clientSecret;
         private readonly OAuth2ResourceProvider _resourceProvider;
         private readonly IOAuthAuthorizationAdapter _oauth;
         private readonly Uri _callbackUri;
@@ -43,12 +44,9 @@ namespace Material.OAuth.Facade
             _callbackUri = callbackUri;
             _oauth = oauth;
             _securityStrategy = securityStrategy;
+            _clientSecret = clientSecret;
 
             _resourceProvider.SetGrant(GrantType.AuthCode);
-            if (clientSecret != null)
-            {
-                AddParameters(new OAuth2ClientSecret(clientSecret));
-            }
         }
 
         public OAuth2AccessCodeFacade(
@@ -120,6 +118,11 @@ namespace Material.OAuth.Facade
                     .SelectMany(s => s))
                 .AddParameters(_parameters);
 
+            if (_clientSecret != null)
+            {
+                builder.AddParameter(new OAuth2ClientSecret(_clientSecret));
+            }
+
             var result = await _oauth.GetToken<OAuth2Credentials>(
                     _resourceProvider.TokenUrl,
                     builder,
@@ -130,7 +133,9 @@ namespace Material.OAuth.Facade
             return result
                 .TimestampToken()
                 .SetTokenName(_resourceProvider.TokenName)
-                .SetClientId(_clientId);
+                .SetClientProperties(
+                    _clientId, 
+                    _clientSecret);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Enums;
 using Org.BouncyCastle.Crypto.Digests;
@@ -52,7 +54,11 @@ namespace Foundations.HttpClient.Cryptography
                 //case JsonWebTokenAlgorithm.PS512:
                 //    return new SigningAlgorithm(SignerUtilities.GetSigner("SHA-512withRSAandMGF1")) as TAlgorithm;
                 default:
-                    throw new NotSupportedException();
+                    throw new NotSupportedException(
+                        string.Format(
+                            CultureInfo.InvariantCulture, 
+                            StringResource.AlgorithmNotSupported, 
+                            algorithm.EnumToString()));
             }
         }
     }

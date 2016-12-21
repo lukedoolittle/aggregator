@@ -33,10 +33,6 @@ namespace Quantfabric.Test.Material.Interaction
             AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS256);
             AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS384);
             AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS512);
-
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.PS256);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.PS384);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.PS512);
         }
 
         [Fact]

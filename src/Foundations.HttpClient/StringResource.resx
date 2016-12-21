@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlgorithmNotSupported" xml:space="preserve">
+    <value>The algorithm {0} is not supported for Json Web Token signing</value>
+  </data>
   <data name="AsymmetricKeyException" xml:space="preserve">
     <value>This key is not an asymmetric key</value>
   </data>

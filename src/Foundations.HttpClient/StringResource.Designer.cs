@@ -62,6 +62,15 @@ namespace Foundations.HttpClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The algorithm {0} is not supported for Json Web Token signing.
+        /// </summary>
+        internal static string AlgorithmNotSupported {
+            get {
+                return ResourceManager.GetString("AlgorithmNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This key is not an asymmetric key.
         /// </summary>
         internal static string AsymmetricKeyException {
