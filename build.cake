@@ -33,61 +33,6 @@ var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
 var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa81");
 
-var windowsRepackAssemblies = new List<FilePath>
-{
-	windowsBuildDirectory + File("Foundations.dll"),
-	windowsBuildDirectory + File("Foundations.HttpClient.dll"),
-	windowsBuildDirectory + File("Material.Portable.dll")
-};
-var formsRepackAssemblies = new List<FilePath>
-{
-	formsBuildDirectory + File("Foundations.dll"),
-	formsBuildDirectory + File("Foundations.HttpClient.dll"),
-	formsBuildDirectory + File("Material.Portable.dll")
-};
-var iOSRepackAssemblies = new List<FilePath>
-{
-	iOSBuildDirectory + File("Foundations.dll"),
-	iOSBuildDirectory + File("Foundations.HttpClient.dll"),
-	iOSBuildDirectory + File("Material.Portable.dll"),
-	iOSBuildDirectory + File("Robotics.Mobile.Core.dll"),
-	iOSBuildDirectory + File("Robotics.Mobile.Core.iOS.dll")
-};
-var androidRepackAssemblies = new List<FilePath>
-{
-	androidBuildDirectory + File("Foundations.dll"),
-	androidBuildDirectory + File("Foundations.HttpClient.dll"),
-	androidBuildDirectory + File("Material.Portable.dll"),
-	androidBuildDirectory + File("Robotics.Mobile.Core.dll"),
-	androidBuildDirectory + File("Robotics.Mobile.Core.Droid.dll")
-};
-
-var ilRepackItems = new List<Tuple<FilePath, FilePath, List<FilePath>>>
-{
-	new Tuple<FilePath, FilePath, List<FilePath>>(
-		windowsBuildDirectory + File(mergedAssembly),
-		windowsBuildDirectory + File("Material.Windows.dll"),
-		windowsRepackAssemblies),
-	new Tuple<FilePath, FilePath, List<FilePath>>(
-		iOSBuildDirectory + File(mergedAssembly),
-		iOSBuildDirectory + File("Material.iOS.dll"),
-		iOSRepackAssemblies),
-	new Tuple<FilePath, FilePath, List<FilePath>>(
-		androidBuildDirectory + File(mergedAssembly),
-		androidBuildDirectory + File("Material.Android.dll"),
-		androidRepackAssemblies),
-	new Tuple<FilePath, FilePath, List<FilePath>>(
-		formsBuildDirectory + File(mergedAssembly),
-		formsBuildDirectory + File("Material.Forms.dll"),
-		formsRepackAssemblies),
-};
-
-var ilRepackFrameworkLocations = new List<FilePath> 
-{
-	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/MonoAndroid/v6.0"),
-	File("C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/Xamarin.iOS/v1.0")
-};
-
 var nuspecFile = Directory(nugetLocation) + File(nuspec);
 var nupkgFilePattern = nugetLocation + "/*.nupkg";
 
@@ -152,30 +97,8 @@ Task("Build")
     }
 });
 
-Task("ILRepack")
-     .IsDependentOn("Build")
-     .Does(() =>
-{
- 	foreach(var ilRepackItem in ilRepackItems)
-	{
-		var settings = new ILRepackSettings
-		{
-			TargetKind = TargetKind.Dll,
-			XmlDocs = true,
-			NDebug = false,
-			Libs = ilRepackFrameworkLocations
-		};
-
-		ILRepack(
-			ilRepackItem.Item1, 
-			ilRepackItem.Item2, 
-			ilRepackItem.Item3,
-			settings);
-	}
-});
-
 Task("NuGet-Pack")
-    .IsDependentOn("ILRepack")
+    .IsDependentOn("Build")
     .Does(() =>
 {
 	NuGetPack(
