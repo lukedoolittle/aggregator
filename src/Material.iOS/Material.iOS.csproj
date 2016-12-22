@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Material</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Material</AssemblyName>
+    <AssemblyName>Material.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <DocumentationFile>bin\Release\Material.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Material.iOS.xml</DocumentationFile>
     <CodeAnalysisRuleSet>Material.iOS.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

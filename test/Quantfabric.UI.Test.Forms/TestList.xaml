@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quantfabric.UI.Test.Forms.TestList">
+  <StackLayout>
+    <Label x:Name="ResultTextBox" Text="Results" HorizontalOptions="Center" VerticalOptions="Center" />
+    <Picker HorizontalOptions="Center" VerticalOptions="Center" SelectedIndex="0" SelectedIndexChanged="Picker_OnSelectedIndexChanged" WidthRequest="200">
+      <Picker.Items>
+        <x:String>Not Specified</x:String>
+        <x:String>Embedded</x:String>
+        <x:String>Dedicated</x:String>
+      </Picker.Items>
+    </Picker>
+    <Grid VerticalOptions="Center" HorizontalOptions="Center">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button x:Name="FacebookButton" Text="Facebook" Clicked="FacebookButton_OnClicked" Grid.Row="0" Grid.Column="0"/>
+      <Button x:Name="GoogleButton" Text="Google" Clicked="GoogleButton_OnClicked" Grid.Row="0" Grid.Column="1"/>
+
+      <Button x:Name="FoursquareButton" Text="Foursquare" Clicked="FoursquareButton_OnClicked" Grid.Row="1" Grid.Column="0"/>
+      <Button x:Name="SpotifyButton" Text="Spotify" Clicked="SpotifyButton_OnClicked" Grid.Row="1" Grid.Column="1"/>
+    </Grid>
+  </StackLayout>
+</ContentPage>

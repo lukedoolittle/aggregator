@@ -107,9 +107,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Quantfabric.UI.Test.Forms.UWP_TemporaryKey.pfx" />
     <None Include="Quantfabric.UI.Test.UWP_TemporaryKey.pfx" />
-    <None Include="Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

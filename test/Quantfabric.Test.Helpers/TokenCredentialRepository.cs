@@ -61,6 +61,7 @@ namespace Quantfabric.Test.TestHelpers
             return result;
         }
 
+#if __WINDOWS__
         public void PutToken<TService, TToken>(TToken token)
             where TService : ResourceProvider
             where TToken : TokenCredentials
@@ -78,6 +79,7 @@ namespace Quantfabric.Test.TestHelpers
             var json = JsonConvert.SerializeObject(credentials2, Formatting.Indented);
             File.WriteAllText(_pathToTestCredentials, json);
         }
+#endif
     }
 }
 #endif

@@ -70,7 +70,7 @@
     <file src="..\..\src\Material.iOS\bin\Release\Material.Core.*" exclude="**\*.mdb" target="lib\Xamarin.iOS10" />
     <file src="..\..\src\Material.UWP\bin\Release\Material.*" exclude="**\*.mdb" target="lib\uap10.0" />
     <file src="..\..\src\Material.UWP\bin\Release\Foundations.*" exclude="**\*.mdb" target="lib\uap10.0" />
-    <file src="..\..\src\Material.UWP\bin\Release\Material\**" target="lib\uap10.0\Material" />
+    <file src="..\..\src\Material.UWP\bin\Release\Material.UWP\**" target="lib\uap10.0\Material.UWP" />
     <file src="tools\" target="tools" />
     <file src="content\" target="content" />
   </files>

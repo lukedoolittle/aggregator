@@ -22,7 +22,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="quantfabric.material" />
-        <data android:scheme="quantfabric" />
+				<data android:scheme="quantfabric" />
 			</intent-filter>
 		</activity>
 	</application>

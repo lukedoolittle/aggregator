@@ -7,12 +7,10 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 var solution = Argument("solution", "Quantfabric.sln");
-var primaryAssembly = Argument("primaryAssembly", "Material.dll");
 var mergedAssembly = Argument("mergedAssembly", "Material.Core.dll");
 
 var nugetLocation = Argument("nugetLocation", "./nuget/Material");
 var nuspec = Argument("nuspec", "Quantfabric.Material.nuspec");
-var nupkg = Argument("nupkg", nugetLocation);
 
 var key = Argument("key", "");
 
@@ -35,39 +33,53 @@ var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
 var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa81");
 
-var baseMergeList = new List<FilePath>
+var windowsRepackAssemblies = new List<FilePath>
 {
-	File("Foundations.dll"),
-	File("Foundations.HttpClient.dll"),
-	File("Material.Portable.dll")
+	windowsBuildDirectory + File("Foundations.dll"),
+	windowsBuildDirectory + File("Foundations.HttpClient.dll"),
+	windowsBuildDirectory + File("Material.Portable.dll")
+};
+var formsRepackAssemblies = new List<FilePath>
+{
+	formsBuildDirectory + File("Foundations.dll"),
+	formsBuildDirectory + File("Foundations.HttpClient.dll"),
+	formsBuildDirectory + File("Material.Portable.dll")
+};
+var iOSRepackAssemblies = new List<FilePath>
+{
+	iOSBuildDirectory + File("Foundations.dll"),
+	iOSBuildDirectory + File("Foundations.HttpClient.dll"),
+	iOSBuildDirectory + File("Material.Portable.dll"),
+	iOSBuildDirectory + File("Robotics.Mobile.Core.dll"),
+	iOSBuildDirectory + File("Robotics.Mobile.Core.iOS.dll")
+};
+var androidRepackAssemblies = new List<FilePath>
+{
+	androidBuildDirectory + File("Foundations.dll"),
+	androidBuildDirectory + File("Foundations.HttpClient.dll"),
+	androidBuildDirectory + File("Material.Portable.dll"),
+	androidBuildDirectory + File("Robotics.Mobile.Core.dll"),
+	androidBuildDirectory + File("Robotics.Mobile.Core.Droid.dll")
 };
 
-var windowsMergeList = new List<FilePath>(baseMergeList);
-
-var iOSMergeList = new List<FilePath>(baseMergeList);
-iOSMergeList.Add(File("Robotics.Mobile.Core.dll"));
-iOSMergeList.Add(File("Robotics.Mobile.Core.iOS.dll"));
-
-var androidMergeList = new List<FilePath>(baseMergeList);
-androidMergeList.Add(File("Robotics.Mobile.Core.dll"));
-androidMergeList.Add(File("Robotics.Mobile.Core.Droid.dll"));
-
-var formsMergeList = new List<FilePath>(baseMergeList);
-
-var ilRepackItems = new List<Tuple<ConvertableDirectoryPath, List<FilePath>>>
+var ilRepackItems = new List<Tuple<FilePath, FilePath, List<FilePath>>>
 {
-	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
-		windowsBuildDirectory,
-		windowsMergeList),
-	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
-		iOSBuildDirectory,
-		iOSMergeList),
-	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
-		androidBuildDirectory,
-		androidMergeList),
-	new Tuple<ConvertableDirectoryPath, List<FilePath>>(
-		formsBuildDirectory,
-		formsMergeList),
+	new Tuple<FilePath, FilePath, List<FilePath>>(
+		windowsBuildDirectory + File(mergedAssembly),
+		windowsBuildDirectory + File("Material.Windows.dll"),
+		windowsRepackAssemblies),
+	new Tuple<FilePath, FilePath, List<FilePath>>(
+		iOSBuildDirectory + File(mergedAssembly),
+		iOSBuildDirectory + File("Material.iOS.dll"),
+		iOSRepackAssemblies),
+	new Tuple<FilePath, FilePath, List<FilePath>>(
+		androidBuildDirectory + File(mergedAssembly),
+		androidBuildDirectory + File("Material.Android.dll"),
+		androidRepackAssemblies),
+	new Tuple<FilePath, FilePath, List<FilePath>>(
+		formsBuildDirectory + File(mergedAssembly),
+		formsBuildDirectory + File("Material.Forms.dll"),
+		formsRepackAssemblies),
 };
 
 var ilRepackFrameworkLocations = new List<FilePath> 
@@ -154,12 +166,10 @@ Task("ILRepack")
 			Libs = ilRepackFrameworkLocations
 		};
 
-		var assemblyPaths = ilRepackItem.Item2.Select(i => (FilePath)(ilRepackItem.Item1 + i));
-
 		ILRepack(
-			ilRepackItem.Item1 + File(mergedAssembly), 
-			ilRepackItem.Item1 + File(primaryAssembly), 
-			assemblyPaths,
+			ilRepackItem.Item1, 
+			ilRepackItem.Item2, 
+			ilRepackItem.Item3,
 			settings);
 	}
 });
@@ -172,7 +182,7 @@ Task("NuGet-Pack")
 		nuspecFile, 
 		new NuGetPackSettings
 		{
-			OutputDirectory = nupkg
+			OutputDirectory = nugetLocation
 		});
 });
 

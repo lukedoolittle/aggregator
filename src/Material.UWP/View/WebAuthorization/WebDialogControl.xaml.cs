@@ -2,6 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Material.View.WebAuthorization
 {
@@ -22,6 +24,8 @@ namespace Material.View.WebAuthorization
 
             _rootWindow = rootWindow;
             _canceled = canceled;
+
+            //CloseButton.Source = new BitmapImage(new Uri("ms-appx:///Material/Assets/close.png"));
         }
 
         public void Show(
