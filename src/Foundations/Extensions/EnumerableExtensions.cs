@@ -9,6 +9,26 @@ namespace Foundations.Extensions
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Create a subset from a range of indices
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static T[] RangeSubset<T>(
+            this T[] array,
+            int startIndex,
+            int length)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+
+            var subset = new T[length];
+            Array.Copy(array, startIndex, subset, 0, length);
+            return subset;
+        }
+
+        /// <summary>
         /// Url encodes each pair in a list
         /// </summary>
         /// <param name="instance"></param>
@@ -31,44 +51,6 @@ namespace Foundations.Extensions
             }
 
             return newCollection;
-        }
-             
-        /// <summary>
-        /// Determine if the intersection of this and another list is null
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="instance"></param>
-        /// <param name="set"></param>
-        /// <returns>True if the intersect is empty, false otherwise</returns>
-        public static bool IntersectIsEmptySet<T>(
-            this IEnumerable<T> instance, 
-            IEnumerable<T> set)
-        {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            return !instance.All(set.Contains);
-        }
-
-        /// <summary>
-        /// Determines if an object is a subset of another given collection
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="instance"></param>
-        /// <param name="set"></param>
-        /// <returns></returns>
-        public static bool IsSubsetOf<T>(
-            this IEnumerable<T> instance,
-            IEnumerable<T> set)
-        {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            return instance.All(set.Contains);
         }
 
         /// <summary>

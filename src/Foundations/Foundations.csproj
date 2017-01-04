@@ -39,9 +39,6 @@
   <ItemGroup>
     <Compile Include="Attributes\DescriptionAttribute.cs" />
     <Compile Include="Collections\DefaultingDictionary.cs" />
-    <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\AssemblyExtensions.cs" />
-    <Compile Include="CurrentAppDomain.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
@@ -49,15 +46,9 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Collections\HttpUtility.cs" />
     <Compile Include="Enums\MediaType.cs" />
-    <Compile Include="Reflection\MethodReflectionException.cs" />
-    <Compile Include="Reflection\InstanceCreator.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Reflection\MethodInvoker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\Reflection.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Extensions\TypeMapper.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
