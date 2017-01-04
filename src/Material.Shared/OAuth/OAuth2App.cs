@@ -31,6 +31,8 @@ namespace Material.OAuth
             AuthorizationInterface browserType
             )
         {
+            var redirectUri = new Uri(callbackUrl);
+
 #if __WINDOWS__
             var @interface = browserType;
 #else
@@ -38,12 +40,13 @@ namespace Material.OAuth
                 Framework.Platform.Current.CanProvideSecureBrowsing)
                 .GetOptimalOAuth2Interface(
                     provider, 
-                    browserType);
+                    browserType,
+                    redirectUri);
 #endif
 
             _app = new OAuth2AppBase<TResourceProvider>(
                 clientId,
-                new Uri(callbackUrl),
+                redirectUri,
 #if __FORMS__
                     Xamarin.Forms.DependencyService.Get<Contracts.IOAuthAuthorizerUIFactory>(),
 #else

@@ -19,7 +19,7 @@ namespace Material.OAuth.AuthenticatorParameters
         }
 
         public OAuth2CallbackUri(Uri redirectUri) :
-            this(redirectUri?.ToString())
+            this(redirectUri?.ToCorrectedString())
         { }
     }
 }

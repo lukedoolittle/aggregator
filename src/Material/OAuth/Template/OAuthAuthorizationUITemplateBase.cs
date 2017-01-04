@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.Extensions;
 using Material.Contracts;
 using Material.Enums;
 using Material.Exceptions;
@@ -51,10 +52,7 @@ namespace Material.OAuth.Template
                     credentialsCompletion,
                     (uri, view) =>
                     {
-                        if (uri != null &&
-                            uri.AbsolutePath.ToString().StartsWith(
-                                _callbackUri.AbsolutePath.ToString(), 
-                                StringComparison.Ordinal))
+                        if (uri.IsSubpathOf(_callbackUri))
                         {
                             try
                             {

@@ -110,7 +110,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Facebook>();
-                var clientSecret = settings.GetClientSecret<Facebook>();
                 var redirectUri = settings.GetRedirectUri<Facebook>();
 
                 var token = await new OAuth2App<Facebook>(
@@ -128,7 +127,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(_callbackType);
                 var clientId = settings.GetClientId<Spotify>();
-                var clientSecret = settings.GetClientSecret<Spotify>();
                 var redirectUri = settings.GetRedirectUri<Spotify>();
 
                 var token = await new OAuth2App<Spotify>(
@@ -146,7 +144,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(_callbackType);
                 var clientId = settings.GetClientId<Google>();
-                var clientSecret = settings.GetClientSecret<Google>();
                 var redirectUri = settings.GetRedirectUri<Google>();
 
                 var token = await new OAuth2App<Google>(
@@ -166,7 +163,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(_callbackType);
                 var clientId = settings.GetClientId<Fitbit>();
-                var clientSecret = settings.GetClientSecret<Fitbit>();
                 var redirectUri = settings.GetRedirectUri<Fitbit>();
 
                 var token = await new OAuth2App<Fitbit>(
@@ -204,14 +200,13 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(_callbackType);
                 var clientId = settings.GetClientId<Foursquare>();
-                var clientSecret = settings.GetClientSecret<Foursquare>();
                 var redirectUri = settings.GetRedirectUri<Foursquare>();
 
                 var token = await new OAuth2App<Foursquare>(
                         clientId,
                         redirectUri,
                         browserType: _browserType)
-                    .GetCredentialsAsync(clientSecret)
+                    .GetCredentialsAsync()
                     .ConfigureAwait(false);
 
                 WriteOAuth2CredentialsToTextView(token);
@@ -257,7 +252,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(CallbackType.Localhost);
                 var clientId = settings.GetClientId<Instagram>();
-                var clientSecret = settings.GetClientSecret<Instagram>();
                 var redirectUri = settings.GetRedirectUri<Instagram>();
 
                 var token = await new OAuth2App<Instagram>(
@@ -330,7 +324,6 @@ namespace Quantfabric.UI.Test.iOS
             {
                 var settings = new AppCredentialRepository(_callbackType);
                 var clientId = settings.GetClientId<Amazon>();
-                var clientSecret = settings.GetClientSecret<Amazon>();
                 var redirectUri = settings.GetRedirectUri<Amazon>();
 
                 var token = await new OAuth2App<Amazon>(

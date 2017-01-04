@@ -40,9 +40,10 @@
             "authorizationUrl": "https://www.amazon.com/ap/oa",
             "tokenUrl": "https://api.amazon.com/auth/o2/token",
             "name": "access_token",
-            "in": "query", 
+            "in": "query",
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
+            "x-pkce-support": true,
             "scopes": {
                 "profile": "Includes a user's name and email address",
                 "profile:user_id": "Only includes the user_id field of the users profile",

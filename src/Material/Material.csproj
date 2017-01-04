@@ -60,7 +60,9 @@
     <Compile Include="Infrastructure\Identities\GoogleIdentity.cs" />
     <Compile Include="Infrastructure\Identities\TwitterIdentity.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
+    <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
+    <Compile Include="Infrastructure\Partials\Spotify.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
@@ -292,7 +294,6 @@
     <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
-    <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\DeviceRequest.cs" />
     <Compile Include="Infrastructure\Device.cs" />
     <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />

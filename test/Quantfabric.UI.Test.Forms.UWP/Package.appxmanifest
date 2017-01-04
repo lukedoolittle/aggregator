@@ -22,8 +22,8 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="quantfabric">
-            <uap:DisplayName>Quantfabric.Test.NonGoogle</uap:DisplayName>
+          <uap:Protocol Name="amzn-quantfabric.material">
+            <uap:DisplayName>Quantfabric.Test.Amazon</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
@@ -32,8 +32,8 @@
           </uap:Protocol>
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="fb746319738808979">
-            <uap:DisplayName>Quantfabric.Test</uap:DisplayName>
+          <uap:Protocol Name="quantfabric">
+            <uap:DisplayName>Quantfabric.Test.NonGoogle</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
       </Extensions>

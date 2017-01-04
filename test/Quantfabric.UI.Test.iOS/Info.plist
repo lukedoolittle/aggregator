@@ -19,7 +19,8 @@
 			<string>quantfabric</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>quantfabric.material</string>
+        <string>amzn-quantfabric.material</string>
+        <string>quantfabric.material</string>
 				<string>quantfabric</string>
 			</array>
 		</dict>

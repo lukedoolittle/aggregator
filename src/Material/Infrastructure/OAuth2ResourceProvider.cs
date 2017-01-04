@@ -86,6 +86,12 @@ namespace Material.Infrastructure
             return this;
         }
 
+        public virtual OAuth2ResourceProvider SetCustomUrlBrowsingParameters(
+            Uri callbackUri)
+        {
+            return this;
+        }
+
         public virtual void SetClientProperties(
             string clientId,
             string clientSecret)

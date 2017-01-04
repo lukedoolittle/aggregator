@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Foundations.Collections;
 
@@ -7,6 +6,35 @@ namespace Foundations.Extensions
 {
     public static class UriExtensions
     {
+        public static string ToCorrectedString(this Uri instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            //System.Uri inserts an incorrect trailing slash after a scheme if no host name is
+            //present, so if that happens remove that trailing slash
+            return instance.ToString().Replace("///", "//");
+        }
+
+        /// <summary>
+        /// Determines if the Uri's path is a subset of the given Uri's path
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="possibleMatch"></param>
+        /// <returns></returns>
+        public static bool IsSubpathOf(
+            this Uri instance, 
+            Uri possibleMatch)
+        {
+            if (instance == null || possibleMatch == null)
+            {
+                return false;
+            } 
+
+            return instance.AbsolutePath.TrimStart('/').StartsWith(
+                possibleMatch.AbsolutePath.TrimStart('/'),
+                StringComparison.Ordinal);
+        }
+
         /// <summary>
         /// Gets a fragment of the uri containing the scheme and the host
         /// </summary>
@@ -24,57 +52,6 @@ namespace Foundations.Extensions
                 "{0}://{1}/", 
                 instance.Scheme, 
                 instance.Authority);
-        }
-
-        public static string NoQuerystring(this Uri instance)
-        {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}://{1}{2}",
-                instance.Scheme, 
-                instance.Authority,
-                instance.AbsolutePath);
-        }
-
-        /// <summary>
-        /// Adds path with parameters to Uri
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <param name="path"></param>
-        /// <param name="pathParameters"></param>
-        /// <returns></returns>
-        public static Uri AddPathParameters(
-            this Uri instance,
-            string path,
-            HttpValueCollection pathParameters)
-        {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-            if (pathParameters == null)
-            {
-                throw new ArgumentNullException(nameof(pathParameters));
-            }
-
-            var uriBuilder = new UriBuilder(instance);
-            foreach (var segment in pathParameters)
-            {
-                path = path.Replace(
-                    "{" + segment.Key + "}",
-                    segment.Value);
-            }
-            uriBuilder.Path += path;
-            return uriBuilder.Uri;
         }
 
         /// <summary>

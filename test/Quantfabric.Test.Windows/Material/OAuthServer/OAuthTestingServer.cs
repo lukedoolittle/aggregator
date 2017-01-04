@@ -39,7 +39,7 @@ namespace Quantfabric.Test.Material.OAuthServer
 #pragma warning disable 4014
             _server.CreateServer((message, response) =>
             {
-                var uri = message.Uri.NoQuerystring();
+                var uri = $"{message.Uri.Scheme}://{message.Uri.Authority}{message.Uri.AbsolutePath}";
 
                 if (_handlers.ContainsKey(uri))
                 {

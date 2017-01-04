@@ -1,4 +1,5 @@
-﻿using Material.Enums;
+﻿using System;
+using Material.Enums;
 using Material.Infrastructure;
 
 namespace Material.OAuth
@@ -38,17 +39,26 @@ namespace Material.OAuth
 
         public AuthorizationInterface GetOptimalOAuth2Interface<TResourceProvider>(
             TResourceProvider provider,
-            AuthorizationInterface selectedInterface)
+            AuthorizationInterface selectedInterface,
+            Uri callbackUri)
             where TResourceProvider : OAuth2ResourceProvider
         {
             if (selectedInterface != AuthorizationInterface.NotSpecified)
             {
+                if (selectedInterface == AuthorizationInterface.SecureEmbedded ||
+                    selectedInterface == AuthorizationInterface.Dedicated)
+                {
+                    provider.SetCustomUrlBrowsingParameters(callbackUri);
+                }
+
                 return selectedInterface;
             }
             else
             {
                 if (provider.SupportsCustomUrlScheme)
                 {
+                    provider.SetCustomUrlBrowsingParameters(callbackUri);
+
                     return _canProvideSecureBrowsing ?
                         AuthorizationInterface.SecureEmbedded :
                         AuthorizationInterface.Dedicated;
