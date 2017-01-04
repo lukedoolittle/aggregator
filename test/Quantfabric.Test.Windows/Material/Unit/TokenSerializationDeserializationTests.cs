@@ -136,5 +136,19 @@ namespace Quantfabric.Test.Material.Unit
             Assert.Equal(issuedAt, actualToken.Claims.IssuedAt);
             Assert.Equal(expires, actualToken.Claims.ExpirationTime);
         }
+
+        [Fact]
+        public void DeserializeJsonWebTokenForAmazonValues()
+        {
+            var cliendId = "amzn1.application-oa2-client.7b84d68ebec744c38d11187f17f1a5eb";
+            var redirectUri = "amzn-quantfabric.material://?methodName=signin";
+
+            var token = "eyJhbGciOiJSU0EtU0hBMjU2IiwidmVyIjoiMSJ9.eyJ2ZXIiOiIzIiwiZW5kcG9pbnRzIjp7ImF1dGh6IjoiaHR0cHM6Ly93d3cuYW1hem9uLmNvbS9hcC9vYSIsInRva2VuRXhjaGFuZ2UiOiJodHRwczovL2FwaS5hbWF6b24uY29tL2F1dGgvbzIvdG9rZW4ifSwiY2xpZW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1vYTItY2xpZW50LjdiODRkNjhlYmVjNzQ0YzM4ZDExMTg3ZjE3ZjFhNWViIiwiYXBwRmFtaWx5SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi41MTNiNjY1ZGM5Y2M0ZmEwYjE0YTc1MzdiOTQxMzM0NSIsImJ1bmRsZVNlZWRJZCI6InF1YW50ZmFicmljLm1hdGVyaWFsIiwiYnVuZGxlSWQiOiJxdWFudGZhYnJpYy5tYXRlcmlhbCIsImlzcyI6IkFtYXpvbiIsInR5cGUiOiJBUElLZXkiLCJhcHBWYXJpYW50SWQiOiJhbXpuMS5hcHBsaWNhdGlvbi1jbGllbnQuNjg2MDBiMmVhZmIxNDY3MGI1Njc5YTc5YmJjM2FjYTIiLCJ0cnVzdFBvb2wiOm51bGwsImFwcElkIjoiYW16bjEuYXBwbGljYXRpb24tY2xpZW50LjY4NjAwYjJlYWZiMTQ2NzBiNTY3OWE3OWJiYzNhY2EyIiwiaWQiOiJlMDU5Mjg0MS1kMjk4LTExZTYtODdmZS02ZDdiNDAxNTdlYmMiLCJpYXQiOiIxNDgzNTQ2NDcyMjIyIn0=.ImdvjL460JNk7FlwytjYVE4tzcV0qD3QhL0yW9Uku6IEC+w6/sONcSutswh6qA3J9LcbYz45GkDnTBPISF1zO6yyinin5bwpbZU44CLnoQdlqvG3oNjFZVgj1ZAqqIhh0yrx95kYxKU18qKJ2ovsMm7gfz045+2ChzSaLaoC1+BxI52Dp9getzmyc2iGqSxOve3iOVYXNGo83+LIBpVR6LWDkSolNJVQP2kvSepTVkEGPkD9uHmGlCYpUkezPNelMi6CADxP626Tg8XQl/LeZfAszT5khuUj7kOydq8dOqOSICNVNuY9qyzmI8j0uQhqQZbcOcUSKTbN+CtMTpz0kA==";
+
+            var actualToken = token.ToWebToken();
+
+            Assert.Equal(cliendId, actualToken.Claims.ClientId);
+            Assert.Equal(redirectUri, actualToken.Claims.GetAmazonCallbackUri());
+        }
     }
 }

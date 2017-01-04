@@ -316,6 +316,29 @@ namespace Material.Infrastructure.Credentials
             }
         }
 
+        private string _clientId;
+        [DataMember(Name = "clientId", EmitDefaultValue = false)]
+        public string ClientId
+        {
+            get { return _clientId; }
+            set
+            {
+                OnPropertyChanged();
+                _clientId = value;
+            }
+        }
+
+        private string _bundleId;
+        [DataMember(Name = "bundleId", EmitDefaultValue = false)]
+        public string BundleId
+        {
+            get { return _bundleId; }
+            set
+            {
+                OnPropertyChanged();
+                _bundleId = value;
+            }
+        }
         //[DataMember(Name = "nbf", EmitDefaultValue = false)]
         //public string NotBefore { get; set; }
 

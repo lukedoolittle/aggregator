@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
@@ -9,6 +10,16 @@ namespace Material.Infrastructure.Credentials
 {
     public static class JsonWebTokenExtensions
     {
+        public static string GetAmazonCallbackUri(this JsonWebTokenClaims instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            return string.Format(
+                CultureInfo.InvariantCulture, 
+                "amzn-{0}://?methodName=signin", 
+                instance.BundleId);
+        }
+
         public static JsonWebToken ToWebToken(this string instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));

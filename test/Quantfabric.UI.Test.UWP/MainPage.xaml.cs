@@ -14,6 +14,7 @@ using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.UI.Test.UWP.Annotations;
+using Material.Infrastructure.Credentials;
 
 namespace Quantfabric.UI.Test.UWP
 {
@@ -56,9 +57,10 @@ namespace Quantfabric.UI.Test.UWP
             this.InitializeComponent();
         }
 
+        //FOR EASE OF COPY AND PASTE INTO WIKI
+
         private async void OnFacebookEmailClick(object sender, RoutedEventArgs e)
         {
-
             OAuth2Credentials credentials = await new OAuth2App<Facebook>(
                     "YOUR CLIENT ID",
                     "HTTP://YOURCALLBACKURI")
@@ -88,6 +90,20 @@ namespace Quantfabric.UI.Test.UWP
 
             string email = profile.Emails.First().Value;
         }
+
+        private async void OnAmazonMobileClick(object sender, RoutedEventArgs e)
+        {
+            JsonWebToken credentialToken = "YOUR API KEY HERE".ToWebToken();
+
+            OAuth2Credentials credentials = await new OAuth2App<Amazon>(
+                    credentialToken.Claims.ClientId,
+                    credentialToken.Claims.GetAmazonCallbackUri())
+                .AddScope<AmazonProfile>()
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+        }
+
+        //END WIKI
 
         private async void OnFacebookClick(object sender, RoutedEventArgs e)
         {
