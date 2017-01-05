@@ -20,16 +20,17 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Amazon : OAuth2ResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String> { "profile", "profile:user_id", "postal_code", "alexa:all" };
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
-        public override String TokenName => "access_token";
-        public override Uri AuthorizationUrl => new Uri("https://www.amazon.com/ap/oa");
-        public override Uri TokenUrl => new Uri("https://api.amazon.com/auth/o2/token");
-        public override Boolean SupportsPkce => true;
-        public override Boolean SupportsCustomUrlScheme => true;
-	}
+	public partial class Amazon  : OAuth2ResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> { "profile", "profile:user_id", "postal_code", "alexa:all" };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.Code };
+        public override string TokenName { get; } = "access_token";
+        public override Uri AuthorizationUrl { get; } = new Uri("https://www.amazon.com/ap/oa");
+        public override Uri TokenUrl { get; } = new Uri("https://api.amazon.com/auth/o2/token");
+        public override bool SupportsPkce { get; } = true;
+        public override bool SupportsCustomUrlScheme { get; } = true;
+        public override char ScopeDelimiter { get; } = ' ';
+    }
 }

@@ -20,13 +20,17 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class GoogleAnalytics : OAuth2ResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String> { "https://www.googleapis.com/auth/analytics.readonly" };
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType>();
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.JsonWebToken };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType>();
-        public override String TokenName => "Bearer";
-        public override Uri TokenUrl => new Uri("https://accounts.google.com/o/oauth2/token");
-	}
+	public partial class GoogleAnalytics  : OAuth2ResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> { "https://www.googleapis.com/auth/analytics.readonly" };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> {  };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.JsonWebToken };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> {  };
+        public override string TokenName { get; } = "Bearer";
+        public override Uri AuthorizationUrl { get; } = null;
+        public override Uri TokenUrl { get; } = new Uri("https://accounts.google.com/o/oauth2/token");
+        public override bool SupportsPkce { get; } = false;
+        public override bool SupportsCustomUrlScheme { get; } = false;
+        public override char ScopeDelimiter { get; } = ' ';
+    }
 }

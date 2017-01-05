@@ -19,12 +19,12 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Withings : OAuth1ResourceProvider              
-	{
-        public override Uri RequestUrl => new Uri("https://oauth.withings.com/account/request_token");
-        public override Uri AuthorizationUrl => new Uri("https://oauth.withings.com/account/authorize");
-        public override Uri TokenUrl => new Uri("https://oauth.withings.com/account/access_token");
-        public override HttpParameterType ParameterType => HttpParameterType.Querystring;
-        public override Boolean SupportsCustomUrlScheme => true;
-	}
+	public partial class Withings  : OAuth1ResourceProvider 
+    {
+        public override Uri RequestUrl { get; } = new Uri("https://oauth.withings.com/account/request_token");
+        public override Uri AuthorizationUrl { get; } = new Uri("https://oauth.withings.com/account/authorize");
+        public override Uri TokenUrl { get; } = new Uri("https://oauth.withings.com/account/access_token");
+        public override HttpParameterType ParameterType { get; } = HttpParameterType.Querystring;
+        public override bool SupportsCustomUrlScheme { get; } = true;
+    }
 }

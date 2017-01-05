@@ -20,14 +20,17 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Runkeeper : OAuth2ResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String>();
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
-        public override String TokenName => "Bearer";
-        public override Uri AuthorizationUrl => new Uri("https://runkeeper.com/apps/authorize");
-        public override Uri TokenUrl => new Uri("https://runkeeper.com/apps/token");
-	}
+	public partial class Runkeeper  : OAuth2ResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> {  };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
+        public override string TokenName { get; } = "Bearer";
+        public override Uri AuthorizationUrl { get; } = new Uri("https://runkeeper.com/apps/authorize");
+        public override Uri TokenUrl { get; } = new Uri("https://runkeeper.com/apps/token");
+        public override bool SupportsPkce { get; } = false;
+        public override bool SupportsCustomUrlScheme { get; } = false;
+        public override char ScopeDelimiter { get; } = ' ';
+    }
 }

@@ -1,0 +1,44 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "SampleApi",
+        "description": "A Sample API",
+        "termsOfService": "http://www.example.com/termsofservice",
+        "version": "1"
+    },
+    "host": "www.example.com/",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {},
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://www.example.com/oauth/authorize",
+            "tokenUrl": "https://www.example.com/oauth/token",
+            "name": "access_token",
+            "in": "query", 
+            "x-grant-types": [ "authorization_code" ],
+            "x-response-types": [ "code" ],
+            "scopes": {
+                "sample_get": ""
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://www.example.com/oauth/authorize",
+            "name": "access_token",
+            "in": "query", 
+            "x-response-types": [ "token"],
+            "scopes": {
+                "sample_get": ""
+            }
+        }
+    },
+    "definitions": []
+}

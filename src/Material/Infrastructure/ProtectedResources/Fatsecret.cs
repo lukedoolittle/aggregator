@@ -19,12 +19,12 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Fatsecret : OAuth1ResourceProvider              
-	{
-        public override Uri RequestUrl => new Uri("http://www.fatsecret.com/oauth/request_token");
-        public override Uri AuthorizationUrl => new Uri("http://www.fatsecret.com/oauth/authorize");
-        public override Uri TokenUrl => new Uri("http://www.fatsecret.com/oauth/access_token");
-        public override HttpParameterType ParameterType => HttpParameterType.Body;
-        public override Boolean SupportsCustomUrlScheme => true;
-	}
+	public partial class Fatsecret  : OAuth1ResourceProvider 
+    {
+        public override Uri RequestUrl { get; } = new Uri("http://www.fatsecret.com/oauth/request_token");
+        public override Uri AuthorizationUrl { get; } = new Uri("http://www.fatsecret.com/oauth/authorize");
+        public override Uri TokenUrl { get; } = new Uri("http://www.fatsecret.com/oauth/access_token");
+        public override HttpParameterType ParameterType { get; } = HttpParameterType.Body;
+        public override bool SupportsCustomUrlScheme { get; } = true;
+    }
 }

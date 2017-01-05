@@ -20,16 +20,19 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Yahoo : OpenIdResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String> { "openid" };
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token, OAuth2ResponseType.IdToken, OAuth2ResponseType.IdTokenToken };
-        public override String TokenName => "Bearer";
-        public override Uri AuthorizationUrl => new Uri("https://api.login.yahoo.com/oauth2/request_auth");
-        public override Uri TokenUrl => new Uri("https://api.login.yahoo.com/oauth2/get_token");
-        public override Uri OpenIdDiscoveryUrl => new Uri("https://login.yahoo.com/.well-known/openid-configuration");
-        public override List<String> ValidIssuers => new List<String> { "https://api.login.yahoo.com" };
-	}
+	public partial class Yahoo  : OpenIdResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> { "openid" };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.IdToken, OAuth2ResponseType.IdTokenToken, OAuth2ResponseType.Code };
+        public override string TokenName { get; } = "Bearer";
+        public override Uri AuthorizationUrl { get; } = new Uri("https://api.login.yahoo.com/oauth2/request_auth");
+        public override Uri TokenUrl { get; } = new Uri("https://api.login.yahoo.com/oauth2/get_token");
+        public override bool SupportsPkce { get; } = false;
+        public override bool SupportsCustomUrlScheme { get; } = false;
+        public override char ScopeDelimiter { get; } = ' ';
+        public override Uri OpenIdDiscoveryUrl { get; } = new Uri("https://login.yahoo.com/.well-known/openid-configuration");
+        public override List<string> ValidIssuers { get; } = new List<string> {"https://api.login.yahoo.com"};
+    }
 }

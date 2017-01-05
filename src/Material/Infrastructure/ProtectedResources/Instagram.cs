@@ -20,14 +20,17 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Instagram : OAuth2ResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String> { "basic", "public_content", "follower_list", "comments", "relationships", "likes" };
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode, OAuth2FlowType.Implicit };
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code, OAuth2ResponseType.Token };
-        public override String TokenName => "access_token";
-        public override Uri AuthorizationUrl => new Uri("https://api.instagram.com/oauth/authorize/");
-        public override Uri TokenUrl => new Uri("https://api.instagram.com/oauth/access_token");
-	}
+	public partial class Instagram  : OAuth2ResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> { "basic", "public_content", "follower_list", "comments", "relationships", "likes" };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.Code };
+        public override string TokenName { get; } = "access_token";
+        public override Uri AuthorizationUrl { get; } = new Uri("https://api.instagram.com/oauth/authorize/");
+        public override Uri TokenUrl { get; } = new Uri("https://api.instagram.com/oauth/access_token");
+        public override bool SupportsPkce { get; } = false;
+        public override bool SupportsCustomUrlScheme { get; } = false;
+        public override char ScopeDelimiter { get; } = ' ';
+    }
 }

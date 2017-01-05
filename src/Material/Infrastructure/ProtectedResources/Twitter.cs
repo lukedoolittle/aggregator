@@ -19,12 +19,12 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth1Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class Twitter : OAuth1ResourceProvider              
-	{
-        public override Uri RequestUrl => new Uri("https://api.twitter.com/oauth/request_token");
-        public override Uri AuthorizationUrl => new Uri("https://api.twitter.com/oauth/authenticate");
-        public override Uri TokenUrl => new Uri("https://api.twitter.com/oauth/access_token");
-        public override HttpParameterType ParameterType => HttpParameterType.Querystring;
-        public override Boolean SupportsCustomUrlScheme => true;
-	}
+	public partial class Twitter  : OAuth1ResourceProvider 
+    {
+        public override Uri RequestUrl { get; } = new Uri("https://api.twitter.com/oauth/request_token");
+        public override Uri AuthorizationUrl { get; } = new Uri("https://api.twitter.com/oauth/authenticate");
+        public override Uri TokenUrl { get; } = new Uri("https://api.twitter.com/oauth/access_token");
+        public override HttpParameterType ParameterType { get; } = HttpParameterType.Querystring;
+        public override bool SupportsCustomUrlScheme { get; } = true;
+    }
 }

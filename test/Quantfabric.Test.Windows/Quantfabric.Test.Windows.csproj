@@ -285,6 +285,7 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\Unit\CodeGenTests.cs" />
     <Compile Include="Material\Unit\HttpClientTests.cs" />
     <Compile Include="Material\Unit\OAuth1SignatureTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
@@ -296,9 +297,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Material\TestData\sampleapikeyexchange.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Material\TestData\sampleapikeyapi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Material\TestData\sampleoauth1api.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Material\TestData\sampleoauth2api.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Material\TestData\sampleopenidapi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\codegen\CodeGen.csproj">
+      <Project>{c193f9c3-ab71-4eba-8850-8ffaa7d2fd2b}</Project>
+      <Name>CodeGen</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
       <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
       <Name>Foundations.HttpClient</Name>

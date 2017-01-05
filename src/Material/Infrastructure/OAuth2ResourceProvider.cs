@@ -17,9 +17,9 @@ namespace Material.Infrastructure
         public virtual string Scope => string.Join(ScopeDelimiter.ToString(), Scopes);
         public virtual char ScopeDelimiter => ' ';
         public virtual string TokenName => OAuth2Parameter.BearerHeader.EnumToString();
-        public virtual Dictionary<string, string> Parameters { get; } = 
+        public Dictionary<string, string> Parameters { get; } = 
             new Dictionary<string, string>();
-        public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
+        public Dictionary<HttpRequestHeader, string> Headers { get; } = 
             new Dictionary<HttpRequestHeader, string>();
 
         public virtual bool SupportsPkce { get; } = false;

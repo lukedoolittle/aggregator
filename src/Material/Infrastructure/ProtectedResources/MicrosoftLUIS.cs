@@ -17,11 +17,10 @@ namespace Material.Infrastructure.ProtectedResources
     /// <summary>
     /// Microsoft Project Oxford LUIS API v1.0
     /// </summary>
-    [CredentialType(typeof(ApiKeyCredentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class MicrosoftLuis : ApiKeyResourceProvider              
-	{
-        public override String KeyName => "Ocp-Apim-Subscription-Key";
-        public override HttpParameterType KeyType => HttpParameterType.Header;
-	}
+	public partial class MicrosoftLuis : ApiKeyResourceProvider 
+    {
+        public override string KeyName { get; } = "Ocp-Apim-Subscription-Key";
+        public override HttpParameterType KeyType { get; } = HttpParameterType.Header;
+    }
 }

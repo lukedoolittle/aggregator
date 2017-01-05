@@ -17,13 +17,12 @@ namespace Material.Infrastructure.ProtectedResources
     /// <summary>
     /// Bing API 
     /// </summary>
-    [CredentialType(typeof(ApiKeyCredentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class MicrosoftBing : ApiKeyExchangeResourceProvider              
-	{
-        public override String KeyName => "Ocp-Apim-Subscription-Key";
-        public override String TokenName => "Bearer";
-        public override HttpParameterType KeyType => HttpParameterType.Header;
-        public override Uri TokenUrl => new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
-	}
+	public partial class MicrosoftBing : ApiKeyExchangeResourceProvider 
+    {
+        public override string KeyName { get; } = "Ocp-Apim-Subscription-Key";
+        public override HttpParameterType KeyType { get; } = HttpParameterType.Header;
+        public override Uri TokenUrl { get; } = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+        public override string TokenName { get; } = "Bearer";
+    }
 }

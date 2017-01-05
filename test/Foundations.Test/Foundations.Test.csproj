@@ -76,7 +76,6 @@
     <Compile Include="..\Quantfabric.Test.Helpers\Randomizer.cs">
       <Link>Randomizer.cs</Link>
     </Compile>
-    <Compile Include="CodeGenTests.cs" />
     <Compile Include="Core\DateTimeExtensionsTests.cs" />
     <Compile Include="Core\EnumExtensionTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
@@ -104,16 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="TestData\sampleoauth1api.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="TestData\webTokenData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="TestData\sampleoauth2api.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\Quantfabric.Test.Windows\brian.wav">

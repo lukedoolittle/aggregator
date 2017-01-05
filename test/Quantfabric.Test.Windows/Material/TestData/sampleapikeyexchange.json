@@ -1,0 +1,28 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "SampleApi",
+        "description": "A Sample API",
+        "termsOfService": "http://www.example.com/termsofservice",
+        "version": "1"
+    },
+    "host": "www.example.com/",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "keyJwtExchange",
+            "description": "Key for Json Web Token Exchange",
+            "tokenUrl": "https://www.example.com/oauth/token",
+            "x-key-name": "Some-Key-Name",
+            "name": "Bearer",
+            "in": "header",
+            "x-openid-discovery-url": "https://login.example.com/.well-known/openid-configuration"
+        }
+    },
+    "definitions": []
+}

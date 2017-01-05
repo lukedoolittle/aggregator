@@ -102,8 +102,7 @@
             "x-pkce-support": true,
             "scopes": {
                 "sample_get": "",
-                "sample_post": "",
-                "openid": ""
+                "sample_post": ""
             }
         },
         "oauth2Token": {

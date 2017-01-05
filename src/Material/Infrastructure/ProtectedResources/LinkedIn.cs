@@ -20,15 +20,17 @@ namespace Material.Infrastructure.ProtectedResources
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class LinkedIn : OAuth2ResourceProvider              
-	{
-        public override List<String> AvailableScopes => new List<String> { "r_basicprofile", "w_share", "r_emailaddress", "rw_company_admin" };
-        public override List<OAuth2FlowType> AllowedFlows => new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
-        public override List<GrantType> AllowedGrantTypes => new List<GrantType> { GrantType.AuthCode };
-        public override List<OAuth2ResponseType> AllowedResponseTypes => new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
-        public override String TokenName => "Bearer";
-        public override Char ScopeDelimiter => ' ';
-        public override Uri AuthorizationUrl => new Uri("https://www.linkedin.com/uas/oauth2/authorization");
-        public override Uri TokenUrl => new Uri("https://www.linkedin.com/uas/oauth2/accessToken");
-	}
+	public partial class LinkedIn  : OAuth2ResourceProvider 
+    {
+        public override List<string> AvailableScopes { get; } = new List<string> { "r_basicprofile", "w_share", "r_emailaddress", "rw_company_admin" };
+        public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.AccessCode };
+        public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode };
+        public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Code };
+        public override string TokenName { get; } = "Bearer";
+        public override Uri AuthorizationUrl { get; } = new Uri("https://www.linkedin.com/uas/oauth2/authorization");
+        public override Uri TokenUrl { get; } = new Uri("https://www.linkedin.com/uas/oauth2/accessToken");
+        public override bool SupportsPkce { get; } = false;
+        public override bool SupportsCustomUrlScheme { get; } = false;
+        public override char ScopeDelimiter { get; } = ' ';
+    }
 }

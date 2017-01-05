@@ -24,8 +24,9 @@
             "in": "header",
             "x-grant-types": [ "authorization_code", "refresh_token" ],
             "x-response-types": [ "code" ],
+            "x-openid-discovery-url": "https://login.yahoo.com/.well-known/openid-configuration",
+            "x-openid-issuers": [ "https://api.login.yahoo.com" ],
             "scopes": {
-                //https://developer.yahoo.com/oauth2/guide/yahoo_scopes/
                 "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID"
             }
         },
@@ -40,7 +41,6 @@
             "x-openid-discovery-url": "https://login.yahoo.com/.well-known/openid-configuration",
             "x-openid-issuers": [ "https://api.login.yahoo.com" ],
             "scopes": {
-                //https://developer.yahoo.com/oauth2/guide/yahoo_scopes/
                 "openid": "This scope informs the authorization server that the client is making an OpenID Connect request, and requests access to the authenticated user’s ID"
             }
         }

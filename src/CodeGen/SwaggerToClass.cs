@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using CodeGen.Class;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
 using Foundations.Enums;
 using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
 using Material.Enums;
 using Material.Metadata;
 using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Metadata.Formatters;
 using Newtonsoft.Json.Linq;
 
@@ -20,311 +20,141 @@ namespace CodeGen
 {
     public class SwaggerToClass
     {
+        private readonly string _pathToSwaggerFile;
         private readonly JObject _swagger;
-        private readonly DummyOAuth2ResourceProvider _oauth2Provider = 
-            new DummyOAuth2ResourceProvider();
-        private readonly DummyOAuth1ResourceProvider _oauth1Provider = 
-            new DummyOAuth1ResourceProvider();
-        private readonly DummyOpenIdResourceProvider _openidProvider = 
-            new DummyOpenIdResourceProvider();
 
         public SwaggerToClass(string pathToSwaggerFile)
         {
             _swagger = JObject.Parse(File.ReadAllText(pathToSwaggerFile));
+            _pathToSwaggerFile = pathToSwaggerFile;
         }
 
-        public ClassRepresentation GenerateServiceClass(string @namespace)
+        public object CreateResourceProvider()
         {
-            var @class = new ClassRepresentation(_swagger["info"]["title"].ToString(), @namespace)
+            var swaggerDefinition = Deserialize(File.ReadAllText(_pathToSwaggerFile));
+
+            var name = swaggerDefinition.ApiInfo.Title;
+            var comments = $"{swaggerDefinition.ApiInfo.Description} {swaggerDefinition.ApiInfo.Version}";
+
+            object definition = null;
+
+            foreach (var securityDefinition in swaggerDefinition.SecurityDefinitions)
             {
-                Comments = _swagger["info"]["description"].ToString() + " " + _swagger["info"]["version"].ToString()
-            };
+                var security = securityDefinition.Value;
 
-            var securityDefinitions = _swagger["securityDefinitions"];
-
-            foreach (var securityDefinition in securityDefinitions.Values())
-            {
-                if (securityDefinition["type"]?.ToString() == "oauth2")
+                if (security.Type == "oauth2")
                 {
-                    @class.BaseType = securityDefinition["scopes"]["openid"] != null ? 
-                        new BaseTypeRepresentation(typeof(OpenIdResourceProvider)) : 
-                        new BaseTypeRepresentation(typeof(OAuth2ResourceProvider));
-                    
-                    if (@class.Properties.Count == 0)
+                    if (security.Scopes.Keys.Contains("openid"))
                     {
-                        @class.Properties.Add(
-                            new PropertyRepresentation(typeof(List<string>), 
-                            nameof(_oauth2Provider.AvailableScopes))
+                        var newDefinition = new BoxedOpenIdResourceProvider(
+                            name,
+                            comments,
+                            security.Scopes?.Keys.ToList(),
+                            security.Flow,
+                            security.GrantTypes?.ToList(),
+                            security.ResponseTypes?.ToList(),
+                            security.Name,
+                            security.AuthorizationUrl,
+                            security.TokenUrl,
+                            security.PkceSupport,
+                            security.CustomSchemeSupport,
+                            security.ScopeDelimiter,
+                            security.OpenIdDiscoveryUrl,
+                            security.OpenIdIssuers?.ToList());
+
+                        if (definition is BoxedOAuth2ResourceProvider)
                         {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(securityDefinition["scopes"]
-                                .ToObject<JObject>()
-                                .Properties()
-                                .Select(p => p.Name)
-                                .ToList())
-                        });
-                        @class.Properties.Add(new PropertyRepresentation(
-                            typeof(List<OAuth2FlowType>), 
-                            nameof(_oauth2Provider.AllowedFlows))
-                        {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2FlowType>())
-                        });
-                        @class.Properties.Add(new PropertyRepresentation(
-                            typeof(List<GrantType>),
-                            nameof(_oauth2Provider.AllowedGrantTypes))
-                        {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<GrantType>())
-                        });
-                        @class.Properties.Add(new PropertyRepresentation(
-                            typeof(List<OAuth2ResponseType>),
-                            nameof(_oauth2Provider.AllowedResponseTypes))
-                        {
-                            IsOverride = true,
-                            PropertyValue = new ConcreteValueRepresentation(new List<OAuth2ResponseType>())
-                        });
-                        if (securityDefinition["name"] != null)
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(
-                                typeof(string), 
-                                nameof(_oauth2Provider.TokenName))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
-                            });
+                            newDefinition.Merge(definition as BoxedOAuth2ResourceProvider);
                         }
-                        if (securityDefinition["x-scope-delimiter"] != null)
+                        else if (definition is BoxedOpenIdResourceProvider)
                         {
-                            @class.Properties.Add(new PropertyRepresentation(
-                                typeof(char), 
-                                nameof(_oauth2Provider.ScopeDelimiter))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-scope-delimiter"].ToString().ToCharArray()[0])
-                            });
+                            newDefinition.Merge(definition as BoxedOpenIdResourceProvider);
                         }
 
-                        @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
-                        {
-                            ConstructorParameters = new List<object> { typeof(OAuth2Credentials) }
-                        });
-
+                        definition = newDefinition;
                     }
-
-                    var flow = securityDefinition["flow"]?.ToString();
-                    if (flow != null)
+                    else
                     {
-                        var flows = @class.Properties.Single(p => p.Name == nameof(_oauth2Provider.AllowedFlows));
-                        ((List<OAuth2FlowType>)((ConcreteValueRepresentation)flows.PropertyValue).PropertyValue)
-                            .Add(flow.StringToEnum<OAuth2FlowType>());
-                    }
+                        var newDefinition = new BoxedOAuth2ResourceProvider(
+                            name,
+                            comments,
+                            security.Scopes?.Keys.ToList(),
+                            security.Flow,
+                            security.GrantTypes?.ToList(),
+                            security.ResponseTypes?.ToList(),
+                            security.Name,
+                            security.AuthorizationUrl,
+                            security.TokenUrl,
+                            security.PkceSupport,
+                            security.CustomSchemeSupport,
+                            security.ScopeDelimiter);
 
-                    var grants = securityDefinition["x-grant-types"]?.ToObject<List<string>>();
-                    if (grants != null)
-                    {
-                        var grantTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.AllowedGrantTypes));
-                        foreach (var grantType in grants)
+                        if (definition is BoxedOAuth2ResourceProvider)
                         {
-                            ((List<GrantType>)
-                                ((ConcreteValueRepresentation)grantTypes.PropertyValue).PropertyValue).Add(
-                                    grantType.StringToEnum<GrantType>());
+                            newDefinition.Merge(definition as BoxedOAuth2ResourceProvider);
                         }
-                    }
-
-                    var responses = securityDefinition["x-response-types"]?.ToObject<List<string>>();
-                    if (responses != null)
-                    {
-                        var responseTypes = @class.Properties.SingleOrDefault(p => p.Name == nameof(_oauth2Provider.AllowedResponseTypes));
-                        foreach (var responseType in responses)
+                        else if (definition is BoxedOpenIdResourceProvider)
                         {
-                            ((List<OAuth2ResponseType>)
-                                ((ConcreteValueRepresentation)responseTypes.PropertyValue).PropertyValue).Add(
-                                    responseType.StringToEnum<OAuth2ResponseType>());
+                            newDefinition.Merge(definition as BoxedOpenIdResourceProvider);
                         }
-                    }
 
-                    var authorizationUrl = securityDefinition["authorizationUrl"]?.ToString();
-                    if (authorizationUrl != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.AuthorizationUrl)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.AuthorizationUrl))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(new Uri(authorizationUrl))
-                            });
-                        }
-                    }
-
-                    var tokenUrl = securityDefinition["tokenUrl"]?.ToString();
-                    if (tokenUrl != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.TokenUrl)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_oauth2Provider.TokenUrl))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(new Uri(tokenUrl))
-                            });
-                        }
-                    }
-
-                    var pkceSupport = securityDefinition["x-pkce-support"]?.ToString()?.ToLower();
-                    if (pkceSupport != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.SupportsPkce)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(bool),
-                                nameof(_oauth2Provider.SupportsPkce))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(pkceSupport == "true")
-                            });
-                        }
-                    }
-
-                    var customUrlSchemeSupport = securityDefinition["x-custom-scheme-support"]?.ToString()?.ToLower();
-                    if (customUrlSchemeSupport != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_oauth2Provider.SupportsCustomUrlScheme)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(bool),
-                                nameof(_oauth2Provider.SupportsCustomUrlScheme))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(customUrlSchemeSupport == "true")
-                            });
-                        }
-                    }
-
-                    var openIdDiscoveryUrl = securityDefinition["x-openid-discovery-url"]?.ToString();
-                    if (openIdDiscoveryUrl != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_openidProvider.OpenIdDiscoveryUrl)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(Uri), nameof(_openidProvider.OpenIdDiscoveryUrl))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(new Uri(openIdDiscoveryUrl))
-                            });
-                        }
-                    }
-
-                    var openIdissuers = securityDefinition["x-openid-issuers"]?.ToObject<List<string>>();
-                    if (openIdissuers != null)
-                    {
-                        if (@class.Properties.All(p => p.Name != nameof(_openidProvider.ValidIssuers)))
-                        {
-                            @class.Properties.Add(new PropertyRepresentation(typeof(List<string>), nameof(_openidProvider.ValidIssuers))
-                            {
-                                IsOverride = true,
-                                PropertyValue = new ConcreteValueRepresentation(openIdissuers)
-                            });
-                        }
+                        definition = newDefinition;
                     }
                 }
-                else if (securityDefinition["type"]?.ToString() == "oauth1")
+                else if (security.Type == "oauth1")
                 {
-                    @class.BaseType = new BaseTypeRepresentation(typeof(OAuth1ResourceProvider));
-
-                    @class.Properties.Add(new PropertyRepresentation(
-                        typeof(Uri), 
-                        nameof(_oauth1Provider.RequestUrl))
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["requestUrl"].ToString()))
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(
-                        typeof(Uri), 
-                        nameof(_oauth1Provider.AuthorizationUrl))
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["authorizationUrl"].ToString()))
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(
-                        typeof(Uri), 
-                        nameof(_oauth1Provider.TokenUrl))
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
-                    });
-                    @class.Properties.Add(
-                        new PropertyRepresentation(typeof(HttpParameterType), 
-                        nameof(_oauth1Provider.ParameterType))
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
-                    });
-                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
-                    {
-                        ConstructorParameters = new List<object> { typeof(OAuth1Credentials) }
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(bool),
-                        nameof(_oauth1Provider.SupportsCustomUrlScheme))
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-custom-scheme-support"]?.ToString()?.ToLower() == "true")
-                    });
+                    definition = new BoxedOAuth1ResourceProvider(
+                        name,
+                        comments,
+                        security.RequestUrl,
+                        security.AuthorizationUrl,
+                        security.TokenUrl,
+                        security.ParameterLocation,
+                        security.CustomSchemeSupport);
                 }
-                else if (securityDefinition["type"]?.ToString() == "apiKey")
+                else if (security.Type == "apiKey")
                 {
-                    @class.BaseType = new BaseTypeRepresentation(typeof(ApiKeyResourceProvider));
-
-                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
-                    });
-
-                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
-                    {
-                        ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
-                    });
+                    definition = new BoxedApiKeyResourceProvider(
+                        name,
+                        comments,
+                        security.Name, 
+                        security.ParameterLocation);
                 }
-                else if (securityDefinition["type"]?.ToString() == "keyJwtExchange")
+                else if (security.Type == "keyJwtExchange")
                 {
-                    @class.BaseType = new BaseTypeRepresentation(typeof(ApiKeyExchangeResourceProvider));
-
-                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "KeyName")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["x-key-name"].ToString())
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(string), "TokenName")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["name"].ToString())
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(HttpParameterType), "KeyType")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(securityDefinition["in"].ToString().StringToEnum<HttpParameterType>())
-                    });
-                    @class.Properties.Add(new PropertyRepresentation(typeof(Uri), "TokenUrl")
-                    {
-                        IsOverride = true,
-                        PropertyValue = new ConcreteValueRepresentation(new Uri(securityDefinition["tokenUrl"].ToString()))
-                    });
-                    @class.Metadatas.Add(new ConcreteMetadataRepresentation(typeof(CredentialTypeAttribute))
-                    {
-                        ConstructorParameters = new List<object> { typeof(ApiKeyCredentials) }
-                    });
+                    definition = new BoxedApiKeyExchangeResourceProvider(
+                        name,
+                        comments,
+                        security.KeyName, 
+                        security.ParameterLocation, 
+                        security.TokenUrl, 
+                        security.Name);
                 }
                 else
                 {
-                    throw new Exception();
+                    throw new NotSupportedException($"Security type {security.Type} is not supported");
                 }
             }
 
-            return @class;
+            return definition;
         }
 
+        public SwaggerDefinition Deserialize(string entity)
+        {
+            var settings = new DataContractJsonSerializerSettings
+            {
+                UseSimpleDictionaryFormat = true
+            };
+            var serializer = new DataContractJsonSerializer(
+                typeof(SwaggerDefinition),
+                settings);
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(entity)))
+            {
+                return (SwaggerDefinition)serializer.ReadObject(stream);
+            }
+        }
+        
         public List<ClassRepresentation> GenerateRequestClasses(
             string @namespace,
             string serviceTypeName,

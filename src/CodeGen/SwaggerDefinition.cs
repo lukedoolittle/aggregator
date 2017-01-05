@@ -78,13 +78,6 @@ namespace CodeGen
     }
 
     [DataContract]
-    public class Security
-    {
-        [DataMember(Name = "oauth2")]
-        public IList<string> Oauth2 { get; set; }
-    }
-
-    [DataContract]
     public class ResponseDescription
     {
         [DataMember(Name = "description")]
@@ -104,16 +97,20 @@ namespace CodeGen
         public string OperationId { get; set; }
 
         [DataMember(Name = "parameters")]
-        public IList<Parameter> Parameters { get; set; }
+        public IList<Parameter> Parameters { get; set; } = 
+            new List<Parameter>();
 
         [DataMember(Name = "responses")]
-        public IDictionary<string, ResponseDescription> Responses { get; set; }
+        public IDictionary<string, ResponseDescription> Responses { get; set; } = 
+            new Dictionary<string, ResponseDescription>();
 
         [DataMember(Name = "tags")]
-        public IList<string> Tags { get; set; }
+        public IList<string> Tags { get; set; } = 
+            new List<string>();
 
         [DataMember(Name = "security")]
-        public IList<IDictionary<string, IList<string>>> Security { get; set; }
+        public IList<IDictionary<string, IList<string>>> Security { get; set; } = 
+            new List<IDictionary<string, IList<string>>>();
     }
 
     #endregion Paths
@@ -132,6 +129,9 @@ namespace CodeGen
         [DataMember(Name = "flow")]
         public string Flow { get; set; }
 
+        [DataMember(Name = "requestUrl")]
+        public string RequestUrl { get; set; }
+
         [DataMember(Name = "authorizationUrl")]
         public string AuthorizationUrl { get; set; }
 
@@ -145,10 +145,10 @@ namespace CodeGen
         public string ParameterLocation { get; set; }
 
         [DataMember(Name = "x-grant-types")]
-        public IList<string> GrantTypes { get; set; }
+        public IList<string> GrantTypes { get; set; } 
 
         [DataMember(Name = "x-response-types")]
-        public IList<string> ResponseTypes { get; set; }
+        public IList<string> ResponseTypes { get; set; } 
 
         [DataMember(Name = "x-pkce-support")]
         public bool PkceSupport { get; set; }
@@ -157,13 +157,19 @@ namespace CodeGen
         public string OpenIdDiscoveryUrl { get; set; }
 
         [DataMember(Name = "x-openid-issuers")]
-        public IList<string> OpenIdIssuers { get; set; }
+        public IList<string> OpenIdIssuers { get; set; } 
 
         [DataMember(Name = "x-custom-scheme-support")]
         public bool CustomSchemeSupport { get; set; }
 
+        [DataMember(Name = "x-key-name")]
+        public string KeyName { get; set; }
+
         [DataMember(Name = "scopes")]
         public IDictionary<string, string> Scopes { get; set; }
+
+        [DataMember(Name = "x-scope-delimiter")]
+        public string ScopeDelimiter { get; set; }
     }
 
     #endregion Security

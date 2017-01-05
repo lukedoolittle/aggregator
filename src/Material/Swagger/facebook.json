@@ -289,8 +289,9 @@
             "flow": "implicit",
             "authorizationUrl": "https://www.facebook.com/dialog/oauth",
             "name": "access_token",
-            "in": "query", 
+            "in": "query",
             "x-response-types": [ "token" ],
+            "x-scope-delimiter": ",",
             "scopes": {
                 "email": "Provides access to the person's primary email address via the email property on the user object",
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",

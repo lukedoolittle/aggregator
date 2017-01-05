@@ -1,0 +1,25 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "SampleApi",
+        "description": "A Sample API",
+        "termsOfService": "http://www.example.com/termsofservice",
+        "version": "1"
+    },
+    "host": "www.example.com/",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "apiKey",
+            "description": "Subscription Key Auth",
+            "name": "Some-Key-Name",
+            "in": "header"
+        }
+    },
+    "definitions": []
+}

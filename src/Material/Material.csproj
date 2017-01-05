@@ -44,6 +44,36 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGeneration\ApiKeyExchangeResourceProviderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApiKeyExchangeResourceProviderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneration\ApiKeyResourceProviderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApiKeyResourceProviderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneration\Generator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Generator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneration\OAuth1ResourceProviderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OAuth1ResourceProviderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneration\OAuth2ResourceProviderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OAuth2ResourceProviderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGeneration\OpenIdResourceProviderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpenIdResourceProviderTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Contracts\IJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="Contracts\IOAuth1Identity.cs" />
     <Compile Include="Contracts\IOAuth2Identity.cs" />
@@ -64,11 +94,70 @@
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
     <Compile Include="Infrastructure\Partials\Spotify.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Fitbit.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Foursquare.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Google.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\GoogleAnalytics.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\LinkedIn.cs" />
     <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\MicrosoftLuis.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Rescuetime.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Runkeeper.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Spotify.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Tumblr.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookFeed.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookFriend.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookPageLike.cs" />
     <Compile Include="Infrastructure\Requests\FacebookTokenInfo.cs" />
+    <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
+    <Compile Include="Infrastructure\Requests\FatsecretMeal.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitIntradayStepsBulk.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitProfile.cs" />
+    <Compile Include="Infrastructure\Requests\FitbitSleep.cs" />
+    <Compile Include="Infrastructure\Requests\FoursquareCheckin.cs" />
+    <Compile Include="Infrastructure\Requests\FoursquareFriend.cs" />
+    <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleAnalyticsReports.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
+    <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
+    <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
+    <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
     <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Infrastructure\Requests\MicrosoftLuisPredict.cs" />
+    <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
+    <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
+    <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
+    <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
+    <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
+    <Compile Include="Infrastructure\Requests\TumblrLikes.cs" />
+    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeGenome.cs" />
+    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeUser.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterFavorite.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterFollower.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterFollowing.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterMention.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterReceivedDirectMessage.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterRetweetOfMe.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterSentDirectMessage.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterTimeline.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
+    <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
+    <Compile Include="Infrastructure\Requests\WithingsWeighIn.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
@@ -133,11 +222,6 @@
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
     <Compile Include="Enums\AuthorizationInterface.cs" />
     <Compile Include="Exceptions\InvalidScopeException.cs" />
-    <Compile Include="Generator.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Generator.tt</DependentUpon>
-    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ApiKeyResourceProvider.cs" />
     <Compile Include="Infrastructure\BluetoothAppBase.cs" />
@@ -159,53 +243,9 @@
     <Compile Include="Infrastructure\Partials\GoogleGmailMetadata.cs" />
     <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\GoogleAnalytics.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\MicrosoftLUIS.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Tumblr.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\RequestBodies\GoogleAnalyticsReportBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
     <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayStepsBulk.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitProfile.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareCheckin.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareFriend.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleAnalyticsReports.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
-    <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
-    <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
-    <Compile Include="Infrastructure\Requests\MicrosoftLUISPredict.cs" />
-    <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
-    <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
-    <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
-    <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
-    <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
-    <Compile Include="Infrastructure\Requests\TumblrLikes.cs" />
-    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeGenome.cs" />
-    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeUser.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFavorite.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFollower.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFollowing.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterMention.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterReceivedDirectMessage.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterRetweetOfMe.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterSentDirectMessage.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterTimeline.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
-    <Compile Include="Infrastructure\Requests\WithingsWeighin.cs" />
     <Compile Include="Infrastructure\Responses\FacebookEventResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookFeedResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookPageLikeResponse.cs" />
@@ -242,15 +282,6 @@
     <Compile Include="Infrastructure\Responses\TwitterTweetResponse.cs" />
     <Compile Include="Infrastructure\Responses\TwitterVerifyCredentialsResponse.cs" />
     <Compile Include="Infrastructure\Responses\WithingsWeighInResponse.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Fitbit.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Foursquare.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Google.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\LinkedIn.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Rescuetime.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Runkeeper.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Spotify.cs" />
     <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
     <Compile Include="Infrastructure\Static\GPSResponse.cs" />
     <Compile Include="Infrastructure\Static\SMSResponse.cs" />
@@ -296,12 +327,6 @@
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
     <Compile Include="Infrastructure\DeviceRequest.cs" />
     <Compile Include="Infrastructure\Device.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookFeed.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookFriend.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookPageLike.cs" />
-    <Compile Include="Infrastructure\Requests\FatsecretMeal.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitSleep.cs" />
     <Compile Include="Infrastructure\Static\GPSRequest.cs" />
     <Compile Include="Infrastructure\Static\MioHeartRate.cs" />
     <Compile Include="Infrastructure\Static\SMSRequest.cs" />
@@ -347,76 +372,77 @@
     <None Include="Swagger\twitter.json" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Generator.tt">
+    <AdditionalFiles Include="CodeGeneration\Generator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Generator.cs</LastGenOutput>
       <LastOutputs>
-.\Infrastructure\ProtectedResources\Amazon.cs
-.\Infrastructure\ProtectedResources\Facebook.cs
-.\Infrastructure\ProtectedResources\Fatsecret.cs
-.\Infrastructure\ProtectedResources\Fitbit.cs
-.\Infrastructure\ProtectedResources\Foursquare.cs
-.\Infrastructure\ProtectedResources\Google.cs
-.\Infrastructure\ProtectedResources\GoogleAnalytics.cs
-.\Infrastructure\ProtectedResources\Instagram.cs
-.\Infrastructure\ProtectedResources\LinkedIn.cs
-.\Infrastructure\ProtectedResources\MicrosoftBing.cs
-.\Infrastructure\ProtectedResources\MicrosoftLuis.cs
-.\Infrastructure\ProtectedResources\Omniture.cs
-.\Infrastructure\ProtectedResources\Pinterest.cs
-.\Infrastructure\ProtectedResources\Rescuetime.cs
-.\Infrastructure\ProtectedResources\Runkeeper.cs
-.\Infrastructure\ProtectedResources\Spotify.cs
-.\Infrastructure\ProtectedResources\Tumblr.cs
-.\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
-.\Infrastructure\ProtectedResources\Twitter.cs
-.\Infrastructure\ProtectedResources\Withings.cs
-.\Infrastructure\ProtectedResources\Yahoo.cs
-.\Infrastructure\Requests\AmazonProfile.cs
-.\Infrastructure\Requests\FacebookEvent.cs
-.\Infrastructure\Requests\FacebookFeed.cs
-.\Infrastructure\Requests\FacebookFriend.cs
-.\Infrastructure\Requests\FacebookPageLike.cs
-.\Infrastructure\Requests\FacebookTokenInfo.cs
-.\Infrastructure\Requests\FacebookUser.cs
-.\Infrastructure\Requests\FatsecretMeal.cs
-.\Infrastructure\Requests\FitbitIntradayHeartRate.cs
-.\Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs
-.\Infrastructure\Requests\FitbitIntradaySteps.cs
-.\Infrastructure\Requests\FitbitIntradayStepsBulk.cs
-.\Infrastructure\Requests\FitbitProfile.cs
-.\Infrastructure\Requests\FitbitSleep.cs
-.\Infrastructure\Requests\FoursquareCheckin.cs
-.\Infrastructure\Requests\FoursquareFriend.cs
-.\Infrastructure\Requests\FoursquareTip.cs
-.\Infrastructure\Requests\GoogleAnalyticsReports.cs
-.\Infrastructure\Requests\GoogleGmail.cs
-.\Infrastructure\Requests\GoogleGmailMetadata.cs
-.\Infrastructure\Requests\GoogleProfile.cs
-.\Infrastructure\Requests\InstagramLikes.cs
-.\Infrastructure\Requests\LinkedinPersonal.cs
-.\Infrastructure\Requests\MicrosoftBingSpeechToText.cs
-.\Infrastructure\Requests\MicrosoftLuisPredict.cs
-.\Infrastructure\Requests\OmnitureReporting.cs
-.\Infrastructure\Requests\PinterestLikes.cs
-.\Infrastructure\Requests\RescuetimeAnalyticData.cs
-.\Infrastructure\Requests\RunkeeperFitnessActivity.cs
-.\Infrastructure\Requests\SpotifySavedTrack.cs
-.\Infrastructure\Requests\TumblrLikes.cs
-.\Infrastructure\Requests\TwentyThreeAndMeGenome.cs
-.\Infrastructure\Requests\TwentyThreeAndMeUser.cs
-.\Infrastructure\Requests\TwitterFavorite.cs
-.\Infrastructure\Requests\TwitterFollower.cs
-.\Infrastructure\Requests\TwitterFollowing.cs
-.\Infrastructure\Requests\TwitterMention.cs
-.\Infrastructure\Requests\TwitterReceivedDirectMessage.cs
-.\Infrastructure\Requests\TwitterRetweetOfMe.cs
-.\Infrastructure\Requests\TwitterSentDirectMessage.cs
-.\Infrastructure\Requests\TwitterTimeline.cs
-.\Infrastructure\Requests\TwitterTweet.cs
-.\Infrastructure\Requests\TwitterVerifyCredentials.cs
-.\Infrastructure\Requests\WithingsWeighIn.cs
+..\Infrastructure\ProtectedResources\Amazon.cs
+..\Infrastructure\ProtectedResources\Facebook.cs
+..\Infrastructure\ProtectedResources\Fatsecret.cs
+..\Infrastructure\ProtectedResources\Fitbit.cs
+..\Infrastructure\ProtectedResources\Foursquare.cs
+..\Infrastructure\ProtectedResources\Google.cs
+..\Infrastructure\ProtectedResources\GoogleAnalytics.cs
+..\Infrastructure\ProtectedResources\Instagram.cs
+..\Infrastructure\ProtectedResources\LinkedIn.cs
+..\Infrastructure\ProtectedResources\MicrosoftBing.cs
+..\Infrastructure\ProtectedResources\MicrosoftLuis.cs
+..\Infrastructure\ProtectedResources\Omniture.cs
+..\Infrastructure\ProtectedResources\Pinterest.cs
+..\Infrastructure\ProtectedResources\Rescuetime.cs
+..\Infrastructure\ProtectedResources\Runkeeper.cs
+..\Infrastructure\ProtectedResources\Spotify.cs
+..\Infrastructure\ProtectedResources\Tumblr.cs
+..\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
+..\Infrastructure\ProtectedResources\Twitter.cs
+..\Infrastructure\ProtectedResources\Withings.cs
+..\Infrastructure\ProtectedResources\Yahoo.cs
+..\Infrastructure\Requests\AmazonProfile.cs
+..\Infrastructure\Requests\FacebookEvent.cs
+..\Infrastructure\Requests\FacebookFeed.cs
+..\Infrastructure\Requests\FacebookFriend.cs
+..\Infrastructure\Requests\FacebookPageLike.cs
+..\Infrastructure\Requests\FacebookTokenInfo.cs
+..\Infrastructure\Requests\FacebookUser.cs
+..\Infrastructure\Requests\FatsecretMeal.cs
+..\Infrastructure\Requests\FitbitIntradayHeartRate.cs
+..\Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs
+..\Infrastructure\Requests\FitbitIntradaySteps.cs
+..\Infrastructure\Requests\FitbitIntradayStepsBulk.cs
+..\Infrastructure\Requests\FitbitProfile.cs
+..\Infrastructure\Requests\FitbitSleep.cs
+..\Infrastructure\Requests\FoursquareCheckin.cs
+..\Infrastructure\Requests\FoursquareFriend.cs
+..\Infrastructure\Requests\FoursquareTip.cs
+..\Infrastructure\Requests\GoogleAnalyticsReports.cs
+..\Infrastructure\Requests\GoogleGmail.cs
+..\Infrastructure\Requests\GoogleGmailMetadata.cs
+..\Infrastructure\Requests\GoogleProfile.cs
+..\Infrastructure\Requests\InstagramLikes.cs
+..\Infrastructure\Requests\LinkedinPersonal.cs
+..\Infrastructure\Requests\MicrosoftBingSpeechToText.cs
+..\Infrastructure\Requests\MicrosoftLuisPredict.cs
+..\Infrastructure\Requests\OmnitureReporting.cs
+..\Infrastructure\Requests\PinterestLikes.cs
+..\Infrastructure\Requests\RescuetimeAnalyticData.cs
+..\Infrastructure\Requests\RunkeeperFitnessActivity.cs
+..\Infrastructure\Requests\SpotifySavedTrack.cs
+..\Infrastructure\Requests\TumblrLikes.cs
+..\Infrastructure\Requests\TwentyThreeAndMeGenome.cs
+..\Infrastructure\Requests\TwentyThreeAndMeUser.cs
+..\Infrastructure\Requests\TwitterFavorite.cs
+..\Infrastructure\Requests\TwitterFollower.cs
+..\Infrastructure\Requests\TwitterFollowing.cs
+..\Infrastructure\Requests\TwitterMention.cs
+..\Infrastructure\Requests\TwitterReceivedDirectMessage.cs
+..\Infrastructure\Requests\TwitterRetweetOfMe.cs
+..\Infrastructure\Requests\TwitterSentDirectMessage.cs
+..\Infrastructure\Requests\TwitterTimeline.cs
+..\Infrastructure\Requests\TwitterTweet.cs
+..\Infrastructure\Requests\TwitterVerifyCredentials.cs
+..\Infrastructure\Requests\WithingsWeighIn.cs
+.\Generator.cs
 </LastOutputs>
+      <LastGenOutput>Generator.cs</LastGenOutput>
     </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
@@ -437,7 +463,33 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="CodeGeneration\ApiKeyExchangeResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ApiKeyExchangeResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\ApiKeyExchangeResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+    <Content Include="CodeGeneration\ApiKeyResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ApiKeyResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\ApiKeyResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+    <Content Include="CodeGeneration\OAuth1ResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OAuth1ResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\OAuth1ResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+    <Content Include="CodeGeneration\OAuth2ResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OAuth2ResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\OAuth2ResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+    <Content Include="CodeGeneration\OpenIdResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OpenIdResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\OpenIdResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

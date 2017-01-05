@@ -46,19 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoxedProviders\BoxedApiKeyExchangeResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedApiKeyResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedOAuth1ResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedOAuth2ResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedOpenIdResourceProvider.cs" />
     <Compile Include="ClassProperties\PropertyRepresentation.cs" />
     <Compile Include="Class\ClassRepresentation.cs" />
     <Compile Include="Class\BaseTypeRepresentation.cs" />
     <Compile Include="Class\EnumRepresentation.cs" />
-    <Compile Include="DummyTypes.cs" />
     <Compile Include="Metadata\AbstractMetadataRepresentation.cs" />
     <Compile Include="Metadata\ConcreteMetadataRepresentation.cs" />
     <Compile Include="Metadata\MetadataRepresentation.cs" />
+    <Compile Include="PrintingFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValues\ConcreteValueRepresentation.cs" />
     <Compile Include="PropertyValues\NewEnumValueRepresentation.cs" />
     <Compile Include="PropertyValues\RefrencingDictionaryRepresentation.cs" />
     <Compile Include="PropertyValues\ValueRepresentation.cs" />
+    <Compile Include="SwaggerDefinition.cs" />
     <Compile Include="SwaggerToClass.cs" />
   </ItemGroup>
   <ItemGroup>

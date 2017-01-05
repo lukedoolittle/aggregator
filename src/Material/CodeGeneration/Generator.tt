@@ -1,13 +1,19 @@
 ﻿<#@ include file="T4Toolbox.tt" #>
+<#@ include file="ApiKeyResourceProviderTemplate.tt" #>
+<#@ include file="ApiKeyExchangeResourceProviderTemplate.tt" #>
+<#@ include file="OAuth1ResourceProviderTemplate.tt" #>
+<#@ include file="OAuth2ResourceProviderTemplate.tt" #>
+<#@ include file="OpenIdResourceProviderTemplate.tt" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@  assembly name="$(TargetDir)CodeGen.dll" #>
+<#@  assembly name="$(TargetDir)Foundations.HttpClient.dll" #>
 <#@  assembly name="System.Core" #>
+<#@  assembly name="System.Runtime" #>
 <#@ import namespace="CodeGen" #>
 <#
-
-    var swaggerFiles = System.IO.Directory.GetFiles(this.Host.ResolvePath("Swagger"));
+    var swaggerFiles = System.IO.Directory.GetFiles(this.Host.ResolvePath("../Swagger"));
     foreach(var file in swaggerFiles)
     {
         SwaggerCodeGenerator generator = 
@@ -17,16 +23,16 @@
 
 #>
 <#+
-public class SwaggerCodeGenerator : Generator
-{
+    public class SwaggerCodeGenerator : Generator
+    {
         private readonly string _pathToFile;
 
-    public SwaggerCodeGenerator(string pathToFile)
+        public SwaggerCodeGenerator(string pathToFile)
         {
             _pathToFile = pathToFile;
         }
 
-	protected override void RunCore()
+	    protected override void RunCore()
         {
             var swagger = new SwaggerToClass(_pathToFile);
 
@@ -34,14 +40,48 @@ public class SwaggerCodeGenerator : Generator
             GenerateRequestFiles(swagger, "Material.Infrastructure.Requests", serviceName  , "Material.Infrastructure.ProtectedResources");
         }
 
-    private string GenerateServiceFiles(SwaggerToClass swagger, string serviceNamespace)
+        private string GenerateServiceFiles(SwaggerToClass swagger, string serviceNamespace)
         {
-            var serviceClass = swagger.GenerateServiceClass(serviceNamespace);
-            new MyTemplate(serviceClass).RenderToFile(GetFilenameFromClass(serviceClass));
-            return serviceClass.Name;
+            var boxedProvider = swagger.CreateResourceProvider();
+            var filename = @"..\Infrastructure\ProtectedResources\{0}.cs";
+
+            if (boxedProvider is BoxedApiKeyResourceProvider)
+            {
+                var provider = boxedProvider as BoxedApiKeyResourceProvider;
+                new ApiKeyResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else if (boxedProvider is BoxedApiKeyExchangeResourceProvider)
+            {
+                var provider = boxedProvider as BoxedApiKeyExchangeResourceProvider;
+                new ApiKeyExchangeResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else if (boxedProvider is BoxedOAuth1ResourceProvider)
+            {
+                var provider = boxedProvider as BoxedOAuth1ResourceProvider;
+                new OAuth1ResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else if (boxedProvider is BoxedOAuth2ResourceProvider)
+            {
+                var provider = boxedProvider as BoxedOAuth2ResourceProvider;
+                new OAuth2ResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else if (boxedProvider is BoxedOpenIdResourceProvider)
+            {
+                var provider = boxedProvider as BoxedOpenIdResourceProvider;
+                new OpenIdResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
-    private void GenerateRequestFiles(SwaggerToClass swagger, string requestNamespace, string serviceName, string serviceNamespace)
+        private void GenerateRequestFiles(SwaggerToClass swagger, string requestNamespace, string serviceName, string serviceNamespace)
         {
             var requestClasses = swagger.GenerateRequestClasses(requestNamespace, serviceName, serviceNamespace);
             foreach(var requestClass in requestClasses)
@@ -50,14 +90,14 @@ public class SwaggerCodeGenerator : Generator
             }
         }
 
-    private string GetFilenameFromClass(ClassRepresentation classRepresentation)
+        private string GetFilenameFromClass(ClassRepresentation classRepresentation)
         {
             var directory = classRepresentation
                 .Namespace
                 .Substring(classRepresentation.Namespace.IndexOf('.') + 1)
                 .Replace('.', '\\');
 
-            return string.Format(@"{0}\{1}.cs", directory, classRepresentation.Name);
+            return string.Format(@"..\{0}\{1}.cs", directory, classRepresentation.Name);
         }
 }
 
