@@ -17,6 +17,20 @@ namespace CodeGen
         public BoxedOAuth1ResourceProvider(
             string name,
             string comments,
+            SecurityDefinition security) : this(
+                name,
+                comments,
+                security.RequestUrl,
+                security.AuthorizationUrl,
+                security.TokenUrl,
+                security.ParameterLocation,
+                security.CustomSchemeSupport)
+        {
+        }
+
+        public BoxedOAuth1ResourceProvider(
+            string name,
+            string comments,
             string requestUrl,
             string authorizationUrl,
             string tokenUrl,

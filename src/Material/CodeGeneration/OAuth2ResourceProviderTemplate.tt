@@ -39,8 +39,6 @@ using System.CodeDom.Compiler;
 
 namespace <#= _namespace #>
 {     
-<#+
-#>
     /// <summary>
     /// <#= _source.Comments #>
     /// </summary>

@@ -29,6 +29,27 @@ namespace CodeGen
         public BoxedOpenIdResourceProvider(
             string name,
             string comments,
+            SecurityDefinition security) : this(
+                name,
+                comments,
+                security.Scopes?.Keys.ToList(),
+                security.Flow,
+                security.GrantTypes?.ToList(),
+                security.ResponseTypes?.ToList(),
+                security.Name,
+                security.AuthorizationUrl,
+                security.TokenUrl,
+                security.PkceSupport,
+                security.CustomSchemeSupport,
+                security.ScopeDelimiter,
+                security.OpenIdDiscoveryUrl,
+                security.OpenIdIssuers?.ToList())
+        {
+        }
+
+        public BoxedOpenIdResourceProvider(
+            string name,
+            string comments,
             List<string> availableScopes,
             string flow,
             List<string> allowedGrantTypes,

@@ -14,7 +14,6 @@ using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.UI.Test.UWP.Annotations;
-using Material.Infrastructure.Credentials;
 
 namespace Quantfabric.UI.Test.UWP
 {

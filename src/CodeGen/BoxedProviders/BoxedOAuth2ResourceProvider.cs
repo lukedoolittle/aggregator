@@ -28,6 +28,25 @@ namespace CodeGen
         public BoxedOAuth2ResourceProvider(
             string name,
             string comments,
+            SecurityDefinition security) : this(
+                name,
+                comments,
+                security.Scopes?.Keys.ToList(),
+                security.Flow,
+                security.GrantTypes?.ToList(),
+                security.ResponseTypes?.ToList(),
+                security.Name,
+                security.AuthorizationUrl,
+                security.TokenUrl,
+                security.PkceSupport,
+                security.CustomSchemeSupport,
+                security.ScopeDelimiter)
+        {
+        }
+
+        public BoxedOAuth2ResourceProvider(
+            string name,
+            string comments,
             IList<string> availableScopes,
             string flow,
             IList<string> allowedGrantTypes,

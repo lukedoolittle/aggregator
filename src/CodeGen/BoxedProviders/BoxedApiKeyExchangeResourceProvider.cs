@@ -17,6 +17,19 @@ namespace CodeGen
         public BoxedApiKeyExchangeResourceProvider(
             string name,
             string comments,
+            SecurityDefinition security) : this(
+                name,
+                comments,
+                security.KeyName,
+                security.ParameterLocation,
+                security.TokenUrl,
+                security.Name)
+        {
+        }
+
+        public BoxedApiKeyExchangeResourceProvider(
+            string name,
+            string comments,
             string keyName,
             string keyType,
             string tokenUrl,

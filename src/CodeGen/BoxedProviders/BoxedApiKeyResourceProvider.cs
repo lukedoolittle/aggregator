@@ -13,6 +13,17 @@ namespace CodeGen
         public BoxedApiKeyResourceProvider(
             string name,
             string comments,
+            SecurityDefinition security) : this(
+                name,
+                comments,
+                security.Name,
+                security.ParameterLocation)
+        {
+        }
+
+        public BoxedApiKeyResourceProvider(
+            string name,
+            string comments,
             string keyName,
             string keyType)
         {

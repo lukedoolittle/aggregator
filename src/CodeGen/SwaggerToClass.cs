@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using CodeGen.Class;
+using CodeGen.Mappings;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
 using Foundations.Enums;
@@ -20,25 +21,68 @@ namespace CodeGen
 {
     public class SwaggerToClass
     {
-        private readonly string _pathToSwaggerFile;
+        private readonly SwaggerDefinition _swaggerDefinition;
         private readonly JObject _swagger;
 
         public SwaggerToClass(string pathToSwaggerFile)
         {
             _swagger = JObject.Parse(File.ReadAllText(pathToSwaggerFile));
-            _pathToSwaggerFile = pathToSwaggerFile;
+            _swaggerDefinition = Deserialize(File.ReadAllText(pathToSwaggerFile));
+        }
+
+        public List<BoxedOAuthRequest> CreateRequests()
+        {
+            var requests = new List<BoxedOAuthRequest>();
+            var root = $"{_swaggerDefinition.SupportedSchemes.First()}://{_swaggerDefinition.Host}";
+            var basePath = _swaggerDefinition.BasePath;
+
+            foreach (var path in _swaggerDefinition.Paths)
+            {
+                foreach (var verb in path.Value)
+                {
+                    var request = verb.Value;
+
+                    var scopes = new List<string>();
+                    foreach (var sec in request.Security)
+                    {
+                        scopes.AddRange(sec["oauth2"]);
+                    }
+
+                    var parameters = request.Parameters.Select(parameter => new BoxedProperty(
+                            parameter.Description,
+                            new ParameterToTypeMap().Map(parameter),
+                            PrintingFormatter.JsonNameAsCSharpPropertyName(parameter.Name),
+                            new ParameterToValueMapping().Map(parameter),
+                            new ParameterToMetadataMapping().Map(parameter),
+                            new ParameterToEnumMapping().Map(parameter, request.OperationId)))
+                        .ToList();
+
+                    requests.Add(
+                        new BoxedOAuthRequest(
+                            request.OperationId,
+                            request.Description,
+                            root,
+                            (basePath + path.Key).Replace("//", "/"),
+                            verb.Key.ToUpper(),
+                            _swaggerDefinition.ProducesMediaType.ToList(),
+                            _swaggerDefinition.ConsumesMediaType.ToList(),
+                            scopes,
+                            request.Responses.Keys.Select(a => Convert.ToInt32(a)).ToList(),
+                            parameters));
+                }
+            }
+
+            return requests;
         }
 
         public object CreateResourceProvider()
         {
-            var swaggerDefinition = Deserialize(File.ReadAllText(_pathToSwaggerFile));
-
-            var name = swaggerDefinition.ApiInfo.Title;
-            var comments = $"{swaggerDefinition.ApiInfo.Description} {swaggerDefinition.ApiInfo.Version}";
+            var name = _swaggerDefinition.ApiInfo.Title;
+            var comments = $"{_swaggerDefinition.ApiInfo.Description} {_swaggerDefinition.ApiInfo.Version}";
 
             object definition = null;
 
-            foreach (var securityDefinition in swaggerDefinition.SecurityDefinitions)
+            foreach (var securityDefinition in _swaggerDefinition.SecurityDefinitions)
             {
                 var security = securityDefinition.Value;
 
@@ -49,18 +93,7 @@ namespace CodeGen
                         var newDefinition = new BoxedOpenIdResourceProvider(
                             name,
                             comments,
-                            security.Scopes?.Keys.ToList(),
-                            security.Flow,
-                            security.GrantTypes?.ToList(),
-                            security.ResponseTypes?.ToList(),
-                            security.Name,
-                            security.AuthorizationUrl,
-                            security.TokenUrl,
-                            security.PkceSupport,
-                            security.CustomSchemeSupport,
-                            security.ScopeDelimiter,
-                            security.OpenIdDiscoveryUrl,
-                            security.OpenIdIssuers?.ToList());
+                            security);
 
                         if (definition is BoxedOAuth2ResourceProvider)
                         {
@@ -78,16 +111,7 @@ namespace CodeGen
                         var newDefinition = new BoxedOAuth2ResourceProvider(
                             name,
                             comments,
-                            security.Scopes?.Keys.ToList(),
-                            security.Flow,
-                            security.GrantTypes?.ToList(),
-                            security.ResponseTypes?.ToList(),
-                            security.Name,
-                            security.AuthorizationUrl,
-                            security.TokenUrl,
-                            security.PkceSupport,
-                            security.CustomSchemeSupport,
-                            security.ScopeDelimiter);
+                            security);
 
                         if (definition is BoxedOAuth2ResourceProvider)
                         {
@@ -104,31 +128,23 @@ namespace CodeGen
                 else if (security.Type == "oauth1")
                 {
                     definition = new BoxedOAuth1ResourceProvider(
-                        name,
-                        comments,
-                        security.RequestUrl,
-                        security.AuthorizationUrl,
-                        security.TokenUrl,
-                        security.ParameterLocation,
-                        security.CustomSchemeSupport);
+                            name,
+                            comments,
+                            security);
                 }
                 else if (security.Type == "apiKey")
                 {
                     definition = new BoxedApiKeyResourceProvider(
-                        name,
-                        comments,
-                        security.Name, 
-                        security.ParameterLocation);
+                            name,
+                            comments,
+                            security);
                 }
                 else if (security.Type == "keyJwtExchange")
                 {
                     definition = new BoxedApiKeyExchangeResourceProvider(
-                        name,
-                        comments,
-                        security.KeyName, 
-                        security.ParameterLocation, 
-                        security.TokenUrl, 
-                        security.Name);
+                            name,
+                            comments,
+                            security);
                 }
                 else
                 {

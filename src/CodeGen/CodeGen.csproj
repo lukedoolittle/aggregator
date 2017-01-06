@@ -48,13 +48,21 @@
   <ItemGroup>
     <Compile Include="BoxedProviders\BoxedApiKeyExchangeResourceProvider.cs" />
     <Compile Include="BoxedProviders\BoxedApiKeyResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedEnum.cs" />
+    <Compile Include="BoxedProviders\BoxedMetadata.cs" />
     <Compile Include="BoxedProviders\BoxedOAuth1ResourceProvider.cs" />
     <Compile Include="BoxedProviders\BoxedOAuth2ResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedOAuthRequest.cs" />
     <Compile Include="BoxedProviders\BoxedOpenIdResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedProperty.cs" />
     <Compile Include="ClassProperties\PropertyRepresentation.cs" />
     <Compile Include="Class\ClassRepresentation.cs" />
     <Compile Include="Class\BaseTypeRepresentation.cs" />
     <Compile Include="Class\EnumRepresentation.cs" />
+    <Compile Include="Mappings\ParameterToEnumMapping.cs" />
+    <Compile Include="Mappings\ParameterToMetadataMapping.cs" />
+    <Compile Include="Mappings\ParameterToTypeMap.cs" />
+    <Compile Include="Mappings\ParameterToValueMapping.cs" />
     <Compile Include="Metadata\AbstractMetadataRepresentation.cs" />
     <Compile Include="Metadata\ConcreteMetadataRepresentation.cs" />
     <Compile Include="Metadata\MetadataRepresentation.cs" />

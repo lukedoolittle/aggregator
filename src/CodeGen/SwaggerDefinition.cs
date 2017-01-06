@@ -28,7 +28,7 @@ namespace CodeGen
         public IList<string> ConsumesMediaType { get; set; }
 
         [DataMember(Name = "paths")]
-        public IDictionary<string, PathDefinition> Paths { get; set; }
+        public IDictionary<string, IDictionary<string, PathDefinition>> Paths { get; set; }
 
         [DataMember(Name = "securityDefinitions")]
         public IDictionary<string, SecurityDefinition> SecurityDefinitions { get; set; }
@@ -75,6 +75,12 @@ namespace CodeGen
 
         [DataMember(Name = "format")]
         public string Format { get; set; }
+
+        [DataMember(Name = "enum")]
+        public IList<string> Enumeration { get; set; }
+
+        [DataMember(Name = "default")]
+        public string DefaultValue { get; set; }
     }
 
     [DataContract]
@@ -97,20 +103,16 @@ namespace CodeGen
         public string OperationId { get; set; }
 
         [DataMember(Name = "parameters")]
-        public IList<Parameter> Parameters { get; set; } = 
-            new List<Parameter>();
+        public IList<Parameter> Parameters { get; set; }
 
         [DataMember(Name = "responses")]
-        public IDictionary<string, ResponseDescription> Responses { get; set; } = 
-            new Dictionary<string, ResponseDescription>();
+        public IDictionary<string, ResponseDescription> Responses { get; set; }
 
         [DataMember(Name = "tags")]
-        public IList<string> Tags { get; set; } = 
-            new List<string>();
+        public IList<string> Tags { get; set; }
 
         [DataMember(Name = "security")]
-        public IList<IDictionary<string, IList<string>>> Security { get; set; } = 
-            new List<IDictionary<string, IList<string>>>();
+        public IList<IDictionary<string, IList<string>>> Security { get; set; }
     }
 
     #endregion Paths
@@ -145,10 +147,10 @@ namespace CodeGen
         public string ParameterLocation { get; set; }
 
         [DataMember(Name = "x-grant-types")]
-        public IList<string> GrantTypes { get; set; } 
+        public IList<string> GrantTypes { get; set; }
 
         [DataMember(Name = "x-response-types")]
-        public IList<string> ResponseTypes { get; set; } 
+        public IList<string> ResponseTypes { get; set; }
 
         [DataMember(Name = "x-pkce-support")]
         public bool PkceSupport { get; set; }
@@ -157,7 +159,7 @@ namespace CodeGen
         public string OpenIdDiscoveryUrl { get; set; }
 
         [DataMember(Name = "x-openid-issuers")]
-        public IList<string> OpenIdIssuers { get; set; } 
+        public IList<string> OpenIdIssuers { get; set; }
 
         [DataMember(Name = "x-custom-scheme-support")]
         public bool CustomSchemeSupport { get; set; }

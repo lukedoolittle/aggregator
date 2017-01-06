@@ -18,26 +18,23 @@ namespace Material.Infrastructure
         public abstract string HttpMethod { get; }
         public abstract List<MediaType> Produces { get; }
         public abstract List<MediaType> Consumes { get; }
-
-        public virtual List<string> RequiredScopes { get; } = 
+        public virtual List<string> RequiredScopes { get; } =
             new List<string>();
+        public virtual List<HttpStatusCode> ExpectedStatusCodes { get; } =
+            new List<HttpStatusCode> { HttpStatusCode.OK };
 
-        public virtual Dictionary<HttpRequestHeader, string> Headers { get; } = 
+        public Dictionary<HttpRequestHeader, string> Headers { get; } =
             new Dictionary<HttpRequestHeader, string>();
-
-        public virtual IDictionary<string, string> QuerystringParameters => 
+        public IDictionary<string, string> QuerystringParameters =>
             GetParameters(RequestParameterType.Query);
-        public virtual IDictionary<string, string> PathParameters => 
+        public IDictionary<string, string> PathParameters =>
             GetParameters(RequestParameterType.Path);
 
         public object Body { get; set; }
         public MediaType BodyType { get; set; } = MediaType.Json;
-
         public MediaType? OverriddenResponseMediaType { get; set; }
-        public virtual List<HttpStatusCode> ExpectedStatusCodes { get; } = 
-            new List<HttpStatusCode> { HttpStatusCode.OK };
 
-        public virtual void AddUserIdParameter(string userId) {}
+        public virtual void AddUserIdParameter(string userId) { }
 
         protected virtual IDictionary<string, string> GetParameters(RequestParameterType type)
         {
@@ -59,7 +56,7 @@ namespace Material.Infrastructure
 
                 var value = format.FormatAsString(rawValue);
 
-                if (parameterProperty.GetCustomAttribute<RequiredAttribute>() != null && 
+                if (parameterProperty.GetCustomAttribute<RequiredAttribute>() != null &&
                     value == null)
                 {
                     throw new ArgumentNullException(name);

@@ -69,6 +69,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OAuth2ResourceProviderTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGeneration\OAuthRequestTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OAuthRequestTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="CodeGeneration\OpenIdResourceProviderTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -484,6 +489,11 @@
       <LastGenOutput>OAuth2ResourceProviderTemplate.cs</LastGenOutput>
       <LastOutputs>.\OAuth2ResourceProviderTemplate.cs</LastOutputs>
     </Content>
+    <Content Include="CodeGeneration\OAuthRequestTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OAuthRequestTemplate.cs</LastGenOutput>
+      <LastOutputs>.\OAuthRequestTemplate.cs</LastOutputs>
+    </Content>
     <Content Include="CodeGeneration\OpenIdResourceProviderTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OpenIdResourceProviderTemplate.cs</LastGenOutput>
@@ -491,11 +501,4 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
