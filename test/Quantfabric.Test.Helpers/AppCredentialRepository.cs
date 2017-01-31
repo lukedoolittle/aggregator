@@ -116,6 +116,18 @@ namespace Quantfabric.Test.Helpers
         {
             return _clientCredentials.GetApiKeyCredentials<TService>();
         }
+
+        public string GetUsername<TService>()
+            where TService : PasswordResourceProvider
+        {
+            
+        }
+
+        public string GetPassword<TService>()
+            where TService : PasswordResourceProvider
+        {
+            
+        }
     }
 }
 #endif

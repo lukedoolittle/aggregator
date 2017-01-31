@@ -4,6 +4,7 @@
 <#@ include file="OAuth1ResourceProviderTemplate.tt" #>
 <#@ include file="OAuth2ResourceProviderTemplate.tt" #>
 <#@ include file="OpenIdResourceProviderTemplate.tt" #>
+<#@ include file="PasswordResourceProviderTemplate.tt" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -73,6 +74,12 @@
             {
                 var provider = boxedProvider as BoxedOpenIdResourceProvider;
                 new OpenIdResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
+                return provider.Name;
+            }
+            else if (boxedProvider is BoxedPasswordResourceProvider)
+            {
+                var provider = boxedProvider as BoxedPasswordResourceProvider;
+                new PasswordResourceProviderTemplate(serviceNamespace, provider).RenderToFile(string.Format(filename, provider.Name));
                 return provider.Name;
             }
             else

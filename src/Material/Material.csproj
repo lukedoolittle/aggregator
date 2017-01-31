@@ -49,6 +49,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ApiKeyExchangeResourceProviderTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGeneration\PasswordResourceProviderTemplate.cs">
+      <DependentUpon>PasswordResourceProviderTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CodeGeneration\ApiKeyResourceProviderTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +95,7 @@
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebToken.cs" />
+    <Compile Include="Infrastructure\Credentials\PasswordCredentials.cs" />
     <Compile Include="Infrastructure\Identities\FacebookIdentity.cs" />
     <Compile Include="Infrastructure\Identities\FitbitIdentity.cs" />
     <Compile Include="Infrastructure\Identities\GoogleIdentity.cs" />
@@ -98,6 +104,7 @@
     <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
     <Compile Include="Infrastructure\Partials\Spotify.cs" />
+    <Compile Include="Infrastructure\PasswordResourceProvider.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
@@ -118,6 +125,7 @@
     <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\XamarinInsights.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
     <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
@@ -163,6 +171,9 @@
     <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
     <Compile Include="Infrastructure\Requests\WithingsWeighIn.cs" />
+    <Compile Include="Infrastructure\Requests\XamarinInsightsEvents.cs" />
+    <Compile Include="Infrastructure\Requests\XamarinInsightsSessions.cs" />
+    <Compile Include="Infrastructure\Requests\XamarinInsightsUsers.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
@@ -194,6 +205,9 @@
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2ResponseType.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2Scope.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2State.cs" />
+    <Compile Include="OAuth\AuthenticatorParameters\Password.cs" />
+    <Compile Include="OAuth\AuthenticatorParameters\Username.cs" />
+    <Compile Include="OAuth\Authorization\PasswordAuthorizationAdapter.cs" />
     <Compile Include="OAuth\Facade\OAuth2AccessCodeFacade.cs" />
     <Compile Include="OAuth\Facade\OAuth2AuthorizationUriFacade.cs" />
     <Compile Include="OAuth\Facade\OAuth2ImplicitFacade.cs" />
@@ -342,6 +356,7 @@
     <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
     <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
     <Compile Include="OAuth\Template\OAuthAuthorizationUITemplateBase.cs" />
+    <Compile Include="OAuth\Workflow\SimplePassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OAuth\Template\OAuthAuthorizationTemplate.cs" />
     <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />
@@ -355,6 +370,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Swagger\amazon.json" />
+    <None Include="Swagger\xamarinInsights.json" />
     <None Include="Swagger\yahoo.json" />
     <None Include="Swagger\microsoftBing.json" />
     <None Include="Swagger\microsoftLuis.json" />
@@ -400,6 +416,7 @@
 ..\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
 ..\Infrastructure\ProtectedResources\Twitter.cs
 ..\Infrastructure\ProtectedResources\Withings.cs
+..\Infrastructure\ProtectedResources\XamarinInsights.cs
 ..\Infrastructure\ProtectedResources\Yahoo.cs
 ..\Infrastructure\Requests\AmazonProfile.cs
 ..\Infrastructure\Requests\FacebookEvent.cs
@@ -445,6 +462,9 @@
 ..\Infrastructure\Requests\TwitterTweet.cs
 ..\Infrastructure\Requests\TwitterVerifyCredentials.cs
 ..\Infrastructure\Requests\WithingsWeighIn.cs
+..\Infrastructure\Requests\XamarinInsightsEvents.cs
+..\Infrastructure\Requests\XamarinInsightsSessions.cs
+..\Infrastructure\Requests\XamarinInsightsUsers.cs
 .\Generator.cs
 </LastOutputs>
       <LastGenOutput>Generator.cs</LastGenOutput>
@@ -473,6 +493,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ApiKeyExchangeResourceProviderTemplate.cs</LastGenOutput>
       <LastOutputs>.\ApiKeyExchangeResourceProviderTemplate.cs</LastOutputs>
+    </Content>
+    <Content Include="CodeGeneration\PasswordResourceProviderTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PasswordResourceProviderTemplate.cs</LastGenOutput>
+      <LastOutputs>.\PasswordResourceProviderTemplate.cs</LastOutputs>
     </Content>
     <Content Include="CodeGeneration\ApiKeyResourceProviderTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

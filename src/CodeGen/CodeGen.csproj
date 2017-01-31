@@ -54,6 +54,7 @@
     <Compile Include="BoxedProviders\BoxedOAuth2ResourceProvider.cs" />
     <Compile Include="BoxedProviders\BoxedOAuthRequest.cs" />
     <Compile Include="BoxedProviders\BoxedOpenIdResourceProvider.cs" />
+    <Compile Include="BoxedProviders\BoxedPasswordResourceProvider.cs" />
     <Compile Include="BoxedProviders\BoxedProperty.cs" />
     <Compile Include="ClassProperties\PropertyRepresentation.cs" />
     <Compile Include="Class\ClassRepresentation.cs" />

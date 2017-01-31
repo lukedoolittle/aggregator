@@ -250,6 +250,7 @@
     <Compile Include="Material\Interaction\OAuth2RefreshTokenTests.cs" />
     <Compile Include="Material\Interaction\OAuthSimpleRequestTests.cs" />
     <Compile Include="Material\Interaction\OpenIdTokenTests.cs" />
+    <Compile Include="Material\Interaction\SimplePasswordTests.cs" />
     <Compile Include="Material\Interaction\SimpleRequestTests.cs" />
     <Compile Include="Material\Mocks\OAuth1ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\OAuth2ResourceProviderMock.cs" />

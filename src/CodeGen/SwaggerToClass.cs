@@ -146,6 +146,13 @@ namespace CodeGen
                             comments,
                             security);
                 }
+                else if (security.Type == "password")
+                {
+                    definition = new BoxedPasswordResourceProvider(
+                        name, 
+                        comments, 
+                        security);
+                }
                 else
                 {
                     throw new NotSupportedException($"Security type {security.Type} is not supported");

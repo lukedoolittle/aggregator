@@ -248,6 +248,13 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequestBuilder DisableAutoRedirect()
+        {
+            _request.AllowHttpRedirect = false;
+
+            return this;
+        }
+
         public Uri GenerateRequestUri()
         {
             _request.Authenticator?.Authenticate(this);

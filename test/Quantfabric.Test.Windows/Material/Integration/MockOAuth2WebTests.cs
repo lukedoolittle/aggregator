@@ -31,7 +31,7 @@ namespace Quantfabric.Test.Material.Integration
 
         public MockOAuth2WebTests()
         {
-            HttpConfiguration.MessageHandlerFactory = () =>
+            HttpConfiguration.MessageHandlerFactory = (parameters) =>
             new HttpClientHandler
             {
                 CookieContainer = new CookieContainer(),

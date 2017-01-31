@@ -31,11 +31,11 @@ namespace Foundations.HttpClient
         /// <summary>
         /// Creates the default HttpClientHandler for the HttpClient instance internal to HttpRequestBuilder
         /// </summary>
-        public static Func<HttpClientHandler> MessageHandlerFactory { get; set; } =
-            () => new HttpClientHandler
+        public static Func<RequestParameters, HttpClientHandler> MessageHandlerFactory { get; set; } =
+            (parameters) => new HttpClientHandler
             {
                 CookieContainer = new CookieContainer(),
-                AllowAutoRedirect = true,
+                AllowAutoRedirect = parameters.AllowHttpRedirect,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
 
@@ -92,7 +92,7 @@ namespace Foundations.HttpClient
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public static Tuple<System.Net.Http.HttpClient, HttpClientHandler> GetClient(
             RequestParameters request,
-            Func<HttpClientHandler> clientHandlerFactory,
+            Func<RequestParameters, HttpClientHandler> clientHandlerFactory,
             Func<RequestParameters, string> clientHashFactory)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
@@ -105,7 +105,7 @@ namespace Foundations.HttpClient
             {
                 if (!_clients.ContainsKey(key))
                 {
-                    var handler = clientHandlerFactory();
+                    var handler = clientHandlerFactory(request);
                     var client = new System.Net.Http.HttpClient(handler);
                     _clients.AddOrUpdate(
                         key,

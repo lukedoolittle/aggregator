@@ -24,6 +24,8 @@ namespace Foundations.HttpClient.Request
 
         public IAuthenticator Authenticator { get; set; }
 
+        public bool AllowHttpRedirect { get; set; } = true;
+
         public void AddPath(string path)
         {
             if (path == null) throw new ArgumentNullException(nameof(path));

@@ -172,6 +172,12 @@ namespace CodeGen
 
         [DataMember(Name = "x-scope-delimiter")]
         public string ScopeDelimiter { get; set; }
+
+        [DataMember(Name = "x-username-key")]
+        public string UsernameKey { get; set; }
+
+        [DataMember(Name = "x-password-key")]
+        public string PasswordKey { get; set; }
     }
 
     #endregion Security

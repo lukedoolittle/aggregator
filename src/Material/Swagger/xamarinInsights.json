@@ -1,0 +1,254 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "XamarinInsights",
+        "description": "Xamarin Insights Unofficial API",
+        "termsOfService": "https://www.xamarin.com/cloud-services-agreement",
+        "version": "1"
+    },
+    "host": "insights.xamarin.com",
+    "basePath": "/api",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/users/{appId}": {
+            "get": {
+                "summary": "Get list of recent users",
+                "description": "",
+                "operationId": "XamarinInsightsUsers",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "appId",
+                        "description": "Id of the app",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "manufacturer",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "country",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "model",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "os",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "osVersion",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "appVersion",
+                        "description": "",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "time",
+                        "description": "",
+                        "type": "integer",
+                        "default": 0,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortColumn",
+                        "description": "",
+                        "type": "string",
+                        "default": "lastSeen",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "SortDirection",
+                        "description": "",
+                        "type": "string",
+                        "default": "desc",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "",
+                        "type": "integer",
+                        "default": 0,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "skip",
+                        "description": "",
+                        "type": "integer",
+                        "default": 0,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "",
+                        "type": "integer",
+                        "default": 20,
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "password": []
+                    }
+                ]
+            }
+        },
+        "/users/{appId}/sessions": {
+            "get": {
+                "summary": "Get list of sessions a user has",
+                "description": "",
+                "operationId": "XamarinInsightsSessions",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "appId",
+                        "description": "Id of the app",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "userid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "deviceid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "",
+                        "type": "integer",
+                        "default": 200,
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "password": []
+                    }
+                ]
+            }
+        },
+        "/users/{appId}/events": {
+            "get": {
+                "summary": "Get list of events a user has in a session",
+                "description": "",
+                "operationId": "XamarinInsightsEvents",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "appId",
+                        "description": "Id of the app",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "userid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "deviceid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "sessionid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "",
+                        "type": "integer",
+                        "default": 50,
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "password": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "password": {
+            "type": "password",
+            "tokenUrl": "https://insights.xamarin.com/login",
+            "x-username-key": "username",
+            "x-password-key": "password"  
+        }
+    },
+    "definitions": []
+}
