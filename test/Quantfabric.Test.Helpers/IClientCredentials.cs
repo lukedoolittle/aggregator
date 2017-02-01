@@ -1,5 +1,6 @@
 ﻿using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
+using Quantfabric.Test.Helpers;
 
 namespace Material.Contracts
 {
@@ -30,5 +31,9 @@ namespace Material.Contracts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         ApiKeyCredentials GetApiKeyCredentials<TService>()
             where TService : ApiKeyResourceProvider;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        UsernameAndPassword GetPasswordCredentials<TService>()
+            where TService : PasswordResourceProvider;
     }
 }

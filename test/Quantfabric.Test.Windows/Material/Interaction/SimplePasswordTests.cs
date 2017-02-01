@@ -1,17 +1,23 @@
 ﻿using System.Linq;
+using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth.Workflow;
+using Quantfabric.Test.Helpers;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Interaction
 {
+    [Trait("Category", "Automated")]
     public class SimplePasswordTests
     {
+        private readonly AppCredentialRepository _appRepository =
+            new AppCredentialRepository(CallbackType.Localhost);
+
         [Fact]
         public async void CanGetValidCredentialsFromXamarinInsights()
         {
-            var username = "";
-            var password = "";
+            var username = _appRepository.GetUsername<XamarinInsights>();
+            var password = _appRepository.GetPassword<XamarinInsights>();
 
             var token = await new SimplePassword<XamarinInsights>(
                     username,

@@ -120,13 +120,13 @@ namespace Quantfabric.Test.Helpers
         public string GetUsername<TService>()
             where TService : PasswordResourceProvider
         {
-            
+            return _clientCredentials.GetPasswordCredentials<TService>().Username;
         }
 
         public string GetPassword<TService>()
             where TService : PasswordResourceProvider
         {
-            
+            return _clientCredentials.GetPasswordCredentials<TService>().Password;
         }
     }
 }

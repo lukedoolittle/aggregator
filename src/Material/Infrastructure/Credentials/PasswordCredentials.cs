@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using Foundations.Extensions;
@@ -12,7 +13,7 @@ namespace Material.Infrastructure.Credentials
             ?.Select(c => c.Expires)
             .Min()
             .ToUnixTimeSeconds()
-            .ToString();
+            .ToString(CultureInfo.InvariantCulture);
         public override bool AreValidIntermediateCredentials => Cookies != null;
         public IEnumerable<Cookie> Cookies { get; private set; }
 
