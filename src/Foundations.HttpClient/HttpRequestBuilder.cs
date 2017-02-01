@@ -19,9 +19,8 @@ namespace Foundations.HttpClient
 {
     public class HttpRequestBuilder
     {
-        private readonly Func<RequestParameters, Tuple<System.Net.Http.HttpClient, HttpClientHandler>> _clientFactory;
-        private readonly RequestParameters _request = 
-            new RequestParameters();
+        private readonly Func<RequestParameters, HttpClientSet> _clientFactory;
+        private readonly RequestParameters _request = new RequestParameters();
 
         public HttpMethod Method => _request.Method;
         public Uri Url => _request.Address;
@@ -255,6 +254,13 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequestBuilder Cookies(IEnumerable<Cookie> newCookies)
+        {
+            _request.Cookies.AddRange(newCookies);
+
+            return this;
+        }
+
         public Uri GenerateRequestUri()
         {
             _request.Authenticator?.Authenticate(this);
@@ -275,39 +281,18 @@ namespace Foundations.HttpClient
                     StringResource.GetWithBodyNotSupported);
             }
 
-            var client = _clientFactory(_request);
+            var clientSet = _clientFactory(_request);
 
-            var message = new HttpRequestMessage
-            {
-                Method = _request.Method,
-                RequestUri = _request.Address,
-                Content = _request.Content
-            };
-            //This is very fragile; do you have to do this???
-            foreach (var header in _request.Headers)
-            {
-                if (header.Key == HttpRequestHeader.Accept.ToString())
-                {
-                    message.Headers.Accept.Add((MediaTypeWithQualityHeaderValue)header.Value);
-                }
-                else if (header.Key == HttpRequestHeader.AcceptEncoding.ToString())
-                {
-                    message.Headers.AcceptEncoding.Add((StringWithQualityHeaderValue)header.Value);
-                }
-                else if (header.Key == HttpRequestHeader.UserAgent.ToString())
-                {
-                    message.Headers.UserAgent.Add((ProductInfoHeaderValue)header.Value);
-                }
-                else
-                {
-                    message.Headers.Add(
-                        header.Key,
-                        header.Value.ToString());
-                }
-            }
+            _request.Cookies.AttachCookies(
+                clientSet.Handler.CookieContainer, 
+                _request.Address);
+
+            _request.Headers.AttachHeaders(
+                clientSet.Message.Headers);
             
-            var response = await client.Item1
-                .SendAsync(message)
+            var response = await clientSet
+                .Client
+                .SendAsync(clientSet.Message)
                 .ConfigureAwait(false);
 
             if (_request.ExpectedResponseCodes.Count > 0 &&
@@ -327,19 +312,13 @@ namespace Foundations.HttpClient
                         content));
             }
 
-            if (_request.OverriddenMediaType != null)
-            {
-                return new HttpResponse(
-                    response,
-                    client.Item2.CookieContainer.GetCookies(_request.Address),
-                    _request.OverriddenMediaType.Value);
-            }
-            else
-            {
-                return new HttpResponse(
-                    response,
-                    client.Item2.CookieContainer.GetCookies(_request.Address));
-            }
+            return new HttpResponse(
+                response,
+                clientSet
+                    .Handler
+                    .CookieContainer
+                    .GetCookies(
+                        _request.Address));
         }
     }
 }

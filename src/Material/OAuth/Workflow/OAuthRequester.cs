@@ -17,6 +17,20 @@ namespace Material.OAuth.Workflow
         private readonly string _userId;
 
         /// <summary>
+        /// Request for a username/password protected endpoint
+        /// </summary>
+        /// <param name="credentials">Cookie based credentials used for authentication</param>
+        public OAuthRequester(PasswordCredentials credentials)
+        {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
+            _requester = new OAuthProtectedResourceAdapter(
+                new AuthenticatorBuilder()
+                    .AddCookies(credentials.Cookies), 
+                HttpParameterType.Unspecified);
+        }
+
+        /// <summary>
         /// Request for a NoAuth (api key) endpoint
         /// </summary>
         /// <param name="credentials">Api key credentials used for authentication</param>

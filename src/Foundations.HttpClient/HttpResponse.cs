@@ -36,28 +36,17 @@ namespace Foundations.HttpClient
 
         public HttpResponse(
             HttpResponseMessage response,
-            IEnumerable cookies) : 
-                this(
-                    response, 
-                    cookies, 
-                    response
-                        ?.Content
-                        ?.Headers
-                        ?.ContentType
-                        ?.MediaType
-                        ?.StringToEnum<MediaType>() ?? 
-                    HttpConfiguration.DefaultResponseMediaType)
-        { }
-
-        public HttpResponse(
-            HttpResponseMessage response,
-            IEnumerable cookies,
-            MediaType responseMediaType)
+            IEnumerable cookies)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             _content = response.Content;
-            _responseContentType = responseMediaType;
+            _responseContentType = response
+                .Content
+                ?.Headers
+                ?.ContentType
+                ?.MediaType
+                ?.StringToEnum<MediaType>() ?? HttpConfiguration.DefaultResponseMediaType;
             Headers = response.Headers;
             StatusCode = response.StatusCode;
             Reason = response.ReasonPhrase;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Foundations.HttpClient.Enums;
 
 namespace Foundations.HttpClient.Authenticators
@@ -10,6 +11,8 @@ namespace Foundations.HttpClient.Authenticators
             new List<IAuthenticatorParameter>();
 
         private IRequestSigningAlgorithm _signingAlgorithm;
+
+        private readonly List<Cookie> _cookies = new List<Cookie>();
 
         public AuthenticatorBuilder AddSigner(
             IRequestSigningAlgorithm signingAlgorithm)
@@ -44,6 +47,13 @@ namespace Foundations.HttpClient.Authenticators
             return this;
         }
 
+        public AuthenticatorBuilder AddCookies(IEnumerable<Cookie> cookies)
+        {
+            _cookies.AddRange(cookies);
+
+            return this;
+        }
+
         void IAuthenticator.Authenticate(
             HttpRequestBuilder requestBuilder)
         {
@@ -64,6 +74,8 @@ namespace Foundations.HttpClient.Authenticators
                         parameter.Value);
                 }
             }
+
+            requestBuilder.Cookies(_cookies);
 
             _signingAlgorithm?.SignRequest(requestBuilder);
         }

@@ -19,7 +19,7 @@ namespace Foundations.HttpClient
         /// Creates the default HttpClient instance internal to HttpRequestBuilder
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
-        public static Func<RequestParameters, Tuple<System.Net.Http.HttpClient, HttpClientHandler>> HttpClientFactory { get; set; } = //-V3070
+        public static Func<RequestParameters, HttpClientSet> HttpClientFactory { get; set; } = //-V3070
             (request) => ClientPool.GetClient(request, MessageHandlerFactory, ClientHashFactory);
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Foundations.HttpClient
         //Per discussions http://byterot.blogspot.com/2016/07/singleton-httpclient-dns.html IDisposable does not need implementing
         //with HttpClient
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
-        public static Tuple<System.Net.Http.HttpClient, HttpClientHandler> GetClient(
+        public static HttpClientSet GetClient(
             RequestParameters request,
             Func<RequestParameters, HttpClientHandler> clientHandlerFactory,
             Func<RequestParameters, string> clientHashFactory)
@@ -113,7 +113,15 @@ namespace Foundations.HttpClient
                         (s, pair) => { throw new NotSupportedException(); });
                 }
 
-                return _clients[key];
+                return new HttpClientSet(
+                    _clients[key].Item1, 
+                    _clients[key].Item2,
+                    new HttpRequestMessage
+                    {
+                        Method = request.Method,
+                        RequestUri = request.Address,
+                        Content = request.Content,
+                    });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Headers;
@@ -9,6 +10,34 @@ namespace Foundations.HttpClient.Request
     {
         private readonly List<KeyValuePair<string, object>> _items = 
             new List<KeyValuePair<string, object>>();
+
+        public void AttachHeaders(HttpRequestHeaders headers)
+        {
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+
+            //This is very fragile; do you have to do this???
+            foreach (var header in _items)
+            {
+                if (header.Key == HttpRequestHeader.Accept.ToString())
+                {
+                    headers.Accept.Add((MediaTypeWithQualityHeaderValue)header.Value);
+                }
+                else if (header.Key == HttpRequestHeader.AcceptEncoding.ToString())
+                {
+                    headers.AcceptEncoding.Add((StringWithQualityHeaderValue)header.Value);
+                }
+                else if (header.Key == HttpRequestHeader.UserAgent.ToString())
+                {
+                    headers.UserAgent.Add((ProductInfoHeaderValue)header.Value);
+                }
+                else
+                {
+                    headers.Add(
+                        header.Key,
+                        header.Value.ToString());
+                }
+            }
+        }
 
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {

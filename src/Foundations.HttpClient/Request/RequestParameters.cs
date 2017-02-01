@@ -15,6 +15,10 @@ namespace Foundations.HttpClient.Request
 
         public RequestPayload Payload { get; } = new RequestPayload();
 
+        public HeaderCollection Headers { get; } = new HeaderCollection();
+
+        public CookieCollection Cookies { get; } = new CookieCollection();
+
         public HttpContent Content { get; set; }
 
         public List<HttpStatusCode> ExpectedResponseCodes { get; } =
@@ -40,7 +44,6 @@ namespace Foundations.HttpClient.Request
             Address = new Uri(Address.ToString().Replace("{" + key + "}", value));
         }
 
-        public HeaderCollection Headers { get; } = 
-            new HeaderCollection();
+
     }
 }

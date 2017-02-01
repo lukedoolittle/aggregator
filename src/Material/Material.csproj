@@ -178,6 +178,9 @@
     <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Infrastructure\Responses\XamarinEventResponse.cs" />
+    <Compile Include="Infrastructure\Responses\XamarinSessionResponse.cs" />
+    <Compile Include="Infrastructure\Responses\XamarinUserResponse.cs" />
     <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\ApiKey.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\GenericParameter.cs" />

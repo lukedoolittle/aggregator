@@ -9,7 +9,6 @@ using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.RequestBodies;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
@@ -24,6 +23,60 @@ namespace Quantfabric.Test.Material.Interaction
             = new TokenCredentialRepository(true);
         private readonly AppCredentialRepository _appRepository
             = new AppCredentialRepository(CallbackType.Localhost);
+
+        [Fact]
+        public async void MakeRequestForXamarinInsightsUsersThenSessionsThenEvents()
+        {
+            var username = _appRepository.GetUsername<XamarinInsights>();
+            var password = _appRepository.GetPassword<XamarinInsights>();
+            var appId = "0772a1b8bdf2430d6f7faa4cbb7bd6e1baa13831";
+
+            var credentials = await new SimplePassword<XamarinInsights>(
+                    username,
+                    password)
+                .GetCredentialsAsync()
+                .ConfigureAwait(false);
+
+            var userRequest = new XamarinInsightsUsers
+            {
+                AppId = appId
+            };
+
+            var userResponse = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<XamarinInsightsUsers, XamarinUserResponse>(userRequest)
+                .ConfigureAwait(false);
+
+            var user = userResponse.Hits.HitList.First().Source;
+            var userId = user.Id;
+            var someDeviceId = user.Devices.First().Id;
+
+            var sessionRequest = new XamarinInsightsSessions
+            {
+                AppId = appId,
+                Deviceid = someDeviceId.ToString(),
+                Userid = userId
+            };
+
+            var sessionResponse = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<XamarinInsightsSessions, XamarinSessionResponse>(sessionRequest)
+                .ConfigureAwait(false);
+
+            var session = sessionResponse.Hits.Hits.First();
+
+            var eventsRequest = new XamarinInsightsEvents()
+            {
+                AppId = appId,
+                Deviceid = someDeviceId.ToString(),
+                Userid = userId,
+                Sessionid = session.Id
+            };
+
+            var eventsResponse = await new OAuthRequester(credentials)
+                .MakeOAuthRequestAsync<XamarinInsightsEvents, XamarinEventResponse>(eventsRequest)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(eventsResponse.Hits.Hits.First());
+        }
 
         #region Linkedin Requests
 
@@ -127,10 +180,10 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var response = await new OAuthRequester(credentials)
-                .MakeOAuthRequestAsync<AmazonProfile, AmazonProfileResponse>()
+                .MakeOAuthRequestAsync<XamarinInsightsUsers, string>()
                 .ConfigureAwait(false);
 
-            Assert.NotNull(response.Email);
+
         }
 
         [Fact]
