@@ -28,7 +28,7 @@ namespace Quantfabric.Test.Material.Interaction
                 AppId = "2650ce1d-c2f7-4ea4-afaa-ccbc0104adb1",
                 Example = actualText
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<MicrosoftLuisPredict, MicrosoftLuisPredictResponse>(request)
                 .ConfigureAwait(false);
 
@@ -55,7 +55,7 @@ namespace Quantfabric.Test.Material.Interaction
                 BodyType = MediaType.Wave
             };
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<MicrosoftBingSpeechToText, MicrosoftBingSpeechResponse>(request)
                 .ConfigureAwait(false);
 

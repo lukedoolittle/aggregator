@@ -3,7 +3,7 @@ using Material.Infrastructure;
 
 namespace Material.Contracts
 {
-    public interface IOAuthProtectedResourceAdapter
+    public interface IProtectedResourceAdapter
     {
         Task<TResponse> ForProtectedResource<TRequest, TResponse>(
             TRequest request)

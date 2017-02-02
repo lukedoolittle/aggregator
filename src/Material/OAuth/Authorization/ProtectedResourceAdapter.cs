@@ -10,12 +10,12 @@ using Material.Infrastructure;
 
 namespace Material.OAuth.Authorization
 {
-    public class OAuthProtectedResourceAdapter : IOAuthProtectedResourceAdapter
+    public class ProtectedResourceAdapter : IProtectedResourceAdapter
     {
         private readonly IAuthenticator _authenticator;
         private readonly HttpParameterType _parameterHandling;
 
-        public OAuthProtectedResourceAdapter(
+        public ProtectedResourceAdapter(
             IAuthenticator authenticator, 
             HttpParameterType parameterHandling)
         {

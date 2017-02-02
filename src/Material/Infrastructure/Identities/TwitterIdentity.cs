@@ -14,7 +14,7 @@ namespace Material.Infrastructure.Identities
             JsonWebToken token, 
             OAuth1Credentials credentials)
         {
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterVerifyCredentials, TwitterVerifyCredentialsResponse>()
                 .ConfigureAwait(false);
 

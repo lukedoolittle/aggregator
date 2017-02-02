@@ -238,7 +238,7 @@
     <Compile Include="Exceptions\NoConnectivityException.cs" />
     <Compile Include="Contracts\IBluetoothAdapter.cs" />
     <Compile Include="Contracts\IGPSAdapter.cs" />
-    <Compile Include="Contracts\IOAuthProtectedResourceAdapter.cs" />
+    <Compile Include="Contracts\IProtectedResourceAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizationAdapter.cs" />
     <Compile Include="Contracts\ISMSAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
@@ -329,9 +329,9 @@
     <Compile Include="OAuth\Authentication\CompositeJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="OAuth\Authentication\DiscoveryJsonWebTokenSignatureValidator.cs" />
     <Compile Include="OAuth\Authentication\TokenValidationResult.cs" />
-    <Compile Include="OAuth\Authorization\ApiKeyJsonWebTokenExchangeAdapter.cs" />
+    <Compile Include="OAuth\Authorization\ApiKeyJsonWebTokenExchangeAuthorizationAdapter.cs" />
     <Compile Include="OAuth\Authorization\OAuthAuthorizationAdapter.cs" />
-    <Compile Include="OAuth\Authorization\OAuthProtectedResourceAdapter.cs" />
+    <Compile Include="OAuth\Authorization\ProtectedResourceAdapter.cs" />
     <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
     <Compile Include="OAuth\AuthenticationUISelector.cs" />
     <Compile Include="OAuth\Workflow\OAuth1AppBase.cs" />
@@ -342,7 +342,7 @@
     <Compile Include="OAuth\Workflow\OAuth2Refresh.cs" />
     <Compile Include="OAuth\Workflow\OAuth2Web.cs" />
     <Compile Include="OAuth\OAuthConfiguration.cs" />
-    <Compile Include="OAuth\Workflow\OAuthRequester.cs" />
+    <Compile Include="OAuth\Workflow\AuthorizedRequester.cs" />
     <Compile Include="OAuth\Workflow\OpenIdWeb.cs" />
     <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />

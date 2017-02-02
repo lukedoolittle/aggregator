@@ -11,20 +11,20 @@ using Material.OAuth.Authorization;
 
 namespace Material.OAuth.Workflow
 {
-    public class OAuthRequester
+    public class AuthorizedRequester
     {
-        private readonly IOAuthProtectedResourceAdapter _requester;
+        private readonly IProtectedResourceAdapter _requester;
         private readonly string _userId;
 
         /// <summary>
         /// Request for a username/password protected endpoint
         /// </summary>
         /// <param name="credentials">Cookie based credentials used for authentication</param>
-        public OAuthRequester(PasswordCredentials credentials)
+        public AuthorizedRequester(PasswordCredentials credentials)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
-            _requester = new OAuthProtectedResourceAdapter(
+            _requester = new ProtectedResourceAdapter(
                 new AuthenticatorBuilder()
                     .AddCookies(credentials.Cookies), 
                 HttpParameterType.Unspecified);
@@ -34,11 +34,11 @@ namespace Material.OAuth.Workflow
         /// Request for a NoAuth (api key) endpoint
         /// </summary>
         /// <param name="credentials">Api key credentials used for authentication</param>
-        public OAuthRequester(ApiKeyCredentials credentials)
+        public AuthorizedRequester(ApiKeyCredentials credentials)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
-            _requester = new OAuthProtectedResourceAdapter(
+            _requester = new ProtectedResourceAdapter(
                 new AuthenticatorBuilder()
                     .AddParameter(
                         new ApiKey(
@@ -52,13 +52,13 @@ namespace Material.OAuth.Workflow
         /// OAuth requests for an OAuth1 endpoint
         /// </summary>
         /// <param name="credentials">OAuth1 credentials used for authentication</param>
-        public OAuthRequester(OAuth1Credentials credentials)
+        public AuthorizedRequester(OAuth1Credentials credentials)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
 
-            _requester = new OAuthProtectedResourceAdapter(
+            _requester = new ProtectedResourceAdapter(
                 new AuthenticatorBuilder()
                     .AddParameter(new OAuth1ConsumerKey(credentials.ConsumerKey))
                     .AddParameter(new OAuth1Token(credentials.OAuthToken))
@@ -79,11 +79,11 @@ namespace Material.OAuth.Workflow
         /// OAuth requests for an OAuth2 endpoint
         /// </summary>
         /// <param name="credentials">OAuth2 credentials used for authentication</param>
-        public OAuthRequester(OAuth2Credentials credentials)
+        public AuthorizedRequester(OAuth2Credentials credentials)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
-            _requester = new OAuthProtectedResourceAdapter(
+            _requester = new ProtectedResourceAdapter(
                 new AuthenticatorBuilder()
                     .AddParameter(
                         new OAuth2AccessToken(

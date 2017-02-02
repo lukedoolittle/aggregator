@@ -67,7 +67,7 @@ namespace Quantfabric.UI.Test.UWP
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
-            FacebookUserResponse user = await new OAuthRequester(credentials)
+            FacebookUserResponse user = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
                 .ConfigureAwait(false);
 
@@ -83,7 +83,7 @@ namespace Quantfabric.UI.Test.UWP
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
-            GoogleProfileResponse profile = await new OAuthRequester(credentials)
+            GoogleProfileResponse profile = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
                 .ConfigureAwait(false);
 

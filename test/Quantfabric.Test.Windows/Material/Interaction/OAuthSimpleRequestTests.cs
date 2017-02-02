@@ -42,7 +42,7 @@ namespace Quantfabric.Test.Material.Interaction
                 AppId = appId
             };
 
-            var userResponse = await new OAuthRequester(credentials)
+            var userResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<XamarinInsightsUsers, XamarinUserResponse>(userRequest)
                 .ConfigureAwait(false);
 
@@ -57,7 +57,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Userid = userId
             };
 
-            var sessionResponse = await new OAuthRequester(credentials)
+            var sessionResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<XamarinInsightsSessions, XamarinSessionResponse>(sessionRequest)
                 .ConfigureAwait(false);
 
@@ -71,7 +71,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Sessionid = session.Id
             };
 
-            var eventsResponse = await new OAuthRequester(credentials)
+            var eventsResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<XamarinInsightsEvents, XamarinEventResponse>(eventsRequest)
                 .ConfigureAwait(false);
 
@@ -88,7 +88,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new LinkedinPersonal();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<LinkedinPersonal, LinkedInPersonalResponse>(request)
                 .ConfigureAwait(false);
 
@@ -110,7 +110,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 Date = DateTime.Today
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FatsecretMeal, FatsecretMealResponse>(request)
                 .ConfigureAwait(false);
 
@@ -146,7 +146,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Body = body
             };
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureQueueResponse>(request)
                 .ConfigureAwait(false);
 
@@ -163,7 +163,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Body = getBody
             };
 
-            var getResponse = await new OAuthRequester(credentials)
+            var getResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureGetResponse>(request)
                 .ConfigureAwait(false);
 
@@ -179,7 +179,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<XamarinInsightsUsers, string>()
                 .ConfigureAwait(false);
 
@@ -193,7 +193,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TumblrLikes, TumblrLikeResponse>()
                 .ConfigureAwait(false);
 
@@ -211,7 +211,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 Lastupdate = DateTime.Today.Subtract(TimeSpan.FromDays(50))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<WithingsWeighIn, WithingsWeighInResponse>(request)
                 .ConfigureAwait(false);
 
@@ -271,7 +271,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Body = body
             };
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleAnalyticsReports, GoogleAnalyticsReportsResponse>(request)
                 .ConfigureAwait(false);
             
@@ -289,7 +289,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 After = DateTime.Today.Subtract(TimeSpan.FromDays(2)),
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleGmailMetadata, GoogleGmailMetadataResponse>(request)
                 .ConfigureAwait(false);
 
@@ -303,7 +303,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleProfile, GoogleProfileResponse>()
                 .ConfigureAwait(false);
 
@@ -318,14 +318,14 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var metadataResponse = await new OAuthRequester(credentials)
+            var metadataResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleGmailMetadata, GoogleGmailMetadataResponse>()
                 .ConfigureAwait(false);
 
             foreach (var message in metadataResponse.Messages.Take(5))
             {
                 var request = new GoogleGmail {MessageId = message.Id};
-                var response = await new OAuthRequester(credentials)
+                var response = await new AuthorizedRequester(credentials)
                     .MakeOAuthRequestAsync<GoogleGmail, GoogleGmailResponse>(request).ConfigureAwait(false);
 
                 Assert.NotNull(response);
@@ -344,7 +344,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new RescuetimeAnalyticData();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -362,7 +362,7 @@ namespace Quantfabric.Test.Material.Interaction
                 RestrictBegin = DateTime.Now.Subtract(TimeSpan.FromDays(7)),
                 RestrictEnd = DateTime.Now.Subtract(TimeSpan.FromDays(1))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<RescuetimeAnalyticData, RescuetimeAnalyticDataResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -381,7 +381,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 NoEarlierThan = DateTime.Today.Subtract(TimeSpan.FromDays(60))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<RunkeeperFitnessActivity, RunkeeperFitnessActivityResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -397,7 +397,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwentyThreeAndMeUser();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwentyThreeAndMeUser, TwentyThreeAndMeUserResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -414,7 +414,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 ProfileId = "some profile id with a genome"
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwentyThreeAndMeGenome, TwentyThreeAndMeGenomeResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -430,7 +430,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new SpotifySavedTrack();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<SpotifySavedTrack, SpotifySavedTrackResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -446,7 +446,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new FoursquareCheckin();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FoursquareCheckin, FoursquareCheckinResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -464,7 +464,7 @@ namespace Quantfabric.Test.Material.Interaction
                 AfterTimestamp = DateTime.Today.Subtract(TimeSpan.FromDays(90)),
                 BeforeTimestamp = DateTime.Today.Subtract(TimeSpan.FromDays(30))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FoursquareCheckin, FoursquareCheckinResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -478,7 +478,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new FoursquareFriend();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FoursquareFriend, FoursquareFriendResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -492,7 +492,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new FoursquareTip();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FoursquareTip, FoursquareTipResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -516,7 +516,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Starttime = DateTime.Now.Subtract(TimeSpan.FromHours(5)),
                 Endtime = DateTime.Now
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitIntradaySteps, FitbitIntradayStepsResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -533,7 +533,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 Date = DateTime.Today.Subtract(TimeSpan.FromDays(2))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitIntradayStepsBulk, FitbitIntradayStepsResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -553,7 +553,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Starttime = DateTime.Now.Subtract(TimeSpan.FromHours(5)),
                 Endtime = DateTime.Now
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitIntradayHeartRate, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -570,7 +570,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 Date = DateTime.Today.Subtract(TimeSpan.FromDays(2))
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitIntradayHeartRateBulk, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -587,7 +587,7 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 Date = DateTime.Today
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitSleep, FitbitSleepResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -601,7 +601,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new FitbitProfile();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitProfile, FitbitProfileResponse>(request)
                 .ConfigureAwait(false);
 
@@ -624,7 +624,7 @@ namespace Quantfabric.Test.Material.Interaction
                 InputToken = credentials.AccessToken,
             };
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookTokenInfo, FacebookTokenInfoResponse>(request)
                 .ConfigureAwait(false);
 
@@ -639,7 +639,7 @@ namespace Quantfabric.Test.Material.Interaction
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
                 .ConfigureAwait(false);
 
@@ -660,7 +660,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Until = DateTime.Today,
                 Limit = 3
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookPageLike, FacebookPageLikeResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -679,7 +679,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Until = DateTime.Today,
                 Limit = 3
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookEvent, FacebookEventResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -698,7 +698,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Until = DateTime.Today,
                 Limit = 10
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookFeed, FacebookFeedResponse>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -717,7 +717,7 @@ namespace Quantfabric.Test.Material.Interaction
                 Until = DateTime.Today,
                 Limit = 10
             };
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookFriend, string>(request)
                 .ConfigureAwait(false);
             Assert.NotNull(response);
@@ -735,7 +735,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterVerifyCredentials();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterVerifyCredentials, TwitterVerifyCredentialsResponse>(request)
                 .ConfigureAwait(false);
 
@@ -750,7 +750,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterVerifyCredentials();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterVerifyCredentials, TwitterVerifyCredentialsResponse>(request)
                 .ConfigureAwait(false);
 
@@ -765,7 +765,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterTweet();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterTweet, TwitterTweetResponse>(request)
                 .ConfigureAwait(false);
 
@@ -780,7 +780,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterTimeline();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterTimeline, TwitterTimelineResponse>(request)
                 .ConfigureAwait(false);
 
@@ -795,7 +795,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterMention();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterMention, TwitterMentionResponse>(request)
                 .ConfigureAwait(false);
 
@@ -810,7 +810,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterFavorite();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterFavorite, TwitterFavoriteResponse>(request)
                 .ConfigureAwait(false);
 
@@ -825,7 +825,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterFollower();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterFollower, TwitterFollowerResponse>(request)
                 .ConfigureAwait(false);
 
@@ -840,7 +840,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterFollowing();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterFollowing, TwitterFollowingResponse>(request)
                 .ConfigureAwait(false);
 
@@ -855,7 +855,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterReceivedDirectMessage();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterReceivedDirectMessage, string>(request)
                 .ConfigureAwait(false);
 
@@ -870,7 +870,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterSentDirectMessage();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterSentDirectMessage, string>(request)
                 .ConfigureAwait(false);
 
@@ -885,7 +885,7 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var request = new TwitterRetweetOfMe();
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<TwitterRetweetOfMe, TwitterRetweetOfMeResponse>(request)
                 .ConfigureAwait(false);
 

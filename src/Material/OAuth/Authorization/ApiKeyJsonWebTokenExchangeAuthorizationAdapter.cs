@@ -13,7 +13,7 @@ using Material.OAuth.AuthenticatorParameters;
 
 namespace Material.OAuth.Authorization
 {
-    public class ApiKeyJsonWebTokenExchangeAdapter
+    public class ApiKeyJsonWebTokenExchangeAuthorizationAdapter
     {
         public async Task<OAuth2Credentials> GetAccessToken(
             Uri requestUri,

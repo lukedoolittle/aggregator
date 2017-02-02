@@ -20,7 +20,7 @@ namespace Material.OAuth.Workflow
         {
             var provider = new TResourceProvider();
 
-            return new ApiKeyJsonWebTokenExchangeAdapter()
+            return new ApiKeyJsonWebTokenExchangeAuthorizationAdapter()
                 .GetAccessToken(
                     provider.TokenUrl, 
                     provider.KeyName, 

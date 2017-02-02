@@ -14,7 +14,7 @@ namespace Material.Infrastructure.Identities
             JsonWebToken token, 
             OAuth2Credentials credentials)
         {
-            var response = await new OAuthRequester(credentials)
+            var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FitbitProfile, FitbitProfileResponse>()
                 .ConfigureAwait(false);
 
