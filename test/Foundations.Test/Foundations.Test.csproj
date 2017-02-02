@@ -76,15 +76,12 @@
     <Compile Include="..\Quantfabric.Test.Helpers\Randomizer.cs">
       <Link>Randomizer.cs</Link>
     </Compile>
-    <Compile Include="Core\DateTimeExtensionsTests.cs" />
-    <Compile Include="Core\EnumExtensionTests.cs" />
     <Compile Include="HttpClient\HttpClientTests.cs" />
     <Compile Include="HttpClient\JsonWebKeySerializationTests.cs" />
     <Compile Include="HttpClient\CryptoKeyGenerationTests.cs" />
     <Compile Include="HttpClient\SignatureVerificationTests.cs" />
     <Compile Include="HttpClient\RandomStringGenerationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\QuerystringParsingTests.cs" />
     <Compile Include="TestData\TestData.cs" />
   </ItemGroup>
   <ItemGroup>

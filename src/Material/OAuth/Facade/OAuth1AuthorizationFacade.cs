@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
@@ -26,6 +27,7 @@ namespace Material.OAuth.Facade
         private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly ISigningAlgorithm _signingAlgorithm;
         private readonly ICryptoStringGenerator _stringGenerator;
+        private readonly IHttpRequestCanonicalizer _canonicalizer;
 
         public OAuth1AuthorizationFacade(
             OAuth1ResourceProvider resourceProvider,
@@ -35,7 +37,8 @@ namespace Material.OAuth.Facade
             IOAuthAuthorizationAdapter oauth, 
             IOAuthSecurityStrategy securityStrategy,
             ISigningAlgorithm signingAlgorithm,
-            ICryptoStringGenerator stringGenerator)
+            ICryptoStringGenerator stringGenerator, 
+            IHttpRequestCanonicalizer canonicalizer)
         {
             if (resourceProvider == null) throw new ArgumentNullException(nameof(resourceProvider));
             if (consumerKey == null) throw new ArgumentNullException(nameof(consumerKey));
@@ -45,6 +48,7 @@ namespace Material.OAuth.Facade
             if (securityStrategy == null) throw new ArgumentNullException(nameof(securityStrategy));
             if (signingAlgorithm == null) throw new ArgumentNullException(nameof(signingAlgorithm));
             if (stringGenerator == null) throw new ArgumentNullException(nameof(stringGenerator));
+            if (canonicalizer == null) throw new ArgumentNullException(nameof(canonicalizer));
 
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -54,6 +58,7 @@ namespace Material.OAuth.Facade
             _callbackUri = callbackUri;
             _signingAlgorithm = signingAlgorithm;
             _stringGenerator = stringGenerator;
+            _canonicalizer = canonicalizer;
         }
 
         /// <summary>
@@ -67,7 +72,8 @@ namespace Material.OAuth.Facade
                 .AddParameter(new OAuth1CallbackUri(_callbackUri))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     _consumerSecret,
-                    _signingAlgorithm));
+                    _signingAlgorithm,
+                    _canonicalizer));
 
             var credentials = (await _oauth
                 .GetToken<OAuth1Credentials>(
@@ -135,7 +141,8 @@ namespace Material.OAuth.Facade
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     _consumerSecret,
                     oauthSecret,
-                    _signingAlgorithm));
+                    _signingAlgorithm,
+                    _canonicalizer));
 
             return (await _oauth
                 .GetToken<OAuth1Credentials>(

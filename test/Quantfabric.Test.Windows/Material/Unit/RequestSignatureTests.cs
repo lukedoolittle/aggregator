@@ -3,6 +3,7 @@ using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
@@ -13,8 +14,14 @@ using Xunit;
 namespace Quantfabric.Test.Material.Unit
 {
     [Trait("Category", "Continuous")]
-    public class OAuth1SignatureTests
+    public class RequestSignatureTests
     {
+        [Fact]
+        public void SignMicrosoftRequest()
+        {
+            throw new NotImplementedException();
+        }
+
         [Fact]
         public void SignOAuth1RequestTokenRequest()
         {
@@ -24,6 +31,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerSecret = "myConsumerSecret";
             var callbackUrl = new Uri("http://localhost:33533/oauth/twitter");
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/request_token");
@@ -37,7 +45,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1CallbackUri(callbackUrl))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var result = new HttpRequestBuilder(targetUri.NonPath())
                 .PostTo(
@@ -62,6 +71,7 @@ namespace Quantfabric.Test.Material.Unit
             var oauthSecret = "myOAuthSecret";
             var verifier = "myVerifier";
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/request_token");
@@ -87,7 +97,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var result = new HttpRequestBuilder(targetUri.NonPath())
                 .PostTo(
@@ -111,6 +122,7 @@ namespace Quantfabric.Test.Material.Unit
             var oauthToken = "myOAuthToken";
             var oauthSecret = "myOAuthSecret";
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var targetUri = new Uri("https://api.twitter.com/oauth/verify.json");
@@ -125,7 +137,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var result = new HttpRequestBuilder(targetUri.NonPath())
                 .GetFrom(

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 
@@ -10,6 +11,21 @@ namespace Foundations.HttpClient.Request
     {
         private readonly List<KeyValuePair<string, object>> _items = 
             new List<KeyValuePair<string, object>>();
+
+        public string this[string key]
+        {
+            get
+            {
+                return string.Join(
+                    ",", 
+                    _items
+                        .Where(i => i.Key == key)
+                        .Select(x => x.ToString())
+                        .ToArray());
+            }
+        }
+
+        public string this[HttpRequestHeader key] => this[key.ToString()];
 
         public void AttachHeaders(HttpRequestHeaders headers)
         {

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Cryptography.Enums;
@@ -26,7 +27,13 @@ namespace Quantfabric.Test.Material.Unit
         private const string _postPath = "post";
 
         [Fact]
-        public async void AddOAuth2JsonWebTokenAuthentication()
+        public async void AddMicrosoftAuthorization()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async void AddOAuth2JsonWebTokenAuthorization()
         {
             var expectedArgsCount = 3;
             var expected = new SampleBody
@@ -67,7 +74,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddOAuth2AccessTokenAuthentication()
+        public async void AddOAuth2AccessTokenAuthorization()
         {
             var expectedArgsCount = 6;
             var expected = new SampleBody
@@ -109,7 +116,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddOAuth2ClientCredentialsAuthentication()
+        public async void AddOAuth2ClientCredentialsAuthorization()
         {
             var expectedArgsCount = 1;
             var expected = new SampleBody
@@ -141,7 +148,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddOAuth2RefreshTokenAuthentication()
+        public async void AddOAuth2RefreshTokenAuthorization()
         {
             var expectedArgsCount = 4;
             var expected = new SampleBody
@@ -246,6 +253,7 @@ namespace Quantfabric.Test.Material.Unit
             var oauthToken = Guid.NewGuid().ToString();
             var oauthSecret = Guid.NewGuid().ToString();
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
             var stringGenerator = new CryptoStringGenerator();
 
             var builder = new AuthenticatorBuilder()
@@ -258,7 +266,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -280,7 +289,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddOAuth1RequestTokenAuthentication()
+        public async void AddOAuth1RequestTokenAuthorization()
         {
             var expectedArgsCount = 7;
             var expected = new SampleBody
@@ -291,6 +300,7 @@ namespace Quantfabric.Test.Material.Unit
             var consumerSecret = Guid.NewGuid().ToString();
             var callbackUrl = new Uri("http://localhost:8080");
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
             var stringGenerator = new CryptoStringGenerator();
 
             var builder = new AuthenticatorBuilder()
@@ -302,7 +312,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1CallbackUri(callbackUrl))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -324,7 +335,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddOAuth1AccessTokenAuthentication()
+        public async void AddOAuth1AccessTokenAuthorization()
         {
             var expectedArgsCount = 8;
             var expected = new SampleBody
@@ -339,6 +350,7 @@ namespace Quantfabric.Test.Material.Unit
             var timestamp = new DateTime(2016, 10, 21, 18, 38, 48, DateTimeKind.Utc);
             var nonce = "ndhlnce3jxghrf0v";
             var signingAlgorithm = HmacDigestSigningAlgorithm.Sha1Algorithm();
+            var canonicalizer = new OAuth1Canonicalizer();
 
             var userId = Guid.NewGuid().ToString();
             var securityStrategy = new OAuthSecurityStrategy(
@@ -362,7 +374,8 @@ namespace Quantfabric.Test.Material.Unit
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     oauthSecret,
-                    signingAlgorithm));
+                    signingAlgorithm,
+                    canonicalizer));
 
             var response = await new HttpRequestBuilder(_endpoint)
                 .PostTo(_postPath)
@@ -385,7 +398,7 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
-        public async void AddApiKeyCredentialsAuthentication()
+        public async void AddApiKeyCredentialsAuthorization()
         {
             var expectedArgsCount = 0;
             var expected = new SampleBody

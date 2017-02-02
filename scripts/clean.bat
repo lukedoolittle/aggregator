@@ -41,11 +41,10 @@ rmdir /s /q Quantfabric.UI.Test.Forms.iOS\bin
 rmdir /s /q Quantfabric.UI.Test.Forms.iOS\obj
 rmdir /s /q Quantfabric.UI.Test.Forms.UWP\bin
 rmdir /s /q Quantfabric.UI.Test.Forms.UWP\obj
-rmdir /s /q Quantfabric.UI.Test.Forms.iOS\AppPackages
+rmdir /s /q Quantfabric.UI.Test.Forms.UWP\AppPackages
 
 popd
 
-rmdir /s /q ..\packages
 rmdir /s /q ..\.vs
 
 pause

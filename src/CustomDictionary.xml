@@ -24,6 +24,8 @@
            <Word>x</Word>
            <Word>y</Word>
            <Word>Pkce</Word>
+           <Word>Canonicalizer</Word>
+           <Word>Canonicalizers</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>

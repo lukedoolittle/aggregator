@@ -94,6 +94,7 @@
     <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
+    <Compile Include="Infrastructure\Credentials\AccountKeyCredentials.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebToken.cs" />
     <Compile Include="Infrastructure\Credentials\PasswordCredentials.cs" />
     <Compile Include="Infrastructure\Identities\FacebookIdentity.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="OAuth\AuthenticatorParameters\OAuth2State.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\Password.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\Username.cs" />
+    <Compile Include="OAuth\AuthenticatorParameters\MicrosoftDate.cs" />
     <Compile Include="OAuth\Authorization\PasswordAuthorizationAdapter.cs" />
     <Compile Include="OAuth\Facade\OAuth2AccessCodeFacade.cs" />
     <Compile Include="OAuth\Facade\OAuth2AuthorizationUriFacade.cs" />

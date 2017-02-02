@@ -286,11 +286,15 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\Unit\CanonicalizationTests.cs" />
     <Compile Include="Material\Unit\CodeGenTests.cs" />
+    <Compile Include="Material\Unit\DateTimeExtensionsTests.cs" />
+    <Compile Include="Material\Unit\EnumExtensionTests.cs" />
     <Compile Include="Material\Unit\HttpClientTests.cs" />
-    <Compile Include="Material\Unit\OAuth1SignatureTests.cs" />
+    <Compile Include="Material\Unit\RequestSignatureTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="Material\Unit\PkceTests.cs" />
+    <Compile Include="Material\Unit\QuerystringParsingTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
     <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\TokenSerializationDeserializationTests.cs" />

@@ -47,7 +47,11 @@
     <Compile Include="Authenticators\AuthenticatorBuilder.cs" />
     <Compile Include="Authenticators\IAuthenticatorParameter.cs" />
     <Compile Include="Authenticators\IRequestSigningAlgorithm.cs" />
+    <Compile Include="Authenticators\MicrosoftRequestSigningAlgorithm.cs" />
     <Compile Include="Authenticators\OAuth1RequestSigningAlgorithm.cs" />
+    <Compile Include="Canonicalizers\IHttpRequestCanonicalizer.cs" />
+    <Compile Include="Canonicalizers\MicrosoftCanonicalizer.cs" />
+    <Compile Include="Canonicalizers\OAuth1Canonicalizer.cs" />
     <Compile Include="Cryptography\Algorithms\DigestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\EllipticCurveSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Algorithms\IVerificationAlgorithm.cs" />

@@ -63,5 +63,10 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
         {
             return new HmacDigestSigningAlgorithm(new Sha1Digest(), "HMAC-SHA1");
         }
+
+        public static ISigningAlgorithm Sha256Algorithm()
+        {
+            return new HmacDigestSigningAlgorithm(new Sha256Digest());
+        }
     }
 }

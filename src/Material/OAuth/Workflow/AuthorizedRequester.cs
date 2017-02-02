@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
@@ -15,6 +16,23 @@ namespace Material.OAuth.Workflow
     {
         private readonly IProtectedResourceAdapter _requester;
         private readonly string _userId;
+
+        public AuthorizedRequester(AccountKeyCredentials credentials)
+        {
+            if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+
+            _requester = new ProtectedResourceAdapter(
+                new AuthenticatorBuilder()
+                    .AddParameter(new MicrosoftDate())
+                    .AddSigner(new MicrosoftRequestSigningAlgorithm(
+                        credentials.AccountName, 
+                        credentials.AccountKey,
+                        credentials.AccountKeyType,
+                        HmacDigestSigningAlgorithm.Sha256Algorithm(),
+                        new MicrosoftCanonicalizer(
+                            credentials.AccountName))),
+                HttpParameterType.Unspecified);
+        }
 
         /// <summary>
         /// Request for a username/password protected endpoint
@@ -69,7 +87,8 @@ namespace Material.OAuth.Workflow
                     .AddSigner(new OAuth1RequestSigningAlgorithm(
                         credentials.ConsumerSecret,
                         credentials.OAuthSecret,
-                        signingAlgorithm)),
+                        signingAlgorithm,
+                        new OAuth1Canonicalizer())),
                 HttpParameterType.Querystring);
 
             _userId = credentials.UserId;
@@ -129,4 +148,6 @@ namespace Material.OAuth.Workflow
         }
     }
 }
+
+
 

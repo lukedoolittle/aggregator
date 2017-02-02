@@ -25,6 +25,7 @@ namespace Foundations.HttpClient
         public HttpMethod Method => _request.Method;
         public Uri Url => _request.Address;
         public HttpValueCollection QueryParameters =>  _request.Payload.QueryParameters;
+        public HeaderCollection RequestHeaders => _request.Headers;
 
         public HttpRequestBuilder(Uri baseAddress) 
         {

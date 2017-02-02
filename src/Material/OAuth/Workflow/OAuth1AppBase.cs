@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Algorithms;
 using Foundations.HttpClient.Enums;
@@ -68,7 +69,8 @@ namespace Material.OAuth.Workflow
                 new OAuthAuthorizationAdapter(),
                 securityStrategy,
                 HmacDigestSigningAlgorithm.Sha1Algorithm(),
-                new CryptoStringGenerator());
+                new CryptoStringGenerator(),
+                new OAuth1Canonicalizer());
 
             var authorizationUi = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth1Credentials>(
