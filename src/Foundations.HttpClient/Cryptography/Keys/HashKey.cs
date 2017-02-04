@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Foundations.HttpClient.Cryptography.Enums;
 
 namespace Foundations.HttpClient.Cryptography.Keys
 {
     public class HashKey : CryptoKey
     {
-        public HashKey(string key) : 
-            base(key, null)
+        public HashKey(
+            string key, 
+            StringEncoding encoding) : 
+                base(
+                    key, 
+                    null,
+                    encoding)
         { }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "length")]
-        public static HashKey Create(int length)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -14,12 +14,13 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
         ISigningAlgorithm, 
         IVerificationAlgorithm
     {
-        private readonly Dictionary<string, int> _curveSignatureSizes = new Dictionary<string, int>
-        {
-            {"P-256",  64},
-            {"P-384",  96},
-            {"P-521", 132}
-        };
+        private readonly Dictionary<string, int> _curveSignatureSizes = 
+            new Dictionary<string, int>
+            {
+                {"P-256",  64},
+                {"P-384",  96},
+                {"P-521", 132}
+            };
         public string SignatureMethod => _signer.AlgorithmName.ToUpper();
 
         private readonly ISigner _signer;

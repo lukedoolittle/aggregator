@@ -27,7 +27,7 @@ namespace Quantfabric.Test.Material.Unit
         private const string _postPath = "post";
 
         [Fact]
-        public async void AddMicrosoftAuthorization()
+        public void AddMicrosoftAuthorization()
         {
             throw new NotImplementedException();
         }

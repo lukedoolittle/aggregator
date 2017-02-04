@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
@@ -39,7 +38,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             var hmac = new HMac(_digest);
-            hmac.Init(new KeyParameter(Encoding.UTF8.GetBytes(privateKey.ToString())));
+            hmac.Init(new KeyParameter(privateKey.GetBytes()));
             var result = new byte[hmac.GetMacSize()];
             
             hmac.BlockUpdate(text, 0, text.Length);

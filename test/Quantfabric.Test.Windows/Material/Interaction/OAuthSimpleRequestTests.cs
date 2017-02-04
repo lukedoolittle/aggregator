@@ -227,7 +227,10 @@ namespace Quantfabric.Test.Material.Interaction
             var clientEmail = _appRepository.GetClientEmail<GoogleAnalytics>();
 
             var credentials = await new OAuth2Assert<GoogleAnalytics>(
-                    new RsaCryptoKey(privateKey, true),
+                    new RsaCryptoKey(
+                        privateKey, 
+                        true, 
+                        StringEncoding.Base64),
                     clientEmail)
                 .AddScope<GoogleAnalyticsReports>()
                 .GetCredentialsAsync(JsonWebTokenAlgorithm.RS256)

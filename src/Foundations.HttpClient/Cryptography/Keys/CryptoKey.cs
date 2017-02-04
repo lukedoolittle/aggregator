@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography.Enums;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
@@ -12,16 +14,19 @@ namespace Foundations.HttpClient.Cryptography.Keys
     {
         private readonly AsymmetricKeyParameter _parameter;
         private readonly string _value;
-        private bool? _isPrivateKey;
+        private readonly StringEncoding _encoding;
+        private readonly bool? _isPrivateKey;
 
         public CryptoKey(
             string key, 
-            bool? isPrivate)
+            bool? isPrivate,
+            StringEncoding encoding)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("Value cannot be null or empty.", nameof(key));
 
             _isPrivateKey = isPrivate;
             _value = key;
+            _encoding = encoding;
 
             if (isPrivate.HasValue)
             {
@@ -29,13 +34,16 @@ namespace Foundations.HttpClient.Cryptography.Keys
             }
         }
 
-        public CryptoKey(AsymmetricKeyParameter key)
+        public CryptoKey(
+            AsymmetricKeyParameter key, 
+            StringEncoding encoding)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
             _parameter = key;
             _isPrivateKey = key.IsPrivate;
             _value = ParametersToString(key);
+            _encoding = encoding;
         }
 
         public T GetParameter<T>()
@@ -52,11 +60,27 @@ namespace Foundations.HttpClient.Cryptography.Keys
             }
         }
 
+        public byte[] GetBytes()
+        {
+            switch (_encoding)
+            {
+                case StringEncoding.Utf8:
+                    return Encoding.UTF8.GetBytes(ToString());
+                case StringEncoding.Base64:
+                    return Convert.FromBase64String(ToString());
+                case StringEncoding.Base64Url:
+                    return Convert.FromBase64String(
+                        ToString().UrlEncodedBase64ToBase64String());
+                case StringEncoding.Unicode:
+                    return Encoding.Unicode.GetBytes(ToString());
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
         public override string ToString()
         {
-            return !_isPrivateKey.HasValue ? 
-                _value : 
-                StripKey(_value, _isPrivateKey.Value);
+            return !_isPrivateKey.HasValue ? _value : StripKey(_value, _isPrivateKey.Value);
         }
 
         protected const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";
@@ -64,28 +88,21 @@ namespace Foundations.HttpClient.Cryptography.Keys
         protected const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
         protected const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
 
-        private static AsymmetricKeyParameter StringToParameters(
-            string key, 
-            bool isPrivate)
+        private static AsymmetricKeyParameter StringToParameters(string key, bool isPrivate)
         {
             if (isPrivate)
             {
                 var value = StripKey(key, true);
-                return PrivateKeyFactory.CreateKey(
-                    Convert.FromBase64String(
-                        value.UrlEncodedBase64ToBase64String()));
+                return PrivateKeyFactory.CreateKey(Convert.FromBase64String(value.UrlEncodedBase64ToBase64String()));
             }
             else
             {
                 var value = StripKey(key, false);
-                return PublicKeyFactory.CreateKey(
-                    Convert.FromBase64String(
-                        value.UrlEncodedBase64ToBase64String()));
+                return PublicKeyFactory.CreateKey(Convert.FromBase64String(value.UrlEncodedBase64ToBase64String()));
             }
         }
 
-        private static string ParametersToString(
-            AsymmetricKeyParameter key)
+        private static string ParametersToString(AsymmetricKeyParameter key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
@@ -96,8 +113,7 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 pemObject = new Pkcs8Generator(key).Generate();
             }
 
-            using (var textWriter = new StringWriter(
-                CultureInfo.InvariantCulture))
+            using (var textWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 var pemWriter = new PemWriter(textWriter);
                 pemWriter.WriteObject(pemObject);
@@ -107,22 +123,15 @@ namespace Foundations.HttpClient.Cryptography.Keys
             }
         }
 
-        private static string StripKey(
-            string key, 
-            bool isPrivate)
+        private static string StripKey(string key, bool isPrivate)
         {
             if (isPrivate)
             {
-                return key.Replace(PrivateKeyPrefix, "")
-                    .Replace("\n", "")
-                    .Replace(PrivateKeySuffix, "");
-
+                return key.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
             }
             else
             {
-                return key.Replace(PublicKeyPrefix, "")
-                    .Replace("\n", "")
-                    .Replace(PublicKeySuffix, "");
+                return key.Replace(PublicKeyPrefix, "").Replace("\n", "").Replace(PublicKeySuffix, "");
             }
         }
     }

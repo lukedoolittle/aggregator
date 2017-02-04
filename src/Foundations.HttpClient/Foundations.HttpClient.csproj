@@ -62,6 +62,7 @@
     <Compile Include="Cryptography\Enums\CryptoStringType.cs" />
     <Compile Include="Cryptography\Algorithms\HmacDigestSigningAlgorithm.cs" />
     <Compile Include="Cryptography\Enums\EncryptionAlgorithm.cs" />
+    <Compile Include="Cryptography\Enums\StringEncoding.cs" />
     <Compile Include="Cryptography\ICryptoStringGenerator.cs" />
     <Compile Include="Cryptography\IJsonWebTokenSigningFactory.cs" />
     <Compile Include="Cryptography\Algorithms\ISigningAlgorithm.cs" />

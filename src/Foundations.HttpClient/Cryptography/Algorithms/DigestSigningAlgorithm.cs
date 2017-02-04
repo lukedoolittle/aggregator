@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
@@ -37,7 +36,7 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
             if (privateKey != null)
             {
-                var keyBytes = Encoding.UTF8.GetBytes(privateKey.ToString());
+                var keyBytes = privateKey.GetBytes();
                 _digest.BlockUpdate(keyBytes, 0, keyBytes.Length);
             }
             _digest.BlockUpdate(text, 0, text.Length);

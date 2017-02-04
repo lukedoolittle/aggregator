@@ -30,7 +30,7 @@ namespace Foundations.Test.HttpClient
             var privateKey = _testData.Rs256.PrivateKey;
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
-            var key = new CryptoKey(privateKey, true);
+            var key = new CryptoKey(privateKey, true, StringEncoding.Base64);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
@@ -51,7 +51,7 @@ namespace Foundations.Test.HttpClient
             var hashKey = _testData.Hs256.PrivateKey;
             var algorithm = JsonWebTokenAlgorithm.HS256;
 
-            var key = new HashKey(hashKey);
+            var key = new HashKey(hashKey, StringEncoding.Utf8);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
@@ -72,7 +72,7 @@ namespace Foundations.Test.HttpClient
             var publicKey = _testData.Rs256.PublicKey;
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
-            var key = new CryptoKey(publicKey, false);
+            var key = new CryptoKey(publicKey, false, StringEncoding.Base64);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
@@ -94,7 +94,7 @@ namespace Foundations.Test.HttpClient
             var publicKey = _testData.Es256.PublicKey;
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
-            var key = new CryptoKey(publicKey, false);
+            var key = new CryptoKey(publicKey, false, StringEncoding.Base64);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
             
@@ -116,7 +116,7 @@ namespace Foundations.Test.HttpClient
             var hashKey = _testData.Hs256.PrivateKey;
             var algorithm = JsonWebTokenAlgorithm.HS256;
 
-            var key = new HashKey(hashKey);
+            var key = new HashKey(hashKey, StringEncoding.Utf8);
 
             var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
@@ -138,7 +138,7 @@ namespace Foundations.Test.HttpClient
             var publicKey = _testData.Rs256.PublicKey;
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
-            var cryptoKeyParameters = new CryptoKey(publicKey, false)
+            var cryptoKeyParameters = new CryptoKey(publicKey, false, StringEncoding.Base64)
                 .GetParameter<RsaKeyParameters>();
 
             var key = new JsonWebKey()
@@ -169,7 +169,7 @@ namespace Foundations.Test.HttpClient
             var publicKey = _testData.Es256.PublicKey;
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
-            var cryptoKeyParameters = new CryptoKey(publicKey, false)
+            var cryptoKeyParameters = new CryptoKey(publicKey, false, StringEncoding.Base64)
                 .GetParameter<ECPublicKeyParameters>();
 
             var key = new JsonWebKey()

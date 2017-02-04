@@ -3,7 +3,6 @@ using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Discovery;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
-using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Foundations.HttpClient.Extensions
 {
@@ -19,14 +18,14 @@ namespace Foundations.HttpClient.Extensions
                 return new EcdsaCryptoKey(
                     "ECDSA",
                     instance.CurveName,
-                    Base64.Decode(instance.X.UrlEncodedBase64ToBase64String()),
-                    Base64.Decode(instance.Y.UrlEncodedBase64ToBase64String()));
+                    instance.X,
+                    instance.Y);
             }
             else if (instance.KeyType == EncryptionAlgorithm.RSA.EnumToString())
             {
                 return new RsaCryptoKey(
-                    Base64.Decode(instance.N.UrlEncodedBase64ToBase64String()),
-                    Base64.Decode(instance.E.UrlEncodedBase64ToBase64String()));
+                    instance.N,
+                    instance.E);
             }
 
             return null;

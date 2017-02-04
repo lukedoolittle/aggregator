@@ -16,7 +16,7 @@ namespace Quantfabric.Test.Material.Unit
         public void GenerateSha256PkceBundle()
         {
             var verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk";
-            var expected = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw+cM=";
+            var expected = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
 
             var bundle = new OAuth2Sha256PkceSecurityParameterBundle(
                 DigestSigningAlgorithm.Sha256Algorithm());

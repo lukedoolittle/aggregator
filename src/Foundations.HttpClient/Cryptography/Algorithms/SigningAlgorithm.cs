@@ -1,5 +1,4 @@
 ﻿using System;
-using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
@@ -32,9 +31,9 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
             _signer.Reset();
 
-            var privateKeyBytes = privateKey.ToString().FromBase64String();
             var privateKeyParameters = 
-                PrivateKeyFactory.CreateKey(privateKeyBytes);
+                PrivateKeyFactory.CreateKey(
+                    privateKey.GetBytes());
 
             _signer.Init(true, privateKeyParameters);
             _signer.BlockUpdate(text, 0, text.Length);
@@ -53,9 +52,9 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
             _signer.Reset();
 
-            var publicKeyBytes = key.ToString().FromBase64String();
             var publicKeyParameters = 
-                PublicKeyFactory.CreateKey(publicKeyBytes);
+                PublicKeyFactory.CreateKey(
+                    key.GetBytes());
 
             _signer.Init(false, publicKeyParameters);
             _signer.BlockUpdate(text, 0, text.Length);

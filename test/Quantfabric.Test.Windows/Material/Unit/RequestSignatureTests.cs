@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Foundations.Collections;
 using Foundations.Extensions;
 using Foundations.HttpClient;
@@ -19,7 +20,34 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void SignMicrosoftRequest()
         {
-            throw new NotImplementedException();
+            var expected = "H6PY3Nzq4+ZWgcX+FskAOENySwp8FfhjoHY7EgbFrvA=";
+
+            var accountName = "MyAccount";
+            var accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
+            var accountKeyType = "SharedKey";
+            var targetUri = new Uri("https://myaccount.table.core.windows.net/sportingproducts(PartitionKey='Baseball',RowKey='BBt1032')");
+            var date = new DateTime(2017, 2, 3, 21, 28, 36, DateTimeKind.Utc);
+
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new MicrosoftDate(date))
+                .AddSigner(new MicrosoftRequestSigningAlgorithm(
+                    accountName,
+                    accountKey,
+                    accountKeyType,
+                    HmacDigestSigningAlgorithm.Sha256Algorithm(),
+                    new MicrosoftCanonicalizer(
+                        accountName)));
+
+            var request = new HttpRequestBuilder(targetUri.NonPath())
+                .GetFrom(
+                    targetUri.AbsolutePath,
+                    HttpParameterType.Unspecified)
+                .Authenticator(builder);
+            request.GenerateRequestUri();
+
+            var actual = request.RequestHeaders[HttpRequestHeader.Authorization].Split(' ')[1].Split(':')[1];
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

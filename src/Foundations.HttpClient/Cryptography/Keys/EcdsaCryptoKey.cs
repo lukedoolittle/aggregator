@@ -1,10 +1,12 @@
 ﻿using System;
+using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography.Enums;
 using Org.BouncyCastle.Asn1.Nist;
-using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Foundations.HttpClient.Cryptography.Keys
 {
@@ -22,7 +24,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public EcdsaCryptoKey(
             ECPublicKeyParameters key, 
             string curveName) :
-                base(key)
+                base(
+                    key, 
+                    StringEncoding.Base64Url)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
@@ -40,7 +44,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public EcdsaCryptoKey(
             ECPrivateKeyParameters key,
             string curveName) :
-                base(key)
+                base(
+                    key,
+                    StringEncoding.Base64Url)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
@@ -56,22 +62,10 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 base(
                     FromParameters(
                         algorithmName,
-                        curveName, 
-                        xCoordinate, 
-                        yCoordinate))
-        { }
-
-        public EcdsaCryptoKey(
-            string algorithmName,
-            string curveName,
-            byte[] xCoordinate,
-            byte[] yCoordinate) :
-        base(
-            FromParameters(
-                algorithmName,
-                curveName,
-                xCoordinate,
-                yCoordinate))
+                        curveName,
+                        Base64.Decode(xCoordinate.UrlEncodedBase64ToBase64String()),
+                        Base64.Decode(yCoordinate.UrlEncodedBase64ToBase64String()))
+                    ,StringEncoding.Base64Url)
         { }
 
         private static AsymmetricKeyParameter FromParameters(
@@ -80,51 +74,25 @@ namespace Foundations.HttpClient.Cryptography.Keys
             byte[] xCoordinate,
             byte[] yCoordinate)
         {
-            return FromParameters(
-                algorithmName,
-                curveName,
-                new BigInteger(xCoordinate),
-                new BigInteger(yCoordinate));
-        }
+            var curve = NistNamedCurves.GetByName(curveName);
 
-        private static AsymmetricKeyParameter FromParameters(
-            string algorithmName,
-            string curveName,
-            string xCoordinate,
-            string yCoordinate)
-        {
-            return FromParameters(
-                algorithmName, 
-                curveName, 
-                new BigInteger(xCoordinate), 
-                new BigInteger(yCoordinate));
-        }
+            var c = (FpCurve)curve.Curve;
 
-        private static AsymmetricKeyParameter FromParameters(
-            string algorithmName,
-            string curveName, 
-            BigInteger xCoordinate, 
-            BigInteger yCoordinate)
-        {
-            X9ECParameters curve = NistNamedCurves.GetByName(curveName);
+            var x = c.FromBigInteger(new BigInteger(xCoordinate));
+            var y = c.FromBigInteger(new BigInteger(yCoordinate));
+            var q = new FpPoint(c, x, y);
 
-            FpCurve c = (FpCurve)curve.Curve;
-            ECFieldElement x = c.FromBigInteger(xCoordinate);
-            ECFieldElement y = c.FromBigInteger(yCoordinate);
-            ECPoint q = new FpPoint(c, x, y);
-
-            ECDomainParameters curveSpec = new ECDomainParameters(
+            var curveSpec = new ECDomainParameters(
                 curve.Curve,
                 curve.G,
                 curve.N,
                 curve.H,
                 curve.GetSeed());
-            ECPublicKeyParameters publicKeyParameters = 
-                new ECPublicKeyParameters(
-                    algorithmName, 
-                    q, 
+
+            return new ECPublicKeyParameters(
+                    algorithmName,
+                    q,
                     curveSpec);
-            return publicKeyParameters;
         }
     }
 }

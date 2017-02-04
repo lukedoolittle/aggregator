@@ -286,6 +286,7 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\Unit\BasicCryptographyTests.cs" />
     <Compile Include="Material\Unit\CanonicalizationTests.cs" />
     <Compile Include="Material\Unit\CodeGenTests.cs" />
     <Compile Include="Material\Unit\DateTimeExtensionsTests.cs" />

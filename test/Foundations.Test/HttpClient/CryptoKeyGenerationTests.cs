@@ -169,10 +169,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                new HashKey(key));
+                new HashKey(key, StringEncoding.Utf8));
 
             var isVerified = verifier.VerifyText(
-                new HashKey(key),
+                new HashKey(key, StringEncoding.Utf8),
                 signature,
                 bytes);
 
@@ -191,10 +191,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                new HashKey(key));
+                new HashKey(key, StringEncoding.Utf8));
 
             var isVerified = verifier.VerifyText(
-                new HashKey(key),
+                new HashKey(key, StringEncoding.Utf8),
                 signature,
                 bytes);
 
@@ -213,10 +213,10 @@ namespace Foundations.Test.HttpClient
 
             var signature = signer.SignText(
                 bytes,
-                new HashKey(key));
+                new HashKey(key, StringEncoding.Utf8));
 
             var isVerified = verifier.VerifyText(
-                new HashKey(key),
+                new HashKey(key, StringEncoding.Utf8),
                 signature,
                 bytes);
 

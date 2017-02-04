@@ -20,7 +20,7 @@ namespace Foundations.HttpClient.Request
                     ",", 
                     _items
                         .Where(i => i.Key == key)
-                        .Select(x => x.ToString())
+                        .Select(x => x.Value.ToString())
                         .ToArray());
             }
         }
@@ -77,14 +77,14 @@ namespace Foundations.HttpClient.Request
                 value));
         }
 
-        public void AddAcceptsEncoding(object value)
+        public void AddAcceptsEncoding(StringWithQualityHeaderValue value)
         {
             _items.Add(new KeyValuePair<string, object>(
                 HttpRequestHeader.AcceptEncoding.ToString(), 
                 value));
         }
 
-        public void AddUserAgent(object value)
+        public void AddUserAgent(ProductInfoHeaderValue value)
         {
             _items.Add(new KeyValuePair<string, object>(
                 HttpRequestHeader.UserAgent.ToString(),

@@ -1,6 +1,9 @@
 ﻿using System;
+using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography.Enums;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Foundations.HttpClient.Cryptography.Keys
 {
@@ -14,7 +17,9 @@ namespace Foundations.HttpClient.Cryptography.Keys
         public byte[] ExponentBytes { get; }
 
         public RsaCryptoKey(RsaKeyParameters key) :
-            base(key)
+            base(
+                key, 
+                StringEncoding.Base64Url)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
@@ -24,37 +29,29 @@ namespace Foundations.HttpClient.Cryptography.Keys
             ExponentBytes = key.Exponent.ToByteArray();
         }
 
-        public RsaCryptoKey(byte[] modulus, byte[] publicExponent) :
-            this(new RsaKeyParameters(
-                false,
-                new BigInteger(1, modulus),
-                new BigInteger(1, publicExponent)))
-        { }
-
-        public RsaCryptoKey(string modulus, string publicExponent) :
-            this(new RsaKeyParameters(
-                false,
-                new BigInteger(modulus),
-                new BigInteger(publicExponent)))
+        public RsaCryptoKey(
+            string modulus, 
+            string publicExponent) :
+                this(new RsaKeyParameters(
+                    false,
+                    new BigInteger(
+                        1,
+                        Base64.Decode(
+                            modulus.UrlEncodedBase64ToBase64String())),
+                    new BigInteger(
+                        1,
+                        Base64.Decode(
+                            publicExponent.UrlEncodedBase64ToBase64String()))))
         { }
 
         public RsaCryptoKey(
-            BigInteger modulus, 
-            BigInteger publicExponent) :
-                base(new RsaKeyParameters(
-                    false,
-                    modulus,
-                    publicExponent))
-        {
-            if (modulus == null) throw new ArgumentNullException(nameof(modulus));
-            if (publicExponent == null) throw new ArgumentNullException(nameof(publicExponent));
-
-            Modulus = modulus.ToString();
-            Exponent = publicExponent.ToString();
-        }
-
-        public RsaCryptoKey(string key, bool isPrivate) : 
-            base(key, isPrivate)
+            string key,
+            bool isPrivate, 
+            StringEncoding encoding) : 
+                base(
+                    key, 
+                    isPrivate,
+                    encoding)
         { }
     }
 }

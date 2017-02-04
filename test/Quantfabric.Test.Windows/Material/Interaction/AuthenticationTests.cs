@@ -157,8 +157,8 @@ namespace Quantfabric.Test.Material.Interaction
             {
                 var key = _randomizer.RandomString(100);
                 return new JsonWebTokenParameters(
-                    new HashKey(key),
-                    new HashKey(key),
+                    new HashKey(key, StringEncoding.Utf8),
+                    new HashKey(key, StringEncoding.Utf8),
                     algorithm);
             }
             else if (algorithm == JsonWebTokenAlgorithm.ES256 ||

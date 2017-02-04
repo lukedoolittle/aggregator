@@ -3,6 +3,7 @@ using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
+using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Foundations.HttpClient.Enums;
 
@@ -53,7 +54,7 @@ namespace Foundations.HttpClient.Authenticators
 
             var signature = _signingAlgorithm.SignText(
                 Encoding.UTF8.GetBytes(signatureBase),
-                new HashKey(key));
+                new HashKey(key, StringEncoding.Utf8));
 
             builder.Parameter(
                 OAuth1Parameter.Signature.EnumToString(),
