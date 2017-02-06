@@ -67,10 +67,11 @@ namespace Foundations.HttpClient.Cryptography.Keys
                 case StringEncoding.Utf8:
                     return Encoding.UTF8.GetBytes(ToString());
                 case StringEncoding.Base64:
-                    return Convert.FromBase64String(ToString());
+                    return ToString().FromBase64String();
                 case StringEncoding.Base64Url:
-                    return Convert.FromBase64String(
-                        ToString().UrlEncodedBase64ToBase64String());
+                    return ToString()
+                        .UrlEncodedBase64ToBase64String()
+                        .FromBase64String();
                 case StringEncoding.Unicode:
                     return Encoding.Unicode.GetBytes(ToString());
                 default:
@@ -80,25 +81,30 @@ namespace Foundations.HttpClient.Cryptography.Keys
 
         public override string ToString()
         {
-            return !_isPrivateKey.HasValue ? _value : StripKey(_value, _isPrivateKey.Value);
+            return !_isPrivateKey.HasValue ? 
+                _value : 
+                StripKey(_value, _isPrivateKey.Value);
         }
 
-        protected const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";
-        protected const string PublicKeySuffix = "-----END PUBLIC KEY-----";
-        protected const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
-        protected const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
-
-        private static AsymmetricKeyParameter StringToParameters(string key, bool isPrivate)
+        private static AsymmetricKeyParameter StringToParameters(
+            string key, 
+            bool isPrivate)
         {
             if (isPrivate)
             {
                 var value = StripKey(key, true);
-                return PrivateKeyFactory.CreateKey(Convert.FromBase64String(value.UrlEncodedBase64ToBase64String()));
+                return PrivateKeyFactory.CreateKey(
+                    value
+                        .UrlEncodedBase64ToBase64String()
+                        .FromBase64String());
             }
             else
             {
                 var value = StripKey(key, false);
-                return PublicKeyFactory.CreateKey(Convert.FromBase64String(value.UrlEncodedBase64ToBase64String()));
+                return PublicKeyFactory.CreateKey(
+                    value
+                        .UrlEncodedBase64ToBase64String()
+                        .FromBase64String());
             }
         }
 
@@ -123,15 +129,26 @@ namespace Foundations.HttpClient.Cryptography.Keys
             }
         }
 
+        private const string PublicKeyPrefix = "-----BEGIN PUBLIC KEY-----";
+        private const string PublicKeySuffix = "-----END PUBLIC KEY-----";
+        private const string PrivateKeyPrefix = "-----BEGIN PRIVATE KEY-----";
+        private const string PrivateKeySuffix = "-----END PRIVATE KEY-----";
+
         private static string StripKey(string key, bool isPrivate)
         {
             if (isPrivate)
             {
-                return key.Replace(PrivateKeyPrefix, "").Replace("\n", "").Replace(PrivateKeySuffix, "");
+                return key
+                    .Replace(PrivateKeyPrefix, "")
+                    .Replace("\n", "")
+                    .Replace(PrivateKeySuffix, "");
             }
             else
             {
-                return key.Replace(PublicKeyPrefix, "").Replace("\n", "").Replace(PublicKeySuffix, "");
+                return key
+                    .Replace(PublicKeyPrefix, "")
+                    .Replace("\n", "")
+                    .Replace(PublicKeySuffix, "");
             }
         }
     }

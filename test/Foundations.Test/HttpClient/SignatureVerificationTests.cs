@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Discovery;
@@ -32,12 +31,10 @@ namespace Foundations.Test.HttpClient
 
             var key = new CryptoKey(privateKey, true, StringEncoding.Base64);
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
-
             var signer = _factory.GetSigningAlgorithm(algorithm);
 
-            var actualSignature = Convert.ToBase64String(signer.SignText(
-                signatureBaseBytes,
+            var actualSignature = Convert.ToBase64String(signer.SignMessage(
+                signatureBase,
                 key));
 
             Assert.Equal(expectedSignature, actualSignature);
@@ -53,12 +50,10 @@ namespace Foundations.Test.HttpClient
 
             var key = new HashKey(hashKey, StringEncoding.Utf8);
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
-
             var signer = _factory.GetSigningAlgorithm(algorithm);
 
-            var actualSignature = Convert.ToBase64String(signer.SignText(
-                signatureBaseBytes,
+            var actualSignature = Convert.ToBase64String(signer.SignMessage(
+                signatureBase,
                 key));
 
             Assert.Equal(expectedSignature, actualSignature);
@@ -74,14 +69,13 @@ namespace Foundations.Test.HttpClient
 
             var key = new CryptoKey(publicKey, false, StringEncoding.Base64);
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
 
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 key,
                 Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
-                signatureBaseBytes);
+                signatureBase);
 
             Assert.True(isVerified);
         }
@@ -95,15 +89,13 @@ namespace Foundations.Test.HttpClient
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
             var key = new CryptoKey(publicKey, false, StringEncoding.Base64);
-
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
             
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 key,
                 Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
-                signatureBaseBytes);
+                signatureBase);
 
             Assert.True(isVerified);
         }
@@ -118,14 +110,12 @@ namespace Foundations.Test.HttpClient
 
             var key = new HashKey(hashKey, StringEncoding.Utf8);
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
-
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 key,
                 Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
-                signatureBaseBytes);
+                signatureBase);
 
             Assert.True(isVerified);
         }
@@ -149,14 +139,12 @@ namespace Foundations.Test.HttpClient
                 N = Convert.ToBase64String(cryptoKeyParameters.Modulus.ToByteArray())
             };
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
-
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 key.ToCryptoKey(),
                 Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
-                signatureBaseBytes);
+                signatureBase);
 
             Assert.True(isVerified);
         }
@@ -181,14 +169,12 @@ namespace Foundations.Test.HttpClient
                 Y = Convert.ToBase64String(cryptoKeyParameters.Q.AffineYCoord.ToBigInteger().ToByteArray())
             };
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(signatureBase);
-
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 key.ToCryptoKey(),
                 Convert.FromBase64String(signature.UrlEncodedBase64ToBase64String()),
-                signatureBaseBytes);
+                signatureBase);
 
             Assert.True(isVerified);
         }

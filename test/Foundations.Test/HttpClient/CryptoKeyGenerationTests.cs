@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Foundations.HttpClient.Cryptography;
+﻿using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Quantfabric.Test.Helpers;
@@ -22,18 +21,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS256;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -45,18 +43,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS384;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -68,18 +65,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.RS384;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -92,18 +88,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES256;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -116,18 +111,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES384;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -140,18 +134,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.ES512;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 keyPair.Private);
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 keyPair.Public,
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -163,18 +156,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.HS256;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 new HashKey(key, StringEncoding.Utf8));
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 new HashKey(key, StringEncoding.Utf8),
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -185,18 +177,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.HS384;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 new HashKey(key, StringEncoding.Utf8));
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 new HashKey(key, StringEncoding.Utf8),
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }
@@ -207,18 +198,17 @@ namespace Foundations.Test.HttpClient
             var plaintext = _randomizer.RandomString(20, 40);
             var algorithm = JsonWebTokenAlgorithm.HS512;
 
-            var bytes = Encoding.UTF8.GetBytes(plaintext);
             var signer = _factory.GetSigningAlgorithm(algorithm);
             var verifier = _factory.GetVerificationAlgorithm(algorithm);
 
-            var signature = signer.SignText(
-                bytes,
+            var signature = signer.SignMessage(
+                plaintext,
                 new HashKey(key, StringEncoding.Utf8));
 
-            var isVerified = verifier.VerifyText(
+            var isVerified = verifier.VerifyMessage(
                 new HashKey(key, StringEncoding.Utf8),
                 signature,
-                bytes);
+                plaintext);
 
             Assert.True(isVerified);
         }

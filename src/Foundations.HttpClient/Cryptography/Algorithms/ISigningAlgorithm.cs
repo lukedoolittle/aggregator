@@ -6,8 +6,8 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
     {
         string SignatureMethod { get; }
 
-        byte[] SignText(
-            byte[] text,
+        byte[] SignMessage(
+            string message,
             CryptoKey privateKey);
     }
 }

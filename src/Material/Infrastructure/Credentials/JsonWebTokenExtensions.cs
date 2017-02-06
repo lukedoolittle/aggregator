@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Keys;
@@ -51,14 +50,11 @@ namespace Material.Infrastructure.Credentials
                 .GetSigningAlgorithm(
                     instance.Header.Algorithm);
 
-            var signatureBaseBytes = Encoding.UTF8.GetBytes(
-                instance.SignatureBase);
-
-            var signatureBytes = signingAlgorithm.SignText(
-                signatureBaseBytes,
+            var signatureBytes = signingAlgorithm.SignMessage(
+                instance.SignatureBase,
                 privateKey);
 
-            var signature = Convert.ToBase64String(signatureBytes);
+            var signature = signatureBytes.ToBase64String();
 
             instance.Sign(instance.SignatureBase, signature);
 

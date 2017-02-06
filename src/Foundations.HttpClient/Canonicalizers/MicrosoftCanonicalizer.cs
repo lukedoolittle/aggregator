@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 using Foundations.Collections;
@@ -28,15 +27,14 @@ namespace Foundations.HttpClient.Canonicalizers
                     request.RequestHeaders[HttpRequestHeader.ContentMd5],
                     request.RequestHeaders[HttpRequestHeader.ContentType],
                     request.RequestHeaders["x-ms-date"],
-                    GetCanonicalizedResourceString(request.Url, _accountName, true)
+                    GetCanonicalizedResourceString(request.Url, _accountName)
                 });
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+        //Adapted from https://github.com/Azure/azure-storage-net/blob/afc5c6d99a805fb4165631ab5cfd139238b00e71/Lib/Common/Core/Util/AuthenticationUtility.cs
         private static string GetCanonicalizedResourceString(
             Uri uri, 
-            string accountName, 
-            bool isSharedKeyLiteOrTableService = false)
+            string accountName)
         {
             var canonicalizedResource = new StringBuilder();
             canonicalizedResource.Append('/');
@@ -44,27 +42,10 @@ namespace Foundations.HttpClient.Canonicalizers
             canonicalizedResource.Append(GetAbsolutePathWithoutSecondarySuffix(uri, accountName));
 
             var queryParameters = HttpUtility.ParseQueryString(uri.Query);
-            if (!isSharedKeyLiteOrTableService)
+            if (queryParameters.ContainsKey("comp"))
             {
-                var queryParameterNames = new List<string>(queryParameters.Select(p => p.Key));
-                queryParameterNames.Sort(StringComparer.OrdinalIgnoreCase);
-
-                foreach (var queryParameterName in queryParameterNames)
-                {
-                    canonicalizedResource.Append('\n');
-                    canonicalizedResource.Append(queryParameterName.ToLowerInvariant());
-                    canonicalizedResource.Append(':');
-                    canonicalizedResource.Append(queryParameters[queryParameterName]);
-                }
-            }
-            else
-            {
-                // Add only the comp parameter
-                if (queryParameters.ContainsKey("comp"))
-                {
-                    canonicalizedResource.Append("?comp=");
-                    canonicalizedResource.Append(queryParameters["comp"]);
-                }
+                canonicalizedResource.Append("?comp=");
+                canonicalizedResource.Append(queryParameters["comp"]);
             }
 
             return canonicalizedResource.ToString();

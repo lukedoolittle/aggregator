@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Asn1;
@@ -41,35 +42,45 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             _rawSignatureLength = _curveSignatureSizes[curveName];
         }
 
-        public byte[] SignText(
-            byte[] text,
+        public byte[] SignMessage(
+            string message,
             CryptoKey privateKey)
         {
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
             if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             _signer.Reset();
-            
+
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
             _signer.Init(true, privateKey.GetParameter<ECPrivateKeyParameters>());
-            _signer.BlockUpdate(text, 0, text.Length);
+            _signer.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
 
             return _signer.GenerateSignature();
         }
 
-        public bool VerifyText(
+        public bool VerifyMessage(
             CryptoKey key, 
             byte[] signature,
-            byte[] text)
+            string message)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             if (signature == null) throw new ArgumentNullException(nameof(signature));
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             _signer.Reset();
 
             _signer.Init(false, key.GetParameter<ECPublicKeyParameters>());
 
-            _signer.BlockUpdate(text, 0, text.Length);
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
+            _signer.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
 
             //Bouncycastle signature verifier expects ASN.1 encoded signature. So if signature
             //is "raw" then peform DER encoding

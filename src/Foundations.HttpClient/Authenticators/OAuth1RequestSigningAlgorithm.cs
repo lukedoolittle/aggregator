@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
@@ -52,13 +51,13 @@ namespace Foundations.HttpClient.Authenticators
                 _oauthSecret.UrlEncodeString(),
                 "&");
 
-            var signature = _signingAlgorithm.SignText(
-                Encoding.UTF8.GetBytes(signatureBase),
+            var signature = _signingAlgorithm.SignMessage(
+                signatureBase,
                 new HashKey(key, StringEncoding.Utf8));
 
             builder.Parameter(
                 OAuth1Parameter.Signature.EnumToString(),
-                Convert.ToBase64String(signature));
+                signature.ToBase64String());
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Cryptography.Algorithms;
@@ -32,8 +31,8 @@ namespace Material.OAuth.Security
                 OAuth2Parameter.Verifier.EnumToString());
 
             var codeChallenge = _signingAlgorithm
-                .SignText(
-                    Encoding.UTF8.GetBytes(verifier),
+                .SignMessage(
+                    verifier,
                     null)
                 .ToBase64String()
                 .Base64ToUrlEncodedBase64String();

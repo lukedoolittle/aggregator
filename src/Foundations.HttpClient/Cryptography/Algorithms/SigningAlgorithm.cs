@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
@@ -22,11 +23,11 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
 
         public string SignatureMethod => _signer.AlgorithmName.ToUpper();
 
-        public byte[] SignText(
-            byte[] text, 
+        public byte[] SignMessage(
+            string message, 
             CryptoKey privateKey)
         {
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
             if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             _signer.Reset();
@@ -35,20 +36,25 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
                 PrivateKeyFactory.CreateKey(
                     privateKey.GetBytes());
 
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
             _signer.Init(true, privateKeyParameters);
-            _signer.BlockUpdate(text, 0, text.Length);
+            _signer.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
 
             return _signer.GenerateSignature();
         }
 
-        public bool VerifyText(
+        public bool VerifyMessage(
             CryptoKey key, 
             byte[] signature, 
-            byte[] text)
+            string message)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             if (signature == null) throw new ArgumentNullException(nameof(signature));
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             _signer.Reset();
 
@@ -57,7 +63,13 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
                     key.GetBytes());
 
             _signer.Init(false, publicKeyParameters);
-            _signer.BlockUpdate(text, 0, text.Length);
+
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
+            _signer.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
 
             return _signer.VerifySignature(signature);
         }

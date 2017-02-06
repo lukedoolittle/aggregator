@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
@@ -39,8 +38,8 @@ namespace Foundations.HttpClient.Authenticators
                 .CanonicalizeHttpRequest(
                     builder);
 
-            var signature = _signingAlgorithm.SignText(
-                Encoding.UTF8.GetBytes(message),
+            var signature = _signingAlgorithm.SignMessage(
+                message,
                 new HashKey(
                     _accountKey, 
                     StringEncoding.Base64));

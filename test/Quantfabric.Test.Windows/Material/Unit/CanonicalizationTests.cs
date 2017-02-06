@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;
+using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Canonicalizers;
+using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
+using Material.OAuth.AuthenticatorParameters;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
@@ -16,7 +20,50 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void CanonicalizeOAuth1Request()
         {
-            throw new NotImplementedException();
+            var expected = "GET&https%3A%2F%2Fapi.twitter.com%2F1.1%2Faccount%2Fverify_credentials.json&oauth_consumer_key%3DconsumerKey%26oauth_nonce%3Dnonce%26oauth_signature_method%3DsigningAlgorithm%26oauth_timestamp%3D1486376100%26oauth_token%3DoauthToken%26oauth_version%3D1.0";
+
+            var baseAddress = "https://api.twitter.com/";
+            var path = "/1.1/account/verify_credentials.json";
+            var consumerKey = "consumerKey";
+            var oauthToken = "oauthToken";
+            var signingAlgorithm = "signingAlgorithm";
+            var timestamp = new DateTime(2017, 02, 6, 10, 15, 00);
+            var nonce = "nonce";
+
+            var parameters = new List<IAuthenticatorParameter>
+            {
+                new OAuth1ConsumerKey(consumerKey),
+                new OAuth1Token(oauthToken),
+                new OAuth1Timestamp(timestamp),
+                new OAuth1Nonce(nonce),
+                new OAuth1Version(),
+                new OAuth1SignatureMethod(signingAlgorithm)
+            };
+
+            var requestBuilder = new HttpRequestBuilder(baseAddress)
+                .GetFrom(path);
+
+            foreach (var parameter in parameters)
+            {
+                if (parameter.Type == HttpParameterType.Header)
+                {
+                    requestBuilder.Header(
+                        parameter.Name,
+                        parameter.Value);
+                }
+                else
+                {
+                    requestBuilder.Parameter(
+                        parameter.Name,
+                        parameter.Value);
+                }
+            }
+
+            var canonicalizer = new OAuth1Canonicalizer();
+
+            var actual = canonicalizer.CanonicalizeHttpRequest(requestBuilder);
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

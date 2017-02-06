@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
@@ -30,31 +31,36 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             SignatureMethod = signatureMethod ?? "HMAC" + digest.AlgorithmName.ToUpper();
         }
 
-        public byte[] SignText(
-            byte[] text, 
+        public byte[] SignMessage(
+            string message, 
             CryptoKey privateKey)
         {
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
             if (privateKey == null) throw new ArgumentNullException(nameof(privateKey));
 
             var hmac = new HMac(_digest);
             hmac.Init(new KeyParameter(privateKey.GetBytes()));
             var result = new byte[hmac.GetMacSize()];
-            
-            hmac.BlockUpdate(text, 0, text.Length);
+
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
+            hmac.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
             hmac.DoFinal(result, 0);
 
             return result;
         }
 
-        public bool VerifyText(
+        public bool VerifyMessage(
             CryptoKey key,
             byte[] signature,
-            byte[] text)
+            string message)
         {
             return signature.SequenceEqual(
-                SignText(
-                    text, 
+                SignMessage(
+                    message, 
                     key));
         }
 

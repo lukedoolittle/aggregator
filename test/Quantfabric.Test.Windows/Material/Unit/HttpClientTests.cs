@@ -25,11 +25,40 @@ namespace Quantfabric.Test.Material.Unit
     {
         private const string _endpoint = "https://httpbin.org/";
         private const string _postPath = "post";
+        private const string _getPath = "get";
 
         [Fact]
-        public void AddMicrosoftAuthorization()
+        public async void AddMicrosoftAuthorization()
         {
-            throw new NotImplementedException();
+            var expected = "2Be4oE1RkO0u5ie8mJfbaYHMzWl7uSMpsFrkRgdseXY=";
+
+            var accountName = "MyAccount";
+            var accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
+            var accountKeyType = "SharedKey";
+            var targetUri = new Uri($"{_endpoint}{_getPath}");
+            var date = new DateTime(2017, 2, 3, 21, 28, 36, DateTimeKind.Utc);
+
+            var builder = new AuthenticatorBuilder()
+                .AddParameter(new MicrosoftDate(date))
+                .AddSigner(new MicrosoftRequestSigningAlgorithm(
+                    accountName,
+                    accountKey,
+                    accountKeyType,
+                    HmacDigestSigningAlgorithm.Sha256Algorithm(),
+                    new MicrosoftCanonicalizer(
+                        accountName)));
+
+            var response = await new HttpRequestBuilder(targetUri.NonPath())
+                .GetFrom(
+                    targetUri.AbsolutePath,
+                    HttpParameterType.Unspecified)
+                .Authenticator(builder)
+                .ResultAsync<TypedHttpBinResponse<SampleBody>>()
+                .ConfigureAwait(false);
+
+            var actual = response.Headers[HttpRequestHeader.Authorization.ToString()].Split(' ')[1].Split(':')[1];
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

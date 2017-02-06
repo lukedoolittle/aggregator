@@ -118,10 +118,10 @@ namespace Material.Infrastructure.Credentials
             var serializedClaims = serializer.Serialize(claims);
 
             var headerBytes = Encoding.UTF8.GetBytes(serializedHeader);
-            var headerEncoded = Convert.ToBase64String(headerBytes);
+            var headerEncoded = headerBytes.ToBase64String();
 
             var claimsBytes = Encoding.UTF8.GetBytes(serializedClaims.Replace("\\", ""));
-            var claimsEncoded = Convert.ToBase64String(claimsBytes);
+            var claimsEncoded = claimsBytes.ToBase64String();
 
             return StringExtensions.Concatenate(
                 headerEncoded.TrimEnd('='),

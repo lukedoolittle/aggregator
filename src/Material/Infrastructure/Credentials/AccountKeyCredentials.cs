@@ -13,5 +13,18 @@ namespace Material.Infrastructure.Credentials
 
         public override string ExpiresIn => "0";
         public override bool AreValidIntermediateCredentials => true;
+
+        public AccountKeyCredentials AddAccountInformation(
+            string name, 
+            string key, 
+            string keyType)
+        {
+            AccountName = name;
+            AccountKey = key;
+            AccountKeyType = Type;
+
+            return this;
+        }
+
     }
 }

@@ -6,9 +6,9 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
     {
         string SignatureMethod { get; }
 
-        bool VerifyText(
+        bool VerifyMessage(
             CryptoKey key, 
             byte[] signature, 
-            byte[] text);
+            string message);
     }
 }

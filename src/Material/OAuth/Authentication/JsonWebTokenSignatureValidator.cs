@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Text;
 using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Keys;
-using Foundations.HttpClient.Extensions;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 
@@ -30,10 +28,10 @@ namespace Material.OAuth.Authentication
             var verifier = _factory.GetVerificationAlgorithm(
                 token.Header.Algorithm);
 
-            var isSignatureValid = verifier.VerifyText(
+            var isSignatureValid = verifier.VerifyMessage(
                 _key,
                 token.Signature.FromBase64String(),
-                Encoding.UTF8.GetBytes(token.SignatureBase));
+                token.SignatureBase);
 
             if (!isSignatureValid)
             {

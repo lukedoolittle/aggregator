@@ -81,7 +81,10 @@ namespace Foundations.Extensions
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
-            instance = instance.Replace('+', '-').Replace('/', '_').Replace("=", "");
+            instance = instance
+                .Replace('+', '-')
+                .Replace('/', '_')
+                .Replace("=", "");
 
             return instance;
         }

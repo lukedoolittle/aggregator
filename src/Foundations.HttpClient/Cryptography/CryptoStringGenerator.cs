@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Enums;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
@@ -43,15 +44,12 @@ namespace Foundations.HttpClient.Cryptography
             var cryptoData = new byte[digest.GetDigestSize()];
             randomDigest.NextBytes(cryptoData);
 
-            var result = Convert.ToBase64String(cryptoData);
-
+            var result = cryptoData.ToBase64String();
 
             switch (stringType)
             {
                 case CryptoStringType.Base64Alphanumeric:
-                    return result
-                        .Replace('/', '_')
-                        .Replace('+', '-');
+                    return result.Base64ToUrlEncodedBase64String();
                 //Note that this substitution reduces the integrity of the strong string
                 //but is necessary in certain URL scenarios
                 case CryptoStringType.LowercaseAlphanumeric:

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Foundations.HttpClient.Cryptography.Keys;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
@@ -26,11 +27,11 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
             SignatureMethod = signatureMethod ?? digest.AlgorithmName.ToUpper();
         }
 
-        public byte[] SignText(
-            byte[] text, 
+        public byte[] SignMessage(
+            string message, 
             CryptoKey privateKey)
         {
-            if (text == null) throw new ArgumentNullException(nameof(text));
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             _digest.Reset();
 
@@ -39,7 +40,13 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
                 var keyBytes = privateKey.GetBytes();
                 _digest.BlockUpdate(keyBytes, 0, keyBytes.Length);
             }
-            _digest.BlockUpdate(text, 0, text.Length);
+
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+
+            _digest.BlockUpdate(
+                messageBytes, 
+                0, 
+                messageBytes.Length);
             var result = new byte[_digest.GetDigestSize()];
             _digest.DoFinal(result, 0);
 
