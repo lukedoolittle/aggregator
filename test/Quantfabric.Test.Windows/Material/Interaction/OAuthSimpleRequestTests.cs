@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Contracts;
@@ -11,6 +14,7 @@ using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
+using Quantfabric.Test.Material.Mocks;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
@@ -23,6 +27,46 @@ namespace Quantfabric.Test.Material.Interaction
             = new TokenCredentialRepository(true);
         private readonly AppCredentialRepository _appRepository
             = new AppCredentialRepository(CallbackType.Localhost);
+
+        #region Microsoft
+
+        [Fact]
+        public async void MakeRequestForMicrosoftTable()
+        {
+            var accountName = "musicnotes";
+            var tableName = "TestTable";
+
+            var credentials = new AccountKeyCredentials()
+                .AddAccountInformation(
+                    _appRepository.GetAccountName<AzureTableStorage>(),
+                    _appRepository.GetAccountKey<AzureTableStorage>(), 
+                    new AzureTableStorage().KeyName);
+
+            var request = new AzureTableStorageQuery
+            {
+                TableName = tableName
+            }.SetAccount(accountName);
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<AzureTableStorageQuery, AzureTableStorageQueryResponse<SampleTableStorageEntity>>(request)
+                .ConfigureAwait(false);
+
+            var entities = response.Value;
+            
+            Assert.Equal(1, entities.Count);
+
+            var entity = entities.First();
+
+            Assert.Equal("1", entity.PartitionKey);
+            Assert.Equal("1", entity.RowKey);
+            Assert.Equal("LukeDoolittle", entity.Name);
+        }
+
+        public async void MakeRequestForMicrosoftTablePost()
+        {
+            
+        }
+        #endregion Microsoft
 
         [Fact]
         public async void MakeRequestForXamarinInsightsUsersThenSessionsThenEvents()

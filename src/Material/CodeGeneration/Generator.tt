@@ -46,6 +46,10 @@
             var boxedProvider = swagger.CreateResourceProvider();
             var filename = @"..\Infrastructure\ProtectedResources\{0}.cs";
 
+            if (boxedProvider == null)
+            {
+                return null;
+            }
             if (boxedProvider is BoxedApiKeyResourceProvider)
             {
                 var provider = boxedProvider as BoxedApiKeyResourceProvider;

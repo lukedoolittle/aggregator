@@ -134,6 +134,25 @@ namespace Foundations.HttpClient
             return this;
         }
 
+        public HttpRequestBuilder Headers(
+            IDictionary<string, string> httpHeaders)
+        {
+            if (httpHeaders == null)
+            {
+                throw new ArgumentNullException(nameof(httpHeaders));
+            }
+
+            foreach (var header in httpHeaders)
+            {
+                _request.Headers.Add(
+                    header.Key,
+                    header.Value);
+            }
+
+            return this;
+        }
+
+
         public HttpRequestBuilder Parameter(
             string key,
             string value)

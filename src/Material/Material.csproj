@@ -91,6 +91,7 @@
     <Compile Include="Contracts\IOAuthAuthorizationUriFacade.cs" />
     <Compile Include="Contracts\ISecurityParameterBundle.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
+    <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
@@ -104,9 +105,12 @@
     <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
+    <Compile Include="Infrastructure\Partials\AzureTableStorageNonQuery.cs" />
+    <Compile Include="Infrastructure\Partials\AzureTableStorageQuery.cs" />
     <Compile Include="Infrastructure\Partials\Spotify.cs" />
     <Compile Include="Infrastructure\PasswordResourceProvider.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\AzureTableStorage.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Fitbit.cs" />
@@ -129,6 +133,8 @@
     <Compile Include="Infrastructure\ProtectedResources\XamarinInsights.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
+    <Compile Include="Infrastructure\Requests\AzureTableStorageNonQuery.cs" />
+    <Compile Include="Infrastructure\Requests\AzureTableStorageQuery.cs" />
     <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
     <Compile Include="Infrastructure\Requests\FacebookFeed.cs" />
     <Compile Include="Infrastructure\Requests\FacebookFriend.cs" />
@@ -176,6 +182,7 @@
     <Compile Include="Infrastructure\Requests\XamarinInsightsSessions.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsUsers.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
+    <Compile Include="Infrastructure\Responses\AzureTableStorageQueryResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
@@ -375,6 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Swagger\amazon.json" />
+    <None Include="Swagger\microsoftAzureTableStorage.json" />
     <None Include="Swagger\xamarinInsights.json" />
     <None Include="Swagger\yahoo.json" />
     <None Include="Swagger\microsoftBing.json" />
@@ -402,6 +410,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
 ..\Infrastructure\ProtectedResources\Amazon.cs
+..\Infrastructure\ProtectedResources\AzureTableStorage.cs
 ..\Infrastructure\ProtectedResources\Facebook.cs
 ..\Infrastructure\ProtectedResources\Fatsecret.cs
 ..\Infrastructure\ProtectedResources\Fitbit.cs
@@ -424,6 +433,8 @@
 ..\Infrastructure\ProtectedResources\XamarinInsights.cs
 ..\Infrastructure\ProtectedResources\Yahoo.cs
 ..\Infrastructure\Requests\AmazonProfile.cs
+..\Infrastructure\Requests\AzureTableStorageNonQuery.cs
+..\Infrastructure\Requests\AzureTableStorageQuery.cs
 ..\Infrastructure\Requests\FacebookEvent.cs
 ..\Infrastructure\Requests\FacebookFeed.cs
 ..\Infrastructure\Requests\FacebookFriend.cs

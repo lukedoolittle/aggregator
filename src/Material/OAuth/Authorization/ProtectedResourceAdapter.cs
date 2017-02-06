@@ -29,7 +29,7 @@ namespace Material.OAuth.Authorization
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
-            return new HttpRequestBuilder(request.Host)
+            return new HttpRequestBuilder(request.GetModifiedHost())
                 .Request(
                     request.HttpMethod,
                     request.Path,

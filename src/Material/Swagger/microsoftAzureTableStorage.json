@@ -1,0 +1,106 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "AzureTableStorage",
+        "description": "Microsoft Azure Storage REST Api",
+        "version": "1.0.0"
+    },
+    "host": "ACCOUNTNAME.table.core.windows.net",
+    "schemes": [ "https" ],
+    "basePath": "/",
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/{tableName}()": {
+            "get": {
+                "summary": "",
+                "operationId": "AzureTableStorageQuery",
+                "description": "The Query Entities operation queries entities in a table and includes the $filter and $select options.\n",
+                "parameters": [
+                    {
+                        "name": "x-ms-version",
+                        "in": "header",
+                        "description": "Schema date",
+                        "required": true,
+                        "type": "string",
+                        "default": "2016-05-31"
+                    },
+                    {
+                        "name": "$filter",
+                        "in": "query",
+                        "description": "Filter for the query.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "$select",
+                        "in": "query",
+                        "description": "Select statement for the query.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tableName",
+                        "in": "path",
+                        "description": "Name of the table to be queried.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Storage"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products"
+                    }
+                }
+            },
+            "post": {
+                "summary": "",
+                "operationId": "AzureTableStorageNonQuery",
+                "description": "The Insert Entity operation inserts a new entity into a table.\n",
+                "parameters": [
+                    {
+                        "name": "x-ms-version",
+                        "in": "header",
+                        "description": "Schema date",
+                        "required": true,
+                        "type": "string",
+                        "default": "2016-05-31"
+                    },
+                    {
+                        "name": "timeout",
+                        "in": "query",
+                        "description": "Timeout parameter in seconds.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "tableName",
+                        "in": "path",
+                        "description": "Name of the table to be queried.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Storage"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "apiKey",
+            "name": "SharedKey",
+            "in": "header"
+        }
+    }
+}

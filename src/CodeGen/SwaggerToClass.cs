@@ -77,6 +77,11 @@ namespace CodeGen
 
         public object CreateResourceProvider()
         {
+            if (_swaggerDefinition.SecurityDefinitions == null)
+            {
+                return null;
+            }
+
             var name = _swaggerDefinition.ApiInfo.Title;
             var comments = $"{_swaggerDefinition.ApiInfo.Description} {_swaggerDefinition.ApiInfo.Version}";
 
@@ -213,7 +218,10 @@ namespace CodeGen
                         Comments = details["summary"].ToString()
                     };
 
-                    @class.Metadatas.Add(new AbstractMetadataRepresentation(typeof(ServiceTypeAttribute), serviceTypeNamespace, serviceTypeName));
+                    @class.Metadatas.Add(new AbstractMetadataRepresentation(
+                        typeof(ServiceTypeAttribute), 
+                        serviceTypeNamespace, 
+                        serviceTypeName));
 
                     @class.BaseType = new BaseTypeRepresentation(typeof(OAuthRequest));
 
@@ -657,7 +665,7 @@ namespace CodeGen
                 return string.Empty;
             }
 
-            var result = jsonName.Split(new[] { "_", "-", " " }, StringSplitOptions.RemoveEmptyEntries)
+            var result = jsonName.Split(new[] { "_", "-", " ", "$" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1, s.Length - 1))
                 .Aggregate(string.Empty, (s1, s2) => s1 + s2);
 

@@ -23,8 +23,8 @@ namespace Material.Infrastructure
         public virtual List<HttpStatusCode> ExpectedStatusCodes { get; } =
             new List<HttpStatusCode> { HttpStatusCode.OK };
 
-        public Dictionary<HttpRequestHeader, string> Headers { get; } =
-            new Dictionary<HttpRequestHeader, string>();
+        public IDictionary<string, string> Headers =>
+            GetParameters(RequestParameterType.Header);
         public IDictionary<string, string> QuerystringParameters =>
             GetParameters(RequestParameterType.Query);
         public IDictionary<string, string> PathParameters =>
@@ -35,6 +35,12 @@ namespace Material.Infrastructure
         public MediaType? OverriddenResponseMediaType { get; set; }
 
         public virtual void AddUserIdParameter(string userId) { }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        public virtual string GetModifiedHost()
+        {
+            return Host;
+        }
 
         protected virtual IDictionary<string, string> GetParameters(RequestParameterType type)
         {

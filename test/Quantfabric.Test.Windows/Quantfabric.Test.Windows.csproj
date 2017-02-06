@@ -255,6 +255,7 @@
     <Compile Include="Material\Mocks\OAuth1ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\OAuth2ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\ResourceProviderMocks.cs" />
+    <Compile Include="Material\Mocks\SampleTableStorageEntity.cs" />
     <Compile Include="Material\OAuthServer\Builders\ICredentialBuilder.cs" />
     <Compile Include="Material\OAuthServer\Builders\IRedirectUriBuilder.cs" />
     <Compile Include="Material\OAuthServer\Builders\OAuth1AccessTokenCredentialBuilder.cs" />

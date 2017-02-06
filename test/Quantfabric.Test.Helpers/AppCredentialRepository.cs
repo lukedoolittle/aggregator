@@ -128,6 +128,18 @@ namespace Quantfabric.Test.Helpers
         {
             return _clientCredentials.GetPasswordCredentials<TService>().Password;
         }
+
+        public string GetAccountName<TService>()
+            where TService : ApiKeyResourceProvider
+        {
+            return _clientCredentials.GetAccountKeyCredentials<TService>().AccountName;
+        }
+
+        public string GetAccountKey<TService>()
+             where TService : ApiKeyResourceProvider
+        {
+            return _clientCredentials.GetAccountKeyCredentials<TService>().AccountKey;
+        }
     }
 }
 #endif

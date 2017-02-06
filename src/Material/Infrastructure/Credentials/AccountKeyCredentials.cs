@@ -21,7 +21,7 @@ namespace Material.Infrastructure.Credentials
         {
             AccountName = name;
             AccountKey = key;
-            AccountKeyType = Type;
+            AccountKeyType = keyType;
 
             return this;
         }

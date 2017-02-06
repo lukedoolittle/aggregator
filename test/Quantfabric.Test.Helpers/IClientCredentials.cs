@@ -35,5 +35,9 @@ namespace Material.Contracts
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         UsernameAndPassword GetPasswordCredentials<TService>()
             where TService : PasswordResourceProvider;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        AccountKeyCredentials GetAccountKeyCredentials<TService>()
+            where TService : ApiKeyResourceProvider;
     }
 }
