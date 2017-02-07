@@ -8,5 +8,9 @@ namespace Material.Contracts
         Task<TResponse> ForProtectedResource<TRequest, TResponse>(
             TRequest request)
             where TRequest : OAuthRequest;
+
+        Task<string> ForProtectedResource<TRequest>(
+            TRequest request)
+            where TRequest : OAuthRequest;
     }
 }

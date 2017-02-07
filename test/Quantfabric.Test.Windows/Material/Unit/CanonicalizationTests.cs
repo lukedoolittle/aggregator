@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using Foundations.Enums;
 using Foundations.Extensions;
 using Foundations.HttpClient;

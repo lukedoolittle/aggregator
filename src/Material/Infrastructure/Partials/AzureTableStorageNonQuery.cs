@@ -1,4 +1,5 @@
 ﻿using System;
+using Material.Contracts;
 
 namespace Material.Infrastructure.Requests
 {
@@ -24,6 +25,20 @@ namespace Material.Infrastructure.Requests
             }
 
             return Host.Replace("ACCOUNTNAME", _storageAccountName);
+        }
+
+        public AzureTableStorageNonQuery SetBody<TEntity>(TEntity entity)
+            where TEntity : ITableStorageEntity
+        {
+            PartitionKey = entity.PartitionKey;
+            RowKey = entity.RowKey;
+
+            entity.PartitionKey = null;
+            entity.RowKey = null;
+
+            Body = entity;
+
+            return this;
         }
     }
 }

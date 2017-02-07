@@ -59,5 +59,12 @@ namespace Foundations.HttpClient.Cryptography.Algorithms
                 new Sha256Digest(), 
                 "SHA256");
         }
+
+        public static DigestSigningAlgorithm MD5Algorithm()
+        {
+            return new DigestSigningAlgorithm(
+                new MD5Digest(), 
+                "MD5");
+        }
     }
 }

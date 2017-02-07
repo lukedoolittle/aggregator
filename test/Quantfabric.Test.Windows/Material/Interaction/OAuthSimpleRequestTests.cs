@@ -52,19 +52,43 @@ namespace Quantfabric.Test.Material.Interaction
                 .ConfigureAwait(false);
 
             var entities = response.Value;
-            
-            Assert.Equal(1, entities.Count);
 
             var entity = entities.First();
 
             Assert.Equal("1", entity.PartitionKey);
             Assert.Equal("1", entity.RowKey);
-            Assert.Equal("LukeDoolittle", entity.Name);
+            Assert.Equal("WillieDoolittle", entity.Name);
         }
 
+        [Fact]
         public async void MakeRequestForMicrosoftTablePost()
         {
-            
+            var accountName = "musicnotes";
+            var tableName = "TestTable";
+
+            var credentials = new AccountKeyCredentials()
+                .AddAccountInformation(
+                    _appRepository.GetAccountName<AzureTableStorage>(),
+                    _appRepository.GetAccountKey<AzureTableStorage>(),
+                    new AzureTableStorage().KeyName);
+
+            var entity = new SampleTableStorageEntity
+            {
+                PartitionKey = "1",
+                RowKey = "2",
+                Name = "BillLancaster"
+            };
+
+            var request = new AzureTableStorageNonQuery
+            {
+                TableName = tableName
+            }.SetAccount(accountName).SetBody(entity);
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync(request)
+                .ConfigureAwait(false);
+
+            Assert.Equal(string.Empty, response);
         }
         #endregion Microsoft
 

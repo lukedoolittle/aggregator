@@ -26,11 +26,27 @@ namespace Material.Infrastructure.Requests
 	public partial class AzureTableStorageNonQuery : OAuthRequest              
 	{
         public override String Host => "https://ACCOUNTNAME.table.core.windows.net";
-        public override String Path => "/{tableName}()";
-        public override String HttpMethod => "POST";
+        public override String Path => "/{tableName}(PartitionKey='{partitionKey}',RowKey='{rowKey}')";
+        public override String HttpMethod => "PUT";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
-        public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.OK };
+        public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.NoContent };
+        /// <summary>
+        /// The partition key of the element to insert
+        /// </summary>
+        [Name("partitionKey")]
+        [ParameterType(RequestParameterType.Path)]
+        [Required()]
+        [DefaultFormatter()]
+        public  String PartitionKey { get; set; }
+        /// <summary>
+        /// The unique identifier of the element to insert
+        /// </summary>
+        [Name("rowKey")]
+        [ParameterType(RequestParameterType.Path)]
+        [Required()]
+        [DefaultFormatter()]
+        public  String RowKey { get; set; }
         /// <summary>
         /// Schema date
         /// </summary>

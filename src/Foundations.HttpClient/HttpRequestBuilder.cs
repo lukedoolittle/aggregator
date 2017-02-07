@@ -26,6 +26,7 @@ namespace Foundations.HttpClient
         public Uri Url => _request.Address;
         public HttpValueCollection QueryParameters =>  _request.Payload.QueryParameters;
         public HeaderCollection RequestHeaders => _request.Headers;
+        public HttpContent RequestContent => _request.Content;
 
         public HttpRequestBuilder(Uri baseAddress) 
         {
@@ -283,16 +284,16 @@ namespace Foundations.HttpClient
 
         public Uri GenerateRequestUri()
         {
-            _request.Authenticator?.Authenticate(this);
             _request.Payload.Attach(_request);
+            _request.Authenticator?.Authenticate(this);
 
             return _request.Address;
         }
 
         public async Task<HttpResponse> ExecuteAsync()
         {
-            _request.Authenticator?.Authenticate(this);
             _request.Payload.Attach(_request);
+            _request.Authenticator?.Authenticate(this);
 
             if (_request.Method == HttpMethod.Get &&
                 _request.Content != null)

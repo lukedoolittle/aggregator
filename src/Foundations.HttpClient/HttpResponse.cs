@@ -59,11 +59,10 @@ namespace Foundations.HttpClient
                 .ReadAsByteArrayAsync()
                 .ConfigureAwait(false);
 
-            var responseString = 
+            return buffer.Length == 0 ? 
+                string.Empty :
                 _encodings[_content.Headers.ContentType.CharSet]
-                .GetString(buffer, 0, buffer.Length);
-
-            return responseString;
+                    .GetString(buffer, 0, buffer.Length);
         }
 
         public async Task<T> ContentAsync<T>()

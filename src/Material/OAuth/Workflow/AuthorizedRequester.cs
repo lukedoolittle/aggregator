@@ -137,6 +137,24 @@ namespace Material.OAuth.Workflow
         /// Get a protected resource from the authenticated provider
         /// </summary>
         /// <typeparam name="TRequest">Request to make to provider</typeparam>
+        /// <param name="request"></param>
+        /// <returns>Protected resource from provider</returns>
+        public Task<string> MakeOAuthRequestAsync<TRequest>(
+            TRequest request)
+            where TRequest : OAuthRequest, new()
+        {
+            if (request == null) { throw new ArgumentNullException(nameof(request)); }
+
+            request.AddUserIdParameter(_userId);
+
+            return _requester
+                    .ForProtectedResource(request);
+        }
+
+        /// <summary>
+        /// Get a protected resource from the authenticated provider
+        /// </summary>
+        /// <typeparam name="TRequest">Request to make to provider</typeparam>
         /// <typeparam name="TResponse">Protected resource</typeparam>
         /// <returns>Protected resource from provider</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]

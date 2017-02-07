@@ -16,7 +16,7 @@ namespace Material.OAuth.Authorization
         private readonly HttpParameterType _parameterHandling;
 
         public ProtectedResourceAdapter(
-            IAuthenticator authenticator, 
+            IAuthenticator authenticator,
             HttpParameterType parameterHandling)
         {
             _authenticator = authenticator;
@@ -29,6 +29,20 @@ namespace Material.OAuth.Authorization
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
+            return CreateBuilder(request).ResultAsync<TResponse>();
+        }
+
+        public Task<string> ForProtectedResource<TRequest>(TRequest request) 
+            where TRequest : OAuthRequest
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            return CreateBuilder(request).ResultAsync();
+        }
+
+        private HttpRequestBuilder CreateBuilder<TRequest>(TRequest request)
+            where TRequest : OAuthRequest
+        {
             return new HttpRequestBuilder(request.GetModifiedHost())
                 .Request(
                     request.HttpMethod,
@@ -49,8 +63,7 @@ namespace Material.OAuth.Authorization
                     request.Body,
                     request.BodyType)
                 .OverrideResponseMediaType(
-                    request.OverriddenResponseMediaType)
-                .ResultAsync<TResponse>();
+                    request.OverriddenResponseMediaType);
         }
     }
 }
