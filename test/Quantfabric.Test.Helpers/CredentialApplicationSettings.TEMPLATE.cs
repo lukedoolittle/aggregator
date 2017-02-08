@@ -14,6 +14,24 @@ namespace Application.Configuration
         private const string REDIRECT_URI_FORMAT = 
             "http://localhost:33533/oauth/{0}";
 
+		public readonly Dictionary<Type, AccountKeyCredentials> _accountKeyCredentials =
+            new Dictionary<Type, AccountKeyCredentials>
+            {
+                {
+                    typeof(AzureTableStorage), new AccountKeyCredentials()
+                        .AddAccountInformation(
+                            "",
+                            "",
+                            new AzureTableStorage().KeyName)
+                }
+            };
+
+        public readonly Dictionary<Type, UsernameAndPassword> _passwordCredentials = 
+            new Dictionary<Type, UsernameAndPassword>
+        {
+            { typeof(XamarinInsights), new UsernameAndPassword("", "") }
+        };	
+			
         public readonly Dictionary<Type, ApiKeyCredentials> _apiKeyCredentials = 
             new Dictionary<Type, ApiKeyCredentials>
         {
@@ -47,13 +65,37 @@ namespace Application.Configuration
                 .SetClientProperties("", "")
                 .SetCallbackUrl("quantfabric.material://fitbit")},
 
-                { typeof(Amazon), new OAuth2Credentials()
-                .SetClientProperties("", "")
-                .SetCallbackUrl("quantfabric.material://amazon")},
-
                 { typeof(Foursquare), new OAuth2Credentials()
                 .SetClientProperties("", "")
-                .SetCallbackUrl("quantfabric.material://foursquare")}
+                .SetCallbackUrl("quantfabric.material://foursquare")},
+				
+				{ typeof(Withings), new OAuth1Credentials()
+                .SetConsumerProperties("", "")
+                .SetCallbackUrl("quantfabric://withings")},
+
+                { typeof(Twitter), new OAuth1Credentials()
+                .SetConsumerProperties("", "")
+                .SetCallbackUrl("quantfabric://twitter")},
+
+                { typeof(Fatsecret), new OAuth1Credentials()
+                .SetConsumerProperties("", "")
+                .SetCallbackUrl("quantfabric://fatsecret")},
+
+                { typeof(Tumblr), new OAuth1Credentials()
+                .SetConsumerProperties("", "")
+                .SetCallbackUrl("quantfabric://tumblr")},
+
+                { typeof(Spotify), new OAuth2Credentials()
+                .SetClientId(")
+                .SetCallbackUrl("quantfabric://spotify")},
+
+                { typeof(Facebook), new OAuth2Credentials()
+                .SetClientId("")
+                .SetCallbackUrl("quantfabric://facebook")},
+
+                { typeof(Amazon), new OAuth2Credentials()
+                .SetClientId("")
+                .SetCallbackUrl("amzn-quantfabric.material://?methodName=signin")},
         };
 
         private readonly Dictionary<Type, TokenCredentials> _localhostCredentials = 
@@ -126,6 +168,10 @@ namespace Application.Configuration
             { typeof(Amazon), new OAuth2Credentials()
                 .SetClientProperties("", "")
                 .SetCallbackUrl(string.Format(REDIRECT_URI_FORMAT,typeof(Amazon).Name.ToLower()))},
+				
+			{ typeof(Yahoo), new OAuth2Credentials()
+                .SetClientProperties("", "")
+                .SetCallbackUrl("http://quantfabric.com")}
         };
 
         public TCredentials GetClientCredentials<TService, TCredentials>(
@@ -133,23 +179,48 @@ namespace Application.Configuration
             where TService : ResourceProvider
             where TCredentials : TokenCredentials
         {
-            var credentialDictionary = callbackType == CallbackType.Localhost
-                ? _localhostCredentials
-                : _protocolCredentials;
-
-            TokenCredentials credentials = null;
-            if (credentialDictionary.TryGetValue(typeof(TService), out credentials))
+            if (callbackType == CallbackType.Localhost)
             {
-                if (!credentials.HasValidPublicKey)
+                TokenCredentials credentials = null;
+                if (_localhostCredentials.TryGetValue(typeof(TService), out credentials))
                 {
-                    throw new Exception($"{typeof(TService).Name} doesn't have a valid public key");
+                    return (credentials as TCredentials);
                 }
-
-                return (credentials as TCredentials);
+                else
+                {
+                    throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+                }
+            }
+            else if (callbackType == CallbackType.Protocol)
+            {
+                TokenCredentials credentials = null;
+                if (_protocolCredentials.TryGetValue(typeof(TService), out credentials))
+                {
+                    return (credentials as TCredentials);
+                }
+                else
+                {
+                    throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+                }
             }
             else
             {
-                throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+                TokenCredentials credentials = null;
+                if (_protocolCredentials.TryGetValue(typeof(TService), out credentials))
+                {
+                    return (credentials as TCredentials);
+                }
+                else
+                {
+                    if (_localhostCredentials.TryGetValue(typeof(TService), out credentials))
+                    {
+                        return (credentials as TCredentials);
+                    }
+                    else
+                    {
+                        throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+                    }
+                }
             }
         }
 
@@ -157,7 +228,7 @@ namespace Application.Configuration
             where TService : ResourceProvider
             where TCredentials : TokenCredentials
         {
-            return GetClientCredentials<TService, TCredentials>(CallbackType.Localhost);
+            return GetClientCredentials<TService, TCredentials>(CallbackType.NotSpecified);
         }
 
         public OAuth2Credentials GetJsonWebTokenCredentials<TService>()
@@ -179,6 +250,34 @@ namespace Application.Configuration
         {
             ApiKeyCredentials credentials = null;
             if (_apiKeyCredentials.TryGetValue(typeof(TService), out credentials))
+            {
+                return credentials;
+            }
+            else
+            {
+                throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+            }
+        }
+
+        public UsernameAndPassword GetPasswordCredentials<TService>()
+            where TService : PasswordResourceProvider
+        {
+            UsernameAndPassword credentials = null;
+            if (_passwordCredentials.TryGetValue(typeof(TService), out credentials))
+            {
+                return credentials;
+            }
+            else
+            {
+                throw new Exception($"{typeof(TService).Name} doesn't have populated credentials");
+            }
+        }
+
+        public AccountKeyCredentials GetAccountKeyCredentials<TService>()
+            where TService : ApiKeyResourceProvider
+        {
+            AccountKeyCredentials credentials = null;
+            if (_accountKeyCredentials.TryGetValue(typeof(TService), out credentials))
             {
                 return credentials;
             }
