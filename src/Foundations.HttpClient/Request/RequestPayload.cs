@@ -54,7 +54,7 @@ namespace Foundations.HttpClient.Request
             }
         }
 
-        public void Attach(RequestParameters message)
+        public void AttachContent(RequestParameters message)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
 
@@ -62,6 +62,11 @@ namespace Foundations.HttpClient.Request
             {
                 message.Content = _content.GetContent();
             }
+        }
+
+        public void AttachParameters(RequestParameters message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             _parameterHandler.AddParameters(
                 message,

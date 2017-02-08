@@ -70,7 +70,7 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void CanonicalizeMicrosoftRequest()
         {
-            var expected = "GET\n\napplication/json\nSun, 11 Oct 2009 21:49:13 GMT\n/MyAccount/Tables()";
+            var expected = "GET\n\n\nSun, 11 Oct 2009 21:49:13 GMT\n/MyAccount/Tables()";
             var accountName = "MyAccount";
             var baseAddress = "https://myaccount.table.core.windows.net/";
             var path = "Tables()";

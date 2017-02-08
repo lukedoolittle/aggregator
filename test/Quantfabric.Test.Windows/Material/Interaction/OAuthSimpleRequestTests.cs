@@ -55,8 +55,6 @@ namespace Quantfabric.Test.Material.Interaction
 
             var entity = entities.First();
 
-            Assert.Equal("1", entity.PartitionKey);
-            Assert.Equal("1", entity.RowKey);
             Assert.Equal("WillieDoolittle", entity.Name);
         }
 
@@ -248,10 +246,10 @@ namespace Quantfabric.Test.Material.Interaction
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
             var response = await new AuthorizedRequester(credentials)
-                .MakeOAuthRequestAsync<XamarinInsightsUsers, string>()
+                .MakeOAuthRequestAsync<AmazonProfile, AmazonProfileResponse>()
                 .ConfigureAwait(false);
 
-
+            Assert.NotNull(response.UserId);
         }
 
         [Fact]
@@ -277,8 +275,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var request = new WithingsWeighIn()
             {
-                Lastupdate = DateTime.Today.Subtract(TimeSpan.FromDays(50))
+                Lastupdate = DateTime.Today.Subtract(TimeSpan.FromDays(200))
             };
+
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<WithingsWeighIn, WithingsWeighInResponse>(request)
                 .ConfigureAwait(false);

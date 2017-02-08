@@ -24,8 +24,8 @@ namespace Foundations.HttpClient.Canonicalizers
                 new List<string>
                 {
                     request.Method.Method,
-                    request.RequestContent.Headers.ContentMD5?.ToString(),
-                    request.RequestContent.Headers.ContentType?.ToString(),
+                    request.RequestContent?.Headers.ContentMD5?.ToString(),
+                    request.RequestContent?.Headers.ContentType?.ToString(),
                     request.RequestHeaders["x-ms-date"],
                     GetCanonicalizedResourceString(request.Url, _accountName)
                 });

@@ -284,16 +284,18 @@ namespace Foundations.HttpClient
 
         public Uri GenerateRequestUri()
         {
-            _request.Payload.Attach(_request);
+            _request.Payload.AttachContent(_request);
             _request.Authenticator?.Authenticate(this);
+            _request.Payload.AttachParameters(_request);
 
             return _request.Address;
         }
 
         public async Task<HttpResponse> ExecuteAsync()
         {
-            _request.Payload.Attach(_request);
+            _request.Payload.AttachContent(_request);
             _request.Authenticator?.Authenticate(this);
+            _request.Payload.AttachParameters(_request);
 
             if (_request.Method == HttpMethod.Get &&
                 _request.Content != null)
@@ -339,7 +341,8 @@ namespace Foundations.HttpClient
                     .Handler
                     .CookieContainer
                     .GetCookies(
-                        _request.Address));
+                        _request.Address),
+                _request.OverriddenMediaType);
         }
     }
 }
