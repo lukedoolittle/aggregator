@@ -2,7 +2,8 @@
 {
     public interface ITableStorageEntity
     {
-        string PartitionKey { get; set; }
-        string RowKey { get; set; }
+        string PartitionKey { get; }
+
+        string RowKey { get;}
     }
 }

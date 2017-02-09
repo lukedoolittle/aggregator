@@ -33,9 +33,6 @@ namespace Material.Infrastructure.Requests
             PartitionKey = entity.PartitionKey;
             RowKey = entity.RowKey;
 
-            entity.PartitionKey = null;
-            entity.RowKey = null;
-
             Body = entity;
 
             return this;

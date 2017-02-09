@@ -92,6 +92,7 @@
     <Compile Include="Contracts\ISecurityParameterBundle.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
+    <Compile Include="Contracts\TableStorageEntity.cs" />
     <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />

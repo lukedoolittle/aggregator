@@ -56,6 +56,8 @@ namespace Quantfabric.Test.Material.Interaction
             var entity = entities.First();
 
             Assert.Equal("WillieDoolittle", entity.Name);
+            Assert.Equal("1", entity.PartitionKey);
+            Assert.Equal("1", entity.RowKey);
         }
 
         [Fact]
@@ -70,10 +72,8 @@ namespace Quantfabric.Test.Material.Interaction
                     _appRepository.GetAccountKey<AzureTableStorage>(),
                     new AzureTableStorage().KeyName);
 
-            var entity = new SampleTableStorageEntity
+            var entity = new SampleTableStorageEntity("1", "2")
             {
-                PartitionKey = "1",
-                RowKey = "2",
                 Name = "BillLancaster"
             };
 
