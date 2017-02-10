@@ -13,12 +13,31 @@ namespace Foundations.HttpClient.Serialization
         //problems with the serializable hacks in some of the classes
         public string Serialize(object entity)
         {
+            return Serialize(entity, null);
+        }
+
+        public string Serialize(
+            object entity, 
+            string dateTimeFormat)
+        {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            var settings = new DataContractJsonSerializerSettings
+            {
+                UseSimpleDictionaryFormat = true
+            };
+            if (dateTimeFormat != null)
+            {
+                settings.DateTimeFormat = new DateTimeFormat(
+                    dateTimeFormat,
+                    CultureInfo.InvariantCulture);
+            }
 
             using (var memoryStream = new MemoryStream())
             {
                 var serializer = new DataContractJsonSerializer(
-                    entity.GetType());
+                    entity.GetType(),
+                    settings);
                 serializer.WriteObject(
                     memoryStream,
                     entity);

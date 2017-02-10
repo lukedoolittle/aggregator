@@ -6,33 +6,13 @@ namespace Material.Infrastructure.Responses
 {
     [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
-    public class XamarinEventProperties
-    {
-        [DataMember(Name = "Product ID")]
-        public string ProductId { get; set; }
-
-        [DataMember(Name = "Use TAB")]
-        public string UseTab { get; set; }
-
-        [DataMember(Name = "Play Chords")]
-        public string PlayChords { get; set; }
-
-        [DataMember(Name = "Email")]
-        public string Email { get; set; }
-
-        [DataMember(Name = "status")]
-        public string Status { get; set; }
-    }
-
-    [GeneratedCode("T4Toolbox", "14.0")]
-    [DataContract]
     public class XamarinEventHit
     {
         [DataMember(Name = "deviceTimestamp")]
         public int DeviceTimestamp { get; set; }
 
         [DataMember(Name = "properties")]
-        public XamarinEventProperties Properties { get; set; }
+        public IDictionary<string,string> Properties { get; set; }
 
         [DataMember(Name = "deviceTimestampMs")]
         public object DeviceTimestampMs { get; set; }
@@ -41,7 +21,7 @@ namespace Material.Infrastructure.Responses
         public int Order { get; set; }
 
         [DataMember(Name = "duration")]
-        public object Duration { get; set; }
+        public string Duration { get; set; }
 
         [DataMember(Name = "trackevent")]
         public int Trackevent { get; set; }

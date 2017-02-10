@@ -6,10 +6,10 @@ namespace Material.Contracts
     public abstract class TableStorageEntity : ITableStorageEntity
     {
         [DataMember(Name = "PartitionKey")]
-        public string PartitionKey { get; protected set; }
+        public string PartitionKey { get; set; }
 
         [DataMember(Name = "RowKey")]
-        public string RowKey { get; protected set; }
+        public string RowKey { get; set; }
 
         protected TableStorageEntity(
             string partitionKey, 

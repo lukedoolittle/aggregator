@@ -9,9 +9,11 @@ namespace Foundations.HttpClient.Serialization
             throw new NotImplementedException();
         }
 
-        public string Serialize<TEntity>(TEntity entity)
+        public string Serialize(
+            object entity, 
+            string dateTimeFormat)
         {
-            return Serialize((object)entity);
+            throw new NotImplementedException();
         }
 
         public TEntity Deserialize<TEntity>(
