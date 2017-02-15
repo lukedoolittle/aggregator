@@ -19,7 +19,24 @@ namespace Foundations.HttpClient.Request
 
         public CookieCollection Cookies { get; } = new CookieCollection();
 
-        public HttpContent Content { get; set; }
+        private HttpContent _content;
+
+        public HttpContent Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                if (Method == HttpMethod.Get && value != null)
+                {
+                    throw new NotSupportedException(
+                        StringResource.GetWithBodyNotSupported);
+                }
+                _content = value;
+            }
+        }
 
         public List<HttpStatusCode> ExpectedResponseCodes { get; } =
             new List<HttpStatusCode>();

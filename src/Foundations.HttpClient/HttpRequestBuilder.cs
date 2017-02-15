@@ -294,15 +294,10 @@ namespace Foundations.HttpClient
         public async Task<HttpResponse> ExecuteAsync()
         {
             _request.Payload.AttachContent(_request);
-            _request.Authenticator?.Authenticate(this);
-            _request.Payload.AttachParameters(_request);
 
-            if (_request.Method == HttpMethod.Get &&
-                _request.Content != null)
-            {
-                throw new NotSupportedException(
-                    StringResource.GetWithBodyNotSupported);
-            }
+            _request.Authenticator?.Authenticate(this);
+
+            _request.Payload.AttachParameters(_request);
 
             var clientSet = _clientFactory(_request);
 
@@ -318,23 +313,6 @@ namespace Foundations.HttpClient
                 .SendAsync(clientSet.Message)
                 .ConfigureAwait(false);
 
-            if (_request.ExpectedResponseCodes.Count > 0 &&
-                !_request.ExpectedResponseCodes.Contains(response.StatusCode))
-            {
-                var content = await response
-                    .Content
-                    .ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                throw new HttpRequestException(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        StringResource.BadHttpRequestException,
-                        response.StatusCode,
-                        _request.ExpectedResponseCodes.First(),
-                        content));
-            }
-
             return new HttpResponse(
                 response,
                 clientSet
@@ -342,6 +320,7 @@ namespace Foundations.HttpClient
                     .CookieContainer
                     .GetCookies(
                         _request.Address),
+                _request.ExpectedResponseCodes,
                 _request.OverriddenMediaType);
         }
     }

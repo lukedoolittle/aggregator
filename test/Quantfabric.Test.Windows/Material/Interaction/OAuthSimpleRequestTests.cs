@@ -89,7 +89,7 @@ namespace Quantfabric.Test.Material.Interaction
                 .MakeOAuthRequestAsync(request)
                 .ConfigureAwait(false);
 
-            Assert.Equal(string.Empty, response);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
         #endregion Microsoft
 

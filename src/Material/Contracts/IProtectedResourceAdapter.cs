@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Foundations.HttpClient;
 using Material.Infrastructure;
 
 namespace Material.Contracts
@@ -9,7 +10,7 @@ namespace Material.Contracts
             TRequest request)
             where TRequest : OAuthRequest;
 
-        Task<string> ForProtectedResource<TRequest>(
+        Task<HttpResponse> ForProtectedResource<TRequest>(
             TRequest request)
             where TRequest : OAuthRequest;
     }

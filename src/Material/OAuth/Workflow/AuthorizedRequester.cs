@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient;
 using Foundations.HttpClient.Authenticators;
 using Foundations.HttpClient.Canonicalizers;
 using Foundations.HttpClient.Cryptography.Algorithms;
@@ -139,7 +140,7 @@ namespace Material.OAuth.Workflow
         /// <typeparam name="TRequest">Request to make to provider</typeparam>
         /// <param name="request"></param>
         /// <returns>Protected resource from provider</returns>
-        public Task<string> MakeOAuthRequestAsync<TRequest>(
+        public Task<HttpResponse> MakeOAuthRequestAsync<TRequest>(
             TRequest request)
             where TRequest : OAuthRequest, new()
         {

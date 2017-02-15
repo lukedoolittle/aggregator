@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,12 +19,14 @@ namespace Foundations.HttpClient
     public class HttpResponse
     {
         public HttpStatusCode StatusCode { get; }
+        public bool IsError { get; }
         public string Reason { get; }
         public IEnumerable<Cookie> Cookies { get; }
         public HttpResponseHeaders Headers { get; }
 
         private readonly HttpContent _content;
         private readonly MediaType _responseContentType;
+        private readonly IEnumerable<HttpStatusCode> _expectedResponses;
 
         private readonly DefaultingDictionary<string, Encoding> _encodings =
             new DefaultingDictionary<string, Encoding>(s => Encoding.UTF8)
@@ -37,11 +40,13 @@ namespace Foundations.HttpClient
         public HttpResponse(
             HttpResponseMessage response,
             IEnumerable cookies,
+            IEnumerable<HttpStatusCode> expectedResponses,
             MediaType? overriddenResponseMediaType)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             _content = response.Content;
+            _expectedResponses = expectedResponses;
             _responseContentType = 
                 overriddenResponseMediaType ??
                 response
@@ -51,6 +56,7 @@ namespace Foundations.HttpClient
                 ?.MediaType
                 ?.StringToEnum<MediaType>() ?? 
                 HttpConfiguration.DefaultResponseMediaType;
+            IsError = expectedResponses != null && !expectedResponses.Contains(response.StatusCode);
             Headers = response.Headers;
             StatusCode = response.StatusCode;
             Reason = response.ReasonPhrase;
@@ -59,6 +65,21 @@ namespace Foundations.HttpClient
 
         public async Task<string> ContentAsync()
         {
+            if (IsError)
+            {
+                var content = await _content
+                    .ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                throw new HttpRequestException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        StringResource.BadHttpRequestException,
+                        StatusCode,
+                        _expectedResponses.First(),
+                        content));
+            }
+
             var buffer = await _content
                 .ReadAsByteArrayAsync()
                 .ConfigureAwait(false);

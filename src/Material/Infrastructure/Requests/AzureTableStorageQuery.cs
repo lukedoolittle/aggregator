@@ -47,6 +47,20 @@ namespace Material.Infrastructure.Requests
         [DefaultFormatter()]
         public  String Filter { get; set; }
         /// <summary>
+        /// Continuation token for the next partition.
+        /// </summary>
+        [Name("NextPartitionKey")]
+        [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
+        public  String NextPartitionKey { get; set; }
+        /// <summary>
+        /// Continuation token for the next row.
+        /// </summary>
+        [Name("NextRowKey")]
+        [ParameterType(RequestParameterType.Query)]
+        [DefaultFormatter()]
+        public  String NextRowKey { get; set; }
+        /// <summary>
         /// Select statement for the query.
         /// </summary>
         [Name("$select")]

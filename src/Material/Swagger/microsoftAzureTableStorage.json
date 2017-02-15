@@ -33,6 +33,20 @@
                         "type": "string"
                     },
                     {
+                        "name": "NextPartitionKey",
+                        "in": "query",
+                        "description": "Continuation token for the next partition.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "NextRowKey",
+                        "in": "query",
+                        "description": "Continuation token for the next row.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "$select",
                         "in": "query",
                         "description": "Select statement for the query.",

@@ -32,12 +32,12 @@ namespace Material.OAuth.Authorization
             return CreateBuilder(request).ResultAsync<TResponse>();
         }
 
-        public Task<string> ForProtectedResource<TRequest>(TRequest request) 
+        public Task<HttpResponse> ForProtectedResource<TRequest>(TRequest request) 
             where TRequest : OAuthRequest
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
-            return CreateBuilder(request).ResultAsync();
+            return CreateBuilder(request).ExecuteAsync();
         }
 
         private HttpRequestBuilder CreateBuilder<TRequest>(TRequest request)
