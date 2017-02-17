@@ -106,6 +106,7 @@
     <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
     <Compile Include="Infrastructure\OAuthRequest.cs" />
     <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
+    <Compile Include="Infrastructure\Partials\AzureTableStorageBatch.cs" />
     <Compile Include="Infrastructure\Partials\AzureTableStorageNonQuery.cs" />
     <Compile Include="Infrastructure\Partials\AzureTableStorageQuery.cs" />
     <Compile Include="Infrastructure\Partials\Spotify.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Infrastructure\ProtectedResources\XamarinInsights.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
+    <Compile Include="Infrastructure\Requests\AzureTableStorageBatch.cs" />
     <Compile Include="Infrastructure\Requests\AzureTableStorageNonQuery.cs" />
     <Compile Include="Infrastructure\Requests\AzureTableStorageQuery.cs" />
     <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
@@ -188,6 +190,7 @@
     <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
     <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Infrastructure\Responses\XamarinEventResponse.cs" />
+    <Compile Include="Infrastructure\Responses\XamarinInsightsCrashResponse.cs" />
     <Compile Include="Infrastructure\Responses\XamarinSessionResponse.cs" />
     <Compile Include="Infrastructure\Responses\XamarinUserResponse.cs" />
     <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
@@ -434,6 +437,7 @@
 ..\Infrastructure\ProtectedResources\XamarinInsights.cs
 ..\Infrastructure\ProtectedResources\Yahoo.cs
 ..\Infrastructure\Requests\AmazonProfile.cs
+..\Infrastructure\Requests\AzureTableStorageBatch.cs
 ..\Infrastructure\Requests\AzureTableStorageNonQuery.cs
 ..\Infrastructure\Requests\AzureTableStorageQuery.cs
 ..\Infrastructure\Requests\FacebookEvent.cs

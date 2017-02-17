@@ -96,6 +96,7 @@
     <Compile Include="HttpResponse.cs" />
     <Compile Include="Authenticators\IAuthenticator.cs" />
     <Compile Include="ParameterHandlers\IParameterHandler.cs" />
+    <Compile Include="Request\BodyContent.cs" />
     <Compile Include="Request\CookieCollection.cs" />
     <Compile Include="Request\HeaderCollection.cs" />
     <Compile Include="Request\HttpClientSet.cs" />

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Material.Contracts;
 
 namespace Material.Infrastructure.Requests
 {
-    public partial class AzureTableStorageNonQuery
+    public partial class AzureTableStorageBatch
     {
         private string _storageAccountName;
 
-        public AzureTableStorageNonQuery SetAccount(
+        public AzureTableStorageBatch SetAccount(
             string accountName)
         {
             if (accountName == null) throw new ArgumentNullException(nameof(accountName));
@@ -27,15 +28,15 @@ namespace Material.Infrastructure.Requests
             return Host.Replace("ACCOUNTNAME", _storageAccountName);
         }
 
-        public AzureTableStorageNonQuery SetBody<TEntity>(TEntity entity)
+        public AzureTableStorageBatch SetBody<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : ITableStorageEntity
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            PartitionKey = entity.PartitionKey;
-            RowKey = entity.RowKey;
-
-            AddContent(entity);
+            foreach (var entity in entities)
+            {
+                AddContent(entity);
+            }
 
             return this;
         }

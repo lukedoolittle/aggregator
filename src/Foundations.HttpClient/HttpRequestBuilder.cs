@@ -208,7 +208,7 @@ namespace Foundations.HttpClient
             return this;
         }
 
-        public HttpRequestBuilder Content(
+        public HttpRequestBuilder SerializableContent(
             object bodyContent,
             MediaType mediaType,
             Encoding encoding)

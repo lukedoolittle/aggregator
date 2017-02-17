@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Foundations.Enums;
+using Foundations.HttpClient.Request;
 
 namespace Foundations.HttpClient.Extensions
 {
@@ -12,10 +13,7 @@ namespace Foundations.HttpClient.Extensions
             this HttpRequestBuilder instance, 
             object content)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             return instance.Content(
                 content,
@@ -23,20 +21,36 @@ namespace Foundations.HttpClient.Extensions
         }
 
         public static HttpRequestBuilder Content(
-            this HttpRequestBuilder instance, 
-            object newContent,
-            MediaType mediaType)
+            this HttpRequestBuilder instance,
+            IEnumerable<BodyContent> newContent)
         {
-            if (instance == null)
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (newContent == null) throw new ArgumentNullException(nameof(newContent));
+
+            foreach (var content in newContent)
             {
-                throw new ArgumentNullException(nameof(instance));
+                instance.Content(
+                    content.Content, 
+                    content.MediaType, 
+                    content.Encoding);
             }
+
+            return instance;
+        }
+
+        public static HttpRequestBuilder Content(
+            this HttpRequestBuilder instance,
+            object newContent,
+            MediaType mediaType,
+            Encoding encoding)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
 
             var bytes = newContent as byte[];
             if (bytes != null)
             {
                 return instance.RawContent(
-                    bytes, 
+                    bytes,
                     mediaType);
             }
 
@@ -44,14 +58,22 @@ namespace Foundations.HttpClient.Extensions
             if (stream != null)
             {
                 return instance.StreamingContent(
-                    stream, 
+                    stream,
                     mediaType);
             }
 
-            return instance.Content(
+            return instance.SerializableContent(
                 newContent,
                 mediaType,
-                Encoding.UTF8);
+                encoding);
+        }
+
+        public static HttpRequestBuilder Content(
+            this HttpRequestBuilder instance, 
+            object newContent,
+            MediaType mediaType)
+        {
+            return Content(instance, newContent, mediaType, Encoding.UTF8);
         }
 
         public static HttpRequestBuilder ResponseMediaTypes(

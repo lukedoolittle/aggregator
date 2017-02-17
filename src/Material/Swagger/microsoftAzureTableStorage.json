@@ -124,6 +124,39 @@
                     }
                 }
             }
+        },
+        "/$batch": {
+            "post": {
+                "summary": "",
+                "operationId": "AzureTableStorageBatch",
+                "description": "Batch transactions for Insert Entity, Update Entity, Merge Entity, Delete Entity, Insert Or Replace Entity, and Insert Or Merge Entity .\n",
+                "parameters": [
+                    {
+                        "name": "x-ms-version",
+                        "in": "header",
+                        "description": "Schema date",
+                        "required": true,
+                        "type": "string",
+                        "default": "2016-05-31"
+                    },
+                    {
+                        "name": "timeout",
+                        "in": "query",
+                        "description": "Timeout parameter in seconds.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "tags": [
+                    "Storage"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "An array of products"
+                    }
+                }
+            }
         }
     },
     "securityDefinitions": {

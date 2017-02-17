@@ -49,11 +49,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             var actualText = "hi i'm brian";
 
-            var request = new MicrosoftBingSpeechToText
-            {
-                Body = File.OpenRead("brian.wav"),
-                BodyType = MediaType.Wave
-            };
+            var request = new MicrosoftBingSpeechToText();
+            request.AddContent(File.OpenRead("brian.wav"), MediaType.Wave);
 
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<MicrosoftBingSpeechToText, MicrosoftBingSpeechResponse>(request)

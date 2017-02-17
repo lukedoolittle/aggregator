@@ -56,7 +56,9 @@ namespace Foundations.HttpClient
                 ?.MediaType
                 ?.StringToEnum<MediaType>() ?? 
                 HttpConfiguration.DefaultResponseMediaType;
-            IsError = expectedResponses != null && !expectedResponses.Contains(response.StatusCode);
+            IsError = expectedResponses != null 
+                && expectedResponses.Any() 
+                && !expectedResponses.Contains(response.StatusCode);
             Headers = response.Headers;
             StatusCode = response.StatusCode;
             Reason = response.ReasonPhrase;

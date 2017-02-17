@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using Foundations.Enums;
 using Foundations.Extensions;
+using Foundations.HttpClient.Request;
 using Material.Contracts;
 using Material.Enums;
 using Material.Metadata;
@@ -30,8 +32,29 @@ namespace Material.Infrastructure
         public IDictionary<string, string> PathParameters =>
             GetParameters(RequestParameterType.Path);
 
-        public object Body { get; set; }
-        public MediaType BodyType { get; set; } = MediaType.Json;
+        public MediaType DefaultContentType { get; set; } = MediaType.Json;
+
+        public IList<BodyContent> Content { get; } = 
+            new List<BodyContent>();
+
+        public void AddContent(object body)
+        {
+            Content.Add(new BodyContent(
+                body, 
+                DefaultContentType, 
+                Encoding.UTF8));
+        }
+
+        public void AddContent(
+            object body, 
+            MediaType bodyType)
+        {
+            Content.Add(new BodyContent(
+                body,
+                bodyType,
+                Encoding.UTF8));
+        }
+
         public MediaType? OverriddenResponseMediaType { get; set; }
 
         public virtual void AddUserIdParameter(string userId) { }

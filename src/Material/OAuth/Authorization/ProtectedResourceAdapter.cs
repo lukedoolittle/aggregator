@@ -59,9 +59,7 @@ namespace Material.OAuth.Authorization
                 .Authenticator(_authenticator)
                 .ThrowIfNotExpectedResponseCode(
                     request.ExpectedStatusCodes)
-                .Content(
-                    request.Body,
-                    request.BodyType)
+                .Content(request.Content)
                 .OverrideResponseMediaType(
                     request.OverriddenResponseMediaType);
         }

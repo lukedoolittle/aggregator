@@ -91,6 +91,50 @@ namespace Quantfabric.Test.Material.Interaction
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
+
+        [Fact]
+        public async void MakeRequestForMicrosoftTableMultiplePost()
+        {
+            var accountName = "musicnotes";
+            var tableName = "TestTable";
+            var timestamp = new DateTime(2016, 10, 03);
+
+            var credentials = new AccountKeyCredentials()
+                .AddAccountInformation(
+                    _appRepository.GetAccountName<AzureTableStorage>(),
+                    _appRepository.GetAccountKey<AzureTableStorage>(),
+                    new AzureTableStorage().KeyName);
+
+            var entity1 = new SampleTableStorageEntity("1", "1")
+            {
+                Name = "WillieDoolittle",
+                Timestamp = timestamp
+            };
+
+            var entity2 = new SampleTableStorageEntity("1", "2")
+            {
+                Name = "BillDoolittle",
+                Timestamp = timestamp
+            };
+
+            //TODO:
+            //Need to check that the partition key is the same on all entities
+            //How does the table name make it in there? how are those requests serialized???
+
+            var request = new AzureTableStorageBatch()
+            {
+            }.SetAccount(accountName);
+
+            request.SetBody(new List<SampleTableStorageEntity> {entity1, entity2});
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync(request)
+                .ConfigureAwait(false);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+
         #endregion Microsoft
 
         [Fact]
@@ -211,9 +255,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             var request = new OmnitureReporting
             {
-                Method = OmnitureReportingMethod.ReportQueue,
-                Body = body
+                Method = OmnitureReportingMethod.ReportQueue
             };
+            request.AddContent(body);
 
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureQueueResponse>(request)
@@ -228,9 +272,9 @@ namespace Quantfabric.Test.Material.Interaction
 
             request = new OmnitureReporting
             {
-                Method = OmnitureReportingMethod.ReportGet,
-                Body = getBody
+                Method = OmnitureReportingMethod.ReportGet
             };
+            request.AddContent(getBody);
 
             var getResponse = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<OmnitureReporting, OmnitureGetResponse>(request)
@@ -339,10 +383,8 @@ namespace Quantfabric.Test.Material.Interaction
                 }
             };
 
-            var request = new GoogleAnalyticsReports
-            {
-                Body = body
-            };
+            var request = new GoogleAnalyticsReports();
+            request.AddContent(request);
 
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleAnalyticsReports, GoogleAnalyticsReportsResponse>(request)
