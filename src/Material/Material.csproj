@@ -134,6 +134,7 @@
     <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
     <Compile Include="Infrastructure\ProtectedResources\XamarinInsights.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
+    <Compile Include="Infrastructure\ProtectedResources\YahooFlurry.cs" />
     <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
     <Compile Include="Infrastructure\Requests\AzureTableStorageBatch.cs" />
     <Compile Include="Infrastructure\Requests\AzureTableStorageNonQuery.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Infrastructure\Requests\XamarinInsightsEvents.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsSessions.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsUsers.cs" />
+    <Compile Include="Infrastructure\Requests\YahooFlurryMetrics.cs" />
     <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
     <Compile Include="Infrastructure\Responses\AzureTableStorageQueryResponse.cs" />
     <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
@@ -388,6 +390,7 @@
   <ItemGroup>
     <None Include="Swagger\amazon.json" />
     <None Include="Swagger\microsoftAzureTableStorage.json" />
+    <None Include="Swagger\yahooFlurry.json" />
     <None Include="Swagger\xamarinInsights.json" />
     <None Include="Swagger\yahoo.json" />
     <None Include="Swagger\microsoftBing.json" />
@@ -437,6 +440,7 @@
 ..\Infrastructure\ProtectedResources\Withings.cs
 ..\Infrastructure\ProtectedResources\XamarinInsights.cs
 ..\Infrastructure\ProtectedResources\Yahoo.cs
+..\Infrastructure\ProtectedResources\YahooFlurry.cs
 ..\Infrastructure\Requests\AmazonProfile.cs
 ..\Infrastructure\Requests\AzureTableStorageBatch.cs
 ..\Infrastructure\Requests\AzureTableStorageNonQuery.cs
@@ -488,6 +492,7 @@
 ..\Infrastructure\Requests\XamarinInsightsEvents.cs
 ..\Infrastructure\Requests\XamarinInsightsSessions.cs
 ..\Infrastructure\Requests\XamarinInsightsUsers.cs
+..\Infrastructure\Requests\YahooFlurryMetrics.cs
 .\Generator.cs
 </LastOutputs>
       <LastGenOutput>Generator.cs</LastGenOutput>

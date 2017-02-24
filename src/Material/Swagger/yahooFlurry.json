@@ -1,0 +1,78 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "YahooFlurry",
+        "description": "Yahoo Flurry API",
+        "termsOfService": "https://policies.yahoo.com/us/en/yahoo/terms/product-atos/apiforydn/index.htm",
+        "version": "v1.0"
+    },
+    "host": "api-metrics.flurry.com",
+    "basePath": "/public/v1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/data/{table}/{timeGrain}/{dimensions}": {
+            "get": {
+                "summary": "The API request comprises of elements that can be combined to query your analytics data.",
+                "description": "https://developer.yahoo.com/flurry/docs/api/code/analyticsapi/",
+                "operationId": "YahooFlurryMetrics",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "table",
+                        "description": "",
+                        "type": "string",
+                        "enum": [ "appUsage", "appEvent", "realtime" ],
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "timeGrain",
+                        "description": "",
+                        "type": "string",
+                        "enum": [ "day", "week", "month", "all" ],
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "dimensions",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "metrics",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "dateTime",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": []
+            }
+        }
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "apiKey",
+            "description": "Subscription Key Auth",
+            "name": "Bearer",
+            "in": "header"
+        }
+    },
+    "definitions": []
+}
