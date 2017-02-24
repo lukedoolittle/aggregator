@@ -181,6 +181,7 @@
     <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
     <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
     <Compile Include="Infrastructure\Requests\WithingsWeighIn.cs" />
+    <Compile Include="Infrastructure\Requests\XamarinInsightsCrashes.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsEvents.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsSessions.cs" />
     <Compile Include="Infrastructure\Requests\XamarinInsightsUsers.cs" />
@@ -483,6 +484,7 @@
 ..\Infrastructure\Requests\TwitterTweet.cs
 ..\Infrastructure\Requests\TwitterVerifyCredentials.cs
 ..\Infrastructure\Requests\WithingsWeighIn.cs
+..\Infrastructure\Requests\XamarinInsightsCrashes.cs
 ..\Infrastructure\Requests\XamarinInsightsEvents.cs
 ..\Infrastructure\Requests\XamarinInsightsSessions.cs
 ..\Infrastructure\Requests\XamarinInsightsUsers.cs

@@ -240,6 +240,48 @@
                     }
                 ]
             }
+        },
+        "/users/{appId}/issues": {
+            "get": {
+                "summary": "Get list of issues a user has",
+                "description": "",
+                "operationId": "XamarinInsightsCrashes",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "appId",
+                        "description": "Id of the app",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "userid",
+                        "description": "",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "",
+                        "type": "integer",
+                        "default": 50,
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "password": []
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {

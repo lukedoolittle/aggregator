@@ -77,7 +77,12 @@ namespace Foundations.HttpClient
         /// <summary>
         /// Default media type if none is given and response does not contain a Content-Type header
         /// </summary>
-        public static MediaType DefaultResponseMediaType { get; } = MediaType.Json;
+        public static MediaType DefaultResponseMediaType { get; set; } = MediaType.Json;
+
+        /// <summary>
+        /// Timeout for HTTP requests
+        /// </summary>
+        public static int RequestTimeoutInSeconds { get; set; } = 30;
     }
 
 
@@ -106,7 +111,11 @@ namespace Foundations.HttpClient
                 if (!_clients.ContainsKey(key))
                 {
                     var handler = clientHandlerFactory(request);
-                    var client = new System.Net.Http.HttpClient(handler);
+                    var client = new System.Net.Http.HttpClient(handler)
+                    {
+                        Timeout = TimeSpan.FromSeconds(
+                            HttpConfiguration.RequestTimeoutInSeconds)
+                    };
                     _clients.AddOrUpdate(
                         key,
                         new Tuple<System.Net.Http.HttpClient, HttpClientHandler>(client, handler),
