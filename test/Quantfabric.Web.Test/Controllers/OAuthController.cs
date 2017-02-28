@@ -35,7 +35,7 @@ namespace Quantfabric.Web.Test.Controllers
                     Request.Cookies["userId"]?.Values["userId"])
                 .ConfigureAwait(false);
 
-            FacebookUserResponse user = await new OAuthRequester(fullCredentials)
+            FacebookUserResponse user = await new AuthorizedRequester(fullCredentials)
                 .MakeOAuthRequestAsync<FacebookUser, FacebookUserResponse>()
                 .ConfigureAwait(false);
 

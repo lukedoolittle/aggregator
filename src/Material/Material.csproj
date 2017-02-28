@@ -110,6 +110,7 @@
     <Compile Include="Infrastructure\Partials\AzureTableStorageNonQuery.cs" />
     <Compile Include="Infrastructure\Partials\AzureTableStorageQuery.cs" />
     <Compile Include="Infrastructure\Partials\Spotify.cs" />
+    <Compile Include="Infrastructure\Partials\YahooFlurryMetrics.cs" />
     <Compile Include="Infrastructure\PasswordResourceProvider.cs" />
     <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
     <Compile Include="Infrastructure\ProtectedResources\AzureTableStorage.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Infrastructure\Responses\XamarinInsightsCrashResponse.cs" />
     <Compile Include="Infrastructure\Responses\XamarinSessionResponse.cs" />
     <Compile Include="Infrastructure\Responses\XamarinUserResponse.cs" />
+    <Compile Include="Infrastructure\Responses\YahooFlurryMetricsResponse.cs" />
     <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\ApiKey.cs" />
     <Compile Include="OAuth\AuthenticatorParameters\GenericParameter.cs" />

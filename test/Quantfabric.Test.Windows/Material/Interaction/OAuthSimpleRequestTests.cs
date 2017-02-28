@@ -28,6 +28,35 @@ namespace Quantfabric.Test.Material.Interaction
         private readonly AppCredentialRepository _appRepository
             = new AppCredentialRepository(CallbackType.Localhost);
 
+        #region Yahoo
+
+        [Fact]
+        public async void MakeRequestForYahooFlurryMetrics()
+        {
+            var credentials = _appRepository.GetApiKeyCredentials<YahooFlurry>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new YahooFlurryMetrics
+            {
+                Table = YahooFlurryMetricsTable.AppUsage,
+                TimeGrain = YahooFlurryMetricsTimeGrain.Day
+            };
+            request.AddDimension(YahooFlurryMetricsDimension.App)
+                .AddDimension(YahooFlurryMetricsDimension.Region)
+                .AddMetric(YahooFlurryMetricsMetrics.Sessions)
+                .AddMetric(YahooFlurryMetricsMetrics.TimeSpent)
+                .AddDateRange(new DateTime(2017, 02, 01), new DateTime(2017, 02, 28));
+            
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<YahooFlurryMetrics, YahooFlurryMetricsResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        #endregion Yahoo
+
         #region Microsoft
 
         [Fact]
@@ -137,6 +166,8 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion Microsoft
 
+        #region Xamarin Insights
+
         [Fact]
         public async void MakeRequestForXamarinInsightsUsersThenSessionsThenEvents()
         {
@@ -190,6 +221,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             Assert.NotNull(eventsResponse.Hits.Hits.First());
         }
+
+        #endregion Xamarin Insights
 
         #region Linkedin Requests
 
@@ -285,6 +318,8 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion Omniture
 
+        #region Amazon
+
         [Fact]
         public async void MakeRequestForAmazonProfile()
         {
@@ -299,6 +334,10 @@ namespace Quantfabric.Test.Material.Interaction
             Assert.NotNull(response.UserId);
         }
 
+        #endregion Amazon
+
+        #region Tumblr
+
         [Fact]
         public async void MakeRequestForTumblrLikes()
         {
@@ -312,6 +351,10 @@ namespace Quantfabric.Test.Material.Interaction
 
             Assert.NotNull(response);
         }
+
+        #endregion Tumblr
+
+        #region Withings
 
         [Fact]
         public async void MakeRequestForWithingsWeighins()
@@ -331,6 +374,8 @@ namespace Quantfabric.Test.Material.Interaction
 
             Assert.NotNull(response);
         }
+
+        #endregion Withings
 
         #region Google Requests
 
@@ -485,6 +530,8 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion Rescuetime Requests
 
+        #region Runkeeper
+
         [Fact]
         public async void MakeRequestForRunkeeperFitnessActivities()
         {
@@ -501,6 +548,8 @@ namespace Quantfabric.Test.Material.Interaction
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #endregion Runkeeper
 
         #region 23AndMe Requests
 
@@ -537,6 +586,8 @@ namespace Quantfabric.Test.Material.Interaction
 
         #endregion 23AndMe Requests
 
+        #region Spotify
+
         [Fact]
         public async void MakeRequestForSpotifyPlayList()
         {
@@ -550,6 +601,8 @@ namespace Quantfabric.Test.Material.Interaction
                 .ConfigureAwait(false);
             Assert.NotNull(response);
         }
+
+        #endregion Spotify
 
         #region Foursquare Requests
 
