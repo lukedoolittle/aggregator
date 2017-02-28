@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Globalization;
 using System.Linq;
 using Foundations.Attributes;
@@ -60,6 +61,7 @@ namespace Material.Infrastructure.Requests
         }
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     public enum YahooFlurryMetricsDimension
     {
         [Description("company")] Company,
@@ -72,6 +74,7 @@ namespace Material.Infrastructure.Requests
         [Description("events")] Events
     }
 
+    [GeneratedCode("T4Toolbox", "14.0")]
     public enum YahooFlurryMetricsMetrics
     {
         [Description("sessions")] Sessions,

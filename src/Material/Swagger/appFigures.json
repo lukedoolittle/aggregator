@@ -1,0 +1,120 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "AppFigures",
+        "description": "AppFigures API",
+        "termsOfService": "http://docs.appfigures.com/api/terms",
+        "version": "v2.0"
+    },
+    "host": "api.appfigures.com",
+    "basePath": "/v2",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/reports/sales": {
+            "get": {
+                "summary": "The /reports/sales resource provides comprehensive access to sales reports. Reports can be generated in a variety of formats",
+                "description": "http://docs.appfigures.com/api/reference/v2/sales",
+                "operationId": "AppFiguresSales",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "group_by",
+                        "description": "One or more pivots separated by a comma (,). Available pivots: product, country, date, and store",
+                        "type": "string",
+                        "enum": [ "product", "country", "date", "store" ],
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "start_date",
+                        "description": "Date, inclusive, to start reporting from. If you specify a granularity other than daily this will be rounded down to the nearest period. default: a long, long time ago.",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "end_date",
+                        "description": "Date, inclusive, to stop reporting. If you specify a granularity other than daily this will be rounded up to the nearset period. default: distant future",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "granularity",
+                        "description": "How to group dates. This affects how start_date and end_date are rounded (they snap to lower and upper barriers of the type given by this parameter) default: daily",
+                        "type": "string",
+                        "enum": [ "daily", "weekly", "monthly", "yearly" ],
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "products",
+                        "description": "specific products to include in the response, default: all products in account",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "countries",
+                        "description": "Countries to limit the report to (can be taken from /data/countries, default: include all countries) ",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "dataset",
+                        "description": "If this is set to financial, use financial reports. This only applies to Apple products, default: none",
+                        "type": "string",
+                        "enum": [ "none", "financial" ],
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_inapps",
+                        "description": "If set to true any products given in product_ids will have their children automatically selected as well. default: false) ",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "format",
+                        "description": "The desired response format.",
+                        "type": "string",
+                        "enum": [ "csv", "json" ],
+                        "default": "json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth1": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth1": {
+            "type": "oauth1",
+            "description": "OAuth1a Flow",
+            "requestUrl": "https://api.appfigures.com/v2/oauth/request_token",
+            "authorizationUrl": "https://api.appfigures.com/v2/oauth/authorize",
+            "tokenUrl": "https://api.appfigures.com/v2/oauth/access_token",
+            "in": "body",
+            "x-custom-scheme-support": false
+        }
+    },
+    "definitions": []
+}
+

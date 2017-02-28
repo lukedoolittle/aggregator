@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using Foundations.HttpClient;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Contracts;
@@ -27,6 +25,31 @@ namespace Quantfabric.Test.Material.Interaction
             = new TokenCredentialRepository(true);
         private readonly AppCredentialRepository _appRepository
             = new AppCredentialRepository(CallbackType.Localhost);
+
+        #region AppFigures
+
+        [Fact]
+        public async void MakeRequestForAppFiguresSales()
+        {
+            var credentials = _tokenRepository.GetToken<AppFigures, OAuth1Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new AppFiguresSales
+            {
+                StartDate = new DateTime(2017, 02, 01),
+                EndDate = new DateTime(2017, 02, 28),
+                Granularity = AppFiguresSalesGranularity.Daily,
+                GroupBy = AppFiguresSalesGroupBy.Product
+            };
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<AppFiguresSales, AppFiguresSalesResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        #endregion AppFigures
 
         #region Yahoo
 
@@ -125,7 +148,7 @@ namespace Quantfabric.Test.Material.Interaction
         public async void MakeRequestForMicrosoftTableMultiplePost()
         {
             var accountName = "musicnotes";
-            var tableName = "TestTable";
+            //var tableName = "TestTable";
             var timestamp = new DateTime(2016, 10, 03);
 
             var credentials = new AccountKeyCredentials()

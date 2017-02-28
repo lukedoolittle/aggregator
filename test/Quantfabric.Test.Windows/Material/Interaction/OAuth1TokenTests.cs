@@ -93,5 +93,23 @@ namespace Quantfabric.Test.Material.Interaction
             _tokenRepository.PutToken<Tumblr, OAuth1Credentials>(token);
         }
 
+        [Fact]
+        public async void CanGetValidAccessTokenFromAppFigures()
+        {
+            var consumerKey = _appRepository.GetConsumerKey<AppFigures>();
+            var consumerSecret = _appRepository.GetConsumerSecret<AppFigures>();
+            var redirectUri = _appRepository.GetRedirectUri<AppFigures>();
+
+            var token = await new OAuth1App<AppFigures>(
+                        consumerKey,
+                        consumerSecret,
+                        redirectUri)
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, false));
+
+            _tokenRepository.PutToken<AppFigures, OAuth1Credentials>(token);
+        }
     }
 }
