@@ -251,6 +251,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The security parameter {0} already exists for userId {1}. (Did the same user try to authorize twice without completing the workflow?).
+        /// </summary>
+        public static string SecurityParameterAlreadyExists {
+            get {
+                return ResourceManager.GetString("SecurityParameterAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot exchange client access token for long lived access token.
         /// </summary>
         public static string ShortTermAccessTokenExchangeException {

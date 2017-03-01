@@ -195,4 +195,7 @@
   <data name="WebProgressDialogText" xml:space="preserve">
     <value>Loading login page</value>
   </data>
+  <data name="SecurityParameterAlreadyExists" xml:space="preserve">
+    <value>The security parameter {0} already exists for userId {1}. (Did the same user try to authorize twice without completing the workflow?)</value>
+  </data>
 </root>

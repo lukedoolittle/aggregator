@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Security;
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Material.Contracts;
@@ -16,6 +18,9 @@ namespace Material.OAuth.Security
             TimeSpan cryptographicParameterTimeout,
             ICryptoStringGenerator stringGenerator)
         {
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
+            if (stringGenerator == null) throw new ArgumentNullException(nameof(stringGenerator));
+
             _cryptographicParameterTimeout = cryptographicParameterTimeout;
             _repository = repository;
             _stringGenerator = stringGenerator;
@@ -34,11 +39,28 @@ namespace Material.OAuth.Security
             string userId, 
             string parameterName)
         {
-            return GetOrSetCrypto(
-                _repository, 
-                userId, 
-                parameterName, 
-                _cryptographicParameterTimeout);
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
+
+            var parameterValue = GetParameter(
+                userId,
+                parameterName);
+
+            if (parameterValue == null)
+            {
+                var cryptoParameter = _stringGenerator.CreateRandomString(
+                    32,
+                    CryptoStringType.Base64Alphanumeric);
+
+                SetSecureParameter(
+                    userId, 
+                    parameterName, 
+                    cryptoParameter);
+
+                return cryptoParameter;
+            }
+
+            return parameterValue;
         }
 
         public void SetSecureParameter(
@@ -46,11 +68,25 @@ namespace Material.OAuth.Security
             string parameterName, 
             string parameterValue)
         {
-            _repository.SetCryptographicParameterValue(
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
+            if (parameterValue == null) throw new ArgumentNullException(nameof(parameterValue));
+
+            var success = _repository.TryInsertCryptographicParameterValue(
                 userId, 
                 parameterName, 
                 parameterValue, 
                 DateTimeOffset.Now);
+
+            if (!success)
+            {
+                throw new SecurityException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        StringResources.SecurityParameterAlreadyExists,
+                        parameterName,
+                        userId));
+            }
         }
 
         public bool IsSecureParameterValid(
@@ -58,99 +94,43 @@ namespace Material.OAuth.Security
             string parameterName, 
             string parameterValue)
         {
-            return CheckCrypto(
-                _repository, 
-                userId, 
-                parameterName, 
-                parameterValue,
-                _cryptographicParameterTimeout);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="THash">Sha512, Sha256, Sha5</typeparam>
-        /// <param name="currentCryptos">List of the currently valid cryptos</param>
-        /// <param name="parameterName">Name of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
-        /// <param name="timeout">Expiration time for the parameter</param>
-        /// <returns></returns>
-        private string GetOrSetCrypto(
-            ICryptographicParameterRepository currentCryptos,
-            string userId,
-            string parameterName,
-            TimeSpan timeout)
-        {
-            var parameterValue = currentCryptos.GetCryptographicParameterValue(
-                userId, 
-                parameterName);
-
-            if (parameterValue != null &&
-                DateTimeOffset.Now - timeout > parameterValue.Item2)
-            {
-                currentCryptos.DeleteCryptographicParameterValue(
-                    userId,
-                    parameterName);
-                parameterValue = null;
-            }
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
 
             if (parameterValue == null)
             {
-                var cryptoParameter = _stringGenerator.CreateRandomString(
-                    32, 
-                    CryptoStringType.Base64Alphanumeric);
-
-                currentCryptos.SetCryptographicParameterValue(
-                    userId,
-                    parameterName,
-                    cryptoParameter,
-                    DateTimeOffset.Now);
-
-                return cryptoParameter;
+                return false;
             }
 
-            return parameterValue.Item1;
+            return parameterValue == GetParameter(
+                userId,
+                parameterName);
         }
 
-        /// <summary>
-        /// Checks given crypto list and determines if given secure parameter is valid
-        /// </summary>
-        /// <param name="repository">List of the currently valid cryptos</param>
-        /// <param name="parameterName">Name of the cryptographic parameter</param>
-        /// <param name="parameterValue">Returned value of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
-        /// <param name="timeout">Expiration time for the parameter</param>
-        /// <returns>False if the parameter is incorrect or expected and missing, True otherwise</returns>
-        protected static bool CheckCrypto(
-            ICryptographicParameterRepository repository,
+        private string GetParameter(
             string userId,
-            string parameterName,
-            string parameterValue,
-            TimeSpan timeout)
+            string parameterName)
         {
-            if (repository == null) throw new ArgumentNullException(nameof(repository));
-
-            var expectedParameterValue = repository.GetCryptographicParameterValue(
+            var parameterValue = _repository.GetCryptographicParameterValue(
                 userId,
                 parameterName);
 
-            if (expectedParameterValue == null)
+            if (parameterValue == null)
             {
-                return false;
+                return null;
             }
-            else if (DateTimeOffset.Now - timeout > expectedParameterValue.Item2)
+            else if (DateTimeOffset.Now - _cryptographicParameterTimeout > parameterValue.Item2)
             {
-                repository.DeleteCryptographicParameterValue(
+                _repository.DeleteCryptographicParameterValue(
                     userId,
                     parameterName);
 
-                return false;
+                return null;
             }
             else
             {
-                return parameterValue == expectedParameterValue.Item1;
+                return parameterValue.Item1;
             }
         }
-
     }
 }

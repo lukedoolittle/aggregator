@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 using System.Threading;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
@@ -92,6 +93,50 @@ namespace Quantfabric.Test.Material.Unit
                 null);
 
             Assert.False(actual);
+        }
+
+        [Fact]
+        public void SettingSecureParameterAndThenGettingParameterReturnsSameValue()
+        {
+            var target = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+            var userId = Guid.NewGuid().ToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
+            var expected = Guid.NewGuid().ToString();
+
+            target.SetSecureParameter(
+                userId, 
+                parameterName, 
+                expected);
+
+            var actual = target.CreateOrGetSecureParameter(
+                userId,
+                parameterName);
+
+            Assert.Equal(actual, expected);
+        }
+
+        [Fact]
+        public void SettingSecureParameterTwiceThrowsException()
+        {
+            var target = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+            var userId = Guid.NewGuid().ToString();
+            var parameterName = OAuth2Parameter.State.EnumToString();
+            var expected = Guid.NewGuid().ToString();
+
+            target.SetSecureParameter(
+                userId,
+                parameterName,
+                expected);
+
+            Assert.Throws<SecurityException>(() => 
+                target.SetSecureParameter(
+                    userId,
+                    parameterName,
+                    expected));
         }
 
         [Fact]
