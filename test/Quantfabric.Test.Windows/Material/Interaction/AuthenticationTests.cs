@@ -145,7 +145,7 @@ namespace Quantfabric.Test.Material.Interaction
             var tokenValidity = validator.IsTokenValid(token);
 
             Assert.True(tokenValidity.IsTokenValid);
-            Assert.Equal(credentials.UserId, token.Claims.Subject);
+            Assert.Equal(credentials.ExternalUserId, token.Claims.Subject);
         }
 
         private JsonWebTokenParameters GenerateRandomParameters(

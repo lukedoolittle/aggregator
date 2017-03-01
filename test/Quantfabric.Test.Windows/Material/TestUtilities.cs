@@ -14,7 +14,7 @@ namespace Quantfabric.Test.Integration
             OAuth1Credentials token,
             bool shouldContainUserId)
         {
-            if (shouldContainUserId && string.IsNullOrEmpty(token?.UserId))
+            if (shouldContainUserId && string.IsNullOrEmpty(token?.ExternalUserId))
             {
                 return false;
             }

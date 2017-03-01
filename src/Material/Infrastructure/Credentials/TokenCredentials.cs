@@ -20,7 +20,7 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "userid", EmitDefaultValue = false)]
         protected string _userId2;
 
-        public string UserId => _userId1 ?? _userId2;
+        public string ExternalUserId => _userId1 ?? _userId2;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
         [DataMember(Name = "created_at", EmitDefaultValue = false)]

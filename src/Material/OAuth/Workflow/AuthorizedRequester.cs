@@ -92,7 +92,7 @@ namespace Material.OAuth.Workflow
                         new OAuth1Canonicalizer())),
                 HttpParameterType.Querystring);
 
-            _userId = credentials.UserId;
+            _userId = credentials.ExternalUserId;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Material.OAuth.Workflow
                             credentials.TokenName)), 
                 HttpParameterType.Querystring);
 
-            _userId = credentials.UserId;
+            _userId = credentials.ExternalUserId;
         }
 
         /// <summary>
