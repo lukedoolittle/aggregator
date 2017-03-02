@@ -144,7 +144,7 @@ namespace Quantfabric.Test.Material.Interaction
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
-        [Fact]
+        [Fact(Skip="This isn't implemented")]
         public async void MakeRequestForMicrosoftTableMultiplePost()
         {
             var accountName = "musicnotes";
@@ -452,7 +452,7 @@ namespace Quantfabric.Test.Material.Interaction
             };
 
             var request = new GoogleAnalyticsReports();
-            request.AddContent(request);
+            request.AddContent(body);
 
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<GoogleAnalyticsReports, GoogleAnalyticsReportsResponse>(request)

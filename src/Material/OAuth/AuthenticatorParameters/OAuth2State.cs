@@ -12,7 +12,7 @@ namespace Material.OAuth.AuthenticatorParameters
         private readonly string _userId;
 
         public string Name => OAuth2Parameter.State.EnumToString();
-        public string Value => _securityStrategy.CreateOrGetSecureParameter(_userId, Name);
+        public string Value => _securityStrategy.CreateSecureParameter(_userId, Name);
         public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth2State(

@@ -198,4 +198,7 @@
   <data name="SecurityParameterAlreadyExists" xml:space="preserve">
     <value>The security parameter {0} already exists for userId {1}. (Did the same user try to authorize twice without completing the workflow?)</value>
   </data>
+  <data name="SecurityParameterDoesNotExist" xml:space="preserve">
+    <value>The security parameter {0} does not exist for userId {1}</value>
+  </data>
 </root>

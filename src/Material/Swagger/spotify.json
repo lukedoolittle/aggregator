@@ -69,7 +69,7 @@
             "description": "OAuth2 Implicit Grant",
             "flow": "implicit",
             "authorizationUrl": "https://accounts.spotify.com/authorize",
-            "x-token-name": "Bearer",
+            "name": "Bearer",
             "x-response-types": [ "token" ],
             "x-custom-scheme-support": true,
             "scopes": {

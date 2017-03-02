@@ -56,7 +56,8 @@ namespace Material.OAuth
                 new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                @interface);
+                @interface,
+                Guid.NewGuid().ToString());
         }
 
         /// <summary>

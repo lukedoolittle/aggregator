@@ -26,7 +26,7 @@ namespace Material.Infrastructure.ProtectedResources
         public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
         public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
         public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.Code };
-        public override string TokenName { get; } = " ";
+        public override string TokenName { get; } = "Bearer";
         public override Uri AuthorizationUrl { get; } = new Uri("https://accounts.spotify.com/authorize");
         public override Uri TokenUrl { get; } = new Uri("https://accounts.spotify.com/api/token");
         public override bool SupportsPkce { get; } = false;

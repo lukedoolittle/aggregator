@@ -17,7 +17,7 @@ namespace Material.OAuth.Security
             if (securityStrategy == null) throw new ArgumentNullException(nameof(securityStrategy));
             if (userId == null) throw new ArgumentNullException(nameof(userId));
 
-            var verifier = securityStrategy.CreateOrGetSecureParameter(
+            var verifier = securityStrategy.CreateSecureParameter(
                 userId,
                 OAuth2Parameter.Verifier.EnumToString());
 

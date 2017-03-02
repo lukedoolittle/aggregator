@@ -25,6 +25,7 @@ namespace Material.OAuth.Workflow
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
         /// </summary>
+        /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
         /// <param name="resourceProvider">Endpoint information for the resource provider</param>
         /// <param name="callbackHandler">Handles the authorization uris callback response</param>

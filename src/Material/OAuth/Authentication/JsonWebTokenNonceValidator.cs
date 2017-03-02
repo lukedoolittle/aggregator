@@ -18,7 +18,7 @@ namespace Material.OAuth.Authentication
             if (securityStrategy == null) throw new ArgumentNullException(nameof(securityStrategy));
             if (userId == null) throw new ArgumentNullException(nameof(userId));
 
-            _nonce = securityStrategy.CreateOrGetSecureParameter(
+            _nonce = securityStrategy.GetSecureParameter(
                 userId,
                 OAuth2Parameter.Nonce.EnumToString());
         }

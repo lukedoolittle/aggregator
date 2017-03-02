@@ -128,7 +128,7 @@ namespace Material.OAuth.Facade
                 return intermediateResult;
             }
 
-            var oauthSecret = _securityStrategy.CreateOrGetSecureParameter(
+            var oauthSecret = _securityStrategy.GetSecureParameter(
                 userId,
                 OAuth1Parameter.OAuthTokenSecret.EnumToString());
 

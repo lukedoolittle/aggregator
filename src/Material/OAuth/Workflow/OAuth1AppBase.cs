@@ -26,6 +26,7 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthorizationInterface _browserType;
         private readonly TResourceProvider _provider;
+        private readonly string _userId;
 
         public OAuth1AppBase(
             string consumerKey,
@@ -33,7 +34,8 @@ namespace Material.OAuth.Workflow
             Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthorizationInterface browserType)
+            AuthorizationInterface browserType,
+            string userId)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -41,6 +43,7 @@ namespace Material.OAuth.Workflow
             _uiFactory = uiFactory;
             _provider = provider;
             _browserType = browserType;
+            _userId = userId;
         }
 
         /// <summary>
@@ -50,8 +53,6 @@ namespace Material.OAuth.Workflow
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public virtual Task<OAuth1Credentials> GetCredentialsAsync()
         {
-            var userId = Guid.NewGuid().ToString();
-
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -83,7 +84,7 @@ namespace Material.OAuth.Workflow
                 facade,
                 facade);
 
-            return template.GetAccessTokenCredentials(userId);
+            return template.GetAccessTokenCredentials(_userId);
         }
     }
 }

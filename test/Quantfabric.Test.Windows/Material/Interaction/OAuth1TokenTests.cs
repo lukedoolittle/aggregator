@@ -1,7 +1,10 @@
-﻿using Material.Contracts;
+﻿using System;
+using Material.Contracts;
+using Material.Enums;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
@@ -16,6 +19,36 @@ namespace Quantfabric.Test.Material.Interaction
             new AppCredentialRepository(CallbackType.Localhost);
         private readonly TokenCredentialRepository _tokenRepository = 
             new TokenCredentialRepository(true);
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromTwitterTwiceForSameUser()
+        {
+            var consumerKey = _appRepository.GetConsumerKey<Twitter>();
+            var consumerSecret = _appRepository.GetConsumerSecret<Twitter>();
+            var redirectUri = _appRepository.GetRedirectUri<Twitter>();
+            var userId = Guid.NewGuid().ToString();
+
+            var app = new OAuth1AppBase<Twitter>(
+                consumerKey,
+                consumerSecret,
+                new Uri(redirectUri),
+                new OAuthAuthorizerUIFactory(),
+                new Twitter(),
+                AuthorizationInterface.NotSpecified,
+                userId);
+
+            var token = await app
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            token = await app
+                    .GetCredentialsAsync()
+                    .ConfigureAwait(false);
+
+            Assert.True(TestUtilities.IsValidOAuth1Token(token, true));
+
+            _tokenRepository.PutToken<Twitter, OAuth1Credentials>(token);
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwitter()

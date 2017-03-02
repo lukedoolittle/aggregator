@@ -13,7 +13,7 @@ namespace Material.OAuth.AuthenticatorParameters
         private readonly string _oauthToken;
 
         public string Name => OAuth1Parameter.OAuthToken.EnumToString();
-        public string Value => _securityStrategy?.CreateOrGetSecureParameter(_userId, Name) ?? _oauthToken;
+        public string Value => _securityStrategy?.GetSecureParameter(_userId, Name) ?? _oauthToken;
         public HttpParameterType Type => HttpParameterType.Unspecified;
 
         public OAuth1Token(string oauthToken)

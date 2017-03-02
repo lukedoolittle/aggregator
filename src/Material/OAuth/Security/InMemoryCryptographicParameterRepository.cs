@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Material.Contracts;
 
 namespace Material.OAuth.Security
@@ -36,7 +37,6 @@ namespace Material.OAuth.Security
             Tuple<string, DateTimeOffset> value = null;
             _dictionary.TryGetValue(new Tuple<string, string>(userId, parameterName), out value);
             return value;
-
         }
 
         public void DeleteCryptographicParameterValue(
@@ -44,6 +44,18 @@ namespace Material.OAuth.Security
             string parameterName)
         {
             _dictionary.Remove(new Tuple<string, string>(userId, parameterName));
+        }
+
+        public void DeleteCryptographicParameterValues(string userId)
+        {
+            var itemsToRemove = _dictionary
+                .Where(i => i.Key.Item1 == userId)
+                .ToArray();
+
+            foreach (var item in itemsToRemove)
+            {
+                _dictionary.Remove(item.Key);
+            }
         }
     }
 }

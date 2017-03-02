@@ -36,5 +36,11 @@ namespace Material.Contracts
         void DeleteCryptographicParameterValue(
             string userId, 
             string parameterName);
+
+        /// <summary>
+        /// Removes all crypto parameters from the repository by the primary key of userId
+        /// </summary>
+        /// <param name="userId">The primary key</param>
+        void DeleteCryptographicParameterValues(string userId);
     }
 }

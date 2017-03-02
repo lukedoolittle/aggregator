@@ -12,7 +12,7 @@ namespace Quantfabric.Test.Material.Unit
     public class OAuthSecurityManagerTests
     {
         [Fact]
-        public void GettingParameterValueForUserTwiceReturnsSameParameterValue()
+        public void CreatingThenGettingParameterValueForUserReturnsSameParameterValue()
         {
             var target = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
@@ -20,13 +20,13 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            var expected = target.CreateOrGetSecureParameter(
+            var expected = target.CreateSecureParameter(
                 userId, 
                 parameterName);
 
             Assert.NotNull(expected);
 
-            var actual = target.CreateOrGetSecureParameter(
+            var actual = target.GetSecureParameter(
                 userId,
                 parameterName);
 
@@ -42,14 +42,14 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            var expected = target.CreateOrGetSecureParameter(
+            var expected = target.CreateSecureParameter(
                 userId,
                 parameterName);
 
             Assert.NotNull(expected);
             Thread.Sleep(2000);
 
-            var actual = target.CreateOrGetSecureParameter(
+            var actual = target.CreateSecureParameter(
                 userId,
                 parameterName);
 
@@ -83,7 +83,7 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            target.CreateOrGetSecureParameter(
+            target.CreateSecureParameter(
                 userId,
                 parameterName);
 
@@ -110,7 +110,7 @@ namespace Quantfabric.Test.Material.Unit
                 parameterName, 
                 expected);
 
-            var actual = target.CreateOrGetSecureParameter(
+            var actual = target.GetSecureParameter(
                 userId,
                 parameterName);
 
@@ -140,6 +140,42 @@ namespace Quantfabric.Test.Material.Unit
         }
 
         [Fact]
+        public void SettingSecureParametersAndThenClearingParametersReturnsNewValue()
+        {
+            var target = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(2));
+            var userId = Guid.NewGuid().ToString();
+            var parameterOne = OAuth1Parameter.Verifier.EnumToString();
+            var notExpectedOne = Guid.NewGuid().ToString();
+            var parameterTwo = OAuth2Parameter.OAuthToken.EnumToString();
+            var notExpectedTwo = Guid.NewGuid().ToString();
+
+            target.SetSecureParameter(
+                userId,
+                parameterOne,
+                notExpectedOne);
+
+            target.SetSecureParameter(
+                userId,
+                parameterTwo,
+                notExpectedTwo);
+
+            target.ClearSecureParameters(userId);
+
+            var actualOne = target.CreateSecureParameter(
+                userId,
+                parameterOne);
+
+            var actualTwo = target.CreateSecureParameter(
+                userId,
+                parameterTwo);
+
+            Assert.NotEqual(notExpectedOne, actualOne);
+            Assert.NotEqual(notExpectedTwo, actualTwo);
+        }
+
+        [Fact]
         public void CheckingNoParameterValueWhenNoParameterValueExistsReturnsFalse()
         {
             var target = new OAuthSecurityStrategy(
@@ -165,7 +201,7 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            var expected = target.CreateOrGetSecureParameter(
+            var expected = target.CreateSecureParameter(
                 userId,
                 parameterName);
 
@@ -188,7 +224,7 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            var expected = target.CreateOrGetSecureParameter(
+            var expected = target.CreateSecureParameter(
                 userId,
                 parameterName);
 
@@ -209,7 +245,7 @@ namespace Quantfabric.Test.Material.Unit
             var userId = Guid.NewGuid().ToString();
             var parameterName = OAuth2Parameter.State.EnumToString();
 
-            var expected = target.CreateOrGetSecureParameter(
+            var expected = target.CreateSecureParameter(
                 userId,
                 parameterName);
 

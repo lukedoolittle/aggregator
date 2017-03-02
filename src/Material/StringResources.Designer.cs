@@ -260,6 +260,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The security parameter {0} does not exist for userId {1}.
+        /// </summary>
+        public static string SecurityParameterDoesNotExist {
+            get {
+                return ResourceManager.GetString("SecurityParameterDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot exchange client access token for long lived access token.
         /// </summary>
         public static string ShortTermAccessTokenExchangeException {

@@ -35,8 +35,8 @@ namespace Material.OAuth.Security
                     new CryptoStringGenerator())
         { }
 
-        public string CreateOrGetSecureParameter(
-            string userId, 
+        public string GetSecureParameter(
+            string userId,
             string parameterName)
         {
             if (userId == null) throw new ArgumentNullException(nameof(userId));
@@ -48,19 +48,36 @@ namespace Material.OAuth.Security
 
             if (parameterValue == null)
             {
-                var cryptoParameter = _stringGenerator.CreateRandomString(
-                    32,
-                    CryptoStringType.Base64Alphanumeric);
-
-                SetSecureParameter(
-                    userId, 
-                    parameterName, 
-                    cryptoParameter);
-
-                return cryptoParameter;
+                throw new SecurityException(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        StringResources.SecurityParameterDoesNotExist,
+                        parameterName,
+                        userId));
             }
+            else
+            {
+                return parameterValue;
+            }
+        }
 
-            return parameterValue;
+        public string CreateSecureParameter(
+            string userId, 
+            string parameterName)
+        {
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
+
+            var cryptoParameter = _stringGenerator.CreateRandomString(
+                32,
+                CryptoStringType.Base64Alphanumeric);
+
+            SetSecureParameter(
+                userId, 
+                parameterName, 
+                cryptoParameter);
+
+            return cryptoParameter;
         }
 
         public void SetSecureParameter(
@@ -71,6 +88,10 @@ namespace Material.OAuth.Security
             if (userId == null) throw new ArgumentNullException(nameof(userId));
             if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
             if (parameterValue == null) throw new ArgumentNullException(nameof(parameterValue));
+
+            GetParameter(
+                userId,
+                parameterName);
 
             var success = _repository.TryInsertCryptographicParameterValue(
                 userId, 
@@ -105,6 +126,13 @@ namespace Material.OAuth.Security
             return parameterValue == GetParameter(
                 userId,
                 parameterName);
+        }
+
+        public void ClearSecureParameters(string userId)
+        {
+            if (userId == null) throw new ArgumentNullException(nameof(userId));
+
+            _repository.DeleteCryptographicParameterValues(userId);
         }
 
         private string GetParameter(

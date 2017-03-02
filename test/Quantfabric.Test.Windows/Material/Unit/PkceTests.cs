@@ -15,22 +15,24 @@ namespace Quantfabric.Test.Material.Unit
         [Fact]
         public void GenerateSha256PkceBundle()
         {
-            var verifier = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk";
-            var expected = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
-
+            var algorithm = DigestSigningAlgorithm.Sha256Algorithm();
             var bundle = new OAuth2Sha256PkceSecurityParameterBundle(
-                DigestSigningAlgorithm.Sha256Algorithm());
+                algorithm);
 
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(), 
                 TimeSpan.FromMinutes(2));
             var userId = Guid.NewGuid().ToString();
 
-            securityStrategy.SetSecureParameter(
-                userId, 
-                OAuth2Parameter.Verifier.EnumToString(), 
-                verifier);
             var parameters = bundle.GetBundle(securityStrategy, userId);
+
+            var raw = securityStrategy.GetSecureParameter(
+                userId,
+                OAuth2Parameter.Verifier.EnumToString());
+
+            var expected = algorithm.SignMessage(raw, null)
+                .ToBase64String()
+                .Base64ToUrlEncodedBase64String();
 
             var actual = parameters.Single(p => p is OAuth2CodeChallenge).Value;
 
