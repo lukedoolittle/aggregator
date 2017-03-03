@@ -130,29 +130,13 @@ namespace Material.OAuth
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
         /// <returns>Valid OAuth2 credentials</returns>
-        public async Task<JsonWebToken> GetWebTokenAsync(
+        public Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
-            var token = await _app
-                .GetIdTokenAsync(clientSecret)
-                .ConfigureAwait(false);
-
-            return ValidateToken(token);
-        }
-
-        /// <summary>
-        /// Authorize a resource owner using the OAuth2 token workflow
-        /// </summary>
-        /// <param name="response">The OAuth2 response type</param>
-        /// <returns>Valid OAuth2 credentials</returns>
-        public async Task<JsonWebToken> GetWebTokenAsync(
-            OAuth2ResponseType response)
-        {
-            var token = await _app
-                .GetIdTokenAsync()
-                .ConfigureAwait(false);
-
-            return ValidateToken(token);
+            return _app
+                .GetIdTokenAsync(
+                    clientSecret,
+                    CreateValidator());
         }
 
         /// <summary>
@@ -161,12 +145,13 @@ namespace Material.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<JsonWebToken> GetWebTokenAsync()
         {
-            return GetWebTokenAsync(OAuth2ResponseType.IdTokenToken);
+            return _app
+                .GetIdTokenAsync(CreateValidator());
         }
 
-        private JsonWebToken ValidateToken(JsonWebToken token)
+        private IJsonWebTokenAuthenticationValidator CreateValidator()
         {
-            new CompositeJsonWebTokenAuthenticationValidator()
+            return new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(
@@ -174,14 +159,11 @@ namespace Material.OAuth
                 .AddValidator(new JsonWebTokenIssuerValidator(
                     _provider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(
-                    _securityStrategy, 
+                    _securityStrategy,
                     _userId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
                     _provider.OpenIdDiscoveryUrl))
-                .ThrowIfInvalid()
-                .IsTokenValid(token);
-
-            return token;
+                .ThrowIfInvalid();
         }
     }
 }

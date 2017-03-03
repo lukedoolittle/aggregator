@@ -20,6 +20,30 @@ namespace Quantfabric.Test.Material.Interaction
             new TokenCredentialRepository(true);
 
         [Fact]
+        public async void CanGetValidAccessTokenFromFacebookTwice()
+        {
+            var clientId = _appRepository.GetClientId<Facebook>();
+            var clientSecret = _appRepository.GetClientSecret<Facebook>();
+            var redirectUri = _appRepository.GetRedirectUri<Facebook>();
+
+            var app = new OAuth2App<Facebook>(
+                clientId,
+                redirectUri)
+                .AddScope<FacebookUser>()
+                .AddScope<FacebookEvent>()
+                .AddScope<FacebookFeed>()
+                .AddScope<FacebookFriend>()
+                .AddScope<FacebookPageLike>();
+
+            var token = await app.GetCredentialsAsync(clientSecret).ConfigureAwait(false);
+            token = await app.GetCredentialsAsync(clientSecret).ConfigureAwait(false);
+
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
+
+            _tokenRepository.PutToken<Facebook, OAuth2Credentials>(token);
+        }
+
+        [Fact]
         public async void CanGetValidAccessTokenFromGoogle()
         {
             var clientId = _appRepository.GetClientId<Google>();

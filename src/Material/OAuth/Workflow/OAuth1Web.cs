@@ -85,6 +85,8 @@ namespace Material.OAuth.Workflow
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
+            _securityStrategy.ClearSecureParameters(userId);
+
             return _uriFacade.GetAuthorizationUriAsync(userId);
         }
 
@@ -94,7 +96,7 @@ namespace Material.OAuth.Workflow
         /// <param name="responseUri">The received callback uri</param>
         /// <param name="userId">The users Id within the application</param>
         /// <returns>Access token credentials</returns>
-        public Task<OAuth1Credentials> GetAccessTokenAsync(
+        public async Task<OAuth1Credentials> GetAccessTokenAsync(
             Uri responseUri,
             string userId)
         {
@@ -103,9 +105,14 @@ namespace Material.OAuth.Workflow
                             OAuth1Parameter.OAuthToken.EnumToString())
                         .ParseAndValidateCallback(responseUri, userId);
 
-            return _authorizationFacade.GetAccessTokenAsync(
-                result, 
-                userId);
+            var token = await _authorizationFacade.GetAccessTokenAsync(
+                    result, 
+                    userId)
+                .ConfigureAwait(false);
+
+            _securityStrategy.ClearSecureParameters(userId);
+
+            return token;
         }
     }
 }

@@ -11,15 +11,18 @@ namespace Material.OAuth.Template
         private readonly IOAuthAuthorizerUI<TCredentials> _authorizerUI;
         private readonly IOAuthAuthorizationUriFacade _uriFacade;
         private readonly IOAuthAccessTokenFacade<TCredentials> _accessTokenFacade;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         public OAuthAuthorizationTemplate(
             IOAuthAuthorizerUI<TCredentials> authorizerUI,
             IOAuthAuthorizationUriFacade uriFacade, 
-            IOAuthAccessTokenFacade<TCredentials> accessTokenFacade)
+            IOAuthAccessTokenFacade<TCredentials> accessTokenFacade, 
+            IOAuthSecurityStrategy securityStrategy)
         {
             _authorizerUI = authorizerUI;
             _uriFacade = uriFacade;
             _accessTokenFacade = accessTokenFacade;
+            _securityStrategy = securityStrategy;
         }
 
         public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
@@ -44,6 +47,8 @@ namespace Material.OAuth.Template
             }
             catch (TaskCanceledException)
             {
+                _securityStrategy.ClearSecureParameters(userId);
+
                 return null;
             }
         }

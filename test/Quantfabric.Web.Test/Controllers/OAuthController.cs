@@ -1,13 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Material;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 
@@ -49,8 +47,14 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Twitter()
         {
-            var credentials = await GetOAuth1Credentials<Twitter>()
-                .ConfigureAwait(false);
+            var userId = Request.Cookies["userId"]?.Values["userId"];
+            var url = ControllerContext.HttpContext.Request.Url;
+
+            var credentials = await ServiceLocator.TwitterOAuth
+                    .GetAccessTokenAsync(
+                        url,
+                        userId)
+                    .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
                 new { oauthToken = credentials.OAuthToken, oauthSecret = credentials.OAuthSecret });
@@ -93,8 +97,14 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Facebook()
         {
-            var credentials = await GetOAuth2Credentials<Facebook>()
-                .ConfigureAwait(false);
+            var userId = Request.Cookies["userId"]?.Values["userId"];
+            var url = ControllerContext.HttpContext.Request.Url;
+
+           var credentials = await ServiceLocator.FacebookAuth
+                    .GetAccessTokenAsync(
+                        url,
+                        userId)
+                    .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home", 
                 new {accessToken = credentials.AccessToken});

@@ -60,7 +60,14 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Twitter()
         {
-            var uri = await GetOAuth1AuthorizationUri<Twitter>()
+            var userId = Guid.NewGuid().ToString();
+            var cookie = new HttpCookie("userId");
+            cookie.Values["userId"] = userId;
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+
+            var uri = await ServiceLocator
+                .TwitterOAuth
+                .GetAuthorizationUriAsync(userId)
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -87,7 +94,14 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Facebook()
         {
-            var uri = await GetOAuth2AuthorizationUri<Facebook>()
+            var userId = Guid.NewGuid().ToString();
+            var cookie = new HttpCookie("userId");
+            cookie.Values["userId"] = userId;
+            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+
+            var uri = await ServiceLocator
+                .FacebookAuth
+                .GetAuthorizationUriAsync(userId)
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -225,17 +239,12 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> GoogleOpenId()
         {
-            var oauth = new OpenIdWeb<Google>(
-                _appRepository.GetClientId<Google>(),
-                _appRepository.GetClientSecret<Google>(),
-                "http://localhost:33533/openid/google");
-
             var userId = Guid.NewGuid().ToString();
             var cookie = new HttpCookie("userId");
             cookie.Values["userId"] = userId;
             ControllerContext.HttpContext.Response.Cookies.Add(cookie);
 
-            var uri = await oauth
+            var uri = await ServiceLocator.GoogleAuth
                 .GetAuthorizationUriAsync(userId)
                 .ConfigureAwait(false);
 

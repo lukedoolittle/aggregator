@@ -1,4 +1,5 @@
-﻿using Material.Contracts;
+﻿using System.Threading.Tasks;
+using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
@@ -13,6 +14,24 @@ namespace Quantfabric.Test.Material.Interaction
     {
         private readonly AppCredentialRepository _appRepository = 
             new AppCredentialRepository(CallbackType.Localhost);
+
+        [Fact]
+        public async void CanGetValidAccessTokenFromSpotifyTwiceImplicitFlow()
+        {
+            var clientId = _appRepository.GetClientId<Spotify>();
+            var redirectUri = _appRepository.GetRedirectUri<Spotify>();
+
+            var app = new OAuth2App<Spotify>(
+                clientId,
+                redirectUri)
+                .AddScope<SpotifySavedTrack>();
+
+            var token = await app.GetCredentialsAsync().ConfigureAwait(false);
+            await Task.Delay(1000).ConfigureAwait(false);
+            token = await app.GetCredentialsAsync().ConfigureAwait(false);
+
+            Assert.True(TestUtilities.IsValidOAuth2Token(token));
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogleImplicitFlow()

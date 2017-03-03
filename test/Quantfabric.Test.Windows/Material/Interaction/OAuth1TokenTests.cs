@@ -37,13 +37,8 @@ namespace Quantfabric.Test.Material.Interaction
                 AuthorizationInterface.NotSpecified,
                 userId);
 
-            var token = await app
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
-
-            token = await app
-                    .GetCredentialsAsync()
-                    .ConfigureAwait(false);
+            var token = await app.GetCredentialsAsync().ConfigureAwait(false);
+            token = await app.GetCredentialsAsync().ConfigureAwait(false);
 
             Assert.True(TestUtilities.IsValidOAuth1Token(token, true));
 

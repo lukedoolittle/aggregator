@@ -21,6 +21,7 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAccessTokenFacade<OAuth2Credentials> _accessTokenFacade;
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
         private readonly TResourceProvider _resourceProvider;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
@@ -31,6 +32,7 @@ namespace Material.OAuth.Workflow
         /// <param name="callbackHandler">Handles the authorization uris callback response</param>
         /// <param name="uriFacade">Creates the authorization uri</param>
         /// <param name="accessTokenFacade">Exchanges code for an access token</param>
+        /// <param name="securityStrategy">Security manager for OAuth calls</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
@@ -38,7 +40,8 @@ namespace Material.OAuth.Workflow
             TResourceProvider resourceProvider,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthAuthorizationUriFacade uriFacade,
-            IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade)
+            IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade,
+            IOAuthSecurityStrategy securityStrategy)
         {
             _clientId = clientId;
             _clientSecret = clientSecret;
@@ -46,6 +49,7 @@ namespace Material.OAuth.Workflow
             _callbackHandler = callbackHandler;
             _uriFacade = uriFacade;
             _accessTokenFacade = accessTokenFacade;
+            _securityStrategy = securityStrategy;
         }
 
         /// <summary>
@@ -84,7 +88,8 @@ namespace Material.OAuth.Workflow
                         clientSecret,
                         new Uri(callbackUrl), 
                         new OAuthAuthorizationAdapter(), 
-                        strategy))
+                        strategy),
+                    strategy)
         { }
 
         /// <summary>
@@ -156,7 +161,43 @@ namespace Material.OAuth.Workflow
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
+            _securityStrategy.ClearSecureParameters(userId);
+
+            _resourceProvider.SetFlow(OAuth2FlowType.AccessCode);
+
             return _uriFacade.GetAuthorizationUriAsync(userId);
+        }
+
+        /// <summary>
+        /// Exchanges callback uri for access token credentials
+        /// </summary>
+        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="responseUri">The received callback uri</param>
+        /// <param name="validator">Access token credentials</param>
+        /// <returns></returns>
+        public async Task<OAuth2Credentials> GetAccessTokenAsync(
+            Uri responseUri,
+            string userId,
+            IJsonWebTokenAuthenticationValidator validator)
+        {
+            _resourceProvider.SetClientProperties(
+                _clientId,
+                _clientSecret);
+
+            var token = await _accessTokenFacade
+                .GetAccessTokenAsync(
+                    _callbackHandler
+                        .ParseAndValidateCallback(
+                            responseUri,
+                            userId),
+                    _clientSecret)
+                .ConfigureAwait(false);
+
+            validator?.IsTokenValid(token.IdToken);
+
+            _securityStrategy.ClearSecureParameters(userId);
+
+            return token;
         }
 
         /// <summary>
@@ -169,18 +210,7 @@ namespace Material.OAuth.Workflow
             Uri responseUri,
             string userId)
         {
-            _resourceProvider.SetClientProperties(
-                _clientId, 
-                _clientSecret);
-
-            var result = _callbackHandler
-                        .ParseAndValidateCallback(
-                            responseUri, 
-                            userId);
-
-            return _accessTokenFacade.GetAccessTokenAsync(
-                result, 
-                _clientSecret);
+            return GetAccessTokenAsync(responseUri, userId, null);
         }
 
         /// <summary>

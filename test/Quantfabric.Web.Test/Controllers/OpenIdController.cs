@@ -4,7 +4,6 @@ using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 
@@ -19,8 +18,14 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Google()
         {
-            var token = await GetIdToken<Google>("http://localhost:33533/openid/google")
-                .ConfigureAwait(false);
+            var userId = Request.Cookies["userId"]?.Values["userId"];
+            var url = ControllerContext.HttpContext.Request.Url;
+
+            var token = await ServiceLocator.GoogleAuth
+                    .GetWebTokenAsync(
+                        url,
+                        userId)
+                    .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
                 new { idToken = token.EncodedToken });

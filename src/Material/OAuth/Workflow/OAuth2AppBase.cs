@@ -25,8 +25,6 @@ namespace Material.OAuth.Workflow
         private readonly TResourceProvider _provider;
         private readonly AuthorizationInterface _browserType;
         private readonly string _userId;
-        private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly OAuth2CallbackHandler _callbackHandler;
 
         public OAuth2AppBase(
             string clientId,
@@ -42,15 +40,6 @@ namespace Material.OAuth.Workflow
             _provider = provider;
             _uiFactory = uiFactory;
             _userId = userId;
-
-            _securityStrategy = new OAuthSecurityStrategy(
-                new InMemoryCryptographicParameterRepository(),
-                TimeSpan.FromMinutes(
-                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
-
-            _callbackHandler = new OAuth2CallbackHandler(
-                _securityStrategy,
-                OAuth2Parameter.State.EnumToString());
         }
 
         /// <summary>
@@ -61,6 +50,15 @@ namespace Material.OAuth.Workflow
         public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            var callbackHandler = new OAuth2CallbackHandler(
+                securityStrategy,
+                OAuth2Parameter.State.EnumToString());
+
             _provider.SetClientProperties(
                 _clientId, 
                 clientSecret);
@@ -68,10 +66,15 @@ namespace Material.OAuth.Workflow
             return GetCredentialsAsync(
                 OAuth2FlowType.AccessCode,
                 OAuth2ResponseType.Code,
-                _callbackHandler,
+                callbackHandler,
                 CreateUriFacade(
+                    securityStrategy,
                     new OAuth2StateSecurityParameterBundle()),
-                CreateTokenFacade(clientSecret));
+                CreateTokenFacade(
+                    clientSecret, 
+                    securityStrategy),
+                securityStrategy,
+                null);
         }
 
         /// <summary>
@@ -80,6 +83,15 @@ namespace Material.OAuth.Workflow
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            var callbackHandler = new OAuth2CallbackHandler(
+                securityStrategy,
+                OAuth2Parameter.State.EnumToString());
+
             if ((_browserType == AuthorizationInterface.Dedicated || 
                  _browserType == AuthorizationInterface.SecureEmbedded) &&
                  _provider.SupportsPkce)
@@ -87,31 +99,47 @@ namespace Material.OAuth.Workflow
                 return GetCredentialsAsync(
                         OAuth2FlowType.AccessCode,
                         OAuth2ResponseType.Code,
-                        _callbackHandler,
+                        callbackHandler,
                         CreateUriFacade(
+                            securityStrategy,
                             new OAuth2StateSecurityParameterBundle(),
                             new OAuth2Sha256PkceSecurityParameterBundle(
                                 DigestSigningAlgorithm.Sha256Algorithm())),
-                        CreateTokenFacade()
+                        CreateTokenFacade(securityStrategy)
                             .AddSecurityParameters(
-                                new OAuth2PkceVerifierSecurityParameterBundle()));
+                                new OAuth2PkceVerifierSecurityParameterBundle()),
+                        securityStrategy,
+                        null);
             }
             else
             {
                 return GetCredentialsAsync(
                     OAuth2FlowType.Implicit,
                     OAuth2ResponseType.Token,
-                    _callbackHandler,
+                    callbackHandler,
                     CreateUriFacade(
+                        securityStrategy,
                         new OAuth2StateSecurityParameterBundle()),
                     new OAuth2ImplicitFacade(
                         _clientId,
-                        _provider));
+                        _provider),
+                    securityStrategy,
+                    null);
             }
         }
 
-        public async Task<JsonWebToken> GetIdTokenAsync()
+        public async Task<JsonWebToken> GetIdTokenAsync(
+            IJsonWebTokenAuthenticationValidator validator)
         {
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            var callbackHandler = new OAuth2CallbackHandler(
+                securityStrategy,
+                OAuth2Parameter.State.EnumToString());
+
             if ((_browserType == AuthorizationInterface.Dedicated ||
                  _browserType == AuthorizationInterface.SecureEmbedded) &&
                  _provider.SupportsPkce)
@@ -119,15 +147,18 @@ namespace Material.OAuth.Workflow
                 var credentials = await GetCredentialsAsync(
                     OAuth2FlowType.AccessCode,
                     OAuth2ResponseType.Code,
-                    _callbackHandler,
+                    callbackHandler,
                     CreateUriFacade(
+                        securityStrategy,
                         new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle(),
                         new OAuth2Sha256PkceSecurityParameterBundle(
                             DigestSigningAlgorithm.Sha256Algorithm())),
-                    CreateTokenFacade()
+                    CreateTokenFacade(securityStrategy)
                         .AddSecurityParameters(
-                            new OAuth2PkceVerifierSecurityParameterBundle()))
+                            new OAuth2PkceVerifierSecurityParameterBundle()),
+                        securityStrategy,
+                        validator)
                     .ConfigureAwait(false);
 
                 return credentials?.IdToken;
@@ -137,13 +168,16 @@ namespace Material.OAuth.Workflow
                 var credentials = await GetCredentialsAsync(
                         OAuth2FlowType.Implicit,
                         OAuth2ResponseType.IdTokenToken,
-                        _callbackHandler,
+                        callbackHandler,
                         CreateUriFacade(
+                            securityStrategy,
                             new OAuth2StateSecurityParameterBundle(),
                             new OAuth2NonceSecurityParameterBundle()),
                         new OAuth2ImplicitFacade(
                             _clientId,
-                            _provider))
+                            _provider),
+                        securityStrategy,
+                        validator)
                     .ConfigureAwait(false);
 
                 return credentials?.IdToken;
@@ -151,22 +185,38 @@ namespace Material.OAuth.Workflow
         }
 
         public async Task<JsonWebToken> GetIdTokenAsync(
-            string clientSecret)
+            string clientSecret,
+            IJsonWebTokenAuthenticationValidator validator)
         {
+            var securityStrategy = new OAuthSecurityStrategy(
+                new InMemoryCryptographicParameterRepository(),
+                TimeSpan.FromMinutes(
+                    OAuthConfiguration.SecurityParameterTimeoutInMinutes));
+
+            var callbackHandler = new OAuth2CallbackHandler(
+                securityStrategy,
+                OAuth2Parameter.State.EnumToString());
+
             var credentials = await GetCredentialsAsync(
                     OAuth2FlowType.AccessCode,
                     OAuth2ResponseType.Code,
-                    _callbackHandler,
+                    callbackHandler,
                     CreateUriFacade(
+                        securityStrategy,
                         new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle()),
-                    CreateTokenFacade(clientSecret))
+                    CreateTokenFacade(
+                        clientSecret,
+                        securityStrategy),
+                    securityStrategy,
+                    validator)
                 .ConfigureAwait(false);
 
             return credentials?.IdToken;
         }
 
-        private OAuth2AccessCodeFacade CreateTokenFacade()
+        private OAuth2AccessCodeFacade CreateTokenFacade(
+            IOAuthSecurityStrategy securityStrategy)
         {
             var adapter = new OAuthAuthorizationAdapter();
 
@@ -175,10 +225,12 @@ namespace Material.OAuth.Workflow
                 _clientId,
                 _callbackUri,
                 adapter,
-                _securityStrategy);
+                securityStrategy);
         }
 
-        private OAuth2AccessCodeFacade CreateTokenFacade(string clientSecret)
+        private OAuth2AccessCodeFacade CreateTokenFacade(
+            string clientSecret, 
+            IOAuthSecurityStrategy securityStrategy)
         {
             var adapter = new OAuthAuthorizationAdapter();
 
@@ -188,10 +240,11 @@ namespace Material.OAuth.Workflow
                 clientSecret,
                 _callbackUri,
                 adapter,
-                _securityStrategy);
+                securityStrategy);
         }
 
         private OAuth2AuthorizationUriFacade CreateUriFacade(
+            IOAuthSecurityStrategy securityStrategy,
             params ISecurityParameterBundle[] securityParameters)
         {
             var adapter = new OAuthAuthorizationAdapter();
@@ -201,20 +254,24 @@ namespace Material.OAuth.Workflow
                     _clientId,
                     _callbackUri,
                     adapter,
-                    _securityStrategy)
+                    securityStrategy)
                 .AddSecurityParameters(securityParameters);
         }
 
-        private Task<OAuth2Credentials> GetCredentialsAsync(
+        private async Task<OAuth2Credentials> GetCredentialsAsync(
             OAuth2FlowType flowType,
             OAuth2ResponseType responseType,
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthAuthorizationUriFacade uriFacade,
-            IOAuthAccessTokenFacade<OAuth2Credentials> tokenFacade)
+            IOAuthAccessTokenFacade<OAuth2Credentials> tokenFacade,
+            IOAuthSecurityStrategy securityStrategy,
+            IJsonWebTokenAuthenticationValidator validator)
         {
             if (callbackHandler == null) throw new ArgumentNullException(nameof(callbackHandler));
             if (uriFacade == null) throw new ArgumentNullException(nameof(uriFacade));
             if (tokenFacade == null) throw new ArgumentNullException(nameof(tokenFacade));
+
+            securityStrategy.ClearSecureParameters(_userId);
 
             _provider.SetFlow(flowType);
             _provider.SetResponse(responseType);
@@ -228,10 +285,18 @@ namespace Material.OAuth.Workflow
             var template = new OAuthAuthorizationTemplate<OAuth2Credentials>(
                     authenticationUi,
                     uriFacade,
-                    tokenFacade);
+                    tokenFacade,
+                    securityStrategy);
 
-            return template.GetAccessTokenCredentials(
-                _userId);
+            var result = await template
+                .GetAccessTokenCredentials(_userId)
+                .ConfigureAwait(false);
+
+            validator?.IsTokenValid(result.IdToken);
+
+            securityStrategy.ClearSecureParameters(_userId);
+
+            return result;
         }
 
         /// <summary>

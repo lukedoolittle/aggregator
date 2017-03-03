@@ -9,7 +9,8 @@ namespace Material.OAuth.Authentication
     public class JsonWebTokenNonceValidator : 
         IJsonWebTokenAuthenticationValidator
     {
-        private readonly string _nonce;
+        private readonly IOAuthSecurityStrategy _securityStrategy;
+        private readonly string _userId;
 
         public JsonWebTokenNonceValidator(
             IOAuthSecurityStrategy securityStrategy,
@@ -18,16 +19,8 @@ namespace Material.OAuth.Authentication
             if (securityStrategy == null) throw new ArgumentNullException(nameof(securityStrategy));
             if (userId == null) throw new ArgumentNullException(nameof(userId));
 
-            _nonce = securityStrategy.GetSecureParameter(
-                userId,
-                OAuth2Parameter.Nonce.EnumToString());
-        }
-
-        public JsonWebTokenNonceValidator(string nonce)
-        {
-            if (nonce == null) throw new ArgumentNullException(nameof(nonce));
-
-            _nonce = nonce;
+            _securityStrategy = securityStrategy;
+            _userId = userId;
         }
 
         public TokenValidationResult IsTokenValid(
@@ -35,7 +28,11 @@ namespace Material.OAuth.Authentication
         {
             if (token == null) throw new ArgumentNullException(nameof(token));
 
-            if (token.Claims.Nonce != _nonce)
+            var nonce = _securityStrategy.GetSecureParameter(
+                _userId,
+                OAuth2Parameter.Nonce.EnumToString());
+
+            if (token.Claims.Nonce != nonce)
             {
                 return new TokenValidationResult(
                     false,

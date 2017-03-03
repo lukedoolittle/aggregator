@@ -51,7 +51,7 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public virtual Task<OAuth1Credentials> GetCredentialsAsync()
+        public virtual async Task<OAuth1Credentials> GetCredentialsAsync()
         {
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
@@ -82,9 +82,16 @@ namespace Material.OAuth.Workflow
             var template = new OAuthAuthorizationTemplate<OAuth1Credentials>(
                 authorizationUi,
                 facade,
-                facade);
+                facade,
+                securityStrategy);
 
-            return template.GetAccessTokenCredentials(_userId);
+            var result = await template
+                .GetAccessTokenCredentials(_userId)
+                .ConfigureAwait(false);
+
+            securityStrategy.ClearSecureParameters(_userId);
+
+            return result;
         }
     }
 }

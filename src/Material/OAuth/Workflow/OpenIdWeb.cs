@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using System.Threading.Tasks;
 using Foundations.Extensions;
 using Foundations.HttpClient.Enums;
@@ -60,6 +59,7 @@ namespace Material.OAuth.Workflow
             var accessTokenFacade = new OAuth2AccessCodeFacade(
                 _provider,
                 clientId,
+                clientSecret,
                 new Uri(callbackUrl),
                 new OAuthAuthorizationAdapter(),
                 strategy);
@@ -70,7 +70,8 @@ namespace Material.OAuth.Workflow
                 _provider,
                 callbackHandler,
                 uriFacade,
-                accessTokenFacade);
+                accessTokenFacade,
+                strategy);
         }
 
         /// <summary>
@@ -102,9 +103,9 @@ namespace Material.OAuth.Workflow
         /// <returns>Authorization uri</returns>
         public Task<Uri> GetAuthorizationUriAsync(string userId)
         {
-            _web.AddScope("openid");
-
-            return _web.GetAuthorizationUriAsync(userId);
+            return _web
+                .AddScope("openid")
+                .GetAuthorizationUriAsync(userId);
         }
 
         /// <summary>
@@ -118,18 +119,18 @@ namespace Material.OAuth.Workflow
             string userId)
         {
             var credentials = await _web.GetAccessTokenAsync(
-                    responseUri, 
-                    userId)
-                .ConfigureAwait(false);
+                        responseUri,
+                        userId,
+                        CreateValidator(userId))
+                    .ConfigureAwait(false);
 
-            return ValidateToken(credentials.IdToken, userId);
+            return credentials.IdToken;
         }
 
-        private JsonWebToken ValidateToken(
-            JsonWebToken token, 
+        private IJsonWebTokenAuthenticationValidator CreateValidator(
             string userId)
         {
-            new CompositeJsonWebTokenAuthenticationValidator()
+            return new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(
@@ -141,10 +142,7 @@ namespace Material.OAuth.Workflow
                     userId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
                     _provider.OpenIdDiscoveryUrl))
-                .ThrowIfInvalid()
-                .IsTokenValid(token);
-
-            return token;
+                .ThrowIfInvalid();
         }
     }
 }
