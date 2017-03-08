@@ -38,6 +38,7 @@ namespace Quantfabric.Test.Material.OAuthServer.Builders
                 new OAuth1Token(
                     oauthToken,
                     oauthSecret,
+                    request.RedirectUri,
                     true));
 
             var credentials = new OAuth1Credentials();

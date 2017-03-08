@@ -117,10 +117,10 @@ namespace Quantfabric.Test.Material.Integration
                     .AddHandler(
                         mock.AuthorizationUrl,
                         new OAuth1AuthorizationHandler(
-                            redirectUri,
                             new OAuth1AuthorizationRedirectBuilder(),
                             new OAuth1AuthenticationCredentialBuilder(
-                                server.Tokens)))
+                                server.Tokens), 
+                            server.Tokens))
                     .AddHandler(
                         mock.TokenUrl,
                         new OAuth1AccessTokenHandler(
@@ -134,10 +134,8 @@ namespace Quantfabric.Test.Material.Integration
 
                 var serverTask = server.Start(mock.Port);
 
-                var userId = Guid.NewGuid().ToString();
-
                 var authUri = await oauth1
-                    .GetAuthorizationUriAsync(userId)
+                    .GetAuthorizationUriAsync()
                     .ConfigureAwait(false);
 
                 if (serverTask.Status == TaskStatus.RanToCompletion)
@@ -156,8 +154,7 @@ namespace Quantfabric.Test.Material.Integration
                 }
 
                 var tokenTask = oauth1.GetAccessTokenAsync(
-                    result.Headers.Location,
-                    userId);
+                    result.Headers.Location);
 
                 await Task.WhenAny(serverTask, tokenTask)
                     .ConfigureAwait(false);

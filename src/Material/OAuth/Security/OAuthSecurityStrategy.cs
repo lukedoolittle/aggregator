@@ -36,14 +36,14 @@ namespace Material.OAuth.Security
         { }
 
         public string GetSecureParameter(
-            string userId,
+            string requestId,
             string parameterName)
         {
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
             if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
 
             var parameterValue = GetParameter(
-                userId,
+                requestId,
                 parameterName);
 
             if (parameterValue == null)
@@ -53,7 +53,7 @@ namespace Material.OAuth.Security
                         CultureInfo.InvariantCulture,
                         StringResources.SecurityParameterDoesNotExist,
                         parameterName,
-                        userId));
+                        requestId));
             }
             else
             {
@@ -62,10 +62,10 @@ namespace Material.OAuth.Security
         }
 
         public string CreateSecureParameter(
-            string userId, 
+            string requestId, 
             string parameterName)
         {
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
             if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
 
             var cryptoParameter = _stringGenerator.CreateRandomString(
@@ -73,7 +73,7 @@ namespace Material.OAuth.Security
                 CryptoStringType.Base64Alphanumeric);
 
             SetSecureParameter(
-                userId, 
+                requestId, 
                 parameterName, 
                 cryptoParameter);
 
@@ -81,20 +81,20 @@ namespace Material.OAuth.Security
         }
 
         public void SetSecureParameter(
-            string userId, 
+            string requestId, 
             string parameterName, 
             string parameterValue)
         {
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
             if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
             if (parameterValue == null) throw new ArgumentNullException(nameof(parameterValue));
 
             GetParameter(
-                userId,
+                requestId,
                 parameterName);
 
             var success = _repository.TryInsertCryptographicParameterValue(
-                userId, 
+                requestId, 
                 parameterName, 
                 parameterValue, 
                 DateTimeOffset.Now);
@@ -106,16 +106,16 @@ namespace Material.OAuth.Security
                         CultureInfo.InvariantCulture,
                         StringResources.SecurityParameterAlreadyExists,
                         parameterName,
-                        userId));
+                        requestId));
             }
         }
 
         public bool IsSecureParameterValid(
-            string userId, 
+            string requestId, 
             string parameterName, 
             string parameterValue)
         {
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
             if (parameterName == null) throw new ArgumentNullException(nameof(parameterName));
 
             if (parameterValue == null)
@@ -124,15 +124,15 @@ namespace Material.OAuth.Security
             }
 
             return parameterValue == GetParameter(
-                userId,
+                requestId,
                 parameterName);
         }
 
-        public void ClearSecureParameters(string userId)
+        public void ClearSecureParameters(string requestId)
         {
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
 
-            _repository.DeleteCryptographicParameterValues(userId);
+            _repository.DeleteCryptographicParameterValues(requestId);
         }
 
         private string GetParameter(

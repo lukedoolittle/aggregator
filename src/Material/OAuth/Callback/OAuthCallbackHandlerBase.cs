@@ -27,50 +27,52 @@ namespace Material.OAuth.Callback
         }
 
         /// <summary>
-        /// Convert a callback uri into intermediate OAuth1Credentials
+        /// Convert a callback uri into intermediate credentials with metadata
         /// </summary>
         /// <param name="responseUri">The received callback uri</param>
-        /// <param name="userId">Resource owner's Id</param>
         /// <returns>Intermediate OAuth1 credentials</returns>
-        public virtual TCredentials ParseAndValidateCallback(
-            Uri responseUri,
-            string userId)
+        public virtual CredentialMetadata<TCredentials> ParseAndValidateCallback(
+            Uri responseUri)
         {
             var query = GetQuerystring(responseUri);
+            
+            TCredentials credentials = null;
+            var requestId = GetRequestId(responseUri);
+            var isResponseError = false;
+            var areValidIntermediateCredentials = true;
 
             if (IsDiscardableResponse(query))
             {
-                return null;
+                areValidIntermediateCredentials = false;
             }
-            if (IsResponseError(query))
+            else if (IsResponseError(query))
             {
-                var errorToken = _serializer.Deserialize<TCredentials>(
+                credentials = _serializer.Deserialize<TCredentials>(
                     query.ToString(false));
-                errorToken.IsErrorResult = true;
-                return errorToken;
+                isResponseError = true;
             }
-            if (!IsResponseSecure(query, userId))
+            else if (requestId == null || !IsResponseSecure(query, requestId))
             {
                 throw new SecurityException(
                     StringResources.CallbackParameterInvalidException);
             }
-
-            var token = _serializer.Deserialize<TCredentials>(
-                query.ToString(false));
-
-            if (token == null || !token.AreValidIntermediateCredentials)
+            else if (!IsIntermediateResponseValid(query))
             {
-                return null;
+                credentials = _serializer.Deserialize<TCredentials>(
+                    query.ToString(false));
+                areValidIntermediateCredentials = false;
+            }
+            else
+            {
+                credentials = _serializer.Deserialize<TCredentials>(
+                    query.ToString(false));
             }
 
-            return token;
-        }
-
-        protected virtual HttpValueCollection GetQuerystring(Uri uri)
-        {
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
-
-            return HttpUtility.ParseQueryString(uri.Query);
+            return new CredentialMetadata<TCredentials>(
+                credentials,
+                requestId,
+                areValidIntermediateCredentials,
+                isResponseError);
         }
 
         protected virtual bool IsResponseSecure(
@@ -106,5 +108,13 @@ namespace Material.OAuth.Callback
 
         protected abstract bool IsDiscardableResponse(
             HttpValueCollection query);
+
+        protected abstract bool IsIntermediateResponseValid(
+            HttpValueCollection query);
+
+        protected abstract HttpValueCollection GetQuerystring(
+            Uri uri);
+
+        protected abstract string GetRequestId(Uri uri);
     }
 }

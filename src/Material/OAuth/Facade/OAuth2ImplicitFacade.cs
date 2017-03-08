@@ -26,14 +26,13 @@ namespace Material.OAuth.Facade
         /// Returns intermediate result, which contains the access token
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId"></param>
         /// <returns>Access token credentials</returns>
         public Task<OAuth2Credentials> GetAccessTokenAsync(
             OAuth2Credentials intermediateResult, 
-            string userId)
+            string requestId)
         {
             if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
-            if (userId == null) throw new ArgumentNullException(nameof(userId));
 
             return Task.FromResult(intermediateResult
                 .TimestampToken()

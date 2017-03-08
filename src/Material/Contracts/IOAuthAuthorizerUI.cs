@@ -12,6 +12,6 @@ namespace Material.Contracts
 
         Task<TCredentials> Authorize(
             Uri authorizationUri,
-            string userId);
+            string requestId);
     }
 }

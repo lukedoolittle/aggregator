@@ -20,6 +20,20 @@ namespace Material.OAuth.Callback
                     new HtmlSerializer())
         { }
 
+        protected override string GetRequestId(Uri uri)
+        {
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+
+            return uri.GetEndOfPath();
+        }
+
+        protected override HttpValueCollection GetQuerystring(Uri uri)
+        {
+            if (uri == null) throw new ArgumentNullException(nameof(uri));
+
+            return HttpUtility.ParseQueryString(uri.Query);
+        }
+
         protected override bool IsResponseError(
             HttpValueCollection query)
         {
@@ -34,6 +48,15 @@ namespace Material.OAuth.Callback
             HttpValueCollection query)
         {
             return false;
+        }
+
+        protected override bool IsIntermediateResponseValid(
+            HttpValueCollection query)
+        {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
+            return query.ContainsKey(
+                OAuth1Parameter.Verifier.EnumToString());
         }
     }
 }

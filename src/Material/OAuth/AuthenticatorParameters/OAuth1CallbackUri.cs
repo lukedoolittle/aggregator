@@ -21,5 +21,9 @@ namespace Material.OAuth.AuthenticatorParameters
         public OAuth1CallbackUri(Uri redirectUri) : 
             this(redirectUri?.ToString())
         { }
+
+        public OAuth1CallbackUri(Uri redirectUri, string userId) :
+            this(redirectUri.AddPath(userId))
+        { }
     }
 }

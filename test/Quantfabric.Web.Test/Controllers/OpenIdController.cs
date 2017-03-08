@@ -18,13 +18,11 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Google()
         {
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
             var token = await ServiceLocator.GoogleAuth
                     .GetWebTokenAsync(
-                        url,
-                        userId)
+                        url)
                     .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
@@ -50,13 +48,11 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<TResourceProvider>(),
                 uri);
 
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
             return oauth
                 .GetWebTokenAsync(
-                    url,
-                    userId);
+                    url);
         }
     }
 }

@@ -30,19 +30,12 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> FacebookRedirect()
         {
-            //Or get the userId from your application
-            string userId = Guid.NewGuid().ToString();
-
-            HttpCookie cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
             Uri authorizationUri = await new OAuth2Web<Facebook>(
                     "YOUR CLIENT ID",
                     "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .AddScope<FacebookUser>()
-                .GetAuthorizationUriAsync(userId)
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(authorizationUri.ToString());
@@ -60,14 +53,9 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Twitter()
         {
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
             var uri = await ServiceLocator
                 .TwitterOAuth
-                .GetAuthorizationUriAsync(userId)
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -94,14 +82,9 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Facebook()
         {
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
             var uri = await ServiceLocator
                 .FacebookAuth
-                .GetAuthorizationUriAsync(userId)
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -125,7 +108,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetRedirectUri<Google>())
                 .AddScope<GoogleGmailMetadata>();
 
-            var uri = await GetOAuth2AuthorizationUri(oauth)
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -140,7 +124,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetRedirectUri<Pinterest>())
                 .AddScope<PinterestLikes>();
 
-            var uri = await GetOAuth2AuthorizationUri(oauth)
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -200,7 +185,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetRedirectUri<TwentyThreeAndMe>())
                 .AddScope<TwentyThreeAndMeUser>();
 
-            var uri = await GetOAuth2AuthorizationUri(oauth)
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -215,7 +201,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetRedirectUri<Instagram>())
                 .AddScope<InstagramLikes>();
 
-            var uri = await GetOAuth2AuthorizationUri(oauth)
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -230,7 +217,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetRedirectUri<Amazon>())
                 .AddScope<AmazonProfile>();
 
-            var uri = await GetOAuth2AuthorizationUri(oauth)
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -239,13 +227,8 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> GoogleOpenId()
         {
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
             var uri = await ServiceLocator.GoogleAuth
-                .GetAuthorizationUriAsync(userId)
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -259,13 +242,8 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<Yahoo>(),
                 "http://quantfabric.com/openid/");
 
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
             var uri = await oauth
-                .GetAuthorizationUriAsync(userId)
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());
@@ -279,13 +257,7 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetConsumerSecret<TProtectedResource>(),
                 _appRepository.GetRedirectUri<TProtectedResource>());
 
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
-            return oauth
-                .GetAuthorizationUriAsync(userId);
+            return oauth.GetAuthorizationUriAsync();
         }
 
         private Task<Uri> GetOAuth2AuthorizationUri<TProtectedResource>()
@@ -296,20 +268,7 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<TProtectedResource>(),
                 _appRepository.GetRedirectUri<TProtectedResource>());
 
-            return GetOAuth2AuthorizationUri(oauth);
-        }
-
-        private Task<Uri> GetOAuth2AuthorizationUri<TProtectedResource>(
-            OAuth2Web<TProtectedResource> oauth)
-            where TProtectedResource : OAuth2ResourceProvider, new()
-        {
-            var userId = Guid.NewGuid().ToString();
-            var cookie = new HttpCookie("userId");
-            cookie.Values["userId"] = userId;
-            ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
-            return oauth
-                .GetAuthorizationUriAsync(userId);
+            return oauth.GetAuthorizationUriAsync();
         }
     }
 }

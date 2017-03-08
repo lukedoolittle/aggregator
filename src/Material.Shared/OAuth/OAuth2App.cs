@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Cryptography;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -15,6 +16,7 @@ namespace Material.OAuth
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
         private readonly OAuth2AppBase<TResourceProvider> _app;
+        private readonly ICryptoStringGenerator _idGenerator;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow
@@ -53,8 +55,9 @@ namespace Material.OAuth
                     new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                @interface,
-                Guid.NewGuid().ToString());
+                @interface);
+
+            _idGenerator = new CryptoStringGenerator();
         }
 
         /// <summary>
@@ -116,7 +119,9 @@ namespace Material.OAuth
         public Task<OAuth2Credentials> GetCredentialsAsync(
             string clientSecret)
         {
-            return _app.GetCredentialsAsync(clientSecret);
+            return _app.GetCredentialsAsync(
+                clientSecret,
+                _idGenerator.CreateRandomString());
         }
 
         /// <summary>
@@ -125,7 +130,8 @@ namespace Material.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
-            return _app.GetCredentialsAsync();
+            return _app.GetCredentialsAsync(
+                _idGenerator.CreateRandomString());
         }
 
         /// <summary>

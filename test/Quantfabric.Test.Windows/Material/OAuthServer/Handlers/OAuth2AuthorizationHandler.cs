@@ -60,7 +60,7 @@ namespace Quantfabric.Test.Material.OAuthServer.Handlers
             {
                 throw new Exception();
             }
-            if (message.RedirectUri != _redirectUriBase.ToString())
+            if (message.RedirectUri!= _redirectUriBase.ToString())
             {
                 throw new Exception();
             }
@@ -70,7 +70,7 @@ namespace Quantfabric.Test.Material.OAuthServer.Handlers
             }
 
             var redirectUri = _redirector.BuildRedirectUri(
-                _redirectUriBase,
+                new Uri(message.RedirectUri), 
                 _builder.BuildCredentials(message), 
                 new Dictionary<string, string> { { "state", message.State}});
 

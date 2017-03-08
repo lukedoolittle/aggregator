@@ -51,11 +51,6 @@ namespace Material.Infrastructure.Credentials
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; private set; }
 
-        //[DataMember(Name = "error", EmitDefaultValue = false)]
-        //public string Error { get; private set; }
-
-        //[DataMember(Name = "error_description", EmitDefaultValue = false)]
-        //public string ErrorDescription { get; private set; }
 
         [DataMember(Name = "id_token", EmitDefaultValue = false)]
 #pragma warning disable 649

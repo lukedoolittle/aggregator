@@ -169,10 +169,6 @@ namespace Quantfabric.Test.Material.Interaction
                 Timestamp = timestamp
             };
 
-            //TODO:
-            //Need to check that the partition key is the same on all entities
-            //How does the table name make it in there? how are those requests serialized???
-
             var request = new AzureTableStorageBatch()
             {
             }.SetAccount(accountName);

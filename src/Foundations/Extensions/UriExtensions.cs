@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using Foundations.Collections;
 
 namespace Foundations.Extensions
@@ -52,6 +53,46 @@ namespace Foundations.Extensions
                 "{0}://{1}/", 
                 instance.Scheme, 
                 instance.Authority);
+        }
+
+        /// <summary>
+        /// Appends the given path onto the end of the current path
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static Uri AddPath(
+            this Uri instance,
+            string path)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (path == null) throw new ArgumentNullException(nameof(path));
+
+            var uriBuilder = new UriBuilder(instance);
+            uriBuilder.Path = uriBuilder.Path.EndsWith(
+                    "/", 
+                    StringComparison.CurrentCultureIgnoreCase)
+                ? uriBuilder.Path + path.TrimStart('/')
+                : uriBuilder.Path + "/" + path.TrimStart('/');
+
+            return uriBuilder.Uri;
+        }
+
+        /// <summary>
+        /// Gets the last path segment from the Uri
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static string GetEndOfPath(
+            this Uri instance)
+        {
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+
+            return instance
+                .AbsolutePath
+                .Split('/')
+                .ToList()
+                .LastOrDefault();
         }
 
         /// <summary>

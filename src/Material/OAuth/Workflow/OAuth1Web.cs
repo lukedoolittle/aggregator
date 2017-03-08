@@ -25,6 +25,7 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAuthorizationUriFacade _uriFacade;
         private readonly IOAuthAccessTokenFacade<OAuth1Credentials> _authorizationFacade;
         private readonly IOAuthSecurityStrategy _securityStrategy;
+        private readonly ICryptoStringGenerator _idGenerator;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth1a workflow
@@ -33,14 +34,17 @@ namespace Material.OAuth.Workflow
         /// <param name="consumerSecret">The application's consumer secret</param>
         /// <param name="callbackUrl">The application's registered callback url</param>
         /// <param name="securityStrategy">The security strategy to use for token and secret handling</param>
+        /// <param name="idGenerator"></param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,
             string callbackUrl,
-            IOAuthSecurityStrategy securityStrategy)
+            IOAuthSecurityStrategy securityStrategy,
+            ICryptoStringGenerator idGenerator)
         {
             _securityStrategy = securityStrategy;
+            _idGenerator = idGenerator;
 
             var facade = new OAuth1AuthorizationFacade(
                 new TResourceProvider(), 
@@ -75,42 +79,40 @@ namespace Material.OAuth.Workflow
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
                         TimeSpan.FromMinutes(
-                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
+                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)),
+                    new CryptoStringGenerator())
         { }
 
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">The users Id within the application</param>
         /// <returns>Authorization uri</returns>
-        public Task<Uri> GetAuthorizationUriAsync(string userId)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        public Task<Uri> GetAuthorizationUriAsync()
         {
-            _securityStrategy.ClearSecureParameters(userId);
-
-            return _uriFacade.GetAuthorizationUriAsync(userId);
+            return _uriFacade.GetAuthorizationUriAsync(
+                _idGenerator.CreateRandomString());
         }
 
         /// <summary>
         /// Exchanges callback uri credentials for access token credentials
         /// </summary>
         /// <param name="responseUri">The received callback uri</param>
-        /// <param name="userId">The users Id within the application</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
-            Uri responseUri,
-            string userId)
+            Uri responseUri)
         {
             var result = new OAuth1CallbackHandler(
                             _securityStrategy,
                             OAuth1Parameter.OAuthToken.EnumToString())
-                        .ParseAndValidateCallback(responseUri, userId);
+                        .ParseAndValidateCallback(responseUri);
 
             var token = await _authorizationFacade.GetAccessTokenAsync(
-                    result, 
-                    userId)
+                    result.Credentials, 
+                    result.RequestId)
                 .ConfigureAwait(false);
 
-            _securityStrategy.ClearSecureParameters(userId);
+            _securityStrategy.ClearSecureParameters(result.RequestId);
 
             return token;
         }

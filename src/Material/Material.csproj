@@ -97,6 +97,7 @@
     <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
     <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
     <Compile Include="Infrastructure\Credentials\AccountKeyCredentials.cs" />
+    <Compile Include="Infrastructure\Credentials\CredentialMetadata.cs" />
     <Compile Include="Infrastructure\Credentials\JsonWebToken.cs" />
     <Compile Include="Infrastructure\Credentials\PasswordCredentials.cs" />
     <Compile Include="Infrastructure\Identities\FacebookIdentity.cs" />
@@ -239,7 +240,6 @@
     <Compile Include="OAuth\Security\OAuth2PkceVerifierSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2Sha256PkceSecurityParameterBundle.cs" />
-    <Compile Include="OAuth\Security\OAuth2StateSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Workflow\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />

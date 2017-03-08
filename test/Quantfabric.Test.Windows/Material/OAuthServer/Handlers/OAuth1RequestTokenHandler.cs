@@ -40,9 +40,9 @@ namespace Quantfabric.Test.Material.OAuthServer.Handlers
             var message = _deserializer
                 .DeserializeMessage<OAuth1Request>(request);
 
-            if (message.RedirectUri != _redirectUriBase.ToString())
+            if (!message.RedirectUri.Contains(_redirectUriBase.ToString()))
             {
-                throw new Exception();
+                throw new Exception("Given redirect uri doesn't match pattern");
             }
 
             var credentials = _builder.BuildCredentials(message);

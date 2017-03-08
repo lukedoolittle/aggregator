@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Foundations.Extensions;
 using Foundations.HttpClient.Authenticators;
+using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.OAuth.AuthenticatorParameters;
+using OAuth2ResponseType = Material.OAuth.AuthenticatorParameters.OAuth2ResponseType;
 
 namespace Material.OAuth.Facade
 {
@@ -56,20 +59,28 @@ namespace Material.OAuth.Facade
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId">Unique ID for request</param>
         /// <returns>Authorization uri</returns>
-        public Task<Uri> GetAuthorizationUriAsync(string userId)
+        public Task<Uri> GetAuthorizationUriAsync(string requestId)
         {
+            //Use the given request ID as the state since the requirements are the same
+            //(cryptographically strong, unique per request, gets returned in OAuth callback)
+            _securityStrategy.SetSecureParameter(
+                requestId,
+                OAuth2Parameter.State.EnumToString(), 
+                requestId);
+
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(_clientId))
                 .AddParameter(new OAuth2Scope(
                     _resourceProvider.Scopes,
                     _resourceProvider.ScopeDelimiter))
                 .AddParameter(new OAuth2CallbackUri(_callbackUri))
+                .AddParameter(new OAuth2State(requestId))
                 .AddParameter(new OAuth2ResponseType(
                     _resourceProvider.ResponseType))
                 .AddParameters(_securityParameters
-                    .Select(s => s.GetBundle(_securityStrategy, userId))
+                    .Select(s => s.GetBundle(_securityStrategy, requestId))
                     .SelectMany(s => s))
                 .AddParameters(_resourceProvider.Parameters.Select(
                     p => new GenericParameter(p.Key, p.Value)));

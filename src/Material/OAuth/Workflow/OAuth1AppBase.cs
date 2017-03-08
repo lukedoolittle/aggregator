@@ -26,7 +26,6 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly AuthorizationInterface _browserType;
         private readonly TResourceProvider _provider;
-        private readonly string _userId;
 
         public OAuth1AppBase(
             string consumerKey,
@@ -34,8 +33,7 @@ namespace Material.OAuth.Workflow
             Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthorizationInterface browserType,
-            string userId)
+            AuthorizationInterface browserType)
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
@@ -43,7 +41,6 @@ namespace Material.OAuth.Workflow
             _uiFactory = uiFactory;
             _provider = provider;
             _browserType = browserType;
-            _userId = userId;
         }
 
         /// <summary>
@@ -51,8 +48,11 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public virtual async Task<OAuth1Credentials> GetCredentialsAsync()
+        public virtual async Task<OAuth1Credentials> GetCredentialsAsync(
+            string requestId)
         {
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
+
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -86,10 +86,10 @@ namespace Material.OAuth.Workflow
                 securityStrategy);
 
             var result = await template
-                .GetAccessTokenCredentials(_userId)
+                .GetAccessTokenCredentials(requestId)
                 .ConfigureAwait(false);
 
-            securityStrategy.ClearSecureParameters(_userId);
+            securityStrategy.ClearSecureParameters(requestId);
 
             return result;
         }

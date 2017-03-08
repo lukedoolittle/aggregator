@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
@@ -37,6 +38,7 @@ namespace Material.OAuth.Workflow
         {
             _clientId = clientId;
             _securityStrategy = strategy;
+
             _provider = new TResourceProvider();
 
             var callbackHandler = new OAuth2CallbackHandler(
@@ -51,8 +53,6 @@ namespace Material.OAuth.Workflow
                     new Uri(callbackUrl),
                     adapter,
                     strategy)
-                .AddSecurityParameters(
-                    new OAuth2StateSecurityParameterBundle())
                 .AddSecurityParameters(
                     new OAuth2NonceSecurityParameterBundle());
 
@@ -71,7 +71,8 @@ namespace Material.OAuth.Workflow
                 callbackHandler,
                 uriFacade,
                 accessTokenFacade,
-                strategy);
+                strategy,
+                new CryptoStringGenerator());
         }
 
         /// <summary>
@@ -99,36 +100,40 @@ namespace Material.OAuth.Workflow
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
         /// <returns>Authorization uri</returns>
-        public Task<Uri> GetAuthorizationUriAsync(string userId)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        public Task<Uri> GetAuthorizationUriAsync()
         {
             return _web
                 .AddScope("openid")
-                .GetAuthorizationUriAsync(userId);
+                .GetAuthorizationUriAsync();
         }
 
         /// <summary>
         /// Exchanges callback uri for access token credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
         /// <param name="responseUri">The received callback uri</param>
         /// <returns>Access token credentials</returns>
         public async Task<JsonWebToken> GetWebTokenAsync(
-            Uri responseUri,
-            string userId)
+            Uri responseUri)
         {
             var credentials = await _web.GetAccessTokenAsync(
                         responseUri,
-                        userId,
-                        CreateValidator(userId))
+                        true)
                     .ConfigureAwait(false);
+
+            var requestId = _web.GetRequestIdFromResponse(
+                responseUri);
+
+            CreateValidator(requestId)?.IsTokenValid(credentials.IdToken);
+
+            _securityStrategy.ClearSecureParameters(requestId);
 
             return credentials.IdToken;
         }
 
         private IJsonWebTokenAuthenticationValidator CreateValidator(
-            string userId)
+            string requestId)
         {
             return new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
@@ -139,7 +144,7 @@ namespace Material.OAuth.Workflow
                     _provider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(
                     _securityStrategy,
-                    userId))
+                    requestId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
                     _provider.OpenIdDiscoveryUrl))
                 .ThrowIfInvalid();

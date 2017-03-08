@@ -5,6 +5,6 @@ namespace Material.Contracts
 {
     public interface IOAuthAuthorizationUriFacade
     {
-        Task<Uri> GetAuthorizationUriAsync(string userId);
+        Task<Uri> GetAuthorizationUriAsync(string requestId);
     }
 }

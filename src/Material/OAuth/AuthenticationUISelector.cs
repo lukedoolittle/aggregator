@@ -13,6 +13,10 @@ namespace Material.OAuth
             _canProvideSecureBrowsing = canProvideSecureBrowsing;
         }
 
+        //Potentially this class should validate the callback uri scheme against
+        //the desired interface. This would necessitate changing the interface here
+        //for oauth1
+
         public AuthorizationInterface GetOptimalOAuth1Interface<TResourceProvider>(
             TResourceProvider provider,
             AuthorizationInterface selectedInterface)

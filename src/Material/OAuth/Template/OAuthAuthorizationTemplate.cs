@@ -25,29 +25,30 @@ namespace Material.OAuth.Template
             _securityStrategy = securityStrategy;
         }
 
-        public async Task<TCredentials> GetAccessTokenCredentials(string userId)  
+        public async Task<TCredentials> GetAccessTokenCredentials(
+            string requestId)  
         {
             try
             {
                 var authorizationPath = await _uriFacade
-                    .GetAuthorizationUriAsync(userId)
+                    .GetAuthorizationUriAsync(requestId)
                     .ConfigureAwait(false);
 
                 var intermediateResult = await _authorizerUI
                     .Authorize(
                         authorizationPath,
-                        userId)
+                        requestId)
                     .ConfigureAwait(false);
 
                 return await _accessTokenFacade
                     .GetAccessTokenAsync(
                         intermediateResult,
-                        userId)
+                        requestId)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException)
             {
-                _securityStrategy.ClearSecureParameters(userId);
+                _securityStrategy.ClearSecureParameters(requestId);
 
                 return null;
             }

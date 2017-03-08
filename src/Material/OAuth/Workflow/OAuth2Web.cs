@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Infrastructure;
@@ -22,6 +23,7 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
         private readonly TResourceProvider _resourceProvider;
         private readonly IOAuthSecurityStrategy _securityStrategy;
+        private readonly ICryptoStringGenerator _idGenerator;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
@@ -33,6 +35,7 @@ namespace Material.OAuth.Workflow
         /// <param name="uriFacade">Creates the authorization uri</param>
         /// <param name="accessTokenFacade">Exchanges code for an access token</param>
         /// <param name="securityStrategy">Security manager for OAuth calls</param>
+        /// <param name="idGenerator">Generator to create request Ids</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth2Web(
             string clientId,
@@ -41,7 +44,8 @@ namespace Material.OAuth.Workflow
             IOAuthCallbackHandler<OAuth2Credentials> callbackHandler,
             IOAuthAuthorizationUriFacade uriFacade,
             IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade,
-            IOAuthSecurityStrategy securityStrategy)
+            IOAuthSecurityStrategy securityStrategy,
+            ICryptoStringGenerator idGenerator)
         {
             _clientId = clientId;
             _clientSecret = clientSecret;
@@ -50,6 +54,7 @@ namespace Material.OAuth.Workflow
             _uriFacade = uriFacade;
             _accessTokenFacade = accessTokenFacade;
             _securityStrategy = securityStrategy;
+            _idGenerator = idGenerator;
         }
 
         /// <summary>
@@ -79,9 +84,7 @@ namespace Material.OAuth.Workflow
                             clientId, 
                             new Uri(callbackUrl), 
                             new OAuthAuthorizationAdapter(), 
-                            strategy)
-                        .AddSecurityParameters(
-                            new OAuth2StateSecurityParameterBundle()),
+                            strategy),
                     new OAuth2AccessCodeFacade(
                         resourceProvider, 
                         clientId, 
@@ -89,7 +92,8 @@ namespace Material.OAuth.Workflow
                         new Uri(callbackUrl), 
                         new OAuthAuthorizationAdapter(), 
                         strategy),
-                    strategy)
+                    strategy, 
+                    new CryptoStringGenerator())
         { }
 
         /// <summary>
@@ -157,45 +161,45 @@ namespace Material.OAuth.Workflow
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
         /// <returns>Authorization uri</returns>
-        public Task<Uri> GetAuthorizationUriAsync(string userId)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        public Task<Uri> GetAuthorizationUriAsync()
         {
-            _securityStrategy.ClearSecureParameters(userId);
-
             _resourceProvider.SetFlow(OAuth2FlowType.AccessCode);
 
-            return _uriFacade.GetAuthorizationUriAsync(userId);
+            return _uriFacade.GetAuthorizationUriAsync(
+                _idGenerator.CreateRandomString());
         }
 
         /// <summary>
         /// Exchanges callback uri for access token credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
         /// <param name="responseUri">The received callback uri</param>
-        /// <param name="validator">Access token credentials</param>
+        /// <param name="shouldSkipClearParameters"></param>
         /// <returns></returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
             Uri responseUri,
-            string userId,
-            IJsonWebTokenAuthenticationValidator validator)
+            bool shouldSkipClearParameters)
         {
             _resourceProvider.SetClientProperties(
                 _clientId,
                 _clientSecret);
 
+            var intermediateResult = _callbackHandler
+                .ParseAndValidateCallback(
+                    responseUri);
+
             var token = await _accessTokenFacade
                 .GetAccessTokenAsync(
-                    _callbackHandler
-                        .ParseAndValidateCallback(
-                            responseUri,
-                            userId),
-                    _clientSecret)
+                    intermediateResult.Credentials, 
+                    intermediateResult.RequestId)
                 .ConfigureAwait(false);
 
-            validator?.IsTokenValid(token.IdToken);
-
-            _securityStrategy.ClearSecureParameters(userId);
+            if (!shouldSkipClearParameters)
+            {
+                _securityStrategy.ClearSecureParameters(
+                    intermediateResult.RequestId);
+            }
 
             return token;
         }
@@ -203,14 +207,23 @@ namespace Material.OAuth.Workflow
         /// <summary>
         /// Exchanges callback uri for access token credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
         /// <param name="responseUri">The received callback uri</param>
         /// <returns>Access token credentials</returns>
         public Task<OAuth2Credentials> GetAccessTokenAsync(
-            Uri responseUri,
-            string userId)
+            Uri responseUri)
         {
-            return GetAccessTokenAsync(responseUri, userId, null);
+            return GetAccessTokenAsync(responseUri, false);
+        }
+
+        public string GetRequestIdFromResponse(Uri responseUri)
+        {
+            if (responseUri == null) throw new ArgumentNullException(nameof(responseUri));
+
+            var intermediateResult = _callbackHandler
+                .ParseAndValidateCallback(
+                    responseUri);
+
+            return intermediateResult.RequestId;
         }
 
         /// <summary>

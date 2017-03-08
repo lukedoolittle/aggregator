@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Foundations.HttpClient.Cryptography;
 using Material.Enums;
 using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
@@ -19,6 +20,7 @@ namespace Material.OAuth
         where TResourceProvider : OAuth1ResourceProvider, new()
     {
         private readonly OAuth1AppBase<TResourceProvider> _app;
+        private readonly ICryptoStringGenerator _idGenerator;
 
         /// <summary>
         /// Authorizes a resource owner using the OAuth1a workflow
@@ -56,8 +58,9 @@ namespace Material.OAuth
                 new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                @interface,
-                Guid.NewGuid().ToString());
+                @interface);
+
+            _idGenerator = new CryptoStringGenerator();
         }
 
         /// <summary>
@@ -85,7 +88,8 @@ namespace Material.OAuth
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public virtual Task<OAuth1Credentials> GetCredentialsAsync()
         {
-            return _app.GetCredentialsAsync();
+            return _app.GetCredentialsAsync(
+                _idGenerator.CreateRandomString());
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Security;
 using System.Threading.Tasks;
 using Foundations.Extensions;
+using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
 using Material.Enums;
@@ -20,8 +21,8 @@ namespace Material.OAuth
         private readonly TResourceProvider _provider;
         private readonly string _clientId;
         private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly string _userId;
         private readonly AuthorizationInterface _browserType;
+        private readonly ICryptoStringGenerator _idGenerator;
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow
@@ -51,7 +52,6 @@ namespace Material.OAuth
 #endif
             _clientId = clientId;
             _provider = provider;
-            _userId = Guid.NewGuid().ToString();
 
             _securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
@@ -67,10 +67,9 @@ namespace Material.OAuth
                     new OAuthAuthorizerUIFactory(),
 #endif
                 provider,
-                _browserType,
-                _userId);
+                _browserType);
 
-            _app.AddScope("openid");
+            _idGenerator = new CryptoStringGenerator();
         }
 
         /// <summary>
@@ -133,10 +132,15 @@ namespace Material.OAuth
         public Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
+            _app.AddScope("openid");
+
+            var requestId = _idGenerator.CreateRandomString();
+
             return _app
                 .GetIdTokenAsync(
                     clientSecret,
-                    CreateValidator());
+                    CreateValidator(requestId),
+                    requestId);
         }
 
         /// <summary>
@@ -145,11 +149,18 @@ namespace Material.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<JsonWebToken> GetWebTokenAsync()
         {
+            _app.AddScope("openid");
+
+            var requestId = _idGenerator.CreateRandomString();
+
             return _app
-                .GetIdTokenAsync(CreateValidator());
+                .GetIdTokenAsync(
+                CreateValidator(requestId),
+                requestId);
         }
 
-        private IJsonWebTokenAuthenticationValidator CreateValidator()
+        private IJsonWebTokenAuthenticationValidator CreateValidator(
+            string requestId)
         {
             return new CompositeJsonWebTokenAuthenticationValidator()
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
@@ -160,7 +171,7 @@ namespace Material.OAuth
                     _provider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(
                     _securityStrategy,
-                    _userId))
+                    requestId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
                     _provider.OpenIdDiscoveryUrl))
                 .ThrowIfInvalid();

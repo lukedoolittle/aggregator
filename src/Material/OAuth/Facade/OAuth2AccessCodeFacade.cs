@@ -94,13 +94,14 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId">Unique ID for the request</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth2Credentials> GetAccessTokenAsync(
             OAuth2Credentials intermediateResult, 
-            string userId)
+            string requestId)
         {
             if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
 
             if (intermediateResult.IsErrorResult)
             {
@@ -114,7 +115,7 @@ namespace Material.OAuth.Facade
                 .AddParameter(new OAuth2Scope(_resourceProvider.Scope))
                 .AddParameter(new OAuth2GrantType(_resourceProvider.Grant))
                 .AddParameters(_securityParameters
-                    .Select(s => s.GetBundle(_securityStrategy, userId))
+                    .Select(s => s.GetBundle(_securityStrategy, requestId))
                     .SelectMany(s => s))
                 .AddParameters(_parameters);
 

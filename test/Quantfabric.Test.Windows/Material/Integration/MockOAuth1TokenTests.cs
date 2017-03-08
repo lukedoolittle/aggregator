@@ -99,10 +99,10 @@ namespace Quantfabric.Test.Material.Integration
                     .AddHandler(
                         mock.AuthorizationUrl,
                         new OAuth1AuthorizationHandler(
-                            redirectUri,
                             new OAuth1AuthorizationRedirectBuilder(), 
                             new OAuth1AuthenticationCredentialBuilder(
-                                server.Tokens)))
+                                server.Tokens),
+                            server.Tokens))
                     .AddHandler(
                         mock.TokenUrl,
                         new OAuth1AccessTokenHandler(

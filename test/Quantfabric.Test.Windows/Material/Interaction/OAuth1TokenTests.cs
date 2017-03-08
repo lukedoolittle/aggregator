@@ -34,11 +34,10 @@ namespace Quantfabric.Test.Material.Interaction
                 new Uri(redirectUri),
                 new OAuthAuthorizerUIFactory(),
                 new Twitter(),
-                AuthorizationInterface.NotSpecified,
-                userId);
+                AuthorizationInterface.NotSpecified);
 
-            var token = await app.GetCredentialsAsync().ConfigureAwait(false);
-            token = await app.GetCredentialsAsync().ConfigureAwait(false);
+            var token = await app.GetCredentialsAsync(userId).ConfigureAwait(false);
+            token = await app.GetCredentialsAsync(userId).ConfigureAwait(false);
 
             Assert.True(TestUtilities.IsValidOAuth1Token(token, true));
 

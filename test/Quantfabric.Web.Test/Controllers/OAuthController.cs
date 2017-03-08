@@ -29,8 +29,7 @@ namespace Quantfabric.Web.Test.Controllers
                     "YOUR CLIENT SECRET",
                     "HTTP://YOURCALLBACKURI")
                 .GetAccessTokenAsync(
-                    ControllerContext.HttpContext.Request.Url,
-                    Request.Cookies["userId"]?.Values["userId"])
+                    ControllerContext.HttpContext.Request.Url)
                 .ConfigureAwait(false);
 
             FacebookUserResponse user = await new AuthorizedRequester(fullCredentials)
@@ -47,13 +46,11 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Twitter()
         {
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
             var credentials = await ServiceLocator.TwitterOAuth
                     .GetAccessTokenAsync(
-                        url,
-                        userId)
+                        url)
                     .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
@@ -97,13 +94,11 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Facebook()
         {
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
            var credentials = await ServiceLocator.FacebookAuth
                     .GetAccessTokenAsync(
-                        url,
-                        userId)
+                        url)
                     .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home", 
@@ -239,13 +234,11 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetConsumerSecret<TResourceProvider>(),
                 _appRepository.GetRedirectUri<TResourceProvider>());
 
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
             return oauth
                 .GetAccessTokenAsync(
-                    url,
-                    userId);
+                    url);
         }
 
         public Task<OAuth2Credentials> GetOAuth2Credentials<TResourceProvider>()
@@ -256,13 +249,11 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<TResourceProvider>(),
                 _appRepository.GetRedirectUri<TResourceProvider>());
 
-            var userId = Request.Cookies["userId"]?.Values["userId"];
             var url = ControllerContext.HttpContext.Request.Url;
 
             return oauth
                 .GetAccessTokenAsync(
-                    url, 
-                    userId);
+                    url);
         }
     }
 }

@@ -24,32 +24,34 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly TResourceProvider _provider;
         private readonly AuthorizationInterface _browserType;
-        private readonly string _userId;
 
         public OAuth2AppBase(
             string clientId,
             Uri callbackUri,
             IOAuthAuthorizerUIFactory uiFactory,
             TResourceProvider provider,
-            AuthorizationInterface browserType,
-            string userId)
+            AuthorizationInterface browserType)
         {
             _clientId = clientId;
             _callbackUri = callbackUri;
             _browserType = browserType;
             _provider = provider;
             _uiFactory = uiFactory;
-            _userId = userId;
         }
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 code workflow
         /// </summary>
         /// <param name="clientSecret">The client secret for the application</param>
+        /// <param name="requestId">The unique ID of the request</param>
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<OAuth2Credentials> GetCredentialsAsync(
-            string clientSecret)
+            string clientSecret,
+            string requestId)
         {
+            if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
+
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -68,21 +70,24 @@ namespace Material.OAuth.Workflow
                 OAuth2ResponseType.Code,
                 callbackHandler,
                 CreateUriFacade(
-                    securityStrategy,
-                    new OAuth2StateSecurityParameterBundle()),
+                    securityStrategy),
                 CreateTokenFacade(
                     clientSecret, 
                     securityStrategy),
                 securityStrategy,
-                null);
+                null,
+                requestId);
         }
 
         /// <summary>
         /// Authorize a resource owner using a mobile workflow
         /// </summary>
         /// <returns>Valid OAuth2 credentials</returns>
-        public Task<OAuth2Credentials> GetCredentialsAsync()
+        public Task<OAuth2Credentials> GetCredentialsAsync(
+            string requestId)
         {
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
+
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -102,14 +107,14 @@ namespace Material.OAuth.Workflow
                         callbackHandler,
                         CreateUriFacade(
                             securityStrategy,
-                            new OAuth2StateSecurityParameterBundle(),
                             new OAuth2Sha256PkceSecurityParameterBundle(
                                 DigestSigningAlgorithm.Sha256Algorithm())),
                         CreateTokenFacade(securityStrategy)
                             .AddSecurityParameters(
                                 new OAuth2PkceVerifierSecurityParameterBundle()),
                         securityStrategy,
-                        null);
+                        null,
+                        requestId);
             }
             else
             {
@@ -118,19 +123,22 @@ namespace Material.OAuth.Workflow
                     OAuth2ResponseType.Token,
                     callbackHandler,
                     CreateUriFacade(
-                        securityStrategy,
-                        new OAuth2StateSecurityParameterBundle()),
+                        securityStrategy),
                     new OAuth2ImplicitFacade(
                         _clientId,
                         _provider),
                     securityStrategy,
-                    null);
+                    null,
+                    requestId);
             }
         }
 
         public async Task<JsonWebToken> GetIdTokenAsync(
-            IJsonWebTokenAuthenticationValidator validator)
+            IJsonWebTokenAuthenticationValidator validator,
+            string requestId)
         {
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
+
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -150,7 +158,6 @@ namespace Material.OAuth.Workflow
                     callbackHandler,
                     CreateUriFacade(
                         securityStrategy,
-                        new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle(),
                         new OAuth2Sha256PkceSecurityParameterBundle(
                             DigestSigningAlgorithm.Sha256Algorithm())),
@@ -158,7 +165,8 @@ namespace Material.OAuth.Workflow
                         .AddSecurityParameters(
                             new OAuth2PkceVerifierSecurityParameterBundle()),
                         securityStrategy,
-                        validator)
+                        validator,
+                        requestId)
                     .ConfigureAwait(false);
 
                 return credentials?.IdToken;
@@ -171,13 +179,13 @@ namespace Material.OAuth.Workflow
                         callbackHandler,
                         CreateUriFacade(
                             securityStrategy,
-                            new OAuth2StateSecurityParameterBundle(),
                             new OAuth2NonceSecurityParameterBundle()),
                         new OAuth2ImplicitFacade(
                             _clientId,
                             _provider),
                         securityStrategy,
-                        validator)
+                        validator,
+                        requestId)
                     .ConfigureAwait(false);
 
                 return credentials?.IdToken;
@@ -186,8 +194,12 @@ namespace Material.OAuth.Workflow
 
         public async Task<JsonWebToken> GetIdTokenAsync(
             string clientSecret,
-            IJsonWebTokenAuthenticationValidator validator)
+            IJsonWebTokenAuthenticationValidator validator,
+            string requestId)
         {
+            if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
+            if (requestId == null) throw new ArgumentNullException(nameof(requestId));
+
             var securityStrategy = new OAuthSecurityStrategy(
                 new InMemoryCryptographicParameterRepository(),
                 TimeSpan.FromMinutes(
@@ -203,13 +215,13 @@ namespace Material.OAuth.Workflow
                     callbackHandler,
                     CreateUriFacade(
                         securityStrategy,
-                        new OAuth2StateSecurityParameterBundle(),
                         new OAuth2NonceSecurityParameterBundle()),
                     CreateTokenFacade(
                         clientSecret,
                         securityStrategy),
                     securityStrategy,
-                    validator)
+                    validator,
+                    requestId)
                 .ConfigureAwait(false);
 
             return credentials?.IdToken;
@@ -265,13 +277,14 @@ namespace Material.OAuth.Workflow
             IOAuthAuthorizationUriFacade uriFacade,
             IOAuthAccessTokenFacade<OAuth2Credentials> tokenFacade,
             IOAuthSecurityStrategy securityStrategy,
-            IJsonWebTokenAuthenticationValidator validator)
+            IJsonWebTokenAuthenticationValidator validator,
+            string requestId)
         {
             if (callbackHandler == null) throw new ArgumentNullException(nameof(callbackHandler));
             if (uriFacade == null) throw new ArgumentNullException(nameof(uriFacade));
             if (tokenFacade == null) throw new ArgumentNullException(nameof(tokenFacade));
 
-            securityStrategy.ClearSecureParameters(_userId);
+            securityStrategy.ClearSecureParameters(requestId);
 
             _provider.SetFlow(flowType);
             _provider.SetResponse(responseType);
@@ -289,12 +302,12 @@ namespace Material.OAuth.Workflow
                     securityStrategy);
 
             var result = await template
-                .GetAccessTokenCredentials(_userId)
+                .GetAccessTokenCredentials(requestId)
                 .ConfigureAwait(false);
 
             validator?.IsTokenValid(result.IdToken);
 
-            securityStrategy.ClearSecureParameters(_userId);
+            securityStrategy.ClearSecureParameters(requestId);
 
             return result;
         }

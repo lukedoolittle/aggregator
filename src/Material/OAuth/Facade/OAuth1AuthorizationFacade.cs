@@ -64,12 +64,14 @@ namespace Material.OAuth.Facade
         /// <summary>
         /// Gets the authorization uri for the Resource Owner to enter his/her credentials
         /// </summary>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId">Unique ID for request</param>
         /// <returns>Authorization uri</returns>
-        public async Task<Uri> GetAuthorizationUriAsync(string userId)
+        public async Task<Uri> GetAuthorizationUriAsync(string requestId)
         {
             var builder = CreateBuilder()
-                .AddParameter(new OAuth1CallbackUri(_callbackUri))
+                .AddParameter(new OAuth1CallbackUri(
+                    _callbackUri, 
+                    requestId))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     _consumerSecret,
                     _signingAlgorithm,
@@ -92,11 +94,11 @@ namespace Material.OAuth.Facade
             }
 
             _securityStrategy.SetSecureParameter(
-                userId,
+                requestId,
                 OAuth1Parameter.OAuthToken.EnumToString(),
                 credentials.OAuthToken);
             _securityStrategy.SetSecureParameter(
-                userId,
+                requestId,
                 OAuth1Parameter.OAuthTokenSecret.EnumToString(),
                 credentials.OAuthSecret);
 
@@ -106,7 +108,7 @@ namespace Material.OAuth.Facade
                     new AuthenticatorBuilder().AddParameter(
                         new OAuth1Token(
                             _securityStrategy, 
-                            userId)));
+                            requestId)));
 
             return authorizationPath;
         }
@@ -115,11 +117,11 @@ namespace Material.OAuth.Facade
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth1 callback</param>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId">Unique ID for request</param>
         /// <returns>Access token credentials</returns>
         public async Task<OAuth1Credentials> GetAccessTokenAsync(
             OAuth1Credentials intermediateResult,
-            string userId)
+            string requestId)
         {
             if (intermediateResult == null) throw new ArgumentNullException(nameof(intermediateResult));
 
@@ -129,7 +131,7 @@ namespace Material.OAuth.Facade
             }
 
             var oauthSecret = _securityStrategy.GetSecureParameter(
-                userId,
+                requestId,
                 OAuth1Parameter.OAuthTokenSecret.EnumToString());
 
             var builder = CreateBuilder()
@@ -137,7 +139,7 @@ namespace Material.OAuth.Facade
                     intermediateResult.Verifier))
                 .AddParameter(new OAuth1Token(
                     _securityStrategy,
-                    userId))
+                    requestId))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     _consumerSecret,
                     oauthSecret,

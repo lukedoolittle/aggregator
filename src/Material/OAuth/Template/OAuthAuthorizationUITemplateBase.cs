@@ -35,7 +35,7 @@ namespace Material.OAuth.Template
 
         public virtual Task<TCredentials> Authorize(
             Uri authorizationUri, 
-            string userId)
+            string requestId)
         {
             var credentialsCompletion = new TaskCompletionSource<TCredentials>();
 
@@ -58,14 +58,14 @@ namespace Material.OAuth.Template
                             {
                                 var result = _handler
                                     .ParseAndValidateCallback(
-                                        uri,
-                                        userId);
+                                        uri);
 
-                                if (result == null)
+                                if (!result.ContainsResult)
                                 {
                                     return false;
                                 }
-                                credentialsCompletion.SetResult(result);
+                                credentialsCompletion.SetResult(
+                                    result.Credentials);
                                 CleanupView(view);
                                 return true;
                             }

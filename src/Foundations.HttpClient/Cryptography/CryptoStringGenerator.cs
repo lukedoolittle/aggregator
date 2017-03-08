@@ -10,6 +10,12 @@ namespace Foundations.HttpClient.Cryptography
 {
     public class CryptoStringGenerator : ICryptoStringGenerator
     {
+        public string CreateRandomString()
+        {
+            return CreateCryptographicallyStrongString<Sha256Digest>(
+                CryptoStringType.Base64Alphanumeric);
+        }
+
         public string CreateRandomString(
             int stringLength, 
             CryptoStringType stringType)

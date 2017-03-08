@@ -214,10 +214,8 @@ namespace Quantfabric.Test.Material.Integration
 
                 var serverTask = server.Start(mock.Port);
 
-                var userId = Guid.NewGuid().ToString();
-
                 var authUri = await oauth2
-                    .GetAuthorizationUriAsync(userId)
+                    .GetAuthorizationUriAsync()
                     .ConfigureAwait(false);
 
                 if (serverTask.Status == TaskStatus.RanToCompletion)
@@ -236,8 +234,7 @@ namespace Quantfabric.Test.Material.Integration
                 }
 
                 var tokenTask = oauth2.GetAccessTokenAsync(
-                    result.Headers.Location, 
-                    userId);
+                    result.Headers.Location);
 
                 await Task.WhenAny(serverTask, tokenTask)
                     .ConfigureAwait(false);

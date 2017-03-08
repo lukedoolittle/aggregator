@@ -6,6 +6,6 @@ namespace Material.Contracts
     public interface IOAuthAuthorizationTemplate<TCredentials>
         where TCredentials : TokenCredentials
     {
-        Task<TCredentials> GetAccessTokenCredentials(string userId);
+        Task<TCredentials> GetAccessTokenCredentials(string requestId);
     }
 }

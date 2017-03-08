@@ -6,30 +6,30 @@
         /// Gets a current parameter or throws an exception if it does not exist
         /// </summary>
         /// <param name="parameterName">Name of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
+        /// <param name="requestId">The unique identifier of the request being made</param>
         /// <returns>The existing created parameter</returns>
         string GetSecureParameter(
-            string userId,
+            string requestId,
             string parameterName);
 
         /// <summary>
         /// Creates a new parameter
         /// </summary>
         /// <param name="parameterName">Name of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
+        /// <param name="requestId">The unique identifier of the request being made</param>
         /// <returns>The existing or newly created parameter</returns>
         string CreateSecureParameter(
-            string userId,
+            string requestId,
             string parameterName);
 
         /// <summary>
         /// Sets a secure parameter to a specific value
         /// </summary>
         /// <param name="parameterName">Name of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
+        /// <param name="requestId">The unique identifier of the request being made</param>
         /// <param name="parameterValue">The secure value to set</param>
         void SetSecureParameter(
-            string userId,
+            string requestId,
             string parameterName,
             string parameterValue);
 
@@ -38,17 +38,17 @@
         /// </summary>
         /// <param name="parameterName">Name of the cryptographic parameter</param>
         /// <param name="parameterValue">Returned value of the cryptographic parameter</param>
-        /// <param name="userId">The identifier of the user submitting the request</param>
+        /// <param name="requestId">The unique identifier of the request being made</param>
         /// <returns>False if the parameter is expired, incorrect, or expected and missing, True otherwise</returns>
         bool IsSecureParameterValid(
-            string userId,
+            string requestId,
             string parameterName,
             string parameterValue);
 
         /// <summary>
-        /// Removes all the security parameters for the given user
+        /// Removes all the security parameters for the given request
         /// </summary>
-        /// <param name="userId">Id of the user</param>
-        void ClearSecureParameters(string userId);
+        /// <param name="requestId">The unique identifier of the request being made</param>
+        void ClearSecureParameters(string requestId);
     }
 }

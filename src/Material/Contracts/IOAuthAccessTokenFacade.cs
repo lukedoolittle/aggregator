@@ -10,10 +10,10 @@ namespace Material.Contracts
         /// Exchanges intermediate credentials for access token credentials
         /// </summary>
         /// <param name="intermediateResult">Intermediate credentials received from OAuth2 callback</param>
-        /// <param name="userId">Resource owner's Id</param>
+        /// <param name="requestId">Unique ID of the request being made</param>
         /// <returns>Access token credentials</returns>
         Task<TCredentials> GetAccessTokenAsync(
             TCredentials intermediateResult,
-            string userId);
+            string requestId);
     }
 }
