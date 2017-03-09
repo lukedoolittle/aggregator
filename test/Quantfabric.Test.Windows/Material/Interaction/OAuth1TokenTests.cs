@@ -1,9 +1,8 @@
 ﻿using System;
 using Material.Contracts;
-using Material.Enums;
+using Material.Framework;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
@@ -20,6 +19,11 @@ namespace Quantfabric.Test.Material.Interaction
         private readonly TokenCredentialRepository _tokenRepository = 
             new TokenCredentialRepository(true);
 
+        public OAuth1TokenTests()
+        {
+            Platform.Current.Initialize();
+        }
+
         [Fact]
         public async void CanGetValidAccessTokenFromTwitterTwiceForSameUser()
         {
@@ -28,13 +32,10 @@ namespace Quantfabric.Test.Material.Interaction
             var redirectUri = _appRepository.GetRedirectUri<Twitter>();
             var userId = Guid.NewGuid().ToString();
 
-            var app = new OAuth1AppBase<Twitter>(
+            var app = new OAuth1App<Twitter>(
                 consumerKey,
                 consumerSecret,
-                new Uri(redirectUri),
-                new OAuthAuthorizerUIFactory(),
-                new Twitter(),
-                AuthorizationInterface.NotSpecified);
+                redirectUri);
 
             var token = await app.GetCredentialsAsync(userId).ConfigureAwait(false);
             token = await app.GetCredentialsAsync(userId).ConfigureAwait(false);

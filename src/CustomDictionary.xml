@@ -26,6 +26,7 @@
            <Word>Pkce</Word>
            <Word>Canonicalizer</Word>
            <Word>Canonicalizers</Word>
+           <Word>Quantfabric</Word>
          </Recognized>
          <Compound>
             <Term CompoundAlternate="IOs">ios</Term>

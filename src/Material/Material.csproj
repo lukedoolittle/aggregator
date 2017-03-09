@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OpenIdResourceProviderTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Contracts\IAuthorizationUISelector.cs" />
     <Compile Include="Contracts\IJsonWebTokenAuthenticationValidator.cs" />
     <Compile Include="Contracts\IOAuth1Identity.cs" />
     <Compile Include="Contracts\IOAuth2Identity.cs" />
@@ -339,7 +340,6 @@
     <Compile Include="Metadata\Name.cs" />
     <Compile Include="Metadata\ParameterType.cs" />
     <Compile Include="Metadata\Required.cs" />
-    <Compile Include="OAuth\Authentication\AuthenticationConfiguration.cs" />
     <Compile Include="OAuth\Authentication\AuthenticationGenerator.cs" />
     <Compile Include="OAuth\Authentication\JsonWebTokenAlgorithmValidator.cs" />
     <Compile Include="OAuth\Authentication\JsonWebTokenAudienceValidator.cs" />
@@ -354,15 +354,16 @@
     <Compile Include="OAuth\Authorization\OAuthAuthorizationAdapter.cs" />
     <Compile Include="OAuth\Authorization\ProtectedResourceAdapter.cs" />
     <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
-    <Compile Include="OAuth\AuthenticationUISelector.cs" />
-    <Compile Include="OAuth\Workflow\OAuth1AppBase.cs" />
+    <Compile Include="OAuth\MobileAuthorizationUISelector.cs" />
+    <Compile Include="OAuth\Workflow\OAuth1App.cs" />
     <Compile Include="OAuth\Workflow\OAuth1Web.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2AppBase.cs" />
+    <Compile Include="OAuth\Workflow\OAuth2App.cs" />
     <Compile Include="OAuth\Workflow\OAuth2Client.cs" />
     <Compile Include="OAuth\Workflow\OAuth2Assert.cs" />
     <Compile Include="OAuth\Workflow\OAuth2Refresh.cs" />
     <Compile Include="OAuth\Workflow\OAuth2Web.cs" />
-    <Compile Include="OAuth\OAuthConfiguration.cs" />
+    <Compile Include="OAuth\Workflow\OpenIdApp.cs" />
+    <Compile Include="QuantfabricConfiguration.cs" />
     <Compile Include="OAuth\Workflow\AuthorizedRequester.cs" />
     <Compile Include="OAuth\Workflow\OpenIdWeb.cs" />
     <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />

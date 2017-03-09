@@ -33,14 +33,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Foundations.Http", "src\Fou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundations.Test", "test\Foundations.Test\Foundations.Test.csproj", "{9CCBA100-072A-4F30-B3C6-AA688F01BE07}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C352587C-5AC0-4B06-9486-441A19690E47}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		build.cake = build.cake
-		nuget\Material\Quantfabric.Material.nuspec = nuget\Material\Quantfabric.Material.nuspec
-		ReadMe.md = ReadMe.md
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundations.HttpClient", "src\Foundations.HttpClient\Foundations.HttpClient.csproj", "{C5DA9975-903B-4983-8E50-ED787630FF3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.UWP", "src\Material.UWP\Material.UWP.csproj", "{DC7BC052-767D-4A5F-A94C-6B9DD4523396}"
@@ -60,6 +52,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.UI.Test.Forms.UWP", "test\Quantfabric.UI.Test.Forms.UWP\Quantfabric.UI.Test.Forms.UWP.csproj", "{F6C31784-F5CC-4BFE-9213-3C767D023413}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.Web.Test", "test\Quantfabric.Web.Test\Quantfabric.Web.Test.csproj", "{AAACF457-7546-4CA1-B2E1-CC1746572832}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{114F56EF-C702-4CBD-9A91-DBA05B0E0EC6}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\Material\content\Xamarin.iOS10\AppDelegatePartial.cs.pp = nuget\Material\content\Xamarin.iOS10\AppDelegatePartial.cs.pp
+		nuget\Material\content\uap10.0\AppPartial.cs.pp = nuget\Material\content\uap10.0\AppPartial.cs.pp
+		build.cake = build.cake
+		nuget\Material\content\MonoAndroid60\MainApplicationPartial.cs.pp = nuget\Material\content\MonoAndroid60\MainApplicationPartial.cs.pp
+		nuget\Material\Quantfabric.Material.nuspec = nuget\Material\Quantfabric.Material.nuspec
+		nuget\Material\readme.txt = nuget\Material\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{081624DC-592B-4A0A-BB37-C3F4352E3DA9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		ReadMe.md = ReadMe.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

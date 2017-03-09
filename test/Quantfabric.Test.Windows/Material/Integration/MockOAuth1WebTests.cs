@@ -8,9 +8,9 @@ using Foundations.HttpClient;
 using Foundations.HttpClient.Enums;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
 using Material.OAuth.Facade;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
@@ -33,13 +33,15 @@ namespace Quantfabric.Test.Material.Integration
 
         public MockOAuth1WebTests()
         {
-            HttpConfiguration.MessageHandlerFactory = (parameters) => 
-            new HttpClientHandler
-            {
-                CookieContainer = new CookieContainer(),
-                AllowAutoRedirect = false,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            };
+            HttpConfiguration.MessageHandlerFactory = (parameters) =>
+                new HttpClientHandler
+                {
+                    CookieContainer = new CookieContainer(),
+                    AllowAutoRedirect = false,
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                };
+
+            Platform.Current.Initialize();
         }
 
         [Fact]

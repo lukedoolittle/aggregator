@@ -14,9 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\SubscriptionManagers\AdapterSubscriptionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\SubscriptionManagers\DeviceSubscriptionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth1App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuth2App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OpenIdApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\BluetoothRequester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\GPSRequester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Requsters\SMSRequester.cs" />

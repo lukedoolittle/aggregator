@@ -13,7 +13,7 @@ namespace Material.OAuth.Authentication
 
         public JsonWebTokenAlgorithmValidator()
         {
-            _whitelistedAlgorithms = AuthenticationConfiguration.WhitelistedAlgorithms;
+            _whitelistedAlgorithms = QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms;
         }
 
         public TokenValidationResult IsTokenValid(JsonWebToken token)

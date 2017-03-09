@@ -9,6 +9,8 @@ namespace Quantfabric.UI.Test.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Material.Framework.Platform.Current.Initialize();
+
             return true;
         }
 

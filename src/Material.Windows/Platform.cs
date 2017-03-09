@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using Material.Contracts;
+using Material.OAuth;
 
 namespace Material.Framework
 {
+    /// <summary>
+    /// Platform specific functions and information for Windows
+    /// </summary>
     public class Platform : IBrowser, IProtocolLauncher
     {
         private static volatile Platform _instance;
@@ -29,6 +33,20 @@ namespace Material.Framework
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public void Initialize()
+        {
+            if (QuantfabricConfiguration.WebAuthorizationUIFactory == null)
+            {
+                QuantfabricConfiguration.WebAuthorizationUIFactory = new OAuthAuthorizerUIFactory();
+            }
+
+            if (QuantfabricConfiguration.WebAuthenticationUISelector == null)
+            {
+                QuantfabricConfiguration.WebAuthenticationUISelector = new WindowsAuthorizationUISelector();
+            }
+        }
+
         public Action<Uri> ProtocolLaunch { get; set; }
 
         public void Protocol(Uri uri)
@@ -36,7 +54,7 @@ namespace Material.Framework
             ProtocolLaunch?.Invoke(uri);
         }
 
-        public static Action<Action> RunOnMainThread { get; } = null;
+        public Action<Action> RunOnMainThread { get; } = null;
 
         public void Launch(Uri uri)
         {
@@ -44,9 +62,5 @@ namespace Material.Framework
 
             Process.Start(uri.ToString());
         }
-
-        public static bool IsOnline => true;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public bool CanProvideSecureBrowsing => false;
     }
 }

@@ -115,7 +115,7 @@ namespace Material.OAuth.Workflow
                     callbackUri,
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(OAuthConfiguration.SecurityParameterTimeoutInMinutes)), 
+                        QuantfabricConfiguration.SecurityParameterTimeout), 
                     resourceProvider)
         {}
 

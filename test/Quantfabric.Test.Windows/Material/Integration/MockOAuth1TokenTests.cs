@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Foundations.HttpClient.Enums;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
@@ -23,6 +23,11 @@ namespace Quantfabric.Test.Material.Integration
     {
         private readonly AppCredentialRepository _appRepository =
             new AppCredentialRepository(CallbackType.Localhost);
+
+        public MockOAuth1TokenTests()
+        {
+            Platform.Current.Initialize();
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromTwitter()
@@ -70,7 +75,6 @@ namespace Quantfabric.Test.Material.Integration
                 redirectUri.ToString());
 
             var mock = oauth1
-                .GetMemberValue<OAuth1AppBase<TMockProvider>>("_app")
                 .GetMemberValue<TMockProvider>("_provider");
 
             IIncommingMessageDeserializer deserializer;

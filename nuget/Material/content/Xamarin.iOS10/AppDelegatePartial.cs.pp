@@ -9,14 +9,10 @@ namespace $rootnamespace$
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            //Uncomment the below lines if using Xamarin.Forms
-            //global::Xamarin.Forms.Forms.Init();
-            //Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();
-            //Xamarin.Forms.DependencyService.Register<BluetoothAuthorizerUIFactory>();
-            //LoadApplication(new App());
-            //return base.FinishedLaunching(app, options);
-            
-            return true;
+			//Necessary for creating default OAuth objects
+            Material.Framework.Platform.Current.Initialize();
+
+			return base.FinishedLaunching(app, options);
         }
 
 	    public override bool OpenUrl(

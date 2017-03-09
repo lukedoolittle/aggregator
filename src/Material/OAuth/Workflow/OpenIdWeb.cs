@@ -93,8 +93,7 @@ namespace Material.OAuth.Workflow
                     callbackUrl, 
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(
-                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)))
+                        QuantfabricConfiguration.SecurityParameterTimeout))
         { }
 
         /// <summary>

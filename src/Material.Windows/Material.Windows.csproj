@@ -51,6 +51,7 @@
     <Compile Include="OAuthAuthorizerUIFactory.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsAuthorizationUISelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">

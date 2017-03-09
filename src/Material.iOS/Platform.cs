@@ -2,13 +2,18 @@ using System;
 using System.Net;
 using SystemConfiguration;
 using CoreFoundation;
+using Material.Bluetooth;
 using Material.Contracts;
+using Material.OAuth;
 using Material.View.WebAuthorization;
 using Robotics.Mobile.Core.Bluetooth.LE;
 using UIKit;
 
 namespace Material.Framework
 {
+    /// <summary>
+    /// Platform specific functions and information for iOS
+    /// </summary>
     public class Platform : IBrowser, IProtocolLauncher
     {
         private static volatile Platform _instance;
@@ -31,6 +36,29 @@ namespace Material.Framework
                 }
 
                 return _instance;
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public void Initialize()
+        {
+            if (QuantfabricConfiguration.WebAuthorizationUIFactory == null)
+            {
+                QuantfabricConfiguration.WebAuthorizationUIFactory = 
+                    new OAuthAuthorizerUIFactory();
+            }
+
+            if (QuantfabricConfiguration.WebAuthenticationUISelector == null)
+            {
+                QuantfabricConfiguration.WebAuthenticationUISelector = 
+                    new MobileAuthorizationUISelector(
+                        UIDevice.CurrentDevice.CheckSystemVersion(9, 0));
+            }
+
+            if (QuantfabricConfiguration.BluetoothAuthorizationUIFactory == null)
+            {
+                QuantfabricConfiguration.BluetoothAuthorizationUIFactory = 
+                    new BluetoothAuthorizerUIFactory();
             }
         }
 
@@ -72,9 +100,6 @@ namespace Material.Framework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public bool IsOnline => Reachability.IsReachable();
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public bool CanProvideSecureBrowsing => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
     }
 
 

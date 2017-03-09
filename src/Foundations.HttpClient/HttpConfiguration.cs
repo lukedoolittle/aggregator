@@ -18,7 +18,6 @@ namespace Foundations.HttpClient
         /// <summary>
         /// Creates the default HttpClient instance internal to HttpRequestBuilder
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static Func<RequestParameters, HttpClientSet> HttpClientFactory { get; set; } = //-V3070
             (request) => ClientPool.GetClient(request, MessageHandlerFactory, ClientHashFactory);
 

@@ -1,14 +1,15 @@
 ﻿using System;
+using Material.Contracts;
 using Material.Enums;
 using Material.Infrastructure;
 
 namespace Material.OAuth
 {
-    public class AuthenticationUISelector
+    public class MobileAuthorizationUISelector : IAuthorizationUISelector
     {
         private readonly bool _canProvideSecureBrowsing;
 
-        public AuthenticationUISelector(bool canProvideSecureBrowsing)
+        public MobileAuthorizationUISelector(bool canProvideSecureBrowsing)
         {
             _canProvideSecureBrowsing = canProvideSecureBrowsing;
         }

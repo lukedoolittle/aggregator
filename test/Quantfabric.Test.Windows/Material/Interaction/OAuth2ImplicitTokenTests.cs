@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Xunit;
@@ -14,6 +15,11 @@ namespace Quantfabric.Test.Material.Interaction
     {
         private readonly AppCredentialRepository _appRepository = 
             new AppCredentialRepository(CallbackType.Localhost);
+
+        public OAuth2ImplicitTokenTests()
+        {
+            Platform.Current.Initialize();
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromSpotifyTwiceImplicitFlow()

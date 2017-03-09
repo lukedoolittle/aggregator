@@ -2,6 +2,7 @@
 using Foundations.HttpClient.Cryptography;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
+using Material;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Identities;
 using Material.Infrastructure.ProtectedResources;
@@ -22,17 +23,17 @@ namespace Quantfabric.Test.Material.Interaction
 
         public AuthenticationTests()
         {
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.ES256);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.ES384);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.ES512);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.ES256);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.ES384);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.ES512);
 
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.RS256);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.RS384);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.RS512);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.RS256);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.RS384);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.RS512);
 
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS256);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS384);
-            AuthenticationConfiguration.WhitelistedAlgorithms.Add(JsonWebTokenAlgorithm.HS512);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.HS256);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.HS384);
+            QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Add(JsonWebTokenAlgorithm.HS512);
         }
 
         [Fact]
@@ -186,8 +187,8 @@ namespace Quantfabric.Test.Material.Interaction
         {
             var algorithmIndex = _randomizer.RandomNumber(
                 0,
-                AuthenticationConfiguration.WhitelistedAlgorithms.Count - 1);
-            var algorithm = AuthenticationConfiguration.WhitelistedAlgorithms[algorithmIndex];
+                QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms.Count - 1);
+            var algorithm = QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms[algorithmIndex];
 
             return GenerateRandomParameters(algorithm);
         }

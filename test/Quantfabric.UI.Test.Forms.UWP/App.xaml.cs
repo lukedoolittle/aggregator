@@ -40,6 +40,7 @@ namespace Quantfabric.UI.Test.Forms.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Material.Framework.Platform.Current.Initialize();
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)

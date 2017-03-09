@@ -201,4 +201,7 @@
   <data name="SecurityParameterDoesNotExist" xml:space="preserve">
     <value>The security parameter {0} does not exist for userId {1}</value>
   </data>
+  <data name="InitializationError" xml:space="preserve">
+    <value>Did you forget to call Platform.Current.Initialize() before making a request?</value>
+  </data>
 </root>

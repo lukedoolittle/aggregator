@@ -152,6 +152,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Did you forget to call Platform.Current.Initialize() before making a request?.
+        /// </summary>
+        public static string InitializationError {
+            get {
+                return ResourceManager.GetString("InitializationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given Json Web Token algorithm has not been whitelisted.
         /// </summary>
         public static string InvalidJsonWebTokenAlgorithm {

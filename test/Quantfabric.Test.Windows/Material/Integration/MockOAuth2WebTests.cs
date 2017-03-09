@@ -7,10 +7,10 @@ using Foundations.Extensions;
 using Foundations.HttpClient;
 using Foundations.HttpClient.Extensions;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
@@ -38,6 +38,8 @@ namespace Quantfabric.Test.Material.Integration
                 AllowAutoRedirect = false,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
+
+            Platform.Current.Initialize();
         }
 
         [Fact]

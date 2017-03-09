@@ -25,37 +25,33 @@ namespace Material.OAuth.Workflow
         private readonly IOAuthAuthorizationUriFacade _uriFacade;
         private readonly IOAuthAccessTokenFacade<OAuth1Credentials> _authorizationFacade;
         private readonly IOAuthSecurityStrategy _securityStrategy;
-        private readonly ICryptoStringGenerator _idGenerator;
+        private readonly ICryptoStringGenerator _requestIdGenerator;
 
-        /// <summary>
-        /// Authorize a resource owner using the OAuth1a workflow
-        /// </summary>
-        /// <param name="consumerKey">The application's consumer key</param>
-        /// <param name="consumerSecret">The application's consumer secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
-        /// <param name="securityStrategy">The security strategy to use for token and secret handling</param>
-        /// <param name="idGenerator"></param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,
-            string callbackUrl,
+            Uri callbackUri,
             IOAuthSecurityStrategy securityStrategy,
-            ICryptoStringGenerator idGenerator)
+            ICryptoStringGenerator cryptoStringGenerator,
+            IOAuthAuthorizationAdapter authAdapter,
+            ISigningAlgorithm signingAlgorithm,
+            IHttpRequestCanonicalizer oauthSignatureCanonicalizer,
+            TResourceProvider resourceProvider)
         {
             _securityStrategy = securityStrategy;
-            _idGenerator = idGenerator;
+            _requestIdGenerator = cryptoStringGenerator;
 
             var facade = new OAuth1AuthorizationFacade(
-                new TResourceProvider(), 
+                resourceProvider, 
                 consumerKey, 
                 consumerSecret,
-                new Uri(callbackUrl),
-                new OAuthAuthorizationAdapter(),
+                callbackUri,
+                authAdapter,
                 securityStrategy,
-                HmacDigestSigningAlgorithm.Sha1Algorithm(),
-                new CryptoStringGenerator(),
-                new OAuth1Canonicalizer());
+                signingAlgorithm,
+                cryptoStringGenerator,
+                oauthSignatureCanonicalizer);
 
             _uriFacade = facade;
             _authorizationFacade = facade;
@@ -66,21 +62,24 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <param name="consumerKey">The application's consumer key</param>
         /// <param name="consumerSecret">The application's consumer secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OAuth1Web(
             string consumerKey,
             string consumerSecret,
-            string callbackUrl) : 
+            string callbackUri) : 
                 this (
                     consumerKey, 
                     consumerSecret,
-                    callbackUrl, 
+                    new Uri(callbackUri), 
                     new OAuthSecurityStrategy(
                         new InMemoryCryptographicParameterRepository(),
-                        TimeSpan.FromMinutes(
-                            OAuthConfiguration.SecurityParameterTimeoutInMinutes)),
-                    new CryptoStringGenerator())
+                        QuantfabricConfiguration.SecurityParameterTimeout),
+                    new CryptoStringGenerator(),
+                    new OAuthAuthorizationAdapter(), 
+                    HmacDigestSigningAlgorithm.Sha1Algorithm(),
+                    new OAuth1Canonicalizer(),
+                    new TResourceProvider())
         { }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace Material.OAuth.Workflow
         public Task<Uri> GetAuthorizationUriAsync()
         {
             return _uriFacade.GetAuthorizationUriAsync(
-                _idGenerator.CreateRandomString());
+                _requestIdGenerator.CreateRandomString());
         }
 
         /// <summary>

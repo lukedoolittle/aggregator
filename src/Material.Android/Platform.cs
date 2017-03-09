@@ -2,7 +2,9 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Material.Bluetooth;
 using Material.Contracts;
+using Material.OAuth;
 using Robotics.Mobile.Core.Bluetooth.LE;
 
 namespace Material.Framework
@@ -29,6 +31,39 @@ namespace Material.Framework
                 }
 
                 return _instance;
+            }
+        }
+
+        public void Initialize()
+        {
+            if (QuantfabricConfiguration.WebAuthorizationUIFactory == null)
+            {
+                QuantfabricConfiguration.WebAuthorizationUIFactory = new OAuthAuthorizerUIFactory();
+            }
+
+            if (QuantfabricConfiguration.WebAuthenticationUISelector == null)
+            {
+                var canProvideSecureBrowsing = false;
+
+                try
+                {
+                    var packageInfo = Context.PackageManager
+                        .GetApplicationInfo("com.android.chrome", 0);
+                    canProvideSecureBrowsing = true;
+                }
+                catch (PackageManager.NameNotFoundException)
+                {
+                    canProvideSecureBrowsing = false;
+                }
+
+                QuantfabricConfiguration.WebAuthenticationUISelector = new MobileAuthorizationUISelector(
+                    canProvideSecureBrowsing);
+            }
+
+            if (QuantfabricConfiguration.BluetoothAuthorizationUIFactory == null)
+            {
+                QuantfabricConfiguration.BluetoothAuthorizationUIFactory =
+                    new BluetoothAuthorizerUIFactory();
             }
         }
 
@@ -70,23 +105,6 @@ namespace Material.Framework
             var neturi = Android.Net.Uri.Parse(uri.ToString());
             var intent = new Intent(Intent.ActionView, neturi);
             Context.StartActivity(intent);
-        }
-
-        public bool CanProvideSecureBrowsing
-        {
-            get
-            {
-                try
-                {
-                    var packageInfo = Context.PackageManager
-                        .GetApplicationInfo("com.android.chrome", 0);
-                    return true;
-                }
-                catch (PackageManager.NameNotFoundException)
-                {
-                    return false;
-                }
-            }
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
@@ -18,6 +19,11 @@ namespace Quantfabric.Test.Material.Interaction
             new AppCredentialRepository(CallbackType.Localhost);
         private readonly TokenCredentialRepository _tokenRepository = 
             new TokenCredentialRepository(true);
+
+        public OAuth2CodeTokenTests()
+        {
+            Platform.Current.Initialize();
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromFacebookTwice()

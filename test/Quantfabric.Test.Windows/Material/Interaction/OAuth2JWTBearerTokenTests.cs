@@ -1,6 +1,7 @@
 ﻿using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Cryptography.Keys;
 using Material.Contracts;
+using Material.Framework;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth.Workflow;
@@ -15,6 +16,11 @@ namespace Quantfabric.Test.Material.Interaction
     {
         private readonly AppCredentialRepository _appRepository = 
             new AppCredentialRepository(CallbackType.Localhost);
+
+        public OAuth2JWTBearerTokenTests()
+        {
+            Platform.Current.Initialize();
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogleJWTBearerGrant()

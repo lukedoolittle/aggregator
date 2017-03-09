@@ -16,6 +16,9 @@ namespace $rootnamespace$
 
         public override void OnCreate()
         {
+			//necessary for custom uri scheme OAuth callbacks to function
+			Material.Framework.Platform.Current.Initialize();
+
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
         }

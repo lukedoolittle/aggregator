@@ -20,6 +20,8 @@ namespace Quantfabric.UI.Test.Forms.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Material.Framework.Platform.Current.Initialize();
+
             global::Xamarin.Forms.Forms.Init();
 
             Xamarin.Forms.DependencyService.Register<OAuthAuthorizerUIFactory>();

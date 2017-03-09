@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Material.Contracts;
 using Material.Exceptions;
+using Material.Framework;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
@@ -23,6 +24,11 @@ namespace Quantfabric.Test.Material.Integration
     {
         private readonly AppCredentialRepository _appRepository =
             new AppCredentialRepository(CallbackType.Localhost);
+
+        public MockOAuth2ImplicitTokenTests()
+        {
+            Platform.Current.Initialize();
+        }
 
         [Fact]
         public async void CanGetValidAccessTokenFromGoogle()
@@ -174,7 +180,6 @@ namespace Quantfabric.Test.Material.Integration
             scopes(oauth2);
 
             var mock = oauth2
-                .GetMemberValue<OAuth2AppBase<TMockProvider>>("_app")
                 .GetMemberValue<TMockProvider>("_provider");
 
             using (var server = new OAuthTestingServer<OAuth2Token>())

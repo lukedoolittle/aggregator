@@ -208,13 +208,13 @@
     </ProjectReference>
     <ProjectReference Include="..\..\src\Material.iOS\Material.iOS.csproj">
       <Project>{35e4822b-853b-4cb2-aae1-7d40d76c1e84}</Project>
-      <Name>Accumulator.iOS</Name>
+      <Name>Material.iOS</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Material\Material.csproj">
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
-      <Name>Accumulator</Name>
+      <Name>Material</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

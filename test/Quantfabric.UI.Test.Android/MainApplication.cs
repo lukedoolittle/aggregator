@@ -16,6 +16,8 @@ namespace Quantfabric.UI.Test
 
         public override void OnCreate()
         {
+            Material.Framework.Platform.Current.Initialize();
+
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
         }

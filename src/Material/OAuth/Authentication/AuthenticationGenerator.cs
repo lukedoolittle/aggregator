@@ -15,7 +15,7 @@ namespace Material.OAuth.Authentication
         private readonly CryptoKey _privateKey;
         private readonly string _applicationName;
         private readonly string _intendedRecipient;
-        private readonly int _expirationTimeInMinutes;
+        private readonly TimeSpan _expirationTime;
         private readonly IJsonWebTokenSigningFactory _signingFactory;
         private readonly List<JsonWebTokenAlgorithm> _whitelistedAlgorithms;
 
@@ -37,8 +37,8 @@ namespace Material.OAuth.Authentication
             IJsonWebTokenSigningFactory signingFactory)
         {
             _privateKey = privateKey;
-            _whitelistedAlgorithms = AuthenticationConfiguration.WhitelistedAlgorithms;
-            _expirationTimeInMinutes = AuthenticationConfiguration.AuthenticationTokenTimeoutInMinutes;
+            _whitelistedAlgorithms = QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms;
+            _expirationTime = QuantfabricConfiguration.AuthenticationTokenTimeout;
             _applicationName = applicationName;
             _intendedRecipient = recipient;
             _signingFactory = signingFactory;
@@ -95,7 +95,7 @@ namespace Material.OAuth.Authentication
                 new JsonWebTokenClaims
                 {
                     IssuedAt = DateTime.Now,
-                    ExpirationTime = DateTime.Now.Add(TimeSpan.FromMinutes(_expirationTimeInMinutes)),
+                    ExpirationTime = DateTime.Now.Add(_expirationTime),
                     Issuer = _applicationName,
                     Audience = _intendedRecipient,
                 });
