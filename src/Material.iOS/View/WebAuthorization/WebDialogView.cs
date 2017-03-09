@@ -6,6 +6,8 @@ using UIKit;
 
 namespace Material.View.WebAuthorization
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1010:CollectionsShouldImplementGenericInterface")]
     public partial class WebDialogView : UIView
     {
         private static double BorderPaddingPercentageX = .05;

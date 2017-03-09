@@ -70,6 +70,8 @@ namespace Material.View.WebAuthorization
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1010:CollectionsShouldImplementGenericInterface")]
     public class EventedSafariViewController : SFSafariViewController
     {
         public event EventHandler Canceled;

@@ -132,7 +132,7 @@ namespace Material.OAuth
         public Task<JsonWebToken> GetWebTokenAsync(
             string clientSecret)
         {
-            _app.AddScope("openid");
+            _app.AddScope(OpenIdResourceProvider.OpenIdScope);
 
             var requestId = _idGenerator.CreateRandomString();
 
@@ -149,7 +149,7 @@ namespace Material.OAuth
         /// <returns>Valid OAuth2 credentials</returns>
         public Task<JsonWebToken> GetWebTokenAsync()
         {
-            _app.AddScope("openid");
+            _app.AddScope(OpenIdResourceProvider.OpenIdScope);
 
             var requestId = _idGenerator.CreateRandomString();
 

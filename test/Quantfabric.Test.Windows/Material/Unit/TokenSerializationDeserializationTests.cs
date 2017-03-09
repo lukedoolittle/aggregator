@@ -1,4 +1,5 @@
 ﻿using System;
+using Foundations.Extensions;
 using Foundations.HttpClient.Cryptography.Enums;
 using Foundations.HttpClient.Enums;
 using Newtonsoft.Json.Linq;
@@ -148,7 +149,7 @@ namespace Quantfabric.Test.Material.Unit
             var actualToken = token.ToWebToken();
 
             Assert.Equal(cliendId, actualToken.Claims.ClientId);
-            Assert.Equal(redirectUri, actualToken.Claims.GetAmazonCallbackUri());
+            Assert.Equal(redirectUri, actualToken.Claims.GetAmazonCallbackUri().ToCorrectedString());
         }
     }
 }

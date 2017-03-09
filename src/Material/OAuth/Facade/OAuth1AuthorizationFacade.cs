@@ -69,7 +69,7 @@ namespace Material.OAuth.Facade
         public async Task<Uri> GetAuthorizationUriAsync(string requestId)
         {
             var builder = CreateBuilder()
-                .AddParameter(new OAuth1CallbackUri(
+                .AddParameter(new OAuth1Callback(
                     _callbackUri, 
                     requestId))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(

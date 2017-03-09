@@ -33,7 +33,6 @@
          <DiscreteExceptions>
             <Term>Querystring</Term>
              <Term>OAuth</Term>
-           <Term>Username</Term>
          </DiscreteExceptions>
       </Words>
       <Acronyms>
@@ -46,6 +45,7 @@
             <Acronym>RSA</Acronym>
             <Acronym>Ms</Acronym>
             <Acronym>Pkce</Acronym>
+           <Acronym>UWP</Acronym>
          </CasingExceptions>
       </Acronyms>
    </Dictionary>

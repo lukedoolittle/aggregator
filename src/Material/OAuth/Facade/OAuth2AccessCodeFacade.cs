@@ -110,7 +110,7 @@ namespace Material.OAuth.Facade
 
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(_clientId))
-                .AddParameter(new OAuth2CallbackUri(_callbackUri))
+                .AddParameter(new OAuth2Callback(_callbackUri))
                 .AddParameter(new OAuth2Code(intermediateResult.Code))
                 .AddParameter(new OAuth2Scope(_resourceProvider.Scope))
                 .AddParameter(new OAuth2GrantType(_resourceProvider.Grant))

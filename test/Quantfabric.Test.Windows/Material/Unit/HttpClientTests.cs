@@ -120,7 +120,7 @@ namespace Quantfabric.Test.Material.Unit
             var builder = new AuthenticatorBuilder()
                 .AddParameter(new OAuth2ClientId(clientId))
                 .AddParameter(new OAuth2ClientSecret(clientSecret))
-                .AddParameter(new OAuth2CallbackUri(redirectUri))
+                .AddParameter(new OAuth2Callback(redirectUri))
                 .AddParameter(new OAuth2Code(code))
                 .AddParameter(new OAuth2Scope(scope))
                 .AddParameter(new OAuth2GrantType(grantType));
@@ -338,7 +338,7 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1Nonce(stringGenerator))
                 .AddParameter(new OAuth1Version())
                 .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
-                .AddParameter(new OAuth1CallbackUri(callbackUrl))
+                .AddParameter(new OAuth1Callback(callbackUrl))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     signingAlgorithm,

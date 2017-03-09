@@ -70,7 +70,7 @@ namespace Quantfabric.Test.Material.Unit
                 .AddParameter(new OAuth1Nonce(nonce))
                 .AddParameter(new OAuth1Version())
                 .AddParameter(new OAuth1SignatureMethod(signingAlgorithm))
-                .AddParameter(new OAuth1CallbackUri(callbackUrl))
+                .AddParameter(new OAuth1Callback(callbackUrl))
                 .AddSigner(new OAuth1RequestSigningAlgorithm(
                     consumerSecret,
                     signingAlgorithm,

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Foundations.Extensions;
 using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
@@ -96,7 +97,7 @@ namespace Quantfabric.UI.Test.UWP
 
             OAuth2Credentials credentials = await new OAuth2App<Amazon>(
                     credentialToken.Claims.ClientId,
-                    credentialToken.Claims.GetAmazonCallbackUri())
+                    credentialToken.Claims.GetAmazonCallbackUri().ToCorrectedString())
                 .AddScope<AmazonProfile>()
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);

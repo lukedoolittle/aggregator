@@ -75,7 +75,7 @@ namespace Material.OAuth.Facade
                 .AddParameter(new OAuth2Scope(
                     _resourceProvider.Scopes,
                     _resourceProvider.ScopeDelimiter))
-                .AddParameter(new OAuth2CallbackUri(_callbackUri))
+                .AddParameter(new OAuth2Callback(_callbackUri))
                 .AddParameter(new OAuth2State(requestId))
                 .AddParameter(new OAuth2ResponseType(
                     _resourceProvider.ResponseType))

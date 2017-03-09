@@ -105,7 +105,7 @@ namespace Material.OAuth.Workflow
         public Task<Uri> GetAuthorizationUriAsync()
         {
             return _web
-                .AddScope("openid")
+                .AddScope(OpenIdResourceProvider.OpenIdScope)
                 .GetAuthorizationUriAsync();
         }
 

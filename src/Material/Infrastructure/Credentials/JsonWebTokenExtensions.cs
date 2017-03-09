@@ -9,14 +9,14 @@ namespace Material.Infrastructure.Credentials
 {
     public static class JsonWebTokenExtensions
     {
-        public static string GetAmazonCallbackUri(this JsonWebTokenClaims instance)
+        public static Uri GetAmazonCallbackUri(this JsonWebTokenClaims instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
 
-            return string.Format(
+            return new Uri(string.Format(
                 CultureInfo.InvariantCulture, 
                 "amzn-{0}://?methodName=signin", 
-                instance.BundleId);
+                instance.BundleId));
         }
 
         public static JsonWebToken ToWebToken(this string instance)
