@@ -1,6 +1,6 @@
-﻿using Material.Contracts;
+﻿using Material.Application;
+using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers

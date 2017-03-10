@@ -4,6 +4,7 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Material;
+using Material.Application;
 using Material.Bluetooth;
 using Material.Contracts;
 using Material.Enums;
@@ -14,7 +15,6 @@ using Quantfabric.Test.Helpers;
 using Material.Framework;
 using Material.Infrastructure;
 using Material.OAuth;
-using Material.OAuth.Workflow;
 
 namespace Quantfabric.UI.Test
 {

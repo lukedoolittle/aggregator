@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Material.Application;
 using Material.Contracts;
 using Material.Infrastructure;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers

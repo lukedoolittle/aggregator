@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Foundations.Extensions;
+using Material.Application;
 using Material.Contracts;
 using Material.Enums;
 using Material.Framework;
@@ -12,7 +13,6 @@ using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
 using Material.OAuth;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.UI.Test.UWP.Annotations;
 

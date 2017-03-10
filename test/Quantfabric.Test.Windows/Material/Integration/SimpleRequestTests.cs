@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using Foundations.Enums;
+using Material.Application;
 using Material.Contracts;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Xunit;
 

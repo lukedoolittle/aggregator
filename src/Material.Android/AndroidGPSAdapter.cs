@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
@@ -46,7 +45,7 @@ namespace Material
             _timeoutInMs = gpsTimeoutInMs;
             _desiredAccuracyInM = desiredAccuracyInMeters;
 
-            _locationManager = (LocationManager)Application
+            _locationManager = (LocationManager)Android.App.Application
                 .Context
                 .GetSystemService(
                     Context.LocationService);

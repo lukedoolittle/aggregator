@@ -3,10 +3,11 @@ using Material.Infrastructure.Credentials;
 
 namespace Material.Contracts
 {
-    public interface IOAuth1Identity
+    public interface IOAuthIdentity<TCredentials>
+        where TCredentials : TokenCredentials
     {
         Task<JsonWebToken> AppendIdentity(
             JsonWebToken token,
-            OAuth1Credentials credentials);
+            TCredentials credentials);
     }
 }

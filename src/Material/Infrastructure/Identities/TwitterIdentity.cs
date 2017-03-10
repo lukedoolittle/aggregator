@@ -1,14 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Material.Application;
 using Material.Contracts;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.Requests;
 using Material.Infrastructure.Responses;
-using Material.OAuth;
-using Material.OAuth.Workflow;
-
 namespace Material.Infrastructure.Identities
 {
-    public class TwitterIdentity : IOAuth1Identity
+    public class TwitterIdentity : IOAuthIdentity<OAuth1Credentials>
     {
         public async Task<JsonWebToken> AppendIdentity(
             JsonWebToken token, 

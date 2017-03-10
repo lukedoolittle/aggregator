@@ -11,7 +11,7 @@ using Material.Infrastructure.Credentials;
 using Material.OAuth.AuthenticatorParameters;
 using Material.OAuth.Authorization;
 
-namespace Material.OAuth.Workflow
+namespace Material.Application
 {
     public class AuthorizedRequester
     {

@@ -10,7 +10,7 @@ using Material.Infrastructure.Credentials;
 using Material.OAuth.Authentication;
 using Material.OAuth.Security;
 
-namespace Material.OAuth.Workflow
+namespace Material.Application
 {
     public class OpenIdApp<TResourceProvider> : 
         OAuth2App<TResourceProvider>

@@ -27,18 +27,22 @@ namespace Material.OAuth.Authentication
                     privateKey,
                     applicationName,
                     recipient,
-                    new JsonWebTokenSignerFactory())
+                    new JsonWebTokenSignerFactory(), 
+                    QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms,
+                    QuantfabricConfiguration.AuthenticationTokenTimeout)
         { }
 
         public AuthenticationGenerator(
             CryptoKey privateKey, 
             string applicationName,
             string recipient,
-            IJsonWebTokenSigningFactory signingFactory)
+            IJsonWebTokenSigningFactory signingFactory,
+            List<JsonWebTokenAlgorithm> whitelistedAlgorithms,
+            TimeSpan authenticationTokenTimeout)
         {
             _privateKey = privateKey;
-            _whitelistedAlgorithms = QuantfabricConfiguration.WhitelistedAuthenticationAlgorithms;
-            _expirationTime = QuantfabricConfiguration.AuthenticationTokenTimeout;
+            _whitelistedAlgorithms = whitelistedAlgorithms;
+            _expirationTime = authenticationTokenTimeout;
             _applicationName = applicationName;
             _intendedRecipient = recipient;
             _signingFactory = signingFactory;
@@ -48,7 +52,7 @@ namespace Material.OAuth.Authentication
         public async Task<JsonWebToken> ConvertToJsonWebToken<TIdentity>(
             OAuth1Credentials credentials,
             JsonWebTokenAlgorithm algorithm)
-            where TIdentity : IOAuth1Identity, new()
+            where TIdentity : IOAuthIdentity<OAuth1Credentials>, new()
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 
@@ -65,7 +69,7 @@ namespace Material.OAuth.Authentication
         public async Task<JsonWebToken> ConvertToJsonWebToken<TIdentity>(
             OAuth2Credentials credentials,
             JsonWebTokenAlgorithm algorithm)
-            where TIdentity : IOAuth2Identity, new()
+            where TIdentity : IOAuthIdentity<OAuth2Credentials>, new()
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 

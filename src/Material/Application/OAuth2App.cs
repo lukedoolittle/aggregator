@@ -15,7 +15,7 @@ using Material.OAuth.Security;
 using Material.OAuth.Template;
 using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
 
-namespace Material.OAuth.Workflow
+namespace Material.Application
 {
     public class OAuth2App<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()

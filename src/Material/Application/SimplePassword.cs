@@ -3,7 +3,7 @@ using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.OAuth.Authorization;
 
-namespace Material.OAuth.Workflow
+namespace Material.Application
 {
     public class SimplePassword<TResourceProvider>
         where TResourceProvider : PasswordResourceProvider, new()

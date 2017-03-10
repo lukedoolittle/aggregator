@@ -83,6 +83,7 @@ Global
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{a3aafeef-513a-4296-a9df-4f7be657aa45}*SharedItemsImports = 4
 		src\Foundations.Http\Foundations.Http.projitems*{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}*SharedItemsImports = 4
+		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{aaacf457-7546-4ca1-b2e1-cc1746572832}*SharedItemsImports = 4
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{b94f018a-b01f-40ba-9b91-1fb809861cc3}*SharedItemsImports = 4
 		test\Quantfabric.Test.Helpers\Quantfabric.Test.Helpers.projitems*{bf8b4ce6-f65a-4059-afcb-a8a8188232d7}*SharedItemsImports = 4
 		src\Material.Shared\Material.Shared.projitems*{dc7bc052-767d-4a5f-a94c-6b9dd4523396}*SharedItemsImports = 4

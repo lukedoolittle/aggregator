@@ -86,10 +86,9 @@
     </Compile>
     <Compile Include="Contracts\IAuthorizationUISelector.cs" />
     <Compile Include="Contracts\IJsonWebTokenAuthenticationValidator.cs" />
-    <Compile Include="Contracts\IOAuth1Identity.cs" />
-    <Compile Include="Contracts\IOAuth2Identity.cs" />
     <Compile Include="Contracts\IOAuthAccessTokenFacade.cs" />
     <Compile Include="Contracts\IOAuthAuthorizationUriFacade.cs" />
+    <Compile Include="Contracts\IOAuthIdentity.cs" />
     <Compile Include="Contracts\ISecurityParameterBundle.cs" />
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
@@ -241,7 +240,7 @@
     <Compile Include="OAuth\Security\OAuth2PkceVerifierSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
     <Compile Include="OAuth\Security\OAuth2Sha256PkceSecurityParameterBundle.cs" />
-    <Compile Include="OAuth\Workflow\ApiKeyAssert.cs" />
+    <Compile Include="Application\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
     <Compile Include="Contracts\IOAuthCallbackHandler.cs" />
@@ -355,17 +354,17 @@
     <Compile Include="OAuth\Authorization\ProtectedResourceAdapter.cs" />
     <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
     <Compile Include="OAuth\MobileAuthorizationUISelector.cs" />
-    <Compile Include="OAuth\Workflow\OAuth1App.cs" />
-    <Compile Include="OAuth\Workflow\OAuth1Web.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2App.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2Client.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2Assert.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2Refresh.cs" />
-    <Compile Include="OAuth\Workflow\OAuth2Web.cs" />
-    <Compile Include="OAuth\Workflow\OpenIdApp.cs" />
+    <Compile Include="Application\OAuth1App.cs" />
+    <Compile Include="Application\OAuth1Web.cs" />
+    <Compile Include="Application\OAuth2App.cs" />
+    <Compile Include="Application\OAuth2Client.cs" />
+    <Compile Include="Application\OAuth2Assert.cs" />
+    <Compile Include="Application\OAuth2Refresh.cs" />
+    <Compile Include="Application\OAuth2Web.cs" />
+    <Compile Include="Application\OpenIdApp.cs" />
     <Compile Include="QuantfabricConfiguration.cs" />
-    <Compile Include="OAuth\Workflow\AuthorizedRequester.cs" />
-    <Compile Include="OAuth\Workflow\OpenIdWeb.cs" />
+    <Compile Include="Application\AuthorizedRequester.cs" />
+    <Compile Include="Application\OpenIdWeb.cs" />
     <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />
     <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
     <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
@@ -381,7 +380,7 @@
     <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
     <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
     <Compile Include="OAuth\Template\OAuthAuthorizationUITemplateBase.cs" />
-    <Compile Include="OAuth\Workflow\SimplePassword.cs" />
+    <Compile Include="Application\SimplePassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OAuth\Template\OAuthAuthorizationTemplate.cs" />
     <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />
@@ -562,5 +561,6 @@
       <LastOutputs>.\OpenIdResourceProviderTemplate.cs</LastOutputs>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

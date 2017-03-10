@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Material.Application;
 using Material.Contracts;
 using Material.Framework;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Xunit;

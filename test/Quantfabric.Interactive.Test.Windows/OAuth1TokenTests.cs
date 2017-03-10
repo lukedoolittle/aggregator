@@ -1,9 +1,9 @@
 ﻿using System;
+using Material.Application;
 using Material.Contracts;
 using Material.Framework;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;

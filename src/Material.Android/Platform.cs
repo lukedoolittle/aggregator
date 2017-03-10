@@ -81,7 +81,7 @@ namespace Material.Framework
         public Action<Action> RunOnMainThread { get; } =
             action =>
             {
-                Application.SynchronizationContext.Post(
+                Android.App.Application.SynchronizationContext.Post(
                     state => action(),
                     null);
             };
@@ -91,7 +91,7 @@ namespace Material.Framework
             get
             {
                 var connectivityManager = (Android.Net.ConnectivityManager)
-                    (Application.Context.GetSystemService(
+                    (Android.App.Application.Context.GetSystemService(
                         Android.Content.Context.ConnectivityService));
 
                 var activeConnection = connectivityManager.ActiveNetworkInfo;

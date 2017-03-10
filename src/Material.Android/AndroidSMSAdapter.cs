@@ -216,7 +216,7 @@ namespace Material
             string[] projection, 
             string filter)
         {
-            return Application
+            return Android.App.Application
                 .Context
                 .ApplicationContext
                 .ContentResolver

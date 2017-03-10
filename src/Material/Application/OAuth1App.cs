@@ -15,7 +15,7 @@ using Material.OAuth.Facade;
 using Material.OAuth.Security;
 using Material.OAuth.Template;
 
-namespace Material.OAuth.Workflow
+namespace Material.Application
 {
     /// <summary>
     /// Authorizes a resource owner with the given resource provider using OAuth1a

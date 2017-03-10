@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Quantfabric.Material</id>
-    <version>1.3.7</version>
+    <version>1.3.8</version>
     <title>Quantfabric.Material</title>
     <authors>lukedoolittle</authors>
     <owners></owners>
@@ -10,6 +10,7 @@
       A cross-platform framework for gathering OAuth, Bluetooth and device specific data
     </description>
     <releaseNotes>
+	  Removed the need to track a user ID across the web workflow
     </releaseNotes>
     <summary>
     </summary>
