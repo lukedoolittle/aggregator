@@ -180,7 +180,7 @@ namespace Quantfabric.Test.Material.Integration
             scopes(oauth2);
 
             var mock = oauth2
-                .GetMemberValue<TMockProvider>("_provider");
+                .GetPropertyValue<TMockProvider>("Provider");
 
             using (var server = new OAuthTestingServer<OAuth2Token>())
             {
@@ -211,7 +211,7 @@ namespace Quantfabric.Test.Material.Integration
 
                 if (tokenTask.Status == TaskStatus.RanToCompletion)
                 {
-                    Assert.True(TestUtilities.IsValidOAuth2Token(tokenTask.Result));
+                    Assert.True(ValidationUtilities.IsValidOAuth2Token(tokenTask.Result));
                 }
                 else
                 {

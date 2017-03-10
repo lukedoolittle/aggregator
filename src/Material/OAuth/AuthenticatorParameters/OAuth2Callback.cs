@@ -15,7 +15,7 @@ namespace Material.OAuth.AuthenticatorParameters
         {
             if (redirectUri == null) throw new ArgumentNullException(nameof(redirectUri));
 
-            Value = redirectUri.ToString();
+            Value = redirectUri.ToCorrectedString();
         }
     }
 }

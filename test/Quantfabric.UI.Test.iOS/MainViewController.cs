@@ -3,10 +3,12 @@ using Material;
 using Material.Bluetooth;
 using Material.Contracts;
 using Material.Enums;
+using Material.Infrastructure;
 using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using UIKit;
 
@@ -337,6 +339,38 @@ namespace Quantfabric.UI.Test.iOS
                 WriteOAuth2CredentialsToTextView(token);
             };
 
+            GoogleOpenIdAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Google>();
+                var redirectUri = settings.GetRedirectUri<Google>();
+
+                var token = await new OpenIdApp<Google>(
+                            clientId,
+                            redirectUri,
+                            browserType: _browserType)
+                        .GetWebTokenAsync()
+                        .ConfigureAwait(false);
+
+                WriteOpenIdCredentialsToTextView(token);
+            };
+
+            YahooOpenIdAuth.TouchUpInside += async (sender, e) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Yahoo>();
+                var redirectUri = settings.GetRedirectUri<Yahoo>();
+
+                var token = await new OpenIdApp<Yahoo>(
+                            clientId,
+                            redirectUri,
+                            browserType: _browserType)
+                        .GetWebTokenAsync()
+                        .ConfigureAwait(false);
+
+                WriteOpenIdCredentialsToTextView(token);
+            };
+
             MioAuth.TouchUpInside += async (sender, args) =>
             {
                 var auth = new BluetoothApp<Mioalpha>();
@@ -401,6 +435,18 @@ namespace Quantfabric.UI.Test.iOS
             else
             {
                 WriteResultToTextView("Access Token:" + credentials.AccessToken);
+            }
+        }
+
+        private void WriteOpenIdCredentialsToTextView(JsonWebToken credentials)
+        {
+            if (credentials == null)
+            {
+                WriteResultToTextView("OAUTH2 WORKFLOW CANCELLED");
+            }
+            else
+            {
+                WriteResultToTextView("JWT:" + credentials.Signature);
             }
         }
 

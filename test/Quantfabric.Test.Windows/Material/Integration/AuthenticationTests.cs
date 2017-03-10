@@ -11,7 +11,7 @@ using Quantfabric.Test.Helpers;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     [Trait("Category", "RequiresToken")]
     public class AuthenticationTests

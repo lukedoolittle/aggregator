@@ -40,21 +40,49 @@ namespace Material.OAuth.Workflow
                     browserType)
         { }
 
+        /// <summary>
+        /// Authenticates a user with the OpenId Connect workflow
+        /// </summary>
+        /// <param name="clientId">The application's clientId</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="browserType">The type of authorization interface requested</param>
+        /// <param name="securityStrategy">Strategy for handling temporary parameters in the workflow exchange</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OpenIdApp(
             string clientId,
             string callbackUri,
+            AuthorizationInterface browserType,
             IOAuthSecurityStrategy securityStrategy) : 
                 base(
                     clientId,
-                    callbackUri, 
+                    callbackUri,
+                    browserType,
                     securityStrategy)
         { }
 
         /// <summary>
-        /// Authenticates a user with the OAuth2 workflow
+        /// Authenticates a user with the OpenId Connect workflow
         /// </summary>
         /// <param name="clientId">The application's clientId</param>
         /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="browserType">The type of authorization interface requested</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OpenIdApp(
+            string clientId,
+            string callbackUri,
+            AuthorizationInterface browserType) :
+                base(
+                    clientId,
+                    callbackUri,
+                    browserType)
+        { }
+
+        /// <summary>
+        /// Authenticates a user with the OpenId Connect workflow
+        /// </summary>
+        /// <param name="clientId">The application's clientId</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OpenIdApp(
             string clientId, 
             string callbackUri) : 
@@ -70,7 +98,7 @@ namespace Material.OAuth.Workflow
         public Task<JsonWebToken> GetWebTokenAsync()
         {
             return GetWebTokenWithRequestIdAsync(
-                _requestIdGenerator.CreateRandomString());
+                RequestIdGenerator.CreateRandomString());
         }
 
         /// <summary>
@@ -82,7 +110,7 @@ namespace Material.OAuth.Workflow
         {
             return GetWebTokenWithRequestIdAsync(
                 clientSecret,
-                _requestIdGenerator.CreateRandomString());
+                RequestIdGenerator.CreateRandomString());
         }
 
         /// <summary>
@@ -97,9 +125,9 @@ namespace Material.OAuth.Workflow
 
             AddScope(OpenIdResourceProvider.OpenIdScope);
 
-            if ((_browserType == AuthorizationInterface.Dedicated ||
-                 _browserType == AuthorizationInterface.SecureEmbedded) &&
-                 _provider.SupportsPkce)
+            if ((BrowserType == AuthorizationInterface.Dedicated ||
+                 BrowserType == AuthorizationInterface.SecureEmbedded) &&
+                 Provider.SupportsPkce)
             {
                 var credentials = await GetCredentialsAsync(
                         OAuth2FlowType.AccessCode,
@@ -116,7 +144,7 @@ namespace Material.OAuth.Workflow
 
                 CreateValidator(requestId).IsTokenValid(credentials.IdToken);
 
-                _securityStrategy.ClearSecureParameters(requestId);
+                SecurityStrategy.ClearSecureParameters(requestId);
 
                 return credentials?.IdToken;
             }
@@ -134,7 +162,7 @@ namespace Material.OAuth.Workflow
 
                 CreateValidator(requestId).IsTokenValid(credentials?.IdToken);
 
-                _securityStrategy.ClearSecureParameters(requestId);
+                SecurityStrategy.ClearSecureParameters(requestId);
 
                 return credentials?.IdToken;
             }
@@ -161,12 +189,13 @@ namespace Material.OAuth.Workflow
                     CreateUriFacade(
                         new OAuth2NonceSecurityParameterBundle()),
                     CreateCodeFacade(clientSecret),
-                    requestId)
+                    requestId,
+                    false)
                 .ConfigureAwait(false);
 
             CreateValidator(requestId).IsTokenValid(credentials?.IdToken);
 
-            _securityStrategy.ClearSecureParameters(requestId);
+            SecurityStrategy.ClearSecureParameters(requestId);
 
             return credentials?.IdToken;
         }
@@ -179,14 +208,14 @@ namespace Material.OAuth.Workflow
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(
-                    _clientId))
+                    ClientId))
                 .AddValidator(new JsonWebTokenIssuerValidator(
-                    _provider.ValidIssuers))
+                    Provider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(
-                    _securityStrategy,
+                    SecurityStrategy,
                     requestId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
-                    _provider.OpenIdDiscoveryUrl))
+                    Provider.OpenIdDiscoveryUrl))
                 .ThrowIfInvalid();
         }
     }

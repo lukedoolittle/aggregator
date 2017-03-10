@@ -47,7 +47,7 @@ namespace Material.Framework
 
                 try
                 {
-                    var packageInfo = Context.PackageManager
+                    var packageInfo = Android.App.Application.Context.PackageManager
                         .GetApplicationInfo("com.android.chrome", 0);
                     canProvideSecureBrowsing = true;
                 }

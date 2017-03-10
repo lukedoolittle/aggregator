@@ -1,11 +1,10 @@
 ﻿using Material.Infrastructure.Credentials;
 using Material.Infrastructure.ProtectedResources;
-using Material.OAuth;
 using Material.OAuth.Workflow;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     [Trait("Category", "RequiresToken")]
     public class OAuth2RefreshTokenTests

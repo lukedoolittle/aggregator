@@ -168,7 +168,7 @@ namespace Quantfabric.Test.Material.Integration
 
                 if (tokenTask.Status == TaskStatus.RanToCompletion)
                 {
-                    Assert.True(TestUtilities.IsValidOAuth1Token(
+                    Assert.True(ValidationUtilities.IsValidOAuth1Token(
                         tokenTask.Result,
                         shouldContainUserId));
                 }

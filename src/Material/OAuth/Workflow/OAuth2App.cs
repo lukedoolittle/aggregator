@@ -20,15 +20,16 @@ namespace Material.OAuth.Workflow
     public class OAuth2App<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
-        protected readonly string _clientId;
         private readonly Uri _callbackUri;
         private readonly IOAuthAuthorizerUIFactory _uiFactory;
         private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
         private readonly IOAuthAuthorizationAdapter _authAdapter;
-        protected readonly IOAuthSecurityStrategy _securityStrategy;
-        protected readonly ICryptoStringGenerator _requestIdGenerator;
-        protected readonly TResourceProvider _provider;
-        protected readonly AuthorizationInterface _browserType;
+
+        protected IOAuthSecurityStrategy SecurityStrategy { get; }
+        protected ICryptoStringGenerator RequestIdGenerator { get; }
+        protected TResourceProvider Provider { get; }
+        protected AuthorizationInterface BrowserType { get; }
+        protected string ClientId { get; }
 
         public OAuth2App(
             string clientId,
@@ -53,24 +54,33 @@ namespace Material.OAuth.Workflow
             if (requestIdGenerator == null) throw new ArgumentNullException(nameof(requestIdGenerator));
             if (provider == null) throw new ArgumentNullException(nameof(provider));
 
-            _clientId = clientId;
+            this.ClientId = clientId;
             _callbackUri = callbackUri;
-            _provider = provider;
+            Provider = provider;
             _uiFactory = uiFactory;
-            _securityStrategy = securityStrategy;
+            SecurityStrategy = securityStrategy;
             _callbackHandler = callbackHandler;
             _authAdapter = authAdapter;
-            _requestIdGenerator = requestIdGenerator;
+            RequestIdGenerator = requestIdGenerator;
 
-            _browserType = authorizerSelector.GetOptimalOAuth2Interface(
+            BrowserType = authorizerSelector.GetOptimalOAuth2Interface(
                 provider,
                 browserType,
                 callbackUri);
         }
 
+        /// <summary>
+        /// Authorizes a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's clientId</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="browserType">The type of authorization interface requested</param>
+        /// <param name="securityStrategy">Strategy for handling temporary parameters in the workflow exchange</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth2App(
             string clientId,
             string callbackUri,
+            AuthorizationInterface browserType,
             IOAuthSecurityStrategy securityStrategy) : 
                 this(
                     clientId, 
@@ -84,7 +94,7 @@ namespace Material.OAuth.Workflow
                     new CryptoStringGenerator(), 
                     QuantfabricConfiguration.WebAuthenticationUISelector,
                     new TResourceProvider(), 
-                    AuthorizationInterface.NotSpecified)
+                    browserType)
         { }
 
         /// <summary>
@@ -92,15 +102,34 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <param name="clientId">The application's clientId</param>
         /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="browserType">The type of authorization interface requested</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
+        public OAuth2App(
+            string clientId,
+            string callbackUri,
+            AuthorizationInterface browserType) :
+                this(
+                    clientId,
+                    callbackUri,
+                    browserType,
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        QuantfabricConfiguration.SecurityParameterTimeout))
+        { }
+
+        /// <summary>
+        /// Authorizes a resource owner using the OAuth2 workflow
+        /// </summary>
+        /// <param name="clientId">The application's clientId</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public OAuth2App(
             string clientId,
             string callbackUri) :
                 this(
                     clientId, 
                     callbackUri,
-                    new OAuthSecurityStrategy(
-                        new InMemoryCryptographicParameterRepository(),
-                        QuantfabricConfiguration.SecurityParameterTimeout))
+                    AuthorizationInterface.NotSpecified)
         { }
 
         /// <summary>
@@ -112,7 +141,7 @@ namespace Material.OAuth.Workflow
         {
             return GetCredentialsWithRequestIdAsync(
                 clientSecret,
-                _requestIdGenerator.CreateRandomString());
+                RequestIdGenerator.CreateRandomString());
         }
 
         /// <summary>
@@ -122,7 +151,7 @@ namespace Material.OAuth.Workflow
         public Task<OAuth2Credentials> GetCredentialsAsync()
         {
             return GetCredentialsWithRequestIdAsync(
-                _requestIdGenerator.CreateRandomString());
+                RequestIdGenerator.CreateRandomString());
         }
 
         /// <summary>
@@ -138,8 +167,8 @@ namespace Material.OAuth.Workflow
             if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
             if (requestId == null) throw new ArgumentNullException(nameof(requestId));
 
-            _provider.SetClientProperties(
-                _clientId, 
+            Provider.SetClientProperties(
+                ClientId, 
                 clientSecret);
 
             return GetCredentialsAsync(
@@ -160,9 +189,9 @@ namespace Material.OAuth.Workflow
         {
             if (requestId == null) throw new ArgumentNullException(nameof(requestId));
 
-            if ((_browserType == AuthorizationInterface.Dedicated || 
-                 _browserType == AuthorizationInterface.SecureEmbedded) &&
-                 _provider.SupportsPkce)
+            if ((BrowserType == AuthorizationInterface.Dedicated || 
+                 BrowserType == AuthorizationInterface.SecureEmbedded) &&
+                 Provider.SupportsPkce)
             {
                 return GetCredentialsAsync(
                         OAuth2FlowType.AccessCode,
@@ -188,19 +217,19 @@ namespace Material.OAuth.Workflow
         protected OAuth2ImplicitFacade CreateTokenFacade()
         {
             return new OAuth2ImplicitFacade(
-                _clientId,
-                _provider);
+                ClientId,
+                Provider);
         }
 
         protected OAuth2AccessCodeFacade CreateCodeFacade(
             params ISecurityParameterBundle[] securityParameters)
         {
             return new OAuth2AccessCodeFacade(
-                    _provider,
-                    _clientId,
+                    Provider,
+                    ClientId,
                     _callbackUri,
                     _authAdapter,
-                    _securityStrategy)
+                    SecurityStrategy)
                 .AddSecurityParameters(securityParameters);
         }
 
@@ -209,12 +238,12 @@ namespace Material.OAuth.Workflow
             params ISecurityParameterBundle[] securityParameters)
         {
             return new OAuth2AccessCodeFacade(
-                    _provider,
-                    _clientId,
+                    Provider,
+                    ClientId,
                     clientSecret,
                     _callbackUri,
                     _authAdapter,
-                    _securityStrategy)
+                    SecurityStrategy)
                 .AddSecurityParameters(securityParameters);
         }
 
@@ -222,11 +251,11 @@ namespace Material.OAuth.Workflow
             params ISecurityParameterBundle[] securityParameters)
         {
             return new OAuth2AuthorizationUriFacade(
-                    _provider,
-                    _clientId,
+                    Provider,
+                    ClientId,
                     _callbackUri,
                     _authAdapter,
-                    _securityStrategy)
+                    SecurityStrategy)
                 .AddSecurityParameters(securityParameters);
         }
 
@@ -257,14 +286,14 @@ namespace Material.OAuth.Workflow
             if (uriFacade == null) throw new ArgumentNullException(nameof(uriFacade));
             if (tokenFacade == null) throw new ArgumentNullException(nameof(tokenFacade));
 
-            _securityStrategy.ClearSecureParameters(requestId);
+            SecurityStrategy.ClearSecureParameters(requestId);
 
-            _provider.SetFlow(flowType);
-            _provider.SetResponse(responseType);
+            Provider.SetFlow(flowType);
+            Provider.SetResponse(responseType);
 
             var authenticationUi = _uiFactory
                 .GetAuthorizer<TResourceProvider, OAuth2Credentials>(
-                    _browserType,
+                    BrowserType,
                     _callbackHandler,
                     _callbackUri);
 
@@ -272,7 +301,7 @@ namespace Material.OAuth.Workflow
                     authenticationUi,
                     uriFacade,
                     tokenFacade,
-                    _securityStrategy);
+                    SecurityStrategy);
 
             var result = await template
                 .GetAccessTokenCredentials(requestId)
@@ -280,7 +309,7 @@ namespace Material.OAuth.Workflow
 
             if (clearSecurityParameters)
             {
-                _securityStrategy.ClearSecureParameters(requestId);
+                SecurityStrategy.ClearSecureParameters(requestId);
             }
 
             return result;
@@ -295,7 +324,7 @@ namespace Material.OAuth.Workflow
         public OAuth2App<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
-            _provider.AddRequestScope<TRequest>();
+            Provider.AddRequestScope<TRequest>();
 
             return this;
         }
@@ -307,7 +336,7 @@ namespace Material.OAuth.Workflow
         /// <returns>The current instance</returns>
         public OAuth2App<TResourceProvider> AddScope(string scope)
         {
-            _provider.AddRequestScope(scope);
+            Provider.AddRequestScope(scope);
 
             return this;
         }

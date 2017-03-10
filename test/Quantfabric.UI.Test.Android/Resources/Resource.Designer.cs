@@ -71,20 +71,26 @@ namespace Quantfabric.UI.Test
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050017
+			public const int GoogleOpenId = 2131034135;
+			
+			// aapt resource value: 0x7f050018
+			public const int YahooOpenId = 2131034136;
+			
 			// aapt resource value: 0x7f050016
 			public const int amazon = 2131034134;
 			
 			// aapt resource value: 0x7f050001
 			public const int browserTypeRadioGroup = 2131034113;
 			
-			// aapt resource value: 0x7f05001c
-			public const int closeView = 2131034140;
+			// aapt resource value: 0x7f05001e
+			public const int closeView = 2131034142;
 			
 			// aapt resource value: 0x7f050005
 			public const int dedicatedRadioButton = 2131034117;
 			
-			// aapt resource value: 0x7f05001b
-			public const int dialogWebView = 2131034139;
+			// aapt resource value: 0x7f05001d
+			public const int dialogWebView = 2131034141;
 			
 			// aapt resource value: 0x7f050003
 			public const int embeddedRadioButton = 2131034115;
@@ -104,8 +110,8 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f05000b
 			public const int googleAuth = 2131034123;
 			
-			// aapt resource value: 0x7f050017
-			public const int gps = 2131034135;
+			// aapt resource value: 0x7f050019
+			public const int gps = 2131034137;
 			
 			// aapt resource value: 0x7f050006
 			public const int gridLayout1 = 2131034118;
@@ -116,11 +122,11 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f05000f
 			public const int linkedinAuth = 2131034127;
 			
-			// aapt resource value: 0x7f050019
-			public const int mioalphaAuth = 2131034137;
+			// aapt resource value: 0x7f05001b
+			public const int mioalphaAuth = 2131034139;
 			
-			// aapt resource value: 0x7f05001a
-			public const int mioalphaContinuousAuth = 2131034138;
+			// aapt resource value: 0x7f05001c
+			public const int mioalphaContinuousAuth = 2131034140;
 			
 			// aapt resource value: 0x7f050012
 			public const int pinterest = 2131034130;
@@ -137,8 +143,8 @@ namespace Quantfabric.UI.Test
 			// aapt resource value: 0x7f050004
 			public const int secureRadioButton = 2131034116;
 			
-			// aapt resource value: 0x7f050018
-			public const int sms = 2131034136;
+			// aapt resource value: 0x7f05001a
+			public const int sms = 2131034138;
 			
 			// aapt resource value: 0x7f05000c
 			public const int spotifyAuth = 2131034124;

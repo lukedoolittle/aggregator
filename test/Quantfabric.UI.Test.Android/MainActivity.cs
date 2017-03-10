@@ -12,7 +12,9 @@ using Material.Infrastructure.ProtectedResources;
 using Material.Infrastructure.Requests;
 using Quantfabric.Test.Helpers;
 using Material.Framework;
+using Material.Infrastructure;
 using Material.OAuth;
+using Material.OAuth.Workflow;
 
 namespace Quantfabric.UI.Test
 {
@@ -336,6 +338,38 @@ namespace Quantfabric.UI.Test
                 WriteCredentials(token);
             };
 
+            FindViewById<Button>(Resource.Id.GoogleOpenId).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Google>();
+                var redirectUri = settings.GetRedirectUri<Google>();
+
+                var token = await new OpenIdApp<Google>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetWebTokenAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
+            FindViewById<Button>(Resource.Id.YahooOpenId).Click += async (sender, args) =>
+            {
+                var settings = new AppCredentialRepository(_callbackType);
+                var clientId = settings.GetClientId<Yahoo>();
+                var redirectUri = settings.GetRedirectUri<Yahoo>();
+
+                var token = await new OpenIdApp<Yahoo>(
+                        clientId,
+                        redirectUri,
+                        browserType: _browserType)
+                    .GetWebTokenAsync()
+                    .ConfigureAwait(false);
+
+                WriteCredentials(token);
+            };
+
             FindViewById<Button>(Resource.Id.gps).Click += async (sender, args) =>
             {
                 var result = await new GPSRequester()
@@ -427,6 +461,11 @@ namespace Quantfabric.UI.Test
             {
                 var token = credentials as OAuth2Credentials;
                 WriteResultToTextView($"AccessToken: {token.AccessToken}");
+            }
+            else if (credentials is JsonWebToken)
+            {
+                var token = credentials as JsonWebToken;
+                WriteResultToTextView($"JWT: {token.Signature}");
             }
             else
             {

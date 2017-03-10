@@ -44,6 +44,10 @@ namespace Quantfabric.UI.Test.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton GoogleOpenIdAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton GPS { get; set; }
 
         [Outlet]
@@ -98,6 +102,10 @@ namespace Quantfabric.UI.Test.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton WithingsAuth { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton YahooOpenIdAuth { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (AmazonAuth != null) {
@@ -133,6 +141,11 @@ namespace Quantfabric.UI.Test.iOS
             if (GoogleAuth != null) {
                 GoogleAuth.Dispose ();
                 GoogleAuth = null;
+            }
+
+            if (GoogleOpenIdAuth != null) {
+                GoogleOpenIdAuth.Dispose ();
+                GoogleOpenIdAuth = null;
             }
 
             if (GPS != null) {
@@ -203,6 +216,11 @@ namespace Quantfabric.UI.Test.iOS
             if (WithingsAuth != null) {
                 WithingsAuth.Dispose ();
                 WithingsAuth = null;
+            }
+
+            if (YahooOpenIdAuth != null) {
+                YahooOpenIdAuth.Dispose ();
+                YahooOpenIdAuth = null;
             }
         }
     }

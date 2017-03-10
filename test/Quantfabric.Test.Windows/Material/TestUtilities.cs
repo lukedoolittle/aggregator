@@ -4,40 +4,34 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
-using Material.Infrastructure.Credentials;
 
-namespace Quantfabric.Test.Integration
+namespace Quantfabric.Test.Material
 {
     public static class TestUtilities
     {
-        public static bool IsValidOAuth1Token(
-            OAuth1Credentials token,
-            bool shouldContainUserId)
+        public static T GetPropertyValue<T>(this object instance, string memberName)
         {
-            if (shouldContainUserId && string.IsNullOrEmpty(token?.ExternalUserId))
+            try
             {
-                return false;
+                var bindingFlags =
+                    BindingFlags.Instance |
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Static;
+
+                var member = instance.GetType().GetProperty(memberName, bindingFlags);
+
+                if (member != null)
+                {
+                    return (T)member.GetValue(instance);
+                }
             }
-            return !string.IsNullOrEmpty(token?.ConsumerKey) &&
-                   !string.IsNullOrEmpty(token?.ConsumerSecret) &&
-                   !string.IsNullOrEmpty(token?.OAuthToken) &&
-                   !string.IsNullOrEmpty(token?.OAuthSecret);
-        }
+            catch
+            {
 
-        public static bool IsValidOAuth2Token(OAuth2Credentials token)
-        {
-            return !string.IsNullOrEmpty(token?.AccessToken) &&
-                   !string.IsNullOrEmpty(token.TokenName);
-        }
+            }
 
-        public static bool IsValidJsonWebToken(JsonWebToken token)
-        {
-            return token.Header != null &&
-                   token.Claims != null &&
-                   token.Signature != null &&
-                   !string.IsNullOrEmpty(token.Claims.Audience) &&
-                   !string.IsNullOrEmpty(token.Claims.Issuer) &&
-                   !string.IsNullOrEmpty(token.Claims.Subject);
+            return default(T);
         }
 
         public static T GetMemberValue<T>(this object instance, string memberName)
@@ -66,8 +60,8 @@ namespace Quantfabric.Test.Integration
         }
 
         public static void SetPropertyValue(
-            this object instance, 
-            string propertyName, 
+            this object instance,
+            string propertyName,
             object value)
         {
             try
@@ -79,12 +73,12 @@ namespace Quantfabric.Test.Integration
                     BindingFlags.Static;
 
                 var property = instance.GetType().GetProperty(
-                    propertyName, 
+                    propertyName,
                     bindingFlags);
 
                 property?.SetValue(instance, value);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception($"Property not set with message: {e.Message}");
             }
@@ -103,8 +97,8 @@ namespace Quantfabric.Test.Integration
                     BindingFlags.NonPublic |
                     BindingFlags.Static;
 
-                var member= instance.GetType().GetField(
-                    memberName, 
+                var member = instance.GetType().GetField(
+                    memberName,
                     bindingFlags);
 
                 member?.SetValue(instance, value);
@@ -134,20 +128,20 @@ namespace Quantfabric.Test.Integration
                 //getting active connections
                 TcpConnectionInformation[] connections = properties.GetActiveTcpConnections();
                 portArray.AddRange(from n in connections
-                    where n.LocalEndPoint.Port >= startingPort
-                    select n.LocalEndPoint.Port);
+                                   where n.LocalEndPoint.Port >= startingPort
+                                   select n.LocalEndPoint.Port);
 
                 //getting active tcp listners - WCF service listening in tcp
                 endPoints = properties.GetActiveTcpListeners();
                 portArray.AddRange(from n in endPoints
-                    where n.Port >= startingPort
-                    select n.Port);
+                                   where n.Port >= startingPort
+                                   select n.Port);
 
                 //getting active udp listeners
                 endPoints = properties.GetActiveUdpListeners();
                 portArray.AddRange(from n in endPoints
-                    where n.Port >= startingPort
-                    select n.Port);
+                                   where n.Port >= startingPort
+                                   select n.Port);
 
                 portArray.Sort();
 

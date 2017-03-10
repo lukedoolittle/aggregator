@@ -241,17 +241,13 @@
     <Compile Include="Material\Integration\MockOAuth2CodeTokenTests.cs" />
     <Compile Include="Material\Integration\MockOAuth2ImplicitTokenTests.cs" />
     <Compile Include="Material\Integration\MockOAuth2WebTests.cs" />
-    <Compile Include="Material\Interaction\AuthenticationTests.cs" />
-    <Compile Include="Material\Interaction\OAuth1TokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuth2ClientCredentialsTokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuth2CodeTokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuth2ImplicitTokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuth2JWTBearerTokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuth2RefreshTokenTests.cs" />
-    <Compile Include="Material\Interaction\OAuthSimpleRequestTests.cs" />
-    <Compile Include="Material\Interaction\OpenIdTokenTests.cs" />
-    <Compile Include="Material\Interaction\SimplePasswordTests.cs" />
-    <Compile Include="Material\Interaction\SimpleRequestTests.cs" />
+    <Compile Include="Material\Integration\AuthenticationTests.cs" />
+    <Compile Include="Material\Integration\OAuth2ClientCredentialsTokenTests.cs" />
+    <Compile Include="Material\Integration\OAuth2JWTBearerTokenTests.cs" />
+    <Compile Include="Material\Integration\OAuth2RefreshTokenTests.cs" />
+    <Compile Include="Material\Integration\OAuthSimpleRequestTests.cs" />
+    <Compile Include="Material\Integration\SimplePasswordTests.cs" />
+    <Compile Include="Material\Integration\SimpleRequestTests.cs" />
     <Compile Include="Material\Mocks\OAuth1ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\OAuth2ResourceProviderMock.cs" />
     <Compile Include="Material\Mocks\ResourceProviderMocks.cs" />
@@ -287,6 +283,7 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\BasicCryptographyTests.cs" />
     <Compile Include="Material\Unit\CanonicalizationTests.cs" />
     <Compile Include="Material\Unit\CodeGenTests.cs" />
@@ -298,7 +295,6 @@
     <Compile Include="Material\Unit\PkceTests.cs" />
     <Compile Include="Material\Unit\QuerystringParsingTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
-    <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\TokenSerializationDeserializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

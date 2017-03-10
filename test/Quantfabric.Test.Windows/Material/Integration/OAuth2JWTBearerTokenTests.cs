@@ -9,7 +9,7 @@ using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     [Trait("Category", "Automated")]
     public class OAuth2JWTBearerTokenTests
@@ -38,7 +38,7 @@ namespace Quantfabric.Test.Material.Interaction
                 .GetCredentialsAsync(JsonWebTokenAlgorithm.RS256)
                 .ConfigureAwait(false);
 
-            Assert.True(TestUtilities.IsValidOAuth2Token(token));
+            Assert.True(ValidationUtilities.IsValidOAuth2Token(token));
         }
     }
 }

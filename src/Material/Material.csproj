@@ -268,7 +268,7 @@
     <Compile Include="Exceptions\InvalidScopeException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ApiKeyResourceProvider.cs" />
-    <Compile Include="Infrastructure\BluetoothAppBase.cs" />
+    <Compile Include="Infrastructure\BluetoothApp.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothCharacteristics.cs" />
     <Compile Include="Infrastructure\BluetoothRequest.cs" />
     <Compile Include="Infrastructure\BluetoothResourceProvider.cs" />

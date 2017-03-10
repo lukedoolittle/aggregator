@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAdapter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\BluetoothAuthorizerUIFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\SubscriptionManagers\AdapterSubscriptionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bluetooth\SubscriptionManagers\DeviceSubscriptionManager.cs" />

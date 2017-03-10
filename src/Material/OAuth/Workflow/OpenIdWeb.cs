@@ -14,86 +14,109 @@ using Material.OAuth.Security;
 
 namespace Material.OAuth.Workflow
 {
-    public class OpenIdWeb<TResourceProvider>
+    public class OpenIdWeb<TResourceProvider> : OAuth2Web<TResourceProvider>
         where TResourceProvider : OpenIdResourceProvider, new()
     {
-        private readonly OAuth2Web<TResourceProvider> _web;
-        private readonly TResourceProvider _provider;
-        private readonly string _clientId;
-        private readonly IOAuthSecurityStrategy _securityStrategy;
+        public OpenIdWeb(
+            string clientId, 
+            string clientSecret, 
+            TResourceProvider resourceProvider, 
+            IOAuthCallbackHandler<OAuth2Credentials> callbackHandler, 
+            IOAuthAuthorizationUriFacade uriFacade, 
+            IOAuthAccessTokenFacade<OAuth2Credentials> accessTokenFacade, 
+            IOAuthSecurityStrategy securityStrategy, 
+            ICryptoStringGenerator idGenerator) : 
+                base(
+                    clientId, 
+                    clientSecret, 
+                    resourceProvider,
+                    callbackHandler, 
+                    uriFacade, 
+                    accessTokenFacade, 
+                    securityStrategy, 
+                    idGenerator)
+        {}
 
         /// <summary>
-        /// Authenticate a resource owner using the OpenId Connect workflow with default security strategy
+        /// Authenticate a resource owner using the OpenId Connect workflow
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
-        /// <param name="strategy">The security strategy to use for "state" handling</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="strategy"></param>
+        /// <param name="resourceProvider"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
+        public OpenIdWeb(
+            string clientId, 
+            string clientSecret, 
+            string callbackUri, 
+            IOAuthSecurityStrategy strategy, 
+            TResourceProvider resourceProvider) :
+                this(
+                    clientId,
+                    clientSecret,
+                    resourceProvider,
+                    new OAuth2CallbackHandler(
+                        strategy,
+                        OAuth2Parameter.State.EnumToString()),
+                    new OAuth2AuthorizationUriFacade(
+                            resourceProvider,
+                            clientId,
+                            new Uri(callbackUri),
+                            new OAuthAuthorizationAdapter(),
+                            strategy)
+                        .AddSecurityParameters(
+                            new OAuth2NonceSecurityParameterBundle()),
+                    new OAuth2AccessCodeFacade(
+                        resourceProvider,
+                        clientId,
+                        clientSecret,
+                        new Uri(callbackUri),
+                        new OAuthAuthorizationAdapter(),
+                        strategy),
+                    strategy,
+                    new CryptoStringGenerator())
+        { }
+
+        /// <summary>
+        /// Authenticate a resource owner using the OpenId Connect workflow
+        /// </summary>
+        /// <param name="clientId">The application's client Id</param>
+        /// <param name="clientSecret">The application's client secret</param>
+        /// <param name="callbackUri">The application's registered callback url</param>
+        /// <param name="resourceProvider"></param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OpenIdWeb(
             string clientId,
             string clientSecret,
-            string callbackUrl,
-            IOAuthSecurityStrategy strategy)
-        {
-            _clientId = clientId;
-            _securityStrategy = strategy;
-
-            _provider = new TResourceProvider();
-
-            var callbackHandler = new OAuth2CallbackHandler(
-                strategy,
-                OAuth2Parameter.State.EnumToString());
-
-            var adapter = new OAuthAuthorizationAdapter();
-
-            var uriFacade = new OAuth2AuthorizationUriFacade(
-                    _provider,
+            string callbackUri,
+            TResourceProvider resourceProvider) :
+                this(
                     clientId,
-                    new Uri(callbackUrl),
-                    adapter,
-                    strategy)
-                .AddSecurityParameters(
-                    new OAuth2NonceSecurityParameterBundle());
-
-            var accessTokenFacade = new OAuth2AccessCodeFacade(
-                _provider,
-                clientId,
-                clientSecret,
-                new Uri(callbackUrl),
-                new OAuthAuthorizationAdapter(),
-                strategy);
-
-            _web = new OAuth2Web<TResourceProvider>(
-                clientId,
-                clientSecret,
-                _provider,
-                callbackHandler,
-                uriFacade,
-                accessTokenFacade,
-                strategy,
-                new CryptoStringGenerator());
-        }
+                    clientSecret,
+                    callbackUri,
+                    new OAuthSecurityStrategy(
+                        new InMemoryCryptographicParameterRepository(),
+                        QuantfabricConfiguration.SecurityParameterTimeout),
+                    resourceProvider)
+        {}
 
         /// <summary>
-        /// Authenticate a resource owner using the OpenId Connect workflow with default security strategy
+        /// Authenticate a resource owner using the OpenId Connect workflow 
         /// </summary>
         /// <param name="clientId">The application's client Id</param>
         /// <param name="clientSecret">The application's client secret</param>
-        /// <param name="callbackUrl">The application's registered callback url</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings",
-            MessageId = "2#")]
+        /// <param name="callbackUri">The application's registered callback url</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "2#")]
         public OpenIdWeb(
             string clientId,
             string clientSecret,
-            string callbackUrl) : 
+            string callbackUri) :
                 this(
                     clientId,
-                    clientSecret, 
-                    callbackUrl, 
-                    new OAuthSecurityStrategy(
-                        new InMemoryCryptographicParameterRepository(),
-                        QuantfabricConfiguration.SecurityParameterTimeout))
+                    clientSecret,
+                    callbackUri,
+                    new TResourceProvider())
         { }
 
         /// <summary>
@@ -101,11 +124,11 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <returns>Authorization uri</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public Task<Uri> GetAuthorizationUriAsync()
+        public override Task<Uri> GetAuthorizationUriAsync()
         {
-            return _web
-                .AddScope(OpenIdResourceProvider.OpenIdScope)
-                .GetAuthorizationUriAsync();
+            AddScope(OpenIdResourceProvider.OpenIdScope);
+
+            return base.GetAuthorizationUriAsync();
         }
 
         /// <summary>
@@ -116,17 +139,19 @@ namespace Material.OAuth.Workflow
         public async Task<JsonWebToken> GetWebTokenAsync(
             Uri responseUri)
         {
-            var credentials = await _web.GetAccessTokenAsync(
-                        responseUri,
-                        true)
-                    .ConfigureAwait(false);
+            var credentials = await GetAccessTokenAsync(
+                    responseUri, 
+                    true)
+                .ConfigureAwait(false);
 
-            var requestId = _web.GetRequestIdFromResponse(
-                responseUri);
+            var requestId = CallbackHandler
+                .ParseAndValidateCallback(
+                    responseUri)
+                .RequestId;
 
-            CreateValidator(requestId)?.IsTokenValid(credentials.IdToken);
+            CreateValidator(requestId).IsTokenValid(credentials.IdToken);
 
-            _securityStrategy.ClearSecureParameters(requestId);
+            SecurityStrategy.ClearSecureParameters(requestId);
 
             return credentials.IdToken;
         }
@@ -138,14 +163,14 @@ namespace Material.OAuth.Workflow
                 .AddValidator(new JsonWebTokenAlgorithmValidator())
                 .AddValidator(new JsonWebTokenExpirationValidator())
                 .AddValidator(new JsonWebTokenAudienceValidator(
-                    _clientId))
+                    ClientId))
                 .AddValidator(new JsonWebTokenIssuerValidator(
-                    _provider.ValidIssuers))
+                    ResourceProvider.ValidIssuers))
                 .AddValidator(new JsonWebTokenNonceValidator(
-                    _securityStrategy,
+                    SecurityStrategy,
                     requestId))
                 .AddValidator(new DiscoveryJsonWebTokenSignatureValidator(
-                    _provider.OpenIdDiscoveryUrl))
+                    ResourceProvider.OpenIdDiscoveryUrl))
                 .ThrowIfInvalid();
         }
     }

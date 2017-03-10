@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppCredentialRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialApplicationSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IClientCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValidationUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UsernameAndPassword.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Randomizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TokenCredentialRepository.cs" />

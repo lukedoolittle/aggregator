@@ -8,7 +8,7 @@ using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     [Trait("Category", "Automated")]
     public class OAuth2ClientCredentialsTokenTests
@@ -36,7 +36,7 @@ namespace Quantfabric.Test.Material.Interaction
                 .GetCredentialsAsync()
                 .ConfigureAwait(false);
 
-            Assert.True(TestUtilities.IsValidOAuth2Token(token));
+            Assert.True(ValidationUtilities.IsValidOAuth2Token(token));
 
             _tokenRepository.PutToken<Omniture, OAuth2Credentials>(token);
         }

@@ -161,7 +161,15 @@ namespace Quantfabric.Web.Test.Controllers
         [HttpGet]
         public async Task<ActionResult> Fitbit()
         {
-            var uri = await GetOAuth2AuthorizationUri<Fitbit>()
+            var oauth = new OAuth2Web<Fitbit>(
+                _appRepository.GetClientId<Fitbit>(),
+                _appRepository.GetClientSecret<Fitbit>(),
+                _appRepository.GetRedirectUri<Fitbit>())
+                .AddScope<FitbitProfile>()
+                .AddScope<FitbitSleep>();
+
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
             return Redirect(uri.ToString());

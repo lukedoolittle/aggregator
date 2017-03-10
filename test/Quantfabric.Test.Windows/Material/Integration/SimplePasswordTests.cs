@@ -5,7 +5,7 @@ using Material.OAuth.Workflow;
 using Quantfabric.Test.Helpers;
 using Xunit;
 
-namespace Quantfabric.Test.Material.Interaction
+namespace Quantfabric.Test.Material.Integration
 {
     [Trait("Category", "Automated")]
     public class SimplePasswordTests

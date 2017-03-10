@@ -16,14 +16,15 @@ namespace Material.OAuth.Workflow
     public class OAuth2Web<TResourceProvider>
         where TResourceProvider : OAuth2ResourceProvider, new()
     {
-        private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly IOAuthAuthorizationUriFacade _uriFacade;
         private readonly IOAuthAccessTokenFacade<OAuth2Credentials> _accessTokenFacade;
-        private readonly IOAuthCallbackHandler<OAuth2Credentials> _callbackHandler;
-        private readonly TResourceProvider _resourceProvider;
-        private readonly IOAuthSecurityStrategy _securityStrategy;
         private readonly ICryptoStringGenerator _idGenerator;
+
+        protected IOAuthCallbackHandler<OAuth2Credentials> CallbackHandler { get; }
+        protected IOAuthSecurityStrategy SecurityStrategy { get; }
+        protected string ClientId { get; }
+        protected TResourceProvider ResourceProvider { get; }
 
         /// <summary>
         /// Authorize a resource owner using the OAuth2 workflow with default security strategy
@@ -47,13 +48,13 @@ namespace Material.OAuth.Workflow
             IOAuthSecurityStrategy securityStrategy,
             ICryptoStringGenerator idGenerator)
         {
-            _clientId = clientId;
+            ClientId = clientId;
             _clientSecret = clientSecret;
-            _resourceProvider = resourceProvider;
-            _callbackHandler = callbackHandler;
+            ResourceProvider = resourceProvider;
+            CallbackHandler = callbackHandler;
             _uriFacade = uriFacade;
             _accessTokenFacade = accessTokenFacade;
-            _securityStrategy = securityStrategy;
+            SecurityStrategy = securityStrategy;
             _idGenerator = idGenerator;
         }
 
@@ -163,9 +164,9 @@ namespace Material.OAuth.Workflow
         /// </summary>
         /// <returns>Authorization uri</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public Task<Uri> GetAuthorizationUriAsync()
+        public virtual Task<Uri> GetAuthorizationUriAsync()
         {
-            _resourceProvider.SetFlow(OAuth2FlowType.AccessCode);
+            ResourceProvider.SetFlow(OAuth2FlowType.AccessCode);
 
             return _uriFacade.GetAuthorizationUriAsync(
                 _idGenerator.CreateRandomString());
@@ -181,11 +182,11 @@ namespace Material.OAuth.Workflow
             Uri responseUri,
             bool shouldSkipClearParameters)
         {
-            _resourceProvider.SetClientProperties(
-                _clientId,
+            ResourceProvider.SetClientProperties(
+                ClientId,
                 _clientSecret);
 
-            var intermediateResult = _callbackHandler
+            var intermediateResult = CallbackHandler
                 .ParseAndValidateCallback(
                     responseUri);
 
@@ -197,7 +198,7 @@ namespace Material.OAuth.Workflow
 
             if (!shouldSkipClearParameters)
             {
-                _securityStrategy.ClearSecureParameters(
+                SecurityStrategy.ClearSecureParameters(
                     intermediateResult.RequestId);
             }
 
@@ -215,17 +216,6 @@ namespace Material.OAuth.Workflow
             return GetAccessTokenAsync(responseUri, false);
         }
 
-        public string GetRequestIdFromResponse(Uri responseUri)
-        {
-            if (responseUri == null) throw new ArgumentNullException(nameof(responseUri));
-
-            var intermediateResult = _callbackHandler
-                .ParseAndValidateCallback(
-                    responseUri);
-
-            return intermediateResult.RequestId;
-        }
-
         /// <summary>
         /// Adds scope to be requested with OAuth2 Authorize
         /// </summary>
@@ -235,7 +225,7 @@ namespace Material.OAuth.Workflow
         public OAuth2Web<TResourceProvider> AddScope<TRequest>()
             where TRequest : OAuthRequest, new()
         {
-            _resourceProvider.AddRequestScope<TRequest>();
+            ResourceProvider.AddRequestScope<TRequest>();
 
             return this;
         }
@@ -248,7 +238,7 @@ namespace Material.OAuth.Workflow
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public OAuth2Web<TResourceProvider> AddScope(string scope)
         {
-            _resourceProvider.AddRequestScope(scope);
+            ResourceProvider.AddRequestScope(scope);
 
             return this;
         }
