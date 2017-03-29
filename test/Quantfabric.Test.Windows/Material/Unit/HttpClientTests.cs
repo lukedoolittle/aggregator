@@ -1,22 +1,22 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Serialization;
-using Foundations.Extensions;
-using Foundations.HttpClient;
-using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Canonicalizers;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Cryptography.Keys;
-using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Extensions;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.AuthenticatorParameters;
-using Material.OAuth.Security;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.HttpClient;
+using Material.HttpClient.Authenticators;
+using Material.HttpClient.Canonicalizers;
+using Material.HttpClient.Cryptography;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.HttpClient.Cryptography.Enums;
+using Material.HttpClient.Cryptography.Keys;
+using Material.HttpClient.Extensions;
+using Material.Workflow.AuthenticatorParameters;
+using Material.Workflow.Security;
 using Xunit;
-using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
+using OAuth2ResponseType = Material.Framework.Enums.OAuth2ResponseType;
 
 namespace Quantfabric.Test.Material.Unit
 {

@@ -2,9 +2,9 @@
 using System.Collections.Specialized;
 using System.Net.Http;
 using DotNetOpenAuth.OAuth;
-using Foundations.Collections;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Material.Framework.Collections;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
 
 namespace Quantfabric.Test.Material.OAuthServer
 {

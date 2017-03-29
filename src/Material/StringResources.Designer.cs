@@ -10,6 +10,7 @@
 
 namespace Material {
     using System;
+using Material.Domain.Credentials;
     using System.Reflection;
     
     
@@ -62,6 +63,33 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The algorithm {0} is not supported for Json Web Token signing.
+        /// </summary>
+        public static string AlgorithmNotSupported {
+            get {
+                return ResourceManager.GetString("AlgorithmNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This key is not an asymmetric key.
+        /// </summary>
+        public static string AsymmetricKeyException {
+            get {
+                return ResourceManager.GetString("AsymmetricKeyException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received HTTP status code {0} but expected {1}. Body content : {2}.
+        /// </summary>
+        public static string BadHttpRequestException {
+            get {
+                return ResourceManager.GetString("BadHttpRequestException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to bluetooth device at address {0}.
         /// </summary>
         public static string BluetoothConnectivityException {
@@ -98,6 +126,15 @@ namespace Material {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No serializer found for content type {0}.
+        /// </summary>
+        public static string ContentTypeNotSupported {
+            get {
+                return ResourceManager.GetString("ContentTypeNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} flow is not supported with the service {1} (did you forget to provide a client secret?).
         /// </summary>
         public static string FlowTypeNotSupported {
@@ -112,6 +149,15 @@ namespace Material {
         public static string FormatMetadataMissing {
             get {
                 return ResourceManager.GetString("FormatMetadataMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot make an HTTP Get request with a body.
+        /// </summary>
+        public static string GetWithBodyNotSupported {
+            get {
+                return ResourceManager.GetString("GetWithBodyNotSupported", resourceCulture);
             }
         }
         
@@ -148,6 +194,15 @@ namespace Material {
         public static string GrantTypeNotSupportedException {
             get {
                 return ResourceManager.GetString("GrantTypeNotSupportedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add header query or body parameters.
+        /// </summary>
+        public static string HeaderParametersNotSupported {
+            get {
+                return ResourceManager.GetString("HeaderParametersNotSupported", resourceCulture);
             }
         }
         
@@ -283,6 +338,15 @@ namespace Material {
         public static string ShortTermAccessTokenExchangeException {
             get {
                 return ResourceManager.GetString("ShortTermAccessTokenExchangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot deserialize content with media type {0}.
+        /// </summary>
+        public static string UnknownMediaType {
+            get {
+                return ResourceManager.GetString("UnknownMediaType", resourceCulture);
             }
         }
         

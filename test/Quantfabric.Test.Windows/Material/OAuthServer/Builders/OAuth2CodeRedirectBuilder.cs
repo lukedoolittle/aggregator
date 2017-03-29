@@ -1,9 +1,9 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Collections.Generic;
-using Foundations.Collections;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
-using Material.Infrastructure.Credentials;
+using Material.Framework.Collections;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
 
 namespace Quantfabric.Test.Material.OAuthServer.Builders
 {

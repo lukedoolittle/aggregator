@@ -1,6 +1,6 @@
 ﻿using System;
-using Material.Enums;
-using Material.Infrastructure;
+using Material.Domain.Core;
+using Material.Framework.Enums;
 
 namespace Material.Contracts
 {

@@ -1,7 +1,7 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Threading.Tasks;
-using Material.Enums;
-using Material.Infrastructure.Credentials;
+using Material.Framework.Enums;
 
 namespace Material.Contracts
 {

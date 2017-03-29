@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Foundations.Enums;
-using Foundations.Extensions;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
 
 namespace Foundations.Http
 {

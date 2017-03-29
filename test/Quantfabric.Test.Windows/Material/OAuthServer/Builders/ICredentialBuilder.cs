@@ -1,4 +1,4 @@
-﻿using Material.Infrastructure.Credentials;
+﻿using Material.Domain.Credentials;
 
 namespace Quantfabric.Test.Material.OAuthServer.Builders
 {

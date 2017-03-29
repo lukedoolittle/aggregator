@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Material.OAuth;
+using Material.Workflow;
 
 namespace Quantfabric.UI.Test.Forms.UWP
 {

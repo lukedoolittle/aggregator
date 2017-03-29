@@ -1,5 +1,5 @@
-﻿using Foundations.Attributes;
-using Foundations.Extensions;
+﻿using Material.Framework.Extensions;
+using Material.Framework.Metadata;
 using Xunit;
 
 namespace Foundations.Test.Core

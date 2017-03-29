@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-namespace Quantfabric.UI.Test.Forms
+﻿namespace Quantfabric.UI.Test.Forms
 {
     public class App : Xamarin.Forms.Application
     {

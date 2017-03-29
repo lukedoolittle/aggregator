@@ -93,153 +93,231 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
-    <Compile Include="Exceptions\InvalidResponseTypeException.cs" />
-    <Compile Include="Infrastructure\ApiKeyExchangeResourceProvider.cs" />
-    <Compile Include="Infrastructure\Bluetooth\GATTDefinition.cs" />
-    <Compile Include="Infrastructure\Credentials\AccountKeyCredentials.cs" />
-    <Compile Include="Infrastructure\Credentials\CredentialMetadata.cs" />
-    <Compile Include="Infrastructure\Credentials\JsonWebToken.cs" />
-    <Compile Include="Infrastructure\Credentials\PasswordCredentials.cs" />
-    <Compile Include="Infrastructure\Identities\FacebookIdentity.cs" />
-    <Compile Include="Infrastructure\Identities\FitbitIdentity.cs" />
-    <Compile Include="Infrastructure\Identities\GoogleIdentity.cs" />
-    <Compile Include="Infrastructure\Identities\TwitterIdentity.cs" />
-    <Compile Include="Infrastructure\Credentials\JsonWebTokenExtensions.cs" />
-    <Compile Include="Infrastructure\OAuthRequest.cs" />
-    <Compile Include="Infrastructure\OpenIdResourceProvider.cs" />
-    <Compile Include="Infrastructure\Partials\AzureTableStorageBatch.cs" />
-    <Compile Include="Infrastructure\Partials\AzureTableStorageNonQuery.cs" />
-    <Compile Include="Infrastructure\Partials\AzureTableStorageQuery.cs" />
-    <Compile Include="Infrastructure\Partials\Spotify.cs" />
-    <Compile Include="Infrastructure\Partials\YahooFlurryMetrics.cs" />
-    <Compile Include="Infrastructure\PasswordResourceProvider.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Amazon.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\AppFigures.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\AzureTableStorage.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Facebook.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Fatsecret.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Fitbit.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Foursquare.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Google.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\GoogleAnalytics.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Instagram.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\LinkedIn.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\MicrosoftBing.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\MicrosoftLuis.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Omniture.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Pinterest.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Rescuetime.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Runkeeper.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Spotify.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Tumblr.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\TwentyThreeAndMe.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Twitter.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Withings.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\XamarinInsights.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\Yahoo.cs" />
-    <Compile Include="Infrastructure\ProtectedResources\YahooFlurry.cs" />
-    <Compile Include="Infrastructure\Requests\AmazonProfile.cs" />
-    <Compile Include="Infrastructure\Requests\AppFiguresSales.cs" />
-    <Compile Include="Infrastructure\Requests\AzureTableStorageBatch.cs" />
-    <Compile Include="Infrastructure\Requests\AzureTableStorageNonQuery.cs" />
-    <Compile Include="Infrastructure\Requests\AzureTableStorageQuery.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookEvent.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookFeed.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookFriend.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookPageLike.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookTokenInfo.cs" />
-    <Compile Include="Infrastructure\Requests\FacebookUser.cs" />
-    <Compile Include="Infrastructure\Requests\FatsecretMeal.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRate.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradaySteps.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitIntradayStepsBulk.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitProfile.cs" />
-    <Compile Include="Infrastructure\Requests\FitbitSleep.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareCheckin.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareFriend.cs" />
-    <Compile Include="Infrastructure\Requests\FoursquareTip.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleAnalyticsReports.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleGmail.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleGmailMetadata.cs" />
-    <Compile Include="Infrastructure\Requests\GoogleProfile.cs" />
-    <Compile Include="Infrastructure\Requests\InstagramLikes.cs" />
-    <Compile Include="Infrastructure\Requests\LinkedinPersonal.cs" />
-    <Compile Include="Infrastructure\Requests\MicrosoftBingSpeechToText.cs" />
-    <Compile Include="Infrastructure\Requests\MicrosoftLuisPredict.cs" />
-    <Compile Include="Infrastructure\Requests\OmnitureReporting.cs" />
-    <Compile Include="Infrastructure\Requests\PinterestLikes.cs" />
-    <Compile Include="Infrastructure\Requests\RescuetimeAnalyticData.cs" />
-    <Compile Include="Infrastructure\Requests\RunkeeperFitnessActivity.cs" />
-    <Compile Include="Infrastructure\Requests\SpotifySavedTrack.cs" />
-    <Compile Include="Infrastructure\Requests\TumblrLikes.cs" />
-    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeGenome.cs" />
-    <Compile Include="Infrastructure\Requests\TwentyThreeAndMeUser.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFavorite.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFollower.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterFollowing.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterMention.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterReceivedDirectMessage.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterRetweetOfMe.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterSentDirectMessage.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterTimeline.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterTweet.cs" />
-    <Compile Include="Infrastructure\Requests\TwitterVerifyCredentials.cs" />
-    <Compile Include="Infrastructure\Requests\WithingsWeighIn.cs" />
-    <Compile Include="Infrastructure\Requests\XamarinInsightsCrashes.cs" />
-    <Compile Include="Infrastructure\Requests\XamarinInsightsEvents.cs" />
-    <Compile Include="Infrastructure\Requests\XamarinInsightsSessions.cs" />
-    <Compile Include="Infrastructure\Requests\XamarinInsightsUsers.cs" />
-    <Compile Include="Infrastructure\Requests\YahooFlurryMetrics.cs" />
-    <Compile Include="Infrastructure\Responses\AmazonProfileResponse.cs" />
-    <Compile Include="Infrastructure\Responses\AppFiguresSalesResponse.cs" />
-    <Compile Include="Infrastructure\Responses\AzureTableStorageQueryResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FacebookTokenInfoResponse.cs" />
-    <Compile Include="Infrastructure\Responses\MicrosoftBingSpeechResponse.cs" />
-    <Compile Include="Infrastructure\Partials\MicrosoftBingSpeechToText.cs" />
-    <Compile Include="Infrastructure\Responses\XamarinEventResponse.cs" />
-    <Compile Include="Infrastructure\Responses\XamarinInsightsCrashResponse.cs" />
-    <Compile Include="Infrastructure\Responses\XamarinSessionResponse.cs" />
-    <Compile Include="Infrastructure\Responses\XamarinUserResponse.cs" />
-    <Compile Include="Infrastructure\Responses\YahooFlurryMetricsResponse.cs" />
-    <Compile Include="Metadata\Formatters\DefaultFormatterAttribute.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\ApiKey.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\GenericParameter.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Callback.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2AccessToken.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2Assertion.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2ClientCredentials.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2ClientSecret.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1ConsumerKey.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Nonce.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1SignatureMethod.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Timestamp.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Token.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Verifier.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth1Version.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2ClientId.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2Code.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2CodeChallenge.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2CodeChallengeMethod.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2CodeVerifier.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2GrantType.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2Nonce.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2Callback.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2RefreshToken.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2ResponseType.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2Scope.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\OAuth2State.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\Password.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\Username.cs" />
-    <Compile Include="OAuth\AuthenticatorParameters\MicrosoftDate.cs" />
-    <Compile Include="OAuth\Authorization\PasswordAuthorizationAdapter.cs" />
-    <Compile Include="OAuth\Facade\OAuth2AccessCodeFacade.cs" />
-    <Compile Include="OAuth\Facade\OAuth2AuthorizationUriFacade.cs" />
-    <Compile Include="OAuth\Facade\OAuth2ImplicitFacade.cs" />
-    <Compile Include="OAuth\Security\OAuth2NonceSecurityParameterBundle.cs" />
-    <Compile Include="OAuth\Security\OAuth2PkceVerifierSecurityParameterBundle.cs" />
-    <Compile Include="OAuth\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
-    <Compile Include="OAuth\Security\OAuth2Sha256PkceSecurityParameterBundle.cs" />
+    <Compile Include="Framework\Metadata\ClassDateTimeFormatterAttribute.cs" />
+    <Compile Include="Framework\Exceptions\InvalidResponseTypeException.cs" />
+    <Compile Include="Framework\Metadata\DescriptionAttribute.cs" />
+    <Compile Include="Framework\Collections\DefaultingDictionary.cs" />
+    <Compile Include="Framework\Collections\HttpUtility.cs" />
+    <Compile Include="Framework\Enums\MediaType.cs" />
+    <Compile Include="Framework\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Framework\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Framework\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Framework\Extensions\EnumExtensions.cs" />
+    <Compile Include="Framework\Extensions\StringExtensions.cs" />
+    <Compile Include="Framework\Extensions\TypeExtensions.cs" />
+    <Compile Include="Framework\Extensions\UriExtensions.cs" />
+    <Compile Include="HttpClient\Authenticators\AuthenticatorBuilder.cs" />
+    <Compile Include="HttpClient\Authenticators\IAuthenticator.cs" />
+    <Compile Include="HttpClient\Authenticators\IAuthenticatorParameter.cs" />
+    <Compile Include="HttpClient\Authenticators\IRequestSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Authenticators\MicrosoftRequestSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Authenticators\OAuth1RequestSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Canonicalizers\IHttpRequestCanonicalizer.cs" />
+    <Compile Include="HttpClient\Canonicalizers\MicrosoftCanonicalizer.cs" />
+    <Compile Include="HttpClient\Canonicalizers\OAuth1Canonicalizer.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\DigestSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\EllipticCurveSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\HmacDigestSigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\ISigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\IVerificationAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Algorithms\SigningAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\CryptographyException.cs" />
+    <Compile Include="HttpClient\Cryptography\CryptoStringGenerator.cs" />
+    <Compile Include="HttpClient\Cryptography\Discovery\OpenIDConnectDiscoveryDocument.cs" />
+    <Compile Include="HttpClient\Cryptography\Discovery\PublicKeyDiscoveryDocument.cs" />
+    <Compile Include="HttpClient\Cryptography\Enums\CryptoStringType.cs" />
+    <Compile Include="HttpClient\Cryptography\Enums\EncryptionAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Enums\JsonWebTokenAlgorithm.cs" />
+    <Compile Include="HttpClient\Cryptography\Enums\StringEncoding.cs" />
+    <Compile Include="HttpClient\Cryptography\ICryptoStringGenerator.cs" />
+    <Compile Include="HttpClient\Cryptography\IJsonWebTokenSigningFactory.cs" />
+    <Compile Include="HttpClient\Cryptography\JsonWebTokenSignerFactory.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\CryptoKey.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\EcdsaCryptoKey.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\EcdsaCryptoKeyPair.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\HashKey.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\RsaCryptoKey.cs" />
+    <Compile Include="HttpClient\Cryptography\Keys\RsaCryptoKeyPair.cs" />
+    <Compile Include="Framework\Enums\CodeChallengeMethod.cs" />
+    <Compile Include="Framework\Enums\ContentTypeEncoding.cs" />
+    <Compile Include="Framework\Enums\GrantType.cs" />
+    <Compile Include="Framework\Enums\HttpParameterType.cs" />
+    <Compile Include="Framework\Enums\OAuth1Parameter.cs" />
+    <Compile Include="Framework\Enums\OAuth2FlowType.cs" />
+    <Compile Include="Framework\Enums\OAuth2Parameter.cs" />
+    <Compile Include="Framework\Enums\OAuth2ResponseType.cs" />
+    <Compile Include="HttpClient\Extensions\ContentExtensions.cs" />
+    <Compile Include="HttpClient\Extensions\CryptoKeyExtensions.cs" />
+    <Compile Include="HttpClient\Extensions\HeaderExtensions.cs" />
+    <Compile Include="HttpClient\Extensions\ParameterExtensions.cs" />
+    <Compile Include="HttpClient\Extensions\ResultsExtensions.cs" />
+    <Compile Include="HttpClient\Extensions\VerbExtensions.cs" />
+    <Compile Include="HttpClient\HttpConfiguration.cs" />
+    <Compile Include="HttpClient\HttpRequestBuilder.cs" />
+    <Compile Include="HttpClient\HttpResponse.cs" />
+    <Compile Include="HttpClient\ParameterHandlers\BodyParameterHandler.cs" />
+    <Compile Include="HttpClient\ParameterHandlers\IParameterHandler.cs" />
+    <Compile Include="HttpClient\ParameterHandlers\QuerystringParameterHandler.cs" />
+    <Compile Include="HttpClient\Content\BodyContent.cs" />
+    <Compile Include="HttpClient\Content\IRequestContent.cs" />
+    <Compile Include="HttpClient\Content\RawContent.cs" />
+    <Compile Include="HttpClient\Content\SerializableContent.cs" />
+    <Compile Include="HttpClient\Content\StreamingContent.cs" />
+    <Compile Include="HttpClient\Content\CookieCollection.cs" />
+    <Compile Include="HttpClient\Content\HeaderCollection.cs" />
+    <Compile Include="HttpClient\Content\HttpClientSet.cs" />
+    <Compile Include="HttpClient\Content\RequestParameters.cs" />
+    <Compile Include="HttpClient\Content\RequestPayload.cs" />
+    <Compile Include="Framework\Serialization\HtmlSerializer.cs" />
+    <Compile Include="Framework\Serialization\ISerializer.cs" />
+    <Compile Include="Framework\Serialization\JsonSerializer.cs" />
+    <Compile Include="Framework\Serialization\XmlSerializer.cs" />
+    <Compile Include="Domain\Core\ApiKeyExchangeResourceProvider.cs" />
+    <Compile Include="Domain\Bluetooth\GATTDefinition.cs" />
+    <Compile Include="Domain\Credentials\AccountKeyCredentials.cs" />
+    <Compile Include="Domain\Credentials\CredentialMetadata.cs" />
+    <Compile Include="Domain\Credentials\JsonWebToken.cs" />
+    <Compile Include="Domain\Credentials\PasswordCredentials.cs" />
+    <Compile Include="Authentication\Identities\FacebookIdentity.cs" />
+    <Compile Include="Authentication\Identities\FitbitIdentity.cs" />
+    <Compile Include="Authentication\Identities\GoogleIdentity.cs" />
+    <Compile Include="Authentication\Identities\TwitterIdentity.cs" />
+    <Compile Include="Domain\Credentials\JsonWebTokenExtensions.cs" />
+    <Compile Include="Domain\Core\OAuthRequest.cs" />
+    <Compile Include="Domain\Core\OpenIdResourceProvider.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\AzureTableStorageBatch.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\AzureTableStorageNonQuery.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\AzureTableStorageQuery.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Spotify.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\YahooFlurryMetrics.cs" />
+    <Compile Include="Domain\Core\PasswordResourceProvider.cs" />
+    <Compile Include="Domain\ResourceProviders\Amazon.cs" />
+    <Compile Include="Domain\ResourceProviders\AppFigures.cs" />
+    <Compile Include="Domain\ResourceProviders\AzureTableStorage.cs" />
+    <Compile Include="Domain\ResourceProviders\Facebook.cs" />
+    <Compile Include="Domain\ResourceProviders\Fatsecret.cs" />
+    <Compile Include="Domain\ResourceProviders\Fitbit.cs" />
+    <Compile Include="Domain\ResourceProviders\Foursquare.cs" />
+    <Compile Include="Domain\ResourceProviders\Google.cs" />
+    <Compile Include="Domain\ResourceProviders\GoogleAnalytics.cs" />
+    <Compile Include="Domain\ResourceProviders\Instagram.cs" />
+    <Compile Include="Domain\ResourceProviders\LinkedIn.cs" />
+    <Compile Include="Domain\ResourceProviders\MicrosoftBing.cs" />
+    <Compile Include="Domain\ResourceProviders\MicrosoftLuis.cs" />
+    <Compile Include="Domain\ResourceProviders\Omniture.cs" />
+    <Compile Include="Domain\ResourceProviders\Pinterest.cs" />
+    <Compile Include="Domain\ResourceProviders\Rescuetime.cs" />
+    <Compile Include="Domain\ResourceProviders\Runkeeper.cs" />
+    <Compile Include="Domain\ResourceProviders\Spotify.cs" />
+    <Compile Include="Domain\ResourceProviders\Tumblr.cs" />
+    <Compile Include="Domain\ResourceProviders\TwentyThreeAndMe.cs" />
+    <Compile Include="Domain\ResourceProviders\Twitter.cs" />
+    <Compile Include="Domain\ResourceProviders\Withings.cs" />
+    <Compile Include="Domain\ResourceProviders\XamarinInsights.cs" />
+    <Compile Include="Domain\ResourceProviders\Yahoo.cs" />
+    <Compile Include="Domain\ResourceProviders\YahooFlurry.cs" />
+    <Compile Include="Domain\Requests\AmazonProfile.cs" />
+    <Compile Include="Domain\Requests\AppFiguresSales.cs" />
+    <Compile Include="Domain\Requests\AzureTableStorageBatch.cs" />
+    <Compile Include="Domain\Requests\AzureTableStorageNonQuery.cs" />
+    <Compile Include="Domain\Requests\AzureTableStorageQuery.cs" />
+    <Compile Include="Domain\Requests\FacebookEvent.cs" />
+    <Compile Include="Domain\Requests\FacebookFeed.cs" />
+    <Compile Include="Domain\Requests\FacebookFriend.cs" />
+    <Compile Include="Domain\Requests\FacebookPageLike.cs" />
+    <Compile Include="Domain\Requests\FacebookTokenInfo.cs" />
+    <Compile Include="Domain\Requests\FacebookUser.cs" />
+    <Compile Include="Domain\Requests\FatsecretMeal.cs" />
+    <Compile Include="Domain\Requests\FitbitIntradayHeartRate.cs" />
+    <Compile Include="Domain\Requests\FitbitIntradayHeartRateBulk.cs" />
+    <Compile Include="Domain\Requests\FitbitIntradaySteps.cs" />
+    <Compile Include="Domain\Requests\FitbitIntradayStepsBulk.cs" />
+    <Compile Include="Domain\Requests\FitbitProfile.cs" />
+    <Compile Include="Domain\Requests\FitbitSleep.cs" />
+    <Compile Include="Domain\Requests\FoursquareCheckin.cs" />
+    <Compile Include="Domain\Requests\FoursquareFriend.cs" />
+    <Compile Include="Domain\Requests\FoursquareTip.cs" />
+    <Compile Include="Domain\Requests\GoogleAnalyticsReports.cs" />
+    <Compile Include="Domain\Requests\GoogleGmail.cs" />
+    <Compile Include="Domain\Requests\GoogleGmailMetadata.cs" />
+    <Compile Include="Domain\Requests\GoogleProfile.cs" />
+    <Compile Include="Domain\Requests\InstagramLikes.cs" />
+    <Compile Include="Domain\Requests\LinkedinPersonal.cs" />
+    <Compile Include="Domain\Requests\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Domain\Requests\MicrosoftLuisPredict.cs" />
+    <Compile Include="Domain\Requests\OmnitureReporting.cs" />
+    <Compile Include="Domain\Requests\PinterestLikes.cs" />
+    <Compile Include="Domain\Requests\RescuetimeAnalyticData.cs" />
+    <Compile Include="Domain\Requests\RunkeeperFitnessActivity.cs" />
+    <Compile Include="Domain\Requests\SpotifySavedTrack.cs" />
+    <Compile Include="Domain\Requests\TumblrLikes.cs" />
+    <Compile Include="Domain\Requests\TwentyThreeAndMeGenome.cs" />
+    <Compile Include="Domain\Requests\TwentyThreeAndMeUser.cs" />
+    <Compile Include="Domain\Requests\TwitterFavorite.cs" />
+    <Compile Include="Domain\Requests\TwitterFollower.cs" />
+    <Compile Include="Domain\Requests\TwitterFollowing.cs" />
+    <Compile Include="Domain\Requests\TwitterMention.cs" />
+    <Compile Include="Domain\Requests\TwitterReceivedDirectMessage.cs" />
+    <Compile Include="Domain\Requests\TwitterRetweetOfMe.cs" />
+    <Compile Include="Domain\Requests\TwitterSentDirectMessage.cs" />
+    <Compile Include="Domain\Requests\TwitterTimeline.cs" />
+    <Compile Include="Domain\Requests\TwitterTweet.cs" />
+    <Compile Include="Domain\Requests\TwitterVerifyCredentials.cs" />
+    <Compile Include="Domain\Requests\WithingsWeighIn.cs" />
+    <Compile Include="Domain\Requests\XamarinInsightsCrashes.cs" />
+    <Compile Include="Domain\Requests\XamarinInsightsEvents.cs" />
+    <Compile Include="Domain\Requests\XamarinInsightsSessions.cs" />
+    <Compile Include="Domain\Requests\XamarinInsightsUsers.cs" />
+    <Compile Include="Domain\Requests\YahooFlurryMetrics.cs" />
+    <Compile Include="Domain\Responses\AmazonProfileResponse.cs" />
+    <Compile Include="Domain\Responses\AppFiguresSalesResponse.cs" />
+    <Compile Include="Domain\Responses\AzureTableStorageQueryResponse.cs" />
+    <Compile Include="Domain\Responses\FacebookTokenInfoResponse.cs" />
+    <Compile Include="Domain\Responses\MicrosoftBingSpeechResponse.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\MicrosoftBingSpeechToText.cs" />
+    <Compile Include="Domain\Responses\XamarinEventResponse.cs" />
+    <Compile Include="Domain\Responses\XamarinInsightsCrashResponse.cs" />
+    <Compile Include="Domain\Responses\XamarinSessionResponse.cs" />
+    <Compile Include="Domain\Responses\XamarinUserResponse.cs" />
+    <Compile Include="Domain\Responses\YahooFlurryMetricsResponse.cs" />
+    <Compile Include="Framework\Metadata\Formatters\DefaultFormatterAttribute.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\ApiKey.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\GenericParameter.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Callback.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2AccessToken.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2Assertion.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2ClientCredentials.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2ClientSecret.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1ConsumerKey.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Nonce.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1SignatureMethod.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Timestamp.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Token.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Verifier.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth1Version.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2ClientId.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2Code.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2CodeChallenge.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2CodeChallengeMethod.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2CodeVerifier.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2GrantType.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2Nonce.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2Callback.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2RefreshToken.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2ResponseType.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2Scope.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\OAuth2State.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\Password.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\Username.cs" />
+    <Compile Include="Workflow\AuthenticatorParameters\MicrosoftDate.cs" />
+    <Compile Include="Authorization\PasswordAuthorizationAdapter.cs" />
+    <Compile Include="Workflow\Facade\OAuth2AccessCodeFacade.cs" />
+    <Compile Include="Workflow\Facade\OAuth2AuthorizationUriFacade.cs" />
+    <Compile Include="Workflow\Facade\OAuth2ImplicitFacade.cs" />
+    <Compile Include="Workflow\Security\OAuth2NonceSecurityParameterBundle.cs" />
+    <Compile Include="Workflow\Security\OAuth2PkceVerifierSecurityParameterBundle.cs" />
+    <Compile Include="Workflow\Security\OAuth2PlainPkceSecurityParameterBundle.cs" />
+    <Compile Include="Workflow\Security\OAuth2Sha256PkceSecurityParameterBundle.cs" />
     <Compile Include="Application\ApiKeyAssert.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUIFactory.cs" />
     <Compile Include="Contracts\ICryptographicParameterRepository.cs" />
@@ -248,112 +326,112 @@
     <Compile Include="Contracts\IBrowser.cs" />
     <Compile Include="Contracts\IParameterFormatter.cs" />
     <Compile Include="Contracts\IProtocolLauncher.cs" />
-    <Compile Include="Enums\RequestParameterType.cs" />
-    <Compile Include="Exceptions\InvalidFlowTypeException.cs" />
-    <Compile Include="Exceptions\InvalidGrantTypeException.cs" />
+    <Compile Include="Framework\Enums\RequestParameterType.cs" />
+    <Compile Include="Framework\Exceptions\InvalidFlowTypeException.cs" />
+    <Compile Include="Framework\Exceptions\InvalidGrantTypeException.cs" />
     <Compile Include="Contracts\IBluetoothAuthorizerUI.cs" />
     <Compile Include="Contracts\IOAuthAuthorizationTemplate.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUIFactory.cs" />
-    <Compile Include="Exceptions\HttpRequestException.cs" />
-    <Compile Include="Exceptions\LocationException.cs" />
-    <Compile Include="Exceptions\NoConnectivityException.cs" />
+    <Compile Include="Framework\Exceptions\HttpRequestException.cs" />
+    <Compile Include="Framework\Exceptions\LocationException.cs" />
+    <Compile Include="Framework\Exceptions\NoConnectivityException.cs" />
     <Compile Include="Contracts\IBluetoothAdapter.cs" />
     <Compile Include="Contracts\IGPSAdapter.cs" />
     <Compile Include="Contracts\IProtectedResourceAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizationAdapter.cs" />
     <Compile Include="Contracts\ISMSAdapter.cs" />
     <Compile Include="Contracts\IOAuthAuthorizerUI.cs" />
-    <Compile Include="Enums\AuthorizationInterface.cs" />
-    <Compile Include="Exceptions\InvalidScopeException.cs" />
+    <Compile Include="Framework\Enums\AuthorizationInterface.cs" />
+    <Compile Include="Framework\Exceptions\InvalidScopeException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Infrastructure\ApiKeyResourceProvider.cs" />
-    <Compile Include="Infrastructure\BluetoothApp.cs" />
-    <Compile Include="Infrastructure\Bluetooth\BluetoothCharacteristics.cs" />
-    <Compile Include="Infrastructure\BluetoothRequest.cs" />
-    <Compile Include="Infrastructure\BluetoothResourceProvider.cs" />
-    <Compile Include="Infrastructure\Bluetooth\BluetoothConverters.cs" />
-    <Compile Include="Infrastructure\Bluetooth\BluetoothServices.cs" />
-    <Compile Include="Infrastructure\Bluetooth\BluetoothSpecification.cs" />
-    <Compile Include="Infrastructure\Credentials\ApiKeyCredentials.cs" />
-    <Compile Include="Infrastructure\Credentials\BluetoothCredentials.cs" />
-    <Compile Include="Infrastructure\Credentials\OAuth1Credentials.cs" />
-    <Compile Include="Infrastructure\Credentials\OAuth2Credentials.cs" />
-    <Compile Include="Infrastructure\Credentials\TokenCredentials.cs" />
-    <Compile Include="Infrastructure\OAuth1ResourceProvider.cs" />
-    <Compile Include="Infrastructure\OAuth2ResourceProvider.cs" />
-    <Compile Include="Infrastructure\Partials\Fitbit.cs" />
-    <Compile Include="Infrastructure\Partials\Google.cs" />
-    <Compile Include="Infrastructure\Partials\GoogleGmailMetadata.cs" />
-    <Compile Include="Infrastructure\Partials\TwitterTweet.cs" />
-    <Compile Include="Infrastructure\Partials\WithingsWeighin.cs" />
-    <Compile Include="Infrastructure\RequestBodies\GoogleAnalyticsReportBody.cs" />
-    <Compile Include="Infrastructure\RequestBodies\OmnitureGetBody.cs" />
-    <Compile Include="Infrastructure\RequestBodies\OmnitureQueueBody.cs" />
-    <Compile Include="Infrastructure\Responses\FacebookEventResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FacebookFeedResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FacebookPageLikeResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FacebookUserResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FatsecretMealResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FitbitIntradayStepsResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FitbitProfileResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FitbitSleepResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FoursquareCheckinResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FoursquareCommon.cs" />
-    <Compile Include="Infrastructure\Responses\FoursquareFriendResponse.cs" />
-    <Compile Include="Infrastructure\Responses\FoursquareTipResponse.cs" />
-    <Compile Include="Infrastructure\Responses\GoogleAnalyticsReportsResponse.cs" />
-    <Compile Include="Infrastructure\Responses\GoogleGmailMetadataResponse.cs" />
-    <Compile Include="Infrastructure\Responses\GoogleGmailResponse.cs" />
-    <Compile Include="Infrastructure\Responses\GoogleProfileResponse.cs" />
-    <Compile Include="Infrastructure\Responses\LinkedInPersonalResponse.cs" />
-    <Compile Include="Infrastructure\Responses\MicrosoftLuisPredictResponse.cs" />
-    <Compile Include="Infrastructure\Responses\OmnitureGetResponse.cs" />
-    <Compile Include="Infrastructure\Responses\OmnitureQueueResponse.cs" />
-    <Compile Include="Infrastructure\Responses\RescuetimeAnalyticDataResponse.cs" />
-    <Compile Include="Infrastructure\Responses\RunkeeperFitnessActivityResponse.cs" />
-    <Compile Include="Infrastructure\Responses\SpotifySavedTrackResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TumblrLikesResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwentyThreeAndMeGenomeResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwentyThreeAndMeUserResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterCommon.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterFavoriteResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterFollowerResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterFollowingResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterMentionResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterRetweetOfMeResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterTimelineResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterTweetResponse.cs" />
-    <Compile Include="Infrastructure\Responses\TwitterVerifyCredentialsResponse.cs" />
-    <Compile Include="Infrastructure\Responses\WithingsWeighInResponse.cs" />
-    <Compile Include="Infrastructure\Static\BluetoothResponse.cs" />
-    <Compile Include="Infrastructure\Static\GPSResponse.cs" />
-    <Compile Include="Infrastructure\Static\SMSResponse.cs" />
-    <Compile Include="Metadata\Formatters\BooleanFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\DateTimeFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\DateTimeOffsetFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\EnumFormatter.cs" />
-    <Compile Include="Metadata\Formatters\UnixTimeDaysDateTimeFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\UnixTimeDaysDateTimeOffsetFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\UnixTimeSecondsDateTimeFormatterAttribute.cs" />
-    <Compile Include="Metadata\Formatters\UnixTimeSecondsDateTimeOffsetFormatterAttribute.cs" />
-    <Compile Include="Metadata\Name.cs" />
-    <Compile Include="Metadata\ParameterType.cs" />
-    <Compile Include="Metadata\Required.cs" />
-    <Compile Include="OAuth\Authentication\AuthenticationGenerator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenAlgorithmValidator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenAudienceValidator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenExpirationValidator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenIssuerValidator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenNonceValidator.cs" />
-    <Compile Include="OAuth\Authentication\JsonWebTokenSignatureValidator.cs" />
-    <Compile Include="OAuth\Authentication\CompositeJsonWebTokenAuthenticationValidator.cs" />
-    <Compile Include="OAuth\Authentication\DiscoveryJsonWebTokenSignatureValidator.cs" />
-    <Compile Include="OAuth\Authentication\TokenValidationResult.cs" />
-    <Compile Include="OAuth\Authorization\ApiKeyJsonWebTokenExchangeAuthorizationAdapter.cs" />
-    <Compile Include="OAuth\Authorization\OAuthAuthorizationAdapter.cs" />
-    <Compile Include="OAuth\Authorization\ProtectedResourceAdapter.cs" />
-    <Compile Include="OAuth\Callback\OAuth2CallbackHandler.cs" />
-    <Compile Include="OAuth\MobileAuthorizationUISelector.cs" />
+    <Compile Include="Domain\Core\ApiKeyResourceProvider.cs" />
+    <Compile Include="Application\BluetoothApp.cs" />
+    <Compile Include="Domain\Bluetooth\BluetoothCharacteristics.cs" />
+    <Compile Include="Domain\Core\BluetoothRequest.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\BluetoothResourceProvider.cs" />
+    <Compile Include="Domain\Bluetooth\BluetoothConverters.cs" />
+    <Compile Include="Domain\Bluetooth\BluetoothServices.cs" />
+    <Compile Include="Domain\Bluetooth\BluetoothSpecification.cs" />
+    <Compile Include="Domain\Credentials\ApiKeyCredentials.cs" />
+    <Compile Include="Domain\Credentials\BluetoothCredentials.cs" />
+    <Compile Include="Domain\Credentials\OAuth1Credentials.cs" />
+    <Compile Include="Domain\Credentials\OAuth2Credentials.cs" />
+    <Compile Include="Domain\Credentials\TokenCredentials.cs" />
+    <Compile Include="Domain\Core\OAuth1ResourceProvider.cs" />
+    <Compile Include="Domain\Core\OAuth2ResourceProvider.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Fitbit.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Google.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\GoogleGmailMetadata.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\TwitterTweet.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\WithingsWeighin.cs" />
+    <Compile Include="Domain\RequestBodies\GoogleAnalyticsReportBody.cs" />
+    <Compile Include="Domain\RequestBodies\OmnitureGetBody.cs" />
+    <Compile Include="Domain\RequestBodies\OmnitureQueueBody.cs" />
+    <Compile Include="Domain\Responses\FacebookEventResponse.cs" />
+    <Compile Include="Domain\Responses\FacebookFeedResponse.cs" />
+    <Compile Include="Domain\Responses\FacebookPageLikeResponse.cs" />
+    <Compile Include="Domain\Responses\FacebookUserResponse.cs" />
+    <Compile Include="Domain\Responses\FatsecretMealResponse.cs" />
+    <Compile Include="Domain\Responses\FitbitIntradayStepsResponse.cs" />
+    <Compile Include="Domain\Responses\FitbitProfileResponse.cs" />
+    <Compile Include="Domain\Responses\FitbitSleepResponse.cs" />
+    <Compile Include="Domain\Responses\FoursquareCheckinResponse.cs" />
+    <Compile Include="Domain\Responses\FoursquareCommon.cs" />
+    <Compile Include="Domain\Responses\FoursquareFriendResponse.cs" />
+    <Compile Include="Domain\Responses\FoursquareTipResponse.cs" />
+    <Compile Include="Domain\Responses\GoogleAnalyticsReportsResponse.cs" />
+    <Compile Include="Domain\Responses\GoogleGmailMetadataResponse.cs" />
+    <Compile Include="Domain\Responses\GoogleGmailResponse.cs" />
+    <Compile Include="Domain\Responses\GoogleProfileResponse.cs" />
+    <Compile Include="Domain\Responses\LinkedInPersonalResponse.cs" />
+    <Compile Include="Domain\Responses\MicrosoftLuisPredictResponse.cs" />
+    <Compile Include="Domain\Responses\OmnitureGetResponse.cs" />
+    <Compile Include="Domain\Responses\OmnitureQueueResponse.cs" />
+    <Compile Include="Domain\Responses\RescuetimeAnalyticDataResponse.cs" />
+    <Compile Include="Domain\Responses\RunkeeperFitnessActivityResponse.cs" />
+    <Compile Include="Domain\Responses\SpotifySavedTrackResponse.cs" />
+    <Compile Include="Domain\Responses\TumblrLikesResponse.cs" />
+    <Compile Include="Domain\Responses\TwentyThreeAndMeGenomeResponse.cs" />
+    <Compile Include="Domain\Responses\TwentyThreeAndMeUserResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterCommon.cs" />
+    <Compile Include="Domain\Responses\TwitterFavoriteResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterFollowerResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterFollowingResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterMentionResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterRetweetOfMeResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterTimelineResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterTweetResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterVerifyCredentialsResponse.cs" />
+    <Compile Include="Domain\Responses\WithingsWeighInResponse.cs" />
+    <Compile Include="Domain\NonGeneratedResponses\BluetoothResponse.cs" />
+    <Compile Include="Domain\NonGeneratedResponses\GPSResponse.cs" />
+    <Compile Include="Domain\NonGeneratedResponses\SMSResponse.cs" />
+    <Compile Include="Framework\Metadata\Formatters\BooleanFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\DateTimeFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\DateTimeOffsetFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\EnumFormatter.cs" />
+    <Compile Include="Framework\Metadata\Formatters\UnixTimeDaysDateTimeFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\UnixTimeDaysDateTimeOffsetFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\UnixTimeSecondsDateTimeFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Formatters\UnixTimeSecondsDateTimeOffsetFormatterAttribute.cs" />
+    <Compile Include="Framework\Metadata\Name.cs" />
+    <Compile Include="Framework\Metadata\ParameterType.cs" />
+    <Compile Include="Framework\Metadata\Required.cs" />
+    <Compile Include="Application\AuthenticationGenerator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenAlgorithmValidator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenAudienceValidator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenExpirationValidator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenIssuerValidator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenNonceValidator.cs" />
+    <Compile Include="Authentication\Validation\JsonWebTokenSignatureValidator.cs" />
+    <Compile Include="Authentication\Validation\CompositeJsonWebTokenAuthenticationValidator.cs" />
+    <Compile Include="Authentication\Validation\DiscoveryJsonWebTokenSignatureValidator.cs" />
+    <Compile Include="Authentication\Validation\TokenValidationResult.cs" />
+    <Compile Include="Authorization\ApiKeyJsonWebTokenExchangeAuthorizationAdapter.cs" />
+    <Compile Include="Authorization\OAuthAuthorizationAdapter.cs" />
+    <Compile Include="Authorization\ProtectedResourceAdapter.cs" />
+    <Compile Include="Workflow\Callback\OAuth2CallbackHandler.cs" />
+    <Compile Include="Workflow\MobileAuthorizationUISelector.cs" />
     <Compile Include="Application\OAuth1App.cs" />
     <Compile Include="Application\OAuth1Web.cs" />
     <Compile Include="Application\OAuth2App.cs" />
@@ -365,27 +443,27 @@
     <Compile Include="QuantfabricConfiguration.cs" />
     <Compile Include="Application\AuthorizedRequester.cs" />
     <Compile Include="Application\OpenIdWeb.cs" />
-    <Compile Include="OAuth\ProtocolAuthorizerUI.cs" />
-    <Compile Include="OAuth\Security\InMemoryCryptographicParameterRepository.cs" />
-    <Compile Include="OAuth\Callback\OAuth1CallbackHandler.cs" />
-    <Compile Include="Infrastructure\DeviceRequest.cs" />
-    <Compile Include="Infrastructure\Device.cs" />
-    <Compile Include="Infrastructure\Static\GPSRequest.cs" />
-    <Compile Include="Infrastructure\Static\MioHeartRate.cs" />
-    <Compile Include="Infrastructure\Static\SMSRequest.cs" />
-    <Compile Include="Infrastructure\Static\Mioalpha.cs" />
-    <Compile Include="Metadata\CredentialType.cs" />
-    <Compile Include="Metadata\ServiceType.cs" />
-    <Compile Include="OAuth\Facade\OAuth1AuthorizationFacade.cs" />
-    <Compile Include="OAuth\Callback\OAuthCallbackHandlerBase.cs" />
-    <Compile Include="OAuth\Security\OAuthSecurityStrategy.cs" />
-    <Compile Include="OAuth\Template\OAuthAuthorizationUITemplateBase.cs" />
+    <Compile Include="Workflow\ProtocolAuthorizerUI.cs" />
+    <Compile Include="Workflow\Security\InMemoryCryptographicParameterRepository.cs" />
+    <Compile Include="Workflow\Callback\OAuth1CallbackHandler.cs" />
+    <Compile Include="Domain\Core\DeviceRequest.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Device.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\GPSRequest.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\MioHeartRate.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\SMSRequest.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Mioalpha.cs" />
+    <Compile Include="Framework\Metadata\CredentialType.cs" />
+    <Compile Include="Framework\Metadata\ServiceType.cs" />
+    <Compile Include="Workflow\Facade\OAuth1AuthorizationFacade.cs" />
+    <Compile Include="Workflow\Callback\OAuthCallbackHandlerBase.cs" />
+    <Compile Include="Workflow\Security\OAuthSecurityStrategy.cs" />
+    <Compile Include="Workflow\Template\OAuthAuthorizationUITemplateBase.cs" />
     <Compile Include="Application\SimplePassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OAuth\Template\OAuthAuthorizationTemplate.cs" />
-    <Compile Include="OAuth\Facade\OAuthClientFacade.cs" />
-    <Compile Include="Infrastructure\Request.cs" />
-    <Compile Include="Infrastructure\ResourceProvider.cs" />
+    <Compile Include="Workflow\Template\OAuthAuthorizationTemplate.cs" />
+    <Compile Include="Workflow\Facade\OAuthClientFacade.cs" />
+    <Compile Include="Domain\Core\Request.cs" />
+    <Compile Include="Domain\Core\ResourceProvider.cs" />
     <Compile Include="StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -393,6 +471,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Swagger\amazon.json" />
     <None Include="Swagger\appFigures.json" />
     <None Include="Swagger\microsoftAzureTableStorage.json" />
@@ -423,84 +502,84 @@
     <AdditionalFiles Include="CodeGeneration\Generator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
-..\Infrastructure\ProtectedResources\Amazon.cs
-..\Infrastructure\ProtectedResources\AppFigures.cs
-..\Infrastructure\ProtectedResources\AzureTableStorage.cs
-..\Infrastructure\ProtectedResources\Facebook.cs
-..\Infrastructure\ProtectedResources\Fatsecret.cs
-..\Infrastructure\ProtectedResources\Fitbit.cs
-..\Infrastructure\ProtectedResources\Foursquare.cs
-..\Infrastructure\ProtectedResources\Google.cs
-..\Infrastructure\ProtectedResources\GoogleAnalytics.cs
-..\Infrastructure\ProtectedResources\Instagram.cs
-..\Infrastructure\ProtectedResources\LinkedIn.cs
-..\Infrastructure\ProtectedResources\MicrosoftBing.cs
-..\Infrastructure\ProtectedResources\MicrosoftLuis.cs
-..\Infrastructure\ProtectedResources\Omniture.cs
-..\Infrastructure\ProtectedResources\Pinterest.cs
-..\Infrastructure\ProtectedResources\Rescuetime.cs
-..\Infrastructure\ProtectedResources\Runkeeper.cs
-..\Infrastructure\ProtectedResources\Spotify.cs
-..\Infrastructure\ProtectedResources\Tumblr.cs
-..\Infrastructure\ProtectedResources\TwentyThreeAndMe.cs
-..\Infrastructure\ProtectedResources\Twitter.cs
-..\Infrastructure\ProtectedResources\Withings.cs
-..\Infrastructure\ProtectedResources\XamarinInsights.cs
-..\Infrastructure\ProtectedResources\Yahoo.cs
-..\Infrastructure\ProtectedResources\YahooFlurry.cs
-..\Infrastructure\Requests\AmazonProfile.cs
-..\Infrastructure\Requests\AppFiguresSales.cs
-..\Infrastructure\Requests\AzureTableStorageBatch.cs
-..\Infrastructure\Requests\AzureTableStorageNonQuery.cs
-..\Infrastructure\Requests\AzureTableStorageQuery.cs
-..\Infrastructure\Requests\FacebookEvent.cs
-..\Infrastructure\Requests\FacebookFeed.cs
-..\Infrastructure\Requests\FacebookFriend.cs
-..\Infrastructure\Requests\FacebookPageLike.cs
-..\Infrastructure\Requests\FacebookTokenInfo.cs
-..\Infrastructure\Requests\FacebookUser.cs
-..\Infrastructure\Requests\FatsecretMeal.cs
-..\Infrastructure\Requests\FitbitIntradayHeartRate.cs
-..\Infrastructure\Requests\FitbitIntradayHeartRateBulk.cs
-..\Infrastructure\Requests\FitbitIntradaySteps.cs
-..\Infrastructure\Requests\FitbitIntradayStepsBulk.cs
-..\Infrastructure\Requests\FitbitProfile.cs
-..\Infrastructure\Requests\FitbitSleep.cs
-..\Infrastructure\Requests\FoursquareCheckin.cs
-..\Infrastructure\Requests\FoursquareFriend.cs
-..\Infrastructure\Requests\FoursquareTip.cs
-..\Infrastructure\Requests\GoogleAnalyticsReports.cs
-..\Infrastructure\Requests\GoogleGmail.cs
-..\Infrastructure\Requests\GoogleGmailMetadata.cs
-..\Infrastructure\Requests\GoogleProfile.cs
-..\Infrastructure\Requests\InstagramLikes.cs
-..\Infrastructure\Requests\LinkedinPersonal.cs
-..\Infrastructure\Requests\MicrosoftBingSpeechToText.cs
-..\Infrastructure\Requests\MicrosoftLuisPredict.cs
-..\Infrastructure\Requests\OmnitureReporting.cs
-..\Infrastructure\Requests\PinterestLikes.cs
-..\Infrastructure\Requests\RescuetimeAnalyticData.cs
-..\Infrastructure\Requests\RunkeeperFitnessActivity.cs
-..\Infrastructure\Requests\SpotifySavedTrack.cs
-..\Infrastructure\Requests\TumblrLikes.cs
-..\Infrastructure\Requests\TwentyThreeAndMeGenome.cs
-..\Infrastructure\Requests\TwentyThreeAndMeUser.cs
-..\Infrastructure\Requests\TwitterFavorite.cs
-..\Infrastructure\Requests\TwitterFollower.cs
-..\Infrastructure\Requests\TwitterFollowing.cs
-..\Infrastructure\Requests\TwitterMention.cs
-..\Infrastructure\Requests\TwitterReceivedDirectMessage.cs
-..\Infrastructure\Requests\TwitterRetweetOfMe.cs
-..\Infrastructure\Requests\TwitterSentDirectMessage.cs
-..\Infrastructure\Requests\TwitterTimeline.cs
-..\Infrastructure\Requests\TwitterTweet.cs
-..\Infrastructure\Requests\TwitterVerifyCredentials.cs
-..\Infrastructure\Requests\WithingsWeighIn.cs
-..\Infrastructure\Requests\XamarinInsightsCrashes.cs
-..\Infrastructure\Requests\XamarinInsightsEvents.cs
-..\Infrastructure\Requests\XamarinInsightsSessions.cs
-..\Infrastructure\Requests\XamarinInsightsUsers.cs
-..\Infrastructure\Requests\YahooFlurryMetrics.cs
+..\Domain\Requests\AmazonProfile.cs
+..\Domain\Requests\AppFiguresSales.cs
+..\Domain\Requests\AzureTableStorageBatch.cs
+..\Domain\Requests\AzureTableStorageNonQuery.cs
+..\Domain\Requests\AzureTableStorageQuery.cs
+..\Domain\Requests\FacebookEvent.cs
+..\Domain\Requests\FacebookFeed.cs
+..\Domain\Requests\FacebookFriend.cs
+..\Domain\Requests\FacebookPageLike.cs
+..\Domain\Requests\FacebookTokenInfo.cs
+..\Domain\Requests\FacebookUser.cs
+..\Domain\Requests\FatsecretMeal.cs
+..\Domain\Requests\FitbitIntradayHeartRate.cs
+..\Domain\Requests\FitbitIntradayHeartRateBulk.cs
+..\Domain\Requests\FitbitIntradaySteps.cs
+..\Domain\Requests\FitbitIntradayStepsBulk.cs
+..\Domain\Requests\FitbitProfile.cs
+..\Domain\Requests\FitbitSleep.cs
+..\Domain\Requests\FoursquareCheckin.cs
+..\Domain\Requests\FoursquareFriend.cs
+..\Domain\Requests\FoursquareTip.cs
+..\Domain\Requests\GoogleAnalyticsReports.cs
+..\Domain\Requests\GoogleGmail.cs
+..\Domain\Requests\GoogleGmailMetadata.cs
+..\Domain\Requests\GoogleProfile.cs
+..\Domain\Requests\InstagramLikes.cs
+..\Domain\Requests\LinkedinPersonal.cs
+..\Domain\Requests\MicrosoftBingSpeechToText.cs
+..\Domain\Requests\MicrosoftLuisPredict.cs
+..\Domain\Requests\OmnitureReporting.cs
+..\Domain\Requests\PinterestLikes.cs
+..\Domain\Requests\RescuetimeAnalyticData.cs
+..\Domain\Requests\RunkeeperFitnessActivity.cs
+..\Domain\Requests\SpotifySavedTrack.cs
+..\Domain\Requests\TumblrLikes.cs
+..\Domain\Requests\TwentyThreeAndMeGenome.cs
+..\Domain\Requests\TwentyThreeAndMeUser.cs
+..\Domain\Requests\TwitterFavorite.cs
+..\Domain\Requests\TwitterFollower.cs
+..\Domain\Requests\TwitterFollowing.cs
+..\Domain\Requests\TwitterMention.cs
+..\Domain\Requests\TwitterReceivedDirectMessage.cs
+..\Domain\Requests\TwitterRetweetOfMe.cs
+..\Domain\Requests\TwitterSentDirectMessage.cs
+..\Domain\Requests\TwitterTimeline.cs
+..\Domain\Requests\TwitterTweet.cs
+..\Domain\Requests\TwitterVerifyCredentials.cs
+..\Domain\Requests\WithingsWeighIn.cs
+..\Domain\Requests\XamarinInsightsCrashes.cs
+..\Domain\Requests\XamarinInsightsEvents.cs
+..\Domain\Requests\XamarinInsightsSessions.cs
+..\Domain\Requests\XamarinInsightsUsers.cs
+..\Domain\Requests\YahooFlurryMetrics.cs
+..\Domain\ResourceProviders\Amazon.cs
+..\Domain\ResourceProviders\AppFigures.cs
+..\Domain\ResourceProviders\AzureTableStorage.cs
+..\Domain\ResourceProviders\Facebook.cs
+..\Domain\ResourceProviders\Fatsecret.cs
+..\Domain\ResourceProviders\Fitbit.cs
+..\Domain\ResourceProviders\Foursquare.cs
+..\Domain\ResourceProviders\Google.cs
+..\Domain\ResourceProviders\GoogleAnalytics.cs
+..\Domain\ResourceProviders\Instagram.cs
+..\Domain\ResourceProviders\LinkedIn.cs
+..\Domain\ResourceProviders\MicrosoftBing.cs
+..\Domain\ResourceProviders\MicrosoftLuis.cs
+..\Domain\ResourceProviders\Omniture.cs
+..\Domain\ResourceProviders\Pinterest.cs
+..\Domain\ResourceProviders\Rescuetime.cs
+..\Domain\ResourceProviders\Runkeeper.cs
+..\Domain\ResourceProviders\Spotify.cs
+..\Domain\ResourceProviders\Tumblr.cs
+..\Domain\ResourceProviders\TwentyThreeAndMe.cs
+..\Domain\ResourceProviders\Twitter.cs
+..\Domain\ResourceProviders\Withings.cs
+..\Domain\ResourceProviders\XamarinInsights.cs
+..\Domain\ResourceProviders\Yahoo.cs
+..\Domain\ResourceProviders\YahooFlurry.cs
 .\Generator.cs
 </LastOutputs>
       <LastGenOutput>Generator.cs</LastGenOutput>
@@ -508,16 +587,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations\Foundations.csproj">
-      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
-      <Name>Foundations</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
@@ -561,6 +630,14 @@
       <LastOutputs>.\OpenIdResourceProviderTemplate.cs</LastOutputs>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.8.1\lib\portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

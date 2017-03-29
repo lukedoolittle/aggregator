@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CodeGen;
+﻿using CodeGen;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

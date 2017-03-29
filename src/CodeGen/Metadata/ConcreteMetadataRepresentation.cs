@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Material.Enums;
+using Material.Framework.Enums;
 
 namespace CodeGen.Metadata
 {

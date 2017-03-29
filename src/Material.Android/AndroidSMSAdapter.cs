@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Database;
 using Android.Provider;
-using Foundations.Extensions;
 using Material.Contracts;
+using Material.Domain.Responses;
 using Material.Framework;
-using Material.Infrastructure.Responses;
+using Material.Framework.Extensions;
 using Uri = Android.Net.Uri;
 
 namespace Material

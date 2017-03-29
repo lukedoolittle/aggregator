@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Net;
-using Foundations.Collections;
-using Foundations.Extensions;
-using Foundations.HttpClient;
-using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Canonicalizers;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
-using Foundations.HttpClient.Extensions;
-using Material.OAuth.AuthenticatorParameters;
-using Material.OAuth.Security;
+using Material.Framework.Collections;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.HttpClient;
+using Material.HttpClient.Authenticators;
+using Material.HttpClient.Canonicalizers;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.HttpClient.Extensions;
+using Material.Workflow.AuthenticatorParameters;
+using Material.Workflow.Security;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

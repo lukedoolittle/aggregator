@@ -4,11 +4,11 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Material.Contracts;
-using Material.Exceptions;
 using Material.Framework;
-using Material.Infrastructure.Bluetooth;
 using Robotics.Mobile.Core.Bluetooth.LE;
 using Material.Bluetooth.SubscriptionManagers;
+using Material.Domain.Bluetooth;
+using Material.Framework.Exceptions;
 
 namespace Material.Bluetooth
 {

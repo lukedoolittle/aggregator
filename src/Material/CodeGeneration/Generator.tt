@@ -9,7 +9,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@  assembly name="$(TargetDir)CodeGen.dll" #>
-<#@  assembly name="$(TargetDir)Foundations.HttpClient.dll" #>
+<#@  assembly name="$(TargetDir)Material.Portable.dll" #>
 <#@  assembly name="System.Core" #>
 <#@  assembly name="System.Runtime" #>
 <#@ import namespace="CodeGen" #>
@@ -37,14 +37,14 @@
         {
             var swagger = new SwaggerToClass(_pathToFile);
 
-            var serviceName = GenerateServiceFiles(swagger, "Material.Infrastructure.ProtectedResources");
-            GenerateRequestFiles(swagger, "Material.Infrastructure.Requests", serviceName  , "Material.Infrastructure.ProtectedResources");
+            var serviceName = GenerateServiceFiles(swagger, "Material.Domain.ResourceProviders");
+            GenerateRequestFiles(swagger, "Material.Domain.Requests", serviceName  , "Material.Domain.ResourceProviders");
         }
 
         private string GenerateServiceFiles(SwaggerToClass swagger, string serviceNamespace)
         {
             var boxedProvider = swagger.CreateResourceProvider();
-            var filename = @"..\Infrastructure\ProtectedResources\{0}.cs";
+            var filename = @"..\Domain\ResourceProviders\{0}.cs";
 
             if (boxedProvider == null)
             {

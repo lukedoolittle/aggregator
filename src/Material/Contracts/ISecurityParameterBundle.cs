@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Foundations.HttpClient.Authenticators;
+using Material.HttpClient.Authenticators;
 
 namespace Material.Contracts
 {

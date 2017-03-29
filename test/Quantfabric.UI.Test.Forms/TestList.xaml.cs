@@ -1,13 +1,13 @@
 ﻿using System;
 using Material.Application;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
+using Material.Domain.Requests;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Xamarin.Forms;
+using Device = Xamarin.Forms.Device;
 
 namespace Quantfabric.UI.Test.Forms
 {

@@ -1,19 +1,18 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Threading.Tasks;
-using Foundations.Extensions;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
+using Material.Authorization;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
-using Material.OAuth.Callback;
-using Material.OAuth.Facade;
-using Material.OAuth.Security;
-using Material.OAuth.Template;
-using OAuth2ResponseType = Foundations.HttpClient.Enums.OAuth2ResponseType;
+using Material.Domain.Core;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.HttpClient.Cryptography;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.Workflow.Callback;
+using Material.Workflow.Facade;
+using Material.Workflow.Security;
+using Material.Workflow.Template;
+using OAuth2ResponseType = Material.Framework.Enums.OAuth2ResponseType;
 
 namespace Material.Application
 {

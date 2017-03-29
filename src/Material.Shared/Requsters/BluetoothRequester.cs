@@ -1,13 +1,12 @@
 ﻿#if __MOBILE__
 using System;
 using System.Threading.Tasks;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
 using Material.Framework;
-using Material.Infrastructure.Bluetooth;
-using Material.Infrastructure.Responses;
 using Material.Contracts;
-
+using Material.Domain.Bluetooth;
+using Material.Domain.Core;
+using Material.Domain.Credentials;
+using Material.Domain.Responses;
 #if __ANDROID__
 using Material.Permissions;
 #endif

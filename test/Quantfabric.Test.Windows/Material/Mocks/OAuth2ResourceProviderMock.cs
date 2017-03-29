@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Foundations.HttpClient.Enums;
-using Material.Infrastructure;
-using Quantfabric.Test.Integration;
+using Material.Domain.Core;
+using Material.Framework.Enums;
 
 namespace Quantfabric.Test.Material.Mocks
 {

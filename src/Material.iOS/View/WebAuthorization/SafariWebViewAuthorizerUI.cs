@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Foundation;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.Template;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
+using Material.Workflow.Template;
 using SafariServices;
 using UIKit;
 

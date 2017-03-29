@@ -1,9 +1,9 @@
 ﻿#if !__FOUNDATIONS__
 using System;
+using Material.Domain.Credentials;
 using System.IO;
 using System.Reflection;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

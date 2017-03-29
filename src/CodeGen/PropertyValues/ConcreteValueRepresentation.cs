@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using Foundations.Enums;
-using Foundations.HttpClient.Enums;
+using Material.Framework.Enums;
 
 namespace CodeGen
 {

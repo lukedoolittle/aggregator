@@ -1,8 +1,8 @@
 ﻿using Material.Application;
 using Material.Contracts;
+using Material.Domain.Credentials;
+using Material.Domain.ResourceProviders;
 using Material.Framework;
-using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.TestHelpers;

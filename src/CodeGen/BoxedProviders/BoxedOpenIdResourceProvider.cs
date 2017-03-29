@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
 
 namespace CodeGen
 {

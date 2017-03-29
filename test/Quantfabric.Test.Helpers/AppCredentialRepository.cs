@@ -1,10 +1,10 @@
 ﻿#if !__FOUNDATIONS__
 using System;
+using Material.Domain.Credentials;
 using Application.Configuration;
-using Foundations.Extensions;
 using Material.Contracts;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Core;
+using Material.Framework.Extensions;
 
 namespace Quantfabric.Test.Helpers
 {

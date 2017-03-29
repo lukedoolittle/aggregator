@@ -1,15 +1,15 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Threading.Tasks;
-using Foundations.HttpClient;
-using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Canonicalizers;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
+using Material.Authorization;
 using Material.Contracts;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.AuthenticatorParameters;
-using Material.OAuth.Authorization;
+using Material.Domain.Core;
+using Material.Framework.Enums;
+using Material.HttpClient;
+using Material.HttpClient.Authenticators;
+using Material.HttpClient.Canonicalizers;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.Workflow.AuthenticatorParameters;
 
 namespace Material.Application
 {

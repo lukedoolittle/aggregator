@@ -1,7 +1,7 @@
 ﻿using Material.Application;
 using Material.Contracts;
 using Material.Framework;
-using Material.Infrastructure.ProtectedResources;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Xunit;

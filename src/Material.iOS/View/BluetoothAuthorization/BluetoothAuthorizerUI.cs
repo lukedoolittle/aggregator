@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Material.Contracts;
-using Material.Exceptions;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Credentials;
 using Material.Framework;
+using Material.Framework.Exceptions;
 
 namespace Material.View.BluetoothAuthorization
 {

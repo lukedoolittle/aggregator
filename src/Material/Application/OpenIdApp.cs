@@ -1,14 +1,13 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Threading.Tasks;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
+using Material.Authentication.Validation;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
-using Material.OAuth.Security;
+using Material.Domain.Core;
+using Material.Framework.Enums;
+using Material.HttpClient.Cryptography;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.Workflow.Security;
 
 namespace Material.Application
 {

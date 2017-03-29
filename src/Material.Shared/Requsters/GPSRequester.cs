@@ -1,5 +1,5 @@
 ﻿#if __MOBILE__
-using Material.Infrastructure.Responses;
+using Material.Domain.Responses;
 #if __IOS__
 using Material.GPS;
 #endif

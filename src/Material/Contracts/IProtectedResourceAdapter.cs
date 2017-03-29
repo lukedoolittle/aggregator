@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Foundations.HttpClient;
-using Material.Infrastructure;
+using Material.Domain.Core;
+using Material.HttpClient;
 
 namespace Material.Contracts
 {

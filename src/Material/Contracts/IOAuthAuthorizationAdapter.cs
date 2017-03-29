@@ -1,10 +1,10 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Foundations.HttpClient.Authenticators;
-using Foundations.HttpClient.Enums;
-using Material.Infrastructure.Credentials;
+using Material.Framework.Enums;
+using Material.HttpClient.Authenticators;
 
 namespace Material.Contracts
 {

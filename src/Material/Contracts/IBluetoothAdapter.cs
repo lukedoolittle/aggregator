@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Material.Infrastructure.Bluetooth;
+using Material.Domain.Bluetooth;
 
 namespace Material.Contracts
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Foundations.HttpClient.Metadata;
 using Material.Contracts;
+using Material.Framework.Metadata;
 
 namespace Quantfabric.Test.Material.Mocks
 {
     [DataContract]
-    [DateTimeFormatter("o")]
+    [ClassDateTimeFormatter("o")]
     public class SampleTableStorageEntity : TableStorageEntity
     {
         [DataMember(Name = "Name")]

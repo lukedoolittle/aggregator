@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Credentials;
 
 namespace Material.Contracts
 {

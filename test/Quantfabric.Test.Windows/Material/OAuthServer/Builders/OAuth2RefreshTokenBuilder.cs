@@ -1,5 +1,5 @@
 ﻿using System;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Credentials;
 using Quantfabric.Test.Material.OAuthServer.Requests;
 
 namespace Quantfabric.Test.Material.OAuthServer.Builders

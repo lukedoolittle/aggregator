@@ -1,11 +1,12 @@
 using System;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Core;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
 using Material.View.WebAuthorization;
+using Material.Workflow;
 
-namespace Material.OAuth
+namespace Material.Workflow
 {
     public class OAuthAuthorizerUIFactory : IOAuthAuthorizerUIFactory
     {

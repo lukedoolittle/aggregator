@@ -3,18 +3,16 @@ using Material;
 using Material.Application;
 using Material.Bluetooth;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
+using Material.Domain.Requests;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using UIKit;
 
 namespace Quantfabric.UI.Test.iOS
 {
-    using Twitter = Material.Infrastructure.ProtectedResources.Twitter;
+    using Twitter = Material.Domain.ResourceProviders.Twitter;
 
     public partial class MainViewController : UIViewController
     {

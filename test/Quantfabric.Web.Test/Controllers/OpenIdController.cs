@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using Material.Application;
 using Material.Contracts;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
+using Material.Domain.Core;
+using Material.Domain.Credentials;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers

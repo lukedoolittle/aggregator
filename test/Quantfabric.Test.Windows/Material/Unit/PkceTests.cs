@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Foundations.Extensions;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
-using Material.OAuth.AuthenticatorParameters;
-using Material.OAuth.Security;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.Workflow.AuthenticatorParameters;
+using Material.Workflow.Security;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

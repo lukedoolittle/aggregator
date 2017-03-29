@@ -1,5 +1,5 @@
 ﻿using Foundations.Http;
-using Foundations.HttpClient.Serialization;
+using Material.Framework.Serialization;
 
 namespace Quantfabric.Test.Material.OAuthServer.Serialization
 {

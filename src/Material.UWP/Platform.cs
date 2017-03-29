@@ -5,7 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Material.Contracts;
-using Material.OAuth;
+using Material.Workflow;
 
 namespace Material.Framework
 {

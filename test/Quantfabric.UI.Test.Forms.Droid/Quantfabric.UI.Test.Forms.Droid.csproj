@@ -146,14 +146,6 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
-      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
-      <Name>Foundations</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Material.Android\Material.Android.csproj">
       <Project>{6084ced8-dbfa-4043-9dac-3dd880d0e533}</Project>
       <Name>Material.Android</Name>

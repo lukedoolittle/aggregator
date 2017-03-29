@@ -1,0 +1,16 @@
+﻿//Generated with
+//https://kjur.github.io/jsrsasign/tool_jwt.html
+{
+    "jsonWebToken": {
+        "header": {
+            "typ": "JWT"
+        },
+        "claims": {
+            "iss": "https://login.quantfabric.com",
+            "sub": "exampleUserId",
+            "exp": 1479770374,
+            "iat": 1479766774,
+            "aud": "exampleClientId"
+        }
+    }
+}

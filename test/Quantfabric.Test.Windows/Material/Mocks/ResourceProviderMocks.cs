@@ -1,4 +1,4 @@
-﻿using Material.Infrastructure.ProtectedResources;
+﻿using Material.Domain.ResourceProviders;
 
 namespace Quantfabric.Test.Material.Mocks
 {

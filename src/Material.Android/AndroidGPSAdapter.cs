@@ -6,10 +6,10 @@ using System.Timers;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
-using Foundations.Extensions;
 using Material.Contracts;
-using Material.Exceptions;
-using Material.Infrastructure.Responses;
+using Material.Domain.Responses;
+using Material.Framework.Exceptions;
+using Material.Framework.Extensions;
 
 namespace Material
 {

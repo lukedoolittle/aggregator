@@ -4,8 +4,8 @@ using System.Timers;
 using CoreLocation;
 using Foundation;
 using Material.Contracts;
-using Material.Exceptions;
-using Material.Infrastructure.Responses;
+using Material.Domain.Responses;
+using Material.Framework.Exceptions;
 using UIKit;
 
 namespace Material.GPS

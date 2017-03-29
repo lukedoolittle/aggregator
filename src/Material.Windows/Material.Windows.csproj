@@ -54,17 +54,9 @@
     <Compile Include="WindowsAuthorizationUISelector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Material\Material.csproj">
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Material</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Foundations\Foundations.csproj">
-      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
-      <Name>Foundations</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

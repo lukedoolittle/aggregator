@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Quantfabric.Test.Helpers
+﻿namespace Quantfabric.Test.Helpers
 {
     public class UsernameAndPassword
     {

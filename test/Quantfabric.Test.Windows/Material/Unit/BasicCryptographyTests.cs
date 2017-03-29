@@ -1,7 +1,7 @@
 ﻿using System;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Cryptography.Keys;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.HttpClient.Cryptography.Enums;
+using Material.HttpClient.Cryptography.Keys;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit

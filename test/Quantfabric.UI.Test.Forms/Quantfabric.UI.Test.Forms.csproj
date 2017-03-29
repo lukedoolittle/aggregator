@@ -63,14 +63,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
-      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
-      <Name>Foundations</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Material.Forms\Material.Forms.csproj">
       <Project>{3ad575f5-8e8b-40d4-80ee-e5f60a67e0c3}</Project>
       <Name>Material.Forms</Name>

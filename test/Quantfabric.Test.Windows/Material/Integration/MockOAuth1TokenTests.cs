@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Foundations.HttpClient.Enums;
 using Material.Application;
 using Material.Contracts;
+using Material.Domain.Core;
 using Material.Framework;
-using Material.Infrastructure;
-using Material.Infrastructure.ProtectedResources;
+using Material.Framework.Enums;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Quantfabric.Test.Integration;
 using Quantfabric.Test.Material.Mocks;

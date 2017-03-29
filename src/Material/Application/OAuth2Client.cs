@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
-using Material.OAuth.Facade;
+using Material.Authorization;
+using Material.Domain.Core;
+using Material.Domain.Credentials;
+using Material.Workflow.Facade;
 
 namespace Material.Application
 {

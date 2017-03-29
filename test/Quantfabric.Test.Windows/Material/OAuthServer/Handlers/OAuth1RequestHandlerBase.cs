@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Foundations.Collections;
-using Foundations.Extensions;
 using Foundations.Http;
+using Material.Framework.Collections;
+using Material.Framework.Extensions;
 using Quantfabric.Test.Material.OAuth2Server;
 using Quantfabric.Test.Material.OAuthServer.Requests;
 using Quantfabric.Test.Material.OAuthServer.Serialization;

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Material.Application;
 using Material.Contracts;
-using Material.Infrastructure;
-using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Requests;
-using Material.OAuth;
+using Material.Domain.Core;
+using Material.Domain.Requests;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 
 namespace Quantfabric.Web.Test.Controllers

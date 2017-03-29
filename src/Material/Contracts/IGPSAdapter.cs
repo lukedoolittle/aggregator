@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Material.Infrastructure.Responses;
+using Material.Domain.Responses;
 
 namespace Material.Contracts
 {

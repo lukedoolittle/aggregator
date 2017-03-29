@@ -1,5 +1,5 @@
-﻿using Material.Infrastructure.Credentials;
-using Material.OAuth.Authentication;
+﻿using Material.Authentication.Validation;
+using Material.Domain.Credentials;
 
 namespace Material.Contracts
 {

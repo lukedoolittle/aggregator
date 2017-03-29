@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Foundations.HttpClient.Cryptography.Enums;
 using Material.Contracts;
+using Material.HttpClient.Cryptography.Enums;
 
 namespace Material
 {

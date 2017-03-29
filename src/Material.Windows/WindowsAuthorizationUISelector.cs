@@ -1,7 +1,7 @@
 ﻿using System;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
+using Material.Domain.Core;
+using Material.Framework.Enums;
 
 namespace Material
 {

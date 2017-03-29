@@ -1,19 +1,18 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Threading.Tasks;
-using Foundations.Extensions;
-using Foundations.HttpClient.Canonicalizers;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Algorithms;
-using Foundations.HttpClient.Enums;
+using Material.Authorization;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
-using Material.OAuth.Authorization;
-using Material.OAuth.Callback;
-using Material.OAuth.Facade;
-using Material.OAuth.Security;
-using Material.OAuth.Template;
+using Material.Domain.Core;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.HttpClient.Canonicalizers;
+using Material.HttpClient.Cryptography;
+using Material.HttpClient.Cryptography.Algorithms;
+using Material.Workflow.Callback;
+using Material.Workflow.Facade;
+using Material.Workflow.Security;
+using Material.Workflow.Template;
 
 namespace Material.Application
 {

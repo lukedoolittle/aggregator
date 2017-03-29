@@ -1,6 +1,6 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Collections.Generic;
-using Material.Infrastructure.Credentials;
 
 namespace Quantfabric.Test.Material.OAuthServer.Builders
 {

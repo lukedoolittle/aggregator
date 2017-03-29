@@ -76,7 +76,7 @@
     <Compile Include="..\Quantfabric.Test.Helpers\Randomizer.cs">
       <Link>Randomizer.cs</Link>
     </Compile>
-    <Compile Include="HttpClient\HttpClientTests.cs" />
+    <Compile Include="HttpClient\RawHttpClientTests.cs" />
     <Compile Include="HttpClient\JsonWebKeySerializationTests.cs" />
     <Compile Include="HttpClient\CryptoKeyGenerationTests.cs" />
     <Compile Include="HttpClient\SignatureVerificationTests.cs" />
@@ -88,10 +88,6 @@
     <ProjectReference Include="..\..\src\codegen\CodeGen.csproj">
       <Project>{c193f9c3-ab71-4eba-8850-8ffaa7d2fd2b}</Project>
       <Name>CodeGen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
       <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>

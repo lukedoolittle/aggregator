@@ -1,10 +1,9 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Collections.Generic;
-using Foundations.HttpClient.Cryptography;
-using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Enums;
-using Material.Infrastructure.Credentials;
-using Quantfabric.Test.Integration;
+using Material.Framework.Enums;
+using Material.HttpClient.Cryptography;
+using Material.HttpClient.Cryptography.Enums;
 using Quantfabric.Test.Material.OAuthServer.Requests;
 using Quantfabric.Test.Material.OAuthServer.Tokens;
 

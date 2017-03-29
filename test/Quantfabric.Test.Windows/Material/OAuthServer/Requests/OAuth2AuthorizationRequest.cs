@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using Foundations.Extensions;
-using Foundations.HttpClient.Enums;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
 
 namespace Quantfabric.Test.Material.OAuthServer.Requests
 {

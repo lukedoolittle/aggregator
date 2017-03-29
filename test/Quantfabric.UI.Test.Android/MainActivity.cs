@@ -7,14 +7,12 @@ using Material;
 using Material.Application;
 using Material.Bluetooth;
 using Material.Contracts;
-using Material.Enums;
-using Material.Infrastructure.Credentials;
-using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Requests;
+using Material.Domain.Credentials;
+using Material.Domain.Requests;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Material.Framework;
-using Material.Infrastructure;
-using Material.OAuth;
+using Material.Framework.Enums;
 
 namespace Quantfabric.UI.Test
 {

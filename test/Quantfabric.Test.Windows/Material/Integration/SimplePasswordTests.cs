@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Material.Application;
 using Material.Contracts;
-using Material.Infrastructure.ProtectedResources;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Xunit;
 

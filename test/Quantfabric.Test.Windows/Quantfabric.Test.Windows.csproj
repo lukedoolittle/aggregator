@@ -283,18 +283,24 @@
     <Compile Include="Material\OAuthServer\Tokens\OAuth2Token.cs" />
     <Compile Include="Material\OAuthServer\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="Material\OAuthServer\OAuthTestingServer.cs" />
+    <Compile Include="Material\TestData\TestData.cs" />
     <Compile Include="Material\TestUtilities.cs" />
     <Compile Include="Material\Unit\BasicCryptographyTests.cs" />
     <Compile Include="Material\Unit\CanonicalizationTests.cs" />
     <Compile Include="Material\Unit\CodeGenTests.cs" />
+    <Compile Include="Material\Unit\CryptoKeyGenerationTests.cs" />
     <Compile Include="Material\Unit\DateTimeExtensionsTests.cs" />
     <Compile Include="Material\Unit\EnumExtensionTests.cs" />
     <Compile Include="Material\Unit\HttpClientTests.cs" />
+    <Compile Include="Material\Unit\JsonWebKeySerializationTests.cs" />
+    <Compile Include="Material\Unit\RandomStringGenerationTests.cs" />
+    <Compile Include="Material\Unit\RawHttpClientTests.cs" />
     <Compile Include="Material\Unit\RequestSignatureTests.cs" />
     <Compile Include="Material\Unit\OAuthSecurityManagerTests.cs" />
     <Compile Include="Material\Unit\PkceTests.cs" />
     <Compile Include="Material\Unit\QuerystringParsingTests.cs" />
     <Compile Include="Material\Unit\ServerTests.cs" />
+    <Compile Include="Material\Unit\SignatureVerificationTests.cs" />
     <Compile Include="Material\Unit\TokenSerializationDeserializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -315,16 +321,15 @@
     <None Include="Material\TestData\sampleopenidapi.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Material\TestData\webTokenData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\codegen\CodeGen.csproj">
       <Project>{c193f9c3-ab71-4eba-8850-8ffaa7d2fd2b}</Project>
       <Name>CodeGen</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations.HttpClient\Foundations.HttpClient.csproj">
-      <Project>{c5da9975-903b-4983-8e50-ed787630ff3c}</Project>
-      <Name>Foundations.HttpClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Material.Windows\Material.Windows.csproj">
       <Project>{aa0e1d39-b5b2-442c-81c2-e4b691c4163d}</Project>
@@ -334,13 +339,22 @@
       <Project>{739afeb7-c23a-45c1-89ef-2ad231f64b65}</Project>
       <Name>Material</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Foundations\Foundations.csproj">
-      <Project>{f290adb0-bdc5-424d-8909-0b4ee37f7130}</Project>
-      <Name>Foundations</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="brian.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Material\TestData\es256PrivateKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Material\TestData\es256PublicKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Material\TestData\hs256Key.txt" />
+    <Content Include="Material\TestData\rsa256PrivateKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Material\TestData\rsa256PublicKey.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

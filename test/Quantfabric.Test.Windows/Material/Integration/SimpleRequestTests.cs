@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using Foundations.Enums;
 using Material.Application;
 using Material.Contracts;
-using Material.Infrastructure.ProtectedResources;
-using Material.Infrastructure.Requests;
-using Material.Infrastructure.Responses;
+using Material.Domain.Responses;
+using Material.Framework.Enums;
+using Material.Domain.Requests;
+using Material.Domain.ResourceProviders;
 using Quantfabric.Test.Helpers;
 using Xunit;
 

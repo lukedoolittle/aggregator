@@ -1,7 +1,7 @@
 ﻿using System;
-using Material.Enums;
-using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
+using Material.Domain.Core;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
 
 namespace Material.Contracts
 {

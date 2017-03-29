@@ -9,13 +9,13 @@ using CodeGen.Class;
 using CodeGen.Mappings;
 using CodeGen.Metadata;
 using CodeGen.PropertyValues;
-using Foundations.Enums;
-using Foundations.Extensions;
-using Material.Enums;
-using Material.Metadata;
-using Material.Infrastructure;
-using Material.Metadata.Formatters;
+using Material.Domain.Core;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.Framework.Metadata;
+using Material.Framework.Metadata.Formatters;
 using Newtonsoft.Json.Linq;
+using DateTimeFormatterAttribute = Material.Framework.Metadata.Formatters.DateTimeFormatterAttribute;
 
 namespace CodeGen
 {
@@ -195,10 +195,10 @@ namespace CodeGen
             var pathRoot = _swagger["basePath"].ToString();
 
             var produces = _swagger["produces"]
-                .Select(item => item.ToString().StringToEnum<MediaType>())
+                .Select(item => EnumExtensions.StringToEnum<MediaType>(item.ToString()))
                 .ToList();
             var consumes = _swagger["consumes"]
-                .Select(item => item.ToString().StringToEnum<MediaType>())
+                .Select(item => EnumExtensions.StringToEnum<MediaType>(item.ToString()))
                 .ToList();
 
             var paths = _swagger["paths"];
@@ -247,7 +247,7 @@ namespace CodeGen
                     {
                         requestProduces = details["produces"]
                             .ToObject<JArray>()
-                            .Select(t => t.ToString().StringToEnum<MediaType>())
+                            .Select(t => EnumExtensions.StringToEnum<MediaType>(t.ToString()))
                             .ToList();
                     }
 
@@ -263,7 +263,7 @@ namespace CodeGen
                     {
                         requestConsumes = details["consumes"]
                             .ToObject<JArray>()
-                            .Select(t => t.ToString().StringToEnum<MediaType>())
+                            .Select(t => EnumExtensions.StringToEnum<MediaType>(t.ToString()))
                             .ToList();
                     }
 
@@ -335,7 +335,7 @@ namespace CodeGen
                             if (parameter["enum"] != null)
                             {
                                 var enumName = @class.Name + name;
-                                var enumNamespace = "Foundations.Attributes";
+                                var enumNamespace = typeof(DescriptionAttribute).Namespace;
                                 var @enum = new EnumRepresentation(
                                     enumName, 
                                     enumNamespace);

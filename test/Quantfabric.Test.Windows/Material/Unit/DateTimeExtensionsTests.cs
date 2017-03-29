@@ -1,5 +1,5 @@
 ﻿using System;
-using Foundations.Extensions;
+using Material.Framework.Extensions;
 using Xunit;
 
 namespace Foundations.Test.Core

@@ -1,5 +1,5 @@
-﻿using Material.Infrastructure;
-using Material.Infrastructure.Credentials;
+﻿using Material.Domain.Core;
+using Material.Domain.Credentials;
 using Quantfabric.Test.Helpers;
 
 namespace Material.Contracts

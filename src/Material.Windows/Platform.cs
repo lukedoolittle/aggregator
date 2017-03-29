@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Foundations.Extensions;
 using Material.Contracts;
-using Material.OAuth;
+using Material.Workflow;
 
 namespace Material.Framework
 {

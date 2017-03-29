@@ -1,5 +1,5 @@
 ﻿using System;
-using Foundations.Collections;
+using Material.Framework.Collections;
 using Xunit;
 
 namespace Foundations.Test.Core

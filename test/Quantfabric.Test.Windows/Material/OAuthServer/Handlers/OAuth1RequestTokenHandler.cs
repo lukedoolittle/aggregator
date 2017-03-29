@@ -1,9 +1,9 @@
 ﻿using System;
+using Material.Domain.Credentials;
 using System.Net;
-using Foundations.Enums;
 using Foundations.Http;
-using Foundations.HttpClient.Serialization;
-using Material.Infrastructure.Credentials;
+using Material.Framework.Enums;
+using Material.Framework.Serialization;
 using Quantfabric.Test.Material.OAuthServer.Builders;
 using Quantfabric.Test.Material.OAuthServer.Requests;
 using Quantfabric.Test.Material.OAuthServer.Serialization;

@@ -1,9 +1,10 @@
 ﻿using System;
-using Foundations.Extensions;
-using Foundations.HttpClient.Cryptography.Enums;
-using Foundations.HttpClient.Enums;
+using Material.Domain.Credentials;
+using Material.Framework.Enums;
+using Material.Framework.Extensions;
+using Material.Framework.Serialization;
+using Material.HttpClient.Cryptography.Enums;
 using Newtonsoft.Json.Linq;
-using Material.Infrastructure.Credentials;
 using Xunit;
 
 namespace Quantfabric.Test.Material.Unit
@@ -30,7 +31,7 @@ namespace Quantfabric.Test.Material.Unit
                 ["oauth_verifier"] = verifier
             };
 
-            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var serializer = new JsonSerializer();
             var actual = serializer.Deserialize<OAuth1Credentials>(token.ToString());
 
             Assert.Equal(oauthToken, actual.OAuthToken);
@@ -57,7 +58,7 @@ namespace Quantfabric.Test.Material.Unit
                 ["code"] = code
             };
 
-            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var serializer = new JsonSerializer();
             var actual = serializer.Deserialize<OAuth2Credentials>(token.ToString());
 
             Assert.Equal(accessToken, actual.AccessToken);
@@ -82,7 +83,7 @@ namespace Quantfabric.Test.Material.Unit
                 ["code"] = code
             };
 
-            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var serializer = new JsonSerializer();
             var actual = serializer.Deserialize<OAuth2Credentials>(token.ToString());
 
             Assert.Equal(accessToken, actual.AccessToken);
@@ -105,7 +106,7 @@ namespace Quantfabric.Test.Material.Unit
                 ["keyType"] = (int)keyType
             };
 
-            var serializer = new Foundations.HttpClient.Serialization.JsonSerializer();
+            var serializer = new JsonSerializer();
             var actual = serializer.Deserialize<ApiKeyCredentials>(token.ToString());
 
             Assert.Equal(apiKeyName, actual.KeyName);
