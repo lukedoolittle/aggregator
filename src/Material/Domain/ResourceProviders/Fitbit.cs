@@ -22,7 +22,7 @@ namespace Material.Domain.ResourceProviders
 	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Fitbit  : OAuth2ResourceProvider 
     {
-        public override List<string> AvailableScopes { get; } = new List<string> { "sleep", "activity", "heartrate", "profile" };
+        public override List<string> AvailableScopes { get; } = new List<string> { "sleep", "activity", "heartrate", "profile", "location", "nutrition", "settings", "social", "weight" };
         public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
         public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode, GrantType.RefreshToken };
         public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.Code };
