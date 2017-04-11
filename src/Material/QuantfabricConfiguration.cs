@@ -20,6 +20,12 @@ namespace Material
             TimeSpan.FromHours(1);
 
         /// <summary>
+        /// If set to true application will throw exception if scopes other than those
+        /// noted for a resource provider are added
+        /// </summary>
+        public static bool StrictScoping { get; set; } = true;
+
+        /// <summary>
         /// All the algorithms the current instance can support
         /// https://threatpost.com/critical-vulnerabilities-affect-json-web-token-libraries/111943/
         /// </summary>

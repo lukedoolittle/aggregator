@@ -113,7 +113,8 @@ namespace Material.Domain.Core
 
         public OAuth2ResourceProvider AddRequestScope(string scope)
         {
-            if (!AvailableScopes.Contains(scope))
+            if (!AvailableScopes.Contains(scope) && 
+                QuantfabricConfiguration.StrictScoping)
             {
                 throw new InvalidScopeException(string.Format(
                     CultureInfo.InvariantCulture,
