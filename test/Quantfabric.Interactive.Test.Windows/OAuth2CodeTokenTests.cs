@@ -253,6 +253,7 @@ namespace Quantfabric.Interactive.Test.Windows
                         clientId,
                         redirectUri)
                     .AddScope<InstagramLikes>()
+                    .AddScope<InstagramUser>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 

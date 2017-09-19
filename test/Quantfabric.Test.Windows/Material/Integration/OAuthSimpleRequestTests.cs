@@ -1080,5 +1080,27 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         #endregion Twitter Requests
+
+        #region Instagram Requests
+
+        [Fact]
+        public async void MakeRequestForInstagramUser()
+        {
+            var credentials = _tokenRepository.GetToken<Instagram, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            //var request = new InstagramUser
+            //{
+                
+            //}
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<InstagramUser, InstagramUserResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        #endregion
     }
 }

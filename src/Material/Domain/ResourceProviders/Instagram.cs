@@ -31,6 +31,6 @@ namespace Material.Domain.ResourceProviders
         public override Uri TokenUrl { get; } = new Uri("https://api.instagram.com/oauth/access_token");
         public override bool SupportsPkce { get; } = false;
         public override bool SupportsCustomUrlScheme { get; } = false;
-        public override char ScopeDelimiter { get; } = ' ';
+        public override char ScopeDelimiter { get; } = '+';
     }
 }

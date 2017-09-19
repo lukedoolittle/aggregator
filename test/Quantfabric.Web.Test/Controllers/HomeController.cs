@@ -205,6 +205,7 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientId<Instagram>(),
                 _appRepository.GetClientSecret<Instagram>(),
                 _appRepository.GetRedirectUri<Instagram>())
+                .AddScope<InstagramUser>()
                 .AddScope<InstagramLikes>();
 
             var uri = await oauth

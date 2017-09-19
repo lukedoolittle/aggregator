@@ -44,6 +44,34 @@
                     }
                 ]
             }
+        },
+        "/users/{user}": {
+            "get": {
+                "summary": "Get information about the owner of the access_token.",
+                "description": "https://www.instagram.com/developer/endpoints/users/#get_users_self",
+                "operationId": "InstagramUser",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user",
+                        "description": "The name of the user",
+                        "type": "string",
+                        "default": "self",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "public_content" ]
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {
@@ -54,9 +82,10 @@
             "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
             "tokenUrl": "https://api.instagram.com/oauth/access_token",
             "name": "access_token",
-            "in": "query", 
+            "in": "query",
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
+            "x-scope-delimiter": "+",
             "scopes": {
                 "basic": "to read a user’s profile info and media",
                 "public_content": "to read any public profile info and media on a user’s behalf",
@@ -72,8 +101,9 @@
             "flow": "implicit",
             "authorizationUrl": "https://api.instagram.com/oauth/authorize/",
             "name": "access_token",
-            "in": "query", 
+            "in": "query",
             "x-response-types": [ "token" ],
+            "x-scope-delimiter": "+",
             "scopes": {
                 "basic": "to read a user’s profile info and media",
                 "public_content": "to read any public profile info and media on a user’s behalf",

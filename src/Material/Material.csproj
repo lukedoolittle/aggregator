@@ -93,6 +93,8 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\Requests\InstagramUser.cs" />
+    <Compile Include="Domain\Responses\InstagramUserResponse.cs" />
     <Compile Include="Framework\Metadata\ClassDateTimeFormatterAttribute.cs" />
     <Compile Include="Framework\Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Framework\Metadata\DescriptionAttribute.cs" />
@@ -528,6 +530,7 @@
 ..\Domain\Requests\GoogleGmailMetadata.cs
 ..\Domain\Requests\GoogleProfile.cs
 ..\Domain\Requests\InstagramLikes.cs
+..\Domain\Requests\InstagramUser.cs
 ..\Domain\Requests\LinkedinPersonal.cs
 ..\Domain\Requests\MicrosoftBingSpeechToText.cs
 ..\Domain\Requests\MicrosoftLuisPredict.cs
