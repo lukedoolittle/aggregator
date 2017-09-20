@@ -12,11 +12,46 @@
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
     "paths": {
-        "/me/likes": {
+        "/me/followers": {
             "get": {
-                "summary": "The default response returns the ID, link, URL and description of the Pins the authenticated user has liked.",
+                "summary": "Returns the users who follow the authenticated user. The default response returns the first and last name, ID and URL of the users.",
                 "description": "https://developers.pinterest.com/docs/api/users/",
-                "operationId": "PinterestLikes",
+                "operationId": "PinterestFollowers",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The maximum number of objects to return",
+                        "type": "integer",
+                        "default": 25,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "description": "The starting page of the object to return",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "read_relationships" ]
+                    }
+                ]
+            }
+        },
+        "/me/following/users": {
+            "get": {
+                "summary": "Returns the users that the authenticated user follows. The default response returns the first and last name, ID and URL of the users.",
+                "description": "https://developers.pinterest.com/docs/api/users/",
+                "operationId": "PinterestFollowing",
                 "parameters": [
                     {
                         "in": "query",
@@ -31,6 +66,68 @@
                         "name": "cursor",
                         "description": "The starting page of the object to return",
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "read_relationships" ]
+                    }
+                ]
+            }
+        },
+        "/me/pins": {
+            "get": {
+                "summary": "The default response returns the ID, link, URL and descriptions of the authenticated user’s Pins.",
+                "description": "https://developers.pinterest.com/docs/api/users/",
+                "operationId": "PinterestPins",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The maximum number of objects to return",
+                        "type": "integer",
+                        "default": 25,
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "description": "The starting page of the object to return",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "read_public" ]
+                    }
+                ]
+            }
+        },
+        "/me": {
+            "get": {
+                "summary": "The default response returns the first and last name, ID and URL of the authenticated user.",
+                "description": "https://developers.pinterest.com/docs/api/users/",
+                "operationId": "PinterestUser",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "The properties from the result objects to retrun",
+                        "type": "string",
+                        "default": "id,username,first_name,last_name,bio,created_at,counts,image",
+                        "required": false
                     }
                 ],
                 "responses": {

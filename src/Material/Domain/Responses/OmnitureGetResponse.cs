@@ -44,7 +44,7 @@ namespace Material.Domain.Responses
 
     [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
-    public class Datum
+    public class OmnitureDatum
     {
         [DataMember(Name = "name")]
         public string Name { get; set; }
@@ -75,7 +75,7 @@ namespace Material.Domain.Responses
         [DataMember(Name = "metrics")]
         public IList<Metric> Metrics { get; set; }
         [DataMember(Name = "data")]
-        public IList<Datum> Data { get; set; }
+        public IList<OmnitureDatum> Data { get; set; }
         [DataMember(Name = "totals")]
         public IList<string> Totals { get; set; }
         [DataMember(Name = "version")]

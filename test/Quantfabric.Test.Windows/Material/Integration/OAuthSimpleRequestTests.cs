@@ -1090,12 +1090,68 @@ namespace Quantfabric.Test.Material.Integration
 
             if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
 
-            //var request = new InstagramUser
-            //{
-                
-            //}
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<InstagramUser, InstagramUserResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        #endregion
+
+        #region Pinterest Requests
+
+        [Fact]
+        public async void MakeRequestForPinterestFollowing()
+        {
+            var credentials = _tokenRepository.GetToken<Pinterest, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<PinterestFollowing, PinterestFollowingResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact]
+        public async void MakeRequestForPinterestFollowers()
+        {
+            var credentials = _tokenRepository.GetToken<Pinterest, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<PinterestFollowers, PinterestFollowersResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact]
+        public async void MakeRequestForPinterestPins()
+        {
+            var credentials = _tokenRepository.GetToken<Pinterest, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<PinterestPins, PinterestPinsResponse>()
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact]
+        public async void MakeRequestForPinterestUser()
+        {
+            var credentials = _tokenRepository.GetToken<Pinterest, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<PinterestUser, PinterestUserResponse>()
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);

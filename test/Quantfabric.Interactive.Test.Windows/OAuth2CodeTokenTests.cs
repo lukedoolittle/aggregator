@@ -291,7 +291,9 @@ namespace Quantfabric.Interactive.Test.Windows
             var token = await new OAuth2App<Pinterest>(
                         clientId,
                         redirectUri)
-                    .AddScope<PinterestLikes>()
+                    .AddScope<PinterestFollowers>()
+                    .AddScope<PinterestFollowing>()
+                    .AddScope<PinterestPins>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 

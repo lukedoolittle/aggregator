@@ -94,7 +94,15 @@
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
     <Compile Include="Domain\Requests\InstagramUser.cs" />
+    <Compile Include="Domain\Requests\PinterestFollowers.cs" />
+    <Compile Include="Domain\Requests\PinterestFollowing.cs" />
+    <Compile Include="Domain\Requests\PinterestPins.cs" />
+    <Compile Include="Domain\Requests\PinterestUser.cs" />
     <Compile Include="Domain\Responses\InstagramUserResponse.cs" />
+    <Compile Include="Domain\Responses\PinterestFollowersResponse.cs" />
+    <Compile Include="Domain\Responses\PinterestFollowingResponse.cs" />
+    <Compile Include="Domain\Responses\PinterestPinsResponse.cs" />
+    <Compile Include="Domain\Responses\PinterestUserResponse.cs" />
     <Compile Include="Framework\Metadata\ClassDateTimeFormatterAttribute.cs" />
     <Compile Include="Framework\Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Framework\Metadata\DescriptionAttribute.cs" />
@@ -248,7 +256,6 @@
     <Compile Include="Domain\Requests\MicrosoftBingSpeechToText.cs" />
     <Compile Include="Domain\Requests\MicrosoftLuisPredict.cs" />
     <Compile Include="Domain\Requests\OmnitureReporting.cs" />
-    <Compile Include="Domain\Requests\PinterestLikes.cs" />
     <Compile Include="Domain\Requests\RescuetimeAnalyticData.cs" />
     <Compile Include="Domain\Requests\RunkeeperFitnessActivity.cs" />
     <Compile Include="Domain\Requests\SpotifySavedTrack.cs" />
@@ -535,7 +542,10 @@
 ..\Domain\Requests\MicrosoftBingSpeechToText.cs
 ..\Domain\Requests\MicrosoftLuisPredict.cs
 ..\Domain\Requests\OmnitureReporting.cs
-..\Domain\Requests\PinterestLikes.cs
+..\Domain\Requests\PinterestFollowers.cs
+..\Domain\Requests\PinterestFollowing.cs
+..\Domain\Requests\PinterestPins.cs
+..\Domain\Requests\PinterestUser.cs
 ..\Domain\Requests\RescuetimeAnalyticData.cs
 ..\Domain\Requests\RunkeeperFitnessActivity.cs
 ..\Domain\Requests\SpotifySavedTrack.cs

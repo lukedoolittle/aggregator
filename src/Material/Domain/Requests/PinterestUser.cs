@@ -18,32 +18,25 @@ using System.CodeDom.Compiler;
 namespace Material.Domain.Requests
 {     
     /// <summary>
-    /// The default response returns the ID, link, URL and description of the Pins the authenticated user has liked.
+    /// The default response returns the first and last name, ID and URL of the authenticated user.
     /// </summary>
     [ServiceType(typeof(Pinterest))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class PinterestLikes : OAuthRequest              
+	public partial class PinterestUser : OAuthRequest              
 	{
         public override String Host => "https://api.pinterest.com";
-        public override String Path => "/v1/me/likes";
+        public override String Path => "/v1/me";
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.OK };
         public override List<String> RequiredScopes => new List<String> { "read_public" };
         /// <summary>
-        /// The maximum number of objects to return
+        /// The properties from the result objects to retrun
         /// </summary>
-        [Name("limit")]
+        [Name("fields")]
         [ParameterType(RequestParameterType.Query)]
         [DefaultFormatter()]
-        public  Nullable<Int32> Limit { get; set; } = 25;
-        /// <summary>
-        /// The starting page of the object to return
-        /// </summary>
-        [Name("cursor")]
-        [ParameterType(RequestParameterType.Query)]
-        [DefaultFormatter()]
-        public  String Cursor { get; set; }
+        public  String Fields { get; set; } = "id,username,first_name,last_name,bio,created_at,counts,image";
 	}
 }

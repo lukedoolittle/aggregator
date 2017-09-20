@@ -70,7 +70,9 @@ namespace Quantfabric.Test.Material.Integration
         {
             await RunServer<Pinterest, PinterestMock>(
                     app => app
-                            .AddScope<PinterestLikes>(),
+                            .AddScope<PinterestFollowers>()
+                            .AddScope<PinterestFollowing>()
+                            .AddScope<PinterestPins>(),
                     true)
                 .ConfigureAwait(false);
         }

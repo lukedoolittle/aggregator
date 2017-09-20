@@ -90,7 +90,9 @@ namespace Quantfabric.Test.Material.Integration
             await Assert.ThrowsAsync<InvalidFlowTypeException>(() => new OAuth2App<Pinterest>(
                         clientId,
                         redirectUri)
-                    .AddScope<PinterestLikes>()
+                    .AddScope<PinterestFollowers>()
+                    .AddScope<PinterestFollowing>()
+                    .AddScope<PinterestPins>()
                     .GetCredentialsAsync())
                 .ConfigureAwait(false);
         }

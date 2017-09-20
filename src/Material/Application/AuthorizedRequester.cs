@@ -165,6 +165,19 @@ namespace Material.Application
             return MakeOAuthRequestAsync<TRequest, TResponse>(
                 new TRequest());
         }
+
+        /// <summary>
+        /// Get a protected resource from the authenticated provider
+        /// </summary>
+        /// <typeparam name="TRequest">Request to make to provider</typeparam>
+        /// <returns>Protected resource from provider</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        public Task<HttpResponse> MakeOAuthRequestAsync<TRequest>()
+            where TRequest : OAuthRequest, new()
+        {
+            return MakeOAuthRequestAsync(
+                new TRequest());
+        }
     }
 }
 

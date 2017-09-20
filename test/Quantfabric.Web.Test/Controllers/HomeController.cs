@@ -120,7 +120,9 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientId<Pinterest>(),
                 _appRepository.GetClientSecret<Pinterest>(),
                 _appRepository.GetRedirectUri<Pinterest>())
-                .AddScope<PinterestLikes>();
+                .AddScope<PinterestFollowers>()
+                .AddScope<PinterestFollowing>()
+                .AddScope<PinterestPins>();
 
             var uri = await oauth
                 .GetAuthorizationUriAsync()
