@@ -98,11 +98,13 @@
     <Compile Include="Domain\Requests\PinterestFollowing.cs" />
     <Compile Include="Domain\Requests\PinterestPins.cs" />
     <Compile Include="Domain\Requests\PinterestUser.cs" />
+    <Compile Include="Domain\Requests\TwitterUser.cs" />
     <Compile Include="Domain\Responses\InstagramUserResponse.cs" />
     <Compile Include="Domain\Responses\PinterestFollowersResponse.cs" />
     <Compile Include="Domain\Responses\PinterestFollowingResponse.cs" />
     <Compile Include="Domain\Responses\PinterestPinsResponse.cs" />
     <Compile Include="Domain\Responses\PinterestUserResponse.cs" />
+    <Compile Include="Domain\Responses\TwitterUserResponse.cs" />
     <Compile Include="Framework\Metadata\ClassDateTimeFormatterAttribute.cs" />
     <Compile Include="Framework\Exceptions\InvalidResponseTypeException.cs" />
     <Compile Include="Framework\Metadata\DescriptionAttribute.cs" />
@@ -561,6 +563,7 @@
 ..\Domain\Requests\TwitterSentDirectMessage.cs
 ..\Domain\Requests\TwitterTimeline.cs
 ..\Domain\Requests\TwitterTweet.cs
+..\Domain\Requests\TwitterUser.cs
 ..\Domain\Requests\TwitterVerifyCredentials.cs
 ..\Domain\Requests\WithingsWeighIn.cs
 ..\Domain\Requests\XamarinInsightsCrashes.cs

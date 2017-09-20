@@ -1079,6 +1079,21 @@ namespace Quantfabric.Test.Material.Integration
             Assert.NotNull(response);
         }
 
+        [Fact]
+        public async void MakeRequestForTwitterUser()
+        {
+            var credentials = _tokenRepository.GetToken<Twitter, OAuth1Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new TwitterUser {ScreenName = "lukedoolittle"};
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<TwitterUser, TwitterUserResponse>(request)
+                .ConfigureAwait(false);
+            
+            Assert.NotNull(response);
+        }
+
         #endregion Twitter Requests
 
         #region Instagram Requests

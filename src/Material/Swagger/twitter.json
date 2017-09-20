@@ -38,7 +38,7 @@
                         "description": "When set to true email will be returned in the user objects as a string",
                         "type": "boolean",
                         "required": false,
-                        "default": true 
+                        "default": true
                     }
                 ],
                 "responses": {
@@ -564,6 +564,40 @@
                         "in": "query",
                         "name": "include_rts",
                         "description": "When set to false, the timeline will strip any native retweets",
+                        "type": "boolean",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth1": []
+                    }
+                ]
+            }
+        },
+        "/users/show.json": {
+            "get": {
+                "summary": "Returns a variety of information about the user specified by the required user_id or screen_name parameter. The author’s most recent Tweet will be returned inline when possible",
+                "description": "https://dev.twitter.com/rest/reference/get/users/show",
+                "operationId": "TwitterUser",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "screen_name",
+                        "description": "The screen name of the user for whom to return results",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "include_entities",
+                        "description": "The tweet entities node will not be included when set to false",
                         "type": "boolean",
                         "required": false
                     }

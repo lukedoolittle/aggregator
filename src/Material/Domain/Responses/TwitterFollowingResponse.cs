@@ -9,7 +9,7 @@ namespace Material.Domain.Responses
     public class TwitterFollowingResponse
     {
         [DataMember(Name = "users")]
-        public IList<TwitterUser> Users { get; set; }
+        public IList<TwitterUserDatum> Users { get; set; }
         public long? next_cursor { get; set; }
         [DataMember(Name = "next_cursor_str")]
         public string NextCursorStr { get; set; }

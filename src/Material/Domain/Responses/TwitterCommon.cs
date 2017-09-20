@@ -75,7 +75,7 @@ namespace Material.Domain.Responses
 
     [GeneratedCode("T4Toolbox", "14.0")]
     [DataContract]
-    public class TwitterUser
+    public class TwitterUserDatum
     {
         [DataMember(Name = "id")]
         public long Id { get; set; }
@@ -382,7 +382,7 @@ namespace Material.Domain.Responses
         [DataMember(Name = "in_reply_to_screen_name")]
         public object InReplyToScreenName { get; set; }
         [DataMember(Name = "user")]
-        public TwitterUser User { get; set; }
+        public TwitterUserDatum User { get; set; }
         [DataMember(Name = "geo")]
         public object Geo { get; set; }
         [DataMember(Name = "coordinates")]

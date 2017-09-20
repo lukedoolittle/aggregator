@@ -52,6 +52,16 @@ namespace Material.Domain.Credentials
 	        return this;
 	    }
 
+        public OAuth1Credentials SetOAuthProperties(
+            string oauthToken,
+            string oauthSecret)
+        {
+            OAuthToken = oauthToken;
+            OAuthSecret = oauthSecret;
+
+            return this;
+        }
+
 	    public OAuth1Credentials SetParameterHandling(
             HttpParameterType parameterHandling)
 	    {

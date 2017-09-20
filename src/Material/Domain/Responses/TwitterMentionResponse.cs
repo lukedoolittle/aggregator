@@ -34,7 +34,7 @@ namespace Material.Domain.Responses
         [DataMember(Name = "in_reply_to_screen_name")]
         public string InReplyToScreenName { get; set; }
         [DataMember(Name = "user")]
-        public TwitterUser User { get; set; }
+        public TwitterUserDatum User { get; set; }
         [DataMember(Name = "geo")]
         public TwitterGeo Geo { get; set; }
         [DataMember(Name = "coordinates")]
