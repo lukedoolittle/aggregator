@@ -1,14 +1,13 @@
-﻿
-{
+﻿{
     "swagger": "2.0",
     "info": {
         "title": "Facebook",
         "description": "Facebook Graph API",
         "termsOfService": "https://www.facebook.com/policies/",
-        "version": "v2.7"
+        "version": "v2.10"
     },
     "host": "graph.facebook.com",
-    "basePath": "/v2.7",
+    "basePath": "/v2.10",
     "schemes": [ "https" ],
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
@@ -261,6 +260,66 @@
                 "tags": [],
                 "security": [ { "oauth2": [] } ]
             }
+        },
+        "/{pageId}": {
+            "get": {
+                "summary": "This represents a Facebook Page. The /{page-id} node returns a single page.",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/v2.10/page",
+                "operationId": "FacebookPage",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "pageId",
+                        "description": "Id of the page to get",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "A comma seperated list of the fiels to get",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [ { "oauth2": [] } ]
+            }
+        },
+        "/{objectId}/insights": {
+            "get": {
+                "summary": "This object represents a single Insights metric that is tied to another particular Graph API object",
+                "description": "https://developers.facebook.com/docs/graph-api/reference/v2.10/insights",
+                "operationId": "FacebookPageInsights",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "objectId",
+                        "description": "Id of the page to get",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "metric",
+                        "description": "A comma seperated list of the fields to get",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [ { "oauth2": [ "read_insights" ] } ]
+            }
         }
     },
     "securityDefinitions": {
@@ -271,7 +330,7 @@
             "authorizationUrl": "https://www.facebook.com/dialog/oauth",
             "tokenUrl": "https://graph.facebook.com/oauth/access_token",
             "name": "access_token",
-            "in": "query", 
+            "in": "query",
             "x-scope-delimiter": ",",
             "x-grant-types": [ "authorization_code" ],
             "x-response-types": [ "code" ],
@@ -280,7 +339,8 @@
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
                 "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
                 "user_friends": "Provides access the list of friends that also use your app",
-                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline."
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline.",
+                "read_insights": "Provides read-only access to the Insights data for Pages, Apps and web domains the person owns"
             }
         },
         "oauth2Token": {
@@ -297,9 +357,10 @@
                 "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
                 "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
                 "user_friends": "Provides access the list of friends that also use your app",
-                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline."
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline.",
+                "read_insights": "Provides read-only access to the Insights data for Pages, Apps and web domains the person owns"
             }
         }
     },
-    "definitions": [ ]
+    "definitions": []
 }

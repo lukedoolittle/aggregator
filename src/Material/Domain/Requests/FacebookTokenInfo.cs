@@ -25,7 +25,7 @@ namespace Material.Domain.Requests
 	public partial class FacebookTokenInfo : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";
-        public override String Path => "/v2.7/debug_token";
+        public override String Path => "/v2.10/debug_token";
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };

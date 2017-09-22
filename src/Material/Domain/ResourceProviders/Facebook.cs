@@ -16,13 +16,13 @@ using Material.Domain.Core;
 namespace Material.Domain.ResourceProviders
 {     
     /// <summary>
-    /// Facebook Graph API v2.7
+    /// Facebook Graph API v2.10
     /// </summary>
     [CredentialType(typeof(OAuth2Credentials))]
 	[GeneratedCode("T4Toolbox", "14.0")]
 	public partial class Facebook  : OAuth2ResourceProvider 
     {
-        public override List<string> AvailableScopes { get; } = new List<string> { "email", "user_events", "user_likes", "user_friends", "user_posts" };
+        public override List<string> AvailableScopes { get; } = new List<string> { "email", "user_events", "user_likes", "user_friends", "user_posts", "read_insights" };
         public override List<OAuth2FlowType> AllowedFlows { get; } = new List<OAuth2FlowType> { OAuth2FlowType.Implicit, OAuth2FlowType.AccessCode };
         public override List<GrantType> AllowedGrantTypes { get; } = new List<GrantType> { GrantType.AuthCode };
         public override List<OAuth2ResponseType> AllowedResponseTypes { get; } = new List<OAuth2ResponseType> { OAuth2ResponseType.Token, OAuth2ResponseType.Code };

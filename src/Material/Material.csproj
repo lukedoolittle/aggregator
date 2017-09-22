@@ -93,12 +93,16 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\Requests\FacebookPage.cs" />
+    <Compile Include="Domain\Requests\FacebookPageInsights.cs" />
     <Compile Include="Domain\Requests\InstagramUser.cs" />
     <Compile Include="Domain\Requests\PinterestFollowers.cs" />
     <Compile Include="Domain\Requests\PinterestFollowing.cs" />
     <Compile Include="Domain\Requests\PinterestPins.cs" />
     <Compile Include="Domain\Requests\PinterestUser.cs" />
     <Compile Include="Domain\Requests\TwitterUser.cs" />
+    <Compile Include="Domain\Responses\FacebookPageInsightsResponse.cs" />
+    <Compile Include="Domain\Responses\FacebookPageResponse.cs" />
     <Compile Include="Domain\Responses\InstagramUserResponse.cs" />
     <Compile Include="Domain\Responses\PinterestFollowersResponse.cs" />
     <Compile Include="Domain\Responses\PinterestFollowingResponse.cs" />
@@ -521,6 +525,8 @@
 ..\Domain\Requests\FacebookEvent.cs
 ..\Domain\Requests\FacebookFeed.cs
 ..\Domain\Requests\FacebookFriend.cs
+..\Domain\Requests\FacebookPage.cs
+..\Domain\Requests\FacebookPageInsights.cs
 ..\Domain\Requests\FacebookPageLike.cs
 ..\Domain\Requests\FacebookTokenInfo.cs
 ..\Domain\Requests\FacebookUser.cs

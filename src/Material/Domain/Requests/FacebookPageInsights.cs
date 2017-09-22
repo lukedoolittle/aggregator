@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using Material.Framework.Enums;
 using System.Net;
-using Material.Domain.Requests;
 using Material.Framework.Metadata.Formatters;
 using Material.Domain.Core;
 using System.CodeDom.Compiler;
@@ -19,31 +18,33 @@ using System.CodeDom.Compiler;
 namespace Material.Domain.Requests
 {     
     /// <summary>
-    /// A user represents a person on Facebook
+    /// This object represents a single Insights metric that is tied to another particular Graph API object
     /// </summary>
     [ServiceType(typeof(Facebook))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class FacebookUser : OAuthRequest              
+	public partial class FacebookPageInsights : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";
-        public override String Path => "/v2.10/me";
+        public override String Path => "/v2.10/{objectId}/insights";
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.OK };
-        public override List<String> RequiredScopes => new List<String> { "email" };
+        public override List<String> RequiredScopes => new List<String> { "read_insights" };
         /// <summary>
-        /// Optional fields to request
+        /// Id of the page to get
         /// </summary>
-        [Name("fields")]
+        [Name("objectId")]
+        [ParameterType(RequestParameterType.Path)]
+        [Required()]
+        [DefaultFormatter()]
+        public  String ObjectId { get; set; }
+        /// <summary>
+        /// A comma seperated list of the fields to get
+        /// </summary>
+        [Name("metric")]
         [ParameterType(RequestParameterType.Query)]
-        [EnumFormatter()]
-        public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
+        [DefaultFormatter()]
+        public  String Metric { get; set; }
 	}
-	
-	[GeneratedCode("T4Toolbox", "14.0")]
-    public enum FacebookUserFields
-    {
-        [Description("email")] Email,
-    }
 }

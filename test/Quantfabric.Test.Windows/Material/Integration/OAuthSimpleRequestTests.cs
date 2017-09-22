@@ -907,6 +907,44 @@ namespace Quantfabric.Test.Material.Integration
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<FacebookFriend, string>(request)
                 .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact(Skip = "Don't have a page")]
+        public async void MakeRequestForFacebookPage()
+        {
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new FacebookPage()
+            {
+                Fields = "engagement,fan_count",
+                PageId = "???????"
+            };
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<FacebookPage, FacebookPageResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact(Skip = "Don't have a page")]
+        public async void MakeRequestForFacebookPageInsights()
+        {
+            var credentials = _tokenRepository.GetToken<Facebook, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new FacebookPageInsights()
+            {
+                Metric = "page_impressions,page_views_total",
+                ObjectId = "?????"
+            };
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<FacebookPageInsights, FacebookPageInsightsResponse>(request)
+                .ConfigureAwait(false);
+
             Assert.NotNull(response);
         }
 

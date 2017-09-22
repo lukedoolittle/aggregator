@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using Material.Framework.Enums;
 using System.Net;
-using Material.Domain.Requests;
 using Material.Framework.Metadata.Formatters;
 using Material.Domain.Core;
 using System.CodeDom.Compiler;
@@ -19,31 +18,33 @@ using System.CodeDom.Compiler;
 namespace Material.Domain.Requests
 {     
     /// <summary>
-    /// A user represents a person on Facebook
+    /// This represents a Facebook Page. The /{page-id} node returns a single page.
     /// </summary>
     [ServiceType(typeof(Facebook))]
 	[GeneratedCode("T4Toolbox", "14.0")]
-	public partial class FacebookUser : OAuthRequest              
+	public partial class FacebookPage : OAuthRequest              
 	{
         public override String Host => "https://graph.facebook.com";
-        public override String Path => "/v2.10/me";
+        public override String Path => "/v2.10/{pageId}";
         public override String HttpMethod => "GET";
         public override List<MediaType> Produces => new List<MediaType> { MediaType.Json };
         public override List<MediaType> Consumes => new List<MediaType> { MediaType.Json };
         public override List<HttpStatusCode> ExpectedStatusCodes => new List<HttpStatusCode> { HttpStatusCode.OK };
-        public override List<String> RequiredScopes => new List<String> { "email" };
+        public override List<String> RequiredScopes => new List<String>();
         /// <summary>
-        /// Optional fields to request
+        /// Id of the page to get
+        /// </summary>
+        [Name("pageId")]
+        [ParameterType(RequestParameterType.Path)]
+        [Required()]
+        [DefaultFormatter()]
+        public  String PageId { get; set; }
+        /// <summary>
+        /// A comma seperated list of the fiels to get
         /// </summary>
         [Name("fields")]
         [ParameterType(RequestParameterType.Query)]
-        [EnumFormatter()]
-        public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
+        [DefaultFormatter()]
+        public  String Fields { get; set; }
 	}
-	
-	[GeneratedCode("T4Toolbox", "14.0")]
-    public enum FacebookUserFields
-    {
-        [Description("email")] Email,
-    }
 }

@@ -75,6 +75,13 @@ namespace Material.Domain.Credentials
             return this;
         }
 
+        public OAuth2Credentials SetExpiresIn(int seconds)
+        {
+            _expiresIn = seconds
+                .ToString(CultureInfo.InvariantCulture);
+
+            return this;
+        }
 
         public OAuth2Credentials SetTokenName(string tokenName)
 	    {
