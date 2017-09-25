@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Material.Framework.Enums;
 using System.Net;
 using Material.Framework.Metadata.Formatters;
+using Material.Domain.Requests;
 using Material.Domain.Core;
 using System.CodeDom.Compiler;
 
@@ -46,5 +47,54 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [DefaultFormatter()]
         public  String Metric { get; set; }
+        /// <summary>
+        /// Preset a date range, like lastweek, yesterday. If since or until presents, it does not work.
+        /// </summary>
+        [Name("date_preset")]
+        [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
+        public  FacebookPageInsightsDatePreset DatePreset { get; set; }
+        /// <summary>
+        /// The aggregation period
+        /// </summary>
+        [Name("period")]
+        [ParameterType(RequestParameterType.Query)]
+        [EnumFormatter()]
+        public  FacebookPageInsightsPeriod Period { get; set; }
 	}
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
+    public enum FacebookPageInsightsDatePreset
+    {
+        [Description("today")] Today,
+        [Description("yesterday")] Yesterday,
+        [Description("this_month")] ThisMonth,
+        [Description("last_month")] LastMonth,
+        [Description("this_quarter")] ThisQuarter,
+        [Description("lifetime")] Lifetime,
+        [Description("last_3d")] Last3d,
+        [Description("last_7d")] Last7d,
+        [Description("last_14d")] Last14d,
+        [Description("last_28d")] Last28d,
+        [Description("last_30d")] Last30d,
+        [Description("last_90d")] Last90d,
+        [Description("last_week_mon_sun")] LastWeekMonSun,
+        [Description("last_week_sun_sat")] LastWeekSunSat,
+        [Description("last_quarter")] LastQuarter,
+        [Description("last_year")] LastYear,
+        [Description("this_week_mon_today")] ThisWeekMonToday,
+        [Description("this_week_sun_today")] ThisWeekSunToday,
+        [Description("this_year")] ThisYear,
+    }
+	
+	[GeneratedCode("T4Toolbox", "14.0")]
+    public enum FacebookPageInsightsPeriod
+    {
+        [Description("day")] Day,
+        [Description("week")] Week,
+        [Description("days_28")] Days28,
+        [Description("month")] Month,
+        [Description("lifetime")] Lifetime,
+        [Description("total_over_range")] TotalOverRange,
+    }
 }

@@ -310,6 +310,22 @@
                         "description": "A comma seperated list of the fields to get",
                         "type": "string",
                         "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "date_preset",
+                        "description": "Preset a date range, like lastweek, yesterday. If since or until presents, it does not work.",
+                        "enum": [ "today", "yesterday", "this_month", "last_month", "this_quarter", "lifetime", "last_3d", "last_7d", "last_14d", "last_28d", "last_30d", "last_90d", "last_week_mon_sun", "last_week_sun_sat", "last_quarter", "last_year", "this_week_mon_today", "this_week_sun_today", "this_year" ],
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "period",
+                        "description": "The aggregation period",
+                        "type": "string",
+                        "enum": [ "day", "week", "days_28", "month", "lifetime", "total_over_range" ],
+                        "required": false
                     }
                 ],
                 "responses": {

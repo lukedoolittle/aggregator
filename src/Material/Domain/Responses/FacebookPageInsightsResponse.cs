@@ -12,6 +12,8 @@ namespace Material.Domain.Responses
         [DataMember(Name = "value")]
         public int Value { get; set; }
 
+        public DateTimeOffset Date => DateTimeOffset.ParseExact(EndTime, "yyyy-MM-ddTHH:mm:sszzz", null);
+
         [DataMember(Name = "end_time")]
         public string EndTime { get; set; }
     }
