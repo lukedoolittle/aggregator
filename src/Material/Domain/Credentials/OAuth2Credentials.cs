@@ -65,6 +65,12 @@ namespace Material.Domain.Credentials
             return this;
         }
 
+        public OAuth2Credentials SetRefreshToken(string refreshToken)
+        {
+            RefreshToken = refreshToken;
+            return this;
+        }
+
         public OAuth2Credentials SetExpiresIn(DateTime expiryTime)
         {
             _expiresIn = ((int)expiryTime

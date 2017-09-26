@@ -1211,5 +1211,32 @@ namespace Quantfabric.Test.Material.Integration
         }
 
         #endregion
+
+        #region Youtube Requests
+
+        [Fact]
+        public async void MakeRequestForYoutubeAnalyticsReport()
+        {
+            var credentials = _tokenRepository.GetToken<Youtube, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new YoutubeAnalyticsReports
+            {
+                Ids = "channel==MINE",
+                StartDate = DateTime.Today.Subtract(TimeSpan.FromDays(2)),
+                EndDate = DateTime.Today.Add(TimeSpan.FromDays(2)),
+                Metrics = "views,estimatedMinutesWatched,subscribersLost,subscribersGained",
+                Dimensions = "day"
+            };
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<YoutubeAnalyticsReports, YoutubeAnalyticsReportResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        #endregion Youtube Requests
     }
 }

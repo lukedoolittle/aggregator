@@ -116,6 +116,17 @@ namespace Quantfabric.Web.Test.Controllers
                 new { accessToken = credentials.AccessToken });
         }
 
+        // GET: oauth/google
+        [HttpGet]
+        public async Task<ActionResult> Youtube()
+        {
+            var credentials = await GetOAuth2Credentials<Youtube>()
+                .ConfigureAwait(false);
+
+            return RedirectToAction("Index", "Home",
+                new { accessToken = credentials.AccessToken });
+        }
+
         // GET: oauth/foursquare
         [HttpGet]
         public async Task<ActionResult> Foursquare()

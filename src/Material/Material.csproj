@@ -93,6 +93,9 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\Responses\YoutubeAnalyticsReportResponse.cs" />
+    <Compile Include="Framework\Enums\GooglePrompt.cs" />
+    <Compile Include="Domain\NonGeneratedResourceProviders\Youtube.cs" />
     <Compile Include="Domain\Requests\FacebookPage.cs" />
     <Compile Include="Domain\Requests\FacebookPageInsights.cs" />
     <Compile Include="Domain\Requests\InstagramUser.cs" />
@@ -101,6 +104,8 @@
     <Compile Include="Domain\Requests\PinterestPins.cs" />
     <Compile Include="Domain\Requests\PinterestUser.cs" />
     <Compile Include="Domain\Requests\TwitterUser.cs" />
+    <Compile Include="Domain\Requests\YoutubeAnalyticsReports.cs" />
+    <Compile Include="Domain\ResourceProviders\Youtube.cs" />
     <Compile Include="Domain\Responses\FacebookPageInsightsResponse.cs" />
     <Compile Include="Domain\Responses\FacebookPageResponse.cs" />
     <Compile Include="Domain\Responses\InstagramUserResponse.cs" />
@@ -489,6 +494,7 @@
     <None Include="packages.config" />
     <None Include="Swagger\amazon.json" />
     <None Include="Swagger\appFigures.json" />
+    <None Include="Swagger\youtube.json" />
     <None Include="Swagger\microsoftAzureTableStorage.json" />
     <None Include="Swagger\yahooFlurry.json" />
     <None Include="Swagger\xamarinInsights.json" />
@@ -577,6 +583,7 @@
 ..\Domain\Requests\XamarinInsightsSessions.cs
 ..\Domain\Requests\XamarinInsightsUsers.cs
 ..\Domain\Requests\YahooFlurryMetrics.cs
+..\Domain\Requests\YoutubeAnalyticsReports.cs
 ..\Domain\ResourceProviders\Amazon.cs
 ..\Domain\ResourceProviders\AppFigures.cs
 ..\Domain\ResourceProviders\AzureTableStorage.cs
@@ -602,6 +609,7 @@
 ..\Domain\ResourceProviders\XamarinInsights.cs
 ..\Domain\ResourceProviders\Yahoo.cs
 ..\Domain\ResourceProviders\YahooFlurry.cs
+..\Domain\ResourceProviders\Youtube.cs
 .\Generator.cs
 </LastOutputs>
       <LastGenOutput>Generator.cs</LastGenOutput>

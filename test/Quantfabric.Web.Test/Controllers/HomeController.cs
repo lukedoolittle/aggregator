@@ -82,6 +82,8 @@ namespace Quantfabric.Web.Test.Controllers
         {
             var uri = await ServiceLocator
                 .FacebookAuth
+                .AddScope<FacebookPageInsights>()
+                .AddScope<FacebookPage>()
                 .GetAuthorizationUriAsync()
                 .ConfigureAwait(false);
 
@@ -105,6 +107,23 @@ namespace Quantfabric.Web.Test.Controllers
                 _appRepository.GetClientSecret<Google>(),
                 _appRepository.GetRedirectUri<Google>())
                 .AddScope<GoogleGmailMetadata>();
+
+            var uri = await oauth
+                .GetAuthorizationUriAsync()
+                .ConfigureAwait(false);
+
+            return Redirect(uri.ToString());
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Youtube()
+        {
+            var oauth = new OAuth2Web<Youtube>(
+                _appRepository.GetClientId<Youtube>(),
+                _appRepository.GetClientSecret<Youtube>(),
+                _appRepository.GetRedirectUri<Youtube>(),
+                new Youtube().ForceConsent())
+                .AddScope<YoutubeAnalyticsReports>();
 
             var uri = await oauth
                 .GetAuthorizationUriAsync()

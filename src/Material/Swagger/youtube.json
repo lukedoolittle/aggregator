@@ -1,0 +1,151 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Youtube",
+        "description": "Youtube API",
+        "termsOfService": "https://developers.google.com/youtube/terms/api-services-terms-of-service",
+        "version": "1"
+    },
+    "host": "www.googleapis.com",
+    "basePath": "/youtube/analytics/v1",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/reports": {
+            "get": {
+                "summary": "Retrieves a YouTube Analytics report",
+                "description": "https://developers.google.com/youtube/analytics/v1/reference/reports/query",
+                "operationId": "YoutubeAnalyticsReports",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "max-results",
+                        "description": "The maximum number of rows to include in the response",
+                        "type": "integer",
+                        "format": "int32",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "end-date",
+                        "description": "The end date for fetching YouTube Analytics data. The value should be in YYYY-MM-DD format.",
+                        "type": "string", 
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "ids",
+                        "description": "Identifies the YouTube channel or content owner for which you are retrieving YouTube Analytics data. channel==MINE, channel==CHANNEL_ID,contentOwner==OWNER_NAME",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "metrics",
+                        "description": "A comma-separated list of YouTube Analytics metrics, such as views or likes,dislikes",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "start-date",
+                        "description": "The start date for fetching YouTube Analytics data. The value should be in YYYY-MM-DD format.",
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "yyyy-MM-dd",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "dimensions",
+                        "description": "A comma-separated list of YouTube Analytics dimensions, such as video or ageGroup,gender",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "filters",
+                        "description": "A list of filters that should be applied when retrieving YouTube Analytics data",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "alt",
+                        "description": "The data format for the API response",
+                        "type": "string",
+                        "enum": [ "json", "csv" ],
+                        "default": "json", 
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "prettyPrint",
+                        "description": "Returns response with indentations and line breaks",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "quotaUser",
+                        "description": "",
+                        "type": "string",
+                        "default": "undefined",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/yt-analytics.readonly" ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "oauth2Code": {
+            "type": "oauth2",
+            "description": "OAuth2 Access Code Grant",
+            "flow": "accessCode",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "tokenUrl": "https://accounts.google.com/o/oauth2/token",
+            "name": "access_token",
+            "in": "header",
+            "x-grant-types": [ "authorization_code", "refresh_token" ],
+            "x-response-types": [ "code" ],
+            "x-pkce-support": true,
+            "scopes": {
+                "https://www.googleapis.com/auth/yt-analytics.readonly": "View YouTube Analytics reports for your YouTube content. This scope provides access to user activity metrics, like view counts and rating counts.",
+                "https://www.googleapis.com/auth/yt-analytics-monetary.readonly": "View YouTube Analytics monetary reports for your YouTube content. This scope provides access to user activity metrics and to estimated revenue and ad performance metrics.",
+                "https://www.googleapis.com/auth/youtube": "Manage your YouTube account. In the YouTube Analytics API, channel owners use this scope to manage YouTube Analytics groups and group items.",
+                "https://www.googleapis.com/auth/youtubepartner": "View and manage YouTube assets and associated content on YouTube. In the YouTube Analytics API, content owners use this scope to manage YouTube Analytics groups and group items."
+            }
+        },
+        "oauth2Token": {
+            "type": "oauth2",
+            "description": "OAuth2 Implicit Grant",
+            "flow": "implicit",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "name": "access_token",
+            "in": "header",
+            "x-response-types": [ "token" ],
+            "x-custom-scheme-support": true,
+            "scopes": {
+                "https://www.googleapis.com/auth/yt-analytics.readonly": "View YouTube Analytics reports for your YouTube content. This scope provides access to user activity metrics, like view counts and rating counts.",
+                "https://www.googleapis.com/auth/yt-analytics-monetary.readonly": "View YouTube Analytics monetary reports for your YouTube content. This scope provides access to user activity metrics and to estimated revenue and ad performance metrics.",
+                "https://www.googleapis.com/auth/youtube": "Manage your YouTube account. In the YouTube Analytics API, channel owners use this scope to manage YouTube Analytics groups and group items.",
+                "https://www.googleapis.com/auth/youtubepartner": "View and manage YouTube assets and associated content on YouTube. In the YouTube Analytics API, content owners use this scope to manage YouTube Analytics groups and group items."
+            }
+        }
+    },
+    "definitions": []
+}

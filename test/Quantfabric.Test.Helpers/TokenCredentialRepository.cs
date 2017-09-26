@@ -11,15 +11,17 @@ namespace Quantfabric.Test.TestHelpers
 {
     public class TokenCredentialRepository
     {
-        private const string SETTINGS_FILE_NAME = "Quantfabric.Test.testCredentials.json";
+        private static Assembly _assembly = typeof(TokenCredentialRepository).Assembly;
+        private static string SETTINGS_FILE_NAME = string.Format(
+            "{0}.testCredentials.json",
+            _assembly.FullName.Split(',')[0]);
         private const string _pathToTestCredentials = "../../../Quantfabric.Test.Helpers/testCredentials.json";
 
         private JObject CredentialSettings
         {
             get
             {
-                var assembly = typeof(TokenCredentialRepository).GetTypeInfo().Assembly;
-                using (var stream = assembly.GetManifestResourceStream(SETTINGS_FILE_NAME))
+                using (var stream = _assembly.GetManifestResourceStream(SETTINGS_FILE_NAME))
                 {
                     using (var reader = new StreamReader(stream))
                     {

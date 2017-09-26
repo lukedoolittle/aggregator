@@ -5,17 +5,12 @@ using Material.Framework.Extensions;
 
 namespace Material.Domain.ResourceProviders
 {
-    public partial class Google
+    public partial class Youtube
     {
         private readonly KeyValuePair<string, string> _accessType =
             new KeyValuePair<string, string>("access_type", "offline");
 
-        public GooglePrompt PromptBehavior
-        {
-            set { Parameters["prompt"] = value.EnumToString(); }
-        }
-
-        public Google ForceConsent()
+        public Youtube ForceConsent()
         {
             Parameters["prompt"] = GooglePrompt.Consent.EnumToString();
 
@@ -45,7 +40,5 @@ namespace Material.Domain.ResourceProviders
 
             return base.SetFlow(flow);
         }
-
-
     }
 }
