@@ -103,9 +103,9 @@ namespace Quantfabric.Web.Test.Controllers
         public async Task<ActionResult> Google()
         {
             var oauth = new OAuth2Web<Google>(
-                _appRepository.GetClientId<Google>(),
-                _appRepository.GetClientSecret<Google>(),
-                _appRepository.GetRedirectUri<Google>())
+                    _appRepository.GetClientId<Google>(),
+                    _appRepository.GetClientSecret<Google>(),
+                    _appRepository.GetRedirectUri<Google>())
                 .AddScope<GoogleGmailMetadata>();
 
             var uri = await oauth
@@ -119,11 +119,12 @@ namespace Quantfabric.Web.Test.Controllers
         public async Task<ActionResult> Youtube()
         {
             var oauth = new OAuth2Web<Youtube>(
-                _appRepository.GetClientId<Youtube>(),
-                _appRepository.GetClientSecret<Youtube>(),
-                _appRepository.GetRedirectUri<Youtube>(),
-                new Youtube().ForceConsent())
-                .AddScope<YoutubeAnalyticsReports>();
+                    _appRepository.GetClientId<Youtube>(),
+                    _appRepository.GetClientSecret<Youtube>(),
+                    _appRepository.GetRedirectUri<Youtube>(),
+                    new Youtube().ForceConsent())
+                .AddScope<YoutubeAnalyticsReports>()
+                .AddScope<YoutubeChannels>();
 
             var uri = await oauth
                 .GetAuthorizationUriAsync()
@@ -136,9 +137,9 @@ namespace Quantfabric.Web.Test.Controllers
         public async Task<ActionResult> Pinterest()
         {
             var oauth = new OAuth2Web<Pinterest>(
-                _appRepository.GetClientId<Pinterest>(),
-                _appRepository.GetClientSecret<Pinterest>(),
-                _appRepository.GetRedirectUri<Pinterest>())
+                    _appRepository.GetClientId<Pinterest>(),
+                    _appRepository.GetClientSecret<Pinterest>(),
+                    _appRepository.GetRedirectUri<Pinterest>())
                 .AddScope<PinterestFollowers>()
                 .AddScope<PinterestFollowing>()
                 .AddScope<PinterestPins>();

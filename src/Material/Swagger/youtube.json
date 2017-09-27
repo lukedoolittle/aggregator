@@ -7,12 +7,12 @@
         "version": "1"
     },
     "host": "www.googleapis.com",
-    "basePath": "/youtube/analytics/v1",
+    "basePath": "/youtube",
     "schemes": [ "https" ],
     "produces": [ "application/json" ],
     "consumes": [ "application/json" ],
     "paths": {
-        "/reports": {
+        "/analytics/v1/reports": {
             "get": {
                 "summary": "Retrieves a YouTube Analytics report",
                 "description": "https://developers.google.com/youtube/analytics/v1/reference/reports/query",
@@ -30,7 +30,7 @@
                         "in": "query",
                         "name": "end-date",
                         "description": "The end date for fetching YouTube Analytics data. The value should be in YYYY-MM-DD format.",
-                        "type": "string", 
+                        "type": "string",
                         "format": "date-time",
                         "pattern": "yyyy-MM-dd",
                         "required": true
@@ -78,7 +78,7 @@
                         "description": "The data format for the API response",
                         "type": "string",
                         "enum": [ "json", "csv" ],
-                        "default": "json", 
+                        "default": "json",
                         "required": false
                     },
                     {
@@ -106,6 +106,76 @@
                 "security": [
                     {
                         "oauth2": [ "https://www.googleapis.com/auth/yt-analytics.readonly" ]
+                    }
+                ]
+            }
+        },
+        "/v3/channels": {
+            "get": {
+                "summary": "Returns a collection of zero or more channel resources that match the request criteria",
+                "description": "https://developers.google.com/youtube/v3/docs/channels/list",
+                "operationId": "YoutubeChannels",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "part",
+                        "description": "The part parameter specifies a comma-separated list of one or more channel resource properties that the API response will include [auditDetails,brandingSettings,contentDetails,contentOwnerDetails,id,invideoPromotion,localizations,snippet,statistics,status,topicDetails]",
+                        "type": "string",
+                        "default": "statistics",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "categoryId",
+                        "description": "The categoryId parameter specifies a YouTube guide category, thereby requesting YouTube channels associated with that category",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "forUsername",
+                        "description": "The forUsername parameter specifies a YouTube username, thereby requesting the channel associated with that username.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "description": "The id parameter specifies a comma-separated list of the YouTube channel ID(s) for the resource(s) that are being retrieved. In a channel resource, the id property specifies the channel's YouTube channel ID.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "mine",
+                        "description": "This parameter can only be used in a properly authorized request. Set this parameter's value to true to instruct the API to only return channels owned by the authenticated user.",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "maxResults",
+                        "description": "The maxResults parameter specifies the maximum number of items that should be returned in the result set. Acceptable values are 0 to 50, inclusive. The default value is 5",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageToken",
+                        "description": "The pageToken parameter identifies a specific page in the result set that should be returned. In an API response, the nextPageToken and prevPageToken properties identify other pages that could be retrieved",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": [
+                    {
+                        "oauth2": [ "https://www.googleapis.com/auth/youtube" ]
                     }
                 ]
             }

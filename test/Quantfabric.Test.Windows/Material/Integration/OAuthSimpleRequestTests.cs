@@ -1,6 +1,7 @@
 ﻿using System;
 using Material.Domain.Credentials;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using Material.Application;
@@ -1232,6 +1233,25 @@ namespace Quantfabric.Test.Material.Integration
 
             var response = await new AuthorizedRequester(credentials)
                 .MakeOAuthRequestAsync<YoutubeAnalyticsReports, YoutubeAnalyticsReportResponse>(request)
+                .ConfigureAwait(false);
+
+            Assert.NotNull(response);
+        }
+
+        [Fact]
+        public async void MakeRequestForYoutubeChannels()
+        {
+            var credentials = _tokenRepository.GetToken<Youtube, OAuth2Credentials>();
+
+            if (credentials.IsTokenExpired) { throw new Exception("Expired credentials!!!"); }
+
+            var request = new YoutubeChannels()
+            {
+                Mine = true
+            };
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<YoutubeChannels, YoutubeChannelsResponse>(request)
                 .ConfigureAwait(false);
 
             Assert.NotNull(response);

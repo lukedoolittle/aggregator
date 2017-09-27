@@ -102,7 +102,7 @@ namespace Quantfabric.Web.Test.Controllers
                     .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home", 
-                new {accessToken = credentials.AccessToken});
+                new {accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken});
         }
 
         // GET: oauth/google
@@ -113,7 +113,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/google
@@ -124,7 +124,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/foursquare
@@ -135,7 +135,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/spotify
@@ -146,7 +146,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/runkeeper
@@ -157,7 +157,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/fitbit
@@ -168,7 +168,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/rescuetime
@@ -179,7 +179,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/twentythreeandme
@@ -190,7 +190,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/linkedin
@@ -201,7 +201,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/pinterest
@@ -212,7 +212,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/pinterest
@@ -223,7 +223,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         // GET: oauth/amazon
@@ -234,7 +234,7 @@ namespace Quantfabric.Web.Test.Controllers
                 .ConfigureAwait(false);
 
             return RedirectToAction("Index", "Home",
-                new { accessToken = credentials.AccessToken });
+                new { accessToken = credentials.AccessToken, refreshToken = credentials.RefreshToken });
         }
 
         public Task<OAuth1Credentials> GetOAuth1Credentials<TResourceProvider>()

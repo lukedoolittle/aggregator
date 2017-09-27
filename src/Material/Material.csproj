@@ -93,7 +93,9 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\Requests\YoutubeChannels.cs" />
     <Compile Include="Domain\Responses\YoutubeAnalyticsReportResponse.cs" />
+    <Compile Include="Domain\Responses\YoutubeChannelsResponse.cs" />
     <Compile Include="Framework\Enums\GooglePrompt.cs" />
     <Compile Include="Domain\NonGeneratedResourceProviders\Youtube.cs" />
     <Compile Include="Domain\Requests\FacebookPage.cs" />
@@ -584,6 +586,7 @@
 ..\Domain\Requests\XamarinInsightsUsers.cs
 ..\Domain\Requests\YahooFlurryMetrics.cs
 ..\Domain\Requests\YoutubeAnalyticsReports.cs
+..\Domain\Requests\YoutubeChannels.cs
 ..\Domain\ResourceProviders\Amazon.cs
 ..\Domain\ResourceProviders\AppFigures.cs
 ..\Domain\ResourceProviders\AzureTableStorage.cs
