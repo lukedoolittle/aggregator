@@ -1,0 +1,1709 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "2",
+		"title": "Rigor",
+		"description": "An API to view, configure, and analyze Rigor Checks."
+	},
+	"host": "monitoring-api.rigor.com",
+	"basePath": "/",
+	"schemes": ["https"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"securityDefinitions": {
+		"api_key": {
+			"name": "API-KEY",
+			"type": "apiKey",
+			"in": "header"
+		}
+	},
+	"paths": {
+		"/v2/checks/real_browsers/{id}/pages/data": {
+			"get": {
+				"tags": ["Real Browser Checks"],
+				"summary": "Get Performance KPIs",
+				"description": "Returns performance data for each page the check visits. Only available for              [Real Browser checks on platform version v3 or later](http://rigor.com/blog/2017/01/real-browser-check-version-3).",
+				"operationId": "RigorGetRealBrowserPerformanceKPIs",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the check to fetch.",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "from",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query",
+                        "description": "The start time for the timeframe.",
+                        "example": "2017-10-03T13:35:05-04:00",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "name": "to",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query",
+                        "description": "The end time for the timeframe.",
+                        "example": "2017-10-03T18:35:05+00:00",
+                        "pattern": "yyyy-MM-ddTHH:mm:sszzz",
+                        "required": false
+                    },
+                    {
+                        "name": "range",
+                        "type": "string",
+                        "enum": [ "last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months" ],
+                        "in": "query",
+                        "description": "A predefined timeframe to be used instead of `from` and `to`. Defaults to the last hour.",
+                        "default": "last_hour",
+                        "required": false
+                    },
+                    {
+                        "name": "metrics",
+                        "in": "query",
+                        "description": "The metric names to get data for. Valid metrics include: `server_time`, `start_render`, `dom_load_time`, `onload_time`, `visually_complete`, `fully_loaded_time`, `speed_index`, `request_count`, `content_size`, `html_count`, `html_size`, `image_count`, `image_size`, `javascript_count`, `javascript_size`, `css_count`, `css_size`, `video_count`, `video_size`, `font_count`, `font_size`, `other_count`, `other_size`, `client_error_count`, `connection_error_count`, `server_error_count`, and `error_count`.                 Prefix the metric with `median_`, `average_`, `max_`, or `min_` when querying for                  more than 24 hours of data. For `count` metrics, `total_` is also available.",
+                        "required": true,
+                        "type": "string",
+                        "enum": [ "server_time", "start_render", "dom_load_time", "onload_time", "visually_complete", "fully_loaded_time", "speed_index", "request_count", "content_size", "html_count", "html_size", "image_count", "image_size", "javascript_count", "javascript_size", "css_count", "css_size", "video_count", "video_size", "font_count", "font_size", "other_count", "other_size", "client_error_count", "connection_error_count", "server_error_count", "error_count" ]
+                    },
+                    {
+                        "name": "include_total",
+                        "type": "boolean",
+                        "in": "query",
+                        "description": "If true, include a series that sums results from all pages.                Useful to represent each run as a whole rather than each page individually.",
+                        "default": true,
+                        "required": false
+                    },
+                    {
+                        "name": "include_failures",
+                        "type": "boolean",
+                        "in": "query",
+                        "description": "If true, include data from failed runs.",
+                        "default": true,
+                        "required": false
+                    },
+                    {
+                        "name": "locations",
+                        "type": "string",
+                        "in": "query",
+                        "description": "A list of location IDs used to filter the results."
+                    },
+                    {
+                        "name": "page_ids",
+                        "type": "string",
+                        "in": "query",
+                        "description": "A list of page IDs used to filter the results."
+                    }
+                ],
+				"responses": {
+					"200": {
+						"description": "Real Browser Performance KPI data.",
+						"schema": {
+							"$ref": "#/definitions/performance_kpi_data"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"real_browser_check": {
+			"description": "A Real Browser check",
+			"allOf": [{
+					"$ref": "#/definitions/monitoring_check"
+				}, {
+					"properties": {
+						"type": {
+							"default": "real_browser"
+						},
+						"url": {
+							"$ref": "#/definitions/start_url"
+						},
+						"steps": {
+							"type": "array",
+							"description": "A list of steps to take when this check runs",
+							"items": {
+								"$ref": "#/definitions/real_browser_check_step"
+							}
+						},
+						"http_request_headers": {
+							"type": "object",
+							"default": {
+								"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:45.0; Rigor) Gecko/20100101 Firefox/45.0"
+							}
+						},
+						"javascript_files": {
+							"type": "array",
+							"description": "A list of JavaScript files attached to this check",
+							"items": {
+								"$ref": "#/definitions/javascript_file"
+							}
+						},
+						"excluded_files": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/excluded_file"
+							}
+						},
+						"viewport": {
+							"$ref": "#/definitions/viewport"
+						},
+						"enforce_ssl_validation": {
+							"$ref": "#/definitions/enforce_ssl_validation"
+						},
+						"threshold_monitors": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/threshold_monitor"
+							}
+						}
+					}
+				}
+			]
+		},
+		"viewport": {
+			"type": "object",
+			"properties": {
+				"height": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The height of the viewport window, in pixels",
+					"default": 1129
+				},
+				"width": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The width of the viewport window, in pixels",
+					"default": 1920
+				}
+			}
+		},
+		"real_browser_check_step": {
+			"properties": {
+				"item_method": {
+					"type": "string",
+					"enum": ["accept_alert", "clear_element", "click_element", "dismiss_alert", "enter_value", "enter_password_value", "go_to_url", "run_javascript", "select_option", "store_variable_from_element", "store_variable_from_javascript", "switch_to_iframe", "switch_to_main", "wait_for_text_present", "wait_for_text_not_present", "wait_for_element_present", "wait_for_element_not_present", "wait_for_element_visible", "wait_for_element_not_visible"],
+					"description": "The action to take",
+					"example": "enter_value"
+				},
+				"value": {
+					"type": "string",
+					"description": "The value to input",
+					"example": "my_email@example.com"
+				},
+				"how": {
+					"type": "string",
+					"enum": ["id", "name", "xpath", "css", "link"],
+					"description": "How to select the value",
+					"example": "id"
+				},
+				"what": {
+					"type": "string",
+					"description": "What to select",
+					"example": "email-input"
+				},
+				"updated_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the step was last updated (UTC)"
+				},
+				"created_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the step was created (UTC)"
+				},
+				"variable_name": {
+					"type": "string",
+					"description": "The variable name to use when saving the return value from a JavaScript step"
+				},
+				"name": {
+					"type": "string",
+					"description": "A short summary of what this step does",
+					"example": "Fill in email"
+				},
+				"position": {
+					"type": "integer",
+					"format": "int32",
+					"minimum": 0,
+					"description": "The ordered position of the step (starting with 0)",
+					"example": 0
+				}
+			}
+		},
+		"javascript_file": {
+			"description": "A custom JavaScript file containing code that can be referenced when a check runs",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the JavaScript file",
+					"example": 1
+				},
+				"name": {
+					"type": "string",
+					"description": "The name of the JavaScript file",
+					"example": "My custom JS file"
+				},
+				"created_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the JavaScript file was created (UTC)"
+				},
+				"updated_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the JavaScript file was last updated (UTC)"
+				},
+				"links": {
+					"type": "object",
+					"properties": {
+						"self": {
+							"type": "string",
+							"description": "A link to the JavaScript file",
+							"example": "https://javascript-files.s3.amazonaws.com/account-1/my_custom_script.js"
+						}
+					}
+				}
+			}
+		},
+		"threshold_monitor": {
+			"allOf": [{
+					"$ref": "#/definitions/threshold_monitor_input"
+				}, {
+					"properties": {
+						"created_at": {
+							"type": "string",
+							"format": "date-time",
+							"description": "When the Threshold Monitor was created (UTC)"
+						},
+						"updated_at": {
+							"type": "string",
+							"format": "date-time",
+							"description": "When the Threshold Monitor was last updated (UTC)"
+						}
+					}
+				}
+			]
+		},
+		"threshold_monitor_input": {
+			"properties": {
+				"matcher": {
+					"type": "string",
+					"description": "Trigger threshold on pages matching this string\n              e.g.\"*.rigor.com\" (this would not match the top-level domain \"rigor.com\"), \"rigor.com/app.js\"",
+					"example": "rigor.com/example"
+				},
+				"metric_name": {
+					"type": "string",
+					"enum": ["server_time", "start_render", "dom_load_time", "page_load_time", "visually_complete", "fully_loaded_time", "speed_index", "entries_count", "page_size", "html_files_count", "html_size", "image_files_count", "image_size", "javascript_files_count", "javascript_size", "css_files_count", "css_size", "video_count", "video_size", "font_count", "font_size", "other_files_count", "other_size", "client_errors_count", "connection_errors_count", "server_errors_count", "errors_count"],
+					"description": "The name of the metric to monitor",
+					"example": "dom_load_time"
+				},
+				"comparison_type": {
+					"type": "string",
+					"enum": ["less_than", "equals", "greater_than"],
+					"description": "How to compare the result to the threshold value",
+					"example": "less_than"
+				},
+				"value": {
+					"type": "integer",
+					"description": "The threshold value needed to trigger a failure.\n              Format should be in milliseconds, bytes, or count depending on `metric_name`.",
+					"example": 3000
+				}
+			}
+		},
+		"real_browser_check_input": {
+			"description": "The parameters for a Real Browser check",
+			"additionalProperties": false,
+			"allOf": [{
+					"$ref": "#/definitions/monitoring_check_input"
+				}, {
+					"properties": {
+						"viewport": {
+							"$ref": "#/definitions/viewport"
+						},
+						"enforce_ssl_validation": {
+							"$ref": "#/definitions/enforce_ssl_validation"
+						},
+						"url": {
+							"$ref": "#/definitions/start_url"
+						},
+						"http_request_headers": {
+							"type": "object",
+							"default": {
+								"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:45.0; Rigor) Gecko/20100101 Firefox/45.0"
+							}
+						},
+						"threshold_monitors": {
+							"$ref": "#/definitions/threshold_monitor_input"
+						}
+					}
+				}
+			]
+		},
+		"enforce_ssl_validation": {
+			"type": "boolean",
+			"description": "When true, the check will fail if the browser encounters invalid security certificates.",
+			"default": false
+		},
+		"start_url": {
+			"type": "string",
+			"description": "The start URL for the check",
+			"example": "http://example.com"
+		},
+		"monitoring_check_location_metric_data": {
+			"description": "Check data segmented by location",
+			"type": "object",
+			"required": ["from", "to", "names", "series"],
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start time for the timeframe",
+					"example": "2017-10-03T13:35:05-04:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end time for the timeframe",
+					"example": "2017-10-03T18:35:05+00:00"
+				},
+				"range": {
+					"type": ["string", "null"],
+					"description": "The predefined timeframe, if provided",
+					"enum": ["last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months"]
+				},
+				"names": {
+					"type": "array",
+					"description": "A list of the metric names included in series",
+					"items": {
+						"type": "string",
+						"enum": ["average_response_time", "max_response_time", "min_response_time", "standard_deviation", "run_count", "error_count", "percentage_uptime", "percentage_downtime", "sla_percentage"]
+					},
+					"example": ["percentage_uptime"]
+				},
+				"series": {
+					"type": "array",
+					"description": "An array of data sets, one for each location",
+					"items": {
+						"$ref": "#/definitions/location_metric_series"
+					}
+				},
+				"summary": {
+					"type": "object",
+					"description": "Aggregate data for each location, over the given timeframe",
+					"example": {
+						"percentage_uptime": 99.3
+					}
+				},
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the check",
+					"example": 1
+				},
+				"locations": {
+					"type": "array",
+					"description": "An array of location IDs representing where the data was gathered.\n              If a location filter was provided, this will match that parameter. Otherwise, this includes\n              all locations where the check ran in this timeframe.",
+					"items": {
+						"type": "integer",
+						"format": "int32",
+						"description": "A unique location ID",
+						"example": 1
+					}
+				}
+			}
+		},
+		"location_metric_series": {
+			"type": "object",
+			"description": "The data for one location",
+			"allOf": [{
+					"$ref": "#/definitions/location"
+				}, {
+					"properties": {
+						"metrics": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/location_metrics"
+							}
+						}
+					}
+				}
+			]
+		},
+		"location_metrics": {
+			"type": "object",
+			"description": "The metric data for the location",
+			"allOf": [{
+					"$ref": "#/definitions/metric_name"
+				}, {
+					"properties": {
+						"points": {
+							"type": "array",
+							"minItems": 0,
+							"description": "An array of data points",
+							"items": {
+								"$ref": "#/definitions/point"
+							}
+						}
+					}
+				}
+			]
+		},
+		"api_response": {
+			"description": "A success or error message",
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "string",
+					"enum": ["success", "error"]
+				},
+				"message": {
+					"type": "string",
+					"description": "A high-level status message"
+				},
+				"errors": {
+					"type": "array",
+					"description": "A collection of error messages",
+					"items": {
+						"$ref": "#/definitions/api_error_message"
+					}
+				}
+			}
+		},
+		"api_error_message": {
+			"properties": {
+				"title": {
+					"type": "string",
+					"description": "A summary of the error"
+				},
+				"description": {
+					"type": "string",
+					"description": "Additional detail about the error, if available"
+				}
+			}
+		},
+		"api_success_response": {
+			"description": "A success message",
+			"allOf": [{
+					"$ref": "#/definitions/api_response"
+				}, {
+					"properties": {
+						"result": {
+							"type": "string",
+							"default": "success"
+						},
+						"errors": {
+							"description": "When successful, no error messages are returned",
+							"type": "array",
+							"default": [],
+							"maxItems": 0
+						}
+					}
+				}
+			]
+		},
+		"http_check": {
+			"description": "An HTTP check",
+			"allOf": [{
+					"$ref": "#/definitions/uptime_check"
+				}, {
+					"properties": {
+						"http_method": {
+							"type": "string",
+							"enum": ["GET", "HEAD", "POST", "POST/XML", "PUT", "DELETE"],
+							"default": "GET"
+						},
+						"http_request_body": {
+							"type": ["string", "null"],
+							"description": "Request body to send (e.g. post data)."
+						},
+						"success_criteria": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/success_criterion"
+							}
+						}
+					}
+				}
+			]
+		},
+		"http_check_input": {
+			"description": "The parameters for an HTTP check",
+			"additionalProperties": false,
+			"allOf": [{
+					"$ref": "#/definitions/uptime_check_input"
+				}, {
+					"properties": {
+						"http_method": {
+							"type": "string",
+							"enum": ["GET", "HEAD", "POST", "POST/XML", "PUT", "DELETE"],
+							"default": "GET"
+						},
+						"http_request_body": {
+							"type": "string",
+							"description": "Request body to send (e.g. post data)."
+						},
+						"success_criteria": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/success_criterion_input"
+							}
+						}
+					}
+				}
+			]
+		},
+		"notifications": {
+			"type": "object",
+			"description": "Configure how and when alerts are sent",
+			"required": ["notify_after_failure_count"],
+			"properties": {
+				"notify_who": {
+					"type": "array",
+					"minItems": 1,
+					"maxItems": 1,
+					"uniqueItems": true,
+					"items": {
+						"$ref": "#/definitions/check_notify_who"
+					}
+				},
+				"notify_after_failure_count": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Alert once the number of failed runs reaches this threshold.\n                               Set to 0 to never notify. Recommended threshold is 2.",
+					"minimum": 0,
+					"maximum": 10
+				},
+				"notify_on_location_failure": {
+					"type": "boolean",
+					"default": true,
+					"description": "Alert if the check is failing from only one location"
+				},
+				"sms": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via SMS (requires that the recipient has a valid phone number)"
+				},
+				"email": {
+					"type": "boolean",
+					"default": true,
+					"description": "Notify via email"
+				},
+				"call": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via phone call (requires that the recipient has a valid phone number)"
+				},
+				"notification_windows": {
+					"type": "array",
+					"description": "Only allow notifications during these timeframes",
+					"items": {
+						"type": "object"
+					}
+				},
+				"escalations": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/check_escalation"
+					}
+				},
+				"muted": {
+					"type": "boolean",
+					"default": false,
+					"description": "Muted checks do not send any alert notifications"
+				}
+			}
+		},
+		"check_notify_who": {
+			"description": "Where to send notifications",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The id of the user, group, or alert webhook"
+				},
+				"type": {
+					"type": "string",
+					"enum": ["user", "group", "alert_webhook"],
+					"description": "The type of recipient. Can be either a user, group, or alert webhook"
+				},
+				"links": {
+					"type": "object",
+					"properties": {
+						"self_html": {
+							"type": ["string", "null"],
+							"description": "The html view for this recipient, if available"
+						}
+					}
+				}
+			}
+		},
+		"notifications_input": {
+			"type": "object",
+			"description": "Configure how and when alerts are sent",
+			"required": ["notify_after_failure_count"],
+			"additionalProperties": false,
+			"properties": {
+				"notify_who": {
+					"type": "array",
+					"minItems": 1,
+					"maxItems": 1,
+					"uniqueItems": true,
+					"items": {
+						"$ref": "#/definitions/check_notify_who_input"
+					}
+				},
+				"notify_after_failure_count": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Alert once the number of failed runs reaches this threshold.\n                               Set to 0 to never notify. Recommended threshold is 2.",
+					"minimum": 0,
+					"maximum": 10
+				},
+				"notify_on_location_failure": {
+					"type": "boolean",
+					"default": true,
+					"description": "Alert if the check is failing from only one location"
+				},
+				"sms": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via SMS (requires that the recipient has a valid phone number)"
+				},
+				"email": {
+					"type": "boolean",
+					"default": true,
+					"description": "Notify via email"
+				},
+				"call": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via phone call (requires that the recipient has a valid phone number)"
+				},
+				"escalations": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/check_escalation_input"
+					}
+				},
+				"muted": {
+					"type": "boolean",
+					"default": false,
+					"description": "Muted checks do not send any alert notifications"
+				}
+			}
+		},
+		"check_notify_who_input": {
+			"description": "Where to send notifications",
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The id of the user, group, or alert webhook"
+				},
+				"type": {
+					"type": "string",
+					"enum": ["user", "group", "alert_webhook"],
+					"description": "The type of recipient. Can be either a user, group, or alert webhook"
+				},
+				"custom_email": {
+					"type": "string"
+				}
+			}
+		},
+		"excluded_file": {
+			"description": "A URL to either blacklist or whitelist",
+			"properties": {
+				"created_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the excluded file was created (UTC)"
+				},
+				"updated_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the excluded file was last updated (UTC)"
+				},
+				"exclusion_type": {
+					"type": "string",
+					"enum": ["preset", "custom", "all_except"],
+					"description": "The type of exclusion.\n              \"preset\": exclude a preset URL.\n              \"custom\": exclude a custom URL.\n              \"all_except\": whitelist a custom URL. Whitelisted URLs override all others."
+				},
+				"preset_name": {
+					"type": ["string", "null"],
+					"description": "The name of the excluded preset URL. Null if the `exclusion_type` is not \"preset\".",
+					"enum": ["chartbeat", "clicktale", "comscore", "coremetrics", "crazy-egg", "eloqua", "gomez", "google-analytics", "hubspot", "liveperson", "mixpanel", "omniture", "optimizely", "pardot", "quantcast", "spectate", "white-ops"]
+				},
+				"url": {
+					"type": "string",
+					"description": "The URL to blacklist or whitelist. May be customized or a preset value."
+				}
+			}
+		},
+		"system_event_collection": {
+			"description": "A list of system events",
+			"type": "object",
+			"required": ["from", "to", "system_events"],
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start time for the timeframe",
+					"default": "2017-10-03T13:35:05-04:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end time for the timeframe",
+					"default": "2017-10-03T18:35:05+00:00"
+				},
+				"range": {
+					"type": ["string", "null"],
+					"description": "The predefined timeframe, if provided",
+					"enum": ["last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months"]
+				},
+				"system_events": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/system_event"
+					}
+				}
+			}
+		},
+		"system_event": {
+			"description": "A system event logs changes made to a check",
+			"type": "object",
+			"required": ["id", "title", "description", "timestamp", "creator"],
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique id for the system event"
+				},
+				"title": {
+					"type": "string",
+					"description": "The title for the system event",
+					"example": "Check Edited"
+				},
+				"description": {
+					"type": "object",
+					"$ref": "#/definitions/system_event_description"
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the event took place",
+					"default": "2017-10-03T18:35:05+00:00"
+				},
+				"creator": {
+					"type": "object",
+					"description": "Who or what triggered the event",
+					"$ref": "#/definitions/system_event_creator"
+				}
+			}
+		},
+		"system_event_description": {
+			"properties": {
+				"summary": {
+					"type": "string",
+					"description": "A summary of the event",
+					"example": "Jane Doe made the following changes:"
+				},
+				"detail": {
+					"type": "array",
+					"description": "A detailed list describing the event",
+					"items": {
+						"type": "string"
+					},
+					"example": ["Name changed", "Steps changed"]
+				}
+			}
+		},
+		"system_event_creator": {
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique id for the creator"
+				},
+				"type": {
+					"type": "string",
+					"description": "The type of the creator",
+					"example": "User"
+				},
+				"name": {
+					"type": "string",
+					"description": "The name of the creator",
+					"example": "Jane Doe"
+				},
+				"image_url": {
+					"type": ["string", "null"],
+					"description": "A URL to the user's gravatar image, if available",
+					"example": "https://secure.gravatar.com/avatar/0.jpg?r=g&d=mm&s=60"
+				}
+			}
+		},
+		"check_escalation": {
+			"type": "object",
+			"description": "An additional notification to send if an alert is unacknowledged",
+			"additionalProperties": false,
+			"properties": {
+				"sms": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via SMS (requires that the recipient has a valid phone number)"
+				},
+				"email": {
+					"type": "boolean",
+					"default": true,
+					"description": "Notify via email"
+				},
+				"call": {
+					"type": "boolean",
+					"default": false,
+					"description": "Notify via phone call (requires that the recipient has a valid phone number)"
+				},
+				"after_minutes": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Minutes to wait before escalating"
+				},
+				"notify_who": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/check_escalation_notify_who"
+					}
+				},
+				"is_repeat": {
+					"type": "boolean",
+					"default": false,
+					"description": "Repeat the escalation if the alert is still unacknowledged"
+				},
+				"notification_window": {
+					"description": "Only allow notifications during this timeframe",
+					"$ref": "#/definitions/check_escalation_notify_window"
+				}
+			}
+		},
+		"check_escalation_notify_window": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"start_time": {
+					"description": "The start time for the notification window, formatted like 1:30pm or 13:30.",
+					"type": "string",
+					"example": "12:00"
+				},
+				"end_time": {
+					"description": "The end time for the notification window, formatted like 1:30pm or 13:30.",
+					"type": "string",
+					"example": "15:00"
+				},
+				"time_zone": {
+					"description": "The time zone for the notification window\n              (see <a href='http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html'>list of available time zones</a>)",
+					"type": "string",
+					"example": "Eastern Time (US & Canada)"
+				}
+			}
+		},
+		"check_escalation_notify_who": {
+			"description": "Where to send escalations",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The id of the user or group"
+				},
+				"type": {
+					"type": "string",
+					"enum": ["user", "group"],
+					"description": "The type of recipient. Can be either a user or group."
+				},
+				"links": {
+					"type": "object",
+					"properties": {
+						"self_html": {
+							"type": ["string", "null"],
+							"description": "The html view for this recipient, if available"
+						}
+					}
+				}
+			}
+		},
+		"check_escalation_input": {
+			"type": "object",
+			"description": "An additional notification to send if an alert is unacknowledged",
+			"additionalProperties": false,
+			"allOf": [{
+					"$ref": "#/definitions/check_escalation"
+				}, {
+					"properties": {
+						"notify_who": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/check_escalation_notify_who_input"
+							}
+						}
+					}
+				}
+			]
+		},
+		"check_escalation_notify_who_input": {
+			"type": "object",
+			"description": "Where to send notifications",
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The id of the user or group"
+				},
+				"type": {
+					"type": "string",
+					"enum": ["user", "group"],
+					"description": "The type of recipient. Can be either a user or group"
+				},
+				"custom_email": {
+					"type": "string"
+				}
+			}
+		},
+		"monitoring_check_metrics": {
+			"description": "A list of available metrics for the check",
+			"type": "object",
+			"properties": {
+				"metrics": {
+					"type": "array",
+					"description": "A list of metrics",
+					"items": {
+						"$ref": "#/definitions/monitoring_check_metric"
+					}
+				},
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the check",
+					"example": 1
+				}
+			}
+		},
+		"monitoring_check_metric": {
+			"description": "An available metric for the check",
+			"type": "object",
+			"allOf": [{
+					"$ref": "#/definitions/metric_name"
+				}, {
+					"properties": {
+						"links": {
+							"type": "object",
+							"properties": {
+								"self": {
+									"type": "string",
+									"description": "A link to the data for this metric",
+									"example": "https://monitoring-api.rigor.com/v2/checks/1/metrics?name=average_response_time"
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		"monitoring_check_metric_data": {
+			"description": "Check data for the metric",
+			"type": "object",
+			"required": ["from", "to", "names", "series"],
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start time for the timeframe",
+					"example": "2017-10-03T13:35:05-04:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end time for the timeframe",
+					"example": "2017-10-03T18:35:05+00:00"
+				},
+				"range": {
+					"type": ["string", "null"],
+					"description": "The predefined timeframe, if provided",
+					"enum": ["last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months"]
+				},
+				"names": {
+					"type": "array",
+					"description": "A list of the metric names included in series",
+					"items": {
+						"type": "string",
+						"enum": ["average_response_time", "max_response_time", "min_response_time", "standard_deviation", "run_count", "error_count", "percentage_uptime", "percentage_downtime", "sla_percentage"]
+					},
+					"example": ["percentage_uptime"]
+				},
+				"series": {
+					"type": "array",
+					"description": "An array of data sets, one for each metric",
+					"items": {
+						"$ref": "#/definitions/metric_series"
+					}
+				},
+				"summary": {
+					"type": "object",
+					"description": "Aggregate data for each metric, over the given timeframe",
+					"example": {
+						"percentage_uptime": 99.3
+					}
+				},
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the check",
+					"example": 1
+				},
+				"locations": {
+					"type": "array",
+					"description": "A list of location IDs the check ran from during this timeframe",
+					"example": [1, 2],
+					"items": {
+						"type": "integer",
+						"format": "int32",
+						"description": "The ID of a location that this check ran from"
+					}
+				}
+			}
+		},
+		"metric_series": {
+			"type": "object",
+			"description": "The data for the metric",
+			"allOf": [{
+					"$ref": "#/definitions/metric_name"
+				}, {
+					"properties": {
+						"points": {
+							"type": "array",
+							"minItems": 0,
+							"description": "An array of data points",
+							"items": {
+								"$ref": "#/definitions/point_with_locations"
+							}
+						}
+					}
+				}
+			]
+		},
+		"metric_name": {
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "The name of the metric, in snake_case.",
+					"enum": ["average_response_time", "max_response_time", "min_response_time", "standard_deviation", "run_count", "error_count", "percentage_uptime", "percentage_downtime", "sla_percentage"],
+					"example": "percentage_uptime"
+				},
+				"format": {
+					"type": "string",
+					"description": "The format of the data for this metric.",
+					"enum": ["milliseconds", "count", "percent"],
+					"example": "percent"
+				},
+				"label": {
+					"type": "string",
+					"description": "A readable label for the metric, in Title Case.",
+					"enum": ["Average Response Time", "Maximum Response Time", "Minimum Response Time", "Response Time Standard Deviation", "Run Count", "Error Count", "Percentage Uptime", "Percentage Downtime", "SLA Percentage"],
+					"example": "Percentage Uptime"
+				}
+			}
+		},
+		"point_with_locations": {
+			"allOf": [{
+					"$ref": "#/definitions/point"
+				}, {
+					"properties": {
+						"locations": {
+							"type": "array",
+							"description": "A list of location IDs the check ran from during this point's timeframe",
+							"items": {
+								"type": "integer",
+								"format": "int32",
+								"description": "The ID of a location that this check ran from",
+								"example": 1
+							}
+						}
+					}
+				}
+			]
+		},
+		"point": {
+			"description": "A single data point. May be a single run or an average across multiple runs.",
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start timestamp for the data point",
+					"example": "2017-10-03T18:35:05+00:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end timestamp for the data point",
+					"example": "2017-10-03T18:35:05+00:00"
+				},
+				"value": {
+					"type": ["float", "null"],
+					"description": "The value for the data point. May be run-level or aggregate data.",
+					"example": 99.3
+				}
+			}
+		},
+		"performance_kpi_data": {
+			"additionalProperties": false,
+			"required": ["from", "to", "check_id", "metrics", "series"],
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start time for the timeframe.",
+					"example": "2017-10-03T13:35:05-04:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end time for the timeframe.",
+					"example": "2017-10-03T18:35:05+00:00"
+				},
+				"range": {
+					"type": ["string", "null"],
+					"description": "The predefined timeframe, if provided.",
+					"enum": ["last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months"],
+					"example": "last_hour"
+				},
+				"check_id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the check.",
+					"example": 1
+				},
+				"metrics": {
+					"type": "array",
+					"description": "A list of the metrics included in series.",
+					"items": {
+						"$ref": "#/definitions/page_metric"
+					}
+				},
+				"series": {
+					"type": "array",
+					"description": "An array of data sets, one for each page and metric combination.",
+					"items": {
+						"$ref": "#/definitions/page_collection_series"
+					}
+				}
+			}
+		},
+		"page_metric": {
+			"additionalProperties": false,
+			"required": ["name", "label", "unit"],
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "The metric name. If rollup data is returned,\n             the metric will be prefixed by `median_`, `average_`, `max_`, or `min_`.",
+					"enum": ["server_time", "start_render", "dom_load_time", "onload_time", "visually_complete", "fully_loaded_time", "speed_index", "request_count", "content_size", "html_count", "html_size", "image_count", "image_size", "javascript_count", "javascript_size", "css_count", "css_size", "video_count", "video_size", "font_count", "font_size", "other_count", "other_size", "client_error_count", "connection_error_count", "server_error_count", "error_count"],
+					"example": "dom_load_time"
+				},
+				"label": {
+					"type": "string",
+					"description": "A titleized label for the metric.",
+					"example": "DOM Load Time"
+				},
+				"unit": {
+					"type": "string",
+					"description": "The units for the metric value.",
+					"enum": ["milliseconds", "count", "bytes"],
+					"example": "milliseconds"
+				},
+				"description": {
+					"type": "string",
+					"description": "A short description of the metric.",
+					"example": "Time until document has fully loaded and parsed the HTML document"
+				}
+			}
+		},
+		"page_collection_series": {
+			"additionalProperties": false,
+			"required": ["metric", "data"],
+			"properties": {
+				"total": {
+					"type": "boolean",
+					"description": "Indicates that this series represents all pages visited in this run.\n              Metrics from each page are summed. Not included in the response if `include_summary`\n              is set to `false`.",
+					"example": true
+				},
+				"page": {
+					"type": "object",
+					"description": "Information about a specific page.",
+					"$ref": "#/definitions/page"
+				},
+				"metric": {
+					"type": "object",
+					"description": "The metric represented by this series.",
+					"$ref": "#/definitions/page_metric"
+				},
+				"data": {
+					"type": "array",
+					"description": "An array of data points for this series.",
+					"items": {
+						"$ref": "#/definitions/page_data_point"
+					}
+				}
+			}
+		},
+		"page": {
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the page.",
+					"example": 1
+				},
+				"url": {
+					"type": "string",
+					"description": "The full URL of the page.",
+					"example": "http://example.com"
+				},
+				"hostname": {
+					"type": "string",
+					"description": "The hostname of the page.",
+					"example": "example.com"
+				}
+			}
+		},
+		"page_data_point": {
+			"additionalProperties": false,
+			"required": ["from", "to", "value"],
+			"properties": {
+				"from": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The start timestamp for the data point.",
+					"default": "2017-10-03T18:35:05+00:00"
+				},
+				"to": {
+					"type": "string",
+					"format": "date-time",
+					"description": "The end timestamp for the data point.",
+					"default": "2017-10-03T13:35:05-04:00"
+				},
+				"value": {
+					"type": "float",
+					"description": "The value of the metric."
+				},
+				"page_history_id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique id for this page and run (run-level page data only)."
+				},
+				"run_id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique id for this run (run-level data only)."
+				}
+			}
+		},
+		"success_criterion": {
+			"description": "A criterion for the check to pass",
+			"required": ["action_type", "comparison_string"],
+			"properties": {
+				"action_type": {
+					"type": "string",
+					"enum": ["presence_of_text", "absence_of_text", "matches_regular_expression", "does_not_contain_regular_expression", "response_code", "goes_to_url"]
+				},
+				"comparison_string": {
+					"type": "string"
+				},
+				"created_at": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updated_at": {
+					"type": "string",
+					"format": "date-time"
+				}
+			}
+		},
+		"success_criterion_input": {
+			"description": "A criterion for the check to pass",
+			"required": ["action_type", "comparison_string"],
+			"additionalProperties": false,
+			"properties": {
+				"action_type": {
+					"type": "string",
+					"enum": ["presence_of_text", "absence_of_text", "matches_regular_expression", "does_not_contain_regular_expression", "response_code", "goes_to_url"]
+				},
+				"comparison_string": {
+					"type": "string"
+				}
+			}
+		},
+		"check_collection": {
+			"description": "A page of Checks",
+			"type": "object",
+			"required": ["checks", "per_page", "total_count", "total_pages", "current_page", "previous_page", "next_page"],
+			"properties": {
+				"checks": {
+					"type": "array",
+					"description": "A list of Checks",
+					"items": {
+						"$ref": "#/definitions/check"
+					}
+				},
+				"per_page": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Number of results for each page",
+					"example": 50
+				},
+				"current_page": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Current page number",
+					"example": 2
+				},
+				"total_pages": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Total number of pages",
+					"example": 3
+				},
+				"total_count": {
+					"type": "integer",
+					"format": "int32",
+					"description": "Total number of results across all pages",
+					"example": 105
+				},
+				"previous_page": {
+					"type": ["integer", "null"],
+					"format": "int32",
+					"description": "Previous page number (null if none)",
+					"example": 1
+				},
+				"next_page": {
+					"type": ["integer", "null"],
+					"format": "int32",
+					"description": "Next page number (null if none)",
+					"example": 3
+				}
+			}
+		},
+		"check": {
+			"description": "A single check",
+			"type": "object",
+			"required": ["type", "id"],
+			"discriminator": "type",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the check",
+					"example": 1
+				},
+				"name": {
+					"type": "string",
+					"description": "The unique name for the check",
+					"example": "Example Check"
+				},
+				"created_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the check was created (UTC)"
+				},
+				"updated_at": {
+					"type": "string",
+					"format": "date-time",
+					"description": "When the check was last updated (UTC)"
+				},
+				"type": {
+					"type": "string",
+					"description": "The check type",
+					"enum": ["http", "http_multi_step", "port", "real_browser", "benchmark", "content", "uptime", "monitoring", "api"]
+				},
+				"links": {
+					"type": "object",
+					"properties": {
+						"self": {
+							"type": "string",
+							"description": "The URL for the check detail",
+							"example": "https://monitoring-api.rigor.com/v2/checks/1"
+						},
+						"self_html": {
+							"type": "string",
+							"description": "The URL for the HTML view for this check",
+							"example": "https://monitoring.rigor.com/checks/http/1"
+						},
+						"metrics": {
+							"type": "string",
+							"description": "The URL for the available metrics for this check",
+							"example": "https://monitoring-api.rigor.com/v2/checks/1/metrics"
+						}
+					}
+				},
+				"tags": {
+					"type": "array",
+					"description": "An array of tags applied to the check",
+					"items": {
+						"$ref": "#/definitions/tag"
+					}
+				},
+				"status": {
+					"type": "object",
+					"$ref": "#/definitions/status"
+				},
+				"frequency": {
+					"type": ["integer", "null"],
+					"description": "Run the check at this interval (in minutes)",
+					"example": 5
+				}
+			}
+		},
+		"tag": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"example": 1
+				},
+				"name": {
+					"type": "string",
+					"example": "example tag"
+				}
+			}
+		},
+		"check_input": {
+			"description": "A single check",
+			"type": "object",
+			"required": ["name"],
+			"additionalProperties": false,
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "The unique name for the check"
+				},
+				"tags": {
+					"type": "array",
+					"description": "An array of tag names to apply to the check",
+					"items": {
+						"description": "The name of the tag",
+						"type": "string"
+					}
+				},
+				"frequency": {
+					"type": ["integer", "null"],
+					"description": "Run the check at this interval (in minutes)",
+					"example": 5
+				}
+			}
+		},
+		"uptime_check": {
+			"description": "An uptime check",
+			"required": ["url"],
+			"allOf": [{
+					"$ref": "#/definitions/monitoring_check"
+				}, {
+					"properties": {
+						"url": {
+							"type": "string"
+						}
+					}
+				}
+			]
+		},
+		"uptime_check_input": {
+			"description": "An uptime check",
+			"required": ["url"],
+			"additionalProperties": false,
+			"allOf": [{
+					"$ref": "#/definitions/monitoring_check_input"
+				}, {
+					"properties": {
+						"url": {
+							"type": "string"
+						}
+					}
+				}
+			]
+		},
+		"monitoring_check": {
+			"description": "A monitoring check",
+			"allOf": [{
+					"$ref": "#/definitions/check"
+				}, {
+					"properties": {
+						"round_robin": {
+							"type": "boolean",
+							"description": "True if the check cycles through locations round-robin style with each run"
+						},
+						"enabled": {
+							"type": "boolean",
+							"default": true,
+							"description": "True if the check is not paused"
+						},
+						"blackout_periods": {
+							"type": "array"
+						},
+						"locations": {
+							"type": "array",
+							"description": "The locations to run the check from",
+							"items": {
+								"$ref": "#/definitions/location"
+							}
+						},
+						"response_time_monitor_milliseconds": {
+							"type": ["integer", "null"],
+							"format": "int32",
+							"minimum": 0,
+							"maximum": 60000,
+							"description": "Mark a run as a failure if the total response time\n                                   is above this threshold (in milliseconds)"
+						},
+						"http_request_headers": {
+							"type": "object",
+							"default": {
+								"User-Agent": "Mozilla/5.0 (compatible; Rigor/1.0.0; http://rigor.com)"
+							}
+						},
+						"notifications": {
+							"type": "object",
+							"$ref": "#/definitions/notifications"
+						},
+						"status": {
+							"description": "The state of the check",
+							"type": "object",
+							"$ref": "#/definitions/status"
+						}
+					}
+				}
+			]
+		},
+		"status": {
+			"properties": {
+				"last_code": {
+					"type": ["integer", "null"],
+					"format": "int32",
+					"description": "The response code from the last run",
+					"example": 200
+				},
+				"last_message": {
+					"type": ["string", "null"],
+					"description": "The message from the last run",
+					"example": "OK"
+				},
+				"last_response_time": {
+					"type": ["string", "null"],
+					"description": "The response time from the last run",
+					"example": 50
+				},
+				"last_run_at": {
+					"type": ["string", "null"],
+					"format": "date-time",
+					"description": "The timestamp of the last run",
+					"example": "2017-10-03T18:30:05Z"
+				},
+				"last_failure_at": {
+					"type": ["string", "null"],
+					"format": "date-time",
+					"description": "The timestamp of the last failed run",
+					"example": "2017-10-02T18:35:05Z"
+				},
+				"last_alert_at": {
+					"type": ["string", "null"],
+					"format": "date-time",
+					"description": "The timestamp of the last alert",
+					"example": "2017-10-02T18:35:05Z"
+				},
+				"has_failure": {
+					"type": ["boolean", "null"],
+					"description": "True if the fail limit has been reached",
+					"example": false
+				},
+				"has_location_failure": {
+					"type": ["string", "null"],
+					"description": "True if the fail limit has been reached for at least one location",
+					"example": false
+				}
+			}
+		},
+		"monitoring_check_input": {
+			"description": "A monitoring check",
+			"required": ["notifications", "frequency"],
+			"additionalProperties": false,
+			"allOf": [{
+					"$ref": "#/definitions/check_input"
+				}, {
+					"properties": {
+						"round_robin": {
+							"type": "boolean",
+							"default": true,
+							"description": "True if the check cycles through locations round-robin style with each run"
+						},
+						"enabled": {
+							"type": "boolean",
+							"default": true,
+							"description": "True if the check is not paused"
+						},
+						"locations": {
+							"type": "array",
+							"description": "The locations to run the check from",
+							"items": {
+								"type": "integer",
+								"format": "int32",
+								"description": "The id for a location"
+							}
+						},
+						"response_time_monitor_milliseconds": {
+							"type": ["integer", "null"],
+							"format": "int32",
+							"minimum": 0,
+							"maximum": 60000,
+							"default": "null",
+							"description": "Mark a run as a failure if the total response time\n                                   is above this threshold (in milliseconds)"
+						},
+						"http_request_headers": {
+							"type": "object",
+							"default": {
+								"User-Agent": "Mozilla/5.0 (compatible; Rigor/1.0.0; http://rigor.com)"
+							}
+						},
+						"notifications": {
+							"type": "object",
+							"$ref": "#/definitions/notifications_input"
+						}
+					}
+				}
+			]
+		},
+		"location": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int32",
+					"description": "The unique ID for the location"
+				},
+				"name": {
+					"type": "string",
+					"description": "The name of the location. Locations available for Real Browser checks include \"[RealBrowser]\" in the name."
+				},
+				"world_region": {
+					"type": "string",
+					"description": "The region the location is in"
+				}
+			},
+			"example": {
+				"id": 1,
+				"name": "N. Virginia",
+				"region": "US"
+			}
+		}
+	}
+}

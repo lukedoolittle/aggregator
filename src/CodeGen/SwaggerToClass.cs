@@ -527,6 +527,17 @@ namespace CodeGen
             string item, 
             Type type)
         {
+            if (item == null)
+            {
+                if (Nullable.GetUnderlyingType(type) != null)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new Exception("Tried to default null to non-nullable type");
+                }
+            }
             if (type == typeof(string))
             {
                 return item;

@@ -93,7 +93,10 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\Requests\RigorGetRealBrowserPerformanceKPIs.cs" />
     <Compile Include="Domain\Requests\YoutubeChannels.cs" />
+    <Compile Include="Domain\ResourceProviders\Rigor.cs" />
+    <Compile Include="Domain\Responses\RigorPerformanceKPIResponse.cs" />
     <Compile Include="Domain\Responses\YoutubeAnalyticsReportResponse.cs" />
     <Compile Include="Domain\Responses\YoutubeChannelsResponse.cs" />
     <Compile Include="Framework\Enums\GooglePrompt.cs" />
@@ -563,6 +566,7 @@
 ..\Domain\Requests\PinterestPins.cs
 ..\Domain\Requests\PinterestUser.cs
 ..\Domain\Requests\RescuetimeAnalyticData.cs
+..\Domain\Requests\RigorGetRealBrowserPerformanceKPIs.cs
 ..\Domain\Requests\RunkeeperFitnessActivity.cs
 ..\Domain\Requests\SpotifySavedTrack.cs
 ..\Domain\Requests\TumblrLikes.cs
@@ -603,6 +607,7 @@
 ..\Domain\ResourceProviders\Omniture.cs
 ..\Domain\ResourceProviders\Pinterest.cs
 ..\Domain\ResourceProviders\Rescuetime.cs
+..\Domain\ResourceProviders\Rigor.cs
 ..\Domain\ResourceProviders\Runkeeper.cs
 ..\Domain\ResourceProviders\Spotify.cs
 ..\Domain\ResourceProviders\Tumblr.cs
