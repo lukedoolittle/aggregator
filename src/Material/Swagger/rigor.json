@@ -59,7 +59,6 @@
                         "enum": [ "last_hour", "last_4_hours", "last_8_hours", "last_12_hours", "last_24_hours", "yesterday", "today", "last_7_days", "last_30_days", "this_week", "last_week", "this_month", "last_month", "last_3_months", "last_6_months", "last_12_months" ],
                         "in": "query",
                         "description": "A predefined timeframe to be used instead of `from` and `to`. Defaults to the last hour.",
-                        "default": "last_hour",
                         "required": false
                     },
                     {

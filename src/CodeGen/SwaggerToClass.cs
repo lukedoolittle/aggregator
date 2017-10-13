@@ -357,8 +357,13 @@ namespace CodeGen
                                         CreateCSharpPropertyName(parameter["default"].ToString()));
                                 }
 
+                                if (parameter["required"]?.ToString() != "true")
+                                {
+                                    enumName = $"Nullable<{enumName}>";
+                                }
+
                                 property = new PropertyRepresentation(
-                                    @enum.Name,
+                                    enumName,
                                     @namespace,
                                     name)
                                 {
