@@ -39,28 +39,28 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  RescuetimeAnalyticDataFormat Format { get; set; } = RescuetimeAnalyticDataFormat.Json;
+        public  Nullable<RescuetimeAnalyticDataFormat> Format { get; set; } = RescuetimeAnalyticDataFormat.Json;
         /// <summary>
         /// 
         /// </summary>
         [Name("resolution_time")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  RescuetimeAnalyticDataResolutionTime ResolutionTime { get; set; } = RescuetimeAnalyticDataResolutionTime.Hour;
+        public  Nullable<RescuetimeAnalyticDataResolutionTime> ResolutionTime { get; set; } = RescuetimeAnalyticDataResolutionTime.Hour;
         /// <summary>
         /// organization of data
         /// </summary>
         [Name("perspective")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  RescuetimeAnalyticDataPerspective Perspective { get; set; } = RescuetimeAnalyticDataPerspective.Interval;
+        public  Nullable<RescuetimeAnalyticDataPerspective> Perspective { get; set; } = RescuetimeAnalyticDataPerspective.Interval;
         /// <summary>
         /// restrict the kind of information returned
         /// </summary>
         [Name("restrict_kind")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  RescuetimeAnalyticDataRestrictKind RestrictKind { get; set; } = RescuetimeAnalyticDataRestrictKind.Efficiency;
+        public  Nullable<RescuetimeAnalyticDataRestrictKind> RestrictKind { get; set; } = RescuetimeAnalyticDataRestrictKind.Efficiency;
         /// <summary>
         /// Sets the start day for data batch, inclusive (always at time 00:00, start hour/minute not supported)
         /// </summary>

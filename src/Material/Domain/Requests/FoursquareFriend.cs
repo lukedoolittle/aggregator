@@ -47,7 +47,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  FoursquareFriendM M { get; set; } = FoursquareFriendM.Foursquare;
+        public  Nullable<FoursquareFriendM> M { get; set; } = FoursquareFriendM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>

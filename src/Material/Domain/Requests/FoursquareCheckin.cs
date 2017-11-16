@@ -47,7 +47,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  FoursquareCheckinM M { get; set; } = FoursquareCheckinM.Foursquare;
+        public  Nullable<FoursquareCheckinM> M { get; set; } = FoursquareCheckinM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>
@@ -68,7 +68,7 @@ namespace Material.Domain.Requests
         [Name("sort")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FoursquareCheckinSort Sort { get; set; } = FoursquareCheckinSort.Newestfirst;
+        public  Nullable<FoursquareCheckinSort> Sort { get; set; } = FoursquareCheckinSort.Newestfirst;
         /// <summary>
         /// Retrieve the first results to follow these seconds since epoch
         /// </summary>

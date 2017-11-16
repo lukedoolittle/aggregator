@@ -70,7 +70,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  MicrosoftBingSpeechToTextLocale Locale { get; set; } = MicrosoftBingSpeechToTextLocale.EnUS;
+        public  Nullable<MicrosoftBingSpeechToTextLocale> Locale { get; set; } = MicrosoftBingSpeechToTextLocale.EnUS;
         /// <summary>
         /// Operating system the client is running on. This is an open field but we encourage clients to use it consistently across devices and applications
         /// </summary>
@@ -78,7 +78,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  MicrosoftBingSpeechToTextDeviceos Deviceos { get; set; } = MicrosoftBingSpeechToTextDeviceos.Unknown;
+        public  Nullable<MicrosoftBingSpeechToTextDeviceos> Deviceos { get; set; } = MicrosoftBingSpeechToTextDeviceos.Unknown;
         /// <summary>
         /// The context for performing a recognition
         /// </summary>
@@ -86,7 +86,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  MicrosoftBingSpeechToTextScenarios Scenarios { get; set; } = MicrosoftBingSpeechToTextScenarios.Ulm;
+        public  Nullable<MicrosoftBingSpeechToTextScenarios> Scenarios { get; set; } = MicrosoftBingSpeechToTextScenarios.Ulm;
         /// <summary>
         /// A globally unique device identifier of the device making the request
         /// </summary>

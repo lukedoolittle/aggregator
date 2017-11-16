@@ -59,7 +59,7 @@ namespace Material.Domain.Requests
         [Name("range")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  RigorGetRealBrowserPerformanceKPIsRange Range { get; set; }
+        public  Nullable<RigorGetRealBrowserPerformanceKPIsRange> Range { get; set; }
         /// <summary>
         /// The metric names to get data for. Valid metrics include: `server_time`, `start_render`, `dom_load_time`, `onload_time`, `visually_complete`, `fully_loaded_time`, `speed_index`, `request_count`, `content_size`, `html_count`, `html_size`, `image_count`, `image_size`, `javascript_count`, `javascript_size`, `css_count`, `css_size`, `video_count`, `video_size`, `font_count`, `font_size`, `other_count`, `other_size`, `client_error_count`, `connection_error_count`, `server_error_count`, and `error_count`.                 Prefix the metric with `median_`, `average_`, `max_`, or `min_` when querying for                  more than 24 hours of data. For `count` metrics, `total_` is also available.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  RigorGetRealBrowserPerformanceKPIsMetrics Metrics { get; set; }
+        public  Nullable<RigorGetRealBrowserPerformanceKPIsMetrics> Metrics { get; set; }
         /// <summary>
         /// If true, include a series that sums results from all pages.                Useful to represent each run as a whole rather than each page individually.
         /// </summary>

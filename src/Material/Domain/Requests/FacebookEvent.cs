@@ -59,7 +59,7 @@ namespace Material.Domain.Requests
         [Name("type")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FacebookEventType Type { get; set; }
+        public  Nullable<FacebookEventType> Type { get; set; }
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

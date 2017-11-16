@@ -39,7 +39,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  OmnitureReportingMethod Method { get; set; }
+        public  Nullable<OmnitureReportingMethod> Method { get; set; }
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

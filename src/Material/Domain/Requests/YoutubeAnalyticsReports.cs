@@ -91,7 +91,7 @@ namespace Material.Domain.Requests
         [Name("alt")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  YoutubeAnalyticsReportsAlt Alt { get; set; } = YoutubeAnalyticsReportsAlt.Json;
+        public  Nullable<YoutubeAnalyticsReportsAlt> Alt { get; set; } = YoutubeAnalyticsReportsAlt.Json;
         /// <summary>
         /// Returns response with indentations and line breaks
         /// </summary>

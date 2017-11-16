@@ -38,7 +38,7 @@ namespace Material.Domain.Requests
         [Name("fields")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FacebookUserFields Fields { get; set; } = FacebookUserFields.Email;
+        public  Nullable<FacebookUserFields> Fields { get; set; } = FacebookUserFields.Email;
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

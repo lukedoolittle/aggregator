@@ -38,7 +38,7 @@ namespace Material.Domain.Requests
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  LinkedinPersonalFormat Format { get; set; } = LinkedinPersonalFormat.Json;
+        public  Nullable<LinkedinPersonalFormat> Format { get; set; } = LinkedinPersonalFormat.Json;
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

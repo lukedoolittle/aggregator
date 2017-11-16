@@ -38,7 +38,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Path)]
         [Required()]
         [EnumFormatter()]
-        public  YahooFlurryMetricsTable Table { get; set; }
+        public  Nullable<YahooFlurryMetricsTable> Table { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -46,7 +46,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Path)]
         [Required()]
         [EnumFormatter()]
-        public  YahooFlurryMetricsTimeGrain TimeGrain { get; set; }
+        public  Nullable<YahooFlurryMetricsTimeGrain> TimeGrain { get; set; }
         /// <summary>
         /// 
         /// </summary>

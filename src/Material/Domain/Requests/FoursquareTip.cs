@@ -47,7 +47,7 @@ namespace Material.Domain.Requests
         [ParameterType(RequestParameterType.Query)]
         [Required()]
         [EnumFormatter()]
-        public  FoursquareTipM M { get; set; } = FoursquareTipM.Foursquare;
+        public  Nullable<FoursquareTipM> M { get; set; } = FoursquareTipM.Foursquare;
         /// <summary>
         /// Number of results to return, up to 250
         /// </summary>

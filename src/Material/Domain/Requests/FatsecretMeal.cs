@@ -53,7 +53,7 @@ namespace Material.Domain.Requests
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FatsecretMealFormat Format { get; set; } = FatsecretMealFormat.Json;
+        public  Nullable<FatsecretMealFormat> Format { get; set; } = FatsecretMealFormat.Json;
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

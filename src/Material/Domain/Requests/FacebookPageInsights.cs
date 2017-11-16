@@ -53,14 +53,14 @@ namespace Material.Domain.Requests
         [Name("date_preset")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FacebookPageInsightsDatePreset DatePreset { get; set; }
+        public  Nullable<FacebookPageInsightsDatePreset> DatePreset { get; set; }
         /// <summary>
         /// The aggregation period
         /// </summary>
         [Name("period")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  FacebookPageInsightsPeriod Period { get; set; }
+        public  Nullable<FacebookPageInsightsPeriod> Period { get; set; }
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]

@@ -37,7 +37,7 @@ namespace Material.Domain.Requests
         [Name("group_by")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  AppFiguresSalesGroupBy GroupBy { get; set; }
+        public  Nullable<AppFiguresSalesGroupBy> GroupBy { get; set; }
         /// <summary>
         /// Date, inclusive, to start reporting from. If you specify a granularity other than daily this will be rounded down to the nearest period. default: a long, long time ago.
         /// </summary>
@@ -58,7 +58,7 @@ namespace Material.Domain.Requests
         [Name("granularity")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  AppFiguresSalesGranularity Granularity { get; set; }
+        public  Nullable<AppFiguresSalesGranularity> Granularity { get; set; }
         /// <summary>
         /// specific products to include in the response, default: all products in account
         /// </summary>
@@ -79,7 +79,7 @@ namespace Material.Domain.Requests
         [Name("dataset")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  AppFiguresSalesDataset Dataset { get; set; }
+        public  Nullable<AppFiguresSalesDataset> Dataset { get; set; }
         /// <summary>
         /// If set to true any products given in product_ids will have their children automatically selected as well. default: false) 
         /// </summary>
@@ -93,7 +93,7 @@ namespace Material.Domain.Requests
         [Name("format")]
         [ParameterType(RequestParameterType.Query)]
         [EnumFormatter()]
-        public  AppFiguresSalesFormat Format { get; set; } = AppFiguresSalesFormat.Json;
+        public  Nullable<AppFiguresSalesFormat> Format { get; set; } = AppFiguresSalesFormat.Json;
 	}
 	
 	[GeneratedCode("T4Toolbox", "14.0")]
