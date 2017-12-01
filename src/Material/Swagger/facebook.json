@@ -376,6 +376,23 @@
                 "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline.",
                 "read_insights": "Provides read-only access to the Insights data for Pages, Apps and web domains the person owns"
             }
+        },
+        "oauth2Client": {
+            "type": "oauth2",
+            "description": "OAuth2 Client Credentials Grant",
+            "authorizationUrl": "https://www.facebook.com/dialog/oauth",
+            "name": "access_token",
+            "in": "query",
+            "x-grant-types": [ "client_credentials" ],
+            "x-scope-delimiter": ",",
+            "scopes": {
+                "email": "Provides access to the person's primary email address via the email property on the user object",
+                "user_events": "Provides read-only access to the Events a person is hosting or has RSVP'd to",
+                "user_likes": "Provides access to the list of all Facebook Pages and Open Graph objects that a person has liked",
+                "user_friends": "Provides access the list of friends that also use your app",
+                "user_posts": "Provides access to the posts on a person's Timeline. Includes their own posts, posts they are tagged in, and posts other people make on their Timeline.",
+                "read_insights": "Provides read-only access to the Insights data for Pages, Apps and web domains the person owns"
+            }
         }
     },
     "definitions": []
