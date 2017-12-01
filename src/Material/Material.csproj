@@ -41,6 +41,7 @@
     <EmbeddedResource Include="StringResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +94,12 @@
     <Compile Include="Contracts\ISubscriptionManager.cs" />
     <Compile Include="Contracts\ITableStorageEntity.cs" />
     <Compile Include="Contracts\TableStorageEntity.cs" />
+    <Compile Include="Domain\NonGeneratedRequests\YesmailReferenceDataRecords.cs" />
     <Compile Include="Domain\Requests\RigorGetRealBrowserPerformanceKPIs.cs" />
+    <Compile Include="Domain\Requests\YesmailReferenceDataRecords.cs" />
     <Compile Include="Domain\Requests\YoutubeChannels.cs" />
     <Compile Include="Domain\ResourceProviders\Rigor.cs" />
+    <Compile Include="Domain\ResourceProviders\Yesmail.cs" />
     <Compile Include="Domain\Responses\RigorPerformanceKPIResponse.cs" />
     <Compile Include="Domain\Responses\YoutubeAnalyticsReportResponse.cs" />
     <Compile Include="Domain\Responses\YoutubeChannelsResponse.cs" />
@@ -590,6 +594,7 @@
 ..\Domain\Requests\XamarinInsightsSessions.cs
 ..\Domain\Requests\XamarinInsightsUsers.cs
 ..\Domain\Requests\YahooFlurryMetrics.cs
+..\Domain\Requests\YesmailReferenceDataRecords.cs
 ..\Domain\Requests\YoutubeAnalyticsReports.cs
 ..\Domain\Requests\YoutubeChannels.cs
 ..\Domain\ResourceProviders\Amazon.cs
@@ -618,6 +623,7 @@
 ..\Domain\ResourceProviders\XamarinInsights.cs
 ..\Domain\ResourceProviders\Yahoo.cs
 ..\Domain\ResourceProviders\YahooFlurry.cs
+..\Domain\ResourceProviders\Yesmail.cs
 ..\Domain\ResourceProviders\Youtube.cs
 .\Generator.cs
 </LastOutputs>

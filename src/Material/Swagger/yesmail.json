@@ -36,14 +36,14 @@
                         "in": "query",
                         "name": "limit",
                         "description": "The number of records to be returned with the request. Valid values are integers 0-100. The default is 25.",
-                        "type": "string",
+                        "type": "integer",
                         "required": false
                     },
                     {
                         "in": "query",
                         "name": "offset",
                         "description": "The number of rows to be bypassed by the request. Valid values are 0-any positive integer. The default is 0.",
-                        "type": "string",
+                        "type": "integer",
                         "required": false
                     },
                     {

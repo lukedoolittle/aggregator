@@ -17,6 +17,33 @@ namespace Quantfabric.Test.Material.Integration
         private readonly AppCredentialRepository _appRepository
             = new AppCredentialRepository(CallbackType.Localhost);
 
+        #region Yesmail Requests
+
+        [Fact]
+        public async void MakeRequestForYesmailReportData()
+        {
+            var credentials = _appRepository.GetApiKeyCredentials<Yesmail>();
+
+            var request = new YesmailReferenceDataRecords()
+            {
+                ApiUser = "musicnotes",
+                Dataset = "powerbi",
+                Offset = 0,
+                Limit = 100
+            }
+            .UseTestEnvironment();
+
+            var response = await new AuthorizedRequester(credentials)
+                .MakeOAuthRequestAsync<YesmailReferenceDataRecords>(request)
+                .ConfigureAwait(false);
+
+            var result = await response.ContentAsync().ConfigureAwait(false);
+
+            Assert.NotEmpty(result);
+        }
+
+        #endregion Yesmail Requests
+
         [Fact]
         public async void MakeRequestForLanguageUnderstandingServicePrediction()
         {
