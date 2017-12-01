@@ -17,8 +17,8 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Quantfabric.UI.Test.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>6D7CF607DFC7B043E775866F0E2F3DEF14778E86</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>Quantfabric.UI.Test.Forms.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>21DE58CE0301762BA70FA386B51B0153B0DAB96F</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +107,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Quantfabric.UI.Test.Forms.UWP_TemporaryKey.pfx" />
     <None Include="Quantfabric.UI.Test.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

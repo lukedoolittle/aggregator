@@ -1,4 +1,7 @@
+#addin "Cake.Xamarin"
+
 #tool "nuget:?package=ILRepack"
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -79,22 +82,10 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    if(IsRunningOnWindows())
-    {
-      // Use MSBuild
-      MSBuild(solution, settings =>
-        settings
-			.SetConfiguration(configuration)
-			.SetPlatformTarget(PlatformTarget.MSIL));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild(solution, settings =>
-        settings			
-			.SetConfiguration(configuration)
-			.WithTarget("Any CPU"));
-    }
+    MSBuild(solution, settings =>
+	  settings
+		.SetConfiguration(configuration)
+		.SetPlatformTarget(PlatformTarget.MSIL));
 });
 
 Task("NuGet-Pack")

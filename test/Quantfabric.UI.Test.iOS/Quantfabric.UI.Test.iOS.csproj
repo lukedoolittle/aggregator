@@ -83,7 +83,8 @@
     <MtouchUseSGen>False</MtouchUseSGen>
     <MtouchUseRefCounting>True</MtouchUseRefCounting>
     <MtouchProfiling>False</MtouchProfiling>
-    <MtouchSdkVersion>10.2</MtouchSdkVersion>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchFastDev>False</MtouchFastDev>
     <MtouchUseLlvm>False</MtouchUseLlvm>
