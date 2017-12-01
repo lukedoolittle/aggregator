@@ -186,7 +186,7 @@ namespace Quantfabric.UI.Test.UWP
                         clientId,
                         redirectUri,
                         browserType: _browserType)
-                    .AddScope<PinterestLikes>()
+                    .AddScope<PinterestPins>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 

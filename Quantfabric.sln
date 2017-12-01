@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantfabric.Test.Windows", "test\Quantfabric.Test.Windows\Quantfabric.Test.Windows.csproj", "{15E582C9-8B2B-4C1A-BC64-050B0B19B249}"
 EndProject
@@ -1236,6 +1236,9 @@ Global
 		{F6C31784-F5CC-4BFE-9213-3C767D023413} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
 		{AAACF457-7546-4CA1-B2E1-CC1746572832} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
 		{85659FD4-8ADF-499C-9D0D-1FD02BF9F56F} = {0F03930A-9EA4-407F-BFC7-D6C8959A5FE9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1DC9D9C-30CF-43C9-8F01-A3C04E12110B}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Quantfabric.Shared\Quantfabric.Shared.shproj

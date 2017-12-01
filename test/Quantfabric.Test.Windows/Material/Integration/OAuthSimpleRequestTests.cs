@@ -83,7 +83,7 @@ namespace Quantfabric.Test.Material.Integration
 
         #region Microsoft
 
-        [Fact]
+        [Fact(Skip="Need to create table first")]
         public async void MakeRequestForMicrosoftTable()
         {
             var accountName = "musicnotes";
@@ -114,7 +114,7 @@ namespace Quantfabric.Test.Material.Integration
             Assert.Equal("1", entity.RowKey);
         }
 
-        [Fact]
+        [Fact(Skip = "Need to create table first")]
         public async void MakeRequestForMicrosoftTablePost()
         {
             var accountName = "musicnotes";

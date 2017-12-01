@@ -11,7 +11,7 @@ namespace Quantfabric.Test.TestHelpers
 {
     public class TokenCredentialRepository
     {
-        private static Assembly _assembly = typeof(TokenCredentialRepository).Assembly;
+        private static Assembly _assembly = typeof(TokenCredentialRepository).GetTypeInfo().Assembly;
         private static string SETTINGS_FILE_NAME = string.Format(
             "{0}.testCredentials.json",
             _assembly.FullName.Split(',')[0]);

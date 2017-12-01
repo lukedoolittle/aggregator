@@ -276,7 +276,7 @@ namespace Quantfabric.UI.Test.iOS
                         clientId,
                         redirectUri,
                         browserType: _browserType)
-                    .AddScope<PinterestLikes>()
+                    .AddScope<PinterestPins>()
                     .GetCredentialsAsync(clientSecret)
                     .ConfigureAwait(false);
 

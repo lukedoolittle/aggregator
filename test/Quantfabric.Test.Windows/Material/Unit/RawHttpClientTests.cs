@@ -25,6 +25,7 @@ namespace Foundations.Test.HttpClient
         private const string _deflatePath = "deflate";
         private const string _statusPath = "status/{code}";
         private const string _cookiePath = "cookies/set";
+        private const string _audioPath = "Material/TestData/brian.wav";
 
         #region Get Requests
 
@@ -327,7 +328,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public async void MakePostRequestWithStreamAsContent()
         {
-            var stream = File.OpenRead("TestData/brian.wav");
+            var stream = File.OpenRead(_audioPath);
             var contentType = MediaType.Wave;
 
             var response = await new HttpRequestBuilder(_endpoint)
@@ -343,7 +344,7 @@ namespace Foundations.Test.HttpClient
         [Fact]
         public async void MakePostRequestWithRawBytesAsContent()
         {
-            var rawBytes = System.IO.File.ReadAllBytes("TestData/brian.wav");
+            var rawBytes = System.IO.File.ReadAllBytes(_audioPath);
             var contentType = MediaType.Wave;
 
             var response = await new HttpRequestBuilder(_endpoint)

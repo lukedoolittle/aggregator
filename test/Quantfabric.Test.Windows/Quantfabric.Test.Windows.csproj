@@ -341,7 +341,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="brian.wav">
+    <Content Include="Material\TestData\brian.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Material\TestData\es256PrivateKey.txt">

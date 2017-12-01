@@ -83,6 +83,38 @@ namespace Quantfabric.Interactive.Test.Windows
         }
 
         [Fact]
+        public async void CanGetValidAccessTokenFromYoutube()
+        {
+            var clientId = _appRepository.GetClientId<Youtube>();
+            var clientSecret = _appRepository.GetClientSecret<Youtube>();
+            var redirectUri = _appRepository.GetRedirectUri<Youtube>();
+
+            var token = await new OAuth2App<Youtube>(
+                        clientId,
+                        redirectUri)
+                    .AddScope<YoutubeAnalyticsReports>()
+                    .AddScope<YoutubeChannels>()
+                    .GetCredentialsAsync(clientSecret)
+                    .ConfigureAwait(false);
+
+            Assert.True(ValidationUtilities.IsValidOAuth2Token(token));
+
+            //here we need to get any existing refresh token because Youtube (like Google) only
+            //passes that refresh token back with the first authentication
+            try
+            {
+                var currentToken = _tokenRepository.GetToken<Youtube, OAuth2Credentials>();
+                token.TransferRefreshToken(currentToken.RefreshToken);
+                _tokenRepository.PutToken<Youtube, OAuth2Credentials>(token);
+            }
+            catch (Exception)
+            {
+                _tokenRepository.PutToken<Youtube, OAuth2Credentials>(token);
+            }
+        }
+
+
+        [Fact]
         public async void CanGetValidAccessTokenFromFacebook()
         {
             var clientId = _appRepository.GetClientId<Facebook>();
