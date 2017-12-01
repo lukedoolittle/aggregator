@@ -1,0 +1,76 @@
+﻿{
+    "swagger": "2.0",
+    "info": {
+        "title": "Yesmail",
+        "description": "Yesmail API",
+        "termsOfService": "",
+        "version": "v2.0"
+    },
+    "host": "api.yesmail.com",
+    "basePath": "/v2",
+    "schemes": [ "https" ],
+    "produces": [ "application/json" ],
+    "consumes": [ "application/json" ],
+    "paths": {
+        "/reference-data/{dataset}/records": {
+            "get": {
+                "summary": "The Reference-Data API permits interaction with existing custom data tables associated with your company. You can use the API's GET /v2/reference-data/{dataset}/records call to return specified data loaded from other processes for targeting and personalization.",
+                "description": "https://developer.yesmail.com/get-reference-data%7Bdataset%7Drecords",
+                "operationId": "YesmailReferenceDataRecords",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "api-user",
+                        "description": "your company name in Yesmail application",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "dataset",
+                        "description": "The specific {dataset} from which data is to be returned",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The number of records to be returned with the request. Valid values are integers 0-100. The default is 25.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The number of rows to be bypassed by the request. Valid values are 0-any positive integer. The default is 0.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "columnname",
+                        "description": "Valid values are the display names of any column in the dataset. These are filters on the set of records in the result set. Example firstname=John&postalcode=12345",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful request."
+                    }
+                },
+                "tags": [],
+                "security": []
+            }
+        }
+    },
+    "securityDefinitions": {
+        "subscriptionKey": {
+            "type": "apiKey",
+            "description": "Subscription Key Auth",
+            "name": "api-key",
+            "in": "header"
+        }
+    },
+    "definitions": []
+}

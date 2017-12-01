@@ -499,6 +499,7 @@
     <None Include="packages.config" />
     <None Include="Swagger\amazon.json" />
     <None Include="Swagger\appFigures.json" />
+    <None Include="Swagger\yesmail.json" />
     <None Include="Swagger\youtube.json" />
     <None Include="Swagger\microsoftAzureTableStorage.json" />
     <None Include="Swagger\yahooFlurry.json" />
