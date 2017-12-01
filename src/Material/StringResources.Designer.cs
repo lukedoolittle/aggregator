@@ -10,7 +10,6 @@
 
 namespace Material {
     using System;
-using Material.Domain.Credentials;
     using System.Reflection;
     
     
@@ -21,7 +20,7 @@ using Material.Domain.Credentials;
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class StringResources {
@@ -266,6 +265,15 @@ using Material.Domain.Credentials;
         public static string MissingPublicKey {
             get {
                 return ResourceManager.GetString("MissingPublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} is required for a request to {1} but a value has not been provided.
+        /// </summary>
+        public static string MissingRequiredRequestParameter {
+            get {
+                return ResourceManager.GetString("MissingRequiredRequestParameter", resourceCulture);
             }
         }
         

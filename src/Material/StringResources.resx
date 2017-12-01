@@ -225,4 +225,7 @@
   <data name="UnknownMediaType" xml:space="preserve">
     <value>Cannot deserialize content with media type {0}</value>
   </data>
+  <data name="MissingRequiredRequestParameter" xml:space="preserve">
+    <value>The parameter {0} is required for a request to {1} but a value has not been provided</value>
+  </data>
 </root>

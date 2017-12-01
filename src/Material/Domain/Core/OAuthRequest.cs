@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -87,7 +88,12 @@ namespace Material.Domain.Core
                 if (parameterProperty.GetCustomAttribute<RequiredAttribute>() != null &&
                     value == null)
                 {
-                    throw new ArgumentNullException(name);
+                    throw new ArgumentNullException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            StringResources.MissingRequiredRequestParameter,
+                            name,
+                            Host + Path));
                 }
 
                 if (value != null)
