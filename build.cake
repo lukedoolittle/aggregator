@@ -35,6 +35,7 @@ var iOSLibDirectory = nugetLibDirectory + Directory("Xamarin.iOS10");
 var androidLibDirectory = nugetLibDirectory + Directory("MonoAndroid60");
 var uwpLibDirectory = nugetLibDirectory + Directory("uap10.0");
 var formsLibDirectory = nugetLibDirectory + Directory("portable45-net45+win8+wpa81");
+var coreLibDirectory = nugetLibDirectory + Directory("netcoreapp");
 
 var nuspecFile = Directory(nugetLocation) + File(nuspec);
 var nupkgFilePattern = nugetLocation + "/*.nupkg";
@@ -69,6 +70,7 @@ Task("Create-Directories")
 	EnsureDirectoryExists(iOSLibDirectory);
 	EnsureDirectoryExists(uwpLibDirectory);
 	EnsureDirectoryExists(formsLibDirectory);
+	EnsureDirectoryExists(coreLibDirectory);
 });
 
 Task("Restore-NuGet-Packages")

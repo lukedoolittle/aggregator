@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Material.Application;
 using Material.Contracts;
 using Material.Domain.RequestBodies;
@@ -425,8 +426,8 @@ namespace Quantfabric.Test.Material.Integration
                         {
                             new GoogleAnalyticsDateRange
                             {
-                                StartDate = new DateTime(2016, 9, 30),
-                                EndDate = new DateTime(2166, 10, 4)
+                                StartDate = new DateTime(2018, 7, 15),
+                                EndDate = new DateTime(2018, 7, 18)
                             }
                         },
                         ViewId = "ga:80938602",
@@ -434,7 +435,7 @@ namespace Quantfabric.Test.Material.Integration
                         {
                             new GoogleAnalyticsMetric
                             {
-                                Expression = "ga:pageviews"
+                                Expression = "ga:sessions"
                             }
                         },
                         Dimensions = new List<GoogleAnalyticsDimension>
@@ -442,7 +443,11 @@ namespace Quantfabric.Test.Material.Integration
                             new GoogleAnalyticsDimension
                             {
                                 Name = "ga:date"
-                            }
+                            },
+                            new GoogleAnalyticsDimension
+                            {
+                                Name = "ga:country"
+                            },
                         }
                     }
                 }

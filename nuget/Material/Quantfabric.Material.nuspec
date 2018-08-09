@@ -21,6 +21,9 @@
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
     <copyright>Copyright 2016</copyright>
     <dependencies>
+	  <group targetFramework="netcore">
+        <dependency id="Portable.BouncyCastle" version="1.8.1" />
+      </group>
       <group targetFramework="portable45-net45+win8+wpa81">
         <dependency id="Portable.BouncyCastle" version="1.8.1" />
         <dependency id="Xamarin.Forms" version="2.3.2.127" />
@@ -63,6 +66,8 @@
     <tags></tags>
   </metadata>
   <files>
+	<file src="..\..\src\Material\bin\Release\Material.*" exclude="**\*.mdb" target="lib\netcoreapp" />
+  
     <file src="..\..\src\Material.Forms\bin\Release\Material.*" exclude="**\*.mdb" target="lib\portable45-net45+win8+wpa81" />
     <file src="..\..\src\Material.Forms\bin\Release\Foundations.*" exclude="**\*.mdb" target="lib\portable45-net45+win8+wpa81" /> 
 

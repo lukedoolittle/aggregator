@@ -47,10 +47,12 @@ namespace Material.Domain.RequestBodies
 
         //metricFilterClauses
         //dimensionFilterClauses
-        //orderbys
         //segments
         //pivots
         //cohortGroup
+
+        [DataMember(Name = "orderBys", EmitDefaultValue = false)]
+        public List<OrderBy> OrderBys { get; set; }
 
         [DataMember(Name = "pageToken", EmitDefaultValue = false)]
         public string PageToken { get; set; }
@@ -143,5 +145,38 @@ namespace Material.Domain.RequestBodies
 
         [DataMember(Name = "expression", EmitDefaultValue = false)]
         public List<string> HistogramBuckets { get; set; }
+    }
+
+    [GeneratedCode("T4Toolbox", "14.0")]
+    [DataContract]
+    public class OrderBy
+    {
+        [DataMember(Name = "fieldName")]
+        public string FieldName { get; set; }
+
+        [DataMember(Name = "orderType")]
+        public OrderType OrderType { get; set; }
+
+        [DataMember(Name = "sortOrder")]
+        public SortOrder SortOrder { get; set; }
+    }
+
+    [GeneratedCode("T4Toolbox", "14.0")]
+    public enum OrderType
+    {
+        ORDER_TYPE_UNSPECIFIED,
+        VALUE,
+        DELTA,
+        SMART,
+        HISTOGRAM_BUCKET,
+        DIMENSION_AS_INTEGER
+    }
+
+    [GeneratedCode("T4Toolbox", "14.0")]
+    public enum SortOrder
+    {
+        SORT_ORDER_UNSPECIFIED,
+        ASCENDING,
+        DESCENDING
     }
 }
